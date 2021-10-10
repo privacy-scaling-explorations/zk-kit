@@ -1,5 +1,5 @@
 {
-  "name": "semaphore-lib",
+  "name": "libsemaphore",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
