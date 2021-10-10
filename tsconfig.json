@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "module": "commonjs",
+        "target": "es5",
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "alwaysStrict": true,
+        "allowJs": true,
+        "noImplicitAny": false,
+        "forceConsistentCasingInFileNames": true,
+        "noUnusedLocals": false,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "strict": true,
+        "lib": [ "es2017" ]
+    },
+    "include": ["./src/**/*"],
+    "exclude": ["node_modules/**", "fast-zkeyFiles", "ordinary-zkeyFiles"]
+}
