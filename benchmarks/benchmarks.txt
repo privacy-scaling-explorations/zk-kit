@@ -1,0 +1,46 @@
+=====================================================
+
+RLN CIRCOM (tree depth 16):
+
+[INFO]  snarkJS: Curve: bn-128
+[INFO]  snarkJS: # of Wires: 4331
+[INFO]  snarkJS: # of Constraints: 4312
+[INFO]  snarkJS: # of Private Inputs: 31
+[INFO]  snarkJS: # of Public Inputs: 2
+[INFO]  snarkJS: # of Labels: 19603
+[INFO]  snarkJS: # of Outputs: 3
+
+Proof generation time: 636.165ms (wasm)
+Proover Key size: 2.1978 MB
+
+=====================================================
+
+RLN CIRCOM (tree depth 32):
+
+[INFO]  snarkJS: Curve: bn-128
+[INFO]  snarkJS: # of Wires: 8235
+[INFO]  snarkJS: # of Constraints: 8200
+[INFO]  snarkJS: # of Private Inputs: 63
+[INFO]  snarkJS: # of Public Inputs: 2
+[INFO]  snarkJS: # of Labels: 37603
+[INFO]  snarkJS: # of Outputs: 3
+
+Proof generation time: 1003ms (wasm)
+Proover Key size: 4.22 MB
+
+=====================================================
+
+RLN BELLMAN (tree depth 16):
+
+Number of constraints: 6125
+Proof generation time: 563ms (~750ms WASM)
+Proover Key size: 1.99 MB
+
+=====================================================
+
+RLN BELLMAN (tree depth 32):
+
+Number of constraints: 11341
+Proof generation time: 1048ms (1225ms wasm)
+Proover Key size: 3.77 MB
+
