@@ -1,5 +1,5 @@
 {
-  "name": "libsemaphore",
+  "name": "libsem",
   "version": "2.0.0",
   "description": "different modules for libsemaphore",
   "main": "index.js",
