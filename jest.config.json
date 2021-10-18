@@ -2,10 +2,10 @@
     "projects": ["<rootDir>/packages/*"],
     "coverageThreshold": {
         "global": {
-            "branches": 90,
-            "functions": 95,
-            "lines": 95,
-            "statements": 95
+            "branches": 30,
+            "functions": 30,
+            "lines": 30,
+            "statements": 30
         }
     }
 }
