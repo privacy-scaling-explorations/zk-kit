@@ -20,6 +20,6 @@ jobs:
               with:
                   node-version: 16.x
 
-            - run: npm run lint
             - run: npm ci
+            - run: npm run lint
             - run: npm test
