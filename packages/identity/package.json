@@ -1,8 +1,8 @@
 {
-  "name": "identity",
+  "name": "@libsemaphore/identity",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/identity/src/index.js",
   "scripts": {
     "tsc": "npx tsc src/index.ts",
     "build": "npm run clean && tsc -p .",
