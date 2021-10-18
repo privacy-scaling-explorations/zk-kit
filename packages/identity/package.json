@@ -1,0 +1,26 @@
+{
+  "name": "identity",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "npx tsc src/index.ts",
+    "build": "npm run clean && tsc -p .",
+    "clean": "rimraf ./dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bigint-conversion": "^2.1.12",
+    "circomlibjs": "^0.0.8",
+    "crypto": "^1.0.1",
+    "js-sha256": "^0.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.10.8",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.3.0",
+    "typescript": "^4.4.4"
+  }
+}
