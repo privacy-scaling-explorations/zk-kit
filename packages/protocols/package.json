@@ -1,8 +1,9 @@
 {
-  "name": "@libsemaphore/protocols",
+  "name": "@libsem/protocols",
   "version": "1.0.0",
   "description": "",
   "main": "dist/protocols/src/index.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "tsc": "npx tsc src/index.ts",
     "build": "npm run clean && tsc -p .",
