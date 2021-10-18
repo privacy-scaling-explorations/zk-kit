@@ -38,9 +38,9 @@ describe("Semaphore", () => {
 
             expect(typeof witness).toBe("object");
         })
-        it("Should generate semaphore full proof", async () => {
+        it.skip("Should generate semaphore full proof", async () => {
             /**
-             * Compiled semaphore circuits are needed to run this test
+             * Compiled semaphore circuits are needed to run this test, so it's being skipped in hooks
              */
             const identity: Identity = ZkIdentity.genIdentity();
             const externalNullifier: string = genExternalNullifier("voting_1");
@@ -59,7 +59,7 @@ describe("Semaphore", () => {
 
             const vkeyPath: string = path.join('./zkeyFiles', 'semaphore', 'verification_key.json');
             const vKey = JSON.parse(fs.readFileSync(vkeyPath, 'utf-8'));
-        
+
             const wasmFilePath: string = path.join('./zkeyFiles', 'semaphore', 'semaphore.wasm');
             const finalZkeyPath: string = path.join('./zkeyFiles', 'semaphore', 'semaphore_final.zkey');
 
