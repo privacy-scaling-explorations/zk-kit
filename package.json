@@ -1,6 +1,6 @@
 {
-  "name": "libsemaphore-modules",
-  "version": "1.0.0",
+  "name": "libsemaphore",
+  "version": "2.0.0",
   "description": "different modules for libsemaphore",
   "main": "index.js",
   "directories": {
@@ -19,15 +19,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/akinovak/libsemaphore-modules.git"
+    "url": "git+https://github.com/appliedzkp/libsemaphore.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/akinovak/libsemaphore-modules/issues"
+    "url": "https://github.com/appliedzkp/libsemaphore/issues"
   },
-  "homepage": "https://github.com/akinovak/libsemaphore-modules#readme",
+  "homepage": "https://github.com/appliedzkp/libsemaphore#readme",
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
