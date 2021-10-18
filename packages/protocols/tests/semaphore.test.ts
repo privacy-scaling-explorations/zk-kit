@@ -9,6 +9,8 @@ import { Semaphore } from "../src";
 const identityCommitments: Array<bigint> = [];
 
 beforeAll(() => {
+    jest.useFakeTimers('legacy')
+    jest.setTimeout(90 * 1000);
     const leafIndex = 3;
 
     for (let i=0; i<leafIndex;i++) {
