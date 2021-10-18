@@ -1,31 +1,37 @@
 {
-  "name": "libsemaphore",
+  "name": "libsemaphore-modules",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
-  "types": "src/index.ts",
+  "description": "different modules for libsemaphore",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
   "scripts": {
-    "start": "ts-node src/namespace.ts",
-    "startcl": "npm run build && node dist/index.js",
-    "test": "ts-node ./test/index.ts",
-    "tsc": "npx tsc src/index.ts",
-    "build": "npm run clean && tsc -p .",
-    "clean": "rimraf ./dist"
+    "test": "jest --coverage",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akinovak/libsemaphore-modules.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "bigint-conversion": "^2.1.12",
-    "circomlib": "^0.5.3",
-    "ethers": "^5.4.1",
-    "incrementalquintree": "^1.0.7",
-    "libsemaphore": "^1.0.16",
-    "snarkjs": "^0.4.6"
+  "bugs": {
+    "url": "https://github.com/akinovak/libsemaphore-modules/issues"
   },
+  "homepage": "https://github.com/akinovak/libsemaphore-modules#readme",
   "devDependencies": {
-    "@types/node": "^16.4.1",
-    "ts-node": "^10.2.1",
-    "typescript": "^4.4.2"
+    "@types/jest": "^27.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "bigint-conversion": "^2.1.12",
+    "eslint": "^8.0.1",
+    "jest": "^27.2.5",
+    "jest-config": "^27.2.5",
+    "lerna": "^4.0.0",
+    "ts-jest": "^27.0.6",
+    "typescript": "^4.4.4"
   }
 }

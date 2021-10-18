@@ -1,7 +1,56 @@
-node_modules
-fast-zkeyFiles
-ordinary-zkeyFiles
-ox-zkeyFiles
-rln-zkeyFiles
-g-rln-zkeyFiles
-fair-zkeyFiles
+# IDE
+.vscode
+.idea
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+
+# Parcel cache
+.parcel-cache
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Generate output
+dist
+docs
+gh-pages/*
+!gh-pages/CNAME
+
+# dotenv environment variables file
+.env
+.env.test
+
+# Optional npm cache directory
+.npm
+
+zkeyFiles
+coverage
+benchmarks
