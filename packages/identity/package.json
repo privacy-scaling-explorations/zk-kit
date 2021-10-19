@@ -1,17 +1,25 @@
 {
   "name": "@libsem/identity",
   "version": "1.0.0",
-  "description": "",
+  "description": "work with zk identites",
   "main": "dist/identity/src/index.js",
   "types": "dist/types/index.d.ts",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.node.js"
+  },
   "scripts": {
-    "tsc": "npx tsc src/index.ts",
-    "build": "npm run clean && tsc -p .",
-    "clean": "rimraf ./dist"
+    "clean": "rimraf ./dist",
+    "build:watch": "rollup -c rollup.config.ts -w",
+    "build": "rimraf dist && rollup -c rollup.config.ts"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "Andrija Novakovic",
+    "email": "akinovak@gmail.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/appliedzkp/libsemaphore/identity",
   "dependencies": {
     "bigint-conversion": "^2.1.12",
     "circomlibjs": "^0.0.8",
@@ -21,6 +29,9 @@
   "devDependencies": {
     "@types/node": "^16.10.8",
     "rimraf": "^3.0.2",
+    "rollup": "^2.58.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.30.0",
     "ts-node": "^10.3.0",
     "typescript": "^4.4.4"
   }
