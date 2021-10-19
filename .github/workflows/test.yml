@@ -1,23 +1,23 @@
 name: test
 
 on:
-    pull_request:
-    push:
-        branches:
-            - dev
+  pull_request:
+  push:
+    branches:
+      - dev
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-            - name: Use Node.js 16.x
-              uses: actions/setup-node@v1
-              with:
-                  node-version: 16.x
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
 
-            - run: npm ci
-            - run: npm run lint
-            - run: npm test
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
