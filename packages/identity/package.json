@@ -4,6 +4,9 @@
   "description": "work with zk identites",
   "main": "dist/identity/index.mjs",
   "types": "dist/types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./dist/index.node.js"

@@ -4,6 +4,9 @@
   "description": "",
   "main": "dist/protocols/src/index.js",
   "types": "dist/types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./dist/index.node.js"
