@@ -1,6 +1,6 @@
 {
   "name": "@libsem/identity",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "work with zk identites",
   "main": "dist/identity/index.mjs",
   "types": "dist/types/index.d.ts",
