@@ -1,24 +1,29 @@
 import * as crypto from 'crypto';
 import * as bigintConversion from 'bigint-conversion';
 import { sha256 as _sha256 } from "js-sha256";
+import { Identity } from '@libsem/types';
 
-interface identity {
-    identityNullifier: bigint,
-    identityTrapdoor: bigint,
-}
-
-const genRandomNumber = (numBytes = 32): bigint => {
+const genRandomNumber = (numBytes = 31): bigint => {
     return  bigintConversion.bufToBigint(crypto.randomBytes(numBytes))
 }
 
-const genRandomIdentity = (): identity => {
+/**
+ *
+ * @returns Identity
+ */
+const genRandomIdentity = (): Identity => {
     return {
         identityNullifier: genRandomNumber(31),
         identityTrapdoor: genRandomNumber(31)
     }
 }
 
-const genIdentityFromSignedMessage = (metadata: any): identity => {
+/**
+ *
+ * @param metadata { signedMessage } from which to create identity
+ * @returns Identity
+ */
+const genIdentityFromSignedMessage = (metadata: any): Identity => {
     const sha256 = (message: string): string => {
         const hash = _sha256.create()
         hash.update(message)
@@ -38,7 +43,7 @@ const genIdentityFromSignedMessage = (metadata: any): identity => {
 }
 
 export {
-    genRandomIdentity, 
+    genRandomIdentity,
     genIdentityFromSignedMessage,
     genRandomNumber
 }
