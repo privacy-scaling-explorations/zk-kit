@@ -1,6 +1,6 @@
 {
   "name": "@libsem/protocols",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "dist/index.node.js",
   "types": "dist/types/index.d.ts",
@@ -34,6 +34,5 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "typescript": "^4.4.4"
-  },
-  "gitHead": "0f54813412abadc7c5646a6a5ec8f3e2b6c1b5a7"
+  }
 }

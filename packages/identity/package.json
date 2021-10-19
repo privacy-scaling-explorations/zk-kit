@@ -1,6 +1,6 @@
 {
   "name": "@libsem/identity",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "work with zk identites",
   "main": "dist/index.node.js",
   "types": "dist/types/index.d.ts",
@@ -34,6 +34,5 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.56.2",
     "rollup-plugin-typescript2": "^0.30.0"
-  },
-  "gitHead": "0f54813412abadc7c5646a6a5ec8f3e2b6c1b5a7"
+  }
 }
