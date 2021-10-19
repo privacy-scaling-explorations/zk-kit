@@ -20,10 +20,10 @@
   "homepage": "https://github.com/appliedzkp/libsemaphore/protocols",
   "license": "MIT",
   "dependencies": {
+    "@libsem/types": "^1.0.0",
     "circomlibjs": "^0.0.8",
     "ethers": "^5.4.7",
     "incrementalquintree": "^1.0.7",
-    "@libsem/types": "../types",
     "snarkjs": "^0.4.7"
   },
   "devDependencies": {
@@ -31,5 +31,6 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "typescript": "^4.4.4"
-  }
+  },
+  "gitHead": "0f54813412abadc7c5646a6a5ec8f3e2b6c1b5a7"
 }
