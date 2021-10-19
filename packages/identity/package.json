@@ -1,8 +1,8 @@
 {
   "name": "@libsem/identity",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "work with zk identites",
-  "main": "dist/identity/index.mjs",
+  "main": "dist/index.node.js",
   "types": "dist/types/index.d.ts",
   "publishConfig": {
     "access": "public"
