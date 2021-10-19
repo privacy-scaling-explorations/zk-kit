@@ -1,6 +1,6 @@
 {
   "name": "@libsem/protocols",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/protocols/src/index.js",
   "types": "dist/types/index.d.ts",
@@ -29,7 +29,7 @@
     "snarkjs": "^0.4.7"
   },
   "devDependencies": {
-    "@libsem/types": "^1.0.0",
+    "@libsem/types": "../types",
     "rollup": "^2.58.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",

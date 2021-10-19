@@ -948,7 +948,7 @@
     "@types/yargs" "^15.0.0"
     "chalk" "^4.0.0"
 
-"@libsem/types@^1.0.0":
+"@libsem/types@../types":
   "resolved" "file:../types"
   "version" "1.0.0"
 
