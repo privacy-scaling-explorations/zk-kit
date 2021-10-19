@@ -1,12 +1,20 @@
 import { ZkProtocol } from "./zk-protocol";
 import { genSignalHash, poseidonHash } from "./utils";
 import { Fq } from "./utils";
-import { Identity } from "@libsem/types";
 
 class NRln extends ZkProtocol {
-  genWitness(identity: Identity, merkleProof: any, epoch: string | bigint, signal: string, shouldHash = true): any {
+  /**
+   * Creates witness for nrln proof
+   * @param identitySecret identity secret
+   * @param merkleProof merkle proof that identity exists in nrln tree
+   * @param epoch epoch on which signal is broadcasted
+   * @param signal signal that is being broadcasted
+   * @param shouldHash should signal be hashed before broadcast
+   * @returns rln witness
+   */
+  genWitness(identitySecret: Array<bigint>, merkleProof: any, epoch: string | bigint, signal: string, shouldHash = true): any {
     return {
-      identity_secret: [identity.identityTrapdoor, identity.identityNullifier],
+      identity_secret: identitySecret,
       path_elements: merkleProof.pathElements,
       identity_path_index: merkleProof.indices,
       x: shouldHash ? genSignalHash(signal) : signal,
@@ -14,7 +22,14 @@ class NRln extends ZkProtocol {
     };
   }
 
-  //TODO add rln identifier
+  /**
+   *
+   * @param identitySecret identity secret
+   * @param epoch epoch
+   * @param x singal hash
+   * @param limit number of messages per epoch allowed
+   * @returns
+   */
   calculateOutput(identitySecret: Array<bigint>, epoch: bigint, x: bigint, limit: number): Array<bigint> {
     const a0 = poseidonHash(identitySecret);
 
@@ -35,10 +50,21 @@ class NRln extends ZkProtocol {
     return [y, nullifier];
   }
 
+  /**
+   * Calculates slashing nullifier
+   * @param coeffs coeefitients from calculated polinomial
+   * @returns slashing nullifier
+   */
   genNullifier(coeffs: Array<bigint>): bigint {
     return poseidonHash(coeffs);
   }
 
+  /**
+   * When spam occurs, identity secret can be retrieved
+   * @param xs
+   * @param ys
+   * @returns identity secret
+   */
   retrieveSecret(xs: Array<bigint>, ys: Array<bigint>): bigint {
     if (xs.length !== ys.length) throw new Error("x and y arrays must be of same size");
     const numOfPoints: number = xs.length;

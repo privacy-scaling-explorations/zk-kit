@@ -36,6 +36,15 @@ export const createTree = (depth: number, zeroValue: number | BigInt, leavesPerN
   return new Tree.IncrementalQuinTree(depth, zeroValue, leavesPerNode, poseidonHash);
 };
 
+/**
+ * Creates merkle proof
+ * @param depth depth of tree
+ * @param zeroValue zero value of tree
+ * @param leavesPerNode number of leaves to derive hash from
+ * @param leaves leaves to build try from
+ * @param leaf leaf for which merkle proof should be generated
+ * @returns merkle proof
+ */
 export const generateMerkleProof = (
   depth: number,
   zeroValue: number | BigInt,
