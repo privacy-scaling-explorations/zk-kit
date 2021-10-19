@@ -194,7 +194,7 @@
     "@ethersproject/properties" "^5.4.0"
     "@ethersproject/strings" "^5.4.0"
 
-"@libsem/types@../types":
+"@libsem/types@^1.0.0":
   "resolved" "file:../types"
   "version" "1.0.0"
 
