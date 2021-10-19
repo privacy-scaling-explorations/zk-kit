@@ -2,8 +2,8 @@
   "name": "@libsem/types",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "private": true,
+  "main": "src/index.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "tsc": "npx tsc src/index.ts",
     "build": "npm run clean && tsc -p .",
