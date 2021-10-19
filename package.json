@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/appliedzkp/libsemaphore#readme",
   "devDependencies": {
+    "@types/node": "^16.10.8",
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
@@ -38,6 +39,8 @@
     "jest-config": "^27.2.5",
     "lerna": "^4.0.0",
     "ts-jest": "^27.0.6",
+    "ts-node": "^10.2.0",
+    "tslib": "^2.3.1",
     "typescript": "^4.4.4"
   }
 }
