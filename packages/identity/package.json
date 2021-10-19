@@ -1,6 +1,6 @@
 {
   "name": "@libsem/identity",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Library for managing identites for Semaphore and Rln protocols",
   "main": "dist/index.node.js",
   "types": "dist/types/index.d.ts",
@@ -18,10 +18,16 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@libsem/types": "^1.0.0",
     "bigint-conversion": "^2.1.12",
     "circomlibjs": "^0.0.8",
     "crypto": "^1.0.1",
     "js-sha256": "^0.9.0"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "rollup": "^2.56.2",
+    "rollup-plugin-typescript2": "^0.30.0"
   },
   "publishConfig": {
     "access": "public"
@@ -29,11 +35,5 @@
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./dist/index.node.js"
-  },
-  "devDependencies": {
-    "@libsem/types": "../types",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.56.2",
-    "rollup-plugin-typescript2": "^0.30.0"
   }
 }
