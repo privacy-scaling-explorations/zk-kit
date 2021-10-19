@@ -2,8 +2,7 @@
   "name": "@libsem/identity",
   "version": "1.0.0",
   "description": "work with zk identites",
-  "main": "dist/identity/src/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "dist/identity/index.mjs",
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./dist/index.node.js"
