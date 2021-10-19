@@ -15,7 +15,9 @@
     "test:watch": "jest --coverage --watch",
     "test:prod": "npm run lint && npm test",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "publish": "lerna publish from-package",
+    "clean": "lerna clean"
   },
   "repository": {
     "type": "git",
