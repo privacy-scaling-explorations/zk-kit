@@ -1,12 +1,11 @@
 {
   "name": "@libsem/protocols",
-  "version": "1.0.4",
-  "description": "",
+  "version": "1.0.5",
+  "description": "Client library for generating and verifying Semaphore & Rln ZK proofs",
   "main": "dist/index.node.js",
   "types": "dist/types/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
+  "repository": "https://github.com/appliedzkp/libsemaphore",
+  "homepage": "https://github.com/appliedzkp/libsemaphore",
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./dist/index.node.js"
@@ -20,8 +19,10 @@
     "name": "Andrija Novakovic",
     "email": "akinovak@gmail.com"
   },
-  "homepage": "https://github.com/appliedzkp/libsemaphore/protocols",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "circomlibjs": "^0.0.8",
     "ethers": "^5.4.7",

@@ -1,16 +1,11 @@
 {
   "name": "@libsem/identity",
-  "version": "1.0.4",
-  "description": "work with zk identites",
+  "version": "1.0.5",
+  "description": "Library for managing identites for Semaphore and Rln protocols",
   "main": "dist/index.node.js",
   "types": "dist/types/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
-  "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.node.js"
-  },
+  "repository": "https://github.com/appliedzkp/libsemaphore",
+  "homepage": "https://github.com/appliedzkp/libsemaphore",
   "scripts": {
     "clean": "rimraf ./dist",
     "build:watch": "rollup -c rollup.config.ts -w",
@@ -22,12 +17,18 @@
     "email": "akinovak@gmail.com"
   },
   "license": "MIT",
-  "homepage": "https://github.com/appliedzkp/libsemaphore",
   "dependencies": {
     "bigint-conversion": "^2.1.12",
     "circomlibjs": "^0.0.8",
     "crypto": "^1.0.1",
     "js-sha256": "^0.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.node.js"
   },
   "devDependencies": {
     "@libsem/types": "../types",
