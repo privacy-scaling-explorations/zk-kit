@@ -23,17 +23,16 @@ describe("Semaphore identity", () => {
             expect(typeof identitySecret).toEqual("object")
         })
 
-        it("Should generate identity commitment from identity secret", async () => {
+        it("Should generate identity commitment from identity", async () => {
             const identity: Identity = ZkIdentity.genIdentity();
-            const identitySecret: bigint[] = ZkIdentity.genSecretFromIdentity(identity);
-            const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identitySecret);
+            const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity);
             expect(typeof identityCommitment).toEqual("bigint")
         })
 
         it("Should generate identity commitment from random secret", async () => {
             const secretParts = 5;
             const identitySecret: bigint[] = ZkIdentity.genRandomSecret(secretParts);
-            const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identitySecret);
+            const identityCommitment: bigint = ZkIdentity.genIdentityCommitmentFromSecret(identitySecret);
             expect(typeof identityCommitment).toEqual("bigint")
         })
 

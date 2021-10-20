@@ -14,7 +14,7 @@ class ZkIdentity {
    * @param metadata additional data needed to create identity for given strategy
    * @returns Identity
    */
-  genIdentity(strategy = "random", metadata: any = {}): Identity {
+  genIdentity(strategy: "random" | "signedMessage" = "random", metadata: any = {}): Identity {
     if (strategy === "random") return genRandomIdentity();
     else if (strategy === "signedMessage") return genIdentityFromSignedMessage(metadata);
 
@@ -48,8 +48,18 @@ class ZkIdentity {
    * @param secret identity secret
    * @returns identity commitment
    */
-  genIdentityCommitment(secret: bigint[]): bigint {
+  genIdentityCommitmentFromSecret(secret: bigint[]): bigint {
     const secretHash = poseidonHash(secret);
+    return poseidonHash([secretHash]);
+  }
+
+  /**
+   * Generate commitment from identity
+   * @param identity identity
+   * @returns identity commitment
+   */
+  genIdentityCommitment(identity: Identity): bigint {
+    const secretHash = poseidonHash([identity.identityNullifier, identity.identityTrapdoor]);
     return poseidonHash([secretHash]);
   }
 
