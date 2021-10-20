@@ -12,8 +12,7 @@ beforeAll(() => {
 
     for (let i=0; i<leafIndex;i++) {
       const tmpIdentity = ZkIdentity.genIdentity();
-      const tmpIdentitySecret = ZkIdentity.genSecretFromIdentity(tmpIdentity);
-      const tmpCommitment: any = ZkIdentity.genIdentityCommitment(tmpIdentitySecret);
+      const tmpCommitment: any = ZkIdentity.genIdentityCommitment(tmpIdentity);
       identityCommitments.push(tmpCommitment);
     }
 })
@@ -23,7 +22,7 @@ describe("Rln", () => {
         it("Generate rln witness", () => {
             const identity: Identity = ZkIdentity.genIdentity();
             const identitySecret: bigint[] = ZkIdentity.genSecretFromIdentity(identity);
-            const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identitySecret);
+            const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity);
             const secretHash: bigint = poseidonHash(identitySecret);
 
             const commitments: Array<bigint> = Object.assign([], identityCommitments);
@@ -46,7 +45,7 @@ describe("Rln", () => {
             const identitySecret: bigint[] = ZkIdentity.genSecretFromIdentity(identity);
             const secretHash: bigint = poseidonHash(identitySecret);
 
-            const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identitySecret);
+            const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity);
 
             const commitments: Array<bigint> = Object.assign([], identityCommitments);
             commitments.push(identityCommitment);
