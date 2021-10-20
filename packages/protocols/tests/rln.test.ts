@@ -59,7 +59,7 @@ describe("Rln", () => {
             const merkleProof: MerkleProof = generateMerkleProof(15, BigInt(0), 2, commitments, identityCommitment);
             const witness: IProof = Rln.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier);
 
-            const [y, nullifier] = Rln.calculateOutput(secretHash, epoch, rlnIdentifier, signalHash);
+            const [y, nullifier] = Rln.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash);
             const publicSignals = [y, merkleProof.root, nullifier, signalHash, epoch, rlnIdentifier];
 
             const vkeyPath: string = path.join('./zkeyFiles', 'rln', 'verification_key.json');
@@ -86,8 +86,8 @@ describe("Rln", () => {
             const epoch: string = genExternalNullifier('test-epoch');
             const rlnIdentifier: bigint = Rln.genIdentifier();
 
-            const [y1] = Rln.calculateOutput(secretHash, epoch, rlnIdentifier, signalHash1);
-            const [y2] = Rln.calculateOutput(secretHash, epoch, rlnIdentifier, signalHash2);
+            const [y1] = Rln.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash1);
+            const [y2] = Rln.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash2);
 
             const retrievedSecret: bigint = Rln.retrieveSecret(signalHash1, signalHash2, y1, y2);
 
