@@ -1,12 +1,12 @@
 <p align="center">
     <h1 align="center">
-        Semaphore identities
+        Semaphore protocols
     </h1>
-    <p align="center">Library for managing identites for Semaphore and Rln protocols.</p>
+    <p align="center">Client library for generating and verifying Semaphore & Rln ZK proofs.</p>
 </p>
 
 <p align="center">
-    <a href="https://github.com/appliedzkp/libsemaphore/blob/main/LICENSE">
+    <a href="https://github.com/appliedzkp/libsemaphore/blob/master/LICENSE">
         <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/libsemaphore.svg?style=flat-square">
     </a>
     <a href="https://www.npmjs.com/package/@libsem/protocols">
@@ -88,6 +88,6 @@ const unserialized: Identity = ZkIdentity.unSerializeIdentity(serialized);
 ```
 ## 📜 Final Note
 
-For full examples of how to integrate with contracts check https://github.com/appliedzkp/semaphore repository 
+For full examples of how to integrate with contracts check https://github.com/appliedzkp/semaphore repository.
 
-For additional info check tests directory
+For additional info check tests directory.
