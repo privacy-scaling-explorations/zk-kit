@@ -9,6 +9,7 @@ class NRln extends ZkProtocol {
    * @param merkleProof merkle proof that identity exists in nrln tree
    * @param epoch epoch on which signal is broadcasted
    * @param signal signal that is being broadcasted
+   * @param rlnIdentifier identifier used by each separate app, needed for more accurate spam filtering
    * @param shouldHash should signal be hashed before broadcast
    * @returns rln witness
    */
@@ -17,6 +18,7 @@ class NRln extends ZkProtocol {
     merkleProof: any,
     epoch: string | bigint,
     signal: string,
+    rlnIdentifier: bigint,
     shouldHash = true
   ): any {
     return {
@@ -24,7 +26,8 @@ class NRln extends ZkProtocol {
       path_elements: merkleProof.pathElements,
       identity_path_index: merkleProof.indices,
       x: shouldHash ? genSignalHash(signal) : signal,
-      epoch
+      epoch,
+      rln_identifier: rlnIdentifier
     }
   }
 
@@ -34,9 +37,10 @@ class NRln extends ZkProtocol {
    * @param epoch epoch
    * @param x singal hash
    * @param limit number of messages per epoch allowed
+   * @param rlnIdentifier identifier used by each separate app, needed for more accurate spam filtering
    * @returns
    */
-  calculateOutput(identitySecret: Array<bigint>, epoch: bigint, x: bigint, limit: number): Array<bigint> {
+  calculateOutput(identitySecret: Array<bigint>, epoch: bigint, x: bigint, limit: number, rlnIdentifier: bigint): Array<bigint> {
     const a0 = poseidonHash(identitySecret)
 
     const coeffs: Array<bigint> = []
@@ -52,6 +56,7 @@ class NRln extends ZkProtocol {
       y = Fq.add(y, Fq.mul(coeffs[i], tmpX))
     }
 
+    coeffs.push(poseidonHash([rlnIdentifier]));
     const nullifier: bigint = this.genNullifier(coeffs)
     return [y, nullifier]
   }
