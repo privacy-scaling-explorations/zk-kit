@@ -49,19 +49,24 @@ yarn add @libsem/protocols
 **Import**
 
 ```typescript
-import { ZkIdentity, Identity } from '@libsem/identity';
-import { Semaphore, MerkleProof, IProof, generateMerkleProof, genExternalNullifier, genSignalHash } from '@libsem/protocols';
-
-
+import { ZkIdentity, Identity } from "@libsem/identity"
+import {
+  Semaphore,
+  MerkleProof,
+  IProof,
+  generateMerkleProof,
+  genExternalNullifier,
+  genSignalHash
+} from "@libsem/protocols"
 ```
-```javascript
 
-const { ZkIdentity } = require('@libsem/identity');
-const { Semaphore, Rln, NRln, generateMerkleProof, genExternalNullifier, genSignalHash } = require('@libsem/protocols');
+```javascript
+const { ZkIdentity } = require("@libsem/identity")
+const { Semaphore, Rln, NRln, generateMerkleProof, genExternalNullifier, genSignalHash } = require("@libsem/protocols")
 ```
 
 **Merkle Proofs**
-Generate merkle proof for your identity given the array of registered identity commitments  
+Generate merkle proof for your identity given the array of registered identity commitments
 
 ```typescript
 const identityCommitments: Array<bigint> = [...];
@@ -72,20 +77,21 @@ const merkleProof: MerkleProof = generateMerkleProof(TREE_DEPTH, ZERO_VALUE, NUM
 
 **Semaphore**
 
-In order to create semaphore proof, make sure to 
+In order to create semaphore proof, make sure to
 
 ```typescript
-const witness = Semaphore.genWitness(identity, merkleProof, externalNullifier, signal);
-const fullProof = await Semaphore.genProof(witness, wasmFilePath, finalZkeyPath);
+const witness = Semaphore.genWitness(identity, merkleProof, externalNullifier, signal)
+const fullProof = await Semaphore.genProof(witness, wasmFilePath, finalZkeyPath)
 ```
+
 **Serialization**
 
 ```typescript
-const identity: Identity = ZkIdentity.genIdentity();
-const serialized: string = ZkIdentity.serializeIdentity(identity);
-const unserialized: Identity = ZkIdentity.unSerializeIdentity(serialized);
-
+const identity: Identity = ZkIdentity.genIdentity()
+const serialized: string = ZkIdentity.serializeIdentity(identity)
+const unserialized: Identity = ZkIdentity.unSerializeIdentity(serialized)
 ```
+
 ## 📜 Final Note
 
 For full examples of how to integrate with contracts check https://github.com/appliedzkp/semaphore repository.

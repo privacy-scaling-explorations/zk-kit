@@ -49,22 +49,24 @@ yarn add @libsem/identity
 **Import**
 
 ```typescript
-import { ZkIdentity, Identity } from "@libsem/identity";
+import { ZkIdentity, Identity } from "@libsem/identity"
 ```
+
 ```javascript
-const { ZkIdentity } = require("@libsem/identity");
+const { ZkIdentity } = require("@libsem/identity")
 ```
 
 **Mainpulation**
 
 ```typescript
-const identity: Identity = ZkIdentity.genIdentity();
-const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity);
+const identity: Identity = ZkIdentity.genIdentity()
+const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity)
 ```
+
 **Serialization**
 
 ```typescript
-const identity: Identity = ZkIdentity.genIdentity();
-const serialized: string = ZkIdentity.serializeIdentity(identity);
-const unserialized: Identity = ZkIdentity.unSerializeIdentity(serialized);
+const identity: Identity = ZkIdentity.genIdentity()
+const serialized: string = ZkIdentity.serializeIdentity(identity)
+const unserialized: Identity = ZkIdentity.unSerializeIdentity(serialized)
 ```

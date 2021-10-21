@@ -1,6 +1,6 @@
-import { ZkProtocol } from "./zk-protocol";
-import { genSignalHash, poseidonHash } from "./utils";
-import { Fq } from "./utils";
+import { ZkProtocol } from "./zk-protocol"
+import { genSignalHash, poseidonHash } from "./utils"
+import { Fq } from "./utils"
 
 class NRln extends ZkProtocol {
   /**
@@ -12,14 +12,20 @@ class NRln extends ZkProtocol {
    * @param shouldHash should signal be hashed before broadcast
    * @returns rln witness
    */
-  genWitness(identitySecret: Array<bigint>, merkleProof: any, epoch: string | bigint, signal: string, shouldHash = true): any {
+  genWitness(
+    identitySecret: Array<bigint>,
+    merkleProof: any,
+    epoch: string | bigint,
+    signal: string,
+    shouldHash = true
+  ): any {
     return {
       identity_secret: identitySecret,
       path_elements: merkleProof.pathElements,
       identity_path_index: merkleProof.indices,
       x: shouldHash ? genSignalHash(signal) : signal,
-      epoch,
-    };
+      epoch
+    }
   }
 
   /**
@@ -31,23 +37,23 @@ class NRln extends ZkProtocol {
    * @returns
    */
   calculateOutput(identitySecret: Array<bigint>, epoch: bigint, x: bigint, limit: number): Array<bigint> {
-    const a0 = poseidonHash(identitySecret);
+    const a0 = poseidonHash(identitySecret)
 
-    const coeffs: Array<bigint> = [];
-    let tmpX = x;
+    const coeffs: Array<bigint> = []
+    let tmpX = x
 
-    coeffs.push(poseidonHash([identitySecret[0], epoch]));
-    let y: bigint = Fq.add(Fq.mul(coeffs[0], tmpX), a0);
+    coeffs.push(poseidonHash([identitySecret[0], epoch]))
+    let y: bigint = Fq.add(Fq.mul(coeffs[0], tmpX), a0)
 
     for (let i = 1; i < limit; i++) {
-      tmpX = Fq.mul(x, tmpX);
+      tmpX = Fq.mul(x, tmpX)
 
-      coeffs.push(poseidonHash([identitySecret[i], epoch]));
-      y = Fq.add(y, Fq.mul(coeffs[i], tmpX));
+      coeffs.push(poseidonHash([identitySecret[i], epoch]))
+      y = Fq.add(y, Fq.mul(coeffs[i], tmpX))
     }
 
-    const nullifier: bigint = this.genNullifier(coeffs);
-    return [y, nullifier];
+    const nullifier: bigint = this.genNullifier(coeffs)
+    return [y, nullifier]
   }
 
   /**
@@ -56,7 +62,7 @@ class NRln extends ZkProtocol {
    * @returns slashing nullifier
    */
   genNullifier(coeffs: Array<bigint>): bigint {
-    return poseidonHash(coeffs);
+    return poseidonHash(coeffs)
   }
 
   /**
@@ -66,21 +72,20 @@ class NRln extends ZkProtocol {
    * @returns identity secret
    */
   retrieveSecret(xs: Array<bigint>, ys: Array<bigint>): bigint {
-    if (xs.length !== ys.length) throw new Error("x and y arrays must be of same size");
-    const numOfPoints: number = xs.length;
-    let f0 = BigInt(0);
+    if (xs.length !== ys.length) throw new Error("x and y arrays must be of same size")
+    const numOfPoints: number = xs.length
+    let f0 = BigInt(0)
     for (let i = 0; i < numOfPoints; i++) {
-      let p = BigInt(1);
+      let p = BigInt(1)
       for (let j = 0; j < numOfPoints; j++) {
         if (j !== i) {
-          p = Fq.mul(p, Fq.div(xs[j], Fq.sub(xs[j], xs[i])));
+          p = Fq.mul(p, Fq.div(xs[j], Fq.sub(xs[j], xs[i])))
         }
       }
-      f0 = Fq.add(f0, Fq.mul(ys[i], p));
+      f0 = Fq.add(f0, Fq.mul(ys[i], p))
     }
-    return f0;
+    return f0
   }
 }
 
-export default new NRln();
-
+export default new NRln()

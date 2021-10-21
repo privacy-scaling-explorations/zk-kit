@@ -1,10 +1,10 @@
-import * as crypto from 'crypto';
-import * as bigintConversion from 'bigint-conversion';
-import { sha256 as _sha256 } from "js-sha256";
-import { Identity } from '@libsem/types';
+import * as crypto from "crypto"
+import * as bigintConversion from "bigint-conversion"
+import { sha256 as _sha256 } from "js-sha256"
+import { Identity } from "@libsem/types"
 
 const genRandomNumber = (numBytes = 31): bigint => {
-    return  bigintConversion.bufToBigint(crypto.randomBytes(numBytes))
+  return bigintConversion.bufToBigint(crypto.randomBytes(numBytes))
 }
 
 /**
@@ -12,10 +12,10 @@ const genRandomNumber = (numBytes = 31): bigint => {
  * @returns Identity
  */
 const genRandomIdentity = (): Identity => {
-    return {
-        identityNullifier: genRandomNumber(31),
-        identityTrapdoor: genRandomNumber(31)
-    }
+  return {
+    identityNullifier: genRandomNumber(31),
+    identityTrapdoor: genRandomNumber(31)
+  }
 }
 
 /**
@@ -24,26 +24,22 @@ const genRandomIdentity = (): Identity => {
  * @returns Identity
  */
 const genIdentityFromSignedMessage = (metadata: any): Identity => {
-    const sha256 = (message: string): string => {
-        const hash = _sha256.create()
-        hash.update(message)
-        return hash.hex()
-    }
+  const sha256 = (message: string): string => {
+    const hash = _sha256.create()
+    hash.update(message)
+    return hash.hex()
+  }
 
-    const { signedMessage } = metadata;
+  const { signedMessage } = metadata
 
-    const messageHash = sha256(signedMessage)
-    const identityNullifier = bigintConversion.hexToBigint(sha256(`${messageHash}identity_nullifier`))
-    const identityTrapdoor = bigintConversion.hexToBigint(sha256(`${messageHash}identity_trapdoor`))
+  const messageHash = sha256(signedMessage)
+  const identityNullifier = bigintConversion.hexToBigint(sha256(`${messageHash}identity_nullifier`))
+  const identityTrapdoor = bigintConversion.hexToBigint(sha256(`${messageHash}identity_trapdoor`))
 
-    return {
-        identityTrapdoor,
-        identityNullifier
-    }
+  return {
+    identityTrapdoor,
+    identityNullifier
+  }
 }
 
-export {
-    genRandomIdentity,
-    genIdentityFromSignedMessage,
-    genRandomNumber
-}
+export { genRandomIdentity, genIdentityFromSignedMessage, genRandomNumber }

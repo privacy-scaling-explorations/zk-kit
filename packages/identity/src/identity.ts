@@ -1,11 +1,11 @@
-import { genRandomIdentity, genIdentityFromSignedMessage, genRandomNumber } from "./strategies";
-import * as bigintConversion from "bigint-conversion";
-import * as ciromlibjs from "circomlibjs";
-import { Identity } from "@libsem/types";
+import { genRandomIdentity, genIdentityFromSignedMessage, genRandomNumber } from "./strategies"
+import * as bigintConversion from "bigint-conversion"
+import * as ciromlibjs from "circomlibjs"
+import { Identity } from "@libsem/types"
 
 const poseidonHash = (data: Array<bigint>): bigint => {
-  return ciromlibjs.poseidon(data);
-};
+  return ciromlibjs.poseidon(data)
+}
 
 class ZkIdentity {
   /**
@@ -15,10 +15,10 @@ class ZkIdentity {
    * @returns Identity
    */
   genIdentity(strategy: "random" | "signedMessage" = "random", metadata: any = {}): Identity {
-    if (strategy === "random") return genRandomIdentity();
-    else if (strategy === "signedMessage") return genIdentityFromSignedMessage(metadata);
+    if (strategy === "random") return genRandomIdentity()
+    else if (strategy === "signedMessage") return genIdentityFromSignedMessage(metadata)
 
-    throw new Error("provided strategy is not supported");
+    throw new Error("provided strategy is not supported")
   }
 
   /**
@@ -27,7 +27,7 @@ class ZkIdentity {
    * @returns secret
    */
   genSecretFromIdentity(identity: Identity): bigint[] {
-    return [identity.identityNullifier, identity.identityTrapdoor];
+    return [identity.identityNullifier, identity.identityTrapdoor]
   }
 
   /**
@@ -36,11 +36,11 @@ class ZkIdentity {
    * @returns secret
    */
   genRandomSecret(parts = 2): bigint[] {
-    const secret: bigint[] = [];
+    const secret: bigint[] = []
     for (let i = 0; i < parts; i++) {
-      secret.push(genRandomNumber());
+      secret.push(genRandomNumber())
     }
-    return secret;
+    return secret
   }
 
   /**
@@ -49,8 +49,8 @@ class ZkIdentity {
    * @returns identity commitment
    */
   genIdentityCommitmentFromSecret(secret: bigint[]): bigint {
-    const secretHash = poseidonHash(secret);
-    return poseidonHash([secretHash]);
+    const secretHash = poseidonHash(secret)
+    return poseidonHash([secretHash])
   }
 
   /**
@@ -59,8 +59,8 @@ class ZkIdentity {
    * @returns identity commitment
    */
   genIdentityCommitment(identity: Identity): bigint {
-    const secretHash = poseidonHash([identity.identityNullifier, identity.identityTrapdoor]);
-    return poseidonHash([secretHash]);
+    const secretHash = poseidonHash([identity.identityNullifier, identity.identityTrapdoor])
+    return poseidonHash([secretHash])
   }
 
   /**
@@ -69,8 +69,8 @@ class ZkIdentity {
    * @returns serialized identity
    */
   serializeIdentity(identity: Identity): string {
-    const data = [identity.identityNullifier.toString(16), identity.identityTrapdoor.toString(16)];
-    return JSON.stringify(data);
+    const data = [identity.identityNullifier.toString(16), identity.identityTrapdoor.toString(16)]
+    return JSON.stringify(data)
   }
 
   /**
@@ -79,12 +79,12 @@ class ZkIdentity {
    * @returns ZkIdentity
    */
   unSerializeIdentity(serialisedIdentity: string): Identity {
-    const data = JSON.parse(serialisedIdentity);
+    const data = JSON.parse(serialisedIdentity)
     return {
       identityNullifier: bigintConversion.hexToBigint(data[0]),
-      identityTrapdoor: bigintConversion.hexToBigint(data[1]),
-    };
+      identityTrapdoor: bigintConversion.hexToBigint(data[1])
+    }
   }
 }
 
-export default new ZkIdentity();
+export default new ZkIdentity()

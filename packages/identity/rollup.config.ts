@@ -1,6 +1,6 @@
-import typescript from "rollup-plugin-typescript2";
-import * as fs from "fs";
-const pkg = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
+import typescript from "rollup-plugin-typescript2"
+import * as fs from "fs"
+const pkg = JSON.parse(fs.readFileSync("./package.json", "utf-8"))
 
 const banner = `/**
  * @module ${pkg.name}
@@ -9,14 +9,14 @@ const banner = `/**
  * @copyright ${pkg.author.name} ${new Date().getFullYear()}
  * @license ${pkg.license}
  * @see [Github]{@link ${pkg.homepage}}
-*/`;
+*/`
 
 export default {
   input: "src/index.ts",
   output: [
     { file: pkg.exports.require, format: "cjs", banner, exports: "auto" },
-    { file: pkg.exports.import, format: "es", banner },
+    { file: pkg.exports.import, format: "es", banner }
   ],
   external: Object.keys(pkg.dependencies),
-  plugins: [typescript({ useTsconfigDeclarationDir: true })],
-};
+  plugins: [typescript({ useTsconfigDeclarationDir: true })]
+}

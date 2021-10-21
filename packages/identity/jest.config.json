@@ -1,9 +1,9 @@
 {
-    "transform": {
-        "\\.(ts|tsx)": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": ["ts", "js"],
-    "coveragePathIgnorePatterns": ["/node_modules/", "/test/"],
-    "collectCoverageFrom": ["src/**/*.{js,ts}"]
+  "transform": {
+    "\\.(ts|tsx)": "ts-jest"
+  },
+  "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+  "moduleFileExtensions": ["ts", "js"],
+  "coveragePathIgnorePatterns": ["/node_modules/", "/test/"],
+  "collectCoverageFrom": ["src/**/*.{js,ts}"]
 }
