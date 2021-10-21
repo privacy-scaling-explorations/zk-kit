@@ -35,5 +35,6 @@
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./dist/index.node.js"
-  }
+  },
+  "gitHead": "e1cbf100499b8bc4c4434ef485c1ccc6291672ae"
 }
