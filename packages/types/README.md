@@ -46,5 +46,5 @@ yarn add @libsem/types
 **Import**
 
 ```typescript
-import { Identity, IProof, MerkleProof } from "@libsem/types";
+import { Identity, IProof, MerkleProof } from "@libsem/types"
 ```

@@ -1,6 +1,6 @@
-import { ZkProtocol } from "./zk-protocol";
-import { genSignalHash, poseidonHash } from "./utils";
-import { Identity, MerkleProof } from "@libsem/types";
+import { ZkProtocol } from "./zk-protocol"
+import { genSignalHash, poseidonHash } from "./utils"
+import { Identity, MerkleProof } from "@libsem/types"
 
 class Semaphore extends ZkProtocol {
   /**
@@ -25,8 +25,8 @@ class Semaphore extends ZkProtocol {
       identity_path_index: merkleProof.indices,
       path_elements: merkleProof.pathElements,
       external_nullifier: externalNullifier,
-      signal_hash: shouldHash ? genSignalHash(signal) : signal,
-    };
+      signal_hash: shouldHash ? genSignalHash(signal) : signal
+    }
   }
 
   /**
@@ -37,9 +37,8 @@ class Semaphore extends ZkProtocol {
    * @returns
    */
   genNullifierHash(externalNullifier: string | bigint, identityNullifier: string | bigint, nLevels: number): bigint {
-    return poseidonHash([BigInt(externalNullifier), BigInt(identityNullifier), BigInt(nLevels)]);
+    return poseidonHash([BigInt(externalNullifier), BigInt(identityNullifier), BigInt(nLevels)])
   }
 }
 
-export default new Semaphore();
-
+export default new Semaphore()

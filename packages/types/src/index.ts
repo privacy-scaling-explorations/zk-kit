@@ -1,15 +1,15 @@
 export interface Identity {
-    identityNullifier: bigint,
-    identityTrapdoor: bigint,
+  identityNullifier: bigint
+  identityTrapdoor: bigint
 }
 
 export interface IProof {
-    proof: any, 
-    publicSignals: Array<bigint | string>,
+  proof: any
+  publicSignals: Array<bigint | string>
 }
 
 export interface MerkleProof {
-    root: bigint,
-    indices: Array<any>,
-    pathElements: Array<any>
+  root: bigint
+  indices: Array<any>
+  pathElements: Array<any>
 }
