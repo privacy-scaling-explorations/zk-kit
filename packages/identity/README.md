@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/appliedzkp/libsemaphore/blob/main/LICENSE">
+    <a href="https://github.com/appliedzkp/libsemaphore/blob/master/LICENSE">
         <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/libsemaphore.svg?style=flat-square">
     </a>
     <a href="https://www.npmjs.com/package/@libsem/identity">
@@ -50,12 +50,9 @@ yarn add @libsem/identity
 
 ```typescript
 import { ZkIdentity, Identity } from "@libsem/identity";
-
 ```
 ```javascript
-
 const { ZkIdentity } = require("@libsem/identity");
-
 ```
 
 **Mainpulation**
@@ -70,5 +67,4 @@ const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity);
 const identity: Identity = ZkIdentity.genIdentity();
 const serialized: string = ZkIdentity.serializeIdentity(identity);
 const unserialized: Identity = ZkIdentity.unSerializeIdentity(serialized);
-
 ```
