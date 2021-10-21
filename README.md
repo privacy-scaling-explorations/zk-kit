@@ -117,9 +117,6 @@ All the packages provide tests which can be used as a guide for interaction.
             </td>
             <td>
                 <!-- Size -->
-                <a href="https://bundlephobia.com/package/@libsem/types">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@libsem/types" alt="npm bundle size (scoped)" />
-                </a>
             </td>
         </tr>
     <tbody>
