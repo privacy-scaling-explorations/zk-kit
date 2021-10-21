@@ -1,7 +1,7 @@
 {
   "name": "@libsem/protocols",
   "version": "1.0.10",
-  "description": "Client library for generating and verifying Semaphore & Rln ZK proofs",
+  "description": "Client library for generating and verifying Semaphore & Rln ZK proofs.",
   "main": "dist/index.node.js",
   "types": "dist/types/index.d.ts",
   "repository": "https://github.com/appliedzkp/libsemaphore",

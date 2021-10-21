@@ -1,12 +1,9 @@
 {
   "name": "libsem",
   "version": "2.0.0",
-  "description": "different modules for libsemaphore",
+  "description": "A monorepo of JavaScript libraries for Semaphore.",
   "main": "index.js",
   "private": true,
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
     "install": "npm run bootstrap && npm run build",
     "bootstrap": "lerna bootstrap --no-ci",
