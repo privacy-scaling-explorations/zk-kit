@@ -59,14 +59,14 @@ const { ZkIdentity } = require("@libsem/identity")
 **Mainpulation**
 
 ```typescript
-const identity: Identity = ZkIdentity.genIdentity()
-const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity)
+const identity: ZkIdentity = new ZkIdentity();
+const identityCommitment: bigint = identity.genIdentityCommitment();
 ```
 
 **Serialization**
 
 ```typescript
-const identity: Identity = ZkIdentity.genIdentity()
-const serialized: string = ZkIdentity.serializeIdentity(identity)
-const unserialized: Identity = ZkIdentity.unSerializeIdentity(serialized)
+const identity: ZkIdentity = new ZkIdentity();
+const serialized: string = identity.serializeIdentity()
+const unserialized: ZkIdentity = ZkIdentity.genFromSerialized(serialized);
 ```
