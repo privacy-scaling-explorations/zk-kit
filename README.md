@@ -137,7 +137,7 @@ $ cd libsemaphore && npm i
 $ npm run lint # Lint all packages.
 $ npm run test # Test all packages (with common coverage).
 $ npm run build # Create a JS build for each package.
-$ npm run publish # Publish packages on npm.
+$ npm run publish:fp # Publish packages on npm.
 ```
 
 You can see the other npm scripts in the `package.json` file.
