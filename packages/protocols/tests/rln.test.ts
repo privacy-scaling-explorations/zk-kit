@@ -11,8 +11,8 @@ beforeAll(() => {
   const leafIndex = 3
 
   for (let i = 0; i < leafIndex; i++) {
-    const tmpIdentity = ZkIdentity.genIdentity()
-    const tmpCommitment: any = ZkIdentity.genIdentityCommitment(tmpIdentity)
+    const tmpIdentity = new ZkIdentity();
+    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment();
     identityCommitments.push(tmpCommitment)
   }
 })
@@ -20,10 +20,10 @@ beforeAll(() => {
 describe("Rln", () => {
   describe("Rln functionalities", () => {
     it("Generate rln witness", () => {
-      const identity: Identity = ZkIdentity.genIdentity()
-      const identitySecret: bigint[] = ZkIdentity.genSecretFromIdentity(identity)
-      const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity)
-      const secretHash: bigint = poseidonHash(identitySecret)
+      const identity: ZkIdentity = new ZkIdentity();
+      identity.genSecretFromIdentity();
+      const identityCommitment: bigint = identity.genIdentityCommitment();
+      const secretHash: bigint = poseidonHash(identity.getSecret());
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
@@ -41,11 +41,11 @@ describe("Rln", () => {
       /**
        * Compiled RLN circuits are needed to run this test so it's being skipped in hooks
        */
-      const identity: Identity = ZkIdentity.genIdentity()
-      const identitySecret: bigint[] = ZkIdentity.genSecretFromIdentity(identity)
-      const secretHash: bigint = poseidonHash(identitySecret)
+      const identity: ZkIdentity = new ZkIdentity();
+      identity.genSecretFromIdentity();
+      const secretHash: bigint = poseidonHash(identity.getSecret());
 
-      const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity)
+      const identityCommitment: bigint = identity.genIdentityCommitment();
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
@@ -73,9 +73,9 @@ describe("Rln", () => {
       expect(res).toBe(true)
     })
     it("Should retrieve user secret after spaming", () => {
-      const identity: Identity = ZkIdentity.genIdentity()
-      const identitySecret: bigint[] = ZkIdentity.genSecretFromIdentity(identity)
-      const secretHash: bigint = poseidonHash(identitySecret)
+      const identity: ZkIdentity = new ZkIdentity();
+      identity.genSecretFromIdentity();
+      const secretHash: bigint = poseidonHash(identity.getSecret());
 
       const signal1 = "hey hey"
       const signalHash1 = genSignalHash(signal1)

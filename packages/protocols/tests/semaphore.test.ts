@@ -14,8 +14,8 @@ beforeAll(() => {
   const leafIndex = 3
 
   for (let i = 0; i < leafIndex; i++) {
-    const tmpIdentity = ZkIdentity.genIdentity()
-    const tmpCommitment: bigint = ZkIdentity.genIdentityCommitment(tmpIdentity)
+    const tmpIdentity = new ZkIdentity();
+    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment();
     identityCommitments.push(tmpCommitment)
   }
 })
@@ -23,16 +23,16 @@ beforeAll(() => {
 describe("Semaphore", () => {
   describe("Generate and verify proof", () => {
     it("Should generate semaphore witness", async () => {
-      const identity: Identity = ZkIdentity.genIdentity()
+      const identity = new ZkIdentity();
       const externalNullifier: string = genExternalNullifier("voting_1")
       const signal = "0x111"
-      const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity)
+      const identityCommitment: bigint = identity.genIdentityCommitment();
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
 
       const merkleProof: MerkleProof = generateMerkleProof(20, BigInt(0), 5, commitments, identityCommitment)
-      const witness: IProof = Semaphore.genWitness(identity, merkleProof, externalNullifier, signal)
+      const witness: IProof = Semaphore.genWitness(identity.getIdentity(), merkleProof, externalNullifier, signal)
 
       expect(typeof witness).toBe("object")
     })
@@ -40,17 +40,17 @@ describe("Semaphore", () => {
       /**
        * Compiled semaphore circuits are needed to run this test, so it's being skipped in hooks
        */
-      const identity: Identity = ZkIdentity.genIdentity()
+      const identity = new ZkIdentity();
       const externalNullifier: string = genExternalNullifier("voting_1")
       const signal = "0x111"
-      const nullifierHash: bigint = Semaphore.genNullifierHash(externalNullifier, identity.identityNullifier, 20)
-      const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity)
+      const nullifierHash: bigint = Semaphore.genNullifierHash(externalNullifier, identity.getNullifier(), 20)
+      const identityCommitment: bigint = identity.genIdentityCommitment()
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
 
       const merkleProof: MerkleProof = generateMerkleProof(20, BigInt(0), 5, commitments, identityCommitment)
-      const witness: IProof = Semaphore.genWitness(identity, merkleProof, externalNullifier, signal)
+      const witness: IProof = Semaphore.genWitness(identity.getIdentity(), merkleProof, externalNullifier, signal)
 
       const publicSignals: Array<bigint | string> = [
         merkleProof.root,
