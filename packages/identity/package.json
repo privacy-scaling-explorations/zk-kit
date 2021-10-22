@@ -1,6 +1,6 @@
 {
   "name": "@libsem/identity",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Library for managing identites for Semaphore and Rln protocols.",
   "main": "dist/index.node.js",
   "types": "dist/types/index.d.ts",

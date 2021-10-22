@@ -195,7 +195,8 @@
     "@ethersproject/strings" "^5.4.0"
 
 "@libsem/types@^1.0.0":
-  "resolved" "file:../types"
+  "integrity" "sha512-VsYJ3O+JeeaB1BolWzElYRryIkie5sB6WP3QZ01It+4oOv4AvhP6OGESIwIPVnyImJqhCUwxcVDQdj54us7hQQ=="
+  "resolved" "https://registry.npmjs.org/@libsem/types/-/types-1.0.0.tgz"
   "version" "1.0.0"
 
 "@rollup/pluginutils@^4.1.0":

@@ -8,26 +8,69 @@ const poseidonHash = (data: Array<bigint>): bigint => {
 }
 
 class ZkIdentity {
+  private identityTrapdoor: bigint;
+  private identityNullifier: bigint;
+  private secret: Array<bigint> = [];
   /**
    * Generates new ZkIdentity
    * @param strategy strategy for identity generation
    * @param metadata additional data needed to create identity for given strategy
+   * @returns
+   */
+  constructor(strategy: "random" | "signedMessage" | "serialized" = "random", metadata: any = {}) {
+    if (strategy === "random") {
+      const { identityTrapdoor, identityNullifier } = genRandomIdentity();
+      this.identityTrapdoor = identityTrapdoor;
+      this.identityNullifier = identityNullifier;
+    } else if (strategy === "signedMessage") {
+      const { identityTrapdoor, identityNullifier } = genIdentityFromSignedMessage(metadata);
+      this.identityTrapdoor = identityTrapdoor;
+      this.identityNullifier = identityNullifier;
+    } else if (strategy === "serialized") {
+      const { identityTrapdoor, identityNullifier } = metadata;
+      this.identityNullifier = identityNullifier;
+      this.identityTrapdoor = identityTrapdoor;
+    } else throw new Error("provided strategy is not supported")
+  }
+
+  /**
+   * Unserializes identity
+   * @param serialisedIdentity
+   * @returns
+   */
+  static genFromSerialized(serialisedIdentity: string): ZkIdentity {
+    const data = JSON.parse(serialisedIdentity);
+    if(data.length !== 2) throw new Error('Format is wrong');
+    return new ZkIdentity("serialized", {
+      identityNullifier: bigintConversion.hexToBigint(data[0]),
+      identityTrapdoor: bigintConversion.hexToBigint(data[1])
+    });
+  }
+  /**
+   *
    * @returns Identity
    */
-  genIdentity(strategy: "random" | "signedMessage" = "random", metadata: any = {}): Identity {
-    if (strategy === "random") return genRandomIdentity()
-    else if (strategy === "signedMessage") return genIdentityFromSignedMessage(metadata)
+  getIdentity(): Identity {
+    return {
+      identityNullifier: this.identityNullifier,
+      identityTrapdoor: this.identityTrapdoor,
+    }
+  }
 
-    throw new Error("provided strategy is not supported")
+  getNullifier(): bigint {
+    return this.identityNullifier;
+  }
+
+  getSecret(): Array<bigint> {
+    return this.secret;
   }
 
   /**
    * Creates secret from ZkIdentity
-   * @param identity identity to generate secret for
-   * @returns secret
+   * @returns
    */
-  genSecretFromIdentity(identity: Identity): bigint[] {
-    return [identity.identityNullifier, identity.identityTrapdoor]
+  genSecretFromIdentity() {
+    this.secret = [this.identityNullifier, this.identityTrapdoor]
   }
 
   /**
@@ -35,31 +78,29 @@ class ZkIdentity {
    * @param parts number of parts in secret
    * @returns secret
    */
-  genRandomSecret(parts = 2): bigint[] {
-    const secret: bigint[] = []
+  genRandomSecret(parts = 2) {
+    this.secret = [];
     for (let i = 0; i < parts; i++) {
-      secret.push(genRandomNumber())
+      this.secret.push(genRandomNumber())
     }
-    return secret
   }
 
   /**
    * Generate commitment from identity secret
-   * @param secret identity secret
    * @returns identity commitment
    */
-  genIdentityCommitmentFromSecret(secret: bigint[]): bigint {
-    const secretHash = poseidonHash(secret)
-    return poseidonHash([secretHash])
+  genIdentityCommitmentFromSecret(): bigint {
+    if(!this.secret.length) throw new Error('Secret is not generated');
+    const secretHash = poseidonHash(this.secret);
+    return poseidonHash([secretHash]);
   }
 
   /**
    * Generate commitment from identity
-   * @param identity identity
    * @returns identity commitment
    */
-  genIdentityCommitment(identity: Identity): bigint {
-    const secretHash = poseidonHash([identity.identityNullifier, identity.identityTrapdoor])
+  genIdentityCommitment(): bigint {
+    const secretHash = poseidonHash([this.identityNullifier, this.identityTrapdoor])
     return poseidonHash([secretHash])
   }
 
@@ -68,23 +109,10 @@ class ZkIdentity {
    * @param identity to serialize
    * @returns serialized identity
    */
-  serializeIdentity(identity: Identity): string {
-    const data = [identity.identityNullifier.toString(16), identity.identityTrapdoor.toString(16)]
+  serializeIdentity(): string {
+    const data = [this.identityNullifier.toString(16), this.identityTrapdoor.toString(16)]
     return JSON.stringify(data)
-  }
-
-  /**
-   * Unserializes identity
-   * @param serialisedIdentity
-   * @returns ZkIdentity
-   */
-  unSerializeIdentity(serialisedIdentity: string): Identity {
-    const data = JSON.parse(serialisedIdentity)
-    return {
-      identityNullifier: bigintConversion.hexToBigint(data[0]),
-      identityTrapdoor: bigintConversion.hexToBigint(data[1])
-    }
   }
 }
 
-export default new ZkIdentity()
+export default ZkIdentity;
