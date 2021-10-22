@@ -70,7 +70,8 @@ Generate merkle proof for your identity given the array of registered identity c
 
 ```typescript
 const identityCommitments: Array<bigint> = [...];
-const identityCommitment: bigint = ZkIdentity.genIdentityCommitment(identity);
+const identity: ZkIdentity = new ZkIdentity();
+const identityCommitment: bigint = identity.genIdentityCommitment();
 
 const merkleProof: MerkleProof = generateMerkleProof(TREE_DEPTH, ZERO_VALUE, NUMBER_OF_LEAVES_PER_NODE, identityCommitments, identityCommitment);
 ```
@@ -82,14 +83,6 @@ In order to create semaphore proof, make sure to
 ```typescript
 const witness = Semaphore.genWitness(identity, merkleProof, externalNullifier, signal)
 const fullProof = await Semaphore.genProof(witness, wasmFilePath, finalZkeyPath)
-```
-
-**Serialization**
-
-```typescript
-const identity: Identity = ZkIdentity.genIdentity()
-const serialized: string = ZkIdentity.serializeIdentity(identity)
-const unserialized: Identity = ZkIdentity.unSerializeIdentity(serialized)
 ```
 
 ## 📜 Final Note
