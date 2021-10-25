@@ -3,8 +3,18 @@ export interface Identity {
   identityTrapdoor: bigint
 }
 
+export type Proof = {
+  proof: {
+    pi_a: Array<string>,
+    pi_b: [ [Array<string>], [Array<string>], [Array<string>] ],
+    pi_c: Array<string>
+    protocol: string,
+    curve: string
+  },
+}
+
 export interface IProof {
-  proof: any
+  proof: Proof
   publicSignals: Array<bigint | string>
 }
 
