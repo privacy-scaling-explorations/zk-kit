@@ -56,7 +56,7 @@ describe("Semaphore", () => {
         merkleProof.root,
         nullifierHash,
         genSignalHash(signal),
-        externalNullifier
+        BigInt(externalNullifier)
       ]
 
       const vkeyPath: string = path.join("./zkeyFiles", "semaphore", "verification_key.json")
