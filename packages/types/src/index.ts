@@ -4,13 +4,11 @@ export interface Identity {
 }
 
 export type Proof = {
-  proof: {
-    pi_a: Array<string>,
-    pi_b: [ [Array<string>], [Array<string>], [Array<string>] ],
-    pi_c: Array<string>
-    protocol: string,
-    curve: string
-  },
+  pi_a: Array<string>,
+  pi_b: [ [Array<string>], [Array<string>], [Array<string>] ],
+  pi_c: Array<string>
+  protocol: string,
+  curve: string
 }
 
 export interface IProof {
