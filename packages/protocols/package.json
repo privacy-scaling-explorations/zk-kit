@@ -1,6 +1,6 @@
 {
   "name": "@libsem/protocols",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Client library for generating and verifying Semaphore & Rln ZK proofs.",
   "main": "dist/index.node.js",
   "types": "dist/types/index.d.ts",
@@ -24,7 +24,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@libsem/types": "^1.0.4",
+    "@libsem/types": "^1.0.5",
     "circomlibjs": "^0.0.8",
     "ethers": "^5.4.7",
     "incrementalquintree": "^1.0.7",

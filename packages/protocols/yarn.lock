@@ -948,10 +948,10 @@
     "@types/yargs" "^15.0.0"
     "chalk" "^4.0.0"
 
-"@libsem/types@^1.0.4":
-  "integrity" "sha512-VTz1/Gd2K3llvYoXikXV4gvzBgDovQmo4UX8LPz7256Sknr9r/+jRIybGb0Be8ZzzRGbo5S83L9DGzbKfKFtlA=="
-  "resolved" "https://registry.npmjs.org/@libsem/types/-/types-1.0.4.tgz"
-  "version" "1.0.4"
+"@libsem/types@^1.0.5":
+  "integrity" "sha512-DnTfdL4fEfyDa6HDjuo6sOeTCABcKY3Av/7Gies4F68KRIL3YdkcBeKDJeY2j5lvz8sX53fw3QmrIsjbkQnsYw=="
+  "resolved" "https://registry.npmjs.org/@libsem/types/-/types-1.0.5.tgz"
+  "version" "1.0.5"
 
 "@nomiclabs/hardhat-ethers@^2.0.2":
   "integrity" "sha512-6quxWe8wwS4X5v3Au8q1jOvXYEPkS1Fh+cME5u6AwNdnI4uERvPlVjlgRWzpnb+Rrt1l/cEqiNRH9GlsBMSDQg=="
