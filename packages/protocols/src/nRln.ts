@@ -91,6 +91,14 @@ class NRln extends ZkProtocol {
     }
     return f0
   }
+
+  /**
+   *
+   * @returns unique identifier of the rln dapp
+   */
+     genIdentifier(): bigint {
+      return Fq.random()
+    }
 }
 
 export default new NRln()
