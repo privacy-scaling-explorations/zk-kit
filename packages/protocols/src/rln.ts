@@ -72,9 +72,8 @@ class Rln extends ZkProtocol {
 
   /**
    *
-   * @returns unique identifier of rln dapp
+   * @returns unique identifier of the rln dapp
    */
-
   genIdentifier(): bigint {
     return Fq.random()
   }
