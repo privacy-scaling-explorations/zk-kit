@@ -28,7 +28,7 @@
     "circomlibjs": "^0.0.8",
     "ethers": "^5.4.7",
     "incrementalquintree": "^1.0.7",
-    "snarkjs": "^0.4.7"
+    "snarkjs": "^0.4.10"
   },
   "devDependencies": {
     "rollup": "^2.58.0",

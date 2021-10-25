@@ -18,6 +18,5 @@
   "devDependencies": {
     "rimraf": "^3.0.2",
     "ts-node": "^10.3.0"
-  },
-  "gitHead": "7cab1c709124f10610b04995603086d29a7eb18b"
+  }
 }
