@@ -14,5 +14,4 @@ export interface MerkleProof {
   pathElements: Array<any>
 }
 
-export type IdentityFactoryMetadata = {} | { signedMessage: string } |
-{ identityNullifier: bigint, identityTrapdoor: bigint }
+export type SerializedIdentity = { identityNullifier: string, identityTrapdoor: string };
