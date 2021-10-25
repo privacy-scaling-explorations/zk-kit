@@ -1,6 +1,6 @@
 {
   "name": "@libsem/identity",
-  "version": "1.0.14",
+  "version": "1.0.17",
   "description": "Library for managing identites for Semaphore and Rln protocols.",
   "main": "dist/index.node.js",
   "types": "dist/types/index.d.ts",
@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@libsem/types": "^1.0.0",
+    "@libsem/types": "^1.0.5",
     "bigint-conversion": "^2.1.12",
     "circomlibjs": "^0.0.8",
     "crypto": "^1.0.1",

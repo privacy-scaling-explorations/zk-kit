@@ -23,16 +23,14 @@ const genRandomIdentity = (): Identity => {
  * @param metadata { signedMessage } from which to create identity
  * @returns Identity
  */
-const genIdentityFromSignedMessage = (metadata: any): Identity => {
+const genIdentityFromMessage = (message: string): Identity => {
   const sha256 = (message: string): string => {
     const hash = _sha256.create()
     hash.update(message)
     return hash.hex()
   }
 
-  const { signedMessage } = metadata
-
-  const messageHash = sha256(signedMessage)
+  const messageHash = sha256(message)
   const identityNullifier = bigintConversion.hexToBigint(sha256(`${messageHash}identity_nullifier`))
   const identityTrapdoor = bigintConversion.hexToBigint(sha256(`${messageHash}identity_trapdoor`))
 
@@ -42,4 +40,4 @@ const genIdentityFromSignedMessage = (metadata: any): Identity => {
   }
 }
 
-export { genRandomIdentity, genIdentityFromSignedMessage, genRandomNumber }
+export { genRandomIdentity, genIdentityFromMessage, genRandomNumber }

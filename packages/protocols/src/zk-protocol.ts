@@ -1,9 +1,8 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
 const { groth16 } = require("snarkjs")
 import { SNARK_FIELD_SIZE } from "./utils"
-import { IProof } from "@libsem/types"
+import { FullProof } from "@libsem/types"
 import * as fs from "fs";
-// import * as wcBuilder from "./witness_calculator";
 const wc = require("./witness_calculator");
 
 export class ZkProtocol {
@@ -16,12 +15,18 @@ export class ZkProtocol {
    * @returns creates and saves witness to witnessFileName
    */
   async buildWnts(input: any, wasmFilePath: string, witnessFileName: string) {
-    const buffer: Buffer = fs.readFileSync(wasmFilePath);
+    const buffer = fs.readFileSync(wasmFilePath);
 
-    wc(buffer).then(async witnessCalculator => {
-        const buff= await witnessCalculator.calculateWTNSBin(input, 0);
-        fs.writeFileSync(witnessFileName, buff);
-    });
+    return new Promise((resolve, reject) => {
+        wc(buffer)
+        .then(async witnessCalculator => {
+            const buff= await witnessCalculator.calculateWTNSBin(input, 0);
+            fs.writeFileSync(witnessFileName, buff);
+            resolve(witnessFileName);
+        }).catch((error) => {
+            reject(error);
+        });
+    })
   }
   /**
    * Generates full proof
@@ -30,10 +35,10 @@ export class ZkProtocol {
    * @param finalZkeyPath path to final zkey file
    * @returns zero knowledge proof
    */
-  async genProof(grothInput: any, wasmFilePath: string, finalZkeyPath: string): Promise<IProof> {
+  async genProof(grothInput: any, wasmFilePath: string, finalZkeyPath: string): Promise<FullProof> {
     await this.buildWnts(grothInput, wasmFilePath, 'witness.wtns');
     const { proof, publicSignals } = await groth16.prove(finalZkeyPath, 'witness.wtns', null);
-    //TODO cleanup witness
+    fs.unlinkSync('witness.wtns');
     return { proof, publicSignals };
   }
 
@@ -43,7 +48,7 @@ export class ZkProtocol {
    * @param fullProof proof
    * @returns Is provided proof valid
    */
-  verifyProof(vKey: string, fullProof: IProof): Promise<boolean> {
+  verifyProof(vKey: string, fullProof: FullProof): Promise<boolean> {
     const { proof, publicSignals } = fullProof
     return groth16.verify(vKey, publicSignals, proof)
   }
@@ -53,7 +58,7 @@ export class ZkProtocol {
    * @param fullProof
    * @returns Proof
    */
-  packToSolidityProof(fullProof: IProof) {
+  packToSolidityProof(fullProof: FullProof) {
     const { proof, publicSignals } = fullProof
 
     return {

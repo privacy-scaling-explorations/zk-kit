@@ -1,4 +1,4 @@
-import ZkIdentity from "./identity"
+import ZkIdentity, { Strategy } from "./identity"
 import { Identity } from "@libsem/types"
 
-export { ZkIdentity, Identity }
+export { ZkIdentity, Identity, Strategy }
