@@ -13,3 +13,6 @@ export interface MerkleProof {
   indices: Array<any>
   pathElements: Array<any>
 }
+
+export type IdentityFactoryMetadata = {} | { signedMessage: string } |
+{ identityNullifier: bigint, identityTrapdoor: bigint }
