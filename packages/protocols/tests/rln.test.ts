@@ -37,7 +37,7 @@ describe("Rln", () => {
 
       expect(typeof witness).toBe("object")
     })
-    it.skip("Generate rln proof and verify it", async () => {
+    it("Generate rln proof and verify it", async () => {
       /**
        * Compiled RLN circuits are needed to run this test so it's being skipped in hooks
        */
@@ -71,7 +71,7 @@ describe("Rln", () => {
       const res: boolean = await Rln.verifyProof(vKey, { proof: fullProof.proof, publicSignals })
 
       expect(res).toBe(true)
-    })
+    }, 30000)
     it("Should retrieve user secret after spaming", () => {
       const identity: ZkIdentity = new ZkIdentity();
       identity.genSecretFromIdentity();
