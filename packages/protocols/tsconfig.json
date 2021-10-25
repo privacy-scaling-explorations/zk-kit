@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "declarationDir": "./dist/types",
+    "composite": true,
     "checkJs": false,
   },
   "include": ["src/**/*", "../../build"],

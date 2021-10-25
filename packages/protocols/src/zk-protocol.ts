@@ -3,7 +3,7 @@ const { groth16 } = require("snarkjs")
 import { SNARK_FIELD_SIZE } from "./utils"
 import { FullProof } from "@libsem/types"
 import * as fs from "fs";
-const wc = require("./witness_calculator");
+import { builder } from "./witness_calculator";
 
 export class ZkProtocol {
 
@@ -18,7 +18,7 @@ export class ZkProtocol {
     const buffer = fs.readFileSync(wasmFilePath);
 
     return new Promise((resolve, reject) => {
-        wc(buffer)
+      builder(buffer)
         .then(async witnessCalculator => {
             const buff= await witnessCalculator.calculateWTNSBin(input, 0);
             fs.writeFileSync(witnessFileName, buff);
@@ -72,3 +72,7 @@ export class ZkProtocol {
     }
   }
 }
+
+
+
+
