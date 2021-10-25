@@ -12,8 +12,7 @@
   },
   "scripts": {
     "tsc": "npx tsc src/index.ts",
-    "build": "rimraf dist && rollup -c rollup.config.ts",
-    "proof": "ts-node src/new.ts"
+    "build": "rimraf dist && rollup -c rollup.config.ts"
   },
   "keywords": [],
   "author": {
