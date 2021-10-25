@@ -2,8 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist/",
-    "declarationDir": "./dist/types"
+    "declarationDir": "./dist/types",
+    "checkJs": false,
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../../build"],
   "exclude": ["node_modules/**", "tests/**"]
 }

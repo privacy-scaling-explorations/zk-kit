@@ -1,5 +1,5 @@
 import { ZkIdentity } from "../../identity/src"
-import { Identity, MerkleProof, IProof } from "../../types"
+import { MerkleProof, IProof } from "../../types"
 import { genSignalHash, genExternalNullifier, generateMerkleProof } from "../src/utils"
 import * as path from "path"
 import * as fs from "fs"
@@ -36,7 +36,7 @@ describe("Semaphore", () => {
 
       expect(typeof witness).toBe("object")
     })
-    it.skip("Should generate semaphore full proof", async () => {
+    it("Should generate semaphore full proof", async () => {
       /**
        * Compiled semaphore circuits are needed to run this test, so it's being skipped in hooks
        */
@@ -56,7 +56,7 @@ describe("Semaphore", () => {
         merkleProof.root,
         nullifierHash,
         genSignalHash(signal),
-        externalNullifier
+        BigInt(externalNullifier)
       ]
 
       const vkeyPath: string = path.join("./zkeyFiles", "semaphore", "verification_key.json")
@@ -65,8 +65,12 @@ describe("Semaphore", () => {
       const wasmFilePath: string = path.join("./zkeyFiles", "semaphore", "semaphore.wasm")
       const finalZkeyPath: string = path.join("./zkeyFiles", "semaphore", "semaphore_final.zkey")
 
+
+
       const fullProof: IProof = await Semaphore.genProof(witness, wasmFilePath, finalZkeyPath)
-      const res: boolean = await Semaphore.verifyProof(vKey, { proof: fullProof.proof, publicSignals })
+      console.log('Auto generated: ', fullProof.publicSignals);
+      console.log('Mine: ', publicSignals);
+      const res: boolean = await Semaphore.verifyProof(vKey, { proof: fullProof.proof, publicSignals: fullProof.publicSignals })
 
       expect(res).toBe(true)
     })

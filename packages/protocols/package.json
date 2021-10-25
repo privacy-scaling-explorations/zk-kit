@@ -12,7 +12,8 @@
   },
   "scripts": {
     "tsc": "npx tsc src/index.ts",
-    "build": "rimraf dist && rollup -c rollup.config.ts"
+    "build": "rimraf dist && rollup -c rollup.config.ts",
+    "proof": "ts-node src/new.ts"
   },
   "keywords": [],
   "author": {
@@ -28,7 +29,7 @@
     "circomlibjs": "^0.0.8",
     "ethers": "^5.4.7",
     "incrementalquintree": "^1.0.7",
-    "snarkjs": "^0.4.7"
+    "snarkjs": "^0.4.10"
   },
   "devDependencies": {
     "rollup": "^2.58.0",
