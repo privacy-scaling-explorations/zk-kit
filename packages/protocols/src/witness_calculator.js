@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-module.exports = async function builder(code, options) {
+const builder = async(code, options) => {
 
     options = options || {};
 
@@ -281,4 +281,8 @@ function fnvHash(str) {
     let n = 16 - shash.length;
     shash = '0'.repeat(n).concat(shash);
     return shash;
+}
+
+export {
+  builder
 }
