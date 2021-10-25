@@ -1,4 +1,4 @@
-import { genRandomIdentity, genIdentityFromSignedMessage, genRandomNumber } from "./strategies"
+import { genRandomIdentity, genIdentityFromMessage, genRandomNumber } from "./strategies"
 import * as bigintConversion from "bigint-conversion"
 import * as ciromlibjs from "circomlibjs"
 import { Identity, SerializedIdentity } from "@libsem/types"
@@ -9,7 +9,7 @@ const poseidonHash = (data: Array<bigint>): bigint => {
 
 export enum Strategy {
   RANDOM,
-  SIGNED_MESSAGE,
+  MESSAGE,
   SERIALIZED
 }
 
@@ -28,8 +28,8 @@ class ZkIdentity {
       const { identityTrapdoor, identityNullifier } = genRandomIdentity()
       this.identityTrapdoor = identityTrapdoor
       this.identityNullifier = identityNullifier
-    } else if (strategy === Strategy.SIGNED_MESSAGE) {
-      const { identityTrapdoor, identityNullifier } = genIdentityFromSignedMessage(metadata)
+    } else if (strategy === Strategy.MESSAGE) {
+      const { identityTrapdoor, identityNullifier } = genIdentityFromMessage(metadata as string)
       this.identityTrapdoor = identityTrapdoor
       this.identityNullifier = identityNullifier
     } else if (strategy === Strategy.SERIALIZED) {
@@ -49,7 +49,7 @@ class ZkIdentity {
     if (data.length !== 2) throw new Error("Format is wrong")
     return new ZkIdentity(Strategy.SERIALIZED, {
       identityNullifier: data[0],
-      identityTrapdoor: data[1],
+      identityTrapdoor: data[1]
     })
   }
   /**
