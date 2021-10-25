@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@libsem/types": "^1.0.2",
+    "@libsem/types": "^1.0.4",
     "bigint-conversion": "^2.1.12",
     "circomlibjs": "^0.0.8",
     "crypto": "^1.0.1",

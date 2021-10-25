@@ -194,10 +194,10 @@
     "@ethersproject/properties" "^5.4.0"
     "@ethersproject/strings" "^5.4.0"
 
-"@libsem/types@^1.0.2":
-  "integrity" "sha512-bNQOaAdAvD5PSagA5KDqbr3mfrhJYeK9Y6v1RRDxz0hLAApdlWyLCAq0N3QuJhNzBNyrKZ0AbiyiPAvdcpNjyw=="
-  "resolved" "https://registry.npmjs.org/@libsem/types/-/types-1.0.2.tgz"
-  "version" "1.0.2"
+"@libsem/types@^1.0.4":
+  "integrity" "sha512-VTz1/Gd2K3llvYoXikXV4gvzBgDovQmo4UX8LPz7256Sknr9r/+jRIybGb0Be8ZzzRGbo5S83L9DGzbKfKFtlA=="
+  "resolved" "https://registry.npmjs.org/@libsem/types/-/types-1.0.4.tgz"
+  "version" "1.0.4"
 
 "@rollup/pluginutils@^4.1.0":
   "integrity" "sha512-clDjivHqWGXi7u+0d2r2sBi4Ie6VLEAzWMIkvJLnDmxoOhBYOTfzGbOQBA32THHm11/LiJbd01tJUpJsbshSWQ=="
