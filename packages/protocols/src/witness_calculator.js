@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const builder = async(code, options) => {
+export const builder = async(code, options) => {
 
     options = options || {};
 
@@ -270,12 +270,12 @@ function flatArray(a) {
 }
 
 function fnvHash(str) {
-    const uint64_max = BigInt(2) ** BigInt(64);
+    const uint64_max = Number(BigInt(2)) ** Number(BigInt(64));
     let hash = BigInt("0xCBF29CE484222325");
     for (var i = 0; i < str.length; i++) {
 	hash ^= BigInt(str[i].charCodeAt());
 	hash *= BigInt(0x100000001B3);
-	hash %= uint64_max;
+	hash %= BigInt(uint64_max);
     }
     let shash = hash.toString(16);
     let n = 16 - shash.length;
@@ -283,6 +283,4 @@ function fnvHash(str) {
     return shash;
 }
 
-export {
-  builder
-}
+// export * as builder from ".";
