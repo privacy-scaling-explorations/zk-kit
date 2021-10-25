@@ -1,5 +1,4 @@
-import { ZkIdentity } from "../src"
-import { Identity } from "../../types"
+import { ZkIdentity } from "../src";
 
 describe("Semaphore identity", () => {
   describe("Create identity", () => {

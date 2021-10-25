@@ -11,7 +11,7 @@ export type Proof = {
   curve: string
 }
 
-export interface IProof {
+export interface FullProof {
   proof: Proof
   publicSignals: Array<bigint | string>
 }
