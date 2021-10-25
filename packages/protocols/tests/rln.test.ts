@@ -1,6 +1,6 @@
 import { Rln } from "../src"
 import { ZkIdentity } from "../../identity/src"
-import { MerkleProof, IProof } from "../../types"
+import { MerkleProof, FullProof } from "../../types"
 import { genSignalHash, genExternalNullifier, generateMerkleProof, poseidonHash } from "../src/utils"
 import * as path from "path"
 import * as fs from "fs"
@@ -33,7 +33,7 @@ describe("Rln", () => {
       const rlnIdentifier: bigint = Rln.genIdentifier()
 
       const merkleProof: MerkleProof = generateMerkleProof(15, BigInt(0), 5, commitments, identityCommitment)
-      const witness: IProof = Rln.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier)
+      const witness: FullProof = Rln.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier)
 
       expect(typeof witness).toBe("object")
     })
@@ -56,7 +56,7 @@ describe("Rln", () => {
       const rlnIdentifier: bigint = Rln.genIdentifier()
 
       const merkleProof: MerkleProof = generateMerkleProof(15, BigInt(0), 2, commitments, identityCommitment)
-      const witness: IProof = Rln.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier)
+      const witness: FullProof = Rln.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier)
 
       const [y, nullifier] = Rln.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash)
       const publicSignals = [y, merkleProof.root, nullifier, signalHash, epoch, rlnIdentifier]
@@ -67,7 +67,7 @@ describe("Rln", () => {
       const wasmFilePath: string = path.join("./zkeyFiles", "rln", "rln.wasm")
       const finalZkeyPath: string = path.join("./zkeyFiles", "rln", "rln_final.zkey")
 
-      const fullProof: IProof = await Rln.genProof(witness, wasmFilePath, finalZkeyPath)
+      const fullProof: FullProof = await Rln.genProof(witness, wasmFilePath, finalZkeyPath)
       const res: boolean = await Rln.verifyProof(vKey, { proof: fullProof.proof, publicSignals })
 
       expect(res).toBe(true)

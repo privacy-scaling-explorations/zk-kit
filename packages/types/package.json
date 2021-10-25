@@ -1,6 +1,6 @@
 {
   "name": "@libsem/types",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Common type definitions for Semaphore modules.",
   "main": "src/index.ts",
   "types": "dist/index.d.ts",
@@ -18,6 +18,5 @@
   "devDependencies": {
     "rimraf": "^3.0.2",
     "ts-node": "^10.3.0"
-  },
-  "gitHead": "7cab1c709124f10610b04995603086d29a7eb18b"
+  }
 }
