@@ -7,16 +7,16 @@ const poseidonHash = (data: Array<bigint>): bigint => {
   return ciromlibjs.poseidon(data)
 }
 
-enum Strategy {
+export enum Strategy {
   RANDOM,
   SIGNED_MESSAGE,
   SERIALIZED
 }
 
 class ZkIdentity {
-  private identityTrapdoor: bigint;
-  private identityNullifier: bigint;
-  private secret: Array<bigint> = [];
+  private identityTrapdoor: bigint
+  private identityNullifier: bigint
+  private secret: Array<bigint> = []
   /**
    * Generates new ZkIdentity
    * @param strategy strategy for identity generation
@@ -25,17 +25,17 @@ class ZkIdentity {
    */
   constructor(strategy: Strategy = Strategy.RANDOM, metadata: any = {}) {
     if (strategy === Strategy.RANDOM) {
-      const { identityTrapdoor, identityNullifier } = genRandomIdentity();
-      this.identityTrapdoor = identityTrapdoor;
-      this.identityNullifier = identityNullifier;
+      const { identityTrapdoor, identityNullifier } = genRandomIdentity()
+      this.identityTrapdoor = identityTrapdoor
+      this.identityNullifier = identityNullifier
     } else if (strategy === Strategy.SIGNED_MESSAGE) {
-      const { identityTrapdoor, identityNullifier } = genIdentityFromSignedMessage(metadata);
-      this.identityTrapdoor = identityTrapdoor;
-      this.identityNullifier = identityNullifier;
+      const { identityTrapdoor, identityNullifier } = genIdentityFromSignedMessage(metadata)
+      this.identityTrapdoor = identityTrapdoor
+      this.identityNullifier = identityNullifier
     } else if (strategy === Strategy.SERIALIZED) {
-      const { identityTrapdoor, identityNullifier } = metadata;
-      this.identityNullifier = identityNullifier;
-      this.identityTrapdoor = identityTrapdoor;
+      const { identityTrapdoor, identityNullifier } = metadata
+      this.identityNullifier = identityNullifier
+      this.identityTrapdoor = identityTrapdoor
     } else throw new Error("provided strategy is not supported")
   }
 
@@ -45,12 +45,12 @@ class ZkIdentity {
    * @returns
    */
   static genFromSerialized(serialisedIdentity: string): ZkIdentity {
-    const data = JSON.parse(serialisedIdentity);
-    if(data.length !== 2) throw new Error('Format is wrong');
+    const data = JSON.parse(serialisedIdentity)
+    if (data.length !== 2) throw new Error("Format is wrong")
     return new ZkIdentity(Strategy.SERIALIZED, {
       identityNullifier: bigintConversion.hexToBigint(data[0]),
       identityTrapdoor: bigintConversion.hexToBigint(data[1])
-    });
+    })
   }
   /**
    *
@@ -59,16 +59,16 @@ class ZkIdentity {
   getIdentity(): Identity {
     return {
       identityNullifier: this.identityNullifier,
-      identityTrapdoor: this.identityTrapdoor,
+      identityTrapdoor: this.identityTrapdoor
     }
   }
 
   getNullifier(): bigint {
-    return this.identityNullifier;
+    return this.identityNullifier
   }
 
   getSecret(): Array<bigint> {
-    return this.secret;
+    return this.secret
   }
 
   /**
@@ -85,7 +85,7 @@ class ZkIdentity {
    * @returns secret
    */
   genRandomSecret(parts = 2) {
-    this.secret = [];
+    this.secret = []
     for (let i = 0; i < parts; i++) {
       this.secret.push(genRandomNumber())
     }
@@ -96,9 +96,9 @@ class ZkIdentity {
    * @returns identity commitment
    */
   genIdentityCommitmentFromSecret(): bigint {
-    if(!this.secret.length) throw new Error('Secret is not generated');
-    const secretHash = poseidonHash(this.secret);
-    return poseidonHash([secretHash]);
+    if (!this.secret.length) throw new Error("Secret is not generated")
+    const secretHash = poseidonHash(this.secret)
+    return poseidonHash([secretHash])
   }
 
   /**
@@ -121,4 +121,4 @@ class ZkIdentity {
   }
 }
 
-export default ZkIdentity;
+export default ZkIdentity
