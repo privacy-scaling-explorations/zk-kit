@@ -1,7 +1,7 @@
 import { genRandomIdentity, genIdentityFromSignedMessage, genRandomNumber } from "./strategies"
 import * as bigintConversion from "bigint-conversion"
 import * as ciromlibjs from "circomlibjs"
-import { Identity } from "@libsem/types"
+import { Identity, SerializedIdentity } from "@libsem/types"
 
 const poseidonHash = (data: Array<bigint>): bigint => {
   return ciromlibjs.poseidon(data)
@@ -23,7 +23,7 @@ class ZkIdentity {
    * @param metadata additional data needed to create identity for given strategy
    * @returns
    */
-  constructor(strategy: Strategy = Strategy.RANDOM, metadata: any = {}) {
+  constructor(strategy: Strategy = Strategy.RANDOM, metadata?: string | SerializedIdentity) {
     if (strategy === Strategy.RANDOM) {
       const { identityTrapdoor, identityNullifier } = genRandomIdentity()
       this.identityTrapdoor = identityTrapdoor
@@ -33,9 +33,9 @@ class ZkIdentity {
       this.identityTrapdoor = identityTrapdoor
       this.identityNullifier = identityNullifier
     } else if (strategy === Strategy.SERIALIZED) {
-      const { identityTrapdoor, identityNullifier } = metadata
-      this.identityNullifier = identityNullifier
-      this.identityTrapdoor = identityTrapdoor
+      const { identityNullifier, identityTrapdoor } = metadata as SerializedIdentity
+      this.identityNullifier = bigintConversion.hexToBigint(identityNullifier)
+      this.identityTrapdoor = bigintConversion.hexToBigint(identityTrapdoor)
     } else throw new Error("provided strategy is not supported")
   }
 
@@ -48,8 +48,8 @@ class ZkIdentity {
     const data = JSON.parse(serialisedIdentity)
     if (data.length !== 2) throw new Error("Format is wrong")
     return new ZkIdentity(Strategy.SERIALIZED, {
-      identityNullifier: bigintConversion.hexToBigint(data[0]),
-      identityTrapdoor: bigintConversion.hexToBigint(data[1])
+      identityNullifier: data[0],
+      identityTrapdoor: data[1],
     })
   }
   /**

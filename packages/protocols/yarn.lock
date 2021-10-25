@@ -948,9 +948,10 @@
     "@types/yargs" "^15.0.0"
     "chalk" "^4.0.0"
 
-"@libsem/types@^1.0.0":
-  "resolved" "file:../types"
-  "version" "1.0.0"
+"@libsem/types@^1.0.2":
+  "integrity" "sha512-bNQOaAdAvD5PSagA5KDqbr3mfrhJYeK9Y6v1RRDxz0hLAApdlWyLCAq0N3QuJhNzBNyrKZ0AbiyiPAvdcpNjyw=="
+  "resolved" "https://registry.npmjs.org/@libsem/types/-/types-1.0.2.tgz"
+  "version" "1.0.2"
 
 "@nomiclabs/hardhat-ethers@^2.0.2":
   "integrity" "sha512-6quxWe8wwS4X5v3Au8q1jOvXYEPkS1Fh+cME5u6AwNdnI4uERvPlVjlgRWzpnb+Rrt1l/cEqiNRH9GlsBMSDQg=="
