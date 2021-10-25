@@ -1,5 +1,5 @@
 import { ZkIdentity } from "../../identity/src"
-import { MerkleProof, IProof } from "../../types"
+import { MerkleProof, FullProof } from "../../types"
 import { genSignalHash, genExternalNullifier, generateMerkleProof } from "../src/utils"
 import * as path from "path"
 import * as fs from "fs"
@@ -32,7 +32,7 @@ describe("Semaphore", () => {
       commitments.push(identityCommitment)
 
       const merkleProof: MerkleProof = generateMerkleProof(20, BigInt(0), 5, commitments, identityCommitment)
-      const witness: IProof = Semaphore.genWitness(identity.getIdentity(), merkleProof, externalNullifier, signal)
+      const witness: FullProof = Semaphore.genWitness(identity.getIdentity(), merkleProof, externalNullifier, signal)
 
       expect(typeof witness).toBe("object")
     })
@@ -50,7 +50,7 @@ describe("Semaphore", () => {
       commitments.push(identityCommitment)
 
       const merkleProof: MerkleProof = generateMerkleProof(20, BigInt(0), 5, commitments, identityCommitment)
-      const witness: IProof = Semaphore.genWitness(identity.getIdentity(), merkleProof, externalNullifier, signal)
+      const witness: FullProof = Semaphore.genWitness(identity.getIdentity(), merkleProof, externalNullifier, signal)
 
       const publicSignals: Array<bigint | string> = [
         merkleProof.root,
@@ -65,7 +65,7 @@ describe("Semaphore", () => {
       const wasmFilePath: string = path.join("./zkeyFiles", "semaphore", "semaphore.wasm")
       const finalZkeyPath: string = path.join("./zkeyFiles", "semaphore", "semaphore_final.zkey")
 
-      const fullProof: IProof = await Semaphore.genProof(witness, wasmFilePath, finalZkeyPath)
+      const fullProof: FullProof = await Semaphore.genProof(witness, wasmFilePath, finalZkeyPath)
       const res: boolean = await Semaphore.verifyProof(vKey, { proof: fullProof.proof, publicSignals })
 
       expect(res).toBe(true)

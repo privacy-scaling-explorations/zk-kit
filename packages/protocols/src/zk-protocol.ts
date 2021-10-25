@@ -11,7 +11,7 @@ export class ZkProtocol {
    * @param finalZkeyPath path to final zkey file
    * @returns zero knowledge proof
    */
-  genProof(grothInput: any, wasmFilePath: string, finalZkeyPath: string): Promise<IProof> {
+  genProof(grothInput: any, wasmFilePath: string, finalZkeyPath: string): Promise<FullProof> {
     return groth16.fullProve(grothInput, wasmFilePath, finalZkeyPath)
   }
 
@@ -21,7 +21,7 @@ export class ZkProtocol {
    * @param fullProof proof
    * @returns Is provided proof valid
    */
-  verifyProof(vKey: string, fullProof: IProof): Promise<boolean> {
+  verifyProof(vKey: string, fullProof: FullProof): Promise<boolean> {
     const { proof, publicSignals } = fullProof
     return groth16.verify(vKey, publicSignals, proof)
   }
@@ -31,7 +31,7 @@ export class ZkProtocol {
    * @param fullProof
    * @returns Proof
    */
-  packToSolidityProof(fullProof: IProof) {
+  packToSolidityProof(fullProof: FullProof) {
     const { proof, publicSignals } = fullProof
 
     return {
