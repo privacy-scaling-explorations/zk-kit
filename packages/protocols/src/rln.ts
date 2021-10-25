@@ -40,7 +40,7 @@ class Rln extends ZkProtocol {
    * @returns y & slashing nullfier
    */
   calculateOutput(identitySecret: bigint, epoch: bigint, rlnIdentifier: bigint, x: bigint): Array<bigint> {
-    const a1: bigint = poseidonHash([identitySecret, epoch, rlnIdentifier])
+    const a1: bigint = poseidonHash([identitySecret, epoch])
     const y: bigint = Fq.normalize(a1 * x + identitySecret)
     const nullifier = this.genNullifier(a1, rlnIdentifier)
     return [y, nullifier]

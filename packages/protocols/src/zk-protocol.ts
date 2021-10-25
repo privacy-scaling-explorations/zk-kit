@@ -38,7 +38,8 @@ export class ZkProtocol {
   async genProof(grothInput: any, wasmFilePath: string, finalZkeyPath: string): Promise<FullProof> {
     await this.buildWnts(grothInput, wasmFilePath, 'witness.wtns');
     const { proof, publicSignals } = await groth16.prove(finalZkeyPath, 'witness.wtns', null);
-    fs.unlinkSync('witness.wtns');
+    const exists = fs.existsSync('witness.wtns');
+    if(exists) fs.unlinkSync('witness.wtns');
     return { proof, publicSignals };
   }
 
