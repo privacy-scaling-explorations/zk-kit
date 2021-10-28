@@ -43,7 +43,7 @@ describe("Semaphore", () => {
       const identity = new ZkIdentity();
       const externalNullifier: string = genExternalNullifier("voting_1")
       const signal = "0x111"
-      const nullifierHash: bigint = Semaphore.genNullifierHash(externalNullifier, identity.getNullifier(), 20)
+      const nullifierHash: bigint = Semaphore.genNullifierHash(externalNullifier, identity.getNullifier())
       const identityCommitment: bigint = identity.genIdentityCommitment()
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)

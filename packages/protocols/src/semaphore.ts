@@ -36,8 +36,8 @@ class Semaphore extends ZkProtocol {
    * @param nLevels depth of tree
    * @returns
    */
-  genNullifierHash(externalNullifier: string | bigint, identityNullifier: string | bigint, nLevels: number): bigint {
-    return poseidonHash([BigInt(externalNullifier), BigInt(identityNullifier), BigInt(nLevels)])
+  genNullifierHash(externalNullifier: string | bigint, identityNullifier: string | bigint): bigint {
+    return poseidonHash([BigInt(externalNullifier), BigInt(identityNullifier)])
   }
 }
 
