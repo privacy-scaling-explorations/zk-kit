@@ -14,15 +14,21 @@ export class ZkProtocol {
    * @param witnessFileName where to save witness
    * @returns creates and saves witness to witnessFileName
    */
-  async buildWnts(input: any, wasmFilePath: string, witnessFileName: string) {
-    const buffer = fs.readFileSync(wasmFilePath);
+  async genWtns(input: any, wasmFilePath: string) {
+    let wntsBuff: ArrayBuffer;
+    //window exists only in browser
+    if(typeof window !== 'undefined') {
+        const resp = await fetch(wasmFilePath);
+        wntsBuff = await resp.arrayBuffer();
+    } else {
+        wntsBuff = fs.readFileSync(wasmFilePath);
+    }
 
     return new Promise((resolve, reject) => {
-      builder(buffer)
+        builder(wntsBuff)
         .then(async witnessCalculator => {
-            const buff= await witnessCalculator.calculateWTNSBin(input, 0);
-            fs.writeFileSync(witnessFileName, buff);
-            resolve(witnessFileName);
+            const buff = await witnessCalculator.calculateWTNSBin(input, 0);
+            resolve(buff);
         }).catch((error) => {
             reject(error);
         });
@@ -36,10 +42,17 @@ export class ZkProtocol {
    * @returns zero knowledge proof
    */
   async genProof(grothInput: any, wasmFilePath: string, finalZkeyPath: string): Promise<FullProof> {
-    await this.buildWnts(grothInput, wasmFilePath, 'witness.wtns');
-    const { proof, publicSignals } = await groth16.prove(finalZkeyPath, 'witness.wtns', null);
-    const exists = fs.existsSync('witness.wtns');
-    if(exists) fs.unlinkSync('witness.wtns');
+    let zkeyBuff: ArrayBuffer;
+    const wtnsBuff = await this.genWtns(grothInput, wasmFilePath);
+    //window exists only in browser
+    if(typeof window !== 'undefined') {
+        const resp = await fetch(finalZkeyPath);
+        zkeyBuff = await resp.arrayBuffer();
+    } else {
+        zkeyBuff = fs.readFileSync(finalZkeyPath);
+    }
+
+    const { proof, publicSignals } = await groth16.prove(new Uint8Array(zkeyBuff), wtnsBuff, null);
     return { proof, publicSignals };
   }
 
