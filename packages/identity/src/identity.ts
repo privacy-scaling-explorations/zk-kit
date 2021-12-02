@@ -33,23 +33,27 @@ class ZkIdentity {
       this.identityTrapdoor = identityTrapdoor
       this.identityNullifier = identityNullifier
     } else if (strategy === Strategy.SERIALIZED) {
-      const { identityNullifier, identityTrapdoor } = metadata as SerializedIdentity
+      const { identityNullifier, identityTrapdoor, secret } = metadata as SerializedIdentity
       this.identityNullifier = bigintConversion.hexToBigint(identityNullifier)
       this.identityTrapdoor = bigintConversion.hexToBigint(identityTrapdoor)
+      this.secret = secret.map(item => bigintConversion.hexToBigint(item));
+
     } else throw new Error("provided strategy is not supported")
   }
 
+
   /**
-   * Unserializes identity
+   * Unserialize serialized identity
    * @param serialisedIdentity
    * @returns
    */
   static genFromSerialized(serialisedIdentity: string): ZkIdentity {
     const data = JSON.parse(serialisedIdentity)
-    if (data.length !== 2) throw new Error("Format is wrong")
+    if(!('identityNullifier' in data) || !('identityTrapdoor' in data) || !('secret' in data)) throw new Error("Wrong input identity");
     return new ZkIdentity(Strategy.SERIALIZED, {
-      identityNullifier: data[0],
-      identityTrapdoor: data[1]
+      identityNullifier: data['identityNullifier'],
+      identityTrapdoor: data['identityTrapdoor'],
+      secret: data['secret']
     })
   }
   /**
@@ -111,13 +115,16 @@ class ZkIdentity {
   }
 
   /**
-   * Serializes identity
-   * @param identity to serialize
-   * @returns serialized identity
+   * Serializes the `identityNullifier`, `identityTrapdoor` and `secret` from the identity
+   * @returns stringified serialized identity
    */
-  serializeIdentity(): string {
-    const data = [this.identityNullifier.toString(16), this.identityTrapdoor.toString(16)]
-    return JSON.stringify(data)
+   serializeIdentity(): string {
+    const data: SerializedIdentity = {
+      identityNullifier: this.identityNullifier.toString(16),
+      identityTrapdoor: this.identityTrapdoor.toString(16),
+      secret: this.secret.map(item => item.toString(16))
+    }
+    return JSON.stringify(data);
   }
 }
 

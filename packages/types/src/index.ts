@@ -22,4 +22,8 @@ export interface MerkleProof {
   pathElements: Array<any>
 }
 
-export type SerializedIdentity = { identityNullifier: string, identityTrapdoor: string };
+export declare type SerializedIdentity = {
+  identityNullifier: string;
+  identityTrapdoor: string;
+  secret: string[];
+};
