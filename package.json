@@ -50,6 +50,6 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "@libsem/types": "^1.0.0"
+    "@libsem/types": "^1.0.6"
   }
 }
