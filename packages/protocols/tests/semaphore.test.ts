@@ -36,7 +36,7 @@ describe("Semaphore", () => {
 
       expect(typeof witness).toBe("object")
     })
-    it.skip("Should generate semaphore full proof", async () => {
+    it("Should generate semaphore full proof", async () => {
       /**
        * Compiled semaphore circuits are needed to run this test, so it's being skipped in hooks
        */

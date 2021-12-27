@@ -13,8 +13,8 @@ beforeAll(() => {
 
   for (let i = 0; i < leafIndex; i++) {
     const tmpIdentity = new ZkIdentity();
-    tmpIdentity.genRandomSecret(SPAM_TRESHOLD);
-    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitmentFromSecret();
+    tmpIdentity.genSecret(SPAM_TRESHOLD);
+    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment();
     identityCommitments.push(tmpCommitment)
   }
 })
@@ -23,9 +23,9 @@ describe("NRln", () => {
   describe("NRln functionalities", () => {
     it("Generate nrln witness", () => {
       const identity: ZkIdentity = new ZkIdentity();
-      identity.genRandomSecret(SPAM_TRESHOLD);
+      identity.genSecret(SPAM_TRESHOLD);
       
-      const identityCommitment: bigint = identity.genIdentityCommitmentFromSecret();
+      const identityCommitment: bigint = identity.genIdentityCommitment();
       const identitySecret: bigint[] = identity.getSecret();
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
@@ -35,19 +35,19 @@ describe("NRln", () => {
       const epoch: string = genExternalNullifier("test-epoch")
       const rlnIdentifier: bigint = NRln.genIdentifier()
 
-      const merkleProof: MerkleProof = generateMerkleProof(15, BigInt(0), 5, commitments, identityCommitment)
+      const merkleProof: MerkleProof = generateMerkleProof(15, BigInt(0), 2, commitments, identityCommitment)
       const witness: FullProof = NRln.genWitness(identitySecret, merkleProof, epoch, signal, rlnIdentifier)
 
       expect(typeof witness).toBe("object")
     })
-    it.skip("Generate nrln proof and verify it", async () => {
+    it("Generate nrln proof and verify it", async () => {
       /**
        * Compiled NRln circuits are needed to run this test so it's being skipped in hooks
        */
        const identity: ZkIdentity = new ZkIdentity();
-       identity.genRandomSecret(SPAM_TRESHOLD);
+       identity.genSecret(SPAM_TRESHOLD);
        
-       const identityCommitment: bigint = identity.genIdentityCommitmentFromSecret();
+       const identityCommitment: bigint = identity.genIdentityCommitment();
        const identitySecret: bigint[] = identity.getSecret();
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
@@ -77,7 +77,7 @@ describe("NRln", () => {
     }, 30000)
     it("Should retrieve user secret after spaming", () => {
         const identity: ZkIdentity = new ZkIdentity();
-        identity.genRandomSecret(SPAM_TRESHOLD);
+        identity.genSecret(SPAM_TRESHOLD);
         
         const identitySecret: bigint[] = identity.getSecret();
 

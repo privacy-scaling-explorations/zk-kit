@@ -2,6 +2,7 @@ import { genRandomIdentity, genIdentityFromMessage, genRandomNumber } from "./st
 import * as bigintConversion from "bigint-conversion"
 import * as ciromlibjs from "circomlibjs"
 import { Identity, SerializedIdentity } from "@libsem/types"
+import {Fq} from "./utils"
 
 const poseidonHash = (data: Array<bigint>): bigint => {
   return ciromlibjs.poseidon(data)
@@ -14,9 +15,9 @@ export enum Strategy {
 }
 
 class ZkIdentity {
-  private identityTrapdoor: bigint
-  private identityNullifier: bigint
-  private secret: Array<bigint> = []
+  private identityTrapdoor: bigint;
+  private identityNullifier: bigint;
+  private secret: Array<bigint> = [];
   /**
    * Generates new ZkIdentity
    * @param strategy strategy for identity generation
@@ -28,10 +29,12 @@ class ZkIdentity {
       const { identityTrapdoor, identityNullifier } = genRandomIdentity()
       this.identityTrapdoor = identityTrapdoor
       this.identityNullifier = identityNullifier
+      this.genSecret()
     } else if (strategy === Strategy.MESSAGE) {
       const { identityTrapdoor, identityNullifier } = genIdentityFromMessage(metadata as string)
       this.identityTrapdoor = identityTrapdoor
       this.identityNullifier = identityNullifier
+      this.genSecret()
     } else if (strategy === Strategy.SERIALIZED) {
       const { identityNullifier, identityTrapdoor, secret } = metadata as SerializedIdentity
       this.identityNullifier = bigintConversion.hexToBigint(identityNullifier)
@@ -75,34 +78,27 @@ class ZkIdentity {
     return this.secret
   }
 
+
+  getSecretHash(): bigint {
+    return poseidonHash(this.secret)
+  }
+
+
   /**
    * Creates secret from ZkIdentity
    * @returns
    */
-  genSecretFromIdentity() {
-    this.secret = [this.identityNullifier, this.identityTrapdoor]
-  }
-
-  /**
-   * Creates random secret
-   * @param parts number of parts in secret
-   * @returns secret
-   */
-  genRandomSecret(parts = 2) {
-    this.secret = []
-    for (let i = 0; i < parts; i++) {
-      this.secret.push(genRandomNumber())
+  genSecret(parts: number = 2): void {
+    if(parts < 2) throw new Error("Invalid number of parts");
+    if(parts === 2) {
+      this.secret = [this.identityNullifier, this.identityTrapdoor]
+    } else {
+      let initialComponent = Fq.pow(this.identityNullifier, this.identityTrapdoor);
+      this.secret = [initialComponent]
+      for(let i = 1; i < parts; i++) {
+        this.secret.push(Fq.pow(initialComponent, BigInt(i + 1)))
+      }
     }
-  }
-
-  /**
-   * Generate commitment from identity secret
-   * @returns identity commitment
-   */
-  genIdentityCommitmentFromSecret(): bigint {
-    if (!this.secret.length) throw new Error("Secret is not generated")
-    const secretHash = poseidonHash(this.secret)
-    return poseidonHash([secretHash])
   }
 
   /**
@@ -110,7 +106,7 @@ class ZkIdentity {
    * @returns identity commitment
    */
   genIdentityCommitment(): bigint {
-    const secretHash = poseidonHash([this.identityNullifier, this.identityTrapdoor])
+    const secretHash = this.getSecretHash();
     return poseidonHash([secretHash])
   }
 

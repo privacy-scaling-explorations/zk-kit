@@ -16,17 +16,17 @@ describe("Semaphore identity", () => {
 
     it("Should generate secret from identity", async () => {
       const identity: ZkIdentity = new ZkIdentity()
-      identity.genSecretFromIdentity()
+      identity.genSecret()
       const identitySecret = identity.getSecret()
 
       expect(identitySecret.length).toEqual(2)
       expect(typeof identitySecret).toEqual("object")
     })
 
-    it("Should generate random secret", async () => {
+    it("Should generate multipart secret", async () => {
       const secretParts = 5
       const identity: ZkIdentity = new ZkIdentity()
-      identity.genRandomSecret(secretParts)
+      identity.genSecret(secretParts)
       const identitySecret = identity.getSecret()
 
       expect(identitySecret.length).toEqual(5)
@@ -35,16 +35,8 @@ describe("Semaphore identity", () => {
 
     it("Should generate identity commitment from identity", async () => {
       const identity: ZkIdentity = new ZkIdentity()
+      identity.genSecret();
       const identityCommitment: bigint = identity.genIdentityCommitment()
-
-      expect(typeof identityCommitment).toEqual("bigint")
-    })
-
-    it("Should generate identity commitment from random secret", async () => {
-      const secretParts = 5
-      const identity: ZkIdentity = new ZkIdentity()
-      identity.genRandomSecret(secretParts)
-      const identityCommitment: bigint = identity.genIdentityCommitmentFromSecret()
 
       expect(typeof identityCommitment).toEqual("bigint")
     })
