@@ -21,7 +21,6 @@ describe("Rln", () => {
   describe("Rln functionalities", () => {
     it("Generate rln witness", () => {
       const identity: ZkIdentity = new ZkIdentity();
-      identity.genSecretFromIdentity();
       const identityCommitment: bigint = identity.genIdentityCommitment();
       const secretHash: bigint = poseidonHash(identity.getSecret());
 
@@ -37,12 +36,11 @@ describe("Rln", () => {
 
       expect(typeof witness).toBe("object")
     })
-    it.skip("Generate rln proof and verify it", async () => {
+    it("Generate rln proof and verify it", async () => {
       /**
        * Compiled RLN circuits are needed to run this test so it's being skipped in hooks
        */
       const identity: ZkIdentity = new ZkIdentity();
-      identity.genSecretFromIdentity();
       const secretHash: bigint = poseidonHash(identity.getSecret());
 
       const identityCommitment: bigint = identity.genIdentityCommitment();
@@ -74,7 +72,6 @@ describe("Rln", () => {
     }, 30000)
     it("Should retrieve user secret after spaming", () => {
       const identity: ZkIdentity = new ZkIdentity();
-      identity.genSecretFromIdentity();
       const secretHash: bigint = poseidonHash(identity.getSecret());
 
       const signal1 = "hey hey"
