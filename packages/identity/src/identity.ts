@@ -88,12 +88,12 @@ class ZkIdentity {
    * Creates secret from ZkIdentity
    * @returns
    */
-  genSecret(parts: number = 2): void {
+  genSecret(parts = 2): void {
     if(parts < 2) throw new Error("Invalid number of parts");
     if(parts === 2) {
       this.secret = [this.identityNullifier, this.identityTrapdoor]
     } else {
-      let initialComponent = Fq.pow(this.identityNullifier, this.identityTrapdoor);
+      const initialComponent = Fq.pow(this.identityTrapdoor, this.identityNullifier);
       this.secret = [initialComponent]
       for(let i = 1; i < parts; i++) {
         this.secret.push(Fq.pow(initialComponent, BigInt(i + 1)))

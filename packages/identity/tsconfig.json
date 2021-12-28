@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "./dist/types"
+    "declarationDir": "./dist/types",
+    
   },
   "include": ["src"]
 }
