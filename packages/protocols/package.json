@@ -24,7 +24,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@libsem/types": "^1.0.7",
+    "@libsem/types": "^1.0.8",
     "circomlibjs": "^0.0.8",
     "ethers": "^5.4.7",
     "incrementalquintree": "^1.0.7",

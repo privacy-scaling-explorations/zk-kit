@@ -1,5 +1,5 @@
-import { NRln } from "../src"
-import { ZkIdentity } from "../../identity/src"
+import { RLN } from "../src"
+import { ZkIdentity, SecretType } from "../../identity/src"
 import { MerkleProof, FullProof } from "../../types"
 import { genSignalHash, genExternalNullifier, generateMerkleProof, poseidonHash } from "../src/utils"
 import * as path from "path"
@@ -13,42 +13,42 @@ beforeAll(() => {
 
   for (let i = 0; i < leafIndex; i++) {
     const tmpIdentity = new ZkIdentity();
-    tmpIdentity.genSecret(SPAM_TRESHOLD);
-    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment();
+    tmpIdentity.genMultipartSecret(SPAM_TRESHOLD);
+    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment(SecretType.MULTIPART_SECRET);
     identityCommitments.push(tmpCommitment)
   }
 })
 
-describe("NRln", () => {
-  describe("NRln functionalities", () => {
-    it("Generate nrln witness", () => {
+describe("RLN with non default spam threshold", () => {
+  describe("RLN features", () => {
+    it("Generate RLN witness", () => {
       const identity: ZkIdentity = new ZkIdentity();
-      identity.genSecret(SPAM_TRESHOLD);
+      identity.genMultipartSecret(SPAM_TRESHOLD);
       
-      const identityCommitment: bigint = identity.genIdentityCommitment();
-      const identitySecret: bigint[] = identity.getSecret();
+      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET);
+      const identitySecret: bigint[] = identity.getMultipartSecret();
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
 
       const signal = "hey hey"
       const epoch: string = genExternalNullifier("test-epoch")
-      const rlnIdentifier: bigint = NRln.genIdentifier()
+      const rlnIdentifier: bigint = RLN.genIdentifier()
 
       const merkleProof: MerkleProof = generateMerkleProof(15, BigInt(0), 2, commitments, identityCommitment)
-      const witness: FullProof = NRln.genWitness(identitySecret, merkleProof, epoch, signal, rlnIdentifier)
+      const witness: FullProof = RLN.genWitness(identitySecret, merkleProof, epoch, signal, rlnIdentifier)
 
       expect(typeof witness).toBe("object")
     })
-    it.skip("Generate nrln proof and verify it", async () => {
+    it.skip("Generate RLN proof and verify it", async () => {
       /**
-       * Compiled NRln circuits are needed to run this test so it's being skipped in hooks
+       * Compiled RLN circuits are needed to run this test so it's being skipped in hooks
        */
        const identity: ZkIdentity = new ZkIdentity();
-       identity.genSecret(SPAM_TRESHOLD);
+       identity.genMultipartSecret(SPAM_TRESHOLD);
        
-       const identityCommitment: bigint = identity.genIdentityCommitment();
-       const identitySecret: bigint[] = identity.getSecret();
+       const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET);
+       const identitySecret: bigint[] = identity.getMultipartSecret();
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
@@ -56,30 +56,30 @@ describe("NRln", () => {
       const signal = "hey hey"
       const signalHash = genSignalHash(signal)
       const epoch: string = genExternalNullifier("test-epoch")
-      const rlnIdentifier: bigint = NRln.genIdentifier()
+      const rlnIdentifier: bigint = RLN.genIdentifier()
 
       const merkleProof: MerkleProof = generateMerkleProof(15, BigInt(0), 2, commitments, identityCommitment)
-      const witness: FullProof = NRln.genWitness(identitySecret, merkleProof, epoch, signal, rlnIdentifier)
+      const witness: FullProof = RLN.genWitness(identitySecret, merkleProof, epoch, signal, rlnIdentifier)
 
-      const [y, nullifier] = NRln.calculateOutput(identitySecret, BigInt(epoch), signalHash, SPAM_TRESHOLD, rlnIdentifier)
+      const [y, nullifier] = RLN.calculateOutput(identitySecret, BigInt(epoch), signalHash, SPAM_TRESHOLD, rlnIdentifier)
       const publicSignals = [y, merkleProof.root, nullifier, signalHash, epoch, rlnIdentifier]
 
-      const vkeyPath: string = path.join("./zkeyFiles", "nrln", "verification_key.json")
+      const vkeyPath: string = path.join("./zkeyFiles", "rln_3", "verification_key.json")
       const vKey = JSON.parse(fs.readFileSync(vkeyPath, "utf-8"))
 
-      const wasmFilePath: string = path.join("./zkeyFiles", "nrln", "rln.wasm")
-      const finalZkeyPath: string = path.join("./zkeyFiles", "nrln", "rln_final.zkey")
+      const wasmFilePath: string = path.join("./zkeyFiles", "rln_3", "rln.wasm")
+      const finalZkeyPath: string = path.join("./zkeyFiles", "rln_3", "rln_final.zkey")
 
-      const fullProof: FullProof = await NRln.genProof(witness, wasmFilePath, finalZkeyPath)
-      const res: boolean = await NRln.verifyProof(vKey, { proof: fullProof.proof, publicSignals })
+      const fullProof: FullProof = await RLN.genProof(witness, wasmFilePath, finalZkeyPath)
+      const res: boolean = await RLN.verifyProof(vKey, { proof: fullProof.proof, publicSignals })
 
       expect(res).toBe(true)
     }, 30000)
     it("Should retrieve user secret after spaming", () => {
         const identity: ZkIdentity = new ZkIdentity();
-        identity.genSecret(SPAM_TRESHOLD);
+        identity.genMultipartSecret(SPAM_TRESHOLD);
         
-        const identitySecret: bigint[] = identity.getSecret();
+        const identitySecret: bigint[] = identity.getMultipartSecret();
 
         const signal1 = "hey 1"
         const signalHash1 = genSignalHash(signal1)
@@ -91,14 +91,14 @@ describe("NRln", () => {
         const signalHash4 = genSignalHash(signal4)
 
         const epoch: string = genExternalNullifier("test-epoch")
-        const rlnIdentifier: bigint = NRln.genIdentifier()
+        const rlnIdentifier: bigint = RLN.genIdentifier()
 
-        const [y1] = NRln.calculateOutput(identitySecret, BigInt(epoch), signalHash1, SPAM_TRESHOLD, rlnIdentifier)
-        const [y2] = NRln.calculateOutput(identitySecret, BigInt(epoch), signalHash2, SPAM_TRESHOLD, rlnIdentifier)
-        const [y3] = NRln.calculateOutput(identitySecret, BigInt(epoch), signalHash3, SPAM_TRESHOLD, rlnIdentifier)
-        const [y4] = NRln.calculateOutput(identitySecret, BigInt(epoch), signalHash4, SPAM_TRESHOLD, rlnIdentifier)
+        const [y1] = RLN.calculateOutput(identitySecret, BigInt(epoch), signalHash1, SPAM_TRESHOLD, rlnIdentifier)
+        const [y2] = RLN.calculateOutput(identitySecret, BigInt(epoch), signalHash2, SPAM_TRESHOLD, rlnIdentifier)
+        const [y3] = RLN.calculateOutput(identitySecret, BigInt(epoch), signalHash3, SPAM_TRESHOLD, rlnIdentifier)
+        const [y4] = RLN.calculateOutput(identitySecret, BigInt(epoch), signalHash4, SPAM_TRESHOLD, rlnIdentifier)
 
-        const retrievedSecret: bigint = NRln.retrieveSecret([signalHash1, signalHash2, signalHash3, signalHash4], [y1, y2, y3, y4])
+        const retrievedSecret: bigint = RLN.retrieveSecret([signalHash1, signalHash2, signalHash3, signalHash4], [y1, y2, y3, y4])
 
         expect(retrievedSecret).toEqual(poseidonHash(identitySecret));
     })
