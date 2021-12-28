@@ -36,7 +36,7 @@ describe("Rln", () => {
 
       expect(typeof witness).toBe("object")
     })
-    it("Generate rln proof and verify it", async () => {
+    it.skip("Generate rln proof and verify it", async () => {
       /**
        * Compiled RLN circuits are needed to run this test so it's being skipped in hooks
        */
