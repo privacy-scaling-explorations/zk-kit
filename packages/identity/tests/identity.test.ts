@@ -26,8 +26,8 @@ describe("Semaphore identity", () => {
     it("Should generate multipart secret", async () => {
       const secretParts = 5
       const identity: ZkIdentity = new ZkIdentity()
-      identity.genSecret(secretParts)
-      const identitySecret = identity.getSecret()
+      identity.genMultipartSecret(secretParts)
+      const identitySecret = identity.getMultipartSecret()
 
       expect(identitySecret.length).toEqual(5)
       expect(typeof identitySecret).toEqual("object")
@@ -35,7 +35,6 @@ describe("Semaphore identity", () => {
 
     it("Should generate identity commitment from identity", async () => {
       const identity: ZkIdentity = new ZkIdentity()
-      identity.genSecret();
       const identityCommitment: bigint = identity.genIdentityCommitment()
 
       expect(typeof identityCommitment).toEqual("bigint")
