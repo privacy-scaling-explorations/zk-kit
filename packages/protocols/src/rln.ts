@@ -2,19 +2,19 @@ import { ZkProtocol } from "./zk-protocol"
 import { genSignalHash, poseidonHash } from "./utils"
 import { Fq } from "./utils"
 
-class Rln extends ZkProtocol {
+class RLN extends ZkProtocol {
   /**
-   * Creates witness for rln proof
+   * Creates witness for RLN proof
    * @param identitySecret identity secret
-   * @param merkleProof merkle proof that identity exists in rln tree
+   * @param merkleProof merkle proof that identity exists in RLN tree
    * @param epoch epoch on which signal is broadcasted
    * @param signal signal that is being broadcasted
-   * @param rlnIdentifier unique identifier of rln dapp
+   * @param rlnIdentifier identifier used by each separate app, needed for more accurate spam filtering
    * @param shouldHash should signal be hashed before broadcast
    * @returns rln witness
    */
   genWitness(
-    identitySecret: bigint,
+    identitySecret: Array<bigint>,
     merkleProof: any,
     epoch: string | bigint,
     signal: string,
@@ -32,51 +32,73 @@ class Rln extends ZkProtocol {
   }
 
   /**
-   * Calculates
+   *
    * @param identitySecret identity secret
-   * @param epoch epoch on which signal is broadcasted
-   * @param rlnIdentifier unique identifier of rln dapp
-   * @param x signal hash
-   * @returns y & slashing nullfier
+   * @param epoch epoch
+   * @param x singal hash
+   * @param limit number of messages per epoch allowed
+   * @param rlnIdentifier identifier used by each separate app, needed for more accurate spam filtering
+   * @returns
    */
-  calculateOutput(identitySecret: bigint, epoch: bigint, rlnIdentifier: bigint, x: bigint): Array<bigint> {
-    const a1: bigint = poseidonHash([identitySecret, epoch])
-    const y: bigint = Fq.normalize(a1 * x + identitySecret)
-    const nullifier = this.genNullifier(a1, rlnIdentifier)
+  calculateOutput(identitySecret: Array<bigint>, epoch: bigint, x: bigint, limit: number, rlnIdentifier: bigint): Array<bigint> {
+    const a0 = poseidonHash(identitySecret)
+
+    const coeffs: Array<bigint> = []
+    let tmpX = x
+
+    coeffs.push(poseidonHash([identitySecret[0], epoch]))
+    let y: bigint = Fq.add(Fq.mul(coeffs[0], tmpX), a0)
+
+    for (let i = 1; i < limit; i++) {
+      tmpX = Fq.mul(x, tmpX)
+
+      coeffs.push(poseidonHash([identitySecret[i], epoch]))
+      y = Fq.add(y, Fq.mul(coeffs[i], tmpX))
+    }
+
+    coeffs.push(poseidonHash([rlnIdentifier]));
+    const nullifier: bigint = this.genNullifier(coeffs)
     return [y, nullifier]
   }
 
   /**
-   *
-   * @param a1 y = a1 * x + a0 (a1 = poseidonHash(identity secret, epoch, rlnIdentifier))
-   * @param rlnIdentifier unique identifier of rln dapp
-   * @returns rln slashing nullifier
+   * Calculates slashing nullifier
+   * @param coeffs coeefitients from calculated polinomial
+   * @returns slashing nullifier
    */
-  genNullifier(a1: bigint, rlnIdentifier: bigint): bigint {
-    return poseidonHash([a1, rlnIdentifier])
+  genNullifier(coeffs: Array<bigint>): bigint {
+    return poseidonHash(coeffs)
   }
 
   /**
    * When spam occurs, identity secret can be retrieved
-   * @param x1 x1
-   * @param x2 x2
-   * @param y1 y1
-   * @param y2 y2
+   * @param xs
+   * @param ys
    * @returns identity secret
    */
-  retrieveSecret(x1: bigint, x2: bigint, y1: bigint, y2: bigint): bigint {
-    const slope = Fq.div(Fq.sub(y2, y1), Fq.sub(x2, x1))
-    const privateKey = Fq.sub(y1, Fq.mul(slope, x1))
-    return Fq.normalize(privateKey)
+  retrieveSecret(xs: Array<bigint>, ys: Array<bigint>): bigint {
+    if (xs.length !== ys.length) throw new Error("x and y arrays must be of same size")
+    const numOfPoints: number = xs.length
+    let f0 = BigInt(0)
+    for (let i = 0; i < numOfPoints; i++) {
+      let p = BigInt(1)
+      for (let j = 0; j < numOfPoints; j++) {
+        if (j !== i) {
+          p = Fq.mul(p, Fq.div(xs[j], Fq.sub(xs[j], xs[i])))
+        }
+      }
+      f0 = Fq.add(f0, Fq.mul(ys[i], p))
+    }
+    return f0
   }
 
   /**
    *
    * @returns unique identifier of the rln dapp
    */
-  genIdentifier(): bigint {
-    return Fq.random()
-  }
+     genIdentifier(): bigint {
+      return Fq.random()
+    }
 }
 
-export default new Rln()
+export default new RLN()
