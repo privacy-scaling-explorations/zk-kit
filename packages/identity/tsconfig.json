@@ -2,7 +2,8 @@
   "compilerOptions": {
     "declaration": true,
     "declarationDir": "./dist/types",
-    
+    "composite": true,
+    "esModuleInterop": true,
   },
   "include": ["src"]
 }
