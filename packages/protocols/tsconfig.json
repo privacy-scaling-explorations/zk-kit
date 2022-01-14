@@ -1,12 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist/",
-    "declarationDir": "./dist/types",
-    "composite": true,
-    "checkJs": false,
-    "esModuleInterop": true,
+    "allowJs": true
   },
-  "include": ["src/**/*", "../../build"],
-  "exclude": ["node_modules/**", "tests/**"]
+  "include": ["src", "test", "types", "rollup.config.ts"]
 }
