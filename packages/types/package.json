@@ -1,12 +1,12 @@
 {
-  "name": "@zkit/types",
+  "name": "@zk-kit/types",
   "version": "1.0.9",
   "description": "Common type definitions for Semaphore modules.",
   "license": "MIT",
   "main": "src/index.ts",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/appliedzkp/zkit",
-  "homepage": "https://github.com/appliedzkp/zkit/tree/main/packages/protocols",
+  "repository": "https://github.com/appliedzkp/zk-kit",
+  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/protocols",
   "scripts": {
     "tsc": "npx tsc src/index.ts",
     "build": "npm run clean && tsc -p .",

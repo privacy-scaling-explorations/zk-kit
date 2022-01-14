@@ -1,16 +1,16 @@
 <p align="center">
     <h1 align="center">
-        ZKit
+        ZK-kit
     </h1>
     <p align="center">A monorepo of reusable JS libraries for zero-knowledge techologies.</p>
 </p>
 
 <p align="center">
-    <a href="https://github.com/appliedzkp/zkit/blob/master/LICENSE">
-        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zkit.svg?style=flat-square">
+    <a href="https://github.com/appliedzkp/zk-kit/blob/master/LICENSE">
+        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zk-kit.svg?style=flat-square">
     </a>
-    <a href="https://github.com/appliedzkp/zkit/actions?query=workflow%3Atest">
-        <img alt="GitHub Workflow test" src="https://img.shields.io/github/workflow/status/appliedzkp/zkit/test?label=test&style=flat-square&logo=github">
+    <a href="https://github.com/appliedzkp/zk-kit/actions?query=workflow%3Atest">
+        <img alt="GitHub Workflow test" src="https://img.shields.io/github/workflow/status/appliedzkp/zk-kit/test?label=test&style=flat-square&logo=github">
     </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint">
@@ -23,7 +23,7 @@
     </a>
 </p>
 
-ZKit is a set of NPM modules (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access ready-to-use and tested libraries for common tasks.
+ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access ready-to-use and tested libraries for common tasks.
 
 ---
 
@@ -37,70 +37,70 @@ ZKit is a set of NPM modules (algorithms or utility functions) that can be reuse
     <tbody>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zkit/tree/master/packages/identity">
-                    @zkit/identity
+                <a href="https://github.com/appliedzkp/zk-kit/tree/master/packages/identity">
+                    @zk-kit/identity
                 </a>
             </td>
             <td>
                 <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zkit/identity">
-                    <img src="https://img.shields.io/npm/v/@zkit/identity.svg?style=flat-square" alt="NPM version" />
+                <a href="https://npmjs.org/package/@zk-kit/identity">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/identity.svg?style=flat-square" alt="NPM version" />
                 </a>
             </td>
             <td>
                 <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zkit/identity">
-                    <img src="https://img.shields.io/npm/dm/@zkit/identity.svg?style=flat-square" alt="Downloads" />
+                <a href="https://npmjs.org/package/@zk-kit/identity">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/identity.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
             <td>
                 <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zkit/identity">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zkit/identity" alt="npm bundle size (scoped)" />
+                <a href="https://bundlephobia.com/package/@zk-kit/identity">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/identity" alt="npm bundle size (scoped)" />
                 </a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zkit/tree/master/packages/protocols">
-                    @zkit/protocols
+                <a href="https://github.com/appliedzkp/zk-kit/tree/master/packages/protocols">
+                    @zk-kit/protocols
                 </a>
             </td>
             <td>
                 <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zkit/protocols">
-                    <img src="https://img.shields.io/npm/v/@zkit/protocols.svg?style=flat-square" alt="NPM version" />
+                <a href="https://npmjs.org/package/@zk-kit/protocols">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/protocols.svg?style=flat-square" alt="NPM version" />
                 </a>
             </td>
             <td>
                 <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zkit/protocols">
-                    <img src="https://img.shields.io/npm/dm/@zkit/protocols.svg?style=flat-square" alt="Downloads" />
+                <a href="https://npmjs.org/package/@zk-kit/protocols">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/protocols.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
             <td>
                 <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zkit/protocols">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zkit/protocols" alt="npm bundle size (scoped)" />
+                <a href="https://bundlephobia.com/package/@zk-kit/protocols">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/protocols" alt="npm bundle size (scoped)" />
                 </a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zkit/tree/master/packages/types">
-                    @zkit/types
+                <a href="https://github.com/appliedzkp/zk-kit/tree/master/packages/types">
+                    @zk-kit/types
                 </a>
             </td>
             <td>
                 <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zkit/types">
-                    <img src="https://img.shields.io/npm/v/@zkit/types.svg?style=flat-square" alt="NPM version" />
+                <a href="https://npmjs.org/package/@zk-kit/types">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/types.svg?style=flat-square" alt="NPM version" />
                 </a>
             </td>
             <td>
                 <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zkit/types">
-                    <img src="https://img.shields.io/npm/dm/@zkit/types.svg?style=flat-square" alt="Downloads" />
+                <a href="https://npmjs.org/package/@zk-kit/types">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/types.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
             <td>
@@ -115,8 +115,8 @@ ZKit is a set of NPM modules (algorithms or utility functions) that can be reuse
 Clone this repository and install the dependencies:
 
 ```bash
-$ git clone https://github.com/appliedzkp/zkit.git
-$ cd zkit && npm i
+$ git clone https://github.com/appliedzkp/zk-kit.git
+$ cd zk-kit && npm i
 ```
 
 ## 📜 Usage

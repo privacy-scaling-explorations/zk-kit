@@ -6,17 +6,17 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/appliedzkp/zkit/blob/main/LICENSE">
-        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zkit.svg?style=flat-square">
+    <a href="https://github.com/appliedzkp/zk-kit/blob/main/LICENSE">
+        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zk-kit.svg?style=flat-square">
     </a>
-    <a href="https://www.npmjs.com/package/@zkit/protocols">
-        <img alt="NPM version" src="https://img.shields.io/npm/v/@zkit/protocols?style=flat-square" />
+    <a href="https://www.npmjs.com/package/@zk-kit/protocols">
+        <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/protocols?style=flat-square" />
     </a>
-    <a href="https://npmjs.org/package/@zkit/protocols">
-        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zkit/protocols.svg?style=flat-square" />
+    <a href="https://npmjs.org/package/@zk-kit/protocols">
+        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/protocols.svg?style=flat-square" />
     </a>
-    <a href="https://bundlephobia.com/package/@zkit/protocols">
-        <img alt="npm bundle size (scoped)" src="https://img.shields.io/bundlephobia/minzip/@zkit/protocols" />
+    <a href="https://bundlephobia.com/package/@zk-kit/protocols">
+        <img alt="npm bundle size (scoped)" src="https://img.shields.io/bundlephobia/minzip/@zk-kit/protocols" />
     </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint" />
@@ -32,16 +32,16 @@
 
 ### npm or yarn
 
-Install the `@zkit/protocols` package with npm:
+Install the `@zk-kit/protocols` package with npm:
 
 ```bash
-npm i @zkit/protocols
+npm i @zk-kit/protocols
 ```
 
 or yarn:
 
 ```bash
-yarn add @zkit/protocols
+yarn add @zk-kit/protocols
 ```
 
 ## 📜 Usage
@@ -49,7 +49,7 @@ yarn add @zkit/protocols
 **Import**
 
 ```typescript
-import { ZkIdentity, Identity } from "@zkit/identity"
+import { ZkIdentity, Identity } from "@zk-kit/identity"
 import {
   Semaphore,
   MerkleProof,
@@ -57,12 +57,12 @@ import {
   generateMerkleProof,
   genExternalNullifier,
   genSignalHash
-} from "@zkit/protocols"
+} from "@zk-kit/protocols"
 ```
 
 ```javascript
-const { ZkIdentity } = require("@zkit/identity")
-const { Semaphore, Rln, NRln, generateMerkleProof, genExternalNullifier, genSignalHash } = require("@zkit/protocols")
+const { ZkIdentity } = require("@zk-kit/identity")
+const { Semaphore, Rln, NRln, generateMerkleProof, genExternalNullifier, genSignalHash } = require("@zk-kit/protocols")
 ```
 
 **Merkle Proofs**

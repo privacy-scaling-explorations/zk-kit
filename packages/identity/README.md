@@ -6,17 +6,17 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/appliedzkp/zkit/blob/main/LICENSE">
-        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zkit.svg?style=flat-square">
+    <a href="https://github.com/appliedzkp/zk-kit/blob/main/LICENSE">
+        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zk-kit.svg?style=flat-square">
     </a>
-    <a href="https://www.npmjs.com/package/@zkit/identity">
-        <img alt="NPM version" src="https://img.shields.io/npm/v/@zkit/identity?style=flat-square" />
+    <a href="https://www.npmjs.com/package/@zk-kit/identity">
+        <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/identity?style=flat-square" />
     </a>
-    <a href="https://npmjs.org/package/@zkit/identity">
-        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zkit/identity.svg?style=flat-square" />
+    <a href="https://npmjs.org/package/@zk-kit/identity">
+        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/identity.svg?style=flat-square" />
     </a>
-    <a href="https://bundlephobia.com/package/@zkit/identity">
-        <img alt="npm bundle size (scoped)" src="https://img.shields.io/bundlephobia/minzip/@zkit/identity" />
+    <a href="https://bundlephobia.com/package/@zk-kit/identity">
+        <img alt="npm bundle size (scoped)" src="https://img.shields.io/bundlephobia/minzip/@zk-kit/identity" />
     </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint" />
@@ -32,16 +32,16 @@
 
 ### npm or yarn
 
-Install the `@zkit/identity` package with npm:
+Install the `@zk-kit/identity` package with npm:
 
 ```bash
-npm i @zkit/identity
+npm i @zk-kit/identity
 ```
 
 or yarn:
 
 ```bash
-yarn add @zkit/identity
+yarn add @zk-kit/identity
 ```
 
 ## 📜 Usage
@@ -49,11 +49,11 @@ yarn add @zkit/identity
 **Import**
 
 ```typescript
-import { ZkIdentity, Identity } from "@zkit/identity"
+import { ZkIdentity, Identity } from "@zk-kit/identity"
 ```
 
 ```javascript
-const { ZkIdentity } = require("@zkit/identity")
+const { ZkIdentity } = require("@zk-kit/identity")
 ```
 
 **Mainpulation**
