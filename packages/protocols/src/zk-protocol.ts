@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
 const { groth16 } = require("snarkjs")
 import { SNARK_FIELD_SIZE } from "./utils"
-import { FullProof } from "@libsem/types"
+import { FullProof } from "@zk-kit/types"
 import * as fs from "fs";
 import { builder } from "./witness_calculator";
 
