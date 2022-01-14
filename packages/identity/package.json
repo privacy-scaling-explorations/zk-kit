@@ -32,8 +32,6 @@
     "js-sha256": "^0.9.0"
   },
   "devDependencies": {
-    "rimraf": "^3.0.2",
-    "rollup": "^2.56.2",
     "rollup-plugin-typescript2": "^0.30.0"
   }
 }
