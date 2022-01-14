@@ -1,7 +1,7 @@
 import * as crypto from "crypto"
 import * as bigintConversion from "bigint-conversion"
 import { sha256 as _sha256 } from "js-sha256"
-import { Identity } from "@libsem/types"
+import { Identity } from "@zk-kit/types"
 
 const genRandomNumber = (numBytes = 31): bigint => {
   return bigintConversion.bufToBigint(crypto.randomBytes(numBytes))

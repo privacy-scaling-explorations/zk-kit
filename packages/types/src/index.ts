@@ -4,10 +4,10 @@ export interface Identity {
 }
 
 export type Proof = {
-  pi_a: Array<string>,
-  pi_b: [ [Array<string>], [Array<string>], [Array<string>] ],
+  pi_a: Array<string>
+  pi_b: [[Array<string>], [Array<string>], [Array<string>]]
   pi_c: Array<string>
-  protocol: string,
+  protocol: string
   curve: string
 }
 
@@ -23,8 +23,9 @@ export interface MerkleProof {
 }
 
 export declare type SerializedIdentity = {
-  identityNullifier: string;
-  identityTrapdoor: string;
-  secret: string[];
-  multipartSecret: string[];
-};
+  identityNullifier: string
+  identityTrapdoor: string
+  secret: string[]
+  multipartSecret: string[]
+}
+

@@ -1,7 +1,7 @@
 import { genRandomIdentity, genIdentityFromMessage, genRandomNumber } from "./strategies"
 import * as bigintConversion from "bigint-conversion"
 import * as ciromlibjs from "circomlibjs"
-import { Identity, SerializedIdentity } from "@libsem/types"
+import { Identity, SerializedIdentity } from "@zk-kit/types"
 import {Fq} from "./utils"
 
 const poseidonHash = (data: Array<bigint>): bigint => {

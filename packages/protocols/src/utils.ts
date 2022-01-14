@@ -2,7 +2,7 @@
 const Tree = require("incrementalquintree/build/IncrementalQuinTree")
 import * as ciromlibjs from "circomlibjs"
 import * as ethers from "ethers"
-import { MerkleProof } from "@libsem/types"
+import { MerkleProof } from "@zk-kit/types"
 
 export const SNARK_FIELD_SIZE = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
 

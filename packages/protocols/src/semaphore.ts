@@ -1,6 +1,6 @@
 import { ZkProtocol } from "./zk-protocol"
 import { genSignalHash, poseidonHash } from "./utils"
-import { Identity, MerkleProof } from "@libsem/types"
+import { Identity, MerkleProof } from "@zk-kit/types"
 
 class Semaphore extends ZkProtocol {
   /**
