@@ -1,5 +1,5 @@
 {
-  "name": "@zkit/identity",
+  "name": "@zk-kit/identity",
   "version": "1.0.22",
   "description": "Library for managing identities for Semaphore and RLN protocols.",
   "license": "MIT",
@@ -9,8 +9,8 @@
     "import": "./dist/index.mjs",
     "require": "./dist/index.node.js"
   },
-  "repository": "https://github.com/appliedzkp/zkit",
-  "homepage": "https://github.com/appliedzkp/zkit/tree/main/packages/identity",
+  "repository": "https://github.com/appliedzkp/zk-kit",
+  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/identity",
   "scripts": {
     "clean": "rimraf ./dist",
     "build:watch": "rollup -c rollup.config.ts -w",
@@ -25,7 +25,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@zkit/types": "^1.0.9",
+    "@zk-kit/types": "^1.0.9",
     "bigint-conversion": "^2.1.12",
     "circomlibjs": "^0.0.8",
     "crypto": "^1.0.1",

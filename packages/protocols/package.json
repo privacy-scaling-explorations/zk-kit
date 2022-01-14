@@ -1,5 +1,5 @@
 {
-  "name": "@zkit/protocols",
+  "name": "@zk-kit/protocols",
   "version": "1.0.27",
   "description": "Client library for generating and verifying Semaphore & RLN ZK proofs.",
   "license": "MIT",
@@ -9,8 +9,8 @@
     "import": "./dist/index.mjs",
     "require": "./dist/index.node.js"
   },
-  "repository": "https://github.com/appliedzkp/zkit",
-  "homepage": "https://github.com/appliedzkp/zkit/tree/main/packages/protocols",
+  "repository": "https://github.com/appliedzkp/zk-kit",
+  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/protocols",
   "scripts": {
     "tsc": "npx tsc src/index.ts",
     "build": "rimraf dist && rollup -c rollup.config.ts"
@@ -24,7 +24,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@zkit/types": "^1.0.9",
+    "@zk-kit/types": "^1.0.9",
     "circomlibjs": "^0.0.8",
     "ethers": "^5.4.7",
     "incrementalquintree": "^1.0.7",
