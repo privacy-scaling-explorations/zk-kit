@@ -1,9 +1,4 @@
 {
-  "compilerOptions": {
-    "declaration": true,
-    "declarationDir": "./dist/types",
-    "composite": true,
-    "esModuleInterop": true,
-  },
-  "include": ["src"]
+  "extends": "../../tsconfig.json",
+  "include": ["src", "test", "types", "rollup.config.ts"]
 }
