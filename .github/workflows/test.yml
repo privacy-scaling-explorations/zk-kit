@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
   test:
@@ -19,5 +19,4 @@ jobs:
           node-version: 16.x
 
       - run: npm ci
-      - run: npm run lint
-      - run: npm test
+      - run: npm run test:prod
