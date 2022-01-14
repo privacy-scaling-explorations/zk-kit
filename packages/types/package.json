@@ -1,20 +1,25 @@
 {
-  "name": "@libsem/types",
+  "name": "@zkit/types",
   "version": "1.0.9",
   "description": "Common type definitions for Semaphore modules.",
+  "license": "MIT",
   "main": "src/index.ts",
   "types": "dist/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
+  "repository": "https://github.com/appliedzkp/zkit",
+  "homepage": "https://github.com/appliedzkp/zkit/tree/main/packages/protocols",
   "scripts": {
     "tsc": "npx tsc src/index.ts",
     "build": "npm run clean && tsc -p .",
     "clean": "rimraf ./dist"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "Andrija Novakovic",
+    "email": "akinovak@gmail.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "rimraf": "^3.0.2",
     "ts-node": "^10.3.0"

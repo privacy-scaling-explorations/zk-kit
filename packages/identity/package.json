@@ -1,11 +1,16 @@
 {
-  "name": "@libsem/identity",
+  "name": "@zkit/identity",
   "version": "1.0.22",
-  "description": "Library for managing identites for Semaphore and Rln protocols.",
+  "description": "Library for managing identities for Semaphore and RLN protocols.",
+  "license": "MIT",
   "main": "dist/index.node.js",
   "types": "dist/types/index.d.ts",
-  "repository": "https://github.com/appliedzkp/libsemaphore",
-  "homepage": "https://github.com/appliedzkp/libsemaphore",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.node.js"
+  },
+  "repository": "https://github.com/appliedzkp/zkit",
+  "homepage": "https://github.com/appliedzkp/zkit/tree/main/packages/identity",
   "scripts": {
     "clean": "rimraf ./dist",
     "build:watch": "rollup -c rollup.config.ts -w",
@@ -16,9 +21,11 @@
     "name": "Andrija Novakovic",
     "email": "akinovak@gmail.com"
   },
-  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
-    "@libsem/types": "^1.0.9",
+    "@zkit/types": "^1.0.9",
     "bigint-conversion": "^2.1.12",
     "circomlibjs": "^0.0.8",
     "crypto": "^1.0.1",
@@ -28,13 +35,5 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.56.2",
     "rollup-plugin-typescript2": "^0.30.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.node.js"
-  },
-  "gitHead": "e1cbf100499b8bc4c4434ef485c1ccc6291672ae"
+  }
 }

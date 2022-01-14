@@ -1,19 +1,19 @@
 <p align="center">
     <h1 align="center">
-        Semaphore types
+        ZK types
     </h1>
-    <p align="center">Common type definitions for Semaphore modules.</p>
+    <p align="center">Common type definitions for ZK modules.</p>
 </p>
 
 <p align="center">
-    <a href="https://github.com/appliedzkp/libsemaphore/blob/master/LICENSE">
-        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/libsemaphore.svg?style=flat-square">
+    <a href="https://github.com/appliedzkp/zkit/blob/main/LICENSE">
+        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zkit.svg?style=flat-square">
     </a>
-    <a href="https://www.npmjs.com/package/@libsem/types">
-        <img alt="NPM version" src="https://img.shields.io/npm/v/@libsem/types?style=flat-square" />
+    <a href="https://www.npmjs.com/package/@zkit/types">
+        <img alt="NPM version" src="https://img.shields.io/npm/v/@zkit/types?style=flat-square" />
     </a>
-    <a href="https://npmjs.org/package/@libsem/types">
-        <img alt="Downloads" src="https://img.shields.io/npm/dm/@libsem/types.svg?style=flat-square" />
+    <a href="https://npmjs.org/package/@zkit/types">
+        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zkit/types.svg?style=flat-square" />
     </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint" />
@@ -29,16 +29,16 @@
 
 ### npm or yarn
 
-Install the `@libsem/types` package with npm:
+Install the `@zkit/types` package with npm:
 
 ```bash
-npm i @libsem/types
+npm i @zkit/types
 ```
 
 or yarn:
 
 ```bash
-yarn add @libsem/types
+yarn add @zkit/types
 ```
 
 ## 📜 Usage
@@ -46,5 +46,5 @@ yarn add @libsem/types
 **Import**
 
 ```typescript
-import { Identity, IProof, MerkleProof } from "@libsem/types"
+import { Identity, IProof, MerkleProof } from "@zkit/types"
 ```
