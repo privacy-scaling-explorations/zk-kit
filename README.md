@@ -1,16 +1,16 @@
 <p align="center">
     <h1 align="center">
-        Libsemaphore
+        ZKit
     </h1>
-    <p align="center">A monorepo of JavaScript libraries for Semaphore.</p>
+    <p align="center">A monorepo of reusable JS libraries for zero-knowledge techologies.</p>
 </p>
 
 <p align="center">
-    <a href="https://github.com/appliedzkp/libsemaphore/blob/master/LICENSE">
-        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/libsemaphore.svg?style=flat-square">
+    <a href="https://github.com/appliedzkp/zkit/blob/master/LICENSE">
+        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zkit.svg?style=flat-square">
     </a>
-    <a href="https://github.com/appliedzkp/libsemaphore/actions?query=workflow%3Atest">
-        <img alt="GitHub Workflow test" src="https://img.shields.io/github/workflow/status/appliedzkp/libsemaphore/test?label=test&style=flat-square&logo=github">
+    <a href="https://github.com/appliedzkp/zkit/actions?query=workflow%3Atest">
+        <img alt="GitHub Workflow test" src="https://img.shields.io/github/workflow/status/appliedzkp/zkit/test?label=test&style=flat-square&logo=github">
     </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint">
@@ -23,19 +23,7 @@
     </a>
 </p>
 
-A library that allows for easy access and interoperability for [Semaphore](https://semaphore.appliedzkp.org/) and [RLN](https://medium.com/privacy-scaling-explorations/rate-limiting-nullifier-a-spam-protection-mechanism-for-anonymous-environments-bbe4006a57d) constructs. It is meant to be used by third-party applications to easily integrate with Seamphore and RLN. The library provides an API (Semaphore and RLN) for:
-
-- Identity generation
-- Proof generation
-- Proof verification
-
-The library is structured as a three separate npm packages:
-
-- `@libsem/identity`: Exposes utilities for Zk identity generation, necessary for interacting with the Zk protocols supported by this library,
-- `@libsem/protocols`: Utilities for proof genration and verification for various Zk protocols,
-- `@libsem/types`: Helper package which exposes the types used by `identity` and `protocols` packages.
-
-All the packages provide tests which can be used as a guide for interaction.
+ZKit is a set of NPM modules (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access ready-to-use and tested libraries for common tasks.
 
 ---
 
@@ -49,70 +37,70 @@ All the packages provide tests which can be used as a guide for interaction.
     <tbody>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/libsemaphore/tree/master/packages/identity">
-                    @libsem/identity
+                <a href="https://github.com/appliedzkp/zkit/tree/master/packages/identity">
+                    @zkit/identity
                 </a>
             </td>
             <td>
                 <!-- NPM version -->
-                <a href="https://npmjs.org/package/@libsem/identity">
-                    <img src="https://img.shields.io/npm/v/@libsem/identity.svg?style=flat-square" alt="NPM version" />
+                <a href="https://npmjs.org/package/@zkit/identity">
+                    <img src="https://img.shields.io/npm/v/@zkit/identity.svg?style=flat-square" alt="NPM version" />
                 </a>
             </td>
             <td>
                 <!-- Downloads -->
-                <a href="https://npmjs.org/package/@libsem/identity">
-                    <img src="https://img.shields.io/npm/dm/@libsem/identity.svg?style=flat-square" alt="Downloads" />
+                <a href="https://npmjs.org/package/@zkit/identity">
+                    <img src="https://img.shields.io/npm/dm/@zkit/identity.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
             <td>
                 <!-- Size -->
-                <a href="https://bundlephobia.com/package/@libsem/identity">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@libsem/identity" alt="npm bundle size (scoped)" />
+                <a href="https://bundlephobia.com/package/@zkit/identity">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zkit/identity" alt="npm bundle size (scoped)" />
                 </a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/libsemaphore/tree/master/packages/protocols">
-                    @libsem/protocols
+                <a href="https://github.com/appliedzkp/zkit/tree/master/packages/protocols">
+                    @zkit/protocols
                 </a>
             </td>
             <td>
                 <!-- NPM version -->
-                <a href="https://npmjs.org/package/@libsem/protocols">
-                    <img src="https://img.shields.io/npm/v/@libsem/protocols.svg?style=flat-square" alt="NPM version" />
+                <a href="https://npmjs.org/package/@zkit/protocols">
+                    <img src="https://img.shields.io/npm/v/@zkit/protocols.svg?style=flat-square" alt="NPM version" />
                 </a>
             </td>
             <td>
                 <!-- Downloads -->
-                <a href="https://npmjs.org/package/@libsem/protocols">
-                    <img src="https://img.shields.io/npm/dm/@libsem/protocols.svg?style=flat-square" alt="Downloads" />
+                <a href="https://npmjs.org/package/@zkit/protocols">
+                    <img src="https://img.shields.io/npm/dm/@zkit/protocols.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
             <td>
                 <!-- Size -->
-                <a href="https://bundlephobia.com/package/@libsem/protocols">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@libsem/protocols" alt="npm bundle size (scoped)" />
+                <a href="https://bundlephobia.com/package/@zkit/protocols">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zkit/protocols" alt="npm bundle size (scoped)" />
                 </a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/libsemaphore/tree/master/packages/types">
-                    @libsem/types
+                <a href="https://github.com/appliedzkp/zkit/tree/master/packages/types">
+                    @zkit/types
                 </a>
             </td>
             <td>
                 <!-- NPM version -->
-                <a href="https://npmjs.org/package/@libsem/types">
-                    <img src="https://img.shields.io/npm/v/@libsem/types.svg?style=flat-square" alt="NPM version" />
+                <a href="https://npmjs.org/package/@zkit/types">
+                    <img src="https://img.shields.io/npm/v/@zkit/types.svg?style=flat-square" alt="NPM version" />
                 </a>
             </td>
             <td>
                 <!-- Downloads -->
-                <a href="https://npmjs.org/package/@libsem/types">
-                    <img src="https://img.shields.io/npm/dm/@libsem/types.svg?style=flat-square" alt="Downloads" />
+                <a href="https://npmjs.org/package/@zkit/types">
+                    <img src="https://img.shields.io/npm/dm/@zkit/types.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
             <td>
@@ -127,8 +115,8 @@ All the packages provide tests which can be used as a guide for interaction.
 Clone this repository and install the dependencies:
 
 ```bash
-$ git clone https://github.com/appliedzkp/libsemaphore.git
-$ cd libsemaphore && npm i
+$ git clone https://github.com/appliedzkp/zkit.git
+$ cd zkit && npm i
 ```
 
 ## 📜 Usage
