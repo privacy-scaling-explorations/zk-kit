@@ -19,9 +19,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "rimraf": "^3.0.2",
-    "ts-node": "^10.3.0"
   }
 }

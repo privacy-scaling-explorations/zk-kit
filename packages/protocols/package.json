@@ -31,9 +31,7 @@
     "snarkjs": "^0.4.10"
   },
   "devDependencies": {
-    "rollup": "^2.58.0",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "typescript": "^4.4.4"
+    "rollup-plugin-typescript2": "^0.30.0"
   }
 }
