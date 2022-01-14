@@ -1,8 +1,10 @@
 {
-  "name": "libsem",
-  "version": "2.0.0",
-  "description": "A monorepo of JavaScript libraries for Semaphore.",
-  "main": "index.js",
+  "name": "zk-kit",
+  "description": "A monorepo of reusable JS libraries for zero-knowledge technologies.",
+  "license": "MIT",
+  "repository": "git@github.com:appliedzkp/zk-kit.git",
+  "homepage": "https://github.com/appliedzkp/zk-kit",
+  "bugs": "https://github.com/appliedzkp/zk-kit/issues",
   "private": true,
   "scripts": {
     "install": "npm run bootstrap && npm run build",
@@ -17,17 +19,7 @@
     "publish:fp": "lerna publish from-package",
     "clean": "lerna clean"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/appliedzkp/libsemaphore.git"
-  },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/appliedzkp/libsemaphore/issues"
-  },
-  "homepage": "https://github.com/appliedzkp/libsemaphore#readme",
   "devDependencies": {
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
@@ -44,12 +36,11 @@
     "jest-config": "^27.2.5",
     "lerna": "^4.0.0",
     "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.61.1",
     "ts-jest": "^27.0.7",
     "ts-node": "^10.4.0",
     "tslib": "^2.3.1",
-    "typescript": "^4.4.4"
-  },
-  "dependencies": {
-    "@libsem/types": "^1.0.7"
+    "typescript": "^4.4.3"
   }
 }
