@@ -1,11 +1,11 @@
 {
   "displayName": "protocols",
-  "globals": {
-    "extensionsToTreatAsEsm": [".ts", ".js"],
-    "ts-jest": {
-      "useESM": true
-    }
+  "transform": {
+    "\\.(ts|tsx)": "ts-jest"
   },
-  "preset": "ts-jest/presets/js-with-ts-esm",
-  "transformIgnorePatterns": ["node_modules/(?!(module-that-needs-to-be-transformed)/)"]
+  "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+  "moduleFileExtensions": ["ts", "js"],
+  "coveragePathIgnorePatterns": ["/node_modules/", "/test/"],
+  "collectCoverageFrom": ["src/**/*.{js,ts}"],
+  "preset": "ts-jest/presets/js-with-ts-esm"
 }
