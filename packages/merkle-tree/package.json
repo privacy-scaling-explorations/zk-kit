@@ -1,6 +1,6 @@
 {
   "name": "@zk-kit/merkle-tree",
-  "version": "0.2.1",
+  "version": "0.1.0",
   "description": "Merkle tree implementation in TypeScript.",
   "iife": "dist/index.js",
   "unpkg": "dist/index.min.js",
