@@ -28,4 +28,3 @@ export declare type SerializedIdentity = {
   secret: string[]
   multipartSecret: string[]
 }
-

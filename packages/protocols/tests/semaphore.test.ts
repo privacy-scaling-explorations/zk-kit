@@ -14,8 +14,8 @@ beforeAll(() => {
   const leafIndex = 3
 
   for (let i = 0; i < leafIndex; i++) {
-    const tmpIdentity = new ZkIdentity();
-    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment();
+    const tmpIdentity = new ZkIdentity()
+    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment()
     identityCommitments.push(tmpCommitment)
   }
 })
@@ -23,10 +23,10 @@ beforeAll(() => {
 describe("Semaphore", () => {
   describe("Generate and verify proof", () => {
     it("Should generate semaphore witness", async () => {
-      const identity = new ZkIdentity();
+      const identity = new ZkIdentity()
       const externalNullifier: string = genExternalNullifier("voting_1")
       const signal = "0x111"
-      const identityCommitment: bigint = identity.genIdentityCommitment();
+      const identityCommitment: bigint = identity.genIdentityCommitment()
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
@@ -40,7 +40,7 @@ describe("Semaphore", () => {
       /**
        * Compiled semaphore circuits are needed to run this test, so it's being skipped in hooks
        */
-      const identity = new ZkIdentity();
+      const identity = new ZkIdentity()
       const externalNullifier: string = genExternalNullifier("voting_1")
       const signal = "0x111"
       const nullifierHash: bigint = Semaphore.genNullifierHash(externalNullifier, identity.getNullifier())

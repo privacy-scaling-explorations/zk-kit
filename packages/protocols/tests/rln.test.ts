@@ -11,8 +11,8 @@ beforeAll(() => {
   const leafIndex = 3
 
   for (let i = 0; i < leafIndex; i++) {
-    const tmpIdentity = new ZkIdentity();
-    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment(SecretType.MULTIPART_SECRET);
+    const tmpIdentity = new ZkIdentity()
+    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment(SecretType.MULTIPART_SECRET)
     identityCommitments.push(tmpCommitment)
   }
 })
@@ -20,9 +20,9 @@ beforeAll(() => {
 describe("RLN with default spam threshold", () => {
   describe("RLN functionalities", () => {
     it("Generate RLN witness", () => {
-      const identity: ZkIdentity = new ZkIdentity();
-      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET);
-      const secret: bigint[] = identity.getMultipartSecret();
+      const identity: ZkIdentity = new ZkIdentity()
+      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET)
+      const secret: bigint[] = identity.getMultipartSecret()
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
@@ -40,11 +40,11 @@ describe("RLN with default spam threshold", () => {
       /**
        * Compiled RLN circuits are needed to run this test so it's being skipped in hooks
        */
-      const identity: ZkIdentity = new ZkIdentity();
-      identity.genMultipartSecret(2);
-      const secret: bigint[] = identity.getMultipartSecret();
-      console.log("multipart secret", secret);
-      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET);
+      const identity: ZkIdentity = new ZkIdentity()
+      identity.genMultipartSecret(2)
+      const secret: bigint[] = identity.getMultipartSecret()
+      console.log("multipart secret", secret)
+      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET)
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
@@ -57,7 +57,7 @@ describe("RLN with default spam threshold", () => {
       const merkleProof: MerkleProof = generateMerkleProof(15, BigInt(0), 2, commitments, identityCommitment)
       const witness: FullProof = RLN.genWitness(secret, merkleProof, epoch, signal, rlnIdentifier)
 
-      const [y, nullifier] = RLN.calculateOutput(secret, BigInt(epoch), signalHash, 2, rlnIdentifier); 
+      const [y, nullifier] = RLN.calculateOutput(secret, BigInt(epoch), signalHash, 2, rlnIdentifier)
       const publicSignals = [y, merkleProof.root, nullifier, signalHash, epoch, rlnIdentifier]
 
       const vkeyPath: string = path.join("./zkeyFiles", "rln_default", "verification_key.json")

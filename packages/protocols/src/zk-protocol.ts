@@ -2,11 +2,10 @@
 const { groth16 } = require("snarkjs")
 import { SNARK_FIELD_SIZE } from "./utils"
 import { FullProof } from "@zk-kit/types"
-import * as fs from "fs";
-import { builder } from "./witness_calculator";
+import * as fs from "fs"
+import { builder } from "./witness_calculator"
 
 export class ZkProtocol {
-
   /**
    *
    * @param input circuit inputs
@@ -15,23 +14,24 @@ export class ZkProtocol {
    * @returns creates and saves witness to witnessFileName
    */
   async genWtns(input: any, wasmFilePath: string) {
-    let wntsBuff: ArrayBuffer;
+    let wntsBuff: ArrayBuffer
     //window exists only in browser
-    if(typeof window !== 'undefined') {
-        const resp = await fetch(wasmFilePath);
-        wntsBuff = await resp.arrayBuffer();
+    if (typeof window !== "undefined") {
+      const resp = await fetch(wasmFilePath)
+      wntsBuff = await resp.arrayBuffer()
     } else {
-        wntsBuff = fs.readFileSync(wasmFilePath);
+      wntsBuff = fs.readFileSync(wasmFilePath)
     }
 
     return new Promise((resolve, reject) => {
-        builder(wntsBuff)
-        .then(async witnessCalculator => {
-            const buff = await witnessCalculator.calculateWTNSBin(input, 0);
-            resolve(buff);
-        }).catch((error) => {
-            reject(error);
-        });
+      builder(wntsBuff)
+        .then(async (witnessCalculator) => {
+          const buff = await witnessCalculator.calculateWTNSBin(input, 0)
+          resolve(buff)
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   }
   /**
@@ -42,18 +42,18 @@ export class ZkProtocol {
    * @returns zero knowledge proof
    */
   async genProof(grothInput: any, wasmFilePath: string, finalZkeyPath: string): Promise<FullProof> {
-    let zkeyBuff: ArrayBuffer;
-    const wtnsBuff = await this.genWtns(grothInput, wasmFilePath);
+    let zkeyBuff: ArrayBuffer
+    const wtnsBuff = await this.genWtns(grothInput, wasmFilePath)
     //window exists only in browser
-    if(typeof window !== 'undefined') {
-        const resp = await fetch(finalZkeyPath);
-        zkeyBuff = await resp.arrayBuffer();
+    if (typeof window !== "undefined") {
+      const resp = await fetch(finalZkeyPath)
+      zkeyBuff = await resp.arrayBuffer()
     } else {
-        zkeyBuff = fs.readFileSync(finalZkeyPath);
+      zkeyBuff = fs.readFileSync(finalZkeyPath)
     }
 
-    const { proof, publicSignals } = await groth16.prove(new Uint8Array(zkeyBuff), wtnsBuff, null);
-    return { proof, publicSignals };
+    const { proof, publicSignals } = await groth16.prove(new Uint8Array(zkeyBuff), wtnsBuff, null)
+    return { proof, publicSignals }
   }
 
   /**
@@ -86,7 +86,3 @@ export class ZkProtocol {
     }
   }
 }
-
-
-
-
