@@ -7,7 +7,7 @@
 
 <p align="center">
     <a href="https://github.com/appliedzkp/zk-kit">
-        <img src="https://img.shields.io/badge/project-ZK-kit-blue.svg?style=flat-square">
+        <img src="https://img.shields.io/badge/project-zk--kit-blue.svg?style=flat-square">
     </a>
     <a href="https://github.com/appliedzkp/zk-kit/blob/main/LICENSE">
         <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zk-kit.svg?style=flat-square">
