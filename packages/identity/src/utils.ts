@@ -1,4 +1,3 @@
-
 /* eslint @typescript-eslint/no-var-requires: "off" */
 const ZqField = require("ffjavascript").ZqField
 

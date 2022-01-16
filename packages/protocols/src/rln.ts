@@ -40,7 +40,13 @@ class RLN extends ZkProtocol {
    * @param rlnIdentifier identifier used by each separate app, needed for more accurate spam filtering
    * @returns
    */
-  calculateOutput(identitySecret: Array<bigint>, epoch: bigint, x: bigint, limit: number, rlnIdentifier: bigint): Array<bigint> {
+  calculateOutput(
+    identitySecret: Array<bigint>,
+    epoch: bigint,
+    x: bigint,
+    limit: number,
+    rlnIdentifier: bigint
+  ): Array<bigint> {
     const a0 = poseidonHash(identitySecret)
 
     const coeffs: Array<bigint> = []
@@ -56,7 +62,7 @@ class RLN extends ZkProtocol {
       y = Fq.add(y, Fq.mul(coeffs[i], tmpX))
     }
 
-    coeffs.push(poseidonHash([rlnIdentifier]));
+    coeffs.push(poseidonHash([rlnIdentifier]))
     const nullifier: bigint = this.genNullifier(coeffs)
     return [y, nullifier]
   }
@@ -96,9 +102,9 @@ class RLN extends ZkProtocol {
    *
    * @returns unique identifier of the rln dapp
    */
-     genIdentifier(): bigint {
-      return Fq.random()
-    }
+  genIdentifier(): bigint {
+    return Fq.random()
+  }
 }
 
 export default new RLN()
