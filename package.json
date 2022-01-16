@@ -16,6 +16,8 @@
     "test:prod": "npm run lint && npm test",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "prettier": "prettier -c .",
+    "prettier:fix": "prettier -w .",
     "publish:fp": "lerna publish from-package",
     "clean": "lerna clean"
   },
