@@ -147,7 +147,9 @@ $ cd zk-kit && npm i
 ## 📜 Usage
 
 ```bash
-$ npm run lint # Lint all packages.
+$ npm run lint # Syntax check with ESLint (npm run lint:fix to fix errors).
+$ npm run prettier # Syntax check with Prettier (npm run prettier:fix to fix errors).
+$ npm run commit # Interactive Commitizen commit.
 $ npm run test # Test all packages (with common coverage).
 $ npm run build # Create a JS build for each package.
 $ npm run publish:fp # Publish packages on npm.
