@@ -1,5 +1,6 @@
 {
   "projects": ["<rootDir>/packages/*"],
+  "collectCoverageFrom": ["<rootDir>/src/**/*.ts"],
   "coverageThreshold": {
     "global": {
       "branches": 20,
