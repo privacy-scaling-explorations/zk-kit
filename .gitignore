@@ -54,6 +54,7 @@ gh-pages/*
 
 # Optional npm cache directory
 .npm
+.DS_Store
 
 # yarn v2
 .yarn/cache
@@ -63,4 +64,4 @@ gh-pages/*
 
 # Other
 zkeyFiles
-benchmarks
+benchmark
