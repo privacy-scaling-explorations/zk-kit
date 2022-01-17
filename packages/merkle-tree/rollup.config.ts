@@ -1,4 +1,3 @@
-import { nodeResolve } from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
 import { terser } from "rollup-plugin-terser"
@@ -29,8 +28,8 @@ export default {
       format: "iife",
       plugins: [terser({ output: { preamble: banner } })]
     },
-    { file: pkg.exports.require, format: "cjs", banner, exports: "auto" },
+    { file: pkg.exports.require, format: "cjs", banner },
     { file: pkg.exports.import, format: "es", banner }
   ],
-  plugins: [typescript({ tsconfig: "./build.tsconfig.json" }), nodeResolve()]
+  plugins: [typescript({ tsconfig: "./build.tsconfig.json" })]
 }
