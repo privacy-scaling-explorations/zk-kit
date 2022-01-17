@@ -6,5 +6,5 @@ export type Proof = {
   root: Node
   leaf: Node
   siblingNodes: Node[]
-  path: Array<number>
+  path: number[]
 }

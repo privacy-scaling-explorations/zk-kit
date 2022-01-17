@@ -1,6 +1,13 @@
 import checkParameter from "./checkParameter"
 import { HashFunction, Proof, Node } from "./types"
 
+/**
+ * A Merkle tree is a tree in which every leaf node is labelled with the cryptographic hash of a
+ * data block, and every non-leaf node is labelled with the cryptographic hash of the labels of its child nodes.
+ * It allows efficient and secure verification of the contents of large data structures.
+ * The MerkleTree class is a TypeScript implementation of Merkle tree and it provides all the functions to create
+ * efficient trees and to generate and verify proofs of membership.
+ */
 export default class IncrementalMerkleTree {
   static readonly maxDepth = 32
 
@@ -11,10 +18,18 @@ export default class IncrementalMerkleTree {
   protected readonly _depth: number
   protected readonly _arity: number
 
+  /**
+   * Initializes the Merkle tree with the hash function, the depth and the zero value to use for zeroes.
+   * @param hash Hash function.
+   * @param depth Tree depth.
+   * @param zeroValue Zero values for zeroes.
+   * @param arity The number of children for each node.
+   */
   constructor(hash: HashFunction, depth: number, zeroValue: Node, arity: number) {
     checkParameter(hash, "hash", "function")
     checkParameter(depth, "depth", "number")
     checkParameter(zeroValue, "zeroValue", "number", "string", "bigint")
+    checkParameter(arity, "arity", "number")
 
     if (depth < 1 || depth > IncrementalMerkleTree.maxDepth) {
       throw new Error("The tree depth must be between 1 and 32")
