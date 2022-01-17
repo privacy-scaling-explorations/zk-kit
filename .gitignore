@@ -50,8 +50,9 @@ gh-pages/*
 
 # Optional npm cache directory
 .npm
+.DS_Store
 
 zkeyFiles
 coverage
-benchmarks
+benchmark
 build

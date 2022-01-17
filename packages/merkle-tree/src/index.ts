@@ -1,5 +1,4 @@
-import MerkleTree from "./merkle-tree"
-import NAryIncrementalTree from "./nary-incremental-tree"
+import IncrementalMerkleTree from "./incremental-merkle-tree"
 
-export { MerkleTree, NAryIncrementalTree }
+export { IncrementalMerkleTree }
 export * from "./types"
