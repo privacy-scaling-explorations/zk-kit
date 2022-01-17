@@ -1,5 +1,6 @@
 import checkParameter from "./checkParameter"
 import { HashFunction, Proof, Node } from "./types"
+import IncrementalTree from "./incremental-tree"
 
 /**
  * A Merkle tree is a tree in which every leaf node is labelled with the cryptographic hash of a
@@ -8,15 +9,7 @@ import { HashFunction, Proof, Node } from "./types"
  * The MerkleTree class is a TypeScript implementation of Merkle tree and it provides all the functions to create
  * efficient trees and to generate and verify proofs of membership.
  */
-export default class MerkleTree {
-  static readonly maxDepth = 32 // 2**32 = 4294967296 possible leaves.
-
-  private _root: Node
-  private readonly _nodes: Node[][]
-  private readonly _zeroes: Node[]
-  private readonly _hash: HashFunction
-  private readonly _depth: number
-
+export default class MerkleTree extends IncrementalTree {
   /**
    * Initializes the Merkle tree with the hash function, the depth and the zero value to use for zeroes.
    * @param hash Hash function.
@@ -24,65 +17,7 @@ export default class MerkleTree {
    * @param zeroValue Zero values for zeroes.
    */
   constructor(hash: HashFunction, depth: number, zeroValue: Node) {
-    checkParameter(hash, "hash", "function")
-    checkParameter(depth, "depth", "number")
-    checkParameter(zeroValue, "zeroValue", "number", "string", "bigint")
-
-    if (depth < 1 || depth > MerkleTree.maxDepth) {
-      throw new Error("The tree depth must be between 1 and 32")
-    }
-
-    // Initialize the attributes.
-    this._hash = hash
-    this._depth = depth
-    this._zeroes = []
-    this._nodes = []
-
-    for (let i = 0; i < depth; i += 1) {
-      this._zeroes.push(zeroValue)
-      this._nodes[i] = []
-      // There must be a zero value for each tree level (except the root).
-      zeroValue = hash([zeroValue, zeroValue])
-    }
-
-    // The default root is the last zero value.
-    this._root = zeroValue
-
-    // Freeze the array objects. It prevents unintentional changes.
-    Object.freeze(this._zeroes)
-    Object.freeze(this._nodes)
-  }
-
-  /**
-   * Returns the root hash of the tree.
-   * @returns Root hash.
-   */
-  public get root(): Node {
-    return this._root
-  }
-
-  /**
-   * Returns the depth of the tree.
-   * @returns Tree depth.
-   */
-  public get depth(): number {
-    return this._depth
-  }
-
-  /**
-   * Returns the leaves of the tree.
-   * @returns List of leaves.
-   */
-  public get leaves(): Node[] {
-    return this._nodes[0].slice()
-  }
-
-  /**
-   * Returns the zeroes nodes of the tree.
-   * @returns List of zeroes.
-   */
-  public get zeroes(): Node[] {
-    return this._zeroes
+    super(hash, depth, zeroValue, 2)
   }
 
   /**
@@ -193,17 +128,6 @@ export default class MerkleTree {
     }
 
     return proof.root === node
-  }
-
-  /**
-   * Returns the index of a leaf. If the leaf does not exist it returns -1.
-   * @param leaf Tree leaf.
-   * @returns Index of the leaf.
-   */
-  public indexOf(leaf: Node): number {
-    checkParameter(leaf, "leaf", "number", "string", "bigint")
-
-    return this.leaves.indexOf(leaf)
   }
 
   /**
