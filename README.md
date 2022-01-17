@@ -110,6 +110,31 @@ ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reu
                 </a>
             </td>
         </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/appliedzkp/zk-kit/tree/master/packages/sparse-merkle-tree">
+                    @zk-kit/sparse-merkle-tree
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/sparse-merkle-tree">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/sparse-merkle-tree.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/sparse-merkle-tree">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/sparse-merkle-tree.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/sparse-merkle-tree">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/sparse-merkle-tree" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+        </tr>
     <tbody>
 </table>
 
