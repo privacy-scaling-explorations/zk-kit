@@ -34,7 +34,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-typescript": "^8.3.0",
     "circomlibjs": "^0.0.8",
     "rollup-plugin-terser": "^7.0.2"
