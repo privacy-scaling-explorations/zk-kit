@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "allowJs": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist"
-  },
-  "include": ["src"]
-}

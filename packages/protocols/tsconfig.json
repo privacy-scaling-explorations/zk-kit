@@ -3,5 +3,5 @@
   "compilerOptions": {
     "allowJs": true
   },
-  "include": ["src", "test", "types", "rollup.config.ts"]
+  "include": ["src", "tests", "rollup.config.ts"]
 }
