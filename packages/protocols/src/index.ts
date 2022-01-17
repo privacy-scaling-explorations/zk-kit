@@ -1,6 +1,6 @@
-import Semaphore from "./semaphore"
+import { FullProof, Identity, MerkleProof } from "@zk-kit/types"
 import RLN from "./rln"
-import { generateMerkleProof, genExternalNullifier, genSignalHash, Fq } from "./utils"
-import { Identity, MerkleProof, FullProof } from "@zk-kit/types"
+import Semaphore from "./semaphore"
+import { generateMerkleProof, genExternalNullifier, genSignalHash } from "./utils"
 
 export { Semaphore, RLN, generateMerkleProof, genExternalNullifier, genSignalHash, Identity, MerkleProof, FullProof }
