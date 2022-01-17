@@ -8,7 +8,7 @@ describe("Nary Merkle Tree", () => {
 
   describe("Merkle Tree class", () => {
     beforeEach(() => {
-      tree = new NAryIncrementalTree(poseidon, depth, BigInt(0), 5)
+      tree = new NAryIncrementalTree(poseidon, depth, BigInt(0), arity)
     })
 
     it("Should not initialize a Merkle tree with wrong parameters", () => {
