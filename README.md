@@ -110,28 +110,6 @@ ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reu
                 </a>
             </td>
         </tr>
-        <tr>
-            <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/master/packages/types">
-                    @zk-kit/types
-                </a>
-            </td>
-            <td>
-                <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/types">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/types.svg?style=flat-square" alt="NPM version" />
-                </a>
-            </td>
-            <td>
-                <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/types">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/types.svg?style=flat-square" alt="Downloads" />
-                </a>
-            </td>
-            <td>
-                <!-- Size -->
-            </td>
-        </tr>
     <tbody>
 </table>
 
