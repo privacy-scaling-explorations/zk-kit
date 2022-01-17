@@ -143,3 +143,11 @@ console.log(proof)
 ```typescript
 console.log(tree.verifyProof(proof)) // true
 ```
+
+## Contacts
+
+### Developers
+
+- e-mail : me@cedoor.dev
+- github : [@cedoor](https://github.com/cedoor)
+- website : https://cedoor.dev
