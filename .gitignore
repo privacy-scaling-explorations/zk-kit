@@ -2,6 +2,9 @@
 .vscode
 .idea
 
+# Cargo
+target
+
 # Logs
 logs
 *.log
@@ -40,6 +43,7 @@ node_modules/
 
 # Generate output
 dist
+build
 docs
 gh-pages/*
 !gh-pages/CNAME
@@ -51,7 +55,12 @@ gh-pages/*
 # Optional npm cache directory
 .npm
 
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Other
 zkeyFiles
-coverage
 benchmarks
-build
