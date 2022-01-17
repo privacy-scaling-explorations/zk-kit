@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/appliedzkp/zk-kit/blob/master/LICENSE">
+    <a href="https://github.com/appliedzkp/zk-kit/blob/main/LICENSE">
         <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zk-kit.svg?style=flat-square">
     </a>
     <a href="https://github.com/appliedzkp/zk-kit/actions?query=workflow%3Atest">
@@ -55,7 +55,7 @@ ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reu
     <tbody>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/master/packages/identity">
+                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/identity">
                     @zk-kit/identity
                 </a>
             </td>
@@ -80,7 +80,7 @@ ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reu
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/master/packages/protocols">
+                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/protocols">
                     @zk-kit/protocols
                 </a>
             </td>
@@ -105,7 +105,7 @@ ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reu
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/master/packages/merkle-tree">
+                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/merkle-tree">
                     @zk-kit/merkle-tree
                 </a>
             </td>
@@ -130,7 +130,7 @@ ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reu
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/master/packages/sparse-merkle-tree">
+                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/sparse-merkle-tree">
                     @zk-kit/sparse-merkle-tree
                 </a>
             </td>
