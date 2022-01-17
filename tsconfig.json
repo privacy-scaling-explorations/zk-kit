@@ -15,5 +15,11 @@
     "paths": {
       "@zk-kit/types": ["types/zk-kit"]
     }
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "target": "esnext",
+      "module": "commonjs"
+    }
   }
 }
