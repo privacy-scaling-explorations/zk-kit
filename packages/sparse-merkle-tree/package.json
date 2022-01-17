@@ -1,0 +1,49 @@
+{
+  "name": "@zk-kit/sparse-merkle-tree",
+  "version": "0.1.0",
+  "description": "Sparse Merkle tree implementation in TypeScript.",
+  "keywords": [
+    "typescript",
+    "sparse-merkle-tree",
+    "merkle-tree"
+  ],
+  "iife": "dist/index.js",
+  "unpkg": "dist/index.min.js",
+  "jsdelivr": "dist/index.min.js",
+  "main": "dist/index.node.js",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.node.js"
+  },
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "LICENSE",
+    "README.md"
+  ],
+  "repository": "git@github.com:appliedzkp/zk-kit.git",
+  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/sparse-merkle-tree",
+  "author": {
+    "name": "Omar Desogus",
+    "email": "me@cedoor.dev",
+    "url": "https://cedoor.dev"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
+    "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
+    "prepublishOnly": "yarn build",
+    "docs": "rimraf docs && typedoc src/index.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
+    "circomlibjs": "^0.0.8",
+    "js-sha256": "^0.9.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "typedoc": "^0.20.32"
+  }
+}
