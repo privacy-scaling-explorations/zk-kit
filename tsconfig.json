@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "strict": true,
     "target": "ES5",
     "module": "ES6",
@@ -10,6 +11,9 @@
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "declarationDir": "types",
-    "typeRoots": ["node_modules/@types", "types"]
+    "typeRoots": ["node_modules/@types", "types"],
+    "paths": {
+      "@zk-kit/types": ["types/zk-kit"]
+    }
   }
 }

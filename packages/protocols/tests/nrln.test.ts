@@ -1,6 +1,6 @@
 import { RLN } from "../src"
 import { ZkIdentity, SecretType } from "../../identity/src"
-import { MerkleProof, FullProof } from "../../types"
+import { MerkleProof, FullProof } from "@zk-kit/types"
 import { genSignalHash, genExternalNullifier, generateMerkleProof, poseidonHash } from "../src/utils"
 import * as path from "path"
 import * as fs from "fs"
