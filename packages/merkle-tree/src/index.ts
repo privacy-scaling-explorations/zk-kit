@@ -1,4 +1,4 @@
-import MerkleTree from "./merkle-tree"
+import IncrementalMerkleTree from "./incremental-merkle-tree"
 
-export { MerkleTree }
+export { IncrementalMerkleTree }
 export * from "./types"

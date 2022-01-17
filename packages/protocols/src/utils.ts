@@ -1,5 +1,6 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
 const Tree = require("incrementalquintree/build/IncrementalQuinTree")
+// import { IncrementalMerkleTree } from "@zk-kit/merkle-tree"
 import * as ciromlibjs from "circomlibjs"
 import * as ethers from "ethers"
 import { MerkleProof } from "@zk-kit/types"
