@@ -1,9 +1,10 @@
 import { poseidon } from "circomlibjs"
 import { IncrementalMerkleTree } from "../src"
 
-describe("Nary Merkle Tree", () => {
+describe("Incremental Merkle Tree", () => {
   const depth = 20
   const arity = 5
+
   let tree: IncrementalMerkleTree
 
   describe("Merkle Tree class", () => {
@@ -44,18 +45,18 @@ describe("Nary Merkle Tree", () => {
 
       expect(() => fullTree.insert(BigInt(4))).toThrow("The tree is full")
     })
-  })
 
-  it("Should create a valid proof", () => {
-    const numberOfLeaves = 50
+    it("Should create a valid proof", () => {
+      const numberOfLeaves = 50
 
-    for (let i = 0; i < numberOfLeaves; i += 1) {
-      tree.insert(BigInt(i + 1))
-    }
+      for (let i = 0; i < numberOfLeaves; i += 1) {
+        tree.insert(BigInt(i + 1))
+      }
 
-    for (let i = 0; i < numberOfLeaves; i += 1) {
-      const proof = tree.createProof(i)
-      expect(tree.verifyProof(proof)).toBeTruthy()
-    }
+      for (let i = 0; i < numberOfLeaves; i += 1) {
+        const proof = tree.createProof(i)
+        expect(tree.verifyProof(proof)).toBeTruthy()
+      }
+    })
   })
 })

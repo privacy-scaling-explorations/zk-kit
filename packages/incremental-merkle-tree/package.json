@@ -1,7 +1,7 @@
 {
-  "name": "@zk-kit/merkle-tree",
+  "name": "@zk-kit/incremental-merkle-tree",
   "version": "0.1.0",
-  "description": "Merkle tree implementation in TypeScript.",
+  "description": "Incremental Merkle tree implementation in TypeScript.",
   "iife": "dist/index.js",
   "unpkg": "dist/index.min.js",
   "jsdelivr": "dist/index.min.js",
@@ -18,19 +18,13 @@
     "README.md"
   ],
   "repository": "git@github.com:appliedzkp/zk-kit.git",
-  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/merkle-tree",
+  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/incremental-merkle-tree",
   "author": {
     "name": "Omar Desogus",
     "email": "me@cedoor.dev",
     "url": "https://cedoor.dev"
   },
   "license": "MIT",
-  "scripts": {
-    "benchmark": "node -r ts-node/register benchmarks/index.ts",
-    "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
-    "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
-    "prepublishOnly": "yarn build"
-  },
   "publishConfig": {
     "access": "public"
   },
