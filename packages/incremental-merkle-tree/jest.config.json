@@ -1,6 +1,0 @@
-{
-  "displayName": "incremental-merkle-tree",
-  "transform": {
-    "\\.ts$": "ts-jest"
-  }
-}
