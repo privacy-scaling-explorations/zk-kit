@@ -1,5 +1,6 @@
 import checkParameter from "./checkParameter"
-import { HashFunction, Proof, Node } from "./types"
+import { HashFunction, Node } from "./types"
+import { MerkleProof } from "@zk-kit/types"
 
 /**
  * A Merkle tree is a tree in which every leaf node is labelled with the cryptographic hash of a
@@ -175,7 +176,7 @@ export default class IncrementalMerkleTree {
    * @param index Index of the proof's leaf.
    * @returns Proof object.
    */
-  public createProof(index: number): Proof {
+  public createProof(index: number): MerkleProof {
     checkParameter(index, "index", "number")
 
     if (index < 0 || index >= this.leaves.length) {
@@ -197,7 +198,7 @@ export default class IncrementalMerkleTree {
       siblingNodes[level].splice(position, 1)
     })
 
-    return { root: this._root, leaf: this.leaves[index], siblingNodes, path }
+    return { root: this._root, leaf: this.leaves[index], indices: siblingNodes, pathElements: path }
   }
 
   /**
@@ -205,19 +206,19 @@ export default class IncrementalMerkleTree {
    * @param proof Proof to be verified.
    * @returns True or false.
    */
-  public verifyProof(proof: Proof): boolean {
+  public verifyProof(proof: MerkleProof): boolean {
     checkParameter(proof, "proof", "object")
     checkParameter(proof.root, "proof.root", "number", "string", "bigint")
     checkParameter(proof.leaf, "proof.leaf", "number", "string", "bigint")
-    checkParameter(proof.siblingNodes, "proof.siblingNodes", "object")
-    checkParameter(proof.path, "proof.path", "object")
+    checkParameter(proof.indices, "proof.siblingNodes", "object")
+    checkParameter(proof.pathElements, "proof.path", "object")
 
     let node = proof.leaf
 
-    for (let i = 0; i < proof.siblingNodes.length; i += 1) {
-      proof.siblingNodes[i].splice(proof.path[i], 0, node)
+    for (let i = 0; i < proof.indices.length; i += 1) {
+      proof.indices[i].splice(proof.pathElements[i], 0, node)
 
-      node = this._hash(proof.siblingNodes[i])
+      node = this._hash(proof.indices[i])
     }
 
     return proof.root === node

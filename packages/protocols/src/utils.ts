@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
-const Tree = require("incrementalquintree/build/IncrementalQuinTree")
-// import { IncrementalMerkleTree } from "@zk-kit/merkle-tree"
+// const Tree = require("incrementalquintree/build/IncrementalQuinTree")
+import { IncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree"
 import * as ciromlibjs from "circomlibjs"
 import * as ethers from "ethers"
 import { MerkleProof } from "@zk-kit/types"
@@ -33,8 +33,9 @@ export const genExternalNullifier = (plaintext: string): string => {
   return _cutOrExpandHexToBytes("0x" + hashed.slice(8), 32)
 }
 
-export const createTree = (depth: number, zeroValue: number | BigInt, leavesPerNode: number): IncrementalQuinTree => {
-  return new Tree.IncrementalQuinTree(depth, zeroValue, leavesPerNode, poseidonHash)
+export const createTree = (depth: number, zeroValue: number | BigInt, arity: number): IncrementalQuinTree => {
+  return new IncrementalMerkleTree(poseidonHash, depth, zeroValue, arity)
+  // return new Tree.IncrementalQuinTree(depth, zeroValue, leavesPerNode, poseidonHash)
 }
 
 /**
@@ -49,11 +50,11 @@ export const createTree = (depth: number, zeroValue: number | BigInt, leavesPerN
 export const generateMerkleProof = (
   depth: number,
   zeroValue: number | BigInt,
-  leavesPerNode: number,
+  arity: number,
   leaves: Array<bigint | string>,
   leaf: bigint | string
 ): MerkleProof => {
-  const tree: IncrementalQuinTree = new Tree.IncrementalQuinTree(depth, zeroValue, leavesPerNode, poseidonHash)
+  const tree: IncrementalQuinTree = new IncrementalMerkleTree(poseidonHash, depth, zeroValue, arity)
   const leafIndex = leaves.indexOf(leaf)
   if (leafIndex === -1) throw new Error("Leaf does not exists")
 
@@ -61,9 +62,5 @@ export const generateMerkleProof = (
     tree.insert(leaf)
   }
 
-  const merkleProof = tree.genMerklePath(leafIndex)
-  return {
-    root: tree.root,
-    ...merkleProof
-  }
+  return tree.createProof(leafIndex)
 }

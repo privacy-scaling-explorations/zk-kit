@@ -1223,6 +1223,16 @@
   resolved "https://registry.yarnpkg.com/@ungap/promise-all-settled/-/promise-all-settled-1.1.2.tgz#aa58042711d6e3275dd37dc597e5d31e8c290a44"
   integrity sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==
 
+"@zk-kit/incremental-merkle-tree@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@zk-kit/incremental-merkle-tree/-/incremental-merkle-tree-0.1.0.tgz#06ff24b10234d81873228c33c44123ed9a1bee91"
+  integrity sha512-S+LU87IDo4fnPna+5vkfxYzIOJt1iy4OnCZ+OliuRNByY6BfAPFF3mlKDODqt4gwxMpyiqle2U28kZg6O7GPzw==
+
+"@zk-kit/merkle-tree@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@zk-kit/merkle-tree/-/merkle-tree-0.1.0.tgz#ff06c3f548ad7a0bf0a6d4f3f9b86873c160cd57"
+  integrity sha512-pB2MQsDm6LfMm5nMtyek1ubW2r6gKuCkM0dblHp+q0RnTurfe348KN6KTqL6Ja7+Dy+GlbvnzhapASvPUN3Qug==
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"

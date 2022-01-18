@@ -14,7 +14,8 @@ export interface FullProof {
   publicSignals: Array<bigint | string>
 }
 export interface MerkleProof {
-  root: bigint
+  root: bigint,
+  leaf: bigint,
   indices: Array<any>
   pathElements: Array<any>
 }
