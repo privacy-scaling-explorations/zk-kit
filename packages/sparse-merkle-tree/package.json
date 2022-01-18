@@ -2,6 +2,7 @@
   "name": "@zk-kit/sparse-merkle-tree",
   "version": "0.1.0",
   "description": "Sparse Merkle tree implementation in TypeScript.",
+  "license": "MIT",
   "keywords": [
     "typescript",
     "sparse-merkle-tree",
@@ -19,7 +20,6 @@
   "files": [
     "dist/",
     "src/",
-    "LICENSE",
     "README.md"
   ],
   "repository": "git@github.com:appliedzkp/zk-kit.git",
@@ -29,7 +29,6 @@
     "email": "me@cedoor.dev",
     "url": "https://cedoor.dev"
   },
-  "license": "MIT",
   "scripts": {
     "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
     "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
