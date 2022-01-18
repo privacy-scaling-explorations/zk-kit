@@ -105,26 +105,26 @@ ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reu
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/merkle-tree">
-                    @zk-kit/merkle-tree
+                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/incremental-merkle-tree">
+                    @zk-kit/incremental-merkle-tree
                 </a>
             </td>
             <td>
                 <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/merkle-tree">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/merkle-tree.svg?style=flat-square" alt="NPM version" />
+                <a href="https://npmjs.org/package/@zk-kit/incremental-merkle-tree">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/incremental-merkle-tree.svg?style=flat-square" alt="NPM version" />
                 </a>
             </td>
             <td>
                 <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/merkle-tree">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/merkle-tree.svg?style=flat-square" alt="Downloads" />
+                <a href="https://npmjs.org/package/@zk-kit/incremental-merkle-tree">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/incremental-merkle-tree.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
             <td>
                 <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zk-kit/merkle-tree">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/merkle-tree" alt="npm bundle size (scoped)" />
+                <a href="https://bundlephobia.com/package/@zk-kit/incremental-merkle-tree">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/incremental-merkle-tree" alt="npm bundle size (scoped)" />
                 </a>
             </td>
         </tr>
@@ -162,18 +162,18 @@ Clone this repository and install the dependencies:
 
 ```bash
 $ git clone https://github.com/appliedzkp/zk-kit.git
-$ cd zk-kit && npm i
+$ cd zk-kit && yarn
 ```
 
 ## 📜 Usage
 
 ```bash
-$ npm run lint # Syntax check with ESLint (npm run lint:fix to fix errors).
-$ npm run prettier # Syntax check with Prettier (npm run prettier:fix to fix errors).
-$ npm run commit # Interactive Commitizen commit.
-$ npm run test # Test all packages (with common coverage).
-$ npm run build # Create a JS build for each package.
-$ npm run publish:fp # Publish packages on npm.
+$ yarn lint # Syntax check with ESLint (yarn lint:fix to fix errors).
+$ yarn prettier # Syntax check with Prettier (yarn prettier:fix to fix errors).
+$ yarn commit # Interactive Commitizen commit.
+$ yarn test # Test all packages (with common coverage).
+$ yarn build # Create a JS build for each package.
+$ yarn publish:fp # Publish packages on npm.
 ```
 
 You can see the other npm scripts in the `package.json` file.
