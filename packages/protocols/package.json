@@ -4,22 +4,26 @@
   "description": "Client library for generating and verifying Semaphore & RLN ZK proofs.",
   "license": "MIT",
   "main": "dist/index.node.js",
-  "types": "dist/types/index.d.ts",
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./dist/index.node.js"
   },
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "README.md"
+  ],
   "repository": "https://github.com/appliedzkp/zk-kit",
   "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/protocols",
+  "author": {
+    "name": "Andrija Novakovic",
+    "email": "akinovak@gmail.com"
+  },
   "scripts": {
     "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
     "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
     "prepublishOnly": "yarn build"
-  },
-  "keywords": [],
-  "author": {
-    "name": "Andrija Novakovic",
-    "email": "akinovak@gmail.com"
   },
   "publishConfig": {
     "access": "public"
