@@ -1,6 +1,0 @@
-{
-  "displayName": "sparse-merkle-tree",
-  "transform": {
-    "\\.ts$": "ts-jest"
-  }
-}
