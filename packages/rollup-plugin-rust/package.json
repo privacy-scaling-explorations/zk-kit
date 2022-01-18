@@ -1,0 +1,39 @@
+{
+  "name": "@zk-kit/rollup-plugin-rust",
+  "version": "0.1.0",
+  "description": "Rollup plugin for bundling and importing Rust crates with WASM.",
+  "license": "MIT",
+  "main": "dist/index.node.js",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.node.js"
+  },
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "README.md"
+  ],
+  "repository": "git@github.com:appliedzkp/zk-kit.git",
+  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/rollup-plugin-rust",
+  "author": {
+    "name": "Omar Desogus",
+    "email": "me@cedoor.dev",
+    "url": "https://cedoor.dev"
+  },
+  "scripts": {
+    "build:watch": "rollup -c rollup.config.js",
+    "build": "rimraf dist && rollup -c rollup.config.js",
+    "prepublishOnly": "yarn build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "glob": "^7.1.6",
+    "rimraf": "^3.0.0",
+    "rollup-pluginutils": "^2.8.2",
+    "toml": "^3.0.0",
+    "wasm-pack": "^0.10.2"
+  }
+}
