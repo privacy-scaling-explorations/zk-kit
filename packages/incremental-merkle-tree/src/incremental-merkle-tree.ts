@@ -5,8 +5,8 @@ import { HashFunction, Proof, Node } from "./types"
  * A Merkle tree is a tree in which every leaf node is labelled with the cryptographic hash of a
  * data block, and every non-leaf node is labelled with the cryptographic hash of the labels of its child nodes.
  * It allows efficient and secure verification of the contents of large data structures.
- * The MerkleTree class is a TypeScript implementation of Merkle tree and it provides all the functions to create
- * efficient trees and to generate and verify proofs of membership.
+ * The IncrementalMerkleTree class is a TypeScript implementation of Incremental Merkle tree and it
+ * provides all the functions to create efficient trees and to generate and verify proofs of membership.
  */
 export default class IncrementalMerkleTree {
   static readonly maxDepth = 32
@@ -19,7 +19,8 @@ export default class IncrementalMerkleTree {
   protected readonly _arity: number
 
   /**
-   * Initializes the Merkle tree with the hash function, the depth and the zero value to use for zeroes.
+   * Initializes the tree with the hash function, the depth, the zero value to use for zeroes
+   * and the arity (i.e. the number of children for each node).
    * @param hash Hash function.
    * @param depth Tree depth.
    * @param zeroValue Zero values for zeroes.
@@ -90,8 +91,8 @@ export default class IncrementalMerkleTree {
   }
 
   /**
-   * Returns the zeroes nodes of the tree.
-   * @returns List of zeroes.
+   * Returns the number of children for each node.
+   * @returns Number of children per node.
    */
   public get arity(): number {
     return this._arity
@@ -128,10 +129,42 @@ export default class IncrementalMerkleTree {
     this.forEachLevel(this.leaves.length, (level, index, position) => {
       this._nodes[level][index] = node
 
-      const leftNeighbours: Array<Node> = this._nodes[level].slice(index - position, index)
-      const rightNeighbours: Array<Node> = Array(this._arity - 1 - position).fill(this.zeroes[level])
+      let children = this._nodes[level].slice(index - position, index - position + this._arity)
 
-      node = this._hash(leftNeighbours.concat([node], rightNeighbours))
+      if (children.length < this.arity) {
+        children = this.padArrayEnd(children, this.arity, this.zeroes[level])
+      }
+
+      node = this._hash(children)
+    })
+
+    this._root = node
+  }
+
+  /**
+   * Deletes a leaf from the tree. It does not remove the leaf from
+   * the data structure. It set the leaf to be deleted to a zero value.
+   * @param index Index of the leaf to be deleted.
+   */
+  public delete(index: number) {
+    checkParameter(index, "index", "number")
+
+    if (index < 0 || index >= this.leaves.length) {
+      throw new Error("The leaf does not exist in this tree")
+    }
+
+    let node = this._zeroes[0]
+
+    this.forEachLevel(index, (level, index, position) => {
+      this._nodes[level][index] = node
+
+      let children = this._nodes[level].slice(index - position, index - position + this._arity)
+
+      if (children.length < this.arity) {
+        children = this.padArrayEnd(children, this.arity, this.zeroes[level])
+      }
+
+      node = this._hash(children)
     })
 
     this._root = node
@@ -150,21 +183,18 @@ export default class IncrementalMerkleTree {
     }
 
     const siblingNodes: Node[] = []
-    const path: Array<number> = []
+    const path: number[] = []
 
     this.forEachLevel(index, (level, index, position) => {
       path.push(position)
 
-      const leftNeighbours: Array<Node> = this._nodes[level].slice(index - position, index)
-      const lastRighIndex = index + this._arity - position
-      const numOfLeaves = this._nodes[level].length
-      let rightNeighbours: Array<Node> = this._nodes[level].slice(index + 1, Math.min(numOfLeaves, lastRighIndex))
+      siblingNodes[level] = this._nodes[level].slice(index - position, index - position + this._arity)
 
-      if (numOfLeaves < lastRighIndex) {
-        rightNeighbours = rightNeighbours.concat(Array(lastRighIndex - numOfLeaves).fill(this.zeroes[level]))
+      if (siblingNodes[level].length < this.arity) {
+        siblingNodes[level] = this.padArrayEnd(siblingNodes[level], this.arity, this.zeroes[level])
       }
 
-      siblingNodes[level] = leftNeighbours.concat(rightNeighbours)
+      siblingNodes[level].splice(position, 1)
     })
 
     return { root: this._root, leaf: this.leaves[index], siblingNodes, path }
@@ -186,17 +216,35 @@ export default class IncrementalMerkleTree {
 
     for (let i = 0; i < proof.siblingNodes.length; i += 1) {
       proof.siblingNodes[i].splice(proof.path[i], 0, node)
+
       node = this._hash(proof.siblingNodes[i])
     }
 
     return proof.root === node
   }
 
+  /**
+   * Provides a bottom-up tree traversal where for each level it calls a callback.
+   * @param index Index of the leaf.
+   * @param callback Callback with tree level, index of node in that level and position.
+   */
   private forEachLevel(index: number, callback: (level: number, index: number, position: number) => void) {
-    for (let level = 0; level < this._depth; level += 1) {
-      callback(level, index, index % this._arity)
+    for (let level = 0; level < this.depth; level += 1) {
+      callback(level, index, index % this.arity)
 
       index = Math.floor(index / this.arity)
     }
+  }
+
+  /**
+   * Pads the array with a new value (multiple times, if needed) until the resulting
+   * array reaches the given length.
+   * @param array The array to pad.
+   * @param length The length of the resulting array.
+   * @param value The value to pad the array with.
+   * @returns An array of the specified length with the new values at the end.
+   */
+  private padArrayEnd(array: any[], length: number, value: any): any[] {
+    return Array.from({ ...array, length }, (v) => v ?? value)
   }
 }
