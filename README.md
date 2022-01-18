@@ -41,7 +41,7 @@
 
 ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access ready-to-use and tested libraries for common tasks.
 
-🟢 ZK-kit uses [Conventional Commits](https://www.conventionalcommits.org) (`npm run commit` or `yarn commit`).
+🟢 ZK-kit uses [Conventional Commits](https://www.conventionalcommits.org) (`yarn commit`).
 
 ---
 
