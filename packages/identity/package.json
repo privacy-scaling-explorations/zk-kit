@@ -25,7 +25,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^8.3.0"
+    "@rollup/plugin-typescript": "^8.3.0",
+    "rollup-plugin-cleanup": "^3.2.1"
   },
   "dependencies": {
     "bigint-conversion": "^2.1.12",

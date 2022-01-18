@@ -1,5 +1,6 @@
 import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
+import cleanup from "rollup-plugin-cleanup"
 import { terser } from "rollup-plugin-terser"
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
@@ -31,5 +32,5 @@ export default {
     { file: pkg.exports.require, format: "cjs", banner },
     { file: pkg.exports.import, format: "es", banner }
   ],
-  plugins: [typescript({ tsconfig: "./build.tsconfig.json" })]
+  plugins: [typescript({ tsconfig: "./build.tsconfig.json" }), cleanup({ comments: "jsdoc" })]
 }
