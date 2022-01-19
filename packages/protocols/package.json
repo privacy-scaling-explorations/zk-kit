@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.0",
+    "@zk-kit/identity": "^1.0.22",
     "rollup-plugin-cleanup": "^3.2.1"
   },
   "dependencies": {

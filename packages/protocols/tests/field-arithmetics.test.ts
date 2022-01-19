@@ -26,16 +26,16 @@ describe("Field arithmetics", () => {
       const coeffs: Array<bigint> = [BigInt(7), BigInt(6), BigInt(9), BigInt(1), BigInt(7)]
       const xs: Array<bigint> = []
 
-      for (let i = 0; i < degree; i++) {
+      for (let i = 0; i < degree; i += 1) {
         xs.push(BigInt(i))
       }
 
       const ys: Array<bigint> = []
-      for (let i = 0; i < degree; i++) {
+      for (let i = 0; i < degree; i += 1) {
         const x: bigint = xs[i]
         let tmpX: bigint = x
         let y: bigint = coeffs[0]
-        for (let j = 1; j < degree + 1; j++) {
+        for (let j = 1; j < degree + 1; j += 1) {
           y = Fq.add(y, Fq.mul(tmpX, coeffs[j]))
           tmpX = Fq.mul(tmpX, x)
         }
@@ -43,9 +43,9 @@ describe("Field arithmetics", () => {
       }
 
       let f0 = BigInt(0)
-      for (let i = 0; i < degree; i++) {
+      for (let i = 0; i < degree; i += 1) {
         let p = BigInt(1)
-        for (let j = 0; j < degree; j++) {
+        for (let j = 0; j < degree; j += 1) {
           if (j !== i) {
             p = Fq.mul(p, Fq.div(xs[j], Fq.sub(xs[j], xs[i])))
           }

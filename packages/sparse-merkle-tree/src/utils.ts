@@ -1,4 +1,19 @@
 /**
+ * Converts a hexadecimal number to a binary number.
+ * @param n A hexadecimal number.
+ * @returns The relative binary number.
+ */
+export function hexToBin(n: string): string {
+  let bin = Number(`0x${n[0]}`).toString(2)
+
+  for (let i = 1; i < n.length; i += 1) {
+    bin += Number(`0x${n[i]}`).toString(2).padStart(4, "0")
+  }
+
+  return bin
+}
+
+/**
  * Returns the binary representation of a key. For each key it is possibile
  * to obtain an array of 256 padded bits.
  * @param key The key of a tree entry.
@@ -17,7 +32,7 @@ export function keyToPath(key: string | bigint): number[] {
  * @returns The index of the last non-zero element.
  */
 export function getIndexOfLastNonZeroElement(array: any[]): number {
-  for (let i = array.length - 1; i >= 0; i--) {
+  for (let i = array.length - 1; i >= 0; i -= 1) {
     if (Number(`0x${array[i]}`) !== 0) {
       return i
     }
@@ -35,28 +50,13 @@ export function getIndexOfLastNonZeroElement(array: any[]): number {
 export function getFirstCommonElements(array1: any[], array2: any[]): any[] {
   const minArray = array1.length < array2.length ? array1 : array2
 
-  for (let i = 0; i < minArray.length; i++) {
+  for (let i = 0; i < minArray.length; i += 1) {
     if (array1[i] !== array2[i]) {
       return minArray.slice(0, i)
     }
   }
 
   return minArray.slice()
-}
-
-/**
- * Converts a hexadecimal number to a binary number.
- * @param n A hexadecimal number.
- * @returns The relative binary number.
- */
-export function hexToBin(n: string): string {
-  let bin = Number(`0x${n[0]}`).toString(2)
-
-  for (let i = 1; i < n.length; i++) {
-    bin += Number(`0x${n[i]}`).toString(2).padStart(4, "0")
-  }
-
-  return bin
 }
 
 /**

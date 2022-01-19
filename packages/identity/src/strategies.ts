@@ -3,20 +3,16 @@ import * as bigintConversion from "bigint-conversion"
 import { sha256 as _sha256 } from "js-sha256"
 import { Identity } from "@zk-kit/types"
 
-const genRandomNumber = (numBytes = 31): bigint => {
-  return bigintConversion.bufToBigint(crypto.randomBytes(numBytes))
-}
+const genRandomNumber = (numBytes = 31): bigint => bigintConversion.bufToBigint(crypto.randomBytes(numBytes))
 
 /**
  *
  * @returns Identity
  */
-const genRandomIdentity = (): Identity => {
-  return {
-    identityNullifier: genRandomNumber(31),
-    identityTrapdoor: genRandomNumber(31)
-  }
-}
+const genRandomIdentity = (): Identity => ({
+  identityNullifier: genRandomNumber(31),
+  identityTrapdoor: genRandomNumber(31)
+})
 
 /**
  *

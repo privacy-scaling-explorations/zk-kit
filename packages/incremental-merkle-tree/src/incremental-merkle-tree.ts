@@ -1,6 +1,7 @@
+import { MerkleProof } from "@zk-kit/types"
 import checkParameter from "./checkParameter"
 import { HashFunction, Node } from "./types"
-import { MerkleProof } from "@zk-kit/types"
+import { padArrayEnd } from "./utils"
 
 /**
  * A Merkle tree is a tree in which every leaf node is labelled with the cryptographic hash of a
@@ -133,7 +134,7 @@ export default class IncrementalMerkleTree {
       let children = this._nodes[level].slice(index - position, index - position + this._arity)
 
       if (children.length < this.arity) {
-        children = this.padArrayEnd(children, this.arity, this.zeroes[level])
+        children = padArrayEnd(children, this.arity, this.zeroes[level])
       }
 
       node = this._hash(children)
@@ -162,7 +163,7 @@ export default class IncrementalMerkleTree {
       let children = this._nodes[level].slice(index - position, index - position + this._arity)
 
       if (children.length < this.arity) {
-        children = this.padArrayEnd(children, this.arity, this.zeroes[level])
+        children = padArrayEnd(children, this.arity, this.zeroes[level])
       }
 
       node = this._hash(children)
@@ -192,7 +193,7 @@ export default class IncrementalMerkleTree {
       siblings[level] = this._nodes[level].slice(index - position, index - position + this._arity)
 
       if (siblings[level].length < this.arity) {
-        siblings[level] = this.padArrayEnd(siblings[level], this.arity, this.zeroes[level])
+        siblings[level] = padArrayEnd(siblings[level], this.arity, this.zeroes[level])
       }
 
       siblings[level].splice(position, 1)
@@ -235,17 +236,5 @@ export default class IncrementalMerkleTree {
 
       index = Math.floor(index / this.arity)
     }
-  }
-
-  /**
-   * Pads the array with a new value (multiple times, if needed) until the resulting
-   * array reaches the given length.
-   * @param array The array to pad.
-   * @param length The length of the resulting array.
-   * @param value The value to pad the array with.
-   * @returns An array of the specified length with the new values at the end.
-   */
-  private padArrayEnd(array: any[], length: number, value: any): any[] {
-    return Array.from({ ...array, length }, (v) => v ?? value)
   }
 }

@@ -13,16 +13,16 @@ function posixPath(path) {
 }
 
 function glob(pattern, cwd) {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     $glob(
       pattern,
       {
-        cwd: cwd,
+        cwd,
         strict: true,
         absolute: true,
         nodir: true
       },
-      function (err, files) {
+      (err, files) => {
         if (err) {
           reject(err)
         } else {
@@ -34,8 +34,8 @@ function glob(pattern, cwd) {
 }
 
 function rm(path) {
-  return new Promise(function (resolve, reject) {
-    $rimraf(path, { glob: false }, function (err) {
+  return new Promise((resolve, reject) => {
+    $rimraf(path, { glob: false }, (err) => {
       if (err) {
         reject(err)
       } else {
@@ -46,8 +46,8 @@ function rm(path) {
 }
 
 function read(path) {
-  return new Promise(function (resolve, reject) {
-    $fs.readFile(path, function (err, file) {
+  return new Promise((resolve, reject) => {
+    $fs.readFile(path, (err, file) => {
       if (err) {
         reject(err)
       } else {
@@ -63,7 +63,7 @@ function wait(p) {
       if (code === 0) {
         resolve()
       } else {
-        reject(new Error("Command `" + p.spawnargs.join(" ") + "` failed with error code: " + code))
+        reject(new Error(`Command \`${p.spawnargs.join(" ")}\` failed with error code: ${code}`))
       }
     })
 
@@ -78,7 +78,7 @@ const lockState = {
 
 async function lock(f) {
   if (lockState.locked) {
-    await new Promise(function (resolve) {
+    await new Promise((resolve) => {
       lockState.pending.push(resolve)
     })
 
@@ -90,7 +90,7 @@ async function lock(f) {
   lockState.locked = true
 
   try {
-    return await f()
+    return f()
   } finally {
     lockState.locked = false
 
@@ -110,21 +110,21 @@ function wasm_pack_path(options) {
 
     // https://www.gnu.org/software/bash/manual/html_node/Tilde-Expansion.html
     // eslint-disable-next-line no-useless-escape
-    return options.wasmPackPath.replace(/^~(?=$|[\/\\])/, function () {
-      return $os.homedir()
-    })
-  } else if (process.platform === "win32") {
+    return options.wasmPackPath.replace(/^~(?=$|[\/\\])/, () => $os.homedir())
+  }
+
+  if (process.platform === "win32") {
     // TODO pretty hacky, but needed to make it work on Windows
     return "wasm-pack.cmd"
-  } else {
-    return "wasm-pack"
   }
+
+  return "wasm-pack"
 }
 
 async function wasm_pack(cx, state, dir, source, id, options) {
   const target_dir = "target"
   const toml = $toml.parse(source)
-  const name = toml.package.name
+  const { name } = toml.package
   const out_dir = $path.resolve($path.join(target_dir, "wasm-pack", name))
 
   await rm(out_dir)
@@ -148,7 +148,7 @@ async function wasm_pack(cx, state, dir, source, id, options) {
   try {
     // TODO what if it tries to build the same crate multiple times ?
     // TODO maybe it can run `cargo fetch` without locking ?
-    await lock(async function () {
+    await lock(async () => {
       await wait($child.spawn(command, args, { cwd: dir, stdio: "inherit" }))
     })
   } catch (e) {
@@ -162,7 +162,7 @@ async function wasm_pack(cx, state, dir, source, id, options) {
   }
 
   // TODO better way to generate the path
-  const import_path = JSON.stringify("./" + posixPath($path.relative(dir, $path.join(out_dir, "index.js"))))
+  const import_path = JSON.stringify(`./${posixPath($path.relative(dir, $path.join(out_dir, "index.js")))}`)
   const wasm = await read($path.join(out_dir, "index_bg.wasm"))
 
   const base64_decode = `
@@ -215,15 +215,11 @@ async function wasm_pack(cx, state, dir, source, id, options) {
 
 async function watch_files(cx, dir, options) {
   if (options.watch) {
-    const matches = await Promise.all(
-      options.watchPatterns.map(function (pattern) {
-        return glob(pattern, dir)
-      })
-    )
+    const matches = await Promise.all(options.watchPatterns.map((pattern) => glob(pattern, dir)))
 
     // TODO deduplicate matches ?
-    matches.forEach(function (files) {
-      files.forEach(function (file) {
+    matches.forEach((files) => {
+      files.forEach((file) => {
         cx.addWatchFile(file)
       })
     })
@@ -239,7 +235,7 @@ async function build(cx, state, source, id, options) {
 }
 
 // eslint-disable-next-line no-undef
-module.exports = function rust(options = {}) {
+export default function rust(options = {}) {
   // TODO should the filter affect the watching ?
   // TODO should the filter affect the Rust compilation ?
   const filter = createFilter(options.include, options.exclude)
@@ -278,16 +274,16 @@ module.exports = function rust(options = {}) {
     transform(source, id) {
       if ($path.basename(id) === "Cargo.toml" && filter(id)) {
         return build(this, state, source, id, options)
-      } else {
-        return null
       }
+
+      return null
     },
     resolveFileUrl(info) {
       if (state.fileIds.has(info.referenceId)) {
         return JSON.stringify(info.fileName)
-      } else {
-        return null
       }
+
+      return null
     }
   }
 }
