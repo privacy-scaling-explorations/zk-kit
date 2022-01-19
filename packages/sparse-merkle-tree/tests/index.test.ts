@@ -1,7 +1,6 @@
-import { SparseMerkleTree } from "../src"
-import { ChildNodes } from "../src/sparse-merkle-tree"
-import { sha256 } from "js-sha256"
 import { poseidon, smt } from "circomlibjs"
+import { sha256 } from "js-sha256"
+import { ChildNodes, SparseMerkleTree } from "../src"
 
 describe("Sparse Merkle tree", () => {
   const hash = (childNodes: ChildNodes) => sha256(childNodes.join(""))

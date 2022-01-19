@@ -144,7 +144,7 @@ console.log(membershipProof)
 {
     entry: [ '2b', '44', '1' ],
     matchingEntry: undefined,
-    sidenodes: [
+    siblings: [
         '006a0ab15a212e0e0126b81e056b11576628b1ad80792403dbb3a90be2e71d64',
         'f786ce5a843614d7da216d95c0087c1eb29244927feeeeeb658aa60cf124cd5e'
     ],
@@ -158,7 +158,7 @@ console.log(nonMembershipProof)
 {
     entry: [ '16' ],
     matchingEntry: undefined,
-    sidenodes: [
+    siblings: [
         '960f23d9fbb44241be53efb7c4d69ac129bb1cb9482dcb6789d3cc7e6de2de2b',
         '2a1aef839e68d1bdf43c1b3b1ed9ef16c27162e8a175898c9ac64a679b0fc825'
     ],
