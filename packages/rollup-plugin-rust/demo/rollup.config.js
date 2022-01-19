@@ -1,5 +1,4 @@
 import fs from "fs"
-import { terser } from "rollup-plugin-terser"
 // eslint-disable-next-line import/no-relative-packages
 import rust from ".."
 
@@ -22,12 +21,6 @@ export default {
       name,
       format: "iife",
       banner
-    },
-    {
-      file: pkg.unpkg,
-      name,
-      format: "iife",
-      plugins: [terser({ output: { preamble: banner } })]
     },
     { file: pkg.exports.require, format: "cjs", banner, exports: "auto" },
     { file: pkg.exports.import, format: "es", banner }
