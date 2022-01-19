@@ -13,12 +13,12 @@ import { padArrayEnd } from "./utils"
 export default class IncrementalMerkleTree {
   static readonly maxDepth = 32
 
-  protected _root: Node
-  protected readonly _nodes: Node[][]
-  protected readonly _zeroes: Node[]
-  protected readonly _hash: HashFunction
-  protected readonly _depth: number
-  protected readonly _arity: number
+  private _root: Node
+  private readonly _nodes: Node[][]
+  private readonly _zeroes: Node[]
+  private readonly _hash: HashFunction
+  private readonly _depth: number
+  private readonly _arity: number
 
   /**
    * Initializes the tree with the hash function, the depth, the zero value to use for zeroes
