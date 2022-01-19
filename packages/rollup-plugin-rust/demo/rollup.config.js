@@ -1,7 +1,7 @@
-// eslint-disable-next-line import/no-unresolved
-import rust from "@zk-kit/rollup-plugin-rust"
-import { terser } from "rollup-plugin-terser"
 import fs from "fs"
+import { terser } from "rollup-plugin-terser"
+// eslint-disable-next-line import/no-relative-packages
+import rust from ".."
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
 const name = pkg.name.substr(1).replace(/[-/]./g, (x) => x.toUpperCase()[1])
