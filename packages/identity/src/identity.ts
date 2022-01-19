@@ -4,9 +4,7 @@ import * as ciromlibjs from "circomlibjs"
 import { genIdentityFromMessage, genRandomIdentity } from "./strategies"
 import { Fq } from "./utils"
 
-const poseidonHash = (data: Array<bigint>): bigint => {
-  return ciromlibjs.poseidon(data)
-}
+const poseidonHash = (data: Array<bigint>): bigint => ciromlibjs.poseidon(data)
 
 export enum Strategy {
   RANDOM,
@@ -71,7 +69,7 @@ class ZkIdentity {
 
     const initialComponent = Fq.pow(this.identityTrapdoor, this.identityNullifier)
     this.multipartSecret = [initialComponent]
-    for (let i = 1; i < parts; i++) {
+    for (let i = 1; i < parts; i += 1) {
       this.multipartSecret.push(Fq.pow(initialComponent, BigInt(i + 1)))
     }
   }
@@ -120,10 +118,10 @@ class ZkIdentity {
     )
       throw new Error("Wrong input identity")
     return new ZkIdentity(Strategy.SERIALIZED, {
-      identityNullifier: data["identityNullifier"],
-      identityTrapdoor: data["identityTrapdoor"],
-      secret: data["secret"],
-      multipartSecret: data["multipartSecret"]
+      identityNullifier: data.identityNullifier,
+      identityTrapdoor: data.identityTrapdoor,
+      secret: data.secret,
+      multipartSecret: data.multipartSecret
     })
   }
 

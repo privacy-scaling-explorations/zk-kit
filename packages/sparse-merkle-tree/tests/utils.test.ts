@@ -5,7 +5,7 @@ describe("Utility functions", () => {
     it("Should convert a key in an array of 256 bits", () => {
       const path = keyToPath("17")
 
-      expect(path.length).toEqual(256)
+      expect(path).toHaveLength(256)
       expect(path.every((b) => b === 0 || b === 1)).toBeTruthy()
     })
 
@@ -20,7 +20,7 @@ describe("Utility functions", () => {
     it("Should return the correct index of the last non-zero element", () => {
       const index = getIndexOfLastNonZeroElement(["0", "17", "3", "0", "3", "0", "3", "2", "0", "0"])
 
-      expect(index).toEqual(7)
+      expect(index).toBe(7)
     })
 
     it("Should return -1 if there are not non-zero elements", () => {
@@ -62,7 +62,7 @@ describe("Utility functions", () => {
 
   describe("Convert hexadecimal to binary", () => {
     it("Should convert a hexadecimal number to a binary number", () => {
-      expect(hexToBin("12")).toEqual("10010")
+      expect(hexToBin("12")).toBe("10010")
     })
   })
 })

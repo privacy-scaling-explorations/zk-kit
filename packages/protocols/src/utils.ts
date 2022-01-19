@@ -1,20 +1,16 @@
-/* eslint @typescript-eslint/no-var-requires: "off" */
-// const Tree = require("incrementalquintree/build/IncrementalQuinTree")
 import { IncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree"
+import { MerkleProof } from "@zk-kit/types"
 import * as ciromlibjs from "circomlibjs"
 import * as ethers from "ethers"
-import { MerkleProof } from "@zk-kit/types"
+import { ZqField } from "ffjavascript"
 
 export const SNARK_FIELD_SIZE = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
 
-const ZqField = require("ffjavascript").ZqField
 export const Fq = new ZqField(SNARK_FIELD_SIZE)
 
 type IncrementalQuinTree = any
 
-export const poseidonHash = (data: Array<bigint>): bigint => {
-  return ciromlibjs.poseidon(data)
-}
+export const poseidonHash = (data: Array<bigint>): bigint => ciromlibjs.poseidon(data)
 
 export const genSignalHash = (signal: string): bigint => {
   const converted = ethers.utils.hexlify(ethers.utils.toUtf8Bytes(signal))
@@ -26,17 +22,15 @@ export const genExternalNullifier = (plaintext: string): string => {
     const len = bytes * 2
 
     const h = hexStr.slice(2, len + 2)
-    return "0x" + h.padStart(len, "0")
+    return `0x${h.padStart(len, "0")}`
   }
 
   const hashed = ethers.utils.solidityKeccak256(["string"], [plaintext])
-  return _cutOrExpandHexToBytes("0x" + hashed.slice(8), 32)
+  return _cutOrExpandHexToBytes(`0x${hashed.slice(8)}`, 32)
 }
 
-export const createTree = (depth: number, zeroValue: number | BigInt, arity: number): IncrementalQuinTree => {
-  return new IncrementalMerkleTree(poseidonHash, depth, zeroValue, arity)
-  // return new Tree.IncrementalQuinTree(depth, zeroValue, leavesPerNode, poseidonHash)
-}
+export const createTree = (depth: number, zeroValue: number | BigInt, arity: number): IncrementalQuinTree =>
+  new IncrementalMerkleTree(poseidonHash, depth, zeroValue, arity)
 
 /**
  * Creates merkle proof

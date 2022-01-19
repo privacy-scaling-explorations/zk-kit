@@ -36,6 +36,7 @@
     "bigint-conversion": "^2.1.12",
     "circomlibjs": "^0.0.8",
     "crypto": "^1.0.1",
+    "ffjavascript": "^0.2.46",
     "js-sha256": "^0.9.0"
   }
 }

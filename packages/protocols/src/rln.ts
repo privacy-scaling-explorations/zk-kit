@@ -1,7 +1,6 @@
-import { ZkProtocol } from "./zk-protocol"
-import { genSignalHash, poseidonHash } from "./utils"
-import { Fq } from "./utils"
 import { MerkleProof } from "@zk-kit/types"
+import { Fq, genSignalHash, poseidonHash } from "./utils"
+import ZkProtocol from "./zk-protocol"
 
 class RLN extends ZkProtocol {
   /**
@@ -56,7 +55,7 @@ class RLN extends ZkProtocol {
     coeffs.push(poseidonHash([identitySecret[0], epoch]))
     let y: bigint = Fq.add(Fq.mul(coeffs[0], tmpX), a0)
 
-    for (let i = 1; i < limit; i++) {
+    for (let i = 1; i < limit; i += 1) {
       tmpX = Fq.mul(x, tmpX)
 
       coeffs.push(poseidonHash([identitySecret[i], epoch]))
@@ -87,9 +86,9 @@ class RLN extends ZkProtocol {
     if (xs.length !== ys.length) throw new Error("x and y arrays must be of same size")
     const numOfPoints: number = xs.length
     let f0 = BigInt(0)
-    for (let i = 0; i < numOfPoints; i++) {
+    for (let i = 0; i < numOfPoints; i += 1) {
       let p = BigInt(1)
-      for (let j = 0; j < numOfPoints; j++) {
+      for (let j = 0; j < numOfPoints; j += 1) {
         if (j !== i) {
           p = Fq.mul(p, Fq.div(xs[j], Fq.sub(xs[j], xs[i])))
         }

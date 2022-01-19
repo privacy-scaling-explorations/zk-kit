@@ -1,7 +1,7 @@
 import b from "benny"
 import { poseidon } from "circomlibjs"
-import { IncrementalMerkleTree } from "../src"
 import { IncrementalQuinTree } from "incrementalquintree"
+import { IncrementalMerkleTree } from "../src"
 
 const newTree = new IncrementalMerkleTree(poseidon, 20, BigInt(0), 2)
 const oldTree = new IncrementalQuinTree(20, BigInt(0), 2, poseidon)

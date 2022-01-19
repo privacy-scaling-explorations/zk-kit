@@ -1,9 +1,9 @@
-import { RLN } from "../src"
-import { ZkIdentity, SecretType } from "../../identity/src"
-import { MerkleProof, FullProof } from "@zk-kit/types"
-import { genSignalHash, genExternalNullifier, generateMerkleProof, poseidonHash } from "../src/utils"
-import * as path from "path"
+import { FullProof, MerkleProof } from "@zk-kit/types"
 import * as fs from "fs"
+import * as path from "path"
+import { SecretType, ZkIdentity } from "@zk-kit/identity"
+import { RLN } from "../src"
+import { generateMerkleProof, genExternalNullifier, genSignalHash, poseidonHash } from "../src/utils"
 
 const identityCommitments: Array<bigint> = []
 const SPAM_TRESHOLD = 3
@@ -11,7 +11,7 @@ const SPAM_TRESHOLD = 3
 beforeAll(() => {
   const leafIndex = 3
 
-  for (let i = 0; i < leafIndex; i++) {
+  for (let i = 0; i < leafIndex; i += 1) {
     const tmpIdentity = new ZkIdentity()
     tmpIdentity.genMultipartSecret(SPAM_TRESHOLD)
     const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment(SecretType.MULTIPART_SECRET)

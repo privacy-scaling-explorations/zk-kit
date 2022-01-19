@@ -1,6 +1,6 @@
 import { poseidon } from "circomlibjs"
-import { IncrementalMerkleTree } from "../src"
 import { IncrementalQuinTree } from "incrementalquintree"
+import { IncrementalMerkleTree } from "../src"
 
 describe("Incremental Merkle Tree", () => {
   const depth = 16
@@ -56,7 +56,7 @@ describe("Incremental Merkle Tree", () => {
       })
 
       it(`Should insert ${numberOfLeaves} leaves`, () => {
-        for (let i = 0; i < numberOfLeaves; i++) {
+        for (let i = 0; i < numberOfLeaves; i += 1) {
           tree.insert(BigInt(1))
           oldTree.insert(BigInt(1))
 
@@ -74,12 +74,12 @@ describe("Incremental Merkle Tree", () => {
       })
 
       it(`Should delete ${numberOfLeaves} leaves`, () => {
-        for (let i = 0; i < numberOfLeaves; i++) {
+        for (let i = 0; i < numberOfLeaves; i += 1) {
           tree.insert(BigInt(1))
           oldTree.insert(BigInt(1))
         }
 
-        for (let i = 0; i < numberOfLeaves; i++) {
+        for (let i = 0; i < numberOfLeaves; i += 1) {
           tree.delete(i)
           oldTree.update(i, BigInt(0))
 
@@ -95,7 +95,7 @@ describe("Incremental Merkle Tree", () => {
 
         const index = tree.indexOf(BigInt(2))
 
-        expect(index).toEqual(1)
+        expect(index).toBe(1)
       })
 
       it("Should not create any proof if the leaf does not exist", () => {

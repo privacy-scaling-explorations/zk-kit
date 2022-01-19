@@ -1,10 +1,9 @@
-import { ZkIdentity } from "../../identity/src"
-import { MerkleProof, FullProof } from "@zk-kit/types"
-import { genSignalHash, genExternalNullifier, generateMerkleProof } from "../src/utils"
-import * as path from "path"
+import { ZkIdentity } from "@zk-kit/identity"
+import { FullProof, MerkleProof } from "@zk-kit/types"
 import * as fs from "fs"
-
+import * as path from "path"
 import { Semaphore } from "../src"
+import { generateMerkleProof, genExternalNullifier, genSignalHash } from "../src/utils"
 
 const identityCommitments: Array<bigint> = []
 
@@ -13,7 +12,7 @@ beforeAll(() => {
   jest.setTimeout(90 * 1000)
   const leafIndex = 3
 
-  for (let i = 0; i < leafIndex; i++) {
+  for (let i = 0; i < leafIndex; i += 1) {
     const tmpIdentity = new ZkIdentity()
     const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment()
     identityCommitments.push(tmpCommitment)
@@ -36,6 +35,7 @@ describe("Semaphore", () => {
 
       expect(typeof witness).toBe("object")
     })
+
     it.skip("Should generate semaphore full proof", async () => {
       /**
        * Compiled semaphore circuits are needed to run this test, so it's being skipped in hooks

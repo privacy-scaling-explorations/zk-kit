@@ -1,4 +1,5 @@
-import rust from "@zkit/rollup-plugin-rust"
+// eslint-disable-next-line import/no-unresolved
+import rust from "@zk-kit/rollup-plugin-rust"
 import { terser } from "rollup-plugin-terser"
 import fs from "fs"
 

@@ -1,16 +1,16 @@
-import { RLN } from "../src"
-import { ZkIdentity, SecretType } from "../../identity/src"
-import { MerkleProof, FullProof } from "@zk-kit/types"
-import { genSignalHash, genExternalNullifier, generateMerkleProof } from "../src/utils"
-import * as path from "path"
+import { FullProof, MerkleProof } from "@zk-kit/types"
 import * as fs from "fs"
+import * as path from "path"
+import { SecretType, ZkIdentity } from "@zk-kit/identity"
+import { RLN } from "../src"
+import { generateMerkleProof, genExternalNullifier, genSignalHash } from "../src/utils"
 
 const identityCommitments: Array<bigint> = []
 
 beforeAll(() => {
   const leafIndex = 3
 
-  for (let i = 0; i < leafIndex; i++) {
+  for (let i = 0; i < leafIndex; i += 1) {
     const tmpIdentity = new ZkIdentity()
     const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment(SecretType.MULTIPART_SECRET)
     identityCommitments.push(tmpCommitment)
@@ -71,6 +71,7 @@ describe("RLN with default spam threshold", () => {
 
       expect(res).toBe(true)
     }, 30000)
+
     // it("Should retrieve user secret after spaming", () => {
     //   const identity: ZkIdentity = new ZkIdentity();
     //   const secret: bigint[] = identity.getMultipartSecret();
