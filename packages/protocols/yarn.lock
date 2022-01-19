@@ -2244,7 +2244,7 @@ circomlib@^0.5.1:
     ffjavascript "0.2.38"
     web3-utils "^1.3.0"
 
-circomlibjs@^0.0.8:
+circomlibjs@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/circomlibjs/-/circomlibjs-0.0.8.tgz#c2d1130d2d99fbb22f3d40ac19f347d768eace76"
   integrity sha512-oZFYapLO0mfiA+i2GU/V7bRNEEPjVcwV4M444nU5lNsdSJpqLwD57m9zxTD5m/KeY7WQ3lEAC9NNKEPQHu7s1w==
@@ -3504,7 +3504,7 @@ ffjavascript@0.2.39:
     wasmcurves "0.0.14"
     web-worker "^1.0.0"
 
-ffjavascript@^0.2.30, ffjavascript@^0.2.35, ffjavascript@^0.2.38, ffjavascript@^0.2.46:
+ffjavascript@^0.2.30, ffjavascript@^0.2.35, ffjavascript@^0.2.38:
   version "0.2.46"
   resolved "https://registry.yarnpkg.com/ffjavascript/-/ffjavascript-0.2.46.tgz#3c7a7c2885e8f44d0535749fe1c6190f39301020"
   integrity sha512-UUjkb2BMTrYGzD2jrurgLzOXZ2ZWQyRjj0GImiGp7wlOCJx4mZqIqSJbq6q5g2U9Jrmx26zjxiNQ/BsukPqS2Q==
