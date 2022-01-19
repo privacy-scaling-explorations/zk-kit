@@ -33,7 +33,7 @@
     "rollup-plugin-cleanup": "^3.2.1"
   },
   "dependencies": {
-    "@zk-kit/incremental-merkle-tree": "^0.1.0",
+    "@zk-kit/incremental-merkle-tree": "^0.2.0",
     "circomlibjs": "^0.0.8",
     "ethers": "^5.4.7",
     "incrementalquintree": "^1.0.7",

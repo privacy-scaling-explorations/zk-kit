@@ -22,8 +22,8 @@ class Semaphore extends ZkProtocol {
     return {
       identity_nullifier: identity.identityNullifier,
       identity_trapdoor: identity.identityTrapdoor,
-      identity_path_index: merkleProof.indices,
-      path_elements: merkleProof.pathElements,
+      identity_path_index: merkleProof.pathIndices,
+      path_elements: merkleProof.siblings,
       external_nullifier: externalNullifier,
       signal_hash: shouldHash ? genSignalHash(signal) : signal
     }

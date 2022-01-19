@@ -1,6 +1,7 @@
 import { ZkProtocol } from "./zk-protocol"
 import { genSignalHash, poseidonHash } from "./utils"
 import { Fq } from "./utils"
+import { MerkleProof } from "@zk-kit/types"
 
 class RLN extends ZkProtocol {
   /**
@@ -15,7 +16,7 @@ class RLN extends ZkProtocol {
    */
   genWitness(
     identitySecret: Array<bigint>,
-    merkleProof: any,
+    merkleProof: MerkleProof,
     epoch: string | bigint,
     signal: string,
     rlnIdentifier: bigint,
@@ -23,8 +24,8 @@ class RLN extends ZkProtocol {
   ): any {
     return {
       identity_secret: identitySecret,
-      path_elements: merkleProof.pathElements,
-      identity_path_index: merkleProof.indices,
+      path_elements: merkleProof.siblings,
+      identity_path_index: merkleProof.pathIndices,
       x: shouldHash ? genSignalHash(signal) : signal,
       epoch,
       rln_identifier: rlnIdentifier
