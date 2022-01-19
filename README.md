@@ -1,6 +1,6 @@
 <p align="center">
     <h1 align="center">
-        ZK-kit
+        🧰 ZK-kit
     </h1>
     <p align="center">A monorepo of reusable JS libraries for zero-knowledge technologies.</p>
 </p>
@@ -39,9 +39,16 @@
     </h4>
 </div>
 
-ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access ready-to-use and tested libraries for common tasks.
 
-🟢 ZK-kit uses [Conventional Commits](https://www.conventionalcommits.org) (`yarn commit`).
+
+| ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access ready-to-use and tested libraries for common tasks. |
+| ------------------------------------------------------------------------------------------------------------------------------------ |
+
+♚ Simplified package management with [Lerna](https://lerna.js.org/) (`yarn`, `yarn build`, `yarn publish:fp`)\
+♛ [Conventional Commits](https://www.conventionalcommits.org) for adding human and machine readable meaning to commit messages (`yarn commit`)\
+♜ [Jest](https://jestjs.io/) tests & common test coverage for all packages (`yarn test`)\
+♞ [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/) to keep the code neat and well organized (`yarn prettier` & `yarn lint`)\
+♝ Simple benchmarking framework for JavaScript/TypeScript libraries with [Benny](https://github.com/caderek/benny) (`yarn benchmark`)
 
 ---
 
