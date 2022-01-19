@@ -1,6 +1,6 @@
 {
   "name": "@zk-kit/sparse-merkle-tree",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Sparse Merkle tree implementation in TypeScript.",
   "license": "MIT",
   "keywords": [
