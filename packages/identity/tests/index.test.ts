@@ -1,58 +1,59 @@
 import { Strategy, ZkIdentity } from "../src"
 
-describe("Semaphore identity", () => {
+describe("ZK identity", () => {
   describe("Create identity", () => {
-    it("Should create a Semaphore identity", async () => {
-      const identity: ZkIdentity = new ZkIdentity()
+    it("Should not create a ZK identity if the strategy is wrong", () => {
+      const fun = () => new ZkIdentity("wrong" as any)
 
-      expect(typeof identity).toBe("object")
+      expect(fun).toThrow("strategy is not supported")
     })
 
-    it("Should create a Semaphore identity with a message strategy", async () => {
-      const identity: ZkIdentity = new ZkIdentity(Strategy.MESSAGE, "message")
+    it("Should create a ZK identity", () => {
+      const identity = new ZkIdentity()
 
-      expect(typeof identity).toBe("object")
-    })
-
-    it("Should generate secret from identity", async () => {
-      const identity: ZkIdentity = new ZkIdentity()
-      identity.genSecret()
       const identitySecret = identity.getSecret()
+      const identityMultipartSecret = identity.getMultipartSecret()
 
       expect(identitySecret).toHaveLength(2)
       expect(typeof identitySecret).toBe("object")
+      expect(identityMultipartSecret).toHaveLength(2)
+      expect(typeof identityMultipartSecret).toBe("object")
+      expect(typeof identity).toBe("object")
     })
 
-    it("Should generate multipart secret", async () => {
-      const secretParts = 5
-      const identity: ZkIdentity = new ZkIdentity()
-      identity.genMultipartSecret(secretParts)
-      const identitySecret = identity.getMultipartSecret()
+    it("Should create a ZK identity with a message strategy", () => {
+      const identity = new ZkIdentity(Strategy.MESSAGE, "message")
 
-      expect(identitySecret).toHaveLength(5)
-      expect(typeof identitySecret).toBe("object")
+      expect(typeof identity).toBe("object")
     })
 
-    it("Should generate identity commitment from identity", async () => {
-      const identity: ZkIdentity = new ZkIdentity()
-      const identityCommitment: bigint = identity.genIdentityCommitment()
+    it("Should not generate identity commitment if the secret type is wrong", () => {
+      const identity = new ZkIdentity()
+      const fun = () => identity.genIdentityCommitment("wrong" as any)
+
+      expect(fun).toThrow("secret type is not supported")
+    })
+
+    it("Should generate identity commitment", () => {
+      const identity = new ZkIdentity()
+      const identityCommitment = identity.genIdentityCommitment()
 
       expect(typeof identityCommitment).toBe("bigint")
     })
 
-    it("Should serialize identity", async () => {
-      const identity: ZkIdentity = new ZkIdentity()
-      const serialized: string = identity.serializeIdentity()
+    it("Should serialize an identity", () => {
+      const identity = new ZkIdentity()
+      const serialized = identity.serializeIdentity()
 
       expect(typeof serialized).toBe("string")
     })
 
-    it("Should unserialize identity", async () => {
-      const identity: ZkIdentity = new ZkIdentity()
-      const serialized: string = identity.serializeIdentity()
-      const unserialized: ZkIdentity = ZkIdentity.genFromSerialized(serialized)
+    it("Should unserialize an identity", () => {
+      const identity1 = new ZkIdentity()
+      const serialized = identity1.serializeIdentity()
+      const identity2 = new ZkIdentity(Strategy.SERIALIZED, serialized)
 
-      expect(unserialized).toStrictEqual(identity)
+      expect(identity2).toStrictEqual(identity1)
     })
   })
 })

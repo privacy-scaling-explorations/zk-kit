@@ -1,39 +1,34 @@
-import * as crypto from "crypto"
-import * as bigintConversion from "bigint-conversion"
-import { sha256 as _sha256 } from "js-sha256"
 import { Identity } from "@zk-kit/types"
+import { hexToBigint } from "bigint-conversion"
+import { genRandomNumber, sha256 } from "./utils"
 
-const genRandomNumber = (numBytes = 31): bigint => bigintConversion.bufToBigint(crypto.randomBytes(numBytes))
-
-/**
- *
- * @returns Identity
- */
-const genRandomIdentity = (): Identity => ({
-  identityNullifier: genRandomNumber(31),
-  identityTrapdoor: genRandomNumber(31)
-})
+export enum Strategy {
+  RANDOM,
+  MESSAGE,
+  SERIALIZED
+}
 
 /**
- *
- * @param metadata { signedMessage } from which to create identity
- * @returns Identity
+ * Generates a random identity.
+ * @returns Identity The generated identity.
  */
-const genIdentityFromMessage = (message: string): Identity => {
-  const sha256 = (message: string): string => {
-    const hash = _sha256.create()
-    hash.update(message)
-    return hash.hex()
-  }
-
-  const messageHash = sha256(message)
-  const identityNullifier = bigintConversion.hexToBigint(sha256(`${messageHash}identity_nullifier`))
-  const identityTrapdoor = bigintConversion.hexToBigint(sha256(`${messageHash}identity_trapdoor`))
-
+export function genRandomIdentity(): Identity {
   return {
-    identityTrapdoor,
-    identityNullifier
+    identityNullifier: genRandomNumber(),
+    identityTrapdoor: genRandomNumber()
   }
 }
 
-export { genRandomIdentity, genIdentityFromMessage, genRandomNumber }
+/**
+ * Generate an deterministic identity from an external message.
+ * @param message The message from which to create identity.
+ * @returns Identity The generated identity.
+ */
+export function genIdentityFromMessage(message: string): Identity {
+  const messageHash = sha256(message)
+
+  return {
+    identityNullifier: hexToBigint(sha256(`${messageHash}identity_nullifier`)),
+    identityTrapdoor: hexToBigint(sha256(`${messageHash}identity_trapdoor`))
+  }
+}
