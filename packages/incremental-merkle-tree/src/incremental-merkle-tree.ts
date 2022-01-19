@@ -183,22 +183,22 @@ export default class IncrementalMerkleTree {
       throw new Error("The leaf does not exist in this tree")
     }
 
-    const siblingNodes: Node[] = []
-    const path: number[] = []
+    const siblings: Node[] = []
+    const pathIndices: number[] = []
 
     this.forEachLevel(index, (level, index, position) => {
-      path.push(position)
+      pathIndices.push(position)
 
-      siblingNodes[level] = this._nodes[level].slice(index - position, index - position + this._arity)
+      siblings[level] = this._nodes[level].slice(index - position, index - position + this._arity)
 
-      if (siblingNodes[level].length < this.arity) {
-        siblingNodes[level] = this.padArrayEnd(siblingNodes[level], this.arity, this.zeroes[level])
+      if (siblings[level].length < this.arity) {
+        siblings[level] = this.padArrayEnd(siblings[level], this.arity, this.zeroes[level])
       }
 
-      siblingNodes[level].splice(position, 1)
+      siblings[level].splice(position, 1)
     })
 
-    return { root: this._root, leaf: this.leaves[index], indices: siblingNodes, pathElements: path }
+    return { root: this._root, leaf: this.leaves[index], pathIndices, siblings }
   }
 
   /**
@@ -210,15 +210,15 @@ export default class IncrementalMerkleTree {
     checkParameter(proof, "proof", "object")
     checkParameter(proof.root, "proof.root", "number", "string", "bigint")
     checkParameter(proof.leaf, "proof.leaf", "number", "string", "bigint")
-    checkParameter(proof.indices, "proof.siblingNodes", "object")
-    checkParameter(proof.pathElements, "proof.path", "object")
+    checkParameter(proof.siblings, "proof.siblings", "object")
+    checkParameter(proof.pathIndices, "proof.pathElements", "object")
 
     let node = proof.leaf
 
-    for (let i = 0; i < proof.indices.length; i += 1) {
-      proof.indices[i].splice(proof.pathElements[i], 0, node)
+    for (let i = 0; i < proof.siblings.length; i += 1) {
+      proof.siblings[i].splice(proof.pathIndices[i], 0, node)
 
-      node = this._hash(proof.indices[i])
+      node = this._hash(proof.siblings[i])
     }
 
     return proof.root === node

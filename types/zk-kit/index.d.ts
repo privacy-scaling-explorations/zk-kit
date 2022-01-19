@@ -2,23 +2,27 @@ export interface Identity {
   identityNullifier: bigint
   identityTrapdoor: bigint
 }
+
 export declare type Proof = {
-  pi_a: Array<string>
-  pi_b: [[Array<string>], [Array<string>], [Array<string>]]
-  pi_c: Array<string>
+  pi_a: string[]
+  pi_b: [[string[]], [string[]], [string[]]]
+  pi_c: string[]
   protocol: string
   curve: string
 }
+
 export interface FullProof {
   proof: Proof
-  publicSignals: Array<bigint | string>
+  publicSignals: (bigint | string)[]
 }
+
 export interface MerkleProof {
-  root: bigint,
-  leaf: bigint,
-  indices: Array<any>
-  pathElements: Array<any>
+  root: any
+  leaf: any
+  siblings: any[]
+  pathIndices: number[]
 }
+
 export declare type SerializedIdentity = {
   identityNullifier: string
   identityTrapdoor: string
