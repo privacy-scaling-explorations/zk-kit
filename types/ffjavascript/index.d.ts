@@ -80,6 +80,41 @@ declare module "ffjavascript" {
   export class F1Field {
     constructor(...args: any[])
 
+    e(...args: any[]): any
+    add(...args: any[]): any
+    sub(...args: any[]): any
+    neg(...args: any[]): any
+    mul(...args: any[]): any
+    mulScalar(...args: any[]): any
+    square(...args: any[]): any
+    eq(...args: any[]): any
+    neq(...args: any[]): any
+    lt(...args: any[]): any
+    gt(...args: any[]): any
+    leq(...args: any[]): any
+    geq(...args: any[]): any
+    div(...args: any[]): any
+    idiv(...args: any[]): any
+    inv(...args: any[]): any
+    mod(...args: any[]): any
+    pow(...args: any[]): any
+    exp(...args: any[]): any
+    band(...args: any[]): any
+    bor(...args: any[]): any
+    bxor(...args: any[]): any
+    bnot(...args: any[]): any
+    shl(...args: any[]): any
+    shr(...args: any[]): any
+    land(...args: any[]): any
+    lor(...args: any[]): any
+    lnot(...args: any[]): any
+    sqrt_old(...args: any[]): any
+    normalize(...args: any[]): any
+    random(...args: any[]): any
+    toString(...args: any[]): any
+    isZero(...args: any[]): any
+    fromRng(...args: any[]): any
+
     fromRprBE(...args: any[]): void
 
     fromRprBEM(...args: any[]): void
@@ -289,6 +324,41 @@ declare module "ffjavascript" {
 
   export class ZqField {
     constructor(...args: any[])
+
+    e(...args: any[]): any
+    add(...args: any[]): any
+    sub(...args: any[]): any
+    neg(...args: any[]): any
+    mul(...args: any[]): any
+    mulScalar(...args: any[]): any
+    square(...args: any[]): any
+    eq(...args: any[]): any
+    neq(...args: any[]): any
+    lt(...args: any[]): any
+    gt(...args: any[]): any
+    leq(...args: any[]): any
+    geq(...args: any[]): any
+    div(...args: any[]): any
+    idiv(...args: any[]): any
+    inv(...args: any[]): any
+    mod(...args: any[]): any
+    pow(...args: any[]): any
+    exp(...args: any[]): any
+    band(...args: any[]): any
+    bor(...args: any[]): any
+    bxor(...args: any[]): any
+    bnot(...args: any[]): any
+    shl(...args: any[]): any
+    shr(...args: any[]): any
+    land(...args: any[]): any
+    lor(...args: any[]): any
+    lnot(...args: any[]): any
+    sqrt_old(...args: any[]): any
+    normalize(...args: any[]): any
+    random(...args: any[]): any
+    toString(...args: any[]): any
+    isZero(...args: any[]): any
+    fromRng(...args: any[]): any
 
     fromRprBE(...args: any[]): void
 
