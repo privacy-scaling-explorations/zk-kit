@@ -1,4 +1,5 @@
 import { checkHex, getFirstCommonElements, getIndexOfLastNonZeroElement, keyToPath } from "../src/utils"
+import { ChildNodes, EntryMark, HashFunction, Key, Value, Node, Siblings, EntryResponse, MerkleProof } from "./types"
 
 /**
  * SparseMerkleTree class provides all the functions to create a sparse Merkle tree
@@ -13,7 +14,7 @@ import { checkHex, getFirstCommonElements, getIndexOfLastNonZeroElement, keyToPa
  * value to mark the node as leaf node (`H(x, y, 1)`);
  * * **entry**: a tree entry is a key/value pair used to create the leaf nodes;
  * * **zero nodes**: a zero node is an hash of zeros and in this implementation `H(0,0) = 0`;
- * * **side node**: if you take one of the two child nodes, the other one is its side node;
+ * * **siblings**: the children of a parent node are siblings;
  * * **path**: every entry key is a number < 2^256 that can be converted in a binary number,
  * and this binary number is the path used to place the entry in the tree (1 or 0 define the
  * child node to choose);
@@ -93,7 +94,7 @@ export default class SparseMerkleTree {
     this.checkParameterType(key)
     this.checkParameterType(value)
 
-    const { entry, matchingEntry, sidenodes } = this.retrieveEntry(key)
+    const { entry, matchingEntry, siblings } = this.retrieveEntry(key)
 
     if (entry[1] !== undefined) {
       throw new Error(`Key "${key}" already exists`)
@@ -108,23 +109,23 @@ export default class SparseMerkleTree {
 
     // If there are side nodes it deletes all the nodes of the path.
     // These nodes will be re-created below with the new hashes.
-    if (sidenodes.length > 0) {
-      this.deleteOldNodes(node, path, sidenodes)
+    if (siblings.length > 0) {
+      this.deleteOldNodes(node, path, siblings)
     }
 
     // If there is a matching entry, further N zero side nodes are added
-    // in the `sidenodes` array, followed by the matching node itself.
+    // in the `siblings` array, followed by the matching node itself.
     // N is the number of the first matching bits of the paths.
     // This is helpful in the non-membership proof verification
     // as explained in the function below.
     if (matchingEntry) {
       const matchingPath = keyToPath(matchingEntry[0])
 
-      for (let i = sidenodes.length; matchingPath[i] === path[i]; i++) {
-        sidenodes.push(this.zeroNode)
+      for (let i = siblings.length; matchingPath[i] === path[i]; i++) {
+        siblings.push(this.zeroNode)
       }
 
-      sidenodes.push(node)
+      siblings.push(node)
     }
 
     // Adds the new entry and re-creates the nodes of the path with the new hashes
@@ -132,7 +133,7 @@ export default class SparseMerkleTree {
     // added, which is the root node.
     const newNode = this.hash([key, value, this.entryMark])
     this.nodes.set(newNode, [key, value, this.entryMark])
-    this.root = this.addNewNodes(newNode, path, sidenodes)
+    this.root = this.addNewNodes(newNode, path, siblings)
   }
 
   /**
@@ -146,7 +147,7 @@ export default class SparseMerkleTree {
     this.checkParameterType(key)
     this.checkParameterType(value)
 
-    const { entry, sidenodes } = this.retrieveEntry(key)
+    const { entry, siblings } = this.retrieveEntry(key)
 
     if (entry[1] === undefined) {
       throw new Error(`Key "${key}" does not exist`)
@@ -157,13 +158,13 @@ export default class SparseMerkleTree {
     // Deletes the old entry and all the nodes in its path.
     const oldNode = this.hash(entry)
     this.nodes.delete(oldNode)
-    this.deleteOldNodes(oldNode, path, sidenodes)
+    this.deleteOldNodes(oldNode, path, siblings)
 
     // Adds the new entry and re-creates the nodes of the path
     // with the new hashes.
     const newNode = this.hash([key, value, this.entryMark])
     this.nodes.set(newNode, [key, value, this.entryMark])
-    this.root = this.addNewNodes(newNode, path, sidenodes)
+    this.root = this.addNewNodes(newNode, path, siblings)
   }
 
   /**
@@ -174,7 +175,7 @@ export default class SparseMerkleTree {
   delete(key: Key) {
     this.checkParameterType(key)
 
-    const { entry, sidenodes } = this.retrieveEntry(key)
+    const { entry, siblings } = this.retrieveEntry(key)
 
     if (entry[1] === undefined) {
       throw new Error(`Key "${key}" does not exist`)
@@ -190,20 +191,20 @@ export default class SparseMerkleTree {
 
     // If there are side nodes it deletes the nodes of the path and
     // re-creates them with the new hashes.
-    if (sidenodes.length > 0) {
-      this.deleteOldNodes(node, path, sidenodes)
+    if (siblings.length > 0) {
+      this.deleteOldNodes(node, path, siblings)
 
       // If the last side node is not a leaf node, it adds all the
       // nodes of the path starting from a zero node, otherwise
-      // it removes the last non-zero side node from the `sidenodes`
+      // it removes the last non-zero side node from the `siblings`
       // array and it starts from it by skipping the last zero nodes.
-      if (!this.isLeaf(sidenodes[sidenodes.length - 1])) {
-        this.root = this.addNewNodes(this.zeroNode, path, sidenodes)
+      if (!this.isLeaf(siblings[siblings.length - 1])) {
+        this.root = this.addNewNodes(this.zeroNode, path, siblings)
       } else {
-        const firstSidenode = sidenodes.pop() as Node
-        const i = getIndexOfLastNonZeroElement(sidenodes)
+        const firstSidenode = siblings.pop() as Node
+        const i = getIndexOfLastNonZeroElement(siblings)
 
-        this.root = this.addNewNodes(firstSidenode, path, sidenodes, i)
+        this.root = this.addNewNodes(firstSidenode, path, siblings, i)
       }
     }
   }
@@ -214,17 +215,17 @@ export default class SparseMerkleTree {
    * @param key A key of an existing or a non-existing entry.
    * @returns The membership or the non-membership proof.
    */
-  createProof(key: Key): Proof {
+  createProof(key: Key): MerkleProof {
     this.checkParameterType(key)
 
-    const { entry, matchingEntry, sidenodes } = this.retrieveEntry(key)
+    const { entry, matchingEntry, siblings } = this.retrieveEntry(key)
 
     // If the key exists the function returns a membership proof, otherwise it
     // returns a non-membership proof with the matching entry.
     return {
       entry,
       matchingEntry,
-      sidenodes,
+      siblings: siblings,
       root: this.root,
       membership: !!entry[1]
     }
@@ -232,34 +233,34 @@ export default class SparseMerkleTree {
 
   /**
    * Verifies a membership or a non-membership proof.
-   * @param proof The proof to verify.
+   * @param merkleProof The proof to verify.
    * @returns True if the proof is valid, false otherwise.
    */
-  verifyProof(proof: Proof): boolean {
+  verifyProof(merkleProof: MerkleProof): boolean {
     // If there is not a matching entry it simply obtains the root
     // hash by using the side nodes and the path of the key.
-    if (!proof.matchingEntry) {
-      const path = keyToPath(proof.entry[0])
+    if (!merkleProof.matchingEntry) {
+      const path = keyToPath(merkleProof.entry[0])
       // If there is not an entry value the proof is a non-membership proof,
       // and in this case, since there is not a matching entry, the node
       // is a zero node. If there is an entry value the proof is a
       // membership proof and the node is the hash of the entry.
-      const node = proof.entry[1] !== undefined ? this.hash(proof.entry) : this.zeroNode
-      const root = this.calculateRoot(node, path, proof.sidenodes)
+      const node = merkleProof.entry[1] !== undefined ? this.hash(merkleProof.entry) : this.zeroNode
+      const root = this.calculateRoot(node, path, merkleProof.siblings)
 
       // If the obtained root is equal to the proof root, then the proof is valid.
-      return root === proof.root
+      return root === merkleProof.root
     } else {
       // If there is a matching entry the proof is definitely a non-membership
       // proof. In this case it checks if the matching node belongs to the tree
       // and then it checks if the number of the first matching bits of the keys
       // is greater than or equal to the number of the side nodes.
-      const matchingPath = keyToPath(proof.matchingEntry[0])
-      const node = this.hash(proof.matchingEntry)
-      const root = this.calculateRoot(node, matchingPath, proof.sidenodes)
+      const matchingPath = keyToPath(merkleProof.matchingEntry[0])
+      const node = this.hash(merkleProof.matchingEntry)
+      const root = this.calculateRoot(node, matchingPath, merkleProof.siblings)
 
-      if (root === proof.root) {
-        const path = keyToPath(proof.entry[0])
+      if (root === merkleProof.root) {
+        const path = keyToPath(merkleProof.entry[0])
         // Returns the first common bits of the two keys: the
         // non-member key and the matching key.
         const firstMatchingBits = getFirstCommonElements(path, matchingPath)
@@ -267,7 +268,7 @@ export default class SparseMerkleTree {
         // matching node should be greater than the number of the first common
         // bits of the keys. The depth of a node can be defined by the number
         // of its side nodes.
-        return proof.sidenodes.length <= firstMatchingBits.length
+        return merkleProof.siblings.length <= firstMatchingBits.length
       }
 
       return false
@@ -285,7 +286,7 @@ export default class SparseMerkleTree {
    */
   private retrieveEntry(key: Key): EntryResponse {
     const path = keyToPath(key)
-    const sidenodes: SideNodes = []
+    const siblings: Siblings = []
 
     // Starts from the root and goes down into the tree until it finds
     // the entry, a zero node or a matching entry.
@@ -299,35 +300,35 @@ export default class SparseMerkleTree {
         if (childNodes[0] === key) {
           // An entry with the same key was found and
           // it returns it with the side nodes.
-          return { entry: childNodes, sidenodes }
+          return { entry: childNodes, siblings: siblings }
         }
         // The entry found does not have the same key. But the key of this
         // particular entry matches the first 'i' bits of the key passed
         // as parameter and it can be useful in several functions.
-        return { entry: [key], matchingEntry: childNodes, sidenodes }
+        return { entry: [key], matchingEntry: childNodes, siblings: siblings }
       }
 
       // When it goes down into the tree and follows the path, in every step
       // a node is chosen between the left and the right child nodes, and the
       // opposite node is saved as side node.
       node = childNodes[direction] as Node
-      sidenodes.push(childNodes[Number(!direction)] as Node)
+      siblings.push(childNodes[Number(!direction)] as Node)
     }
 
     // The path led to a zero node.
-    return { entry: [key], sidenodes }
+    return { entry: [key], siblings: siblings }
   }
 
   /**
    * Calculates nodes with a bottom-up approach until it reaches the root node.
    * @param node The node to start from.
    * @param path The path of the key.
-   * @param sidenodes The side nodes of the path.
+   * @param siblings The side nodes of the path.
    * @returns The root node.
    */
-  private calculateRoot(node: Node, path: number[], sidenodes: SideNodes): Node {
-    for (let i = sidenodes.length - 1; i >= 0; i--) {
-      const childNodes: ChildNodes = path[i] ? [sidenodes[i], node] : [node, sidenodes[i]]
+  private calculateRoot(node: Node, path: number[], siblings: Siblings): Node {
+    for (let i = siblings.length - 1; i >= 0; i--) {
+      const childNodes: ChildNodes = path[i] ? [siblings[i], node] : [node, siblings[i]]
       node = this.hash(childNodes)
     }
 
@@ -338,13 +339,13 @@ export default class SparseMerkleTree {
    * Adds new nodes in the tree with a bottom-up approach until it reaches the root node.
    * @param node The node to start from.
    * @param path The path of the key.
-   * @param sidenodes The side nodes of the path.
+   * @param siblings The side nodes of the path.
    * @param i The index to start from.
    * @returns The root node.
    */
-  private addNewNodes(node: Node, path: number[], sidenodes: SideNodes, i = sidenodes.length - 1): Node {
+  private addNewNodes(node: Node, path: number[], siblings: Siblings, i = siblings.length - 1): Node {
     for (; i >= 0; i--) {
-      const childNodes: ChildNodes = path[i] ? [sidenodes[i], node] : [node, sidenodes[i]]
+      const childNodes: ChildNodes = path[i] ? [siblings[i], node] : [node, siblings[i]]
       node = this.hash(childNodes)
 
       this.nodes.set(node, childNodes)
@@ -357,12 +358,12 @@ export default class SparseMerkleTree {
    * Deletes nodes in the tree with a bottom-up approach until it reaches the root node.
    * @param node The node to start from.
    * @param path The path of the key.
-   * @param sidenodes The side nodes of the path.
+   * @param siblings The side nodes of the path.
    * @param i The index to start from.
    */
-  private deleteOldNodes(node: Node, path: number[], sidenodes: SideNodes) {
-    for (let i = sidenodes.length - 1; i >= 0; i--) {
-      const childNodes: ChildNodes = path[i] ? [sidenodes[i], node] : [node, sidenodes[i]]
+  private deleteOldNodes(node: Node, path: number[], siblings: Siblings) {
+    for (let i = siblings.length - 1; i >= 0; i--) {
+      const childNodes: ChildNodes = path[i] ? [siblings[i], node] : [node, siblings[i]]
       node = this.hash(childNodes)
 
       this.nodes.delete(node)
@@ -393,26 +394,4 @@ export default class SparseMerkleTree {
       throw new Error(`Parameter ${parameter} must be a hexadecimal`)
     }
   }
-}
-
-export type Node = string | bigint
-export type Key = Node
-export type Value = Node
-export type EntryMark = Node
-
-export type Entry = [Key, Value, EntryMark]
-export type ChildNodes = Node[]
-export type SideNodes = Node[]
-
-export type HashFunction = (childNodes: ChildNodes) => Node
-
-export interface EntryResponse {
-  entry: Entry | Node[]
-  matchingEntry?: Entry | Node[]
-  sidenodes: SideNodes
-}
-
-export interface Proof extends EntryResponse {
-  root: Node
-  membership: boolean
 }
