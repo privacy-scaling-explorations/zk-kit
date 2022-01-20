@@ -19,7 +19,7 @@
     "prettier": "prettier -c .",
     "prettier:fix": "prettier -w .",
     "publish:fp": "lerna publish from-package",
-    "docs": "rimraf docs && lerna run docs",
+    "docs": "lerna run docs",
     "clean": "lerna clean",
     "commit": "cz",
     "precommit": "lint-staged"
