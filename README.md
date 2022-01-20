@@ -50,7 +50,8 @@
 ♛ [Conventional Commits](https://www.conventionalcommits.org) for adding human and machine readable meaning to commit messages (`yarn commit`)\
 ♜ [Jest](https://jestjs.io/) tests & common test coverage for all packages (`yarn test`)\
 ♞ [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/) to keep the code neat and well organized (`yarn prettier` & `yarn lint`)\
-♝ Simple benchmarking framework for JavaScript/TypeScript libraries with [Benny](https://github.com/caderek/benny) (`yarn benchmark`)
+♝ Automatic deployment of documentation generated with [typedocs](https://typedoc.org/)\
+♟ Simple benchmarking framework for JavaScript/TypeScript libraries with [Benny](https://github.com/caderek/benny) (`yarn benchmark`)
 
 ---
 
@@ -66,6 +67,9 @@
             <td>
                 <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/identity">
                     @zk-kit/identity
+                </a>
+                 <a href="https://appliedzkp.github.io/zk-kit/identity">
+                    (docs)
                 </a>
             </td>
             <td>
@@ -92,6 +96,9 @@
                 <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/protocols">
                     @zk-kit/protocols
                 </a>
+                 <a href="https://appliedzkp.github.io/zk-kit/protocols">
+                    (docs)
+                </a>
             </td>
             <td>
                 <!-- NPM version -->
@@ -117,6 +124,9 @@
                 <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/incremental-merkle-tree">
                     @zk-kit/incremental-merkle-tree
                 </a>
+                 <a href="https://appliedzkp.github.io/zk-kit/incremental-merkle-tree">
+                    (docs)
+                </a>
             </td>
             <td>
                 <!-- NPM version -->
@@ -141,6 +151,9 @@
             <td>
                 <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/sparse-merkle-tree">
                     @zk-kit/sparse-merkle-tree
+                </a>
+                 <a href="https://appliedzkp.github.io/zk-kit/sparse-merkle-tree">
+                    (docs)
                 </a>
             </td>
             <td>
@@ -209,3 +222,7 @@ ZK-kit provides two commands: `yarn test` and `yarn publish:fp`. Both must be ru
 #### How can I create benchmarks for my library?
 
 You can see an example in the `@zk-kit/incremental-merke-tree` package. It has a `yarn benchmark` NPM script that uses [Benny](https://github.com/caderek/benny). You can find the benchmark script in the `benchmarks` folder. When you run the command it creates a `benchmark` folder with the HTML results, which you can open in a browser.
+
+#### How can I publish the documentation of my library with typedocs?
+
+You just need to insert the NPM `docs` command in your `package.json` file, as in the other packages. This command will be executed by Lerna and the output of `typedocs` will be placed in the `docs` folder of the root directory, which will be used to deploy the documentation websites by the Github `docs` workflow whenever the `main` branch is updated.
