@@ -187,4 +187,23 @@ $ yarn build # Create a JS build for each package.
 $ yarn publish:fp # Publish packages on npm.
 ```
 
-You can see the other npm scripts in the `package.json` file.
+## FAQ
+
+#### I have a library that could be reused in other projects. How can I integrate it on ZK-kit?
+
+ZK-kit provides a set of pre-configured development tools. All you have to deal with is your own code, testing and documentation. To create a package follow these steps:
+
+1. Fork this repository and clone it (or simply clone it directly if you are a collaborator),
+2. Copy one of our current libraries and update the `README.md` and `package.json` files with your package name:
+
+```bash
+cd zk-kit
+cp -r packages/sparse-merkle-tree packages/my-package
+cd packages/my-package && rm -fr node_modules dist
+grep -r -l "sparse-merkle-tree" . | xargs sed -i 's/sparse-merkle-tree/my-package/'
+# Update the remaining descriptions/usage section, and write your code in the src & tests folder!
+```
+
+#### How can I test and publish my library?
+
+ZK-kit provides two commands: `yarn test` and `yarn publish:fp`. Both must be run from the root folder. `yarn test` will test all packages in the monorepo, including yours using the files inside your `packages/my-package/tests` folder. `yarn publish:fp` can only be run by those who own the NPM token of the ZK-kit organization. They will then have to publish the package. This task will be automated in the future.
