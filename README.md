@@ -36,6 +36,10 @@
         <a href="https://github.com/appliedzkp/zk-kit/issues/new/choose">
             🔎 Issues
         </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="https://discord.gg/9B9WgGP6YM">
+            🗣️ Chat &amp; Support
+        </a>
     </h4>
 </div>
 
