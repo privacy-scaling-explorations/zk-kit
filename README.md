@@ -187,7 +187,7 @@ $ yarn build # Create a JS build for each package.
 $ yarn publish:fp # Publish packages on npm.
 ```
 
-## FAQ
+## ❓ FAQ
 
 #### I have a library that could be reused in other projects. How can I integrate it on ZK-kit?
 
@@ -206,4 +206,10 @@ grep -r -l "sparse-merkle-tree" . | xargs sed -i 's/sparse-merkle-tree/my-packag
 
 #### How can I test and publish my library?
 
-ZK-kit provides two commands: `yarn test` and `yarn publish:fp`. Both must be run from the root folder. `yarn test` will test all packages in the monorepo, including yours using the files inside your `packages/my-package/tests` folder. `yarn publish:fp` can only be run by those who own the NPM token of the ZK-kit organization. They will then have to publish the package. This task will be automated in the future.
+ZK-kit provides two commands: `yarn test` and `yarn publish:fp`. Both must be run from the root folder. `yarn test` will test all packages in the monorepo, including yours using the files inside your `packages/my-package/tests` folder. `yarn publish:fp` can only be run by those who own the NPM token of the ZK-kit organization. They will then have to publish the package.
+
+> This task will be automated in the future.
+
+#### How can I create benchmarks for my library?
+
+You can see an example in the `@zk-kit/incremental-merke-tree` package. It has a `yarn benchmark` NPM script that uses [Benny](https://github.com/caderek/benny). You can find the benchmark script in the `benchmarks` folder. When you run the command it creates a `benchmark` folder with the HTML results, which you can open in a browser.
