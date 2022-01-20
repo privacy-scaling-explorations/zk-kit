@@ -15,6 +15,7 @@ export default class ZkIdentity {
 
   private _secret: bigint[] = []
   private _multipartSecret: bigint[] = []
+  private _defaultMultipartSecret: bigint[] = []
 
   /**
    * Generates new ZkIdentity.
@@ -30,7 +31,7 @@ export default class ZkIdentity {
         this._identityTrapdoor = identityTrapdoor
         this._identityNullifier = identityNullifier
         this._secret = [this._identityNullifier, this._identityTrapdoor]
-        this.genMultipartSecret()
+        this._genMultipartSecret()
 
         break
       }
@@ -40,7 +41,7 @@ export default class ZkIdentity {
         this._identityTrapdoor = identityTrapdoor
         this._identityNullifier = identityNullifier
         this._secret = [this._identityNullifier, this._identityTrapdoor]
-        this.genMultipartSecret()
+        this._genMultipartSecret()
 
         break
       }
@@ -59,6 +60,7 @@ export default class ZkIdentity {
         this._identityTrapdoor = hexToBigint(identityTrapdoor)
         this._secret = secret.map((item) => hexToBigint(item))
         this._multipartSecret = multipartSecret.map((item) => hexToBigint(item))
+        this._defaultMultipartSecret = this._multipartSecret.slice(0, 2);
 
         break
       }
@@ -69,19 +71,18 @@ export default class ZkIdentity {
 
   /**
    * Generate multipart secret. To be used by RLN related apps.
-   * @param parts The number of parts that the secret should be composed of,
-   * corresponding to the spam threshold of the protocol
    */
-  public genMultipartSecret(parts = 2): void {
-    if (parts < 2) throw new Error("Invalid number of parts")
+  private _genMultipartSecret(): void {
 
     const initialComponent = Fq.pow(this._identityTrapdoor, this._identityNullifier)
 
     this._multipartSecret = [initialComponent]
 
-    for (let i = 1; i < parts; i += 1) {
+    for (let i = 1; i < 16; i+=1) {
       this._multipartSecret.push(Fq.pow(initialComponent, BigInt(i + 1)))
     }
+
+    this._defaultMultipartSecret = this._multipartSecret.slice(0, 2);
   }
 
   /**
@@ -103,16 +104,17 @@ export default class ZkIdentity {
     return this._secret
   }
 
-  public getMultipartSecret(): bigint[] {
-    return this._multipartSecret
+  public getMultipartSecret(secretParts: number = 2): bigint[] {
+    return secretParts === 2 ? this._defaultMultipartSecret : this._multipartSecret.slice(0, secretParts);
   }
 
   public getSecretHash(): bigint {
     return poseidon(this._secret)
   }
 
-  public getMultipartSecretHash(): bigint {
-    return poseidon(this._multipartSecret)
+  public getMultipartSecretHash(secretParts: number = 2): bigint {
+    const multipartSecret = this.getMultipartSecret(secretParts);
+    return poseidon(multipartSecret)
   }
 
   /**
@@ -120,12 +122,12 @@ export default class ZkIdentity {
    * @param secretType The secret type for which to generate identity commitment
    * @returns identity commitment
    */
-  public genIdentityCommitment(secretType: SecretType = SecretType.GENERIC): bigint {
+  public genIdentityCommitment(secretType: SecretType = SecretType.GENERIC, secretParts: number = 2): bigint {
     switch (secretType) {
       case SecretType.GENERIC:
         return poseidon([this.getSecretHash()])
       case SecretType.MULTIPART_SECRET:
-        return poseidon([this.getMultipartSecretHash()])
+        return poseidon([this.getMultipartSecretHash(secretParts)])
       default:
         throw new Error("Provided secret type is not supported")
     }
