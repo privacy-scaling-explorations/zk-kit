@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html style="height: 100%">
+  <head>
+    <meta charSet="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <title>ZK-kit</title>
+    <meta name="description" content="A monorepo of reusable JS libraries for zero-knowledge technologies." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  </head>
+  <body
+    style="
+      margin: 0;
+      background-color: #3e2626;
+      color: white;
+      height: 100%;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 400px;
+        padding: 0 20px;
+        text-align: center;
+      "
+    >
+      <h1 style="margin-bottom: 0">ZK-kit</h1>
+      <p>A monorepo of reusable JS libraries for zero-knowledge technologies.</p>
+      <ul style="list-style-type: none; padding: 0; margin: 0"></ul>
+    </div>
+  </body>
+  <script>
+    const url = "https://api.github.com/repos/appliedzkp/zk-kit/contents?ref=gh-pages"
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        const ignore = [".nojekyll", "index.html", "CNAME"]
+        const packages = data.map((c) => c.name).filter((name) => !ignore.includes(name))
+
+        const [element] = window.document.getElementsByTagName("ul")
+        let html = ""
+
+        for (const package of packages) {
+          html += `<li style="display: flex; align-items: center; margin-bottom: 8px">
+            <a style="margin-right: 15px" href="https://github.com/appliedzkp/zk-kit/tree/main/packages/identity">
+              <i class="fa fa-github" style="font-size: 24px; color: white"></i>
+            </a>
+            <a style="color: white; text-decoration: none"
+              onmouseover="this.style.color='orange';"
+              onmouseout="this.style.color='white';"
+              target="_blank" href="https://appliedzkp.github.io/zk-kit/${package}">
+                @zk-kit/${package} >
+            </a></li>`
+        }
+
+        element.innerHTML = html
+      })
+  </script>
+</html>
