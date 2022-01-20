@@ -23,14 +23,16 @@
   "scripts": {
     "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
     "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "docs": "typedoc src/index.ts --out ../../docs/identity"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.0",
-    "rollup-plugin-cleanup": "^3.2.1"
+    "rollup-plugin-cleanup": "^3.2.1",
+    "typedoc": "^0.22.11"
   },
   "dependencies": {
     "@ethersproject/random": "^5.5.1",
