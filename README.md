@@ -43,10 +43,8 @@
     </h4>
 </div>
 
-
-
 | ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access ready-to-use and tested libraries for common tasks. |
-| ------------------------------------------------------------------------------------------------------------------------------------ |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 ♚ Simplified package management with [Lerna](https://lerna.js.org/) (`yarn`, `yarn build`, `yarn publish:fp`)\
 ♛ [Conventional Commits](https://www.conventionalcommits.org) for adding human and machine readable meaning to commit messages (`yarn commit`)\
@@ -206,9 +204,7 @@ grep -r -l "sparse-merkle-tree" . | xargs sed -i 's/sparse-merkle-tree/my-packag
 
 #### How can I test and publish my library?
 
-ZK-kit provides two commands: `yarn test` and `yarn publish:fp`. Both must be run from the root folder. `yarn test` will test all packages in the monorepo, including yours using the files inside your `packages/my-package/tests` folder. `yarn publish:fp` can only be run by those who own the NPM token of the ZK-kit organization. They will then have to publish the package.
-
-> This task will be automated in the future.
+ZK-kit provides two commands: `yarn test` and `yarn publish:fp`. Both must be run from the root folder. `yarn test` will test all packages in the monorepo, including yours using the files inside your `packages/my-package/tests` folder. `yarn publish:fp` can only be run by those who own the NPM token of the ZK-kit organization. They will then have to publish the package. This task will be automated in the future.
 
 #### How can I create benchmarks for my library?
 
