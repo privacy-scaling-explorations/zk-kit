@@ -23,7 +23,8 @@
   "scripts": {
     "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
     "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "docs": "typedoc src/index.ts --out ../../docs/protocols"
   },
   "publishConfig": {
     "access": "public"
@@ -31,7 +32,8 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.0",
     "@zk-kit/identity": "^1.0.22",
-    "rollup-plugin-cleanup": "^3.2.1"
+    "rollup-plugin-cleanup": "^3.2.1",
+    "typedoc": "^0.22.11"
   },
   "dependencies": {
     "@zk-kit/incremental-merkle-tree": "^0.2.0",
