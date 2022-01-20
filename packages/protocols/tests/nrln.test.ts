@@ -13,8 +13,7 @@ beforeAll(() => {
 
   for (let i = 0; i < leafIndex; i += 1) {
     const tmpIdentity = new ZkIdentity()
-    tmpIdentity.genMultipartSecret(SPAM_TRESHOLD)
-    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment(SecretType.MULTIPART_SECRET)
+    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment(SecretType.MULTIPART_SECRET, SPAM_TRESHOLD)
     identityCommitments.push(tmpCommitment)
   }
 })
@@ -23,10 +22,9 @@ describe("NRLN", () => {
   describe("NRLN features", () => {
     it("Generate NRLN witness", () => {
       const identity: ZkIdentity = new ZkIdentity()
-      identity.genMultipartSecret(SPAM_TRESHOLD)
 
-      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET)
-      const identitySecret: bigint[] = identity.getMultipartSecret()
+      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET, SPAM_TRESHOLD)
+      const identitySecret: bigint[] = identity.getMultipartSecret(SPAM_TRESHOLD)
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
@@ -45,11 +43,9 @@ describe("NRLN", () => {
        * Compiled RLN circuits are needed to run this test so it's being skipped in hooks
        */
       const identity: ZkIdentity = new ZkIdentity()
-      identity.genMultipartSecret(SPAM_TRESHOLD)
 
-      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET)
-      const identitySecret: bigint[] = identity.getMultipartSecret()
-
+      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET, SPAM_TRESHOLD)
+      const identitySecret: bigint[] = identity.getMultipartSecret(SPAM_TRESHOLD)
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
 
@@ -83,9 +79,8 @@ describe("NRLN", () => {
     }, 30000)
     it("Should retrieve user secret after spaming", () => {
       const identity: ZkIdentity = new ZkIdentity()
-      identity.genMultipartSecret(SPAM_TRESHOLD)
 
-      const identitySecret: bigint[] = identity.getMultipartSecret()
+      const identitySecret: bigint[] = identity.getMultipartSecret(SPAM_TRESHOLD)
 
       const signal1 = "hey 1"
       const signalHash1 = genSignalHash(signal1)
