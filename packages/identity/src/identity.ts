@@ -30,7 +30,7 @@ export default class ZkIdentity {
         this._identityTrapdoor = identityTrapdoor
         this._identityNullifier = identityNullifier
         this._secret = [this._identityNullifier, this._identityTrapdoor]
-        this._genMultipartSecret()
+        this.genMultipartSecret()
 
         break
       }
@@ -40,7 +40,7 @@ export default class ZkIdentity {
         this._identityTrapdoor = identityTrapdoor
         this._identityNullifier = identityNullifier
         this._secret = [this._identityNullifier, this._identityTrapdoor]
-        this._genMultipartSecret()
+        this.genMultipartSecret()
 
         break
       }
@@ -72,7 +72,7 @@ export default class ZkIdentity {
    * @param parts The number of parts that the secret should be composed of,
    * corresponding to the spam threshold of the protocol
    */
-  private _genMultipartSecret(parts = 2): void {
+  public genMultipartSecret(parts = 2): void {
     if (parts < 2) throw new Error("Invalid number of parts")
 
     const initialComponent = Fq.pow(this._identityTrapdoor, this._identityNullifier)
