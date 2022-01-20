@@ -3,7 +3,7 @@ import * as fs from "fs"
 import * as path from "path"
 import { SecretType, ZkIdentity } from "@zk-kit/identity"
 import { RLN } from "../src"
-import { generateMerkleProof, genExternalNullifier, genSignalHash, poseidonHash } from "../src/utils"
+import { generateMerkleProof, genExternalNullifier, genSignalHash } from "../src/utils"
 
 const identityCommitments: Array<bigint> = []
 
@@ -36,7 +36,7 @@ describe("RLN tests", () => {
 
       expect(typeof witness).toBe("object")
     })
-    it("Generate rln proof and verify it", async () => {
+    it.skip("Generate rln proof and verify it", async () => {
       /**
        * Compiled RLN circuits are needed to run this test so it's being skipped in hooks
        */
