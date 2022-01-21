@@ -8,6 +8,7 @@
     <meta name="description" content="A monorepo of reusable JS libraries for zero-knowledge technologies." />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
   </head>
   <body
     style="
@@ -15,10 +16,11 @@
       background-color: #3e2626;
       color: white;
       height: 100%;
-      font-family: 'Courier New', monospace;
+      font-family: 'Roboto';
+      font-size: large;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
     "
   >
     <div
@@ -26,18 +28,68 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        max-width: 400px;
+        justify-content: center;
+        flex: 1;
         padding: 0 20px;
         text-align: center;
       "
     >
-      <h1 style="margin-bottom: 0">ZK-kit</h1>
-      <p>A monorepo of reusable JS libraries for zero-knowledge technologies.</p>
+      <div style="display: flex; align-items: center">
+        <a style="margin-right: 15px; margin-bottom: 5px" target="_blank" href="https://github.com/appliedzkp/zk-kit">
+          <i class="fa fa-github" style="font-size: 40px; color: white"></i>
+        </a>
+        <h1 style="margin: 0; font-size: 40px">ZK-kit</h1>
+      </div>
+      <p style="max-width: 400px">A monorepo of reusable JS libraries for zero-knowledge technologies.</p>
       <ul style="list-style-type: none; padding: 0; margin: 0"></ul>
     </div>
+    <footer style="display: flex; justify-content: center; padding: 15px 20px; background-color: #2e1c1c">
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 900px">
+        <p style="margin: 0; font-size: 16px">Copyright © 2022 AppliedZKP</p>
+        <div>
+          <a style="margin-right: 15px; text-decoration: none" target="_blank" href="https://github.com/appliedzkp">
+            <i class="fa fa-github" style="font-size: 24px; color: white"></i>
+          </a>
+          <a
+            style="margin-right: 15px; text-decoration: none"
+            target="_blank"
+            href="https://medium.com/privacy-scaling-explorations"
+          >
+            <i class="fa fa-medium" style="font-size: 24px; color: white"></i>
+          </a>
+          <a
+            style="margin-right: 15px; text-decoration: none"
+            target="_blank"
+            href="https://twitter.com/PrivacyScaling"
+          >
+            <i class="fa fa-twitter" style="font-size: 24px; color: white"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
   </body>
   <script>
     const url = "https://api.github.com/repos/appliedzkp/zk-kit/contents?ref=gh-pages"
+
+    function insertLinks(packages) {
+      const [element] = window.document.getElementsByTagName("ul")
+      let html = ""
+
+      for (const package of packages) {
+        html += `<li style="display: flex; align-items: center; margin-bottom: 8px">
+            <a style="margin-right: 15px" target="_blank" href="https://github.com/appliedzkp/zk-kit/tree/main/packages/${package}">
+              <i class="fa fa-github" style="font-size: 24px; color: white"></i>
+            </a>
+            <a style="color: white; text-decoration: none; font-size: 16px"
+              onmouseover="this.style.color='orange';"
+              onmouseout="this.style.color='white';"
+              target="_blank" href="https://appliedzkp.github.io/zk-kit/${package}">
+                @zk-kit/${package} >
+            </a></li>`
+      }
+
+      element.innerHTML = html
+    }
 
     fetch(url)
       .then((response) => response.json())
@@ -45,23 +97,9 @@
         const ignore = [".nojekyll", "index.html", "CNAME"]
         const packages = data.map((c) => c.name).filter((name) => !ignore.includes(name))
 
-        const [element] = window.document.getElementsByTagName("ul")
-        let html = ""
+        localStorage.setItem("packages", JSON.stringify(packages))
 
-        for (const package of packages) {
-          html += `<li style="display: flex; align-items: center; margin-bottom: 8px">
-            <a style="margin-right: 15px" href="https://github.com/appliedzkp/zk-kit/tree/main/packages/identity">
-              <i class="fa fa-github" style="font-size: 24px; color: white"></i>
-            </a>
-            <a style="color: white; text-decoration: none"
-              onmouseover="this.style.color='orange';"
-              onmouseout="this.style.color='white';"
-              target="_blank" href="https://appliedzkp.github.io/zk-kit/${package}">
-                @zk-kit/${package} >
-            </a></li>`
-        }
-
-        element.innerHTML = html
+        insertLinks(packages)
       })
   </script>
 </html>
