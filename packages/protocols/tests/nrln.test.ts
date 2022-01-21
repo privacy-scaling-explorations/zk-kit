@@ -1,9 +1,10 @@
+import { SecretType, ZkIdentity } from "@zk-kit/identity"
 import { FullProof, MerkleProof } from "@zk-kit/types"
+import { poseidon } from "circomlibjs"
 import * as fs from "fs"
 import * as path from "path"
-import { SecretType, ZkIdentity } from "@zk-kit/identity"
 import { NRLN } from "../src"
-import { generateMerkleProof, genExternalNullifier, genSignalHash, poseidonHash } from "../src/utils"
+import { generateMerkleProof, genExternalNullifier, genSignalHash } from "../src/utils"
 
 const identityCommitments: Array<bigint> = []
 const SPAM_TRESHOLD = 3
@@ -104,7 +105,7 @@ describe("NRLN", () => {
         [y1, y2, y3, y4]
       )
 
-      expect(retrievedSecret).toEqual(poseidonHash(identitySecret))
+      expect(retrievedSecret).toEqual(poseidon(identitySecret))
     })
   })
 })

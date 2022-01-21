@@ -1,25 +1,27 @@
-import { MerkleProof } from "@zk-kit/types"
-import { genSignalHash, poseidonHash } from "./utils"
+import { MerkleProof, SemaphoreWitness, StrBigInt } from "@zk-kit/types"
+import { poseidon } from "circomlibjs"
+import { genSignalHash } from "./utils"
 import ZkProtocol from "./zk-protocol"
 
-class Semaphore extends ZkProtocol {
+export default class Semaphore extends ZkProtocol {
   /**
-   * Creates witness for semaphore proof
-   * @param identity semaphore identity
-   * @param merkleProof merkle proof that identity exists in semaphore tree
-   * @param externalNullifier topic on which vote should be broadcasted
-   * @param signal signal that should be broadcasted
-   * @param shouldHash should signal be hashed before broadcast
-   * @returns
+   * Creates a Semaphore witness for the Semaphore ZK proof.
+   * @param identityTrapdoor The identity trapdoor.
+   * @param identityNullifier The identity nullifier.
+   * @param merkleProof The Merkle proof that identity exists in Semaphore tree.
+   * @param externalNullifier The topic on which vote should be broadcasted.
+   * @param signal The signal that should be broadcasted.
+   * @param shouldHash True if the signal must be hashed before broadcast.
+   * @returns The Semaphore witness.
    */
-  genWitness(
-    identityTrapdoor: bigint,
-    identityNullifier: bigint,
+  public static genWitness(
+    identityTrapdoor: StrBigInt,
+    identityNullifier: StrBigInt,
     merkleProof: MerkleProof,
-    externalNullifier: string | bigint,
+    externalNullifier: StrBigInt,
     signal: string,
     shouldHash = true
-  ): any {
+  ): SemaphoreWitness {
     return {
       identity_nullifier: identityNullifier,
       identity_trapdoor: identityTrapdoor,
@@ -31,15 +33,12 @@ class Semaphore extends ZkProtocol {
   }
 
   /**
-   * generates nullifier hash for semaphore proof
-   * @param externalNullifier external nullifier
-   * @param identityNullifier identity nullifier
-   * @param nLevels depth of tree
-   * @returns
+   * Generates a nullifier by hashing the external and the identity nullifiers.
+   * @param externalNullifier The external nullifier.
+   * @param identityNullifier The identity nullifier.
+   * @returns The nullifier hash.
    */
-  genNullifierHash(externalNullifier: string | bigint, identityNullifier: string | bigint): bigint {
-    return poseidonHash([BigInt(externalNullifier), BigInt(identityNullifier)])
+  public static genNullifierHash(externalNullifier: StrBigInt, identityNullifier: StrBigInt): bigint {
+    return poseidon([BigInt(externalNullifier), BigInt(identityNullifier)])
   }
 }
-
-export default new Semaphore()

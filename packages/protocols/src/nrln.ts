@@ -1,8 +1,9 @@
 import { MerkleProof } from "@zk-kit/types"
-import { Fq, genSignalHash, poseidonHash } from "./utils"
+import { poseidon } from "circomlibjs"
+import { Fq, genSignalHash } from "./utils"
 import ZkProtocol from "./zk-protocol"
 
-class NRLN extends ZkProtocol {
+export default class NRLN extends ZkProtocol {
   /**
    * Creates witness for RLN proof
    * @param identitySecret identity secret
@@ -13,7 +14,7 @@ class NRLN extends ZkProtocol {
    * @param shouldHash should signal be hashed before broadcast
    * @returns rln witness
    */
-  genWitness(
+  public static genWitness(
     identitySecret: Array<bigint>,
     merkleProof: MerkleProof,
     epoch: string | bigint,
@@ -40,30 +41,30 @@ class NRLN extends ZkProtocol {
    * @param rlnIdentifier identifier used by each separate app, needed for more accurate spam filtering
    * @returns
    */
-  calculateOutput(
+  public static calculateOutput(
     identitySecret: Array<bigint>,
     epoch: bigint,
     x: bigint,
     limit: number,
     rlnIdentifier: bigint
   ): Array<bigint> {
-    const a0 = poseidonHash(identitySecret)
+    const a0 = poseidon(identitySecret)
 
     const coeffs: Array<bigint> = []
     let tmpX = x
 
-    coeffs.push(poseidonHash([identitySecret[0], epoch]))
+    coeffs.push(poseidon([identitySecret[0], epoch]))
     let y: bigint = Fq.add(Fq.mul(coeffs[0], tmpX), a0)
 
     for (let i = 1; i < limit; i += 1) {
       tmpX = Fq.mul(x, tmpX)
 
-      coeffs.push(poseidonHash([identitySecret[i], epoch]))
+      coeffs.push(poseidon([identitySecret[i], epoch]))
       y = Fq.add(y, Fq.mul(coeffs[i], tmpX))
     }
 
-    coeffs.push(poseidonHash([rlnIdentifier]))
-    const nullifier: bigint = this.genNullifier(coeffs)
+    coeffs.push(poseidon([rlnIdentifier]))
+    const nullifier: bigint = NRLN.genNullifier(coeffs)
     return [y, nullifier]
   }
 
@@ -72,8 +73,8 @@ class NRLN extends ZkProtocol {
    * @param coeffs coeefitients from calculated polinomial
    * @returns slashing nullifier
    */
-  genNullifier(coeffs: Array<bigint>): bigint {
-    return poseidonHash(coeffs)
+  public static genNullifier(coeffs: Array<bigint>): bigint {
+    return poseidon(coeffs)
   }
 
   /**
@@ -82,7 +83,7 @@ class NRLN extends ZkProtocol {
    * @param ys
    * @returns identity secret
    */
-  retrieveSecret(xs: Array<bigint>, ys: Array<bigint>): bigint {
+  public static retrieveSecret(xs: Array<bigint>, ys: Array<bigint>): bigint {
     if (xs.length !== ys.length) throw new Error("x and y arrays must be of same size")
     const numOfPoints: number = xs.length
     let f0 = BigInt(0)
@@ -102,9 +103,7 @@ class NRLN extends ZkProtocol {
    *
    * @returns unique identifier of the rln dapp
    */
-  genIdentifier(): bigint {
+  public static genIdentifier(): bigint {
     return Fq.random()
   }
 }
-
-export default new NRLN()
