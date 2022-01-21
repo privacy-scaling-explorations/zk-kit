@@ -1,4 +1,4 @@
-import { Identity, MerkleProof } from "@zk-kit/types"
+import { MerkleProof } from "@zk-kit/types"
 import { genSignalHash, poseidonHash } from "./utils"
 import ZkProtocol from "./zk-protocol"
 
@@ -13,15 +13,16 @@ class Semaphore extends ZkProtocol {
    * @returns
    */
   genWitness(
-    identity: Identity,
+    identityTrapdoor: bigint,
+    identityNullifier: bigint,
     merkleProof: MerkleProof,
     externalNullifier: string | bigint,
     signal: string,
     shouldHash = true
   ): any {
     return {
-      identity_nullifier: identity.identityNullifier,
-      identity_trapdoor: identity.identityTrapdoor,
+      identity_nullifier: identityNullifier,
+      identity_trapdoor: identityTrapdoor,
       identity_path_index: merkleProof.pathIndices,
       path_elements: merkleProof.siblings,
       external_nullifier: externalNullifier,

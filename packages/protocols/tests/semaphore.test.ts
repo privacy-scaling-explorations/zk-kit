@@ -31,7 +31,13 @@ describe("Semaphore", () => {
       commitments.push(identityCommitment)
 
       const merkleProof: MerkleProof = generateMerkleProof(20, BigInt(0), 5, commitments, identityCommitment)
-      const witness: FullProof = Semaphore.genWitness(identity.getIdentity(), merkleProof, externalNullifier, signal)
+      const witness: FullProof = Semaphore.genWitness(
+        identity.getTrapdoor(),
+        identity.getNullifier(),
+        merkleProof,
+        externalNullifier,
+        signal
+      )
 
       expect(typeof witness).toBe("object")
     })
@@ -50,7 +56,13 @@ describe("Semaphore", () => {
       commitments.push(identityCommitment)
 
       const merkleProof: MerkleProof = generateMerkleProof(20, BigInt(0), 5, commitments, identityCommitment)
-      const witness: FullProof = Semaphore.genWitness(identity.getIdentity(), merkleProof, externalNullifier, signal)
+      const witness: FullProof = Semaphore.genWitness(
+        identity.getTrapdoor(),
+        identity.getNullifier(),
+        merkleProof,
+        externalNullifier,
+        signal
+      )
 
       const publicSignals: Array<bigint | string> = [
         merkleProof.root,

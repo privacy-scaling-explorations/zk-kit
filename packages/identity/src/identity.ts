@@ -1,8 +1,14 @@
-import { Identity, SerializedIdentity } from "@zk-kit/types"
+import { SerializedIdentity } from "@zk-kit/types"
 import { hexToBigint } from "bigint-conversion"
 import { poseidon } from "circomlibjs"
-import { genIdentityFromMessage, genRandomIdentity, Strategy } from "./strategies"
-import { Fq, parseSerializedIdentity } from "./utils"
+import { Fq, genRandomNumber, sha256 } from "./utils"
+
+// The strategy used to generate the ZK identity.
+export enum Strategy {
+  RANDOM, // Identity is generated randomly.
+  MESSAGE, // Identity is generated from a message.
+  SERIALIZED // Identity parameters are passed from outside.
+}
 
 // The secret type is used for the identity commitment generation.
 export enum SecretType {
@@ -31,20 +37,26 @@ export default class ZkIdentity {
   constructor(strategy: Strategy = Strategy.RANDOM, metadata?: string | SerializedIdentity) {
     switch (strategy) {
       case Strategy.RANDOM: {
-        const { identityTrapdoor, identityNullifier } = genRandomIdentity()
-
-        this._identityTrapdoor = identityTrapdoor
-        this._identityNullifier = identityNullifier
+        this._identityTrapdoor = genRandomNumber()
+        this._identityNullifier = genRandomNumber()
         this._secret = [this._identityNullifier, this._identityTrapdoor]
         this._setMultipartSecret()
 
         break
       }
       case Strategy.MESSAGE: {
-        const { identityTrapdoor, identityNullifier } = genIdentityFromMessage(metadata as string)
+        if (!metadata) {
+          throw new Error("The message is not defined")
+        }
 
-        this._identityTrapdoor = identityTrapdoor
-        this._identityNullifier = identityNullifier
+        if (typeof metadata !== "string") {
+          throw new Error("The message is not a string")
+        }
+
+        const messageHash = sha256(metadata)
+
+        this._identityTrapdoor = hexToBigint(sha256(`${messageHash}identity_trapdoor`))
+        this._identityNullifier = hexToBigint(sha256(`${messageHash}identity_nullifier`))
         this._secret = [this._identityNullifier, this._identityTrapdoor]
         this._setMultipartSecret()
 
@@ -52,11 +64,24 @@ export default class ZkIdentity {
       }
       case Strategy.SERIALIZED: {
         if (!metadata) {
-          throw new Error("Metadata is not defined")
+          throw new Error("The serialized identity is not defined")
         }
 
         if (typeof metadata === "string") {
-          metadata = parseSerializedIdentity(metadata)
+          try {
+            metadata = JSON.parse(metadata) as SerializedIdentity
+          } catch (error) {
+            throw new Error("The serialized identity cannot be parsed")
+          }
+        }
+
+        if (
+          !("identityNullifier" in metadata) ||
+          !("identityTrapdoor" in metadata) ||
+          !("secret" in metadata) ||
+          !("multipartSecret" in metadata)
+        ) {
+          throw new Error("The serialized identity does not contain the right parameter")
         }
 
         const { identityNullifier, identityTrapdoor, secret, multipartSecret } = metadata
@@ -70,7 +95,7 @@ export default class ZkIdentity {
         break
       }
       default:
-        throw new Error("Provided strategy is not supported")
+        throw new Error("The provided strategy is not supported")
     }
   }
 
@@ -90,14 +115,11 @@ export default class ZkIdentity {
   }
 
   /**
-   * Returns the raw user identity, composed of identityNullifier and identityTrapdoor.
-   * @returns The trapdoor and nullifier values.
+   * Returns the identity trapdoor.
+   * @returns The identity trapdoor.
    */
-  public getIdentity(): Identity {
-    return {
-      identityNullifier: this._identityNullifier,
-      identityTrapdoor: this._identityTrapdoor
-    }
+  public getTrapdoor(): bigint {
+    return this._identityTrapdoor
   }
 
   /**
@@ -157,7 +179,7 @@ export default class ZkIdentity {
       case SecretType.MULTIPART:
         return poseidon([this.getMultipartSecretHash(secretParts)])
       default:
-        throw new Error("Provided secret type is not supported")
+        throw new Error("The provided secret type is not supported")
     }
   }
 

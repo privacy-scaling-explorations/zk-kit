@@ -1,6 +1,6 @@
 import { IncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree"
 import { MerkleProof } from "@zk-kit/types"
-import * as ciromlibjs from "circomlibjs"
+import { poseidon } from "circomlibjs"
 import * as ethers from "ethers"
 import { ZqField } from "ffjavascript"
 
@@ -10,7 +10,7 @@ export const Fq = new ZqField(SNARK_FIELD_SIZE)
 
 type IncrementalQuinTree = any
 
-export const poseidonHash = (data: Array<bigint>): bigint => ciromlibjs.poseidon(data)
+export const poseidonHash = (data: Array<bigint>): bigint => poseidon(data)
 
 export const genSignalHash = (signal: string): bigint => {
   const converted = ethers.utils.hexlify(ethers.utils.toUtf8Bytes(signal))

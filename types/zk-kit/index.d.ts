@@ -1,8 +1,3 @@
-export interface Identity {
-  identityNullifier: bigint
-  identityTrapdoor: bigint
-}
-
 export declare type Proof = {
   pi_a: string[]
   pi_b: [[string[]], [string[]], [string[]]]
