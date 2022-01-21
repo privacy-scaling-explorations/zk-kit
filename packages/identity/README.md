@@ -73,27 +73,37 @@ yarn add @zk-kit/identity
 
 ## 📜 Usage
 
-**Import**
+### Creating an identity with a random strategy:
 
 ```typescript
-import { ZkIdentity, Identity } from "@zk-kit/identity"
+import { ZkIdentity } from "@zk-kit/identity"
+// const { ZkIdentity } = require("@zk-kit/identity") // with commonJS
+
+const identity = new ZkIdentity()
+
+const trapdoor = identity.getTrapdoor()
+const nullifier = identity.getNullifier()
+const secret = identity.getSecret()
+const multipartSecret = identity.getMultipartSecret()
+
+const identityCommitment = identity.genIdentityCommitment()
 ```
 
-```javascript
-const { ZkIdentity } = require("@zk-kit/identity")
-```
-
-**Mainpulation**
+### Creating an identity with a message strategy:
 
 ```typescript
-const identity: ZkIdentity = new ZkIdentity()
-const identityCommitment: bigint = identity.genIdentityCommitment()
+import { ZkIdentity, Strategy } from "@zk-kit/identity"
+
+const identity = new ZkIdentity(Strategy.MESSAGE, "message")
 ```
 
-**Serialization**
+### Creating an identity with a serialized strategy:
 
 ```typescript
-const identity: ZkIdentity = new ZkIdentity()
-const serialized: string = identity.serializeIdentity()
-const unserialized: ZkIdentity = ZkIdentity.genFromSerialized(serialized)
+import { ZkIdentity, Strategy } from "@zk-kit/identity"
+
+const identity = new ZkIdentity()
+const serializedIdentity = identity.serializeIdentity()
+
+const identity2 = new ZkIdentity(Strategy.SERIALIZED, serializedIdentity)
 ```

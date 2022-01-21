@@ -1,5 +1,4 @@
 import { randomBytes } from "@ethersproject/random"
-import { SerializedIdentity } from "@zk-kit/types"
 import { bufToBigint } from "bigint-conversion"
 import { ZqField } from "ffjavascript"
 import { sha256 as _sha256 } from "js-sha256"
@@ -28,24 +27,4 @@ export function sha256(message: string): string {
  */
 export function genRandomNumber(numberOfBytes = 31): bigint {
   return bufToBigint(randomBytes(numberOfBytes))
-}
-
-/**
- * Parses a string containing the serialized identity parameters.
- * @param serializedIdentity The serialized identity string.
- * @returns The serialized identity parameters.
- */
-export function parseSerializedIdentity(serializedIdentity: string): SerializedIdentity {
-  const data = JSON.parse(serializedIdentity)
-
-  if (
-    !("identityNullifier" in data) ||
-    !("identityTrapdoor" in data) ||
-    !("secret" in data) ||
-    !("multipartSecret" in data)
-  ) {
-    throw new Error("Wrong input identity")
-  }
-
-  return data
 }
