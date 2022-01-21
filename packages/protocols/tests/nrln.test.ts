@@ -13,7 +13,7 @@ beforeAll(() => {
 
   for (let i = 0; i < leafIndex; i += 1) {
     const tmpIdentity = new ZkIdentity()
-    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment(SecretType.MULTIPART_SECRET, SPAM_TRESHOLD)
+    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment(SecretType.MULTIPART, SPAM_TRESHOLD)
     identityCommitments.push(tmpCommitment)
   }
 })
@@ -23,7 +23,7 @@ describe("NRLN", () => {
     it("Generate NRLN witness", () => {
       const identity: ZkIdentity = new ZkIdentity()
 
-      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET, SPAM_TRESHOLD)
+      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART, SPAM_TRESHOLD)
       const identitySecret: bigint[] = identity.getMultipartSecret(SPAM_TRESHOLD)
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
@@ -44,7 +44,7 @@ describe("NRLN", () => {
        */
       const identity: ZkIdentity = new ZkIdentity()
 
-      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET, SPAM_TRESHOLD)
+      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART, SPAM_TRESHOLD)
       const identitySecret: bigint[] = identity.getMultipartSecret(SPAM_TRESHOLD)
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
