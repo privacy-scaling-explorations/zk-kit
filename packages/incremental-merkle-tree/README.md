@@ -31,18 +31,6 @@
 
 <div align="center">
     <h4>
-        <a href="/CONTRIBUTING.md">
-            👥 Contributing
-        </a>
-        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="/CODE_OF_CONDUCT.md">
-            🤝 Code of conduct
-        </a>
-        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://github.com/appliedzkp/zk-kit/issues/new/choose">
-            🔎 Issues
-        </a>
-        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
         <a href="https://discord.gg/9B9WgGP6YM">
             🗣️ Chat &amp; Support
         </a>
@@ -93,7 +81,7 @@ or [JSDelivr](https://www.jsdelivr.com/):
 import { IncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree"
 import { poseidon } from "circomlibjs" // v0.0.8
 
-const tree = new MerkleTree(poseidon, 16, BigInt(0), 2) // Binary tree.
+const tree = new IncrementalMerkleTree(poseidon, 16, BigInt(0), 2) // Binary tree.
 ```
 
 \# **insert**(leaf: _Node_)
