@@ -18,7 +18,7 @@
     "project": ["./tsconfig.json", "./packages/**/tsconfig.json"]
   },
   "plugins": ["@typescript-eslint", "jest"],
-  "ignorePatterns": ["node_modules", "dist", "build", "types", "benchmark", "target", "witness_calculator.js"],
+  "ignorePatterns": ["node_modules", "dist", "build", "types", "docs", "benchmark", "target", "witness_calculator.js"],
   "rules": {
     "no-console": ["warn", { "allow": ["info", "warn", "error"] }],
     "no-restricted-syntax": "off",
