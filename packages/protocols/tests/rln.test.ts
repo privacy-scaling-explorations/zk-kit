@@ -12,7 +12,7 @@ beforeAll(() => {
 
   for (let i = 0; i < leafIndex; i += 1) {
     const tmpIdentity = new ZkIdentity()
-    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment(SecretType.MULTIPART_SECRET)
+    const tmpCommitment: bigint = tmpIdentity.genIdentityCommitment(SecretType.MULTIPART)
     identityCommitments.push(tmpCommitment)
   }
 })
@@ -20,9 +20,9 @@ beforeAll(() => {
 describe("RLN tests", () => {
   describe("RLN functionalities", () => {
     it("Generate rln witness", () => {
-      const identity: ZkIdentity = new ZkIdentity();
-      const identityCommitment: bigint = identity.genIdentityCommitment();
-      const secretHash: bigint = identity.getMultipartSecretHash();
+      const identity: ZkIdentity = new ZkIdentity()
+      const identityCommitment: bigint = identity.genIdentityCommitment()
+      const secretHash: bigint = identity.getMultipartSecretHash()
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
@@ -40,10 +40,10 @@ describe("RLN tests", () => {
       /**
        * Compiled RLN circuits are needed to run this test so it's being skipped in hooks
        */
-      const identity: ZkIdentity = new ZkIdentity();
+      const identity: ZkIdentity = new ZkIdentity()
       const secretHash: bigint = identity.getMultipartSecretHash()
 
-      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART_SECRET);
+      const identityCommitment: bigint = identity.genIdentityCommitment(SecretType.MULTIPART)
 
       const commitments: Array<bigint> = Object.assign([], identityCommitments)
       commitments.push(identityCommitment)
@@ -71,7 +71,7 @@ describe("RLN tests", () => {
       expect(res).toBe(true)
     }, 30000)
     it("Should retrieve user secret after spaming", () => {
-      const identity: ZkIdentity = new ZkIdentity();
+      const identity: ZkIdentity = new ZkIdentity()
       const secretHash: bigint = identity.getSecretHash()
 
       const signal1 = "hey hey"
