@@ -1,8 +1,9 @@
 import { MerkleProof } from "@zk-kit/types"
-import { Fq, genSignalHash, poseidonHash } from "./utils"
+import { poseidon } from "circomlibjs"
+import { Fq, genSignalHash } from "./utils"
 import ZkProtocol from "./zk-protocol"
 
-class RLN extends ZkProtocol {
+export default class RLN extends ZkProtocol {
   /**
    * Creates witness for rln proof
    * @param identitySecret identity secret
@@ -13,7 +14,7 @@ class RLN extends ZkProtocol {
    * @param shouldHash should signal be hashed before broadcast
    * @returns rln witness
    */
-  genWitness(
+  public static genWitness(
     identitySecret: bigint,
     merkleProof: MerkleProof,
     epoch: string | bigint,
@@ -39,21 +40,26 @@ class RLN extends ZkProtocol {
    * @param x signal hash
    * @returns y & slashing nullfier
    */
-  calculateOutput(identitySecret: bigint, epoch: bigint, rlnIdentifier: bigint, x: bigint): Array<bigint> {
-    const a1: bigint = poseidonHash([identitySecret, epoch])
+  public static calculateOutput(
+    identitySecret: bigint,
+    epoch: bigint,
+    rlnIdentifier: bigint,
+    x: bigint
+  ): Array<bigint> {
+    const a1: bigint = poseidon([identitySecret, epoch])
     const y: bigint = Fq.normalize(a1 * x + identitySecret)
-    const nullifier = this.genNullifier(a1, rlnIdentifier)
+    const nullifier = RLN.genNullifier(a1, rlnIdentifier)
     return [y, nullifier]
   }
 
   /**
    *
-   * @param a1 y = a1 * x + a0 (a1 = poseidonHash(identity secret, epoch, rlnIdentifier))
+   * @param a1 y = a1 * x + a0 (a1 = poseidon(identity secret, epoch, rlnIdentifier))
    * @param rlnIdentifier unique identifier of rln dapp
    * @returns rln slashing nullifier
    */
-  genNullifier(a1: bigint, rlnIdentifier: bigint): bigint {
-    return poseidonHash([a1, rlnIdentifier])
+  public static genNullifier(a1: bigint, rlnIdentifier: bigint): bigint {
+    return poseidon([a1, rlnIdentifier])
   }
 
   /**
@@ -64,9 +70,10 @@ class RLN extends ZkProtocol {
    * @param y2 y2
    * @returns identity secret
    */
-  retrieveSecret(x1: bigint, x2: bigint, y1: bigint, y2: bigint): bigint {
+  public static retrieveSecret(x1: bigint, x2: bigint, y1: bigint, y2: bigint): bigint {
     const slope = Fq.div(Fq.sub(y2, y1), Fq.sub(x2, x1))
     const privateKey = Fq.sub(y1, Fq.mul(slope, x1))
+
     return Fq.normalize(privateKey)
   }
 
@@ -74,9 +81,7 @@ class RLN extends ZkProtocol {
    *
    * @returns unique identifier of the rln dapp
    */
-  genIdentifier(): bigint {
+  public static genIdentifier(): bigint {
     return Fq.random()
   }
 }
-
-export default new RLN()
