@@ -29,6 +29,30 @@
     </a>
 </p>
 
+<div align="center">
+    <h4>
+        <a href="/CONTRIBUTING.md">
+            👥 Contributing
+        </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="/CODE_OF_CONDUCT.md">
+            🤝 Code of conduct
+        </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="https://github.com/appliedzkp/zk-kit/issues/new/choose">
+            🔎 Issues
+        </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="https://discord.gg/9B9WgGP6YM">
+            🗣️ Chat &amp; Support
+        </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="https://appliedzkp.github.io/zk-kit/incremental-merkle-tree">
+            📘 Docs
+        </a>
+    </h4>
+</div>
+
 ---
 
 ## 🛠 Install

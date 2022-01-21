@@ -29,6 +29,30 @@
     </a>
 </p>
 
+<div align="center">
+    <h4>
+        <a href="/CONTRIBUTING.md">
+            👥 Contributing
+        </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="/CODE_OF_CONDUCT.md">
+            🤝 Code of conduct
+        </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="https://github.com/appliedzkp/zk-kit/issues/new/choose">
+            🔎 Issues
+        </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="https://discord.gg/9B9WgGP6YM">
+            🗣️ Chat &amp; Support
+        </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="https://appliedzkp.github.io/zk-kit/sparse-merkle-tree">
+            📘 Docs
+        </a>
+    </h4>
+</div>
+
 A sparse Merkle tree is a data structure useful for storing a key/value map where every leaf node of the tree contains the cryptographic hash of a key/value pair and every non leaf node contains the concatenated hashes of its child nodes. Sparse Merkle trees provides a secure and efficient verification of large data sets and they are often used in peer-to-peer technologies. This implementation is an optimized version of the traditional sparse Merkle tree and it is based on the concepts expressed in the papers and resources below.
 
 **Notice**: this library is still not stable and therefore it must be used with care.
