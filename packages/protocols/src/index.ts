@@ -1,7 +1,17 @@
-import { FullProof, MerkleProof } from "@zk-kit/types"
+import { FullProof, MerkleProof, SolidityProof } from "@zk-kit/types"
 import RLN from "./rln"
 import NRLN from "./nrln"
 import Semaphore from "./semaphore"
 import { generateMerkleProof, genExternalNullifier, genSignalHash } from "./utils"
 
-export { Semaphore, RLN, NRLN, generateMerkleProof, genExternalNullifier, genSignalHash, MerkleProof, FullProof }
+export {
+  Semaphore,
+  RLN,
+  NRLN,
+  generateMerkleProof,
+  genExternalNullifier,
+  genSignalHash,
+  MerkleProof,
+  FullProof,
+  SolidityProof
+}

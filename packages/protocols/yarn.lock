@@ -623,7 +623,7 @@
     elliptic "6.5.4"
     hash.js "1.1.7"
 
-"@ethersproject/solidity@5.5.0":
+"@ethersproject/solidity@5.5.0", "@ethersproject/solidity@^5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/solidity/-/solidity-5.5.0.tgz#2662eb3e5da471b85a20531e420054278362f93f"
   integrity sha512-9NgZs9LhGMj6aCtHXhtmFQ4AN4sth5HuFXVvAQtzmm0jpSCNOTGtrHZJAeYTh7MBjRR8brylWZxBZR9zDStXbw==
@@ -1222,6 +1222,11 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@ungap/promise-all-settled/-/promise-all-settled-1.1.2.tgz#aa58042711d6e3275dd37dc597e5d31e8c290a44"
   integrity sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==
+
+"@zk-kit/incremental-merkle-tree@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@zk-kit/incremental-merkle-tree/-/incremental-merkle-tree-0.2.0.tgz#ce0f801ded56d6ca7baf8400a5a5d14c15f744bf"
+  integrity sha512-9QTZ44cIMFJhr18IV9TMZrNcl69gbCAqIK87pl5Ni+2hZum5ikc0qFdMScLKyYFjEECJeVBZrZr2I9AjzXJh4w==
 
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"

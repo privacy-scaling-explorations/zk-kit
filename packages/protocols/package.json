@@ -36,8 +36,10 @@
   },
   "dependencies": {
     "@zk-kit/incremental-merkle-tree": "^0.2.0",
+    "@ethersproject/bytes": "^5.5.0",
+    "@ethersproject/solidity": "^5.5.0",
+    "@ethersproject/strings": "^5.5.0",
     "circomlibjs": "0.0.8",
-    "ethers": "^5.4.7",
     "ffjavascript": "0.2.38",
     "incrementalquintree": "^1.0.7",
     "snarkjs": "^0.4.10"
