@@ -18,7 +18,16 @@
     "project": ["./tsconfig.json", "./packages/**/tsconfig.json"]
   },
   "plugins": ["@typescript-eslint", "jest"],
-  "ignorePatterns": ["node_modules", "dist", "build", "types", "docs", "benchmark", "target", "witness_calculator.js"],
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "build",
+    "types",
+    "docs",
+    "benchmarks/results",
+    "target",
+    "witness_calculator.js"
+  ],
   "rules": {
     "no-console": ["warn", { "allow": ["info", "warn", "error"] }],
     "no-restricted-syntax": "off",
@@ -28,6 +37,7 @@
     "no-bitwise": "off",
     "class-methods-use-this": "warn",
     "import/no-extraneous-dependencies": "off",
+    "import/no-relative-packages": "off",
     "@typescript-eslint/no-loop-func": "off",
     "@typescript-eslint/no-shadow": "off",
     "@typescript-eslint/no-explicit-any": "off",
