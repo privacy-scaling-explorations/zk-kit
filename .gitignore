@@ -64,4 +64,4 @@ docs/*
 
 # Other
 zkeyFiles
-benchmark
+benchmarks/results
