@@ -51,7 +51,7 @@
 ♜ [Jest](https://jestjs.io/) tests & common test coverage for all packages (`yarn test`)\
 ♞ [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/) to keep the code neat and well organized (`yarn prettier` & `yarn lint`)\
 ♝ Automatic deployment of documentation generated with [typedocs](https://typedoc.org/)\
-♟ Simple benchmarking framework for JavaScript/TypeScript libraries with [Benny](https://github.com/caderek/benny) (`yarn benchmark`)
+♟ Simple benchmarking framework for JavaScript/TypeScript libraries with [Benny](https://github.com/caderek/benny) (`yarn benchmarks`)
 
 ---
 
@@ -217,11 +217,11 @@ grep -r -l "sparse-merkle-tree" . | xargs sed -i 's/sparse-merkle-tree/my-packag
 
 #### How can I test and publish my library?
 
-ZK-kit provides two commands: `yarn test` and `yarn publish:fp`. Both must be run from the root folder. `yarn test` will test all packages in the monorepo, including yours using the files inside your `packages/my-package/tests` folder. `yarn publish:fp` can only be run by those who own the NPM token of the ZK-kit organization. They will then have to publish the package. This task will be automated in the future.
+ZK-kit provides two commands: `yarn test` and `yarn publish:fp`. Both must be run from the root folder. `yarn test` will test all packages in the monorepo, including yours using the files inside your `packages/my-package/tests` folder. `yarn publish:fp` can only be run by those who own the NPM token of the ZK-kit organization. They will then have to publish your package. This task could be automated in the future.
 
 #### How can I create benchmarks for my library?
 
-You can see an example in the `@zk-kit/incremental-merke-tree` package. It has a `yarn benchmark` NPM script that uses [Benny](https://github.com/caderek/benny). You can find the benchmark script in the `benchmarks` folder. When you run the command it creates a `benchmark` folder with the HTML results, which you can open in a browser.
+You can see some examples in the `benchmarks` folder. All you have to do is create a file that exports a function to run your benchmark in that folder, and add that function to the `index.ts` file. The `yarn benchmarks` command can be run with no parameters (it will run all the benchmarks), or you can specify the name of your benchmark file to run just that. When you run the command it will creates a `benchmarks/results` folder with your results.
 
 #### How can I publish the documentation of my library with typedocs?
 
