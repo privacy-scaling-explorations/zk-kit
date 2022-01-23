@@ -1,7 +1,6 @@
 import { MerkleProof } from "@zk-kit/types"
 import checkParameter from "./checkParameter"
 import { HashFunction, Node } from "./types"
-import { padArrayEnd } from "./utils"
 
 /**
  * A Merkle tree is a tree in which every leaf node is labelled with the cryptographic hash of a
@@ -28,7 +27,7 @@ export default class IncrementalMerkleTree {
    * @param zeroValue Zero values for zeroes.
    * @param arity The number of children for each node.
    */
-  constructor(hash: HashFunction, depth: number, zeroValue: Node, arity: number) {
+  constructor(hash: HashFunction, depth: number, zeroValue: Node, arity = 2) {
     checkParameter(hash, "hash", "function")
     checkParameter(depth, "depth", "number")
     checkParameter(zeroValue, "zeroValue", "number", "string", "bigint")
@@ -130,11 +129,16 @@ export default class IncrementalMerkleTree {
 
     this.forEachLevel(this.leaves.length, (level, index, position) => {
       this._nodes[level][index] = node
+      const children = []
+      const levelStartIndex = index - position
+      const levelEndIndex = levelStartIndex + this._arity
 
-      let children = this._nodes[level].slice(index - position, index - position + this._arity)
-
-      if (children.length < this.arity) {
-        children = padArrayEnd(children, this.arity, this.zeroes[level])
+      for (let i = levelStartIndex; i < levelEndIndex; i += 1) {
+        if (i < this._nodes[level].length) {
+          children.push(this._nodes[level][i])
+        } else {
+          children.push(this.zeroes[level])
+        }
       }
 
       node = this._hash(children)
@@ -159,11 +163,16 @@ export default class IncrementalMerkleTree {
 
     this.forEachLevel(index, (level, index, position) => {
       this._nodes[level][index] = node
+      const children = []
+      const levelStartIndex = index - position
+      const levelEndIndex = levelStartIndex + this._arity
 
-      let children = this._nodes[level].slice(index - position, index - position + this._arity)
-
-      if (children.length < this.arity) {
-        children = padArrayEnd(children, this.arity, this.zeroes[level])
+      for (let i = levelStartIndex; i < levelEndIndex; i += 1) {
+        if (i < this._nodes[level].length) {
+          children.push(this._nodes[level][i])
+        } else {
+          children.push(this.zeroes[level])
+        }
       }
 
       node = this._hash(children)
@@ -184,19 +193,24 @@ export default class IncrementalMerkleTree {
       throw new Error("The leaf does not exist in this tree")
     }
 
-    const siblings: Node[] = []
+    const siblings: Node[][] = []
     const pathIndices: number[] = []
 
     this.forEachLevel(index, (level, index, position) => {
-      pathIndices.push(position)
+      pathIndices[level] = position
+      siblings[level] = []
+      const levelStartIndex = index - position
+      const levelEndIndex = levelStartIndex + this._arity
 
-      siblings[level] = this._nodes[level].slice(index - position, index - position + this._arity)
-
-      if (siblings[level].length < this.arity) {
-        siblings[level] = padArrayEnd(siblings[level], this.arity, this.zeroes[level])
+      for (let i = levelStartIndex; i < levelEndIndex; i += 1) {
+        if (i !== index) {
+          if (i < this._nodes[level].length) {
+            siblings[level].push(this._nodes[level][i])
+          } else {
+            siblings[level].push(this.zeroes[level])
+          }
+        }
       }
-
-      siblings[level].splice(position, 1)
     })
 
     return { root: this._root, leaf: this.leaves[index], pathIndices, siblings }
