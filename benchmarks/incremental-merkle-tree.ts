@@ -6,31 +6,28 @@ import { IncrementalMerkleTree } from "../packages/incremental-merkle-tree/src"
 const name = "incremental-merkle-tree"
 
 export default async function run() {
-  const newTree = new IncrementalMerkleTree(poseidon, 20, BigInt(0), 2)
-  const oldTree = new IncrementalQuinTree(20, BigInt(0), 2, poseidon)
+  const tree1 = new IncrementalMerkleTree(poseidon, 20, BigInt(0), 5)
+  const tree2 = new IncrementalQuinTree(20, BigInt(0), 5, poseidon)
 
-  const numberOfLeaves = 2 ** 4
+  const numberOfLeaves = 2 ** 7
+
+  for (let i = 0; i < numberOfLeaves; i += 1) {
+    tree1.insert(BigInt(i + 1))
+    tree2.insert(BigInt(i + 1))
+  }
 
   b.suite(
     name,
 
-    b.add("Generate proof for new tree", () => {
+    b.add(`IncrementalMerkleTree - createProof (${numberOfLeaves} leaves)`, () => {
       for (let i = 0; i < numberOfLeaves; i += 1) {
-        newTree.insert(BigInt(i + 1))
-      }
-
-      for (let i = 0; i < numberOfLeaves; i += 1) {
-        newTree.createProof(i)
+        tree1.createProof(i)
       }
     }),
 
-    b.add("Generate proof for old tree", () => {
+    b.add(`IncrementalQuinTree - genMerklePath (${numberOfLeaves} leaves)`, () => {
       for (let i = 0; i < numberOfLeaves; i += 1) {
-        oldTree.insert(BigInt(i + 1))
-      }
-
-      for (let i = 0; i < numberOfLeaves; i += 1) {
-        oldTree.genMerklePath(i)
+        tree2.genMerklePath(i)
       }
     }),
 
