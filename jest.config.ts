@@ -1,7 +1,7 @@
 import fs from "fs"
 import type { Config } from "@jest/types"
 
-const projects = fs
+const projects: any = fs
   .readdirSync("./packages", { withFileTypes: true })
   .filter((directory) => directory.isDirectory())
   .map(({ name }) => ({
@@ -9,8 +9,7 @@ const projects = fs
     displayName: name,
     moduleNameMapper: {
       "@zk-kit/types": "<rootDir>/../../types/zk-kit/index.d.ts",
-      // Interdependency packages:
-      "@zk-kit/identity": "<rootDir>/../identity/src/index.ts"
+      "@zk-kit/(.*)": "<rootDir>/../$1/src/index.ts" // Interdependency packages.
     }
   }))
 

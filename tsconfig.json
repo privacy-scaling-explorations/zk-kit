@@ -14,7 +14,7 @@
     "typeRoots": ["node_modules/@types", "types"],
     "paths": {
       "@zk-kit/types": ["types/zk-kit"],
-      "@zk-kit/identity": ["packages/identity/src"]
+      "@zk-kit/*": ["packages/*/src"]
     }
   },
   "ts-node": {
