@@ -1,4 +1,5 @@
 import { SecretType, ZkIdentity } from "@zk-kit/identity"
+import { getCurveFromName } from "ffjavascript"
 import * as fs from "fs"
 import * as path from "path"
 import { RLN } from "../src"
@@ -8,7 +9,11 @@ describe("RLN", () => {
   const zkeyFiles = "./packages/protocols/zkeyFiles"
   const identityCommitments: bigint[] = []
 
-  beforeAll(() => {
+  let curve: any
+
+  beforeAll(async () => {
+    curve = await getCurveFromName("bn128")
+
     const numberOfLeaves = 3
 
     for (let i = 0; i < numberOfLeaves; i += 1) {
@@ -17,6 +22,10 @@ describe("RLN", () => {
 
       identityCommitments.push(identityCommitment)
     }
+  })
+
+  afterAll(async () => {
+    await curve.terminate()
   })
 
   describe("RLN functionalities", () => {

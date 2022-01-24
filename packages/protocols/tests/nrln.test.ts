@@ -1,5 +1,6 @@
 import { SecretType, ZkIdentity } from "@zk-kit/identity"
 import { poseidon } from "circomlibjs"
+import { getCurveFromName } from "ffjavascript"
 import * as fs from "fs"
 import * as path from "path"
 import { NRLN } from "../src"
@@ -10,15 +11,23 @@ describe("NRLN", () => {
   const identityCommitments: bigint[] = []
   const SPAM_TRESHOLD = 3
 
-  beforeAll(() => {
+  let curve: any
+
+  beforeAll(async () => {
+    curve = await getCurveFromName("bn128")
+
     const numberOfLeaves = 3
 
     for (let i = 0; i < numberOfLeaves; i += 1) {
       const identity = new ZkIdentity()
-      const identityCommitment = identity.genIdentityCommitment(SecretType.MULTIPART, SPAM_TRESHOLD)
+      const identityCommitment = identity.genIdentityCommitment(SecretType.MULTIPART)
 
       identityCommitments.push(identityCommitment)
     }
+  })
+
+  afterAll(async () => {
+    await curve.terminate()
   })
 
   describe("NRLN features", () => {
