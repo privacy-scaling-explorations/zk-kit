@@ -1,4 +1,4 @@
-import { MerkleProof } from "@zk-kit/types"
+import { MerkleProof, StrBigInt } from "@zk-kit/types"
 import { poseidon } from "circomlibjs"
 import { Fq, genSignalHash } from "./utils"
 import ZkProtocol from "./zk-protocol"
@@ -17,7 +17,7 @@ export default class RLN extends ZkProtocol {
   public static genWitness(
     identitySecret: bigint,
     merkleProof: MerkleProof,
-    epoch: string | bigint,
+    epoch: StrBigInt,
     signal: string,
     rlnIdentifier: bigint,
     shouldHash = true
@@ -40,15 +40,11 @@ export default class RLN extends ZkProtocol {
    * @param x signal hash
    * @returns y & slashing nullfier
    */
-  public static calculateOutput(
-    identitySecret: bigint,
-    epoch: bigint,
-    rlnIdentifier: bigint,
-    x: bigint
-  ): Array<bigint> {
-    const a1: bigint = poseidon([identitySecret, epoch])
-    const y: bigint = Fq.normalize(a1 * x + identitySecret)
+  public static calculateOutput(identitySecret: bigint, epoch: bigint, rlnIdentifier: bigint, x: bigint): bigint[] {
+    const a1 = poseidon([identitySecret, epoch])
+    const y = Fq.normalize(a1 * x + identitySecret)
     const nullifier = RLN.genNullifier(a1, rlnIdentifier)
+
     return [y, nullifier]
   }
 

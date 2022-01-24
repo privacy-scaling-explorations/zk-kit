@@ -1,4 +1,4 @@
-import { MerkleProof } from "@zk-kit/types"
+import { MerkleProof, StrBigInt } from "@zk-kit/types"
 import { poseidon } from "circomlibjs"
 import { Fq, genSignalHash } from "./utils"
 import ZkProtocol from "./zk-protocol"
@@ -15,9 +15,9 @@ export default class NRLN extends ZkProtocol {
    * @returns rln witness
    */
   public static genWitness(
-    identitySecret: Array<bigint>,
+    identitySecret: bigint[],
     merkleProof: MerkleProof,
-    epoch: string | bigint,
+    epoch: StrBigInt,
     signal: string,
     rlnIdentifier: bigint,
     shouldHash = true
@@ -42,15 +42,15 @@ export default class NRLN extends ZkProtocol {
    * @returns
    */
   public static calculateOutput(
-    identitySecret: Array<bigint>,
+    identitySecret: bigint[],
     epoch: bigint,
     x: bigint,
     limit: number,
     rlnIdentifier: bigint
-  ): Array<bigint> {
+  ): bigint[] {
     const a0 = poseidon(identitySecret)
+    const coeffs: bigint[] = []
 
-    const coeffs: Array<bigint> = []
     let tmpX = x
 
     coeffs.push(poseidon([identitySecret[0], epoch]))
@@ -73,7 +73,7 @@ export default class NRLN extends ZkProtocol {
    * @param coeffs coeefitients from calculated polinomial
    * @returns slashing nullifier
    */
-  public static genNullifier(coeffs: Array<bigint>): bigint {
+  public static genNullifier(coeffs: bigint[]): bigint {
     return poseidon(coeffs)
   }
 
@@ -83,10 +83,14 @@ export default class NRLN extends ZkProtocol {
    * @param ys
    * @returns identity secret
    */
-  public static retrieveSecret(xs: Array<bigint>, ys: Array<bigint>): bigint {
-    if (xs.length !== ys.length) throw new Error("x and y arrays must be of same size")
+  public static retrieveSecret(xs: bigint[], ys: bigint[]): bigint {
+    if (xs.length !== ys.length) {
+      throw new Error("x and y arrays must be of same size")
+    }
+
     const numOfPoints: number = xs.length
     let f0 = BigInt(0)
+
     for (let i = 0; i < numOfPoints; i += 1) {
       let p = BigInt(1)
       for (let j = 0; j < numOfPoints; j += 1) {
@@ -96,6 +100,7 @@ export default class NRLN extends ZkProtocol {
       }
       f0 = Fq.add(f0, Fq.mul(ys[i], p))
     }
+
     return f0
   }
 
