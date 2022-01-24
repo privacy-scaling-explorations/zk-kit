@@ -42,6 +42,6 @@
     "circomlibjs": "0.0.8",
     "ffjavascript": "0.2.38",
     "incrementalquintree": "^1.0.7",
-    "snarkjs": "^0.4.10"
+    "snarkjs": "^0.4.12"
   }
 }
