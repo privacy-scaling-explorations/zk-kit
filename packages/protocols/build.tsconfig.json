@@ -3,7 +3,9 @@
   "compilerOptions": {
     "allowJs": true,
     "declarationDir": "types",
-    "paths": {}
+    "paths": {
+      "@zk-kit/types": ["types/zk-kit"]
+    }
   },
   "include": ["src"]
 }
