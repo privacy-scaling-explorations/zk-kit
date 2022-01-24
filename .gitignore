@@ -63,5 +63,4 @@ docs/*
 .yarn/install-state.gz
 
 # Other
-zkeyFiles
 benchmarks/results
