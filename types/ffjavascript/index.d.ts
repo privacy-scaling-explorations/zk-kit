@@ -381,7 +381,7 @@ declare module "ffjavascript" {
 
   export function buildBn128(singleThread: any, plugins: any): any
 
-  export function getCurveFromName(name: any, singleThread: any, plugins: any): any
+  export function getCurveFromName(name: any, singleThread?: any, plugins?: any): any
 
   export function getCurveFromQ(q: any, singleThread: any, plugins: any): any
 

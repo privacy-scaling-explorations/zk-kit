@@ -1,4 +1,5 @@
 import { ZkIdentity } from "@zk-kit/identity"
+import { getCurveFromName } from "ffjavascript"
 import fs from "fs"
 import path from "path"
 import { Semaphore } from "../src"
@@ -6,6 +7,16 @@ import { generateMerkleProof, genExternalNullifier, genSignalHash } from "../src
 
 describe("Semaphore", () => {
   const zkeyFiles = "./packages/protocols/zkeyFiles"
+
+  let curve: any
+
+  beforeAll(async () => {
+    curve = await getCurveFromName("bn128")
+  })
+
+  afterAll(async () => {
+    await curve.terminate()
+  })
 
   describe("Generate and verify proof", () => {
     it("Should generate a Semaphore witness", async () => {
