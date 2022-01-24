@@ -19,10 +19,10 @@ export default async (): Promise<Config.InitialOptions> => ({
   collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts", "!<rootDir>/src/**/*.d.ts"],
   coverageThreshold: {
     global: {
-      branches: 20,
-      functions: 30,
-      lines: 30,
-      statements: 30
+      branches: 90,
+      functions: 95,
+      lines: 95,
+      statements: 95
     }
   }
 })
