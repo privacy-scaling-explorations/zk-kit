@@ -35,7 +35,7 @@
     "typedoc": "^0.22.11"
   },
   "dependencies": {
-    "@zk-kit/incremental-merkle-tree": "^0.2.0",
+    "@zk-kit/incremental-merkle-tree": "^0.3.1",
     "@ethersproject/bytes": "^5.5.0",
     "@ethersproject/solidity": "^5.5.0",
     "@ethersproject/strings": "^5.5.0",
