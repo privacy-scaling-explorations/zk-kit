@@ -89,6 +89,22 @@ describe("Incremental Merkle Tree", () => {
         }
       })
 
+      it(`Should update ${numberOfLeaves} leaves`, () => {
+        for (let i = 0; i < numberOfLeaves; i += 1) {
+          tree.insert(BigInt(1))
+          oldTree.insert(BigInt(1))
+        }
+
+        for (let i = 0; i < numberOfLeaves; i += 1) {
+          tree.update(i, BigInt(0))
+          oldTree.update(i, BigInt(0))
+
+          const { root } = oldTree.genMerklePath(0)
+
+          expect(tree.root).toEqual(root)
+        }
+      })
+
       it("Should return the index of a leaf", () => {
         tree.insert(BigInt(1))
         tree.insert(BigInt(2))

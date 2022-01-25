@@ -131,6 +131,16 @@ export default class IncrementalMerkleTree {
   }
 
   /**
+   * Deletes a leaf from the tree. It does not remove the leaf from
+   * the data structure. It set the leaf to be deleted to a zero value.
+   * @param index Index of the leaf to be deleted.
+   * @param newLeaf New leaf value.
+   */
+  public update(index: number, newLeaf: Node) {
+    this._root = _update(index, newLeaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
+  }
+
+  /**
    * Creates a proof of membership.
    * @param index Index of the proof's leaf.
    * @returns Proof object.
