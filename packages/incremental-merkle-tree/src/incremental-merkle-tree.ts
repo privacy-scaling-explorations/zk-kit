@@ -1,6 +1,11 @@
 import { MerkleProof } from "@zk-kit/types"
 import checkParameter from "./checkParameter"
+import _createProof from "./createProof"
+import _indexOf from "./indexOf"
+import _insert from "./insert"
 import { HashFunction, Node } from "./types"
+import _update from "./update"
+import _verifyProof from "./verifyProof"
 
 /**
  * A Merkle tree is a tree in which every leaf node is labelled with the cryptographic hash of a
@@ -105,9 +110,7 @@ export default class IncrementalMerkleTree {
    * @returns Index of the leaf.
    */
   public indexOf(leaf: Node): number {
-    checkParameter(leaf, "leaf", "number", "string", "bigint")
-
-    return this.leaves.indexOf(leaf)
+    return _indexOf(leaf, this._nodes)
   }
 
   /**
@@ -115,36 +118,7 @@ export default class IncrementalMerkleTree {
    * @param leaf New leaf.
    */
   public insert(leaf: Node) {
-    checkParameter(leaf, "leaf", "number", "string", "bigint")
-
-    if (leaf === this.zeroes[0]) {
-      throw new Error("The leaf cannot be a zero value")
-    }
-
-    if (this.leaves.length >= this.arity ** this.depth) {
-      throw new Error("The tree is full")
-    }
-
-    let node = leaf
-
-    this.forEachLevel(this.leaves.length, (level, index, position) => {
-      this._nodes[level][index] = node
-      const children = []
-      const levelStartIndex = index - position
-      const levelEndIndex = levelStartIndex + this._arity
-
-      for (let i = levelStartIndex; i < levelEndIndex; i += 1) {
-        if (i < this._nodes[level].length) {
-          children.push(this._nodes[level][i])
-        } else {
-          children.push(this.zeroes[level])
-        }
-      }
-
-      node = this._hash(children)
-    })
-
-    this._root = node
+    this._root = _insert(leaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
   }
 
   /**
@@ -153,32 +127,7 @@ export default class IncrementalMerkleTree {
    * @param index Index of the leaf to be deleted.
    */
   public delete(index: number) {
-    checkParameter(index, "index", "number")
-
-    if (index < 0 || index >= this.leaves.length) {
-      throw new Error("The leaf does not exist in this tree")
-    }
-
-    let node = this._zeroes[0]
-
-    this.forEachLevel(index, (level, index, position) => {
-      this._nodes[level][index] = node
-      const children = []
-      const levelStartIndex = index - position
-      const levelEndIndex = levelStartIndex + this._arity
-
-      for (let i = levelStartIndex; i < levelEndIndex; i += 1) {
-        if (i < this._nodes[level].length) {
-          children.push(this._nodes[level][i])
-        } else {
-          children.push(this.zeroes[level])
-        }
-      }
-
-      node = this._hash(children)
-    })
-
-    this._root = node
+    this._root = _update(index, this.zeroes[0], this.depth, this.arity, this._nodes, this.zeroes, this._hash)
   }
 
   /**
@@ -187,33 +136,7 @@ export default class IncrementalMerkleTree {
    * @returns Proof object.
    */
   public createProof(index: number): MerkleProof {
-    checkParameter(index, "index", "number")
-
-    if (index < 0 || index >= this.leaves.length) {
-      throw new Error("The leaf does not exist in this tree")
-    }
-
-    const siblings: Node[][] = []
-    const pathIndices: number[] = []
-
-    this.forEachLevel(index, (level, index, position) => {
-      pathIndices[level] = position
-      siblings[level] = []
-      const levelStartIndex = index - position
-      const levelEndIndex = levelStartIndex + this._arity
-
-      for (let i = levelStartIndex; i < levelEndIndex; i += 1) {
-        if (i !== index) {
-          if (i < this._nodes[level].length) {
-            siblings[level].push(this._nodes[level][i])
-          } else {
-            siblings[level].push(this.zeroes[level])
-          }
-        }
-      }
-    })
-
-    return { root: this._root, leaf: this.leaves[index], pathIndices, siblings }
+    return _createProof(index, this.depth, this.arity, this._nodes, this.zeroes, this.root)
   }
 
   /**
@@ -222,33 +145,6 @@ export default class IncrementalMerkleTree {
    * @returns True or false.
    */
   public verifyProof(proof: MerkleProof): boolean {
-    checkParameter(proof, "proof", "object")
-    checkParameter(proof.root, "proof.root", "number", "string", "bigint")
-    checkParameter(proof.leaf, "proof.leaf", "number", "string", "bigint")
-    checkParameter(proof.siblings, "proof.siblings", "object")
-    checkParameter(proof.pathIndices, "proof.pathElements", "object")
-
-    let node = proof.leaf
-
-    for (let i = 0; i < proof.siblings.length; i += 1) {
-      proof.siblings[i].splice(proof.pathIndices[i], 0, node)
-
-      node = this._hash(proof.siblings[i])
-    }
-
-    return proof.root === node
-  }
-
-  /**
-   * Provides a bottom-up tree traversal where for each level it calls a callback.
-   * @param index Index of the leaf.
-   * @param callback Callback with tree level, index of node in that level and position.
-   */
-  private forEachLevel(index: number, callback: (level: number, index: number, position: number) => void) {
-    for (let level = 0; level < this.depth; level += 1) {
-      callback(level, index, index % this.arity)
-
-      index = Math.floor(index / this.arity)
-    }
+    return _verifyProof(proof, this._hash)
   }
 }
