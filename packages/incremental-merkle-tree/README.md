@@ -90,6 +90,12 @@ const tree = new IncrementalMerkleTree(poseidon, 16, BigInt(0), 2) // Binary tre
 tree.insert(BigInt(1))
 ```
 
+\# **update**(index: _number_, newLeaf: _Node_)
+
+```typescript
+tree.update(0, BigInt(2))
+```
+
 \# **delete**(index: _number_)
 
 ```typescript
