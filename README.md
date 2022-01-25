@@ -215,7 +215,7 @@ cd zk-kit
 cp -r packages/sparse-merkle-tree packages/my-package
 cd packages/my-package && rm -fr node_modules dist
 grep -r -l "sparse-merkle-tree" . | xargs sed -i 's/sparse-merkle-tree/my-package/'
-# Update the remaining descriptions/usage section, and write your code in the src & tests folder!
+# Update the remaining description/usage sections, and write your code in the src & tests folders!
 ```
 
 #### How can I test and publish my library?
