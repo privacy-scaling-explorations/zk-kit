@@ -43,7 +43,7 @@ export default class ZkProtocol {
     const { proof, publicSignals } = fullProof
 
     return {
-      a: [proof.pi_a[0], proof.pi_a[0]],
+      a: [proof.pi_a[0], proof.pi_a[1]],
       b: [
         [proof.pi_b[0][1], proof.pi_b[0][0]],
         [proof.pi_b[1][1], proof.pi_b[1][0]]
