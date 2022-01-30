@@ -1,5 +1,4 @@
 import fs from "fs"
-// eslint-disable-next-line import/no-relative-packages
 import rust from ".."
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
@@ -25,10 +24,5 @@ export default {
     { file: pkg.exports.require, format: "cjs", banner, exports: "auto" },
     { file: pkg.exports.import, format: "es", banner }
   ],
-  plugins: [
-    rust({
-      serverPath: "dist/",
-      inlineWasm: true
-    })
-  ]
+  plugins: [rust()]
 }

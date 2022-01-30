@@ -2,6 +2,7 @@
   "name": "@zk-kit/hello-wasm",
   "version": "0.1.0",
   "description": "Boilerplate to compile a Rust packages to WASM.",
+  "license": "MIT",
   "iife": "dist/index.js",
   "unpkg": "dist/index.min.js",
   "jsdelivr": "dist/index.min.js",
@@ -20,15 +21,19 @@
   ],
   "repository": "git@github.com:appliedzkp/zk-kit.git",
   "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/hello-wasm",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
+  "author": {
+    "name": "Omar Desogus",
+    "email": "me@cedoor.dev",
+    "url": "https://cedoor.dev"
   },
   "scripts": {
     "start": "yarn build && serve",
     "build": "rimraf dist && rollup -c",
     "build:watch": "rollup -c  -w",
     "prepublishOnly": "yarn build"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
