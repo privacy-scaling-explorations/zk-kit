@@ -1,7 +1,7 @@
 {
   "name": "@zk-kit/rollup-plugin-rust",
   "version": "0.1.0",
-  "description": "Rollup plugin for bundling and importing Rust crates with WASM.",
+  "description": "Rollup plugin to create WASM/JS libraries from Rust crates.",
   "license": "MIT",
   "main": "dist/index.node.js",
   "exports": {
