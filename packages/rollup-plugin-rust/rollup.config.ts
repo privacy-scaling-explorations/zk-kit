@@ -15,7 +15,7 @@ const banner = `/**
 export default {
   input: "src/index.ts",
   output: [
-    { file: pkg.exports.require, format: "cjs", banner },
+    { file: pkg.exports.require, format: "cjs", banner, exports: "auto" },
     { file: pkg.exports.import, format: "es", banner }
   ],
   external: ["fs", "glob", "path", "child_process", "toml", "rimraf", "os", "rollup-pluginutils"],
