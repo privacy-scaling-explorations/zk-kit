@@ -18,21 +18,12 @@
     "project": ["./tsconfig.json", "./packages/**/tsconfig.json"]
   },
   "plugins": ["@typescript-eslint", "jest"],
-  "ignorePatterns": [
-    "node_modules",
-    "dist",
-    "build",
-    "types",
-    "docs",
-    "benchmarks/results",
-    "target",
-    "witness_calculator.js"
-  ],
   "rules": {
     "no-console": ["warn", { "allow": ["info", "warn", "error"] }],
     "no-restricted-syntax": "off",
     "no-underscore-dangle": "off",
     "no-param-reassign": "off",
+    "no-await-in-loop": "off",
     "import/no-cycle": "off",
     "no-bitwise": "off",
     "class-methods-use-this": "warn",
