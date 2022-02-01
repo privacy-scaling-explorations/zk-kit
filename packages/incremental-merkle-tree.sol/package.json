@@ -1,0 +1,74 @@
+{
+  "name": "@zk-kit/incremental-merkle-tree.sol",
+  "version": "0.1.0",
+  "description": "Incremental Merkle tree smart contracts.",
+  "license": "MIT",
+  "files": [
+    "contracts/",
+    "!contracts/Test.sol",
+    "README.md"
+  ],
+  "keywords": [
+    "blockchain",
+    "ethereum",
+    "hardhat",
+    "smart-contracts",
+    "solidity",
+    "libraries",
+    "merkle-tree",
+    "incremental-merkle-tree"
+  ],
+  "repository": "git@github.com:appliedzkp/zk-kit.git",
+  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/incremental-merkle-tree.sol",
+  "author": {
+    "name": "Omar Desogus",
+    "email": "me@cedoor.dev",
+    "url": "https://cedoor.dev"
+  },
+  "scripts": {
+    "start": "hardhat node",
+    "compile": "hardhat compile",
+    "deploy:test": "hardhat deploy:test",
+    "test": "hardhat test",
+    "test:report-gas": "REPORT_GAS=true hardhat test",
+    "test:coverage": "hardhat coverage",
+    "test:prod": "yarn lint && yarn coverage",
+    "lint": "solhint 'contracts/**/*.sol'"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.4",
+    "@nomiclabs/hardhat-waffle": "^2.0.2",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^9.1.0",
+    "@zk-kit/incremental-merkle-tree": "^0.4.0",
+    "chai": "^4.3.5",
+    "circomlibjs": "^0.0.8",
+    "dotenv": "^14.3.2",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.5.3",
+    "hardhat": "^2.8.3",
+    "hardhat-gas-reporter": "^1.0.7",
+    "mocha": "^8.4.0",
+    "prettier": "^2.5.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.19",
+    "solhint": "^3.3.6",
+    "solhint-plugin-prettier": "^0.0.5",
+    "solidity-coverage": "^0.7.18"
+  },
+  "config": {
+    "solidity": {
+      "version": "0.8.4"
+    },
+    "paths": {
+      "contracts": "./contracts",
+      "circuit": "./circuit",
+      "tests": "./test",
+      "cache": "./cache",
+      "build": {
+        "snark": "./build/snark",
+        "contracts": "./build/contracts",
+        "typechain": "./build/typechain"
+      }
+    }
+  }
+}
