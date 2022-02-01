@@ -61,47 +61,30 @@ yarn add @zk-kit/protocols
 
 ## 📜 Usage
 
-**Import**
+### Generating Merkle proofs
 
 ```typescript
-import { ZkIdentity, Identity } from "@zk-kit/identity"
-import {
-  Semaphore,
-  MerkleProof,
-  IProof,
-  generateMerkleProof,
-  genExternalNullifier,
-  genSignalHash
-} from "@zk-kit/protocols"
+import { ZkIdentity } from "@zk-kit/identity"
+import { generateMerkleProof } from "@zk-kit/protocols"
+
+const depth = 20
+const zeroValue= BigInt(0)
+const arity = 5
+const identityCommitments = [...];
+const identity = new ZkIdentity();
+const identityCommitment = identity.genIdentityCommitment();
+
+const merkleProof = generateMerkleProof(depth, zeroValue, arity, identityCommitments, identityCommitment);
 ```
 
-```javascript
-const { ZkIdentity } = require("@zk-kit/identity")
-const { Semaphore, Rln, NRln, generateMerkleProof, genExternalNullifier, genSignalHash } = require("@zk-kit/protocols")
-```
-
-**Merkle Proofs**
-Generate merkle proof for your identity given the array of registered identity commitments
+### Creating Semaphore proofs
 
 ```typescript
-const identityCommitments: Array<bigint> = [...];
-const identity: ZkIdentity = new ZkIdentity();
-const identityCommitment: bigint = identity.genIdentityCommitment();
+import { Semaphore, genExternalNullifier } from "@zk-kit/protocols"
 
-const merkleProof: MerkleProof = generateMerkleProof(TREE_DEPTH, ZERO_VALUE, NUMBER_OF_LEAVES_PER_NODE, identityCommitments, identityCommitment);
-```
-
-**Semaphore**
-
-In order to create semaphore proof, make sure to
-
-```typescript
+const signal = "0x111"
+const externalNullifier = genExternalNullifier("voting_1")
 const witness = Semaphore.genWitness(identity, merkleProof, externalNullifier, signal)
-const fullProof = await Semaphore.genProof(witness, wasmFilePath, finalZkeyPath)
+
+const fullProof = await Semaphore.genProof(witness, "./semaphore.wasm", "./semaphore.zkey")
 ```
-
-## 📜 Final Note
-
-For full examples of how to integrate with contracts check https://github.com/appliedzkp/semaphore repository.
-
-For additional info check tests directory.
