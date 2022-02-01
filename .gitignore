@@ -1,10 +1,3 @@
-# IDE
-.vscode
-.idea
-
-# Cargo
-target
-
 # Logs
 logs
 *.log
@@ -12,13 +5,28 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+.pnpm-debug.log*
 
-# Coverage directory used by tools like istanbul
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# IDE
+.vscode
+.idea
+
+# Cargo
+target
+
+# Testing
 coverage
+coverage.json
 *.lcov
-
-# nyc test coverage
-.nyc_output
 
 # Dependency directories
 node_modules/
@@ -28,6 +36,9 @@ node_modules/
 
 # TypeScript cache
 *.tsbuildinfo
+
+# Output of 'npm pack'
+*.tgz
 
 # Optional eslint cache
 .eslintcache
@@ -48,9 +59,15 @@ docs/*
 !docs/CNAME
 !docs/index.html
 
-# dotenv environment variables file
+# Hardhat
+cache
+
+# dotenv environment variable files
 .env
-.env.test
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
 
 # Optional npm cache directory
 .npm
@@ -61,6 +78,7 @@ docs/*
 .yarn/unplugged
 .yarn/build-state.yml
 .yarn/install-state.gz
+.pnp.*
 
 # Other
 benchmarks/results
