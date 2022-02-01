@@ -35,6 +35,9 @@
     "test:prod": "yarn lint && yarn coverage",
     "lint": "solhint 'contracts/**/*.sol'"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.4",
     "@nomiclabs/hardhat-waffle": "^2.0.2",
@@ -70,5 +73,6 @@
         "typechain": "./build/typechain"
       }
     }
-  }
+  },
+  "gitHead": "115574561dcd7692d2edc5f3e16b90536a5b55cd"
 }
