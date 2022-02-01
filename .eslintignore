@@ -4,7 +4,7 @@ package-lock.json
 yarn.lock
 
 # testing
-/coverage
+coverage
 coverage.json
 
 # docs
@@ -15,6 +15,9 @@ benchmarks/results
 
 # hardhat
 cache
+
+# types
+types
 
 # production
 dist
