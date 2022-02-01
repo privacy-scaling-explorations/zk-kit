@@ -152,6 +152,31 @@
         </tr>
         <tr>
             <td>
+                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/incremental-merkle-tree.sol">
+                    @zk-kit/incremental-merkle-tree.sol
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/incremental-merkle-tree.sol">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/incremental-merkle-tree.sol.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/incremental-merkle-tree.sol">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/incremental-merkle-tree.sol.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/incremental-merkle-tree.sol">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/incremental-merkle-tree.sol" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/sparse-merkle-tree">
                     @zk-kit/sparse-merkle-tree
                 </a>
