@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.4;
 
 import "./IncrementalBinaryTree.sol";
 
-contract Test {
+contract BinaryTreeTest {
     using IncrementalBinaryTree for IncrementalTreeData;
 
     event TreeCreated(bytes32 id, uint8 depth);
@@ -13,7 +14,7 @@ contract Test {
     mapping(bytes32 => IncrementalTreeData) public trees;
 
     function createTree(bytes32 _id, uint8 _depth) external {
-        require(trees[_id].depth == 0, "Test: tree already exists");
+        require(trees[_id].depth == 0, "BinaryTreeTest: tree already exists");
 
         trees[_id].init(_depth, 0);
 
@@ -21,7 +22,7 @@ contract Test {
     }
 
     function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
-        require(trees[_treeId].depth != 0, "Test: tree does not exist");
+        require(trees[_treeId].depth != 0, "BinaryTreeTest: tree does not exist");
 
         trees[_treeId].insert(_leaf);
 
@@ -34,7 +35,7 @@ contract Test {
         uint256[] memory _proofSiblings,
         uint8[] memory _proofPathIndices
     ) external {
-        require(trees[_treeId].depth != 0, "Test: tree does not exist");
+        require(trees[_treeId].depth != 0, "BinaryTreeTest: tree does not exist");
 
         trees[_treeId].remove(_leaf, _proofSiblings, _proofPathIndices);
 

@@ -12,6 +12,7 @@ export default function verifyProof(proof: MerkleProof, hash: HashFunction): boo
   let node = proof.leaf
 
   for (let i = 0; i < proof.siblings.length; i += 1) {
+    // TODO: bug splice update the structure of the object
     proof.siblings[i].splice(proof.pathIndices[i], 0, node)
 
     node = hash(proof.siblings[i])

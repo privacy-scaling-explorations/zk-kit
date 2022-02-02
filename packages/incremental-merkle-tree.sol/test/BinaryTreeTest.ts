@@ -4,7 +4,7 @@ import { ethers, run } from "hardhat"
 import { createTree } from "./utils"
 
 /* eslint-disable jest/valid-expect */
-describe("Test", () => {
+describe("BinaryTreeTest", () => {
   let contract: Contract
 
   const treeId = ethers.utils.formatBytes32String("treeId")
@@ -12,29 +12,25 @@ describe("Test", () => {
   const depth = 16
 
   before(async () => {
-    contract = await run("deploy:test", { logs: false })
+    contract = await run("deploy:binary-tree-test", { logs: false })
   })
 
   it("Should not create a tree with a depth > 32", async () => {
     const transaction = contract.createTree(treeId, 33)
 
-    await expect(transaction).to.be.revertedWith(
-      "IncrementalBinaryTree: tree depth must be between 1 and 32"
-    )
+    await expect(transaction).to.be.revertedWith("IncrementalBinaryTree: tree depth must be between 1 and 32")
   })
 
   it("Should create a tree", async () => {
     const transaction = contract.createTree(treeId, depth)
 
-    await expect(transaction)
-      .to.emit(contract, "TreeCreated")
-      .withArgs(treeId, depth)
+    await expect(transaction).to.emit(contract, "TreeCreated").withArgs(treeId, depth)
   })
 
   it("Should not create a tree with an existing id", async () => {
     const transaction = contract.createTree(treeId, depth)
 
-    await expect(transaction).to.be.revertedWith("Test: tree already exists")
+    await expect(transaction).to.be.revertedWith("BinaryTreeTest: tree already exists")
   })
 
   it("Should not insert a leaf if the tree does not exist", async () => {
@@ -42,31 +38,37 @@ describe("Test", () => {
 
     const transaction = contract.insertLeaf(treeId, leaf)
 
-    await expect(transaction).to.be.revertedWith("Test: tree does not exist")
+    await expect(transaction).to.be.revertedWith("BinaryTreeTest: tree does not exist")
   })
 
   it("Should not insert a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
-    const leaf = BigInt(
-      "21888242871839275222246405745257275088548364400416034343698204186575808495618"
-    )
+    const leaf = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495618")
 
     const transaction = contract.insertLeaf(treeId, leaf)
 
-    await expect(transaction).to.be.revertedWith(
-      "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD"
-    )
+    await expect(transaction).to.be.revertedWith("IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD")
   })
 
   it("Should insert a leaf in a tree", async () => {
+    const tree = createTree(depth, 1)
     const transaction = contract.insertLeaf(treeId, leaf)
 
-    await expect(transaction)
-      .to.emit(contract, "LeafInserted")
-      .withArgs(
-        treeId,
-        leaf,
-        "16211261537006706331557500769845541584780950636316907182067421710925347020533"
-      )
+    await expect(transaction).to.emit(contract, "LeafInserted").withArgs(treeId, leaf, tree.root)
+  })
+
+  it("Should insert 4 leaves in a tree", async () => {
+    const treeId = ethers.utils.formatBytes32String("tree2")
+    await contract.createTree(treeId, depth)
+    const tree = createTree(depth, 0)
+
+    for (let i = 0; i < 4; i += 1) {
+      tree.insert(BigInt(i + 1))
+      const transaction = contract.insertLeaf(treeId, BigInt(i + 1))
+
+      await expect(transaction)
+        .to.emit(contract, "LeafInserted")
+        .withArgs(treeId, BigInt(i + 1), tree.root)
+    }
   })
 
   it("Should not insert a leaf if the tree is full", async () => {
@@ -78,9 +80,7 @@ describe("Test", () => {
 
     const transaction = contract.insertLeaf(treeId, leaf)
 
-    await expect(transaction).to.be.revertedWith(
-      "IncrementalBinaryTree: tree is full"
-    )
+    await expect(transaction).to.be.revertedWith("IncrementalBinaryTree: tree is full")
   })
 
   it("Should not remove a leaf if the tree does not exist", async () => {
@@ -88,19 +88,15 @@ describe("Test", () => {
 
     const transaction = contract.removeLeaf(treeId, leaf, [0, 1], [0, 1])
 
-    await expect(transaction).to.be.revertedWith("Test: tree does not exist")
+    await expect(transaction).to.be.revertedWith("BinaryTreeTest: tree does not exist")
   })
 
   it("Should not remove a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
-    const leaf = BigInt(
-      "21888242871839275222246405745257275088548364400416034343698204186575808495618"
-    )
+    const leaf = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495618")
 
     const transaction = contract.removeLeaf(treeId, leaf, [0, 1], [0, 1])
 
-    await expect(transaction).to.be.revertedWith(
-      "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD"
-    )
+    await expect(transaction).to.be.revertedWith("IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD")
   })
 
   it("Should remove a leaf", async () => {
@@ -123,9 +119,7 @@ describe("Test", () => {
       pathIndices
     )
 
-    await expect(transaction)
-      .to.emit(contract, "LeafRemoved")
-      .withArgs(treeId, BigInt(1), root)
+    await expect(transaction).to.emit(contract, "LeafRemoved").withArgs(treeId, BigInt(1), root)
   })
 
   it("Should remove another leaf", async () => {
@@ -144,9 +138,7 @@ describe("Test", () => {
       pathIndices
     )
 
-    await expect(transaction)
-      .to.emit(contract, "LeafRemoved")
-      .withArgs(treeId, BigInt(2), root)
+    await expect(transaction).to.emit(contract, "LeafRemoved").withArgs(treeId, BigInt(2), root)
   })
 
   it("Should not remove a leaf that does not exist", async () => {
@@ -165,9 +157,7 @@ describe("Test", () => {
       pathIndices
     )
 
-    await expect(transaction).to.be.revertedWith(
-      "IncrementalBinaryTree: leaf is not part of the tree"
-    )
+    await expect(transaction).to.be.revertedWith("IncrementalBinaryTree: leaf is not part of the tree")
   })
 
   it("Should insert a leaf in a tree after a removal", async () => {
@@ -179,9 +169,7 @@ describe("Test", () => {
 
     const transaction = contract.insertLeaf(treeId, BigInt(4))
 
-    await expect(transaction)
-      .to.emit(contract, "LeafInserted")
-      .withArgs(treeId, BigInt(4), tree.root)
+    await expect(transaction).to.emit(contract, "LeafInserted").withArgs(treeId, BigInt(4), tree.root)
   })
 
   it("Should insert 4 leaves and remove them all", async () => {
