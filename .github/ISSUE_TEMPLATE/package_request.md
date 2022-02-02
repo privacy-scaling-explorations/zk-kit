@@ -8,7 +8,7 @@ labels: ""
 **Describe the package**
 A clear and concise description of what the package should be.
 
-**Describe  why it may be useful**
+**Describe why it may be useful**
 A clear and concise description of the context in which this package could be used and why it may be usefulp.
 
 **Describe alternatives you've considered**
