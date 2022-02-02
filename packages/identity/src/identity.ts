@@ -63,11 +63,7 @@ export default class ZkIdentity {
           }
         }
 
-        if (
-          !("identityNullifier" in metadata) ||
-          !("identityTrapdoor" in metadata) ||
-          !("secret" in metadata)
-        ) {
+        if (!("identityNullifier" in metadata) || !("identityTrapdoor" in metadata) || !("secret" in metadata)) {
           throw new Error("The serialized identity does not contain the right parameter")
         }
 
@@ -116,13 +112,12 @@ export default class ZkIdentity {
     return poseidon(this._secret)
   }
 
-
   /**
    * Generates the identity commitment from the secret.
    * @returns identity commitment
    */
   public genIdentityCommitment(): bigint {
-        return poseidon([this.getSecretHash()])
+    return poseidon([this.getSecretHash()])
   }
 
   /**
@@ -133,7 +128,7 @@ export default class ZkIdentity {
     const data: SerializedIdentity = {
       identityNullifier: this._identityNullifier.toString(16),
       identityTrapdoor: this._identityTrapdoor.toString(16),
-      secret: this._secret.map((item) => item.toString(16)),
+      secret: this._secret.map((item) => item.toString(16))
     }
 
     return JSON.stringify(data)
