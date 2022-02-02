@@ -18,9 +18,6 @@
     <a href="https://npmjs.org/package/@zk-kit/incremental-merkle-tree.sol">
         <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/incremental-merkle-tree.sol.svg?style=flat-square" />
     </a>
-    <a href="https://bundlephobia.com/package/@zk-kit/incremental-merkle-tree.sol">
-        <img alt="npm bundle size (scoped)" src="https://img.shields.io/bundlephobia/minzip/@zk-kit/incremental-merkle-tree.sol" />
-    </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint" />
     </a>
@@ -64,43 +61,44 @@ pragma solidity ^0.8.4;
 import "@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol";
 
 contract Test {
-    using IncrementalBinaryTree for IncrementalTreeData;
+  using IncrementalBinaryTree for IncrementalTreeData;
 
-    event TreeCreated(bytes32 id, uint8 depth);
-    event LeafInserted(bytes32 indexed treeId, uint256 leaf, uint256 root);
-    event LeafRemoved(bytes32 indexed treeId, uint256 leaf, uint256 root);
+  event TreeCreated(bytes32 id, uint8 depth);
+  event LeafInserted(bytes32 indexed treeId, uint256 leaf, uint256 root);
+  event LeafRemoved(bytes32 indexed treeId, uint256 leaf, uint256 root);
 
-    mapping(bytes32 => IncrementalTreeData) public trees;
+  mapping(bytes32 => IncrementalTreeData) public trees;
 
-    function createTree(bytes32 _id, uint8 _depth) external {
-        require(trees[_id].depth == 0, "Test: tree already exists");
+  function createTree(bytes32 _id, uint8 _depth) external {
+    require(trees[_id].depth == 0, "Test: tree already exists");
 
-        trees[_id].init(_depth, 0);
+    trees[_id].init(_depth, 0);
 
-        emit TreeCreated(_id, _depth);
-    }
+    emit TreeCreated(_id, _depth);
+  }
 
-    function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
-        require(trees[_treeId].depth != 0, "Test: tree does not exist");
+  function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
+    require(trees[_treeId].depth != 0, "Test: tree does not exist");
 
-        trees[_treeId].insert(_leaf);
+    trees[_treeId].insert(_leaf);
 
-        emit LeafInserted(_treeId, _leaf, trees[_treeId].root);
-    }
+    emit LeafInserted(_treeId, _leaf, trees[_treeId].root);
+  }
 
-    function removeLeaf(
-        bytes32 _treeId,
-        uint256 _leaf,
-        uint256[] memory _proofSiblings,
-        uint8[] memory _proofPathIndices
-    ) external {
-        require(trees[_treeId].depth != 0, "Test: tree does not exist");
+  function removeLeaf(
+    bytes32 _treeId,
+    uint256 _leaf,
+    uint256[] memory _proofSiblings,
+    uint8[] memory _proofPathIndices
+  ) external {
+    require(trees[_treeId].depth != 0, "Test: tree does not exist");
 
-        trees[_treeId].remove(_leaf, _proofSiblings, _proofPathIndices);
+    trees[_treeId].remove(_leaf, _proofSiblings, _proofPathIndices);
 
-        emit LeafRemoved(_treeId, _leaf, trees[_treeId].root);
-    }
+    emit LeafRemoved(_treeId, _leaf, trees[_treeId].root);
+  }
 }
+
 ```
 
 ## Contacts
