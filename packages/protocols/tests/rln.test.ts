@@ -1,4 +1,4 @@
-import { SecretType, ZkIdentity } from "@zk-kit/identity"
+import { ZkIdentity } from "@zk-kit/identity"
 import { getCurveFromName } from "ffjavascript"
 import * as fs from "fs"
 import * as path from "path"
@@ -18,7 +18,7 @@ describe("RLN", () => {
 
     for (let i = 0; i < numberOfLeaves; i += 1) {
       const identity = new ZkIdentity()
-      const identityCommitment = identity.genIdentityCommitment(SecretType.MULTIPART)
+      const identityCommitment = identity.genIdentityCommitment()
 
       identityCommitments.push(identityCommitment)
     }
@@ -32,7 +32,7 @@ describe("RLN", () => {
     it("Should generate rln witness", () => {
       const identity = new ZkIdentity()
       const identityCommitment = identity.genIdentityCommitment()
-      const secretHash = identity.getMultipartSecretHash()
+      const secretHash = identity.getSecretHash()
 
       const leaves = Object.assign([], identityCommitments)
       leaves.push(identityCommitment)
@@ -49,8 +49,8 @@ describe("RLN", () => {
 
     it("Should generate rln proof and verify it", async () => {
       const identity = new ZkIdentity()
-      const secretHash = identity.getMultipartSecretHash()
-      const identityCommitment = identity.genIdentityCommitment(SecretType.MULTIPART)
+      const secretHash = identity.getSecretHash()
+      const identityCommitment = identity.genIdentityCommitment()
 
       const leaves = Object.assign([], identityCommitments)
       leaves.push(identityCommitment)
