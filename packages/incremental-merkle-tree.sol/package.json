@@ -6,6 +6,8 @@
   "files": [
     "contracts/",
     "!contracts/Test.sol",
+    "build/",
+    "!build/contracts/Test.sol",
     "README.md"
   ],
   "keywords": [
@@ -27,13 +29,15 @@
   },
   "scripts": {
     "start": "hardhat node",
-    "compile": "hardhat compile",
-    "deploy:test": "hardhat deploy:test",
+    "build": "hardhat compile",
+    "deploy:binary-tree-test": "hardhat deploy:binary-tree-test",
+    "deploy:quin-tree-test": "hardhat deploy:quin-tree-test",
     "test": "hardhat test",
     "test:report-gas": "REPORT_GAS=true hardhat test",
     "test:coverage": "hardhat coverage",
     "test:prod": "yarn lint && yarn coverage",
-    "lint": "solhint 'contracts/**/*.sol'"
+    "lint": "solhint 'contracts/**/*.sol'",
+    "prepublishOnly": "yarn build"
   },
   "publishConfig": {
     "access": "public"
@@ -64,14 +68,9 @@
     },
     "paths": {
       "contracts": "./contracts",
-      "circuit": "./circuit",
       "tests": "./test",
       "cache": "./cache",
-      "build": {
-        "snark": "./build/snark",
-        "contracts": "./build/contracts",
-        "typechain": "./build/typechain"
-      }
+      "build": "./build"
     }
   }
 }
