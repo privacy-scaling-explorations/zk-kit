@@ -36,8 +36,8 @@
 
 ## Libraries:
 
-✔️ [IncrementalBinaryTree](https://github.com/appliedzkp/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol)\
-✔️ [IncrementalQuinTree](https://github.com/appliedzkp/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalQuinTree.sol)
+✔️ [IncrementalBinaryTree](https://github.com/appliedzkp/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol) (Poseidon)\
+✔️ [IncrementalQuinTree](https://github.com/appliedzkp/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalQuinTree.sol) (Poseidon)
 
 > The methods of each library are always the same (i.e `insert`, `remove`, `verify`).
 
