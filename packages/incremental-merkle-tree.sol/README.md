@@ -2,7 +2,7 @@
     <h1 align="center">
          Incremental Merkle Trees (Solidity)
     </h1>
-    <p align="center">Incremental Merkle tree smart contracts.</p>
+    <p align="center">Incremental Merkle tree Solidity libraries.</p>
 </p>
 
 <p align="center">
@@ -34,6 +34,13 @@
     </h4>
 </div>
 
+## Libraries:
+
+✔️ [IncrementalBinaryTree](https://github.com/appliedzkp/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol)\
+✔️ [IncrementalQuinTree](https://github.com/appliedzkp/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalQuinTree.sol)
+
+> The methods of each library are always the same (i.e `insert`, `remove`, `verify`).
+
 ---
 
 ## 🛠 Install
@@ -54,13 +61,15 @@ yarn add @zk-kit/incremental-merkle-tree.sol
 
 ## 📜 Usage
 
+### Importing and using the library
+
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
 import "@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol";
 
-contract Test {
+contract Example {
   using IncrementalBinaryTree for IncrementalTreeData;
 
   event TreeCreated(bytes32 id, uint8 depth);
@@ -70,7 +79,7 @@ contract Test {
   mapping(bytes32 => IncrementalTreeData) public trees;
 
   function createTree(bytes32 _id, uint8 _depth) external {
-    require(trees[_id].depth == 0, "Test: tree already exists");
+    require(trees[_id].depth == 0, "Example: tree already exists");
 
     trees[_id].init(_depth, 0);
 
@@ -78,7 +87,7 @@ contract Test {
   }
 
   function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
-    require(trees[_treeId].depth != 0, "Test: tree does not exist");
+    require(trees[_treeId].depth != 0, "Example: tree does not exist");
 
     trees[_treeId].insert(_leaf);
 
@@ -91,7 +100,7 @@ contract Test {
     uint256[] memory _proofSiblings,
     uint8[] memory _proofPathIndices
   ) external {
-    require(trees[_treeId].depth != 0, "Test: tree does not exist");
+    require(trees[_treeId].depth != 0, "Example: tree does not exist");
 
     trees[_treeId].remove(_leaf, _proofSiblings, _proofPathIndices);
 
@@ -99,6 +108,55 @@ contract Test {
   }
 }
 
+```
+
+### Creating an Hardhat task to deploy the contract
+
+```ts
+import { poseidon_gencontract as poseidonContract } from "circomlibjs"
+import { Contract } from "ethers"
+import { task, types } from "hardhat/config"
+
+task("deploy:example", "Deploy an Example contract")
+  .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
+  .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
+    const poseidonT3ABI = poseidonContract.generateABI(2)
+    const poseidonT3Bytecode = poseidonContract.createCode(2)
+
+    const [signer] = await ethers.getSigners()
+
+    const PoseidonLibT3Factory = new ethers.ContractFactory(poseidonT3ABI, poseidonT3Bytecode, signer)
+    const poseidonT3Lib = await PoseidonLibT3Factory.deploy()
+
+    await poseidonT3Lib.deployed()
+
+    logs && console.log(`PoseidonT3 library has been deployed to: ${poseidonT3Lib.address}`)
+
+    const IncrementalBinaryTreeLibFactory = await ethers.getContractFactory("IncrementalBinaryTree", {
+      libraries: {
+        PoseidonT3: poseidonT3Lib.address
+      }
+    })
+    const incrementalBinaryTreeLib = await IncrementalBinaryTreeLibFactory.deploy()
+
+    await incrementalBinaryTreeLib.deployed()
+
+    logs && console.log(`IncrementalBinaryTree library has been deployed to: ${incrementalBinaryTreeLib.address}`)
+
+    const ContractFactory = await ethers.getContractFactory("Example", {
+      libraries: {
+        IncrementalBinaryTree: incrementalBinaryTreeLib.address
+      }
+    })
+
+    const contract = await ContractFactory.deploy()
+
+    await contract.deployed()
+
+    logs && console.log(`Example contract has been deployed to: ${contract.address}`)
+
+    return contract
+  })
 ```
 
 ## Contacts
