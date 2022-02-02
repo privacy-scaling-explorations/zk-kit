@@ -1,6 +1,6 @@
 {
   "name": "@zk-kit/incremental-merkle-tree",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Incremental Merkle tree implementation in TypeScript.",
   "license": "MIT",
   "iife": "dist/index.js",
