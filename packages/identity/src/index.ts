@@ -1,3 +1,3 @@
-import ZkIdentity, { SecretType, Strategy } from "./identity"
+import ZkIdentity, { Strategy } from "./identity"
 
-export { ZkIdentity, Strategy, SecretType }
+export { ZkIdentity, Strategy }

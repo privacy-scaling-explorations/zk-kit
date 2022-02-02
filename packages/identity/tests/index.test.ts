@@ -1,4 +1,4 @@
-import { SecretType, Strategy, ZkIdentity } from "../src"
+import { Strategy, ZkIdentity } from "../src"
 
 describe("ZK identity", () => {
   describe("Create identity", () => {
@@ -32,49 +32,20 @@ describe("ZK identity", () => {
       const trapdoor = identity.getTrapdoor()
       const nullifier = identity.getNullifier()
       const identitySecret = identity.getSecret()
-      const identityMultipartSecret = identity.getMultipartSecret(5)
 
       expect(typeof identity).toBe("object")
       expect(trapdoor).toBe(BigInt("58952291509798197436757858062402199043831251943841934828591473955215726495831"))
       expect(nullifier).toBe(BigInt("44673097405870585416457571638073245190425597599743560105244308998175651589997"))
       expect(identitySecret).toHaveLength(2)
       expect(typeof identitySecret).toBe("object")
-      expect(identityMultipartSecret).toHaveLength(5)
-      expect(typeof identityMultipartSecret).toBe("object")
     })
 
-    it("Should get the multipart secret hash", () => {
-      const identity = new ZkIdentity(Strategy.MESSAGE, "message")
-
-      const multipartSecretHash = identity.getMultipartSecretHash(2)
-
-      expect(multipartSecretHash).toBe(
-        BigInt("6297169125057226632028063090073601040720936421655236852498563322517193066452")
-      )
-    })
-
-    it("Should not generate identity commitment if the secret type is wrong", () => {
-      const identity = new ZkIdentity()
-      const fun = () => identity.genIdentityCommitment("wrong" as any)
-
-      expect(fun).toThrow("secret type is not supported")
-    })
-
-    it("Should generate an identity commitment from a generic secret", () => {
+    it("Should generate an identity commitment secret", () => {
       const identity = new ZkIdentity(Strategy.MESSAGE, "message")
       const identityCommitment = identity.genIdentityCommitment()
 
       expect(identityCommitment).toBe(
         BigInt("1720349790382552497189398984241859233944354304766757200361065203741879866188")
-      )
-    })
-
-    it("Should generate an identity commitment from a multipart secret", () => {
-      const identity = new ZkIdentity(Strategy.MESSAGE, "message")
-      const identityCommitment = identity.genIdentityCommitment(SecretType.MULTIPART)
-
-      expect(identityCommitment).toBe(
-        BigInt("2814782719841798642796697732526373861365963990553246162063123378852339665110")
       )
     })
 
