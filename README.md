@@ -13,7 +13,7 @@
         <img alt="GitHub Workflow test" src="https://img.shields.io/github/workflow/status/appliedzkp/zk-kit/test?label=test&style=flat-square&logo=github">
     </a>
     <a href="https://coveralls.io/github/appliedzkp/zk-kit">
-        <img alt="Coveralls" src="https://img.shields.io/coveralls/github/appliedzkp/zk-kit?style=flat-square&logo=coveralls">
+        <img alt="Coveralls" src="https://img.shields.io/coveralls/github/appliedzkp/zk-kit?label=coverage (ts)&style=flat-square&logo=coveralls">
     </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint">
