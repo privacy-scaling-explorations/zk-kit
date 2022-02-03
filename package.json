@@ -13,7 +13,7 @@
     "build:watch": "lerna run --parallel build:watch -- -- --watch",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
-    "test:prod": "yarn lint && yarn test",
+    "test:prod": "yarn lint && yarn test && lerna run test",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "prettier": "prettier -c .",
