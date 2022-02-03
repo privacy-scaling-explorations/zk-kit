@@ -32,8 +32,8 @@ contract BinaryTreeTest {
   function removeLeaf(
     bytes32 _treeId,
     uint256 _leaf,
-    uint256[] memory _proofSiblings,
-    uint8[] memory _proofPathIndices
+    uint256[] calldata _proofSiblings,
+    uint8[] calldata _proofPathIndices
   ) external {
     require(trees[_treeId].depth != 0, "BinaryTreeTest: tree does not exist");
 
