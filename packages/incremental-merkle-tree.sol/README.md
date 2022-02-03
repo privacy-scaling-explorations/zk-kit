@@ -97,8 +97,8 @@ contract Example {
   function removeLeaf(
     bytes32 _treeId,
     uint256 _leaf,
-    uint256[] memory _proofSiblings,
-    uint8[] memory _proofPathIndices
+    uint256[] calldata _proofSiblings,
+    uint8[] calldata _proofPathIndices
   ) external {
     require(trees[_treeId].depth != 0, "Example: tree does not exist");
 
@@ -112,7 +112,7 @@ contract Example {
 
 ### Creating an Hardhat task to deploy the contract
 
-```ts
+```typescript
 import { poseidon_gencontract as poseidonContract } from "circomlibjs"
 import { Contract } from "ethers"
 import { task, types } from "hardhat/config"

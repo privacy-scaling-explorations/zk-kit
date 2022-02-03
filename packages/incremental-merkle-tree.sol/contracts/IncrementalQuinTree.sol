@@ -86,8 +86,8 @@ library IncrementalQuinTree {
   function remove(
     IncrementalTreeData storage self,
     uint256 leaf,
-    uint256[4][] memory proofSiblings,
-    uint8[] memory proofPathIndices
+    uint256[4][] calldata proofSiblings,
+    uint8[] calldata proofPathIndices
   ) public {
     require(verify(self, leaf, proofSiblings, proofPathIndices), "IncrementalQuinTree: leaf is not part of the tree");
 
@@ -125,8 +125,8 @@ library IncrementalQuinTree {
   function verify(
     IncrementalTreeData storage self,
     uint256 leaf,
-    uint256[4][] memory proofSiblings,
-    uint8[] memory proofPathIndices
+    uint256[4][] calldata proofSiblings,
+    uint8[] calldata proofPathIndices
   ) private view returns (bool) {
     require(leaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
     require(
