@@ -13,12 +13,7 @@ export declare type FullProof = {
   publicSignals: StrBigInt[]
 }
 
-export declare type SolidityProof = {
-  a: [StrBigInt, StrBigInt]
-  b: [[StrBigInt, StrBigInt], [StrBigInt, StrBigInt]]
-  c: [StrBigInt, StrBigInt]
-  inputs: StrBigInt[]
-}
+export declare type SolidityProof = StrBigInt[]
 
 export declare type SemaphoreWitness = {
   identity_nullifier: StrBigInt
