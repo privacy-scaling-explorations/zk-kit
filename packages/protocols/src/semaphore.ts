@@ -1,5 +1,6 @@
-import { MerkleProof, SemaphoreWitness, StrBigInt } from "@zk-kit/types"
+import { MerkleProof } from "@zk-kit/incremental-merkle-tree"
 import { poseidon } from "circomlibjs"
+import { SemaphoreWitness, StrBigInt } from "./types"
 import { genSignalHash } from "./utils"
 import ZkProtocol from "./zk-protocol"
 

@@ -1,7 +1,7 @@
 {
   "name": "@zk-kit/incremental-merkle-tree.sol",
-  "version": "0.2.0",
-  "description": "Incremental Merkle tree smart contracts.",
+  "version": "0.3.0",
+  "description": "Incremental Merkle tree Solidity libraries.",
   "license": "MIT",
   "files": [
     "contracts/",
