@@ -1017,11 +1017,6 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@zk-kit/incremental-merkle-tree@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@zk-kit/incremental-merkle-tree/-/incremental-merkle-tree-0.4.0.tgz#173e3c5d16c496cbe8a88be9a1ac1e1e4999e4e1"
-  integrity sha512-Ki2s46lCAG6KdIe2CyBovJQB/aMFYLTGX+JKBsIuHz6TW+wHvo4twpQSgCxtrGw9HskzVrAOd22KvzPsNLYXSA==
-
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"

@@ -1,7 +1,5 @@
 import { FullProof, SolidityProof } from "@zk-kit/types"
 import { groth16 } from "snarkjs"
-import { getFileBuffer } from "./utils"
-import { builder } from "./witness_calculator"
 
 export default class ZkProtocol {
   /**
@@ -12,13 +10,7 @@ export default class ZkProtocol {
    * @returns The full SnarkJS proof.
    */
   public static async genProof(witness: any, wasmFilePath: string, finalZkeyPath: string): Promise<FullProof> {
-    const wasmBuff = await getFileBuffer(wasmFilePath)
-    const witnessCalculator = await builder(wasmBuff)
-    const wtnsBuff = await witnessCalculator.calculateWTNSBin(witness, 0)
-    const zkeyBuff = await getFileBuffer(finalZkeyPath)
-
-    const { proof, publicSignals } = await groth16.prove(new Uint8Array(zkeyBuff), wtnsBuff, null)
-
+    const { proof, publicSignals } = await groth16.fullProve(witness, wasmFilePath, finalZkeyPath, null)
     return { proof, publicSignals }
   }
 

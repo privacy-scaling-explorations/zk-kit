@@ -47,7 +47,7 @@ describe("RLN", () => {
       expect(typeof witness).toBe("object")
     })
 
-    it("Should generate rln proof and verify it", async () => {
+    it.skip("Should generate rln proof and verify it", async () => {
       const identity = new ZkIdentity()
       const secretHash = identity.getSecretHash()
       const identityCommitment = identity.genIdentityCommitment()
