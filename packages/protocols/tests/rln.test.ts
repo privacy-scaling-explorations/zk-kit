@@ -47,6 +47,7 @@ describe("RLN", () => {
       expect(typeof witness).toBe("object")
     })
 
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip("Should generate rln proof and verify it", async () => {
       const identity = new ZkIdentity()
       const secretHash = identity.getSecretHash()

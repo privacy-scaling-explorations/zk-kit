@@ -39,6 +39,7 @@ describe("Semaphore", () => {
       expect(typeof witness).toBe("object")
     })
 
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip("Should generate Semaphore full proof", async () => {
       const identity = new ZkIdentity()
       const identityCommitment = identity.genIdentityCommitment()
