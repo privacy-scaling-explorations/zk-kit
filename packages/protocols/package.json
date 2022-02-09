@@ -41,6 +41,6 @@
     "@ethersproject/strings": "^5.5.0",
     "circomlibjs": "0.0.8",
     "ffjavascript": "0.2.38",
-    "snarkjs": "^0.4.12"
+    "snarkjs": "^0.4.13"
   }
 }
