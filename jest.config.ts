@@ -8,7 +8,6 @@ const projects: any = fs
     rootDir: `packages/${name}`,
     displayName: name,
     moduleNameMapper: {
-      "@zk-kit/types": "<rootDir>/../../types/zk-kit/index.d.ts",
       "@zk-kit/(.*)": "<rootDir>/../$1/src/index.ts" // Interdependency packages.
     }
   }))

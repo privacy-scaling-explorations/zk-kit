@@ -1,11 +1,11 @@
 import { hexlify } from "@ethersproject/bytes"
 import { keccak256 } from "@ethersproject/solidity"
 import { toUtf8Bytes } from "@ethersproject/strings"
-import { IncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree"
-import { MerkleProof, StrBigInt } from "@zk-kit/types"
+import { IncrementalMerkleTree, MerkleProof } from "@zk-kit/incremental-merkle-tree"
 import { poseidon } from "circomlibjs"
 import { ZqField } from "ffjavascript"
 import fs from "fs"
+import { StrBigInt } from "./types"
 
 export const SNARK_FIELD_SIZE = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
 

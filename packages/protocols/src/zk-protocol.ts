@@ -1,5 +1,5 @@
-import { FullProof, SolidityProof } from "@zk-kit/types"
 import { groth16 } from "snarkjs"
+import { FullProof, SolidityProof } from "./types"
 import { getFileBuffer } from "./utils"
 import { builder } from "./witness_calculator"
 
