@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { groth16 } from "snarkjs"
 import { FullProof, SolidityProof } from "./types"
 
