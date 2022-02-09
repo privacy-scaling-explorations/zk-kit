@@ -1,5 +1,7 @@
-import { FullProof, SolidityProof } from "@zk-kit/types"
 import { groth16 } from "snarkjs"
+import { FullProof, SolidityProof } from "./types"
+import { getFileBuffer } from "./utils"
+import { builder } from "./witness_calculator"
 
 export default class ZkProtocol {
   /**
@@ -32,16 +34,17 @@ export default class ZkProtocol {
    * @returns The Solidity compatible proof.
    */
   public static packToSolidityProof(fullProof: FullProof): SolidityProof {
-    const { proof, publicSignals } = fullProof
+    const { proof } = fullProof
 
-    return {
-      a: [proof.pi_a[0], proof.pi_a[1]],
-      b: [
-        [proof.pi_b[0][1], proof.pi_b[0][0]],
-        [proof.pi_b[1][1], proof.pi_b[1][0]]
-      ],
-      c: [proof.pi_c[0], proof.pi_c[1]],
-      inputs: publicSignals
-    }
+    return [
+      proof.pi_a[0],
+      proof.pi_a[1],
+      proof.pi_b[0][1],
+      proof.pi_b[0][0],
+      proof.pi_b[1][1],
+      proof.pi_b[1][0],
+      proof.pi_c[0],
+      proof.pi_c[1]
+    ]
   }
 }

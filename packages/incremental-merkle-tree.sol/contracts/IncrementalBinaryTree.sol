@@ -76,8 +76,8 @@ library IncrementalBinaryTree {
   function remove(
     IncrementalTreeData storage self,
     uint256 leaf,
-    uint256[] memory proofSiblings,
-    uint8[] memory proofPathIndices
+    uint256[] calldata proofSiblings,
+    uint8[] calldata proofPathIndices
   ) public {
     require(verify(self, leaf, proofSiblings, proofPathIndices), "IncrementalBinaryTree: leaf is not part of the tree");
 
@@ -111,8 +111,8 @@ library IncrementalBinaryTree {
   function verify(
     IncrementalTreeData storage self,
     uint256 leaf,
-    uint256[] memory proofSiblings,
-    uint8[] memory proofPathIndices
+    uint256[] calldata proofSiblings,
+    uint8[] calldata proofPathIndices
   ) private view returns (bool) {
     require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
     require(

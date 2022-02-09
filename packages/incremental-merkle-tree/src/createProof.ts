@@ -1,6 +1,5 @@
-import { MerkleProof } from "@zk-kit/types"
 import checkParameter from "./checkParameter"
-import { Node } from "./types"
+import { MerkleProof, Node } from "./types"
 
 export default function createProof(
   index: number,
