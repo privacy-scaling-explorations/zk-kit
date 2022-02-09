@@ -1,6 +1,6 @@
-import { SerializedIdentity } from "@zk-kit/types"
 import { hexToBigint } from "bigint-conversion"
 import { poseidon } from "circomlibjs"
+import { SerializedIdentity } from "./types"
 import { genRandomNumber, sha256 } from "./utils"
 
 // The strategy used to generate the ZK identity.

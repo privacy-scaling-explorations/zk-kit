@@ -1,6 +1,5 @@
-import { MerkleProof } from "@zk-kit/types"
 import checkParameter from "./checkParameter"
-import { HashFunction } from "./types"
+import { HashFunction, MerkleProof } from "./types"
 
 export default function verifyProof(proof: MerkleProof, hash: HashFunction): boolean {
   checkParameter(proof, "proof", "object")

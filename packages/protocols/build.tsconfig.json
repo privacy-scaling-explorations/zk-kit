@@ -2,10 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "allowJs": true,
-    "declarationDir": "types",
-    "paths": {
-      "@zk-kit/types": ["types/zk-kit"]
-    }
+    "declarationDir": "types"
   },
   "include": ["src"]
 }

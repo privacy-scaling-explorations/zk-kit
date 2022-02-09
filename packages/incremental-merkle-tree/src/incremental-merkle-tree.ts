@@ -1,9 +1,8 @@
-import { MerkleProof } from "@zk-kit/types"
 import checkParameter from "./checkParameter"
 import _createProof from "./createProof"
 import _indexOf from "./indexOf"
 import _insert from "./insert"
-import { HashFunction, Node } from "./types"
+import { HashFunction, MerkleProof, Node } from "./types"
 import _update from "./update"
 import _verifyProof from "./verifyProof"
 
