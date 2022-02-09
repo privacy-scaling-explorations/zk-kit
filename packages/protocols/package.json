@@ -1,6 +1,6 @@
 {
   "name": "@zk-kit/protocols",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Client library for generating and verifying Semaphore & RLN ZK proofs.",
   "license": "MIT",
   "main": "dist/index.node.js",
