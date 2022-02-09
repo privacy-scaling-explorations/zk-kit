@@ -2695,10 +2695,10 @@ skip-regex@^1.0.2:
   resolved "https://registry.yarnpkg.com/skip-regex/-/skip-regex-1.0.2.tgz#ac655d77e7c771ac2b9f37585fea37bff56ad65b"
   integrity sha512-pEjMUbwJ5Pl/6Vn6FsamXHXItJXSRftcibixDmNCWbWhic0hzHrwkMZo0IZ7fMRH9KxcWDFSkzhccB4285PutA==
 
-snarkjs@^0.4.12:
-  version "0.4.12"
-  resolved "https://registry.yarnpkg.com/snarkjs/-/snarkjs-0.4.12.tgz#0344cb6d107b92be3ec29fa321e83232058d9209"
-  integrity sha512-3WBzv9p0QlwtrM7Zgq3oW5L/4Q5bZEZpGN6IS522jUffKXF2temXzVvn7lukOIr/acaVKyj/DkYdt2JIas2B5A==
+snarkjs@^0.4.13:
+  version "0.4.13"
+  resolved "https://registry.yarnpkg.com/snarkjs/-/snarkjs-0.4.13.tgz#acf5baa70413fe3c2b1de2082eee59f2759472a7"
+  integrity sha512-+GlCPLveNrFZob1PejLzRYsvyMLpTArkS/ncqodNJfWwrcfg60HRngvMZBvTP2Toa5LD1hS61c3ajbNIcPj5EQ==
   dependencies:
     "@iden3/binfileutils" "0.0.10"
     blake2b-wasm "^2.4.0"

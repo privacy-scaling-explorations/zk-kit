@@ -39,7 +39,7 @@ describe("Semaphore", () => {
       expect(typeof witness).toBe("object")
     })
 
-    it("Should generate Semaphore full proof", async () => {
+    it.skip("Should generate Semaphore full proof", async () => {
       const identity = new ZkIdentity()
       const identityCommitment = identity.genIdentityCommitment()
       const externalNullifier = genExternalNullifier("voting_1")

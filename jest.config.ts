@@ -15,7 +15,12 @@ const projects: any = fs
 export default async (): Promise<Config.InitialOptions> => ({
   projects,
   verbose: true,
-  collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts", "!<rootDir>/src/**/*.d.ts"],
+  collectCoverageFrom: [
+    "<rootDir>/src/**/*.ts",
+    "!<rootDir>/src/**/index.ts",
+    "!<rootDir>/src/**/*.d.ts",
+    "!<rootDir>/src/zk-protocol.ts"
+  ],
   coverageThreshold: {
     global: {
       branches: 90,
