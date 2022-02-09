@@ -4,7 +4,6 @@ import { toUtf8Bytes } from "@ethersproject/strings"
 import { IncrementalMerkleTree, MerkleProof } from "@zk-kit/incremental-merkle-tree"
 import { poseidon } from "circomlibjs"
 import { ZqField } from "ffjavascript"
-import fs from "fs"
 import { StrBigInt } from "./types"
 
 export const SNARK_FIELD_SIZE = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
@@ -24,22 +23,6 @@ export function genExternalNullifier(plaintext: string): string {
   const h = hexStr.slice(2, len + 2)
 
   return `0x${h.padStart(len, "0")}`
-}
-
-/**
- * Returns the content of a file as array buffer. It uses `fetch`
- * on browsers and fs.readFileSync with node.
- * @param filePath The file path.
- * @returns The file content as array buffer.
- */
-export async function getFileBuffer(filePath: string): Promise<ArrayBuffer> {
-  if (typeof window !== "undefined") {
-    const response = await fetch(filePath)
-
-    return response.arrayBuffer()
-  }
-
-  return fs.readFileSync(filePath)
 }
 
 /**
