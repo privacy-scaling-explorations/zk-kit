@@ -202,11 +202,6 @@
     "@ethersproject/properties" "^5.5.0"
     "@ethersproject/strings" "^5.5.0"
 
-"@juanelas/base64@^1.0.1":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@juanelas/base64/-/base64-1.0.4.tgz#e457b9e8e10170f3d2ad685b7a82655bc4397c8b"
-  integrity sha512-KUidDSb+K7Rkoy2uJ/HdCnt4soNRlhNXONU8r8Cgic6Qq3E9BPg4kMSYXchM37WpYvGEGq2NUq/kCegMSLhtIg==
-
 "@rollup/plugin-typescript@^8.3.0":
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-typescript/-/plugin-typescript-8.3.0.tgz#bc1077fa5897b980fc27e376c4e377882c63e68b"
@@ -382,13 +377,6 @@ big-integer@^1.6.42, big-integer@^1.6.48:
   version "1.6.51"
   resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.51.tgz#0df92a5d9880560d3ff2d5fd20245c889d130686"
   integrity sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==
-
-bigint-conversion@^2.1.12:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/bigint-conversion/-/bigint-conversion-2.2.1.tgz#08c9f17a826943c7e56d4bfa9f0fc7fe8050a940"
-  integrity sha512-9TvqpV+VZ04fPKv4KPLQRk5ZAFhgHX4F7bYQY263/BbJBFzEGbtBeTQV9oNuAGaqj88PXdov1OcSNQtq9K9MPA==
-  dependencies:
-    "@juanelas/base64" "^1.0.1"
 
 bignumber.js@^9.0.0:
   version "9.0.2"
@@ -1132,15 +1120,6 @@ fast-json-stable-stringify@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz#874bf69c6f404c2b5d99c481341399fd55892633"
   integrity sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
-
-ffjavascript@0.2.38:
-  version "0.2.38"
-  resolved "https://registry.yarnpkg.com/ffjavascript/-/ffjavascript-0.2.38.tgz#920832795be1e60a12832da80692b6c86259f3b7"
-  integrity sha512-b4dobcci6QxxUvNYFCHw2ONhXwtgSHCzqxbH6c7ipWMOzyoG+MPRMZgAqnUREYX8UC6zqA7AiRmiIB76nxt2TQ==
-  dependencies:
-    big-integer "^1.6.48"
-    wasmcurves "0.0.14"
-    web-worker "^1.0.0"
 
 ffjavascript@^0.2.38:
   version "0.2.46"
@@ -2718,14 +2697,6 @@ wasmbuilder@^0.0.11:
   dependencies:
     big-integer "^1.6.48"
 
-wasmcurves@0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/wasmcurves/-/wasmcurves-0.0.14.tgz#cbe0f19650d9554937154afdbed66b305bd2a348"
-  integrity sha512-G1iMkxlRaQSdqQ1JrwHcU+awLmwyH6kFKfT8g9obd8MWe+u5oSdFXrODB0zmSI5aGGvJPG+4cAmqCGYv9R+7qg==
-  dependencies:
-    big-integer "^1.6.42"
-    blakejs "^1.1.0"
-
 wasmcurves@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/wasmcurves/-/wasmcurves-0.1.0.tgz#0bc3f9d465367fcd8243395cb0094a05577e5609"
@@ -2734,7 +2705,7 @@ wasmcurves@0.1.0:
     big-integer "^1.6.42"
     blakejs "^1.1.0"
 
-web-worker@^1.0.0, web-worker@^1.2.0:
+web-worker@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/web-worker/-/web-worker-1.2.0.tgz#5d85a04a7fbc1e7db58f66595d7a3ac7c9c180da"
   integrity sha512-PgF341avzqyx60neE9DD+XS26MMNMoUQRz9NOZwW32nPQrF6p77f1htcnjBSEV8BGMKZ16choqUG4hyI0Hx7mA==
