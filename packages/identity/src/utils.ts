@@ -1,5 +1,5 @@
+import { BigNumber } from "@ethersproject/bignumber"
 import { randomBytes } from "@ethersproject/random"
-import { bufToBigint } from "bigint-conversion"
 import { ZqField } from "ffjavascript"
 import { sha256 as _sha256 } from "js-sha256"
 
@@ -26,5 +26,5 @@ export function sha256(message: string): string {
  * @returns The generated random number.
  */
 export function genRandomNumber(numberOfBytes = 31): bigint {
-  return bufToBigint(randomBytes(numberOfBytes))
+  return BigNumber.from(randomBytes(numberOfBytes)).toBigInt()
 }

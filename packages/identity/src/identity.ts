@@ -1,4 +1,4 @@
-import { hexToBigint } from "bigint-conversion"
+import { BigNumber } from "@ethersproject/bignumber"
 import { poseidon } from "circomlibjs"
 import { SerializedIdentity } from "./types"
 import { genRandomNumber, sha256 } from "./utils"
@@ -45,8 +45,8 @@ export default class ZkIdentity {
 
         const messageHash = sha256(metadata)
 
-        this._identityTrapdoor = hexToBigint(sha256(`${messageHash}identity_trapdoor`))
-        this._identityNullifier = hexToBigint(sha256(`${messageHash}identity_nullifier`))
+        this._identityTrapdoor = BigNumber.from(`0x${sha256(`${messageHash}identity_trapdoor`)}`).toBigInt()
+        this._identityNullifier = BigNumber.from(`0x${sha256(`${messageHash}identity_nullifier`)}`).toBigInt()
         this._secret = [this._identityNullifier, this._identityTrapdoor]
         break
       }
@@ -69,9 +69,9 @@ export default class ZkIdentity {
 
         const { identityNullifier, identityTrapdoor, secret } = metadata
 
-        this._identityNullifier = hexToBigint(identityNullifier)
-        this._identityTrapdoor = hexToBigint(identityTrapdoor)
-        this._secret = secret.map((item) => hexToBigint(item))
+        this._identityNullifier = BigNumber.from(`0x${identityNullifier}`).toBigInt()
+        this._identityTrapdoor = BigNumber.from(`0x${identityTrapdoor}`).toBigInt()
+        this._secret = secret.map((item) => BigNumber.from(`0x${item}`).toBigInt())
 
         break
       }
