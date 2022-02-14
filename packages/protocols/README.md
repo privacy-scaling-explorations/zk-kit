@@ -70,21 +70,22 @@ import { generateMerkleProof } from "@zk-kit/protocols"
 const depth = 20
 const zeroValue= BigInt(0)
 const arity = 5
-const identityCommitments = [...];
 const identity = new ZkIdentity();
 const identityCommitment = identity.genIdentityCommitment();
+const identityCommitments = [BigInt(1), identityCommitment, BigInt(2)];
 
-const merkleProof = generateMerkleProof(depth, zeroValue, arity, identityCommitments, identityCommitment);
+const merkleProof = generateMerkleProof(depth, zeroValue, arity, identityCommitments, 1);
 ```
 
 ### Creating Semaphore proofs
 
 ```typescript
-import { Semaphore, genExternalNullifier } from "@zk-kit/protocols"
+import { Semaphore } from "@zk-kit/protocols"
 
-const signal = "0x111"
-const externalNullifier = genExternalNullifier("voting_1")
+const signal = "Hello world"
+const externalNullifier = BigInt(1)
 const witness = Semaphore.genWitness(identity, merkleProof, externalNullifier, signal)
 
 const fullProof = await Semaphore.genProof(witness, "./semaphore.wasm", "./semaphore.zkey")
+const solidityProof = Semaphore.packToSolidityProof(fullProof)
 ```
