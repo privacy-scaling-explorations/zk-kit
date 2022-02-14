@@ -24,12 +24,12 @@ export default class Semaphore extends ZkProtocol {
     shouldHash = true
   ): SemaphoreWitness {
     return {
-      identity_nullifier: identityNullifier,
-      identity_trapdoor: identityTrapdoor,
-      identity_path_index: merkleProof.pathIndices,
-      path_elements: merkleProof.siblings,
-      external_nullifier: externalNullifier,
-      signal_hash: shouldHash ? genSignalHash(signal) : signal
+      identityNullifier,
+      identityTrapdoor,
+      treePathIndices: merkleProof.pathIndices,
+      treeSiblings: merkleProof.siblings,
+      externalNullifier,
+      signalHash: shouldHash ? genSignalHash(signal) : signal
     }
   }
 

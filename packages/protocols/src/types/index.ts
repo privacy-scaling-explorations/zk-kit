@@ -16,10 +16,10 @@ export type FullProof = {
 export type SolidityProof = StrBigInt[]
 
 export type SemaphoreWitness = {
-  identity_nullifier: StrBigInt
-  identity_trapdoor: StrBigInt
-  path_elements: StrBigInt[]
-  identity_path_index: number[]
-  external_nullifier: StrBigInt
-  signal_hash: StrBigInt
+  identityNullifier: StrBigInt
+  identityTrapdoor: StrBigInt
+  treeSiblings: StrBigInt[]
+  treePathIndices: number[]
+  externalNullifier: StrBigInt
+  signalHash: StrBigInt
 }
