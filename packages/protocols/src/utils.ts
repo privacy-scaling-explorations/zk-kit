@@ -72,5 +72,12 @@ export function generateMerkleProof(
     throw new Error("The leaf does not exists")
   }
 
-  return tree.createProof(leafIndex)
+  const merkleProof = tree.createProof(leafIndex)
+
+  if (arity === 2) {
+    // It makes it compatible with the parameter in the contracts.
+    merkleProof.siblings = merkleProof.siblings.map((s) => s[0])
+  }
+
+  return merkleProof
 }

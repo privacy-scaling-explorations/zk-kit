@@ -26,7 +26,7 @@ describe("Semaphore", () => {
       const leaves = [BigInt(3), BigInt(2), identityCommitment, BigInt(4)]
       const signal = "0x111"
 
-      const merkleProof = generateMerkleProof(20, BigInt(0), 5, leaves, identityCommitment)
+      const merkleProof = generateMerkleProof(20, BigInt(0), 2, leaves, identityCommitment)
 
       const witness = Semaphore.genWitness(
         identity.getTrapdoor(),
@@ -47,7 +47,7 @@ describe("Semaphore", () => {
       const leaves = [BigInt(3), BigInt(2), identityCommitment, BigInt(4)]
       const signal = "0x111"
 
-      const merkleProof = generateMerkleProof(20, BigInt(0), 5, leaves, identityCommitment)
+      const merkleProof = generateMerkleProof(20, BigInt(0), 2, leaves, identityCommitment)
 
       const witness = Semaphore.genWitness(
         identity.getTrapdoor(),
