@@ -18,9 +18,6 @@
     <a href="https://npmjs.org/package/@zk-kit/protocols">
         <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/protocols.svg?style=flat-square" />
     </a>
-    <a href="https://bundlephobia.com/package/@zk-kit/protocols">
-        <img alt="npm bundle size (scoped)" src="https://img.shields.io/bundlephobia/minzip/@zk-kit/protocols" />
-    </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint" />
     </a>
@@ -68,13 +65,13 @@ import { ZkIdentity } from "@zk-kit/identity"
 import { generateMerkleProof } from "@zk-kit/protocols"
 
 const depth = 20
-const zeroValue= BigInt(0)
+const zeroValue = BigInt(0)
 const arity = 5
-const identity = new ZkIdentity();
-const identityCommitment = identity.genIdentityCommitment();
-const identityCommitments = [BigInt(1), identityCommitment, BigInt(2)];
+const identity = new ZkIdentity()
+const identityCommitment = identity.genIdentityCommitment()
+const identityCommitments = [BigInt(1), identityCommitment, BigInt(2)]
 
-const merkleProof = generateMerkleProof(depth, zeroValue, arity, identityCommitments, 1);
+const merkleProof = generateMerkleProof(depth, zeroValue, arity, identityCommitments, 1)
 ```
 
 ### Creating Semaphore proofs
