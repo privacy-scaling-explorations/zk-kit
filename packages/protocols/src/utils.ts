@@ -66,7 +66,7 @@ export function generateMerkleProof(
 ): MerkleProof {
   const tree = generateMerkleTree(depth, zeroValue, arity, leaves)
 
-  const leafIndex = leaves.indexOf(BigInt(leaf))
+  const leafIndex = tree.leaves.indexOf(BigInt(leaf))
 
   if (leafIndex === -1) {
     throw new Error("The leaf does not exists")
