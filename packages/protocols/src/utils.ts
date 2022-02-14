@@ -62,9 +62,15 @@ export function generateMerkleProof(
   zeroValue: StrBigInt,
   arity: number,
   leaves: StrBigInt[],
-  leafIndex: number
+  leaf: StrBigInt
 ): MerkleProof {
   const tree = generateMerkleTree(depth, zeroValue, arity, leaves)
+
+  const leafIndex = leaves.indexOf(BigInt(leaf))
+
+  if (leafIndex === -1) {
+    throw new Error("The leaf does not exists")
+  }
 
   return tree.createProof(leafIndex)
 }
