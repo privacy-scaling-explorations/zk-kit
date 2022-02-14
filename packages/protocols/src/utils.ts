@@ -26,12 +26,35 @@ export function genExternalNullifier(plaintext: string): string {
 }
 
 /**
+ * Creates a Merkle tree.
+ * @param depth The depth of the tree.
+ * @param zeroValue The zero value of the tree.
+ * @param arity The number of leaves per node.
+ * @param leaves The list of the leaves of the tree.
+ * @returns The Merkle tree.
+ */
+export function generateMerkleTree(
+  depth: number,
+  zeroValue: StrBigInt,
+  arity: number,
+  leaves: StrBigInt[]
+): IncrementalMerkleTree {
+  const tree = new IncrementalMerkleTree(poseidon, depth, zeroValue, arity)
+
+  for (const leaf of leaves) {
+    tree.insert(BigInt(leaf))
+  }
+
+  return tree
+}
+
+/**
  * Creates a Merkle proof.
  * @param depth The depth of the tree.
  * @param zeroValue The zero value of the tree.
  * @param arity The number of leaves per node.
  * @param leaves The list of the leaves of the tree.
- * @param leaf The leaf for which Merkle proof should be created.
+ * @param leafIndex The leaf index for which Merkle proof should be created.
  * @returns The Merkle proof.
  */
 export function generateMerkleProof(
@@ -39,18 +62,9 @@ export function generateMerkleProof(
   zeroValue: StrBigInt,
   arity: number,
   leaves: StrBigInt[],
-  leaf: StrBigInt
+  leafIndex: number
 ): MerkleProof {
-  const tree = new IncrementalMerkleTree(poseidon, depth, zeroValue, arity)
-  const leafIndex = leaves.indexOf(leaf)
-
-  if (leafIndex === -1) {
-    throw new Error("The leaf does not exists")
-  }
-
-  for (const leaf of leaves) {
-    tree.insert(leaf)
-  }
+  const tree = generateMerkleTree(depth, zeroValue, arity, leaves)
 
   return tree.createProof(leafIndex)
 }
