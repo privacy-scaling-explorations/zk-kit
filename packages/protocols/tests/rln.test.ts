@@ -41,7 +41,7 @@ describe("RLN", () => {
       const epoch: string = genExternalNullifier("test-epoch")
       const rlnIdentifier = RLN.genIdentifier()
 
-      const merkleProof = generateMerkleProof(15, BigInt(0), 2, leaves, leaves.length - 1)
+      const merkleProof = generateMerkleProof(15, BigInt(0), 2, leaves, identityCommitment)
       const witness = RLN.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier)
 
       expect(typeof witness).toBe("object")
@@ -61,7 +61,7 @@ describe("RLN", () => {
       const epoch = genExternalNullifier("test-epoch")
       const rlnIdentifier = RLN.genIdentifier()
 
-      const merkleProof = generateMerkleProof(15, BigInt(0), 2, leaves, leaves.length - 1)
+      const merkleProof = generateMerkleProof(15, BigInt(0), 2, leaves, identityCommitment)
       const witness = RLN.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier)
 
       const [y, nullifier] = RLN.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash)
