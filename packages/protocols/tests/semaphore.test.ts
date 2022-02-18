@@ -3,6 +3,7 @@ import { getCurveFromName } from "ffjavascript"
 import fs from "fs"
 import path from "path"
 import { Semaphore } from "../src"
+import { SemaphorePublicSignals } from "../src/types"
 import { generateMerkleProof, genExternalNullifier, genSignalHash } from "../src/utils"
 
 describe("Semaphore", () => {
@@ -64,11 +65,18 @@ describe("Semaphore", () => {
       const vkeyPath = path.join("./packages/protocols/zkeyFiles", "semaphore", "verification_key.json")
       const vKey = JSON.parse(fs.readFileSync(vkeyPath, "utf-8"))
       const nullifierHash = Semaphore.genNullifierHash(externalNullifier, identity.getNullifier())
-      const publicSignals = [merkleProof.root.toString(), nullifierHash, genSignalHash(signal), externalNullifier]
+
+      const publicSignals: SemaphorePublicSignals = {
+        merkleRoot: merkleProof.root.toString(),
+        nullifierHash,
+        signalHash: genSignalHash(signal),
+        externalNullifier
+      }
 
       const response = await Semaphore.verifyProof(vKey, { proof: fullProof.proof, publicSignals })
 
       expect(response).toBe(true)
+      expect(fullProof.publicSignals).toEqual(publicSignals)
     }, 30000)
   })
 })

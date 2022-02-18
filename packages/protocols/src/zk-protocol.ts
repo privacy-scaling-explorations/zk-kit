@@ -1,20 +1,8 @@
 /* istanbul ignore file */
 import { groth16 } from "snarkjs"
-import { FullProof, SolidityProof } from "./types"
+import { FullProof, SolidityProof, StrBigInt } from "./types"
 
 export default class ZkProtocol {
-  /**
-   * Generates a SnarkJS full proof with Groth16.
-   * @param witness The parameters for creating the proof.
-   * @param wasmFilePath The WASM file path.
-   * @param finalZkeyPath The ZKey file path.
-   * @returns The full SnarkJS proof.
-   */
-  public static async genProof(witness: any, wasmFilePath: string, finalZkeyPath: string): Promise<FullProof> {
-    const { proof, publicSignals } = await groth16.fullProve(witness, wasmFilePath, finalZkeyPath, null)
-    return { proof, publicSignals }
-  }
-
   /**
    * Verifies a zero-knowledge SnarkJS proof.
    * @param verificationKey The zero-knowledge verification key.
@@ -24,7 +12,9 @@ export default class ZkProtocol {
   public static verifyProof(verificationKey: string, fullProof: FullProof): Promise<boolean> {
     const { proof, publicSignals } = fullProof
 
-    return groth16.verify(verificationKey, publicSignals, proof)
+    const publicSignalsArray: StrBigInt[] = Object.values(publicSignals)
+
+    return groth16.verify(verificationKey, publicSignalsArray, proof)
   }
 
   /**
