@@ -4,7 +4,7 @@ import * as fs from "fs"
 import * as path from "path"
 import { RLN } from "../src"
 import { generateMerkleProof, genExternalNullifier, genSignalHash } from "../src/utils"
-import { PublicSignals } from "../src/types"
+import { RLNPublicSignals } from "../src/types"
 
 describe("RLN", () => {
   const zkeyFiles = "./packages/protocols/zkeyFiles"
@@ -67,7 +67,7 @@ describe("RLN", () => {
 
       const [y, nullifier] = RLN.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash)
 
-      const publicSignals: PublicSignals = {
+      const publicSignals: RLNPublicSignals = {
         yShare: y,
         merkleRoot: merkleProof.root,
         internalNullifier: nullifier,

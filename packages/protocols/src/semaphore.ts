@@ -1,10 +1,38 @@
 import { MerkleProof } from "@zk-kit/incremental-merkle-tree"
 import { poseidon } from "circomlibjs"
-import { SemaphoreWitness, StrBigInt } from "./types"
+import { groth16 } from "snarkjs"
+import { FullProof, StrBigInt, SemaphoreWitness, SemaphorePublicSignals } from "./types"
 import { genSignalHash } from "./utils"
 import ZkProtocol from "./zk-protocol"
 
 export default class Semaphore extends ZkProtocol {
+  /**
+   * The number of public signals that should be returned by snarkjs when generating a proof.
+   */
+  private static PUBLIC_SIGNALS_COUNT: number = 6
+
+  /**
+   * Generates a SnarkJS full proof with Groth16.
+   * @param witness The parameters for creating the proof.
+   * @param wasmFilePath The WASM file path.
+   * @param finalZkeyPath The ZKey file path.
+   * @returns The full SnarkJS proof.
+   */
+  public static async genProof(witness: any, wasmFilePath: string, finalZkeyPath: string): Promise<FullProof> {
+    const { proof, publicSignalsArray } = await groth16.fullProve(witness, wasmFilePath, finalZkeyPath, null)
+
+    if (publicSignalsArray.length !== Semaphore.PUBLIC_SIGNALS_COUNT) throw new Error("Error while generating proof")
+
+    const publicSignals: SemaphorePublicSignals = {
+      merkleRoot: publicSignalsArray[0],
+      nullifierHash: publicSignalsArray[1],
+      signalHash: publicSignalsArray[2],
+      externalNullifier: publicSignalsArray[3]
+    }
+
+    return { proof, publicSignals }
+  }
+
   /**
    * Creates a Semaphore witness for the Semaphore ZK proof.
    * @param identityTrapdoor The identity trapdoor.

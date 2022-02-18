@@ -10,16 +10,23 @@ export type Proof = {
 
 export type FullProof = {
   proof: Proof
-  publicSignals: PublicSignals
+  publicSignals: RLNPublicSignals | SemaphorePublicSignals
 }
 
-export type PublicSignals = {
+export type RLNPublicSignals = {
   yShare: StrBigInt
   merkleRoot: StrBigInt
   internalNullifier: StrBigInt
   signalHash: StrBigInt
   epoch: StrBigInt
   rlnIdentifier: StrBigInt
+}
+
+export type SemaphorePublicSignals = {
+  merkleRoot: StrBigInt
+  nullifierHash: StrBigInt
+  signalHash: StrBigInt
+  externalNullifier: StrBigInt
 }
 
 export type SolidityProof = StrBigInt[]
