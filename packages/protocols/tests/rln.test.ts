@@ -4,6 +4,7 @@ import * as fs from "fs"
 import * as path from "path"
 import { RLN } from "../src"
 import { generateMerkleProof, genExternalNullifier, genSignalHash } from "../src/utils"
+import { PublicSignals } from "../src/types"
 
 describe("RLN", () => {
   const zkeyFiles = "./packages/protocols/zkeyFiles"
@@ -65,7 +66,15 @@ describe("RLN", () => {
       const witness = RLN.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier)
 
       const [y, nullifier] = RLN.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash)
-      const publicSignals = [y, merkleProof.root, nullifier, signalHash, epoch, rlnIdentifier]
+
+      const publicSignals: PublicSignals = {
+        yShare: y,
+        merkleRoot: merkleProof.root,
+        internalNullifier: nullifier,
+        signalHash,
+        epoch,
+        rlnIdentifier
+      }
 
       const vkeyPath = path.join(zkeyFiles, "rln", "verification_key.json")
       const vKey = JSON.parse(fs.readFileSync(vkeyPath, "utf-8"))
@@ -77,6 +86,7 @@ describe("RLN", () => {
       const response = await RLN.verifyProof(vKey, { proof: fullProof.proof, publicSignals })
 
       expect(response).toBe(true)
+      expect(fullProof.publicSignals).toEqual(publicSignals)
     }, 30000)
 
     it("Should retrieve user secret after spaming", () => {
