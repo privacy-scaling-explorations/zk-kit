@@ -10,7 +10,16 @@ export type Proof = {
 
 export type FullProof = {
   proof: Proof
-  publicSignals: StrBigInt[]
+  publicSignals: PublicSignals
+}
+
+export type PublicSignals = {
+  yShare: StrBigInt
+  merkleRoot: StrBigInt
+  internalNullifier: StrBigInt
+  signalHash: StrBigInt
+  epoch: StrBigInt
+  rlnIdentifier: StrBigInt
 }
 
 export type SolidityProof = StrBigInt[]

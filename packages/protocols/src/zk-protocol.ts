@@ -1,8 +1,13 @@
 /* istanbul ignore file */
 import { groth16 } from "snarkjs"
-import { FullProof, SolidityProof } from "./types"
+import { FullProof, PublicSignals, SolidityProof, StrBigInt } from "./types"
 
 export default class ZkProtocol {
+  /**
+   * The number of public signals that should be returned by snarkjs when generating a proof.
+   */
+  private static PUBLIC_SIGNALS_COUNT: number = 6
+
   /**
    * Generates a SnarkJS full proof with Groth16.
    * @param witness The parameters for creating the proof.
@@ -11,7 +16,19 @@ export default class ZkProtocol {
    * @returns The full SnarkJS proof.
    */
   public static async genProof(witness: any, wasmFilePath: string, finalZkeyPath: string): Promise<FullProof> {
-    const { proof, publicSignals } = await groth16.fullProve(witness, wasmFilePath, finalZkeyPath, null)
+    const { proof, publicSignalsArray } = await groth16.fullProve(witness, wasmFilePath, finalZkeyPath, null)
+
+    if (publicSignalsArray.length !== ZkProtocol.PUBLIC_SIGNALS_COUNT) throw new Error("Error while generating proof")
+
+    const publicSignals: PublicSignals = {
+      yShare: publicSignalsArray[0],
+      merkleRoot: publicSignalsArray[1],
+      internalNullifier: publicSignalsArray[2],
+      signalHash: publicSignalsArray[3],
+      epoch: publicSignalsArray[4],
+      rlnIdentifier: publicSignalsArray[5]
+    }
+
     return { proof, publicSignals }
   }
 
@@ -24,7 +41,9 @@ export default class ZkProtocol {
   public static verifyProof(verificationKey: string, fullProof: FullProof): Promise<boolean> {
     const { proof, publicSignals } = fullProof
 
-    return groth16.verify(verificationKey, publicSignals, proof)
+    const publicSignalsArray: StrBigInt[] = Object.values(publicSignals)
+
+    return groth16.verify(verificationKey, publicSignalsArray, proof)
   }
 
   /**
