@@ -1,16 +1,10 @@
 import { MerkleProof } from "@zk-kit/incremental-merkle-tree"
 import { poseidon } from "circomlibjs"
 import { groth16 } from "snarkjs"
-import { FullProof, RLNPublicSignals, StrBigInt } from "./types"
+import { RLNFullProof, StrBigInt } from "./types"
 import { Fq, genSignalHash } from "./utils"
-import ZkProtocol from "./zk-protocol"
 
-export default class RLN extends ZkProtocol {
-  /**
-   * The number of public signals that should be returned by snarkjs when generating a proof.
-   */
-  private static PUBLIC_SIGNALS_COUNT: number = 6
-
+export default class RLN {
   /**
    * Generates a SnarkJS full proof with Groth16.
    * @param witness The parameters for creating the proof.
@@ -18,21 +12,43 @@ export default class RLN extends ZkProtocol {
    * @param finalZkeyPath The ZKey file path.
    * @returns The full SnarkJS proof.
    */
-  public static async genProof(witness: any, wasmFilePath: string, finalZkeyPath: string): Promise<FullProof> {
-    const { proof, publicSignalsArray } = await groth16.fullProve(witness, wasmFilePath, finalZkeyPath, null)
+  /* istanbul ignore next */
+  public static async genProof(witness: any, wasmFilePath: string, finalZkeyPath: string): Promise<RLNFullProof> {
+    const { proof, publicSignals } = await groth16.fullProve(witness, wasmFilePath, finalZkeyPath, null)
 
-    if (publicSignalsArray.length !== RLN.PUBLIC_SIGNALS_COUNT) throw new Error("Error while generating proof")
-
-    const publicSignals: RLNPublicSignals = {
-      yShare: publicSignalsArray[0],
-      merkleRoot: publicSignalsArray[1],
-      internalNullifier: publicSignalsArray[2],
-      signalHash: publicSignalsArray[3],
-      epoch: publicSignalsArray[4],
-      rlnIdentifier: publicSignalsArray[5]
+    return {
+      proof,
+      publicSignals: {
+        yShare: publicSignals[0],
+        merkleRoot: publicSignals[1],
+        internalNullifier: publicSignals[2],
+        signalHash: publicSignals[3],
+        epoch: publicSignals[4],
+        rlnIdentifier: publicSignals[5]
+      }
     }
+  }
 
-    return { proof, publicSignals }
+  /**
+   * Verifies a zero-knowledge SnarkJS proof.
+   * @param verificationKey The zero-knowledge verification key.
+   * @param fullProof The SnarkJS full proof.
+   * @returns True if the proof is valid, false otherwise.
+   */
+  /* istanbul ignore next */
+  public static verifyProof(verificationKey: string, { proof, publicSignals }: RLNFullProof): Promise<boolean> {
+    return groth16.verify(
+      verificationKey,
+      [
+        publicSignals.yShare,
+        publicSignals.merkleRoot,
+        publicSignals.internalNullifier,
+        publicSignals.signalHash,
+        publicSignals.epoch,
+        publicSignals.rlnIdentifier
+      ],
+      proof
+    )
   }
 
   /**
