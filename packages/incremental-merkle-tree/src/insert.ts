@@ -11,10 +11,6 @@ export default function insert(
 ): Node {
   checkParameter(leaf, "leaf", "number", "string", "bigint")
 
-  if (leaf === zeroes[0]) {
-    throw new Error("The leaf cannot be a zero value")
-  }
-
   if (nodes[0].length >= arity ** depth) {
     throw new Error("The tree is full")
   }

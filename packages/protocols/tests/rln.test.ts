@@ -48,6 +48,16 @@ describe("RLN", () => {
       expect(typeof witness).toBe("object")
     })
 
+    it("Should throw an exception for a zero leaf", () => {
+      const zeroIdCommitment = BigInt(0)
+      const leaves = Object.assign([], identityCommitments)
+      leaves.push(zeroIdCommitment)
+
+      const fun = () => generateMerkleProof(15, zeroIdCommitment, 2, leaves, zeroIdCommitment)
+
+      expect(fun).toThrow("Can't generate a proof for a zero leaf")
+    })
+
     // eslint-disable-next-line jest/no-disabled-tests
     it.skip("Should generate rln proof and verify it", async () => {
       const identity = new ZkIdentity()

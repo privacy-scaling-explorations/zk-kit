@@ -37,18 +37,12 @@ describe("Incremental Merkle Tree", () => {
         expect(tree.arity).toEqual(arity)
       })
 
-      it("Should not insert a zero leaf", () => {
-        const fun = () => tree.insert(BigInt(0))
-
-        expect(fun).toThrow("The leaf cannot be a zero value")
-      })
-
       it("Should not insert a leaf in a full tree", () => {
         const fullTree = new IncrementalMerkleTree(poseidon, 1, BigInt(0), 3)
 
+        fullTree.insert(BigInt(0))
         fullTree.insert(BigInt(1))
         fullTree.insert(BigInt(2))
-        fullTree.insert(BigInt(3))
 
         const fun = () => fullTree.insert(BigInt(4))
 
