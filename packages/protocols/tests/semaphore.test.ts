@@ -76,7 +76,6 @@ describe("Semaphore", () => {
       const response = await Semaphore.verifyProof(vKey, { proof: fullProof.proof, publicSignals })
 
       expect(response).toBe(true)
-      expect(fullProof.publicSignals).toEqual(publicSignals)
     }, 30000)
   })
 })

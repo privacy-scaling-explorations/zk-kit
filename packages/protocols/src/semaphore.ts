@@ -1,16 +1,10 @@
 import { MerkleProof } from "@zk-kit/incremental-merkle-tree"
 import { poseidon } from "circomlibjs"
 import { groth16 } from "snarkjs"
-import { FullProof, StrBigInt, SemaphoreWitness, SemaphorePublicSignals } from "./types"
+import { SemaphoreFullProof, SemaphoreSolidityProof, SemaphoreWitness, StrBigInt } from "./types"
 import { genSignalHash } from "./utils"
-import ZkProtocol from "./zk-protocol"
 
-export default class Semaphore extends ZkProtocol {
-  /**
-   * The number of public signals that should be returned by snarkjs when generating a proof.
-   */
-  private static PUBLIC_SIGNALS_COUNT: number = 6
-
+export default class Semaphore {
   /**
    * Generates a SnarkJS full proof with Groth16.
    * @param witness The parameters for creating the proof.
@@ -18,19 +12,39 @@ export default class Semaphore extends ZkProtocol {
    * @param finalZkeyPath The ZKey file path.
    * @returns The full SnarkJS proof.
    */
-  public static async genProof(witness: any, wasmFilePath: string, finalZkeyPath: string): Promise<FullProof> {
-    const { proof, publicSignalsArray } = await groth16.fullProve(witness, wasmFilePath, finalZkeyPath, null)
+  /* istanbul ignore next */
+  public static async genProof(witness: any, wasmFilePath: string, finalZkeyPath: string): Promise<SemaphoreFullProof> {
+    const { proof, publicSignals } = await groth16.fullProve(witness, wasmFilePath, finalZkeyPath, null)
 
-    if (publicSignalsArray.length !== Semaphore.PUBLIC_SIGNALS_COUNT) throw new Error("Error while generating proof")
-
-    const publicSignals: SemaphorePublicSignals = {
-      merkleRoot: publicSignalsArray[0],
-      nullifierHash: publicSignalsArray[1],
-      signalHash: publicSignalsArray[2],
-      externalNullifier: publicSignalsArray[3]
+    return {
+      proof,
+      publicSignals: {
+        merkleRoot: publicSignals[0],
+        nullifierHash: publicSignals[1],
+        signalHash: publicSignals[2],
+        externalNullifier: publicSignals[3]
+      }
     }
+  }
 
-    return { proof, publicSignals }
+  /**
+   * Verifies a zero-knowledge SnarkJS proof.
+   * @param verificationKey The zero-knowledge verification key.
+   * @param fullProof The SnarkJS full proof.
+   * @returns True if the proof is valid, false otherwise.
+   */
+  /* istanbul ignore next */
+  public static verifyProof(verificationKey: string, { proof, publicSignals }: SemaphoreFullProof): Promise<boolean> {
+    return groth16.verify(
+      verificationKey,
+      [
+        publicSignals.merkleRoot,
+        publicSignals.nullifierHash,
+        publicSignals.signalHash,
+        publicSignals.externalNullifier
+      ],
+      proof
+    )
   }
 
   /**
@@ -69,5 +83,26 @@ export default class Semaphore extends ZkProtocol {
    */
   public static genNullifierHash(externalNullifier: StrBigInt, identityNullifier: StrBigInt): bigint {
     return poseidon([BigInt(externalNullifier), BigInt(identityNullifier)])
+  }
+
+  /**
+   * Converts a full proof in a proof compatible with the Verifier.sol method inputs.
+   * @param fullProof The proof generated with SnarkJS.
+   * @returns The Solidity compatible proof.
+   */
+  /* istanbul ignore next */
+  public static packToSolidityProof(fullProof: SemaphoreFullProof): SemaphoreSolidityProof {
+    const { proof } = fullProof
+
+    return [
+      proof.pi_a[0],
+      proof.pi_a[1],
+      proof.pi_b[0][1],
+      proof.pi_b[0][0],
+      proof.pi_b[1][1],
+      proof.pi_b[1][0],
+      proof.pi_c[0],
+      proof.pi_c[1]
+    ]
   }
 }

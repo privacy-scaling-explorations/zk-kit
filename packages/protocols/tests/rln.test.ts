@@ -58,6 +58,26 @@ describe("RLN", () => {
       expect(fun).toThrow("Can't generate a proof for a zero leaf")
     })
 
+    it("Should retrieve user secret after spaming", () => {
+      const identity = new ZkIdentity()
+      const secretHash = identity.getSecretHash()
+
+      const signal1 = "hey hey"
+      const signalHash1 = genSignalHash(signal1)
+      const signal2 = "hey hey again"
+      const signalHash2 = genSignalHash(signal2)
+
+      const epoch = genExternalNullifier("test-epoch")
+      const rlnIdentifier = RLN.genIdentifier()
+
+      const [y1] = RLN.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash1)
+      const [y2] = RLN.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash2)
+
+      const retrievedSecret = RLN.retrieveSecret(signalHash1, signalHash2, y1, y2)
+
+      expect(retrievedSecret).toEqual(secretHash)
+    })
+
     // eslint-disable-next-line jest/no-disabled-tests
     it.skip("Should generate rln proof and verify it", async () => {
       const identity = new ZkIdentity()
@@ -96,27 +116,6 @@ describe("RLN", () => {
       const response = await RLN.verifyProof(vKey, { proof: fullProof.proof, publicSignals })
 
       expect(response).toBe(true)
-      expect(fullProof.publicSignals).toEqual(publicSignals)
     }, 30000)
-
-    it("Should retrieve user secret after spaming", () => {
-      const identity = new ZkIdentity()
-      const secretHash = identity.getSecretHash()
-
-      const signal1 = "hey hey"
-      const signalHash1 = genSignalHash(signal1)
-      const signal2 = "hey hey again"
-      const signalHash2 = genSignalHash(signal2)
-
-      const epoch = genExternalNullifier("test-epoch")
-      const rlnIdentifier = RLN.genIdentifier()
-
-      const [y1] = RLN.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash1)
-      const [y2] = RLN.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash2)
-
-      const retrievedSecret = RLN.retrieveSecret(signalHash1, signalHash2, y1, y2)
-
-      expect(retrievedSecret).toEqual(secretHash)
-    })
   })
 })
