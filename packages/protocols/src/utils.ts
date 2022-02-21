@@ -64,6 +64,8 @@ export function generateMerkleProof(
   leaves: StrBigInt[],
   leaf: StrBigInt
 ): MerkleProof {
+  if (leaf === zeroValue) throw new Error("Can't generate a proof for a zero leaf")
+
   const tree = generateMerkleTree(depth, zeroValue, arity, leaves)
 
   const leafIndex = tree.leaves.indexOf(BigInt(leaf))
