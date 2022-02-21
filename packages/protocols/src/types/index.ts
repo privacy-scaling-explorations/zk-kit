@@ -8,9 +8,14 @@ export type Proof = {
   curve: string
 }
 
-export type FullProof = {
+export type RLNFullProof = {
   proof: Proof
-  publicSignals: RLNPublicSignals | SemaphorePublicSignals
+  publicSignals: RLNPublicSignals
+}
+
+export type SemaphoreFullProof = {
+  proof: Proof
+  publicSignals: SemaphorePublicSignals
 }
 
 export type RLNPublicSignals = {
@@ -29,7 +34,16 @@ export type SemaphorePublicSignals = {
   externalNullifier: StrBigInt
 }
 
-export type SolidityProof = StrBigInt[]
+export type SemaphoreSolidityProof = [
+  StrBigInt,
+  StrBigInt,
+  StrBigInt,
+  StrBigInt,
+  StrBigInt,
+  StrBigInt,
+  StrBigInt,
+  StrBigInt
+]
 
 export type SemaphoreWitness = {
   identityNullifier: StrBigInt
