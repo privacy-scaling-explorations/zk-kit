@@ -4,7 +4,6 @@ import * as fs from "fs"
 import * as path from "path"
 import { RLN } from "../src"
 import { generateMerkleProof, genExternalNullifier, genSignalHash } from "../src/utils"
-import { RLNPublicSignals } from "../src/types"
 
 describe("RLN", () => {
   const zkeyFiles = "./packages/protocols/zkeyFiles"
@@ -79,7 +78,7 @@ describe("RLN", () => {
     })
 
     // eslint-disable-next-line jest/no-disabled-tests
-    it.skip("Should generate rln proof and verify it", async () => {
+    it("Should generate rln proof and verify it", async () => {
       const identity = new ZkIdentity()
       const secretHash = identity.getSecretHash()
       const identityCommitment = identity.genIdentityCommitment()
@@ -88,23 +87,12 @@ describe("RLN", () => {
       leaves.push(identityCommitment)
 
       const signal = "hey hey"
-      const signalHash = genSignalHash(signal)
       const epoch = genExternalNullifier("test-epoch")
       const rlnIdentifier = RLN.genIdentifier()
 
       const merkleProof = generateMerkleProof(15, BigInt(0), 2, leaves, identityCommitment)
       const witness = RLN.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier)
 
-      const [y, nullifier] = RLN.calculateOutput(secretHash, BigInt(epoch), rlnIdentifier, signalHash)
-
-      const publicSignals: RLNPublicSignals = {
-        yShare: y,
-        merkleRoot: merkleProof.root,
-        internalNullifier: nullifier,
-        signalHash,
-        epoch,
-        rlnIdentifier
-      }
 
       const vkeyPath = path.join(zkeyFiles, "rln", "verification_key.json")
       const vKey = JSON.parse(fs.readFileSync(vkeyPath, "utf-8"))
@@ -113,7 +101,7 @@ describe("RLN", () => {
       const finalZkeyPath = path.join(zkeyFiles, "rln", "rln_final.zkey")
 
       const fullProof = await RLN.genProof(witness, wasmFilePath, finalZkeyPath)
-      const response = await RLN.verifyProof(vKey, { proof: fullProof.proof, publicSignals })
+      const response = await RLN.verifyProof(vKey, fullProof )
 
       expect(response).toBe(true)
     }, 30000)
