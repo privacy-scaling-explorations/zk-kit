@@ -78,7 +78,7 @@ describe("RLN", () => {
     })
 
     // eslint-disable-next-line jest/no-disabled-tests
-    it("Should generate rln proof and verify it", async () => {
+    it.skip("Should generate and verify RLN proof", async () => {
       const identity = new ZkIdentity()
       const secretHash = identity.getSecretHash()
       const identityCommitment = identity.genIdentityCommitment()
