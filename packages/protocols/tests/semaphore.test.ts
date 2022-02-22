@@ -40,7 +40,7 @@ describe("Semaphore", () => {
     })
 
     // eslint-disable-next-line jest/no-disabled-tests
-    it("Should generate Semaphore full proof", async () => {
+    it.skip("Should generate and verify Semaphore proof", async () => {
       const identity = new ZkIdentity()
       const identityCommitment = identity.genIdentityCommitment()
       const externalNullifier = genExternalNullifier("voting_1")
