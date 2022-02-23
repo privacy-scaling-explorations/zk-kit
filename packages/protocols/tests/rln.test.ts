@@ -93,7 +93,6 @@ describe("RLN", () => {
       const merkleProof = generateMerkleProof(15, BigInt(0), 2, leaves, identityCommitment)
       const witness = RLN.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier)
 
-
       const vkeyPath = path.join(zkeyFiles, "rln", "verification_key.json")
       const vKey = JSON.parse(fs.readFileSync(vkeyPath, "utf-8"))
 
@@ -101,7 +100,7 @@ describe("RLN", () => {
       const finalZkeyPath = path.join(zkeyFiles, "rln", "rln_final.zkey")
 
       const fullProof = await RLN.genProof(witness, wasmFilePath, finalZkeyPath)
-      const response = await RLN.verifyProof(vKey, fullProof )
+      const response = await RLN.verifyProof(vKey, fullProof)
 
       expect(response).toBe(true)
     }, 30000)
