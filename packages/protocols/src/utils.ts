@@ -54,7 +54,7 @@ export function generateMerkleTree(
  * @param zeroValue The zero value of the tree.
  * @param arity The number of leaves per node.
  * @param leaves The list of the leaves of the tree.
- * @param leafIndex The leaf index for which Merkle proof should be created.
+ * @param leaf The leaf for which Merkle proof should be created.
  * @returns The Merkle proof.
  */
 export function generateMerkleProof(
