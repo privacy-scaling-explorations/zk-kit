@@ -29,17 +29,11 @@ export function genExternalNullifier(plaintext: string): string {
  * Creates a Merkle tree.
  * @param depth The depth of the tree.
  * @param zeroValue The zero value of the tree.
- * @param arity The number of leaves per node.
  * @param leaves The list of the leaves of the tree.
  * @returns The Merkle tree.
  */
-export function generateMerkleTree(
-  depth: number,
-  zeroValue: StrBigInt,
-  arity: number,
-  leaves: StrBigInt[]
-): IncrementalMerkleTree {
-  const tree = new IncrementalMerkleTree(poseidon, depth, zeroValue, arity)
+export function generateMerkleTree(depth: number, zeroValue: StrBigInt, leaves: StrBigInt[]): IncrementalMerkleTree {
+  const tree = new IncrementalMerkleTree(poseidon, depth, zeroValue, 2)
 
   for (const leaf of leaves) {
     tree.insert(BigInt(leaf))
@@ -52,7 +46,6 @@ export function generateMerkleTree(
  * Creates a Merkle proof.
  * @param depth The depth of the tree.
  * @param zeroValue The zero value of the tree.
- * @param arity The number of leaves per node.
  * @param leaves The list of the leaves of the tree.
  * @param leaf The leaf for which Merkle proof should be created.
  * @returns The Merkle proof.
@@ -60,13 +53,12 @@ export function generateMerkleTree(
 export function generateMerkleProof(
   depth: number,
   zeroValue: StrBigInt,
-  arity: number,
   leaves: StrBigInt[],
   leaf: StrBigInt
 ): MerkleProof {
   if (leaf === zeroValue) throw new Error("Can't generate a proof for a zero leaf")
 
-  const tree = generateMerkleTree(depth, zeroValue, arity, leaves)
+  const tree = generateMerkleTree(depth, zeroValue, leaves)
 
   const leafIndex = tree.leaves.indexOf(BigInt(leaf))
 
@@ -76,10 +68,7 @@ export function generateMerkleProof(
 
   const merkleProof = tree.createProof(leafIndex)
 
-  if (arity === 2) {
-    // It makes it compatible with the parameter in the contracts.
-    merkleProof.siblings = merkleProof.siblings.map((s) => s[0])
-  }
+  merkleProof.siblings = merkleProof.siblings.map((s) => s[0])
 
   return merkleProof
 }
