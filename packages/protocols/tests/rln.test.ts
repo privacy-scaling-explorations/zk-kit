@@ -41,7 +41,7 @@ describe("RLN", () => {
       const epoch: string = genExternalNullifier("test-epoch")
       const rlnIdentifier = RLN.genIdentifier()
 
-      const merkleProof = generateMerkleProof(15, BigInt(0), 2, leaves, identityCommitment)
+      const merkleProof = generateMerkleProof(15, BigInt(0), leaves, identityCommitment)
       const witness = RLN.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier)
 
       expect(typeof witness).toBe("object")
@@ -52,7 +52,7 @@ describe("RLN", () => {
       const leaves = Object.assign([], identityCommitments)
       leaves.push(zeroIdCommitment)
 
-      const fun = () => generateMerkleProof(15, zeroIdCommitment, 2, leaves, zeroIdCommitment)
+      const fun = () => generateMerkleProof(15, zeroIdCommitment, leaves, zeroIdCommitment)
 
       expect(fun).toThrow("Can't generate a proof for a zero leaf")
     })
@@ -90,7 +90,7 @@ describe("RLN", () => {
       const epoch = genExternalNullifier("test-epoch")
       const rlnIdentifier = RLN.genIdentifier()
 
-      const merkleProof = generateMerkleProof(15, BigInt(0), 2, leaves, identityCommitment)
+      const merkleProof = generateMerkleProof(15, BigInt(0), leaves, identityCommitment)
       const witness = RLN.genWitness(secretHash, merkleProof, epoch, signal, rlnIdentifier)
 
       const vkeyPath = path.join(zkeyFiles, "rln", "verification_key.json")

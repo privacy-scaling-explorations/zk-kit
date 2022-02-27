@@ -66,12 +66,11 @@ import { generateMerkleProof } from "@zk-kit/protocols"
 
 const depth = 20
 const zeroValue = BigInt(0)
-const arity = 2
 const identity = new ZkIdentity()
 const identityCommitment = identity.genIdentityCommitment()
 const identityCommitments = [BigInt(1), identityCommitment, BigInt(2)]
 
-const merkleProof = generateMerkleProof(depth, zeroValue, arity, identityCommitments, 1)
+const merkleProof = generateMerkleProof(depth, zeroValue, identityCommitments, 1)
 ```
 
 ### Creating Semaphore proofs
