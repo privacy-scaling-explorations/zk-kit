@@ -82,6 +82,6 @@ const signal = "Hello world"
 const externalNullifier = BigInt(1)
 const witness = Semaphore.genWitness(identity, merkleProof, externalNullifier, signal)
 
-const fullProof = await Semaphore.genProof(witness, "./semaphore.wasm", "./semaphore.zkey")
-const solidityProof = Semaphore.packToSolidityProof(fullProof)
+const { proof, publicSignals } = await Semaphore.genProof(witness, "./semaphore.wasm", "./semaphore.zkey")
+const solidityProof = Semaphore.packToSolidityProof(proof)
 ```
