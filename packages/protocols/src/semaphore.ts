@@ -1,7 +1,7 @@
 import { MerkleProof } from "@zk-kit/incremental-merkle-tree"
 import { poseidon } from "circomlibjs"
 import { groth16 } from "snarkjs"
-import { SemaphoreFullProof, SemaphoreSolidityProof, SemaphoreWitness, StrBigInt } from "./types"
+import { Proof, SemaphoreFullProof, SemaphoreSolidityProof, SemaphoreWitness, StrBigInt } from "./types"
 import { genSignalHash } from "./utils"
 
 export default class Semaphore {
@@ -91,9 +91,7 @@ export default class Semaphore {
    * @returns The Solidity compatible proof.
    */
   /* istanbul ignore next */
-  public static packToSolidityProof(fullProof: SemaphoreFullProof): SemaphoreSolidityProof {
-    const { proof } = fullProof
-
+  public static packToSolidityProof(proof: Proof): SemaphoreSolidityProof {
     return [
       proof.pi_a[0],
       proof.pi_a[1],
