@@ -3,7 +3,7 @@ import { getCurveFromName } from "ffjavascript"
 import * as fs from "fs"
 import * as path from "path"
 import { RLN } from "../src"
-import { generateMerkleProof, genExternalNullifier, genSignalHash } from "../src/utils"
+import { generateMerkleProof, genExternalNullifier } from "../src/utils"
 
 describe("RLN", () => {
   const zkeyFiles = "./packages/protocols/zkeyFiles"
@@ -62,9 +62,9 @@ describe("RLN", () => {
       const secretHash = identity.getSecretHash()
 
       const signal1 = "hey hey"
-      const signalHash1 = genSignalHash(signal1)
+      const signalHash1 = RLN.genSignalHash(signal1)
       const signal2 = "hey hey again"
-      const signalHash2 = genSignalHash(signal2)
+      const signalHash2 = RLN.genSignalHash(signal2)
 
       const epoch = genExternalNullifier("test-epoch")
       const rlnIdentifier = RLN.genIdentifier()
