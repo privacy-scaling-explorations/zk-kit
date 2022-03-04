@@ -1,8 +1,9 @@
+import { keccak256 } from "@ethersproject/solidity"
+import { formatBytes32String } from "@ethersproject/strings"
 import { MerkleProof } from "@zk-kit/incremental-merkle-tree"
 import { poseidon } from "circomlibjs"
 import { groth16 } from "snarkjs"
 import { Proof, SemaphoreFullProof, SemaphoreSolidityProof, SemaphoreWitness, StrBigInt } from "./types"
-import { genSignalHash } from "./utils"
 
 export default class Semaphore {
   /**
@@ -62,8 +63,7 @@ export default class Semaphore {
     identityNullifier: StrBigInt,
     merkleProof: MerkleProof,
     externalNullifier: StrBigInt,
-    signal: string,
-    shouldHash = true
+    signal: string
   ): SemaphoreWitness {
     return {
       identityNullifier,
@@ -71,7 +71,7 @@ export default class Semaphore {
       treePathIndices: merkleProof.pathIndices,
       treeSiblings: merkleProof.siblings,
       externalNullifier,
-      signalHash: shouldHash ? genSignalHash(signal) : signal
+      signalHash: Semaphore.genSignalHash(signal)
     }
   }
 
@@ -83,6 +83,15 @@ export default class Semaphore {
    */
   public static genNullifierHash(externalNullifier: StrBigInt, identityNullifier: StrBigInt): bigint {
     return poseidon([BigInt(externalNullifier), BigInt(identityNullifier)])
+  }
+
+  /**
+   * Hashes a signal string with Keccak256.
+   * @param signal The Semaphore signal.
+   * @returns The signal hash.
+   */
+  public static genSignalHash(signal: string): bigint {
+    return BigInt(keccak256(["bytes32"], [formatBytes32String(signal)])) >> BigInt(8)
   }
 
   /**

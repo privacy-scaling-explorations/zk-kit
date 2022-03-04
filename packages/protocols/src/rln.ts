@@ -1,8 +1,11 @@
+import { hexlify } from "@ethersproject/bytes"
+import { keccak256 } from "@ethersproject/solidity"
+import { toUtf8Bytes } from "@ethersproject/strings"
 import { MerkleProof } from "@zk-kit/incremental-merkle-tree"
 import { poseidon } from "circomlibjs"
 import { groth16 } from "snarkjs"
 import { RLNFullProof, StrBigInt } from "./types"
-import { Fq, genSignalHash } from "./utils"
+import { Fq } from "./utils"
 
 export default class RLN {
   /**
@@ -73,7 +76,7 @@ export default class RLN {
       identity_secret: identitySecret,
       path_elements: merkleProof.siblings,
       identity_path_index: merkleProof.pathIndices,
-      x: shouldHash ? genSignalHash(signal) : signal,
+      x: shouldHash ? RLN.genSignalHash(signal) : signal,
       epoch,
       rln_identifier: rlnIdentifier
     }
@@ -103,6 +106,17 @@ export default class RLN {
    */
   public static genNullifier(a1: bigint, rlnIdentifier: bigint): bigint {
     return poseidon([a1, rlnIdentifier])
+  }
+
+  /**
+   * Hashes a signal string with Keccak256.
+   * @param signal The RLN signal.
+   * @returns The signal hash.
+   */
+  public static genSignalHash(signal: string): bigint {
+    const converted = hexlify(toUtf8Bytes(signal))
+
+    return BigInt(keccak256(["bytes"], [converted])) >> BigInt(8)
   }
 
   /**
