@@ -31,6 +31,7 @@ library IncrementalBinaryTree {
     uint8 depth,
     uint256 zero
   ) public {
+    require(zero < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
     require(depth > 0 && depth <= MAX_DEPTH, "IncrementalBinaryTree: tree depth must be between 1 and 32");
 
     self.depth = depth;
