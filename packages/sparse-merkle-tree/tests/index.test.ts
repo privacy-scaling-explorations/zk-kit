@@ -1,9 +1,9 @@
 import { poseidon, smt } from "circomlibjs"
-import { sha256 } from "js-sha256"
+import sha256 from "crypto-js/sha256"
 import { ChildNodes, SparseMerkleTree } from "../src"
 
 describe("Sparse Merkle tree", () => {
-  const hash = (childNodes: ChildNodes) => sha256(childNodes.join(""))
+  const hash = (childNodes: ChildNodes) => sha256(childNodes.join("")).toString()
   const testKeys = ["a", "3", "2b", "20", "9", "17"]
 
   describe("Create hexadecimal trees", () => {
@@ -177,7 +177,7 @@ describe("Sparse Merkle tree", () => {
     })
 
     it("Should not create a big number tree if the hash function does not return a big number", () => {
-      const hash = (childNodes: ChildNodes) => sha256(childNodes.join(""))
+      const hash = (childNodes: ChildNodes) => sha256(childNodes.join("")).toString()
 
       const fun = () => new SparseMerkleTree(hash, true)
 
