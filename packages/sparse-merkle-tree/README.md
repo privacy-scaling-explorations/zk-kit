@@ -90,11 +90,11 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ```typescript
 import { SparseMerkleTree } from "@zk-kit/sparse-merkle-tree"
-import { sha256 } from "js-sha256"
+import sha256 from "crypto-js/sha256"
 import { poseidon } from "circomlibjs"
 
 // Hexadecimal hashes.
-const hash = (childNodes: ChildNodes) => sha256(childNodes.join(""))
+const hash = (childNodes: ChildNodes) => sha256(childNodes.join("")).toString()
 const tree = new SparseMerkleTree(hash)
 
 // Big number hashes.
