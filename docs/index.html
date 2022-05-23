@@ -33,7 +33,7 @@
       "
     >
       <div style="display: flex; align-items: center">
-        <a style="margin-right: 15px; margin-bottom: 5px" target="_blank" href="https://github.com/appliedzkp/zk-kit">
+        <a style="margin-right: 15px; margin-bottom: 5px" target="_blank" href="https://github.com/privacy-scaling-explorations/zk-kit">
           <i class="fa fa-github" style="font-size: 40px; color: white"></i>
         </a>
         <h1 style="margin: 0; font-size: 40px">ZK-kit</h1>
@@ -43,9 +43,9 @@
     </div>
     <footer style="display: flex; justify-content: center; padding: 15px 20px; background-color: #2e1c1c">
       <div style="display: flex; justify-content: space-between; align-items: center; width: 900px">
-        <p style="margin: 0; font-size: 16px">Copyright © 2022 AppliedZKP</p>
+        <p style="margin: 0; font-size: 16px">Copyright © 2022 Ethereum Foundation</p>
         <div>
-          <a style="margin-right: 15px; text-decoration: none" target="_blank" href="https://github.com/appliedzkp">
+          <a style="margin-right: 15px; text-decoration: none" target="_blank" href="https://github.com/privacy-scaling-explorations">
             <i class="fa fa-github" style="font-size: 24px; color: white"></i>
           </a>
           <a
@@ -67,7 +67,7 @@
     </footer>
   </body>
   <script>
-    const url = "https://api.github.com/repos/appliedzkp/zk-kit/contents?ref=gh-pages"
+    const url = "https://api.github.com/repos/privacy-scaling-explorations/zk-kit/contents?ref=gh-pages"
 
     function insertLinks(packages) {
       const [element] = window.document.getElementsByTagName("ul")
@@ -75,13 +75,13 @@
 
       for (const package of packages) {
         html += `<li style="display: flex; align-items: center; margin-bottom: 8px">
-            <a style="margin-right: 15px" target="_blank" href="https://github.com/appliedzkp/zk-kit/tree/main/packages/${package}">
+            <a style="margin-right: 15px" target="_blank" href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/${package}">
               <i class="fa fa-github" style="font-size: 24px; color: white"></i>
             </a>
             <a style="color: white; text-decoration: none; font-size: 16px"
               onmouseover="this.style.color='orange';"
               onmouseout="this.style.color='white';"
-              target="_blank" href="https://appliedzkp.github.io/zk-kit/${package}">
+              target="_blank" href="http://zkkit.appliedzkp.org/${package}">
                 @zk-kit/${package} >
             </a></li>`
       }

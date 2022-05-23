@@ -19,8 +19,8 @@
     "LICENSE",
     "README.md"
   ],
-  "repository": "git@github.com:appliedzkp/zk-kit.git",
-  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/hello-wasm",
+  "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+  "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/hello-wasm",
   "author": {
     "name": "Omar Desogus",
     "email": "me@cedoor.dev",

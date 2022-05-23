@@ -14,8 +14,8 @@
     "src/",
     "README.md"
   ],
-  "repository": "https://github.com/appliedzkp/zk-kit",
-  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/protocols",
+  "repository": "https://github.com/privacy-scaling-explorations/zk-kit",
+  "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/protocols",
   "author": {
     "name": "Andrija Novakovic",
     "email": "akinovak@gmail.com"

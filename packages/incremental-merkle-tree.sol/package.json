@@ -20,8 +20,8 @@
     "merkle-tree",
     "incremental-merkle-tree"
   ],
-  "repository": "git@github.com:appliedzkp/zk-kit.git",
-  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/incremental-merkle-tree.sol",
+  "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+  "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/incremental-merkle-tree.sol",
   "author": {
     "name": "Omar Desogus",
     "email": "me@cedoor.dev",

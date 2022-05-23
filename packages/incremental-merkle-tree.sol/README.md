@@ -6,11 +6,11 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/appliedzkp/zk-kit">
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit">
         <img src="https://img.shields.io/badge/project-zk--kit-blue.svg?style=flat-square">
     </a>
-    <a href="https://github.com/appliedzkp/zk-kit/blob/main/LICENSE">
-        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zk-kit.svg?style=flat-square">
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit/blob/main/LICENSE">
+        <img alt="Github license" src="https://img.shields.io/github/license/privacy-scaling-explorations/zk-kit.svg?style=flat-square">
     </a>
     <a href="https://www.npmjs.com/package/@zk-kit/incremental-merkle-tree.sol">
         <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/incremental-merkle-tree.sol?style=flat-square" />
@@ -36,8 +36,8 @@
 
 ## Libraries:
 
-✔️ [IncrementalBinaryTree](https://github.com/appliedzkp/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol) (Poseidon)\
-✔️ [IncrementalQuinTree](https://github.com/appliedzkp/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalQuinTree.sol) (Poseidon)
+✔️ [IncrementalBinaryTree](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol) (Poseidon)\
+✔️ [IncrementalQuinTree](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalQuinTree.sol) (Poseidon)
 
 > The methods of each library are always the same (i.e `insert`, `remove`, `verify`).
 

@@ -14,8 +14,8 @@
     "src/",
     "README.md"
   ],
-  "repository": "git@github.com:appliedzkp/zk-kit.git",
-  "homepage": "https://github.com/appliedzkp/zk-kit/tree/main/packages/rollup-plugin-rust",
+  "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+  "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/rollup-plugin-rust",
   "author": {
     "name": "Omar Desogus",
     "email": "me@cedoor.dev",

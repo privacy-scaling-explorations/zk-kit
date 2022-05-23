@@ -6,14 +6,14 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/appliedzkp/zk-kit/blob/main/LICENSE">
-        <img alt="Github license" src="https://img.shields.io/github/license/appliedzkp/zk-kit.svg?style=flat-square">
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit/blob/main/LICENSE">
+        <img alt="Github license" src="https://img.shields.io/github/license/privacy-scaling-explorations/zk-kit.svg?style=flat-square">
     </a>
-    <a href="https://github.com/appliedzkp/zk-kit/actions?query=workflow%3Atest">
-        <img alt="GitHub Workflow test" src="https://img.shields.io/github/workflow/status/appliedzkp/zk-kit/test?label=test&style=flat-square&logo=github">
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit/actions?query=workflow%3Atest">
+        <img alt="GitHub Workflow test" src="https://img.shields.io/github/workflow/status/privacy-scaling-explorations/zk-kit/test?label=test&style=flat-square&logo=github">
     </a>
-    <a href="https://coveralls.io/github/appliedzkp/zk-kit">
-        <img alt="Coveralls" src="https://img.shields.io/coveralls/github/appliedzkp/zk-kit?label=coverage (ts)&style=flat-square&logo=coveralls">
+    <a href="https://coveralls.io/github/privacy-scaling-explorations/zk-kit">
+        <img alt="Coveralls" src="https://img.shields.io/coveralls/github/privacy-scaling-explorations/zk-kit?label=coverage (ts)&style=flat-square&logo=coveralls">
     </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint">
@@ -36,7 +36,7 @@
             🤝 Code of conduct
         </a>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://github.com/appliedzkp/zk-kit/issues/new/choose">
+        <a href="https://github.com/privacy-scaling-explorations/zk-kit/issues/new/choose">
             🔎 Issues
         </a>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
@@ -68,10 +68,10 @@
     <tbody>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/identity">
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/identity">
                     @zk-kit/identity
                 </a>
-                 <a href="https://appliedzkp.github.io/zk-kit/identity">
+                 <a href="https://zkkit.appliedzkp.org/identity">
                     (docs)
                 </a>
             </td>
@@ -96,10 +96,10 @@
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/protocols">
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/protocols">
                     @zk-kit/protocols
                 </a>
-                 <a href="https://appliedzkp.github.io/zk-kit/protocols">
+                 <a href="https://zkkit.appliedzkp.org/protocols">
                     (docs)
                 </a>
             </td>
@@ -119,10 +119,10 @@
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/incremental-merkle-tree">
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/incremental-merkle-tree">
                     @zk-kit/incremental-merkle-tree
                 </a>
-                 <a href="https://appliedzkp.github.io/zk-kit/incremental-merkle-tree">
+                 <a href="https://zkkit.appliedzkp.org/incremental-merkle-tree">
                     (docs)
                 </a>
             </td>
@@ -147,7 +147,7 @@
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/incremental-merkle-tree.sol">
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/incremental-merkle-tree.sol">
                     @zk-kit/incremental-merkle-tree.sol
                 </a>
             </td>
@@ -167,10 +167,10 @@
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/sparse-merkle-tree">
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/sparse-merkle-tree">
                     @zk-kit/sparse-merkle-tree
                 </a>
-                 <a href="https://appliedzkp.github.io/zk-kit/sparse-merkle-tree">
+                 <a href="https://zkkit.appliedzkp.org/sparse-merkle-tree/">
                     (docs)
                 </a>
             </td>
@@ -195,7 +195,7 @@
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/appliedzkp/zk-kit/tree/main/packages/rollup-plugin-rust">
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/rollup-plugin-rust">
                     @zk-kit/rollup-plugin-rust
                 </a>
             </td>
@@ -226,7 +226,7 @@
 Clone this repository and install the dependencies:
 
 ```bash
-$ git clone https://github.com/appliedzkp/zk-kit.git
+$ git clone https://github.com/privacy-scaling-explorations/zk-kit.git
 $ cd zk-kit && yarn
 ```
 
