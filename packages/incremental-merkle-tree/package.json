@@ -34,10 +34,10 @@
         "access": "public"
     },
     "devDependencies": {
-        "@rollup/plugin-typescript": "^8.3.0",
         "circomlibjs": "^0.0.8",
         "rollup-plugin-cleanup": "^3.2.1",
         "rollup-plugin-terser": "^7.0.2",
+        "rollup-plugin-typescript2": "^0.32.1",
         "typedoc": "^0.22.11"
     }
 }

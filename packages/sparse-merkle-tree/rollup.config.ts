@@ -1,4 +1,4 @@
-import typescript from "@rollup/plugin-typescript"
+import typescript from "rollup-plugin-typescript2"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
 import { terser } from "rollup-plugin-terser"
@@ -32,5 +32,8 @@ export default {
         { file: pkg.exports.require, format: "cjs", banner },
         { file: pkg.exports.import, format: "es", banner }
     ],
-    plugins: [typescript({ tsconfig: "./build.tsconfig.json" }), cleanup({ comments: "jsdoc" })]
+    plugins: [
+        typescript({ tsconfig: "./build.tsconfig.json", useTsconfigDeclarationDir: true }),
+        cleanup({ comments: "jsdoc" })
+    ]
 }

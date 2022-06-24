@@ -2942,7 +2942,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-typescript@npm:^8.3.0":
+"@rollup/plugin-typescript@npm:^8.3.0, @rollup/plugin-typescript@npm:^8.3.3":
   version: 8.3.3
   resolution: "@rollup/plugin-typescript@npm:8.3.3"
   dependencies:
@@ -2969,6 +2969,16 @@ __metadata:
   peerDependencies:
     rollup: ^1.20.0||^2.0.0
   checksum: 8be16e27863c219edbb25a4e6ec2fe0e1e451d9e917b6a43cf2ae5bc025a6b8faaa40f82a6e53b66d0de37b58ff472c6c3d57a83037ae635041f8df959d6d9aa
+  languageName: node
+  linkType: hard
+
+"@rollup/pluginutils@npm:^4.1.2":
+  version: 4.2.1
+  resolution: "@rollup/pluginutils@npm:4.2.1"
+  dependencies:
+    estree-walker: ^2.0.1
+    picomatch: ^2.2.2
+  checksum: 6bc41f22b1a0f1efec3043899e4d3b6b1497b3dea4d94292d8f83b4cf07a1073ecbaedd562a22d11913ff7659f459677b01b09e9598a98936e746780ecc93a12
   languageName: node
   linkType: hard
 
@@ -3836,10 +3846,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zk-kit/incremental-merkle-tree@workspace:packages/incremental-merkle-tree"
   dependencies:
-    "@rollup/plugin-typescript": ^8.3.0
     circomlibjs: ^0.0.8
     rollup-plugin-cleanup: ^3.2.1
     rollup-plugin-terser: ^7.0.2
+    rollup-plugin-typescript2: ^0.32.1
     typedoc: ^0.22.11
   languageName: unknown
   linkType: soft
@@ -3861,12 +3871,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zk-kit/sparse-merkle-tree@workspace:packages/sparse-merkle-tree"
   dependencies:
-    "@rollup/plugin-typescript": ^8.3.0
     "@types/crypto-js": ^4.1.1
     circomlibjs: ^0.0.8
     crypto-js: ^4.1.1
     rollup-plugin-cleanup: ^3.2.1
     rollup-plugin-terser: ^7.0.2
+    rollup-plugin-typescript2: ^0.32.1
     typedoc: ^0.22.11
   languageName: unknown
   linkType: soft
@@ -6857,6 +6867,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commondir@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "commondir@npm:1.0.1"
+  checksum: 59715f2fc456a73f68826285718503340b9f0dd89bfffc42749906c5cf3d4277ef11ef1cca0350d0e79204f00f1f6d83851ececc9095dc88512a697ac0b9bdcb
+  languageName: node
+  linkType: hard
+
 "compare-func@npm:^2.0.0":
   version: 2.0.0
   resolution: "compare-func@npm:2.0.0"
@@ -8542,6 +8559,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"estree-walker@npm:^2.0.1":
+  version: 2.0.2
+  resolution: "estree-walker@npm:2.0.2"
+  checksum: 6151e6f9828abe2259e57f5fd3761335bb0d2ebd76dc1a01048ccee22fabcfef3c0859300f6d83ff0d1927849368775ec5a6d265dde2f6de5a1be1721cd94efc
+  languageName: node
+  linkType: hard
+
 "esutils@npm:^2.0.2":
   version: 2.0.3
   resolution: "esutils@npm:2.0.3"
@@ -9691,6 +9715,17 @@ __metadata:
     statuses: 2.0.1
     unpipe: ~1.0.0
   checksum: 92effbfd32e22a7dff2994acedbd9bcc3aa646a3e919ea6a53238090e87097f8ef07cced90aa2cc421abdf993aefbdd5b00104d55c7c5479a8d00ed105b45716
+  languageName: node
+  linkType: hard
+
+"find-cache-dir@npm:^3.3.2":
+  version: 3.3.2
+  resolution: "find-cache-dir@npm:3.3.2"
+  dependencies:
+    commondir: ^1.0.1
+    make-dir: ^3.0.2
+    pkg-dir: ^4.1.0
+  checksum: 1e61c2e64f5c0b1c535bd85939ae73b0e5773142713273818cc0b393ee3555fb0fd44e1a5b161b8b6c3e03e98c2fcc9c227d784850a13a90a8ab576869576817
   languageName: node
   linkType: hard
 
@@ -14169,7 +14204,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"make-dir@npm:^3.0.0":
+"make-dir@npm:^3.0.0, make-dir@npm:^3.0.2":
   version: 3.1.0
   resolution: "make-dir@npm:3.1.0"
   dependencies:
@@ -16037,7 +16072,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pkg-dir@npm:^4.2.0":
+"pkg-dir@npm:^4.1.0, pkg-dir@npm:^4.2.0":
   version: 4.2.0
   resolution: "pkg-dir@npm:4.2.0"
   dependencies:
@@ -17220,6 +17255,22 @@ __metadata:
   peerDependencies:
     rollup: ^2.0.0
   checksum: af84bb7a7a894cd00852b6486528dfb8653cf94df4c126f95f389a346f401d054b08c46bee519a2ab6a22b33804d1d6ac6d8c90b1b2bf8fffb097eed73fc3c72
+  languageName: node
+  linkType: hard
+
+"rollup-plugin-typescript2@npm:^0.32.1":
+  version: 0.32.1
+  resolution: "rollup-plugin-typescript2@npm:0.32.1"
+  dependencies:
+    "@rollup/pluginutils": ^4.1.2
+    find-cache-dir: ^3.3.2
+    fs-extra: ^10.0.0
+    resolve: ^1.20.0
+    tslib: ^2.4.0
+  peerDependencies:
+    rollup: ">=1.26.3"
+    typescript: ">=2.4.0"
+  checksum: f41ab63ad1e4d21ec99fbf4a367abdf29ef95c41fd0a5612f2b60a8619f5fe633f75982bfbaf8fe9632bddfb6730ff9cb38be77d82561088168fcaccd2cd1e85
   languageName: node
   linkType: hard
 
@@ -19102,7 +19153,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.1.0, tslib@npm:^2.3.1":
+"tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0":
   version: 2.4.0
   resolution: "tslib@npm:2.4.0"
   checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
@@ -21386,7 +21437,7 @@ __metadata:
     "@babel/preset-typescript": ^7.17.12
     "@commitlint/cli": ^16.0.2
     "@commitlint/config-conventional": ^16.0.0
-    "@rollup/plugin-typescript": ^8.3.0
+    "@rollup/plugin-typescript": ^8.3.3
     "@types/glob": ^7.2.0
     "@types/jest": ^27.4.0
     "@types/node": ^17.0.9
