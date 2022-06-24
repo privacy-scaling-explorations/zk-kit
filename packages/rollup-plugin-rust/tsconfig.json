@@ -1,7 +1,7 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "noImplicitAny": false
-  },
-  "include": ["src", "rollup.config.ts"]
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "noImplicitAny": false
+    },
+    "include": ["src", "rollup.config.ts"]
 }

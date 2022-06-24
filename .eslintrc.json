@@ -1,38 +1,38 @@
 {
-  "root": true,
-  "env": {
-    "es6": true
-  },
-  "extends": ["airbnb-base", "airbnb-typescript/base", "plugin:jest/recommended", "plugin:jest/style", "prettier"],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "project": ["./tsconfig.json", "./packages/**/tsconfig.json"]
-  },
-  "plugins": ["@typescript-eslint", "jest"],
-  "rules": {
-    "no-console": ["warn", { "allow": ["info", "warn", "error"] }],
-    "no-restricted-syntax": "off",
-    "no-underscore-dangle": "off",
-    "no-param-reassign": "off",
-    "no-await-in-loop": "off",
-    "import/no-cycle": "off",
-    "no-bitwise": "off",
-    "class-methods-use-this": "warn",
-    "import/no-extraneous-dependencies": "off",
-    "import/no-relative-packages": "off",
-    "@typescript-eslint/no-loop-func": "off",
-    "@typescript-eslint/no-shadow": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/lines-between-class-members": "off",
-    "@typescript-eslint/naming-convention": [
-      "error",
-      {
-        "selector": "variable",
-        "format": ["camelCase", "PascalCase", "UPPER_CASE", "snake_case"],
-        "leadingUnderscore": "allow"
-      }
-    ]
-  }
+    "root": true,
+    "env": {
+        "es6": true
+    },
+    "extends": ["airbnb-base", "airbnb-typescript/base", "plugin:jest/recommended", "plugin:jest/style", "prettier"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "project": ["./tsconfig.json", "./packages/**/tsconfig.json"]
+    },
+    "plugins": ["@typescript-eslint", "jest"],
+    "rules": {
+        "no-console": ["warn", { "allow": ["info", "warn", "error"] }],
+        "no-restricted-syntax": "off",
+        "no-underscore-dangle": "off",
+        "no-param-reassign": "off",
+        "no-await-in-loop": "off",
+        "import/no-cycle": "off",
+        "no-bitwise": "off",
+        "class-methods-use-this": "warn",
+        "import/no-extraneous-dependencies": "off",
+        "import/no-relative-packages": "off",
+        "@typescript-eslint/no-loop-func": "off",
+        "@typescript-eslint/no-shadow": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/lines-between-class-members": "off",
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "variable",
+                "format": ["camelCase", "PascalCase", "UPPER_CASE", "snake_case"],
+                "leadingUnderscore": "allow"
+            }
+        ]
+    }
 }

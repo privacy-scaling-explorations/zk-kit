@@ -61,14 +61,14 @@ yarn add @zk-kit/rollup-plugin-rust
 import rust from "@zk-kit/rollup-plugin-rust"
 
 export default {
-  input: "Cargo.toml",
-  output: [
-    {
-      file: "dist/index.js",
-      name: "myPackageName",
-      format: "iife"
-    }
-  ],
-  plugins: [rust()]
+    input: "Cargo.toml",
+    output: [
+        {
+            file: "dist/index.js",
+            name: "myPackageName",
+            format: "iife"
+        }
+    ],
+    plugins: [rust()]
 }
 ```

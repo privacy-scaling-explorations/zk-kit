@@ -1,25 +1,25 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "strict": true,
-    "target": "ES5",
-    "module": "ES6",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "preserveConstEnums": true,
-    "skipLibCheck": true,
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "declarationDir": "types",
-    "typeRoots": ["node_modules/@types", "types"],
-    "paths": {
-      "@zk-kit/*": ["packages/*/src"]
-    }
-  },
-  "ts-node": {
     "compilerOptions": {
-      "target": "esnext",
-      "module": "commonjs"
+        "baseUrl": ".",
+        "strict": true,
+        "target": "ES5",
+        "module": "ES6",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "preserveConstEnums": true,
+        "skipLibCheck": true,
+        "declaration": true,
+        "allowSyntheticDefaultImports": true,
+        "declarationDir": "types",
+        "typeRoots": ["node_modules/@types", "types"],
+        "paths": {
+            "@zk-kit/*": ["packages/*/src"]
+        }
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "target": "esnext",
+            "module": "commonjs"
+        }
     }
-  }
 }

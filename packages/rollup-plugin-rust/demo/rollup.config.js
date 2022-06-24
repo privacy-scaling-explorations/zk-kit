@@ -13,16 +13,16 @@ const banner = `/**
 */`
 
 export default {
-  input: "Cargo.toml",
-  output: [
-    {
-      file: pkg.iife,
-      name,
-      format: "iife",
-      banner
-    },
-    { file: pkg.exports.require, format: "cjs", banner, exports: "auto" },
-    { file: pkg.exports.import, format: "es", banner }
-  ],
-  plugins: [rust()]
+    input: "Cargo.toml",
+    output: [
+        {
+            file: pkg.iife,
+            name,
+            format: "iife",
+            banner
+        },
+        { file: pkg.exports.require, format: "cjs", banner, exports: "auto" },
+        { file: pkg.exports.import, format: "es", banner }
+    ],
+    plugins: [rust()]
 }

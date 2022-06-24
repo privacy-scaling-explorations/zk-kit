@@ -10,12 +10,12 @@ export type Siblings = Node[]
 export type HashFunction = (childNodes: ChildNodes) => Node
 
 export interface EntryResponse {
-  entry: Entry | Node[]
-  matchingEntry?: Entry | Node[]
-  siblings: Siblings
+    entry: Entry | Node[]
+    matchingEntry?: Entry | Node[]
+    siblings: Siblings
 }
 
 export interface MerkleProof extends EntryResponse {
-  root: Node
-  membership: boolean
+    root: Node
+    membership: boolean
 }

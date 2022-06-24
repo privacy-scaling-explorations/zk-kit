@@ -14,146 +14,146 @@ import _verifyProof from "./verifyProof"
  * provides all the functions to create efficient trees and to generate and verify proofs of membership.
  */
 export default class IncrementalMerkleTree {
-  static readonly maxDepth = 32
+    static readonly maxDepth = 32
 
-  private _root: Node
-  private readonly _nodes: Node[][]
-  private readonly _zeroes: Node[]
-  private readonly _hash: HashFunction
-  private readonly _depth: number
-  private readonly _arity: number
+    private _root: Node
+    private readonly _nodes: Node[][]
+    private readonly _zeroes: Node[]
+    private readonly _hash: HashFunction
+    private readonly _depth: number
+    private readonly _arity: number
 
-  /**
-   * Initializes the tree with the hash function, the depth, the zero value to use for zeroes
-   * and the arity (i.e. the number of children for each node).
-   * @param hash Hash function.
-   * @param depth Tree depth.
-   * @param zeroValue Zero values for zeroes.
-   * @param arity The number of children for each node.
-   */
-  constructor(hash: HashFunction, depth: number, zeroValue: Node, arity = 2) {
-    checkParameter(hash, "hash", "function")
-    checkParameter(depth, "depth", "number")
-    checkParameter(zeroValue, "zeroValue", "number", "string", "bigint")
-    checkParameter(arity, "arity", "number")
+    /**
+     * Initializes the tree with the hash function, the depth, the zero value to use for zeroes
+     * and the arity (i.e. the number of children for each node).
+     * @param hash Hash function.
+     * @param depth Tree depth.
+     * @param zeroValue Zero values for zeroes.
+     * @param arity The number of children for each node.
+     */
+    constructor(hash: HashFunction, depth: number, zeroValue: Node, arity = 2) {
+        checkParameter(hash, "hash", "function")
+        checkParameter(depth, "depth", "number")
+        checkParameter(zeroValue, "zeroValue", "number", "string", "bigint")
+        checkParameter(arity, "arity", "number")
 
-    if (depth < 1 || depth > IncrementalMerkleTree.maxDepth) {
-      throw new Error("The tree depth must be between 1 and 32")
+        if (depth < 1 || depth > IncrementalMerkleTree.maxDepth) {
+            throw new Error("The tree depth must be between 1 and 32")
+        }
+
+        // Initialize the attributes.
+        this._hash = hash
+        this._depth = depth
+        this._zeroes = []
+        this._nodes = []
+        this._arity = arity
+
+        for (let i = 0; i < depth; i += 1) {
+            this._zeroes.push(zeroValue)
+            this._nodes[i] = []
+            // There must be a zero value for each tree level (except the root).
+            zeroValue = hash(Array(this._arity).fill(zeroValue))
+        }
+
+        // The default root is the last zero value.
+        this._root = zeroValue
+
+        // Freeze the array objects. It prevents unintentional changes.
+        Object.freeze(this._zeroes)
+        Object.freeze(this._nodes)
     }
 
-    // Initialize the attributes.
-    this._hash = hash
-    this._depth = depth
-    this._zeroes = []
-    this._nodes = []
-    this._arity = arity
-
-    for (let i = 0; i < depth; i += 1) {
-      this._zeroes.push(zeroValue)
-      this._nodes[i] = []
-      // There must be a zero value for each tree level (except the root).
-      zeroValue = hash(Array(this._arity).fill(zeroValue))
+    /**
+     * Returns the root hash of the tree.
+     * @returns Root hash.
+     */
+    public get root(): Node {
+        return this._root
     }
 
-    // The default root is the last zero value.
-    this._root = zeroValue
+    /**
+     * Returns the depth of the tree.
+     * @returns Tree depth.
+     */
+    public get depth(): number {
+        return this._depth
+    }
 
-    // Freeze the array objects. It prevents unintentional changes.
-    Object.freeze(this._zeroes)
-    Object.freeze(this._nodes)
-  }
+    /**
+     * Returns the leaves of the tree.
+     * @returns List of leaves.
+     */
+    public get leaves(): Node[] {
+        return this._nodes[0].slice()
+    }
 
-  /**
-   * Returns the root hash of the tree.
-   * @returns Root hash.
-   */
-  public get root(): Node {
-    return this._root
-  }
+    /**
+     * Returns the zeroes nodes of the tree.
+     * @returns List of zeroes.
+     */
+    public get zeroes(): Node[] {
+        return this._zeroes
+    }
 
-  /**
-   * Returns the depth of the tree.
-   * @returns Tree depth.
-   */
-  public get depth(): number {
-    return this._depth
-  }
+    /**
+     * Returns the number of children for each node.
+     * @returns Number of children per node.
+     */
+    public get arity(): number {
+        return this._arity
+    }
 
-  /**
-   * Returns the leaves of the tree.
-   * @returns List of leaves.
-   */
-  public get leaves(): Node[] {
-    return this._nodes[0].slice()
-  }
+    /**
+     * Returns the index of a leaf. If the leaf does not exist it returns -1.
+     * @param leaf Tree leaf.
+     * @returns Index of the leaf.
+     */
+    public indexOf(leaf: Node): number {
+        return _indexOf(leaf, this._nodes)
+    }
 
-  /**
-   * Returns the zeroes nodes of the tree.
-   * @returns List of zeroes.
-   */
-  public get zeroes(): Node[] {
-    return this._zeroes
-  }
+    /**
+     * Inserts a new leaf in the tree.
+     * @param leaf New leaf.
+     */
+    public insert(leaf: Node) {
+        this._root = _insert(leaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
+    }
 
-  /**
-   * Returns the number of children for each node.
-   * @returns Number of children per node.
-   */
-  public get arity(): number {
-    return this._arity
-  }
+    /**
+     * Deletes a leaf from the tree. It does not remove the leaf from
+     * the data structure. It set the leaf to be deleted to a zero value.
+     * @param index Index of the leaf to be deleted.
+     */
+    public delete(index: number) {
+        this._root = _update(index, this.zeroes[0], this.depth, this.arity, this._nodes, this.zeroes, this._hash)
+    }
 
-  /**
-   * Returns the index of a leaf. If the leaf does not exist it returns -1.
-   * @param leaf Tree leaf.
-   * @returns Index of the leaf.
-   */
-  public indexOf(leaf: Node): number {
-    return _indexOf(leaf, this._nodes)
-  }
+    /**
+     * Deletes a leaf from the tree. It does not remove the leaf from
+     * the data structure. It set the leaf to be deleted to a zero value.
+     * @param index Index of the leaf to be deleted.
+     * @param newLeaf New leaf value.
+     */
+    public update(index: number, newLeaf: Node) {
+        this._root = _update(index, newLeaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
+    }
 
-  /**
-   * Inserts a new leaf in the tree.
-   * @param leaf New leaf.
-   */
-  public insert(leaf: Node) {
-    this._root = _insert(leaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
-  }
+    /**
+     * Creates a proof of membership.
+     * @param index Index of the proof's leaf.
+     * @returns Proof object.
+     */
+    public createProof(index: number): MerkleProof {
+        return _createProof(index, this.depth, this.arity, this._nodes, this.zeroes, this.root)
+    }
 
-  /**
-   * Deletes a leaf from the tree. It does not remove the leaf from
-   * the data structure. It set the leaf to be deleted to a zero value.
-   * @param index Index of the leaf to be deleted.
-   */
-  public delete(index: number) {
-    this._root = _update(index, this.zeroes[0], this.depth, this.arity, this._nodes, this.zeroes, this._hash)
-  }
-
-  /**
-   * Deletes a leaf from the tree. It does not remove the leaf from
-   * the data structure. It set the leaf to be deleted to a zero value.
-   * @param index Index of the leaf to be deleted.
-   * @param newLeaf New leaf value.
-   */
-  public update(index: number, newLeaf: Node) {
-    this._root = _update(index, newLeaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
-  }
-
-  /**
-   * Creates a proof of membership.
-   * @param index Index of the proof's leaf.
-   * @returns Proof object.
-   */
-  public createProof(index: number): MerkleProof {
-    return _createProof(index, this.depth, this.arity, this._nodes, this.zeroes, this.root)
-  }
-
-  /**
-   * Verifies a proof and return true or false.
-   * @param proof Proof to be verified.
-   * @returns True or false.
-   */
-  public verifyProof(proof: MerkleProof): boolean {
-    return _verifyProof(proof, this._hash)
-  }
+    /**
+     * Verifies a proof and return true or false.
+     * @param proof Proof to be verified.
+     * @returns True or false.
+     */
+    public verifyProof(proof: MerkleProof): boolean {
+        return _verifyProof(proof, this._hash)
+    }
 }

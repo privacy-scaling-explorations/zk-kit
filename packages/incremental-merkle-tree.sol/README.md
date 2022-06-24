@@ -70,42 +70,42 @@ pragma solidity ^0.8.4;
 import "@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol";
 
 contract Example {
-  using IncrementalBinaryTree for IncrementalTreeData;
+    using IncrementalBinaryTree for IncrementalTreeData;
 
-  event TreeCreated(bytes32 id, uint8 depth);
-  event LeafInserted(bytes32 indexed treeId, uint256 leaf, uint256 root);
-  event LeafRemoved(bytes32 indexed treeId, uint256 leaf, uint256 root);
+    event TreeCreated(bytes32 id, uint8 depth);
+    event LeafInserted(bytes32 indexed treeId, uint256 leaf, uint256 root);
+    event LeafRemoved(bytes32 indexed treeId, uint256 leaf, uint256 root);
 
-  mapping(bytes32 => IncrementalTreeData) public trees;
+    mapping(bytes32 => IncrementalTreeData) public trees;
 
-  function createTree(bytes32 _id, uint8 _depth) external {
-    require(trees[_id].depth == 0, "Example: tree already exists");
+    function createTree(bytes32 _id, uint8 _depth) external {
+        require(trees[_id].depth == 0, "Example: tree already exists");
 
-    trees[_id].init(_depth, 0);
+        trees[_id].init(_depth, 0);
 
-    emit TreeCreated(_id, _depth);
-  }
+        emit TreeCreated(_id, _depth);
+    }
 
-  function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
-    require(trees[_treeId].depth != 0, "Example: tree does not exist");
+    function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
+        require(trees[_treeId].depth != 0, "Example: tree does not exist");
 
-    trees[_treeId].insert(_leaf);
+        trees[_treeId].insert(_leaf);
 
-    emit LeafInserted(_treeId, _leaf, trees[_treeId].root);
-  }
+        emit LeafInserted(_treeId, _leaf, trees[_treeId].root);
+    }
 
-  function removeLeaf(
-    bytes32 _treeId,
-    uint256 _leaf,
-    uint256[] calldata _proofSiblings,
-    uint8[] calldata _proofPathIndices
-  ) external {
-    require(trees[_treeId].depth != 0, "Example: tree does not exist");
+    function removeLeaf(
+        bytes32 _treeId,
+        uint256 _leaf,
+        uint256[] calldata _proofSiblings,
+        uint8[] calldata _proofPathIndices
+    ) external {
+        require(trees[_treeId].depth != 0, "Example: tree does not exist");
 
-    trees[_treeId].remove(_leaf, _proofSiblings, _proofPathIndices);
+        trees[_treeId].remove(_leaf, _proofSiblings, _proofPathIndices);
 
-    emit LeafRemoved(_treeId, _leaf, trees[_treeId].root);
-  }
+        emit LeafRemoved(_treeId, _leaf, trees[_treeId].root);
+    }
 }
 
 ```
@@ -118,51 +118,51 @@ import { Contract } from "ethers"
 import { task, types } from "hardhat/config"
 
 task("deploy:example", "Deploy an Example contract")
-  .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
-  .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
-    const poseidonT3ABI = poseidonContract.generateABI(2)
-    const poseidonT3Bytecode = poseidonContract.createCode(2)
+    .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
+    .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
+        const poseidonT3ABI = poseidonContract.generateABI(2)
+        const poseidonT3Bytecode = poseidonContract.createCode(2)
 
-    const [signer] = await ethers.getSigners()
+        const [signer] = await ethers.getSigners()
 
-    const PoseidonLibT3Factory = new ethers.ContractFactory(poseidonT3ABI, poseidonT3Bytecode, signer)
-    const poseidonT3Lib = await PoseidonLibT3Factory.deploy()
+        const PoseidonLibT3Factory = new ethers.ContractFactory(poseidonT3ABI, poseidonT3Bytecode, signer)
+        const poseidonT3Lib = await PoseidonLibT3Factory.deploy()
 
-    await poseidonT3Lib.deployed()
+        await poseidonT3Lib.deployed()
 
-    logs && console.log(`PoseidonT3 library has been deployed to: ${poseidonT3Lib.address}`)
+        logs && console.log(`PoseidonT3 library has been deployed to: ${poseidonT3Lib.address}`)
 
-    const IncrementalBinaryTreeLibFactory = await ethers.getContractFactory("IncrementalBinaryTree", {
-      libraries: {
-        PoseidonT3: poseidonT3Lib.address
-      }
+        const IncrementalBinaryTreeLibFactory = await ethers.getContractFactory("IncrementalBinaryTree", {
+            libraries: {
+                PoseidonT3: poseidonT3Lib.address
+            }
+        })
+        const incrementalBinaryTreeLib = await IncrementalBinaryTreeLibFactory.deploy()
+
+        await incrementalBinaryTreeLib.deployed()
+
+        logs && console.log(`IncrementalBinaryTree library has been deployed to: ${incrementalBinaryTreeLib.address}`)
+
+        const ContractFactory = await ethers.getContractFactory("Example", {
+            libraries: {
+                IncrementalBinaryTree: incrementalBinaryTreeLib.address
+            }
+        })
+
+        const contract = await ContractFactory.deploy()
+
+        await contract.deployed()
+
+        logs && console.log(`Example contract has been deployed to: ${contract.address}`)
+
+        return contract
     })
-    const incrementalBinaryTreeLib = await IncrementalBinaryTreeLibFactory.deploy()
-
-    await incrementalBinaryTreeLib.deployed()
-
-    logs && console.log(`IncrementalBinaryTree library has been deployed to: ${incrementalBinaryTreeLib.address}`)
-
-    const ContractFactory = await ethers.getContractFactory("Example", {
-      libraries: {
-        IncrementalBinaryTree: incrementalBinaryTreeLib.address
-      }
-    })
-
-    const contract = await ContractFactory.deploy()
-
-    await contract.deployed()
-
-    logs && console.log(`Example contract has been deployed to: ${contract.address}`)
-
-    return contract
-  })
 ```
 
 ## Contacts
 
 ### Developers
 
-- e-mail : me@cedoor.dev
-- github : [@cedoor](https://github.com/cedoor)
-- website : https://cedoor.dev
+-   e-mail : me@cedoor.dev
+-   github : [@cedoor](https://github.com/cedoor)
+-   website : https://cedoor.dev

@@ -1,42 +1,42 @@
 {
-  "name": "@zk-kit/hello-wasm",
-  "version": "0.1.0",
-  "description": "Boilerplate to compile a Rust packages to WASM.",
-  "license": "MIT",
-  "iife": "dist/index.js",
-  "unpkg": "dist/index.min.js",
-  "jsdelivr": "dist/index.min.js",
-  "main": "dist/index.node.js",
-  "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.node.js"
-  },
-  "types": "dist/types/index.d.ts",
-  "files": [
-    "dist/",
-    "src/",
-    "index.html",
-    "LICENSE",
-    "README.md"
-  ],
-  "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
-  "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/hello-wasm",
-  "author": {
-    "name": "Omar Desogus",
-    "email": "me@cedoor.dev",
-    "url": "https://cedoor.dev"
-  },
-  "scripts": {
-    "start": "yarn build && serve",
-    "build": "rimraf dist && rollup -c",
-    "build:watch": "rollup -c  -w",
-    "prepublishOnly": "yarn build"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "devDependencies": {
-    "rimraf": "^3.0.2",
-    "rollup": "^1.31.0"
-  }
+    "name": "@zk-kit/hello-wasm",
+    "version": "0.1.0",
+    "description": "Boilerplate to compile a Rust packages to WASM.",
+    "license": "MIT",
+    "iife": "dist/index.js",
+    "unpkg": "dist/index.min.js",
+    "jsdelivr": "dist/index.min.js",
+    "main": "dist/index.node.js",
+    "exports": {
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.node.js"
+    },
+    "types": "dist/types/index.d.ts",
+    "files": [
+        "dist/",
+        "src/",
+        "index.html",
+        "LICENSE",
+        "README.md"
+    ],
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/hello-wasm",
+    "author": {
+        "name": "Omar Desogus",
+        "email": "me@cedoor.dev",
+        "url": "https://cedoor.dev"
+    },
+    "scripts": {
+        "start": "yarn build && serve",
+        "build": "rimraf dist && rollup -c",
+        "build:watch": "rollup -c  -w",
+        "prepublishOnly": "yarn build"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "rimraf": "^3.0.2",
+        "rollup": "^1.31.0"
+    }
 }

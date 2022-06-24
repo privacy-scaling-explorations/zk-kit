@@ -191,6 +191,6 @@ console.log(tree.verifyProof(nonMembershipProof)) // true
 
 ### Developers
 
-- e-mail : me@cedoor.dev
-- github : [@cedoor](https://github.com/cedoor)
-- website : https://cedoor.dev
+-   e-mail : me@cedoor.dev
+-   github : [@cedoor](https://github.com/cedoor)
+-   website : https://cedoor.dev

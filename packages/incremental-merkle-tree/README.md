@@ -126,6 +126,6 @@ console.log(tree.verifyProof(proof)) // true
 
 ### Developers
 
-- e-mail : me@cedoor.dev
-- github : [@cedoor](https://github.com/cedoor)
-- website : https://cedoor.dev
+-   e-mail : me@cedoor.dev
+-   github : [@cedoor](https://github.com/cedoor)
+-   website : https://cedoor.dev

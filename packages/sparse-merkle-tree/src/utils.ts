@@ -4,13 +4,13 @@
  * @returns The relative binary number.
  */
 export function hexToBin(n: string): string {
-  let bin = Number(`0x${n[0]}`).toString(2)
+    let bin = Number(`0x${n[0]}`).toString(2)
 
-  for (let i = 1; i < n.length; i += 1) {
-    bin += Number(`0x${n[i]}`).toString(2).padStart(4, "0")
-  }
+    for (let i = 1; i < n.length; i += 1) {
+        bin += Number(`0x${n[i]}`).toString(2).padStart(4, "0")
+    }
 
-  return bin
+    return bin
 }
 
 /**
@@ -20,9 +20,9 @@ export function hexToBin(n: string): string {
  * @returns The relative array of bits.
  */
 export function keyToPath(key: string | bigint): number[] {
-  const bits = typeof key === "bigint" ? key.toString(2) : hexToBin(key as string)
+    const bits = typeof key === "bigint" ? key.toString(2) : hexToBin(key as string)
 
-  return bits.padStart(256, "0").split("").reverse().map(Number)
+    return bits.padStart(256, "0").split("").reverse().map(Number)
 }
 
 /**
@@ -32,13 +32,13 @@ export function keyToPath(key: string | bigint): number[] {
  * @returns The index of the last non-zero element.
  */
 export function getIndexOfLastNonZeroElement(array: any[]): number {
-  for (let i = array.length - 1; i >= 0; i -= 1) {
-    if (Number(`0x${array[i]}`) !== 0) {
-      return i
+    for (let i = array.length - 1; i >= 0; i -= 1) {
+        if (Number(`0x${array[i]}`) !== 0) {
+            return i
+        }
     }
-  }
 
-  return -1
+    return -1
 }
 
 /**
@@ -48,15 +48,15 @@ export function getIndexOfLastNonZeroElement(array: any[]): number {
  * @returns The array of the first common elements.
  */
 export function getFirstCommonElements(array1: any[], array2: any[]): any[] {
-  const minArray = array1.length < array2.length ? array1 : array2
+    const minArray = array1.length < array2.length ? array1 : array2
 
-  for (let i = 0; i < minArray.length; i += 1) {
-    if (array1[i] !== array2[i]) {
-      return minArray.slice(0, i)
+    for (let i = 0; i < minArray.length; i += 1) {
+        if (array1[i] !== array2[i]) {
+            return minArray.slice(0, i)
+        }
     }
-  }
 
-  return minArray.slice()
+    return minArray.slice()
 }
 
 /**
@@ -65,5 +65,5 @@ export function getFirstCommonElements(array1: any[], array2: any[]): any[] {
  * @returns True if the number is a hexadecimal, false otherwise.
  */
 export function checkHex(n: string): boolean {
-  return typeof n === "string" && /^[0-9A-Fa-f]{1,64}$/.test(n)
+    return typeof n === "string" && /^[0-9A-Fa-f]{1,64}$/.test(n)
 }
