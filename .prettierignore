@@ -2,9 +2,10 @@
 node_modules
 package-lock.json
 yarn.lock
+.yarn
 
 # testing
-/coverage
+coverage
 coverage.json
 
 # docs
@@ -20,6 +21,9 @@ cache
 dist
 build
 
+# github
+.github/ISSUE_TEMPLATE
+
 # misc
 .DS_Store
 *.pem
@@ -31,5 +35,3 @@ yarn-error.log*
 
 # others
 target
-witness_calculator.js
-zkeyFiles

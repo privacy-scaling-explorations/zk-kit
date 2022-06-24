@@ -2,6 +2,7 @@
 node_modules
 package-lock.json
 yarn.lock
+.yarn
 
 # testing
 coverage
@@ -34,5 +35,3 @@ yarn-error.log*
 
 # others
 target
-witness_calculator.js
-zkeyFiles
