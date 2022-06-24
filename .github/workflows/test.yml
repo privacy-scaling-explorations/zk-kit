@@ -34,5 +34,8 @@ jobs:
             - name: Install dependencies
               run: yarn
 
+            - name: Build libraries
+              run: yarn build
+
             - name: Test libraries and contracts
               run: yarn test:all
