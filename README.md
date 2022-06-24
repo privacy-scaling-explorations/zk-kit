@@ -6,6 +6,9 @@
 </p>
 
 <p align="center">
+    <a href="https://github.com/privacy-scaling-explorations" target="_blank">
+        <img src="https://img.shields.io/badge/project-PSE-blue.svg?style=flat-square">
+    </a>
     <a href="https://github.com/privacy-scaling-explorations/zk-kit/blob/main/LICENSE">
         <img alt="Github license" src="https://img.shields.io/github/license/privacy-scaling-explorations/zk-kit.svg?style=flat-square">
     </a>
@@ -184,7 +187,6 @@ $ yarn prettier # Syntax check with Prettier (yarn prettier:fix to fix errors).
 $ yarn commit # Interactive Commitizen commit.
 $ yarn test # Test all packages (with common coverage).
 $ yarn build # Create a JS build for each package.
-$ yarn publish:fp # Publish packages on npm.
 ```
 
 ## ❓ FAQ
@@ -203,10 +205,6 @@ cd packages/my-package && rm -fr node_modules dist
 grep -r -l "sparse-merkle-tree" . | xargs sed -i 's/sparse-merkle-tree/my-package/'
 # Update the remaining description/usage sections, and write your code in the src & tests folders!
 ```
-
-#### How can I test and publish my library?
-
-ZK-kit provides two commands: `yarn test` and `yarn publish:fp`. Both must be run from the root folder. `yarn test` will test all packages in the monorepo, including yours using the files inside your `packages/my-package/tests` folder. `yarn publish:fp` can only be run by those who own the NPM token of the ZK-kit organization. They will then have to publish your package. This task could be automated in the future.
 
 #### How can I create benchmarks for my library?
 
