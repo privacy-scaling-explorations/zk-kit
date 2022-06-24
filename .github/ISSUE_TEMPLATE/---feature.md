@@ -1,8 +1,10 @@
 ---
-name: Feature request
-about: Suggest an idea for one of the existing packages
-title: ""
-labels: ""
+name: "\U0001F680 Feature"
+about: Suggest an idea for Semaphore
+title: ''
+labels: 'feature :rocket:'
+assignees: ''
+
 ---
 
 **Is your feature request related to a problem? Please describe.**

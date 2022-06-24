@@ -1,8 +1,10 @@
 ---
-name: Bug report
+name: "\U0001F41E Bug"
 about: Create a report to help us improve
-title: ""
-labels: ""
+title: ''
+labels: "bug \U0001F41B"
+assignees: ''
+
 ---
 
 **Describe the bug**
@@ -24,9 +26,9 @@ If applicable, add screenshots to help explain your problem.
 
 **Technologies (please complete the following information):**
 
-- Node.js version
-- NPM version
-- Browser
+-   Node.js version
+-   NPM version
+-   Solidity version
 
 **Additional context**
 Add any other context about the problem here.
