@@ -21,9 +21,6 @@
     <a href="https://prettier.io/">
         <img alt="Code style prettier" src="https://img.shields.io/badge/code%20style-prettier-f8bc45?style=flat-square&logo=prettier">
     </a>
-    <a href="https://lerna.js.org/">
-        <img alt="Lerna" src="https://img.shields.io/badge/maintained%20with-lerna-8f6899.svg?style=flat-square">
-    </a>
 </p>
 
 <div align="center">
@@ -49,7 +46,7 @@
 | ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access ready-to-use and tested libraries for common tasks. |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
-♚ Simplified package management with [Lerna](https://lerna.js.org/) (`yarn`, `yarn build`, `yarn publish:fp`)\
+♚ Simplified package management with [Yarn workspaces](https://yarnpkg.com/features/workspaces) (`yarn`, `yarn build`, `yarn docs`)\
 ♛ [Conventional Commits](https://www.conventionalcommits.org) for adding human and machine readable meaning to commit messages (`yarn commit`)\
 ♜ [Jest](https://jestjs.io/) tests & common test coverage for all packages (`yarn test`)\
 ♞ [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/) to keep the code neat and well organized (`yarn prettier` & `yarn lint`)\
