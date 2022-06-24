@@ -19,6 +19,7 @@
         "no-await-in-loop": "off",
         "import/no-cycle": "off",
         "no-bitwise": "off",
+        "import/no-unresolved": "off",
         "class-methods-use-this": "warn",
         "import/no-extraneous-dependencies": "off",
         "import/no-relative-packages": "off",
