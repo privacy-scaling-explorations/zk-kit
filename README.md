@@ -174,10 +174,10 @@
 
 ## 👥 Ways to contribute
 
-* 🔧 Work on [open issues](https://github.com/privacy-scaling-explorations/zk-kit/contribute)
-* 📦 Suggest new [packages](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---package.md&title=)
-* 🚀 Share ideas for new [features](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---feature.md&title=)
-* 🐛 Create a report if you find any [bugs](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=bug+%F0%9F%90%9B&template=---bug.md&title=) in the code
+-   🔧 Work on [open issues](https://github.com/privacy-scaling-explorations/zk-kit/contribute)
+-   📦 Suggest new [packages](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---package.md&title=)
+-   🚀 Share ideas for new [features](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---feature.md&title=)
+-   🐛 Create a report if you find any [bugs](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=bug+%F0%9F%90%9B&template=---bug.md&title=) in the code
 
 ## 🛠 Install
 
@@ -270,7 +270,7 @@ grep -r -l "sparse-merkle-tree" . | xargs sed -i 's/sparse-merkle-tree/my-packag
 # Update the remaining description/usage sections, and write your code in the src & tests folders!
 ```
 
-3. Create an [issue](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---package.md&title=) for your package and open a PR. 
+3. Create an [issue](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---package.md&title=) for your package and open a PR.
 
 #### How can I create benchmarks for my library?
 
