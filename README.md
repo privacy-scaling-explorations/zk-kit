@@ -68,57 +68,6 @@
     <tbody>
         <tr>
             <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/identity">
-                    @zk-kit/identity
-                </a>
-                 <a href="https://zkkit.appliedzkp.org/identity">
-                    (docs)
-                </a>
-            </td>
-            <td>
-                <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/identity">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/identity.svg?style=flat-square" alt="NPM version" />
-                </a>
-            </td>
-            <td>
-                <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/identity">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/identity.svg?style=flat-square" alt="Downloads" />
-                </a>
-            </td>
-            <td>
-                <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zk-kit/identity">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/identity" alt="npm bundle size (scoped)" />
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/protocols">
-                    @zk-kit/protocols
-                </a>
-                 <a href="https://zkkit.appliedzkp.org/protocols">
-                    (docs)
-                </a>
-            </td>
-            <td>
-                <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/protocols">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/protocols.svg?style=flat-square" alt="NPM version" />
-                </a>
-            </td>
-            <td>
-                <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/protocols">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/protocols.svg?style=flat-square" alt="Downloads" />
-                </a>
-            </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/incremental-merkle-tree">
                     @zk-kit/incremental-merkle-tree
                 </a>
