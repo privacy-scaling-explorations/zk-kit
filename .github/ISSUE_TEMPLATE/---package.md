@@ -1,6 +1,6 @@
 ---
 name: "\U0001F4E6 Package"
-about: Propose a new Semaphore package
+about: Propose a new ZK-kit package
 title: ''
 labels: 'feature :rocket:'
 assignees: ''

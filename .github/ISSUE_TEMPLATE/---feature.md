@@ -1,6 +1,6 @@
 ---
 name: "\U0001F680 Feature"
-about: Suggest an idea for Semaphore
+about: Suggest an idea for ZK-kit
 title: ''
 labels: 'feature :rocket:'
 assignees: ''
