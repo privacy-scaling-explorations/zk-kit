@@ -52,14 +52,13 @@
 | ZK-kit is a set of NPM modules (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access ready-to-use and tested libraries for common tasks. |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
-♚ Simplified package management with [Yarn workspaces](https://yarnpkg.com/features/workspaces) (`yarn`, `yarn build`, `yarn docs`)\
-♛ [Conventional Commits](https://www.conventionalcommits.org) for adding human and machine readable meaning to commit messages (`yarn commit`)\
-♜ [Jest](https://jestjs.io/) tests & common test coverage for all packages (`yarn test`)\
-♞ [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/) to keep the code neat and well organized (`yarn prettier` & `yarn lint`)\
-♝ Automatic deployment of documentation generated with [typedocs](https://typedoc.org/)\
-♟ Simple benchmarking framework for JavaScript/TypeScript libraries with [Benny](https://github.com/caderek/benny) (`yarn benchmarks`)
-
----
+♚ [Yarn workspaces](https://yarnpkg.com/features/workspaces): minimal monorepo package management (`yarn`, `yarn build`, `yarn docs`)\
+♛ [Conventional Commits](https://www.conventionalcommits.org): human and machine readable meaning to commit messages (`yarn commit`)\
+♜ [Jest](https://jestjs.io/): tests and test coverage for all packages (`yarn test`, `yarn test:all`)\
+♞ [ESLint](https://eslint.org/), [Prettier](https://prettier.io/): code quality and formatting (`yarn prettier` & `yarn lint`)\
+♝ [Typedocs](https://typedoc.org/): documentation generator for TypeScript (`yarn docs`)\
+♟ [Benny](https://github.com/caderek/benny): simple benchmarking framework for JavaScript/TypeScript (`yarn benchmarks`)\
+♟ [Github actions](https://github.com/features/actions): software workflows for automatic testing, decumentation deploy and code quality checks
 
 ## 📦 Packages
 
@@ -173,24 +172,86 @@
     <tbody>
 </table>
 
+## 👥 Ways to contribute
+
+* 🔧 Work on [open issues](https://github.com/privacy-scaling-explorations/zk-kit/contribute)
+* 📦 Suggest new [packages](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---package.md&title=)
+* 🚀 Share ideas for new [features](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---feature.md&title=)
+* 🐛 Create a report if you find any [bugs](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=bug+%F0%9F%90%9B&template=---bug.md&title=) in the code
+
 ## 🛠 Install
 
-Clone this repository and install the dependencies:
+Clone this repository:
 
 ```bash
-$ git clone https://github.com/privacy-scaling-explorations/zk-kit.git
-$ cd zk-kit && yarn
+git clone https://github.com/privacy-scaling-explorations/zk-kit.git
+```
+
+and install the dependencies:
+
+```bash
+cd zk-kit && yarn
 ```
 
 ## 📜 Usage
 
+### Code quality and formatting
+
+Run [ESLint](https://eslint.org/) to analyze the code and catch bugs:
+
 ```bash
-$ yarn lint # Syntax check with ESLint (yarn lint:fix to fix errors).
-$ yarn prettier # Syntax check with Prettier (yarn prettier:fix to fix errors).
-$ yarn commit # Interactive Commitizen commit.
-$ yarn test # Test all packages (with common coverage).
-$ yarn build # Create a JS build for each package.
+yarn lint
 ```
+
+Run [Prettier](https://prettier.io/) to check formatting rules:
+
+```bash
+yarn prettier
+```
+
+or to automatically format the code:
+
+```bash
+yarn prettier:write
+```
+
+### Conventional commits
+
+Semaphore uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). A [command line utility](https://github.com/commitizen/cz-cli) to commit using the correct syntax can be used by running:
+
+```bash
+yarn commit
+```
+
+It will also automatically check that the modified files comply with ESLint and Prettier rules.
+
+### Testing
+
+Run [Jest](https://jestjs.io/) to test the code with coverage:
+
+```bash
+yarn test
+```
+
+### Build packages
+
+Run [Rollup](https://www.rollupjs.org) to build all the packages:
+
+```bash
+yarn build
+```
+
+A `dist` folder will be created inside each package.
+
+### Documentation
+
+Run [TypeDoc](https://typedoc.org/) to generate a documentation website for each package:
+
+```bash
+yarn docs
+```
+
+The output will be placed on the `docs` folder.
 
 ## ❓ FAQ
 
@@ -209,10 +270,12 @@ grep -r -l "sparse-merkle-tree" . | xargs sed -i 's/sparse-merkle-tree/my-packag
 # Update the remaining description/usage sections, and write your code in the src & tests folders!
 ```
 
+3. Create an [issue](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---package.md&title=) for your package and open a PR. 
+
 #### How can I create benchmarks for my library?
 
 You can see some examples in the `benchmarks` folder. All you have to do is create a file that exports a function to run your benchmark in that folder, and add that function to the `index.ts` file. The `yarn benchmarks` command can be run with no parameters (it will run all the benchmarks), or you can specify the name of your benchmark file to run just that. When you run the command it will creates a `benchmarks/results` folder with your results.
 
-#### How can I publish the documentation of my library with typedocs?
+#### How can I publish the documentation of my library with Typedocs?
 
-You just need to insert the NPM `docs` command in your `package.json` file, as in the other packages. This command will be executed by Lerna and the output of `typedocs` will be placed in the `docs` folder of the root directory, which will be used to deploy the documentation websites by the Github `docs` workflow whenever the `main` branch is updated.
+You just need to insert the NPM `docs` command in your `package.json` file, as in the other packages. This command will be executed by Yarn and the output of `typedocs` will be placed in the `docs` folder of the root directory, which will be used to deploy the documentation websites by the Github `docs` workflow whenever the `main` branch is updated.
