@@ -67,7 +67,7 @@ yarn add @zk-kit/incremental-merkle-tree.sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol";
+import "@zk-kit/incremental-merkle-tree.sol/IncrementalBinaryTree.sol";
 
 contract Example {
     using IncrementalBinaryTree for IncrementalTreeData;
