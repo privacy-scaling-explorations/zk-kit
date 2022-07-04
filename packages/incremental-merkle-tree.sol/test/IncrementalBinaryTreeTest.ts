@@ -3,6 +3,7 @@ import { Contract } from "ethers"
 import { ethers, run } from "hardhat"
 import { createTree } from "./utils"
 
+/* eslint-disable jest/valid-expect */
 describe("IncrementalBinaryTreeTest", () => {
     let contract: Contract
 
