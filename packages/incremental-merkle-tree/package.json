@@ -20,7 +20,7 @@
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
     "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/incremental-merkle-tree",
     "author": {
-        "name": "Omar Desogus",
+        "name": "Cedoor",
         "email": "me@cedoor.dev",
         "url": "https://cedoor.dev"
     },

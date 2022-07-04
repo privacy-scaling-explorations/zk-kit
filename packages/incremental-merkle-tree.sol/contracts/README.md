@@ -158,3 +158,11 @@ task("deploy:example", "Deploy an Example contract")
         return contract
     })
 ```
+
+## Contacts
+
+### Developers
+
+-   e-mail : me@cedoor.dev
+-   github : [@cedoor](https://github.com/cedoor)
+-   website : https://cedoor.dev
