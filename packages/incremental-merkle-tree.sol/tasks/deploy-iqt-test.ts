@@ -2,7 +2,7 @@ import { poseidon_gencontract as poseidonContract } from "circomlibjs"
 import { Contract } from "ethers"
 import { task, types } from "hardhat/config"
 
-task("deploy:quin-tree-test", "Deploy a QuinTreeTest contract")
+task("deploy:iqt-test", "Deploy an IncrementalQuinTreeTest contract")
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
     .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
         const poseidonT6ABI = poseidonContract.generateABI(5)
@@ -32,7 +32,7 @@ task("deploy:quin-tree-test", "Deploy a QuinTreeTest contract")
             console.info(`IncrementalQuinTree library has been deployed to: ${incrementalQuinTreeLib.address}`)
         }
 
-        const ContractFactory = await ethers.getContractFactory("QuinTreeTest", {
+        const ContractFactory = await ethers.getContractFactory("IncrementalQuinTreeTest", {
             libraries: {
                 IncrementalQuinTree: incrementalQuinTreeLib.address
             }

@@ -6,8 +6,8 @@ import { HardhatUserConfig } from "hardhat/config"
 import { resolve } from "path"
 import "solidity-coverage"
 import { config } from "./package.json"
-import "./tasks/deploy-binary-tree-test"
-import "./tasks/deploy-quin-tree-test"
+import "./tasks/deploy-ibt-test"
+import "./tasks/deploy-iqt-test"
 
 dotenvConfig({ path: resolve(__dirname, "./.env") })
 

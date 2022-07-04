@@ -4,15 +4,15 @@ import { ethers, run } from "hardhat"
 import { createTree } from "./utils"
 
 /* eslint-disable jest/valid-expect */
-describe("QuinTreeTest", () => {
+describe("IncrementalQuinTreeTest", () => {
     let contract: Contract
 
     const treeId = ethers.utils.formatBytes32String("treeId")
     const leaf = BigInt(1)
-    const depth = 16
+    const depth = 8
 
     before(async () => {
-        contract = await run("deploy:quin-tree-test", { logs: false })
+        contract = await run("deploy:iqt-test", { logs: false })
     })
 
     it("Should not create a tree with a depth > 32", async () => {

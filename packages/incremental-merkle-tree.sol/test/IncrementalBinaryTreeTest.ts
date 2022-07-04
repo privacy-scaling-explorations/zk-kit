@@ -3,8 +3,7 @@ import { Contract } from "ethers"
 import { ethers, run } from "hardhat"
 import { createTree } from "./utils"
 
-/* eslint-disable jest/valid-expect */
-describe("BinaryTreeTest", () => {
+describe("IncrementalBinaryTreeTest", () => {
     let contract: Contract
 
     const treeId = ethers.utils.formatBytes32String("treeId")
@@ -12,7 +11,7 @@ describe("BinaryTreeTest", () => {
     const depth = 16
 
     before(async () => {
-        contract = await run("deploy:binary-tree-test", { logs: false })
+        contract = await run("deploy:ibt-test", { logs: false })
     })
 
     it("Should not create a tree with a depth > 32", async () => {

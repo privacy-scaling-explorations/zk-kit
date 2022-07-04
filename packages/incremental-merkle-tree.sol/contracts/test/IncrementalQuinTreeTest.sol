@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.4;
 
-import "./IncrementalBinaryTree.sol";
+import "../IncrementalQuinTree.sol";
 
-contract BinaryTreeTest {
-    using IncrementalBinaryTree for IncrementalTreeData;
+contract IncrementalQuinTreeTest {
+    using IncrementalQuinTree for IncrementalTreeData;
 
     event TreeCreated(bytes32 id, uint8 depth);
     event LeafInserted(bytes32 indexed treeId, uint256 leaf, uint256 root);
@@ -14,7 +14,7 @@ contract BinaryTreeTest {
     mapping(bytes32 => IncrementalTreeData) public trees;
 
     function createTree(bytes32 _id, uint8 _depth) external {
-        require(trees[_id].depth == 0, "BinaryTreeTest: tree already exists");
+        require(trees[_id].depth == 0, "QuinTreeTest: tree already exists");
 
         trees[_id].init(_depth, 0);
 
@@ -22,7 +22,7 @@ contract BinaryTreeTest {
     }
 
     function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
-        require(trees[_treeId].depth != 0, "BinaryTreeTest: tree does not exist");
+        require(trees[_treeId].depth != 0, "QuinTreeTest: tree does not exist");
 
         trees[_treeId].insert(_leaf);
 
@@ -32,10 +32,10 @@ contract BinaryTreeTest {
     function removeLeaf(
         bytes32 _treeId,
         uint256 _leaf,
-        uint256[] calldata _proofSiblings,
+        uint256[4][] calldata _proofSiblings,
         uint8[] calldata _proofPathIndices
     ) external {
-        require(trees[_treeId].depth != 0, "BinaryTreeTest: tree does not exist");
+        require(trees[_treeId].depth != 0, "QuinTreeTest: tree does not exist");
 
         trees[_treeId].remove(_leaf, _proofSiblings, _proofPathIndices);
 

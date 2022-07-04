@@ -17,7 +17,8 @@
         "benchmarks": "rimraf benchmarks/results && ts-node benchmarks/index.ts",
         "docs": "yarn workspaces foreach run docs",
         "commit": "cz",
-        "precommit": "lint-staged"
+        "precommit": "lint-staged",
+        "postinstall": "yarn build"
     },
     "keywords": [
         "javascript",

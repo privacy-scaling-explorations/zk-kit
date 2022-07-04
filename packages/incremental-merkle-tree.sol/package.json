@@ -1,46 +1,16 @@
 {
     "name": "@zk-kit/incremental-merkle-tree.sol",
-    "version": "0.3.1",
-    "description": "Incremental Merkle tree Solidity libraries.",
-    "license": "MIT",
-    "files": [
-        "contracts/",
-        "!contracts/Test.sol",
-        "build/",
-        "!build/contracts/Test.sol",
-        "README.md"
-    ],
-    "keywords": [
-        "blockchain",
-        "ethereum",
-        "hardhat",
-        "smart-contracts",
-        "solidity",
-        "libraries",
-        "merkle-tree",
-        "incremental-merkle-tree"
-    ],
-    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
-    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/incremental-merkle-tree.sol",
-    "author": {
-        "name": "Omar Desogus",
-        "email": "me@cedoor.dev",
-        "url": "https://cedoor.dev"
-    },
+    "private": true,
     "scripts": {
         "start": "hardhat node",
         "build": "hardhat compile",
-        "deploy:binary-tree-test": "hardhat deploy:binary-tree-test",
-        "deploy:quin-tree-test": "hardhat deploy:quin-tree-test",
+        "compile": "hardhat compile",
+        "deploy:test-contracts": "hardhat deploy:tree-contracts",
         "test": "hardhat test",
         "test:report-gas": "REPORT_GAS=true hardhat test",
         "test:coverage": "hardhat coverage",
         "test:prod": "yarn lint && yarn coverage",
-        "lint": "solhint 'contracts/**/*.sol'",
-        "prepublishOnly": "yarn build"
-    },
-    "publishConfig": {
-        "access": "public"
+        "lint": "solhint 'contracts/**/*.sol'"
     },
     "devDependencies": {
         "@nomiclabs/hardhat-ethers": "^2.0.4",

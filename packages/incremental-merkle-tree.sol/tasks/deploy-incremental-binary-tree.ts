@@ -2,7 +2,7 @@ import { poseidon_gencontract as poseidonContract } from "circomlibjs"
 import { Contract } from "ethers"
 import { task, types } from "hardhat/config"
 
-task("deploy:binary-tree-test", "Deploy a BinaryTreeTest contract")
+task("deploy:incremental-binary-tree-test", "Deploy an IncrementalBinaryTreeTest contract")
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
     .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
         const poseidonT3ABI = poseidonContract.generateABI(2)
