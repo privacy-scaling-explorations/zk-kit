@@ -130,9 +130,8 @@ export default class IncrementalMerkleTree {
     }
 
     /**
-     * Deletes a leaf from the tree. It does not remove the leaf from
-     * the data structure. It set the leaf to be deleted to a zero value.
-     * @param index Index of the leaf to be deleted.
+     * Updates a leaf in the tree.
+     * @param index Index of the leaf to be updated.
      * @param newLeaf New leaf value.
      */
     public update(index: number, newLeaf: Node) {
