@@ -92,7 +92,11 @@ library IncrementalBinaryTree {
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-
+        require(
+            leaf < SNARK_SCALAR_FIELD,
+            "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD"
+        );
+        
         uint256 hash = leaf;
         for (uint8 i = 0; i < self.depth; i++) {
             if (proofPathIndices[i] == 0) {
