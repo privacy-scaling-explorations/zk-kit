@@ -87,6 +87,8 @@ describe("IncrementalBinaryTreeTest", () => {
         const treeId = ethers.utils.formatBytes32String("none")
 
         const transaction = contract.updateLeaf(treeId, leaf, [0, 1], [0, 1])
+        
+        await expect(transaction).to.be.revertedWith("BinaryTreeTest: tree does not exist")
     })
 
     it("Should not update a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
@@ -103,7 +105,7 @@ describe("IncrementalBinaryTreeTest", () => {
         for (let i = 0; i < 4; i += 1)
             tree.insert(BigInt(i + 1))
         
-        const leaf = BigInt(22)
+        const leaf = BigInt(1337)
         tree.update(2, leaf)
         const { root, pathIndices, siblings } = tree.createProof(2)
         const transaction = contract.updateLeaf(
@@ -114,7 +116,6 @@ describe("IncrementalBinaryTreeTest", () => {
         )
 
         await expect(transaction).to.emit(contract, "LeafUpdated").withArgs(treeId, leaf, root);
-
     })
 
     it("Should not remove a leaf if the tree does not exist", async () => {

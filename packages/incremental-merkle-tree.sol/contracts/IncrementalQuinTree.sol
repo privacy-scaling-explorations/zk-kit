@@ -103,11 +103,11 @@ library IncrementalQuinTree {
         uint8[] calldata proofPathIndices
     ) public {
         require(
-            verify(self, leaf, proofSiblings, proofPathIndices),
-            "IncrementalQuinTree: leaf is not part of the tree"
+            leaf < SNARK_SCALAR_FIELD,
+            "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD"
         );
 
-        uint256 hash = self.zeroes[0];
+        uint256 hash = leaf;
 
         for (uint8 i = 0; i < self.depth; i++) {
             uint256[5] memory nodes;

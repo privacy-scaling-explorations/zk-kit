@@ -86,6 +86,36 @@ describe("IncrementalQuinTreeTest", () => {
         await expect(transaction).to.be.revertedWith("IncrementalQuinTree: tree is full")
     })
 
+    it("Should not update a leaf if the tree does not exist", async () => {
+        const treeId = ethers.utils.formatBytes32String("none")
+
+        const transaction = contract.updateLeaf(treeId, leaf, [[0, 1, 2, 3]], [0])
+
+        await expect(transaction).to.be.revertedWith("QuinTreeTest: tree does not exist")
+    })
+
+    it("Should not update a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
+        const leaf = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495618")
+
+        const transaction = contract.updateLeaf(treeId, leaf, [[0, 1, 2, 3]], [0])
+
+        await expect(transaction).to.be.revertedWith("IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD")
+    })
+
+    it("Should update a leaf", async () => {
+        const treeId = ethers.utils.formatBytes32String("tree2")
+        const tree = createTree(depth, 0, 5)
+        for (let i = 0; i < 6; i += 1)
+            tree.insert(BigInt(i + 1))
+
+        const leaf = BigInt(1337)
+        tree.update(2, leaf)
+        const { pathIndices, siblings, root } = tree.createProof(2)
+        const transaction = contract.updateLeaf(treeId, leaf, siblings, pathIndices)
+
+        await expect(transaction).to.emit(contract, "LeafUpdated").withArgs(treeId, leaf, root)
+    })
+
     it("Should not remove a leaf if the tree does not exist", async () => {
         const treeId = ethers.utils.formatBytes32String("none")
 
@@ -114,7 +144,6 @@ describe("IncrementalQuinTreeTest", () => {
         await contract.insertLeaf(treeId, BigInt(3))
 
         const { siblings, pathIndices, root } = tree.createProof(0)
-
         const transaction = contract.removeLeaf(treeId, BigInt(1), siblings, pathIndices)
 
         await expect(transaction).to.emit(contract, "LeafRemoved").withArgs(treeId, BigInt(1), root)
