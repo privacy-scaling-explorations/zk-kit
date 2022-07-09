@@ -39,7 +39,7 @@
 ✔️ [IncrementalBinaryTree](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol) (Poseidon)\
 ✔️ [IncrementalQuinTree](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalQuinTree.sol) (Poseidon)
 
-> The methods of each library are always the same (i.e `insert`, `remove`, `verify`).
+> The methods of each library are always the same (i.e `insert`, `update`, `remove`, `verify`).
 
 ---
 
