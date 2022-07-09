@@ -31,14 +31,8 @@ library IncrementalQuinTree {
         uint8 depth,
         uint256 zero
     ) public {
-        require(
-            zero < SNARK_SCALAR_FIELD,
-            "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD"
-        );
-        require(
-            depth > 0 && depth <= MAX_DEPTH,
-            "IncrementalQuinTree: tree depth must be between 1 and 32"
-        );
+        require(zero < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
+        require(depth > 0 && depth <= MAX_DEPTH, "IncrementalQuinTree: tree depth must be between 1 and 32");
 
         self.depth = depth;
 
@@ -60,14 +54,8 @@ library IncrementalQuinTree {
     /// @param self: Tree data.
     /// @param leaf: Leaf to be inserted.
     function insert(IncrementalTreeData storage self, uint256 leaf) public {
-        require(
-            leaf < SNARK_SCALAR_FIELD,
-            "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD"
-        );
-        require(
-            self.numberOfLeaves < 5**self.depth,
-            "IncrementalQuinTree: tree is full"
-        );
+        require(leaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
+        require(self.numberOfLeaves < 5**self.depth, "IncrementalQuinTree: tree is full");
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
@@ -102,10 +90,7 @@ library IncrementalQuinTree {
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-        require(
-            leaf < SNARK_SCALAR_FIELD,
-            "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD"
-        );
+        require(leaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
 
         uint256 hash = leaf;
 
@@ -122,10 +107,7 @@ library IncrementalQuinTree {
                 }
             }
 
-            if (
-                nodes[0] == self.lastSubtrees[i][0] ||
-                nodes[4] == self.lastSubtrees[i][4]
-            ) {
+            if (nodes[0] == self.lastSubtrees[i][0] || nodes[4] == self.lastSubtrees[i][4]) {
                 self.lastSubtrees[i][proofPathIndices[i]] = hash;
             }
 
@@ -166,10 +148,7 @@ library IncrementalQuinTree {
                 }
             }
 
-            if (
-                nodes[0] == self.lastSubtrees[i][0] ||
-                nodes[4] == self.lastSubtrees[i][4]
-            ) {
+            if (nodes[0] == self.lastSubtrees[i][0] || nodes[4] == self.lastSubtrees[i][4]) {
                 self.lastSubtrees[i][proofPathIndices[i]] = hash;
             }
 
@@ -191,13 +170,9 @@ library IncrementalQuinTree {
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) private view returns (bool) {
+        require(leaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
         require(
-            leaf < SNARK_SCALAR_FIELD,
-            "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD"
-        );
-        require(
-            proofPathIndices.length == self.depth &&
-                proofSiblings.length == self.depth,
+            proofPathIndices.length == self.depth && proofSiblings.length == self.depth,
             "IncrementalQuinTree: length of path is not correct"
         );
 

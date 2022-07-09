@@ -87,7 +87,7 @@ describe("IncrementalBinaryTreeTest", () => {
         const treeId = ethers.utils.formatBytes32String("none")
 
         const transaction = contract.updateLeaf(treeId, leaf, [0, 1], [0, 1])
-        
+
         await expect(transaction).to.be.revertedWith("BinaryTreeTest: tree does not exist")
     })
 
@@ -102,9 +102,8 @@ describe("IncrementalBinaryTreeTest", () => {
     it("Should update a leaf", async () => {
         const treeId = ethers.utils.formatBytes32String("tree2")
         const tree = createTree(depth, 0)
-        for (let i = 0; i < 4; i += 1)
-            tree.insert(BigInt(i + 1))
-        
+        for (let i = 0; i < 4; i += 1) tree.insert(BigInt(i + 1))
+
         const leaf = BigInt(1337)
         tree.update(2, leaf)
         const { root, pathIndices, siblings } = tree.createProof(2)
@@ -115,7 +114,7 @@ describe("IncrementalBinaryTreeTest", () => {
             pathIndices
         )
 
-        await expect(transaction).to.emit(contract, "LeafUpdated").withArgs(treeId, leaf, root);
+        await expect(transaction).to.emit(contract, "LeafUpdated").withArgs(treeId, leaf, root)
     })
 
     it("Should not remove a leaf if the tree does not exist", async () => {

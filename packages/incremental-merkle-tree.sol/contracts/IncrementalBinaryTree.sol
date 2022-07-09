@@ -31,14 +31,8 @@ library IncrementalBinaryTree {
         uint8 depth,
         uint256 zero
     ) public {
-        require(
-            zero < SNARK_SCALAR_FIELD,
-            "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD"
-        );
-        require(
-            depth > 0 && depth <= MAX_DEPTH,
-            "IncrementalBinaryTree: tree depth must be between 1 and 32"
-        );
+        require(zero < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
+        require(depth > 0 && depth <= MAX_DEPTH, "IncrementalBinaryTree: tree depth must be between 1 and 32");
 
         self.depth = depth;
 
@@ -54,14 +48,8 @@ library IncrementalBinaryTree {
     /// @param self: Tree data.
     /// @param leaf: Leaf to be inserted.
     function insert(IncrementalTreeData storage self, uint256 leaf) public {
-        require(
-            leaf < SNARK_SCALAR_FIELD,
-            "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD"
-        );
-        require(
-            self.numberOfLeaves < 2**self.depth,
-            "IncrementalBinaryTree: tree is full"
-        );
+        require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
+        require(self.numberOfLeaves < 2**self.depth, "IncrementalBinaryTree: tree is full");
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
@@ -92,11 +80,8 @@ library IncrementalBinaryTree {
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-        require(
-            leaf < SNARK_SCALAR_FIELD,
-            "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD"
-        );
-        
+        require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
+
         uint256 hash = leaf;
         for (uint8 i = 0; i < self.depth; i++) {
             if (proofPathIndices[i] == 0) {
@@ -166,13 +151,9 @@ library IncrementalBinaryTree {
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) private view returns (bool) {
+        require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
         require(
-            leaf < SNARK_SCALAR_FIELD,
-            "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD"
-        );
-        require(
-            proofPathIndices.length == self.depth &&
-                proofSiblings.length == self.depth,
+            proofPathIndices.length == self.depth && proofSiblings.length == self.depth,
             "IncrementalBinaryTree: length of path is not correct"
         );
 

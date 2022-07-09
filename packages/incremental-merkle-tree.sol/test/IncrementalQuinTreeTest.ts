@@ -105,8 +105,7 @@ describe("IncrementalQuinTreeTest", () => {
     it("Should update a leaf", async () => {
         const treeId = ethers.utils.formatBytes32String("tree2")
         const tree = createTree(depth, 0, 5)
-        for (let i = 0; i < 6; i += 1)
-            tree.insert(BigInt(i + 1))
+        for (let i = 0; i < 6; i += 1) tree.insert(BigInt(i + 1))
 
         const leaf = BigInt(1337)
         tree.update(2, leaf)
