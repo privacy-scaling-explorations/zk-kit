@@ -31,8 +31,14 @@ library IncrementalQuinTree {
         uint8 depth,
         uint256 zero
     ) public {
-        require(zero < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
-        require(depth > 0 && depth <= MAX_DEPTH, "IncrementalQuinTree: tree depth must be between 1 and 32");
+        require(
+            zero < SNARK_SCALAR_FIELD,
+            "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD"
+        );
+        require(
+            depth > 0 && depth <= MAX_DEPTH,
+            "IncrementalQuinTree: tree depth must be between 1 and 32"
+        );
 
         self.depth = depth;
 
@@ -54,8 +60,14 @@ library IncrementalQuinTree {
     /// @param self: Tree data.
     /// @param leaf: Leaf to be inserted.
     function insert(IncrementalTreeData storage self, uint256 leaf) public {
-        require(leaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
-        require(self.numberOfLeaves < 5**self.depth, "IncrementalQuinTree: tree is full");
+        require(
+            leaf < SNARK_SCALAR_FIELD,
+            "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD"
+        );
+        require(
+            self.numberOfLeaves < 5**self.depth,
+            "IncrementalQuinTree: tree is full"
+        );
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
@@ -77,6 +89,50 @@ library IncrementalQuinTree {
 
         self.root = hash;
         self.numberOfLeaves += 1;
+    }
+
+    /// @dev Updates a leaf in the tree.
+    /// @param self: Tree data.
+    /// @param leaf: Leaf to be updated.
+    /// @param proofSiblings: Array of the sibling nodes of the proof of membership.
+    /// @param proofPathIndices: Path of the proof of membership.
+    function update(
+        IncrementalTreeData storage self,
+        uint256 leaf,
+        uint256[4][] calldata proofSiblings,
+        uint8[] calldata proofPathIndices
+    ) public {
+        require(
+            verify(self, leaf, proofSiblings, proofPathIndices),
+            "IncrementalQuinTree: leaf is not part of the tree"
+        );
+
+        uint256 hash = self.zeroes[0];
+
+        for (uint8 i = 0; i < self.depth; i++) {
+            uint256[5] memory nodes;
+
+            for (uint8 j = 0; j < 5; j++) {
+                if (j < proofPathIndices[i]) {
+                    nodes[j] = proofSiblings[i][j];
+                } else if (j == proofPathIndices[i]) {
+                    nodes[j] = hash;
+                } else {
+                    nodes[j] = proofSiblings[i][j - 1];
+                }
+            }
+
+            if (
+                nodes[0] == self.lastSubtrees[i][0] ||
+                nodes[4] == self.lastSubtrees[i][4]
+            ) {
+                self.lastSubtrees[i][proofPathIndices[i]] = hash;
+            }
+
+            hash = PoseidonT6.poseidon(nodes);
+        }
+
+        self.root = hash;
     }
 
     /// @dev Removes a leaf from the tree.
@@ -110,7 +166,10 @@ library IncrementalQuinTree {
                 }
             }
 
-            if (nodes[0] == self.lastSubtrees[i][0] || nodes[4] == self.lastSubtrees[i][4]) {
+            if (
+                nodes[0] == self.lastSubtrees[i][0] ||
+                nodes[4] == self.lastSubtrees[i][4]
+            ) {
                 self.lastSubtrees[i][proofPathIndices[i]] = hash;
             }
 
@@ -132,9 +191,13 @@ library IncrementalQuinTree {
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) private view returns (bool) {
-        require(leaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
         require(
-            proofPathIndices.length == self.depth && proofSiblings.length == self.depth,
+            leaf < SNARK_SCALAR_FIELD,
+            "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD"
+        );
+        require(
+            proofPathIndices.length == self.depth &&
+                proofSiblings.length == self.depth,
             "IncrementalQuinTree: length of path is not correct"
         );
 

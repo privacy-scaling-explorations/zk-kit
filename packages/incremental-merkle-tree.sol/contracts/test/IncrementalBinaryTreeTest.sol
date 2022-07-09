@@ -9,6 +9,7 @@ contract IncrementalBinaryTreeTest {
 
     event TreeCreated(bytes32 id, uint8 depth);
     event LeafInserted(bytes32 indexed treeId, uint256 leaf, uint256 root);
+    event LeafUpdated(bytes32 indexed treeId, uint256 leaf, uint256 root);
     event LeafRemoved(bytes32 indexed treeId, uint256 leaf, uint256 root);
 
     mapping(bytes32 => IncrementalTreeData) public trees;
@@ -22,11 +23,30 @@ contract IncrementalBinaryTreeTest {
     }
 
     function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
-        require(trees[_treeId].depth != 0, "BinaryTreeTest: tree does not exist");
+        require(
+            trees[_treeId].depth != 0,
+            "BinaryTreeTest: tree does not exist"
+        );
 
         trees[_treeId].insert(_leaf);
 
         emit LeafInserted(_treeId, _leaf, trees[_treeId].root);
+    }
+
+    function updateLeaf(
+        bytes32 _treeId,
+        uint256 _leaf,
+        uint256[] calldata _proofSiblings,
+        uint8[] calldata _proofPathIndices
+    ) external {
+        require(
+            trees[_treeId].depth != 0,
+            "BinaryTreeTest: tree does not exist"
+        );
+
+        trees[_treeId].update(_leaf, _proofSiblings, _proofPathIndices);
+
+        emit LeafUpdated(_treeId, _leaf, trees[_treeId].root);
     }
 
     function removeLeaf(
@@ -35,7 +55,10 @@ contract IncrementalBinaryTreeTest {
         uint256[] calldata _proofSiblings,
         uint8[] calldata _proofPathIndices
     ) external {
-        require(trees[_treeId].depth != 0, "BinaryTreeTest: tree does not exist");
+        require(
+            trees[_treeId].depth != 0,
+            "BinaryTreeTest: tree does not exist"
+        );
 
         trees[_treeId].remove(_leaf, _proofSiblings, _proofPathIndices);
 
