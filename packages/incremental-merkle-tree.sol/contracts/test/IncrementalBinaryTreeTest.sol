@@ -37,7 +37,7 @@ contract IncrementalBinaryTreeTest {
         uint8[] calldata _proofPathIndices
     ) external {
         require(trees[_treeId].depth != 0, "BinaryTreeTest: tree does not exist");
-        
+
         trees[_treeId].update(_leaf, _proofSiblings, _proofPathIndices);
 
         emit LeafUpdated(_treeId, _leaf, trees[_treeId].root);
