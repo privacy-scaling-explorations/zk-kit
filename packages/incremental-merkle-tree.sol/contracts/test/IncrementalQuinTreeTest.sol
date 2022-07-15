@@ -32,7 +32,7 @@ contract IncrementalQuinTreeTest {
 
     function updateLeaf(
         bytes32 _treeId,
-        uint256 _leaf,
+        uint256[2] calldata _leaf,
         uint256[4][] calldata _proofSiblings,
         uint8[] calldata _proofPathIndices
     ) external {
@@ -40,7 +40,7 @@ contract IncrementalQuinTreeTest {
 
         trees[_treeId].update(_leaf, _proofSiblings, _proofPathIndices);
 
-        emit LeafUpdated(_treeId, _leaf, trees[_treeId].root);
+        emit LeafUpdated(_treeId, _leaf[1], trees[_treeId].root);
     }
 
     function removeLeaf(
