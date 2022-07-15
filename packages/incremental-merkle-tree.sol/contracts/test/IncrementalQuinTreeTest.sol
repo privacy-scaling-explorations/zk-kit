@@ -32,15 +32,16 @@ contract IncrementalQuinTreeTest {
 
     function updateLeaf(
         bytes32 _treeId,
-        uint256[2] calldata _leaf,
+        uint256 _leaf,
+        uint256 _newLeaf,
         uint256[4][] calldata _proofSiblings,
         uint8[] calldata _proofPathIndices
     ) external {
         require(trees[_treeId].depth != 0, "QuinTreeTest: tree does not exist");
 
-        trees[_treeId].update(_leaf, _proofSiblings, _proofPathIndices);
+        trees[_treeId].update(_leaf, _newLeaf, _proofSiblings, _proofPathIndices);
 
-        emit LeafUpdated(_treeId, _leaf[1], trees[_treeId].root);
+        emit LeafUpdated(_treeId, _newLeaf, trees[_treeId].root);
     }
 
     function removeLeaf(
