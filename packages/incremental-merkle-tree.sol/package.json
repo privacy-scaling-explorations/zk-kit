@@ -21,7 +21,7 @@
         "chai": "^4.3.5",
         "circomlibjs": "^0.0.8",
         "dotenv": "^14.3.2",
-        "ethereum-waffle": "^3.4.0",
+        "ethereum-waffle": "^3.4.4",
         "ethers": "^5.5.3",
         "hardhat": "^2.8.3",
         "hardhat-gas-reporter": "^1.0.7",
