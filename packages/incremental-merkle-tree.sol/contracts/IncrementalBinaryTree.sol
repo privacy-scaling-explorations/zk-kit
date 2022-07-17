@@ -69,6 +69,45 @@ library IncrementalBinaryTree {
         self.numberOfLeaves += 1;
     }
 
+    /// @dev Updates a leaf in the tree.
+    /// @param self: Tree data.
+    /// @param leaf: Leaf to be updated.
+    /// @param newLeaf: New leaf.
+    /// @param proofSiblings: Array of the sibling nodes of the proof of membership.
+    /// @param proofPathIndices: Path of the proof of membership.
+    function update(
+        IncrementalTreeData storage self,
+        uint256 leaf,
+        uint256 newLeaf,
+        uint256[] calldata proofSiblings,
+        uint8[] calldata proofPathIndices
+    ) public {
+        require(
+            verify(self, leaf, proofSiblings, proofPathIndices),
+            "IncrementalBinaryTree: leaf is not part of the tree"
+        );
+        require(newLeaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
+
+        uint256 hash = newLeaf;
+        for (uint8 i = 0; i < self.depth; i++) {
+            if (proofPathIndices[i] == 0) {
+                if (proofSiblings[i] == self.lastSubtrees[i][1]) {
+                    self.lastSubtrees[i][0] = hash;
+                }
+
+                hash = PoseidonT3.poseidon([hash, proofSiblings[i]]);
+            } else {
+                if (proofSiblings[i] == self.lastSubtrees[i][0]) {
+                    self.lastSubtrees[i][1] = hash;
+                }
+
+                hash = PoseidonT3.poseidon([proofSiblings[i], hash]);
+            }
+        }
+
+        self.root = hash;
+    }
+
     /// @dev Removes a leaf from the tree.
     /// @param self: Tree data.
     /// @param leaf: Leaf to be removed.

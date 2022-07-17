@@ -79,6 +79,50 @@ library IncrementalQuinTree {
         self.numberOfLeaves += 1;
     }
 
+    /// @dev Updates a leaf in the tree.
+    /// @param self: Tree data.
+    /// @param leaf: Leaf to be updated.
+    /// @param newLeaf: New leaf.
+    /// @param proofSiblings: Array of the sibling nodes of the proof of membership.
+    /// @param proofPathIndices: Path of the proof of membership.
+    function update(
+        IncrementalTreeData storage self,
+        uint256 leaf,
+        uint256 newLeaf,
+        uint256[4][] calldata proofSiblings,
+        uint8[] calldata proofPathIndices
+    ) public {
+        require(
+            verify(self, leaf, proofSiblings, proofPathIndices),
+            "IncrementalQuinTree: leaf is not part of the tree"
+        );
+        require(newLeaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
+
+        uint256 hash = newLeaf;
+
+        for (uint8 i = 0; i < self.depth; i++) {
+            uint256[5] memory nodes;
+
+            for (uint8 j = 0; j < 5; j++) {
+                if (j < proofPathIndices[i]) {
+                    nodes[j] = proofSiblings[i][j];
+                } else if (j == proofPathIndices[i]) {
+                    nodes[j] = hash;
+                } else {
+                    nodes[j] = proofSiblings[i][j - 1];
+                }
+            }
+
+            if (nodes[0] == self.lastSubtrees[i][0] || nodes[4] == self.lastSubtrees[i][4]) {
+                self.lastSubtrees[i][proofPathIndices[i]] = hash;
+            }
+
+            hash = PoseidonT6.poseidon(nodes);
+        }
+
+        self.root = hash;
+    }
+
     /// @dev Removes a leaf from the tree.
     /// @param self: Tree data.
     /// @param leaf: Leaf to be removed.

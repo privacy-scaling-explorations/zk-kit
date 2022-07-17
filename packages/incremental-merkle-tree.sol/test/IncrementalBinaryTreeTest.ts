@@ -83,6 +83,60 @@ describe("IncrementalBinaryTreeTest", () => {
         await expect(transaction).to.be.revertedWith("IncrementalBinaryTree: tree is full")
     })
 
+    it("Should not update a leaf if the tree does not exist", async () => {
+        const treeId = ethers.utils.formatBytes32String("none")
+
+        const transaction = contract.updateLeaf(treeId, leaf, leaf, [0, 1], [0, 1])
+
+        await expect(transaction).to.be.revertedWith("BinaryTreeTest: tree does not exist")
+    })
+
+    it("Should not update a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
+        const leaf = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495618")
+
+        const transaction = contract.updateLeaf(treeId, leaf, leaf, [0, 1], [0, 1])
+
+        await expect(transaction).to.be.revertedWith("IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD")
+    })
+
+    it("Should not update a leaf if wrong current leaf is given", async () => {
+        const treeId = ethers.utils.formatBytes32String("tree2")
+        const tree = createTree(depth, 0)
+        for (let i = 0; i < 4; i += 1) tree.insert(BigInt(i + 1))
+
+        const leaf = BigInt(1337)
+        tree.update(2, leaf)
+        const { pathIndices, siblings } = tree.createProof(2)
+        const transaction = contract.updateLeaf(
+            treeId,
+            leaf,
+            leaf,
+            siblings.map((s) => s[0]),
+            pathIndices
+        )
+
+        await expect(transaction).to.be.revertedWith("IncrementalBinaryTree: leaf is not part of the tree")
+    })
+
+    it("Should update a leaf", async () => {
+        const treeId = ethers.utils.formatBytes32String("tree2")
+        const tree = createTree(depth, 0)
+        for (let i = 0; i < 4; i += 1) tree.insert(BigInt(i + 1))
+
+        const leaf = BigInt(1337)
+        tree.update(2, leaf)
+        const { root, pathIndices, siblings } = tree.createProof(2)
+        const transaction = contract.updateLeaf(
+            treeId,
+            BigInt(3),
+            leaf,
+            siblings.map((s) => s[0]),
+            pathIndices
+        )
+
+        await expect(transaction).to.emit(contract, "LeafUpdated").withArgs(treeId, leaf, root)
+    })
+
     it("Should not remove a leaf if the tree does not exist", async () => {
         const treeId = ethers.utils.formatBytes32String("none")
 
@@ -111,7 +165,6 @@ describe("IncrementalBinaryTreeTest", () => {
         await contract.insertLeaf(treeId, BigInt(3))
 
         const { siblings, pathIndices, root } = tree.createProof(0)
-
         const transaction = contract.removeLeaf(
             treeId,
             BigInt(1),
