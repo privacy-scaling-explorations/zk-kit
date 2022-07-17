@@ -86,9 +86,9 @@ library IncrementalBinaryTree {
             verify(self, leaf, proofSiblings, proofPathIndices),
             "IncrementalBinaryTree: leaf is not part of the tree"
         );
-        require(newLeaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
 
         uint256 hash = newLeaf;
+
         for (uint8 i = 0; i < self.depth; i++) {
             if (proofPathIndices[i] == 0) {
                 if (proofSiblings[i] == self.lastSubtrees[i][1]) {

@@ -96,7 +96,6 @@ library IncrementalQuinTree {
             verify(self, leaf, proofSiblings, proofPathIndices),
             "IncrementalQuinTree: leaf is not part of the tree"
         );
-        require(newLeaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
 
         uint256 hash = newLeaf;
 
