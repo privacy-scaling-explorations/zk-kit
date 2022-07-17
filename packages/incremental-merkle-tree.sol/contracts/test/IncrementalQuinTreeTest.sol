@@ -15,7 +15,7 @@ contract IncrementalQuinTreeTest {
     mapping(bytes32 => IncrementalTreeData) public trees;
 
     function createTree(bytes32 _id, uint8 _depth) external {
-        require(trees[_id].depth == 0, "QuinTreeTest: tree already exists");
+        require(trees[_id].depth == 0, "IncrementalQuinTreeTest: tree already exists");
 
         trees[_id].init(_depth, 0);
 
@@ -23,7 +23,7 @@ contract IncrementalQuinTreeTest {
     }
 
     function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
-        require(trees[_treeId].depth != 0, "QuinTreeTest: tree does not exist");
+        require(trees[_treeId].depth != 0, "IncrementalQuinTreeTest: tree does not exist");
 
         trees[_treeId].insert(_leaf);
 
@@ -37,7 +37,7 @@ contract IncrementalQuinTreeTest {
         uint256[4][] calldata _proofSiblings,
         uint8[] calldata _proofPathIndices
     ) external {
-        require(trees[_treeId].depth != 0, "QuinTreeTest: tree does not exist");
+        require(trees[_treeId].depth != 0, "IncrementalQuinTreeTest: tree does not exist");
 
         trees[_treeId].update(_leaf, _newLeaf, _proofSiblings, _proofPathIndices);
 
@@ -50,7 +50,7 @@ contract IncrementalQuinTreeTest {
         uint256[4][] calldata _proofSiblings,
         uint8[] calldata _proofPathIndices
     ) external {
-        require(trees[_treeId].depth != 0, "QuinTreeTest: tree does not exist");
+        require(trees[_treeId].depth != 0, "IncrementalQuinTreeTest: tree does not exist");
 
         trees[_treeId].remove(_leaf, _proofSiblings, _proofPathIndices);
 
