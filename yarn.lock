@@ -3817,31 +3817,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/incremental-merkle-tree.sol@workspace:packages/incremental-merkle-tree.sol":
-  version: 0.0.0-use.local
-  resolution: "@zk-kit/incremental-merkle-tree.sol@workspace:packages/incremental-merkle-tree.sol"
-  dependencies:
-    "@nomiclabs/hardhat-ethers": ^2.0.4
-    "@nomiclabs/hardhat-waffle": ^2.0.2
-    "@types/chai": ^4.3.0
-    "@types/mocha": ^9.1.0
-    "@zk-kit/incremental-merkle-tree": ^0.4.1
-    chai: ^4.3.5
-    circomlibjs: ^0.0.8
-    dotenv: ^14.3.2
-    ethereum-waffle: ^3.4.0
-    ethers: ^5.5.3
-    hardhat: ^2.8.3
-    hardhat-gas-reporter: ^1.0.7
-    mocha: ^8.4.0
-    prettier: ^2.5.1
-    prettier-plugin-solidity: ^1.0.0-beta.19
-    solhint: ^3.3.6
-    solhint-plugin-prettier: ^0.0.5
-    solidity-coverage: ^0.7.18
-  languageName: unknown
-  linkType: soft
-
 "@zk-kit/incremental-merkle-tree@^0.4.1, @zk-kit/incremental-merkle-tree@workspace:packages/incremental-merkle-tree":
   version: 0.0.0-use.local
   resolution: "@zk-kit/incremental-merkle-tree@workspace:packages/incremental-merkle-tree"
@@ -11345,6 +11320,31 @@ __metadata:
   checksum: 7cae75c8cd9a50f57dadd77482359f659eaebac0319dd9368bcd1714f55e65badd6929ca58569da2b6494ef13fdd5598cd700b1eba23f8b79c5f19d195a3ecf7
   languageName: node
   linkType: hard
+
+"incremental-merkle-tree.sol@workspace:packages/incremental-merkle-tree.sol":
+  version: 0.0.0-use.local
+  resolution: "incremental-merkle-tree.sol@workspace:packages/incremental-merkle-tree.sol"
+  dependencies:
+    "@nomiclabs/hardhat-ethers": ^2.0.4
+    "@nomiclabs/hardhat-waffle": ^2.0.2
+    "@types/chai": ^4.3.0
+    "@types/mocha": ^9.1.0
+    "@zk-kit/incremental-merkle-tree": ^0.4.1
+    chai: ^4.3.5
+    circomlibjs: ^0.0.8
+    dotenv: ^14.3.2
+    ethereum-waffle: ^3.4.0
+    ethers: ^5.5.3
+    hardhat: ^2.8.3
+    hardhat-gas-reporter: ^1.0.7
+    mocha: ^8.4.0
+    prettier: ^2.5.1
+    prettier-plugin-solidity: ^1.0.0-beta.19
+    solhint: ^3.3.6
+    solhint-plugin-prettier: ^0.0.5
+    solidity-coverage: ^0.7.18
+  languageName: unknown
+  linkType: soft
 
 "incrementalquintree@npm:^1.0.9":
   version: 1.0.9

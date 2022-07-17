@@ -1,5 +1,5 @@
 {
-    "name": "@zk-kit/incremental-merkle-tree.sol",
+    "name": "incremental-merkle-tree.sol",
     "private": true,
     "scripts": {
         "start": "hardhat node",
