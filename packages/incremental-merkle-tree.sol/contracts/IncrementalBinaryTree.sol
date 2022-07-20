@@ -59,14 +59,14 @@ library IncrementalBinaryTree {
         uint256 hash = leaf;
 
         for (uint8 i = 0; i < depth;) {
-            if (index % 2 == 0) {
+            if (index & 1 == 0) {
                 self.lastSubtrees[i] = [hash, self.zeroes[i]];
             } else {
                 self.lastSubtrees[i][1] = hash;
             }
 
             hash = PoseidonT3.poseidon(self.lastSubtrees[i]);
-            index /= 2;
+            index >>= 1;
             unchecked {
                 ++i;
             }
