@@ -7,14 +7,14 @@ import "../IncrementalBinaryTree.sol";
 contract IncrementalBinaryTreeTest {
     using IncrementalBinaryTree for IncrementalTreeData;
 
-    event TreeCreated(bytes32 id, uint8 depth);
+    event TreeCreated(bytes32 id, uint256 depth);
     event LeafInserted(bytes32 indexed treeId, uint256 leaf, uint256 root);
     event LeafUpdated(bytes32 indexed treeId, uint256 leaf, uint256 root);
     event LeafRemoved(bytes32 indexed treeId, uint256 leaf, uint256 root);
 
     mapping(bytes32 => IncrementalTreeData) public trees;
 
-    function createTree(bytes32 _id, uint8 _depth) external {
+    function createTree(bytes32 _id, uint256 _depth) external {
         require(trees[_id].depth == 0, "IncrementalBinaryTreeTest: tree already exists");
 
         trees[_id].init(_depth, 0);

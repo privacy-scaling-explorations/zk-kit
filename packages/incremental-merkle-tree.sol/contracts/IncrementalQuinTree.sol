@@ -35,6 +35,7 @@ library IncrementalQuinTree {
         require(depth > 0 && depth <= MAX_DEPTH, "IncrementalQuinTree: tree depth must be between 1 and 32");
 
         self.depth = depth;
+
         for (uint8 i = 0; i < depth; ) {
             self.zeroes[i] = zero;
             uint256[5] memory zeroChildren;
@@ -47,6 +48,7 @@ library IncrementalQuinTree {
             }
 
             zero = PoseidonT6.poseidon(zeroChildren);
+
             unchecked {
                 ++i;
             }
@@ -59,8 +61,9 @@ library IncrementalQuinTree {
     /// @param self: Tree data.
     /// @param leaf: Leaf to be inserted.
     function insert(IncrementalTreeData storage self, uint256 leaf) public {
-        require(leaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
         uint256 depth = self.depth;
+
+        require(leaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
         require(self.numberOfLeaves < 5**depth, "IncrementalQuinTree: tree is full");
 
         uint256 index = self.numberOfLeaves;
@@ -82,6 +85,7 @@ library IncrementalQuinTree {
 
             hash = PoseidonT6.poseidon(self.lastSubtrees[i]);
             index /= 5;
+
             unchecked {
                 ++i;
             }
@@ -109,9 +113,9 @@ library IncrementalQuinTree {
             "IncrementalQuinTree: leaf is not part of the tree"
         );
 
+        uint256 depth = self.depth;
         uint256 hash = newLeaf;
 
-        uint256 depth = self.depth;
         for (uint8 i = 0; i < depth; ) {
             uint256[5] memory nodes;
 
@@ -133,6 +137,7 @@ library IncrementalQuinTree {
             }
 
             hash = PoseidonT6.poseidon(nodes);
+
             unchecked {
                 ++i;
             }
@@ -157,9 +162,9 @@ library IncrementalQuinTree {
             "IncrementalQuinTree: leaf is not part of the tree"
         );
 
+        uint256 depth = self.depth;
         uint256 hash = self.zeroes[0];
 
-        uint256 depth = self.depth;
         for (uint8 i = 0; i < depth; ) {
             uint256[5] memory nodes;
 
@@ -181,6 +186,7 @@ library IncrementalQuinTree {
             }
 
             hash = PoseidonT6.poseidon(nodes);
+
             unchecked {
                 ++i;
             }
@@ -231,12 +237,14 @@ library IncrementalQuinTree {
 
                     nodes[j] = proofSiblings[i][j - 1];
                 }
+
                 unchecked {
                     ++j;
                 }
             }
 
             hash = PoseidonT6.poseidon(nodes);
+
             unchecked {
                 ++i;
             }

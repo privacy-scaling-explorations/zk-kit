@@ -39,6 +39,7 @@ library IncrementalBinaryTree {
         for (uint8 i = 0; i < depth; ) {
             self.zeroes[i] = zero;
             zero = PoseidonT3.poseidon([zero, zero]);
+
             unchecked {
                 ++i;
             }
@@ -51,8 +52,9 @@ library IncrementalBinaryTree {
     /// @param self: Tree data.
     /// @param leaf: Leaf to be inserted.
     function insert(IncrementalTreeData storage self, uint256 leaf) public {
-        require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
         uint256 depth = self.depth;
+
+        require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
         require(self.numberOfLeaves < 2**depth, "IncrementalBinaryTree: tree is full");
 
         uint256 index = self.numberOfLeaves;
@@ -67,6 +69,7 @@ library IncrementalBinaryTree {
 
             hash = PoseidonT3.poseidon(self.lastSubtrees[i]);
             index >>= 1;
+
             unchecked {
                 ++i;
             }
@@ -94,9 +97,9 @@ library IncrementalBinaryTree {
             "IncrementalBinaryTree: leaf is not part of the tree"
         );
 
+        uint256 depth = self.depth;
         uint256 hash = newLeaf;
 
-        uint256 depth = self.depth;
         for (uint8 i = 0; i < depth; ) {
             if (proofPathIndices[i] == 0) {
                 if (proofSiblings[i] == self.lastSubtrees[i][1]) {
@@ -111,6 +114,7 @@ library IncrementalBinaryTree {
 
                 hash = PoseidonT3.poseidon([proofSiblings[i], hash]);
             }
+
             unchecked {
                 ++i;
             }
@@ -135,9 +139,9 @@ library IncrementalBinaryTree {
             "IncrementalBinaryTree: leaf is not part of the tree"
         );
 
+        uint256 depth = self.depth;
         uint256 hash = self.zeroes[0];
 
-        uint256 depth = self.depth;
         for (uint8 i = 0; i < depth; ) {
             if (proofPathIndices[i] == 0) {
                 if (proofSiblings[i] == self.lastSubtrees[i][1]) {
@@ -152,6 +156,7 @@ library IncrementalBinaryTree {
 
                 hash = PoseidonT3.poseidon([proofSiblings[i], hash]);
             }
+
             unchecked {
                 ++i;
             }
@@ -192,6 +197,7 @@ library IncrementalBinaryTree {
             } else {
                 hash = PoseidonT3.poseidon([proofSiblings[i], hash]);
             }
+
             unchecked {
                 ++i;
             }
