@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html style="height: 100%">
+  <head>
+    <meta charSet="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <title>ZK-kit</title>
+    <meta name="description" content="A monorepo of reusable JS libraries for zero-knowledge technologies." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  </head>
+  <body
+    style="
+      margin: 0;
+      background-color: #3e2626;
+      color: white;
+      height: 100%;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    "
+  >
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        padding: 0 20px;
+        text-align: center;
+      "
+    >
+      <div style="display: flex; align-items: center">
+        <a style="margin-right: 15px; margin-bottom: 5px" target="_blank" href="https://github.com/privacy-scaling-explorations/zk-kit">
+          <i class="fa fa-github" style="font-size: 40px; color: white"></i>
+        </a>
+        <h1 style="margin: 0; font-size: 40px">ZK-kit</h1>
+      </div>
+      <p style="max-width: 400px">A monorepo of reusable JS libraries for zero-knowledge technologies.</p>
+      <ul style="list-style-type: none; padding: 0; margin: 0"></ul>
+    </div>
+    <footer style="display: flex; justify-content: center; padding: 15px 20px; background-color: #2e1c1c">
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 900px">
+        <p style="margin: 0; font-size: 16px">Copyright © 2022 Ethereum Foundation</p>
+        <div>
+          <a style="margin-right: 15px; text-decoration: none" target="_blank" href="https://github.com/privacy-scaling-explorations">
+            <i class="fa fa-github" style="font-size: 24px; color: white"></i>
+          </a>
+          <a
+            style="margin-right: 15px; text-decoration: none"
+            target="_blank"
+            href="https://medium.com/privacy-scaling-explorations"
+          >
+            <i class="fa fa-medium" style="font-size: 24px; color: white"></i>
+          </a>
+          <a
+            style="margin-right: 15px; text-decoration: none"
+            target="_blank"
+            href="https://twitter.com/PrivacyScaling"
+          >
+            <i class="fa fa-twitter" style="font-size: 24px; color: white"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </body>
+  <script>
+    const url = "https://api.github.com/repos/privacy-scaling-explorations/zk-kit/contents?ref=gh-pages"
+
+    function insertLinks(packages) {
+      const [element] = window.document.getElementsByTagName("ul")
+      let html = ""
+
+      for (const package of packages) {
+        html += `<li style="display: flex; align-items: center; margin-bottom: 8px">
+            <a style="margin-right: 15px" target="_blank" href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/${package}">
+              <i class="fa fa-github" style="font-size: 24px; color: white"></i>
+            </a>
+            <a style="color: white; text-decoration: none; font-size: 16px"
+              onmouseover="this.style.color='orange';"
+              onmouseout="this.style.color='white';"
+              target="_blank" href="http://zkkit.appliedzkp.org/${package}">
+                @zk-kit/${package} >
+            </a></li>`
+      }
+
+      element.innerHTML = html
+    }
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        const ignore = [".nojekyll", "index.html", "CNAME"]
+        const packages = data.map((c) => c.name).filter((name) => !ignore.includes(name))
+
+        localStorage.setItem("packages", JSON.stringify(packages))
+
+        insertLinks(packages)
+      })
+  </script>
+</html>
