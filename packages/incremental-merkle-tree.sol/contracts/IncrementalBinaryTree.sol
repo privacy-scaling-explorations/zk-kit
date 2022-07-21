@@ -6,7 +6,7 @@ import {PoseidonT3} from "./Hashes.sol";
 // Each incremental tree has certain properties and data that will
 // be used to add new leaves.
 struct IncrementalTreeData {
-    uint8 depth; // Depth of the tree (levels - 1).
+    uint256 depth; // Depth of the tree (levels - 1).
     uint256 root; // Root hash of the tree.
     uint256 numberOfLeaves; // Number of leaves of the tree.
     mapping(uint256 => uint256) zeroes; // Zero hashes used for empty nodes (level -> zero hash).
@@ -28,7 +28,7 @@ library IncrementalBinaryTree {
     /// @param zero: Zero value to be used.
     function init(
         IncrementalTreeData storage self,
-        uint8 depth,
+        uint256 depth,
         uint256 zero
     ) public {
         require(zero < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
@@ -36,9 +36,12 @@ library IncrementalBinaryTree {
 
         self.depth = depth;
 
-        for (uint8 i = 0; i < depth; i++) {
+        for (uint8 i = 0; i < depth; ) {
             self.zeroes[i] = zero;
             zero = PoseidonT3.poseidon([zero, zero]);
+            unchecked {
+                ++i;
+            }
         }
 
         self.root = zero;
@@ -49,20 +52,24 @@ library IncrementalBinaryTree {
     /// @param leaf: Leaf to be inserted.
     function insert(IncrementalTreeData storage self, uint256 leaf) public {
         require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
-        require(self.numberOfLeaves < 2**self.depth, "IncrementalBinaryTree: tree is full");
+        uint256 depth = self.depth;
+        require(self.numberOfLeaves < 2**depth, "IncrementalBinaryTree: tree is full");
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
 
-        for (uint8 i = 0; i < self.depth; i++) {
-            if (index % 2 == 0) {
+        for (uint8 i = 0; i < depth; ) {
+            if (index & 1 == 0) {
                 self.lastSubtrees[i] = [hash, self.zeroes[i]];
             } else {
                 self.lastSubtrees[i][1] = hash;
             }
 
             hash = PoseidonT3.poseidon(self.lastSubtrees[i]);
-            index /= 2;
+            index >>= 1;
+            unchecked {
+                ++i;
+            }
         }
 
         self.root = hash;
@@ -89,7 +96,8 @@ library IncrementalBinaryTree {
 
         uint256 hash = newLeaf;
 
-        for (uint8 i = 0; i < self.depth; i++) {
+        uint256 depth = self.depth;
+        for (uint8 i = 0; i < depth; ) {
             if (proofPathIndices[i] == 0) {
                 if (proofSiblings[i] == self.lastSubtrees[i][1]) {
                     self.lastSubtrees[i][0] = hash;
@@ -102,6 +110,9 @@ library IncrementalBinaryTree {
                 }
 
                 hash = PoseidonT3.poseidon([proofSiblings[i], hash]);
+            }
+            unchecked {
+                ++i;
             }
         }
 
@@ -126,7 +137,8 @@ library IncrementalBinaryTree {
 
         uint256 hash = self.zeroes[0];
 
-        for (uint8 i = 0; i < self.depth; i++) {
+        uint256 depth = self.depth;
+        for (uint8 i = 0; i < depth; ) {
             if (proofPathIndices[i] == 0) {
                 if (proofSiblings[i] == self.lastSubtrees[i][1]) {
                     self.lastSubtrees[i][0] = hash;
@@ -139,6 +151,9 @@ library IncrementalBinaryTree {
                 }
 
                 hash = PoseidonT3.poseidon([proofSiblings[i], hash]);
+            }
+            unchecked {
+                ++i;
             }
         }
 
@@ -158,14 +173,15 @@ library IncrementalBinaryTree {
         uint8[] calldata proofPathIndices
     ) private view returns (bool) {
         require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
+        uint256 depth = self.depth;
         require(
-            proofPathIndices.length == self.depth && proofSiblings.length == self.depth,
+            proofPathIndices.length == depth && proofSiblings.length == depth,
             "IncrementalBinaryTree: length of path is not correct"
         );
 
         uint256 hash = leaf;
 
-        for (uint8 i = 0; i < self.depth; i++) {
+        for (uint8 i = 0; i < depth; ) {
             require(
                 proofSiblings[i] < SNARK_SCALAR_FIELD,
                 "IncrementalBinaryTree: sibling node must be < SNARK_SCALAR_FIELD"
@@ -175,6 +191,9 @@ library IncrementalBinaryTree {
                 hash = PoseidonT3.poseidon([hash, proofSiblings[i]]);
             } else {
                 hash = PoseidonT3.poseidon([proofSiblings[i], hash]);
+            }
+            unchecked {
+                ++i;
             }
         }
 
