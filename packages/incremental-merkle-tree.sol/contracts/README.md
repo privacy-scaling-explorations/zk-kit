@@ -74,7 +74,7 @@ contract Example {
 
     event TreeCreated(bytes32 id, uint8 depth);
     event LeafInserted(bytes32 indexed treeId, uint256 leaf, uint256 root);
-    event LeadUpdated(bytes32 indexed treeId, uint256 leaf, uint256 root);
+    event LeafUpdated(bytes32 indexed treeId, uint256 leaf, uint256 root);
     event LeafRemoved(bytes32 indexed treeId, uint256 leaf, uint256 root);
 
     mapping(bytes32 => IncrementalTreeData) public trees;
