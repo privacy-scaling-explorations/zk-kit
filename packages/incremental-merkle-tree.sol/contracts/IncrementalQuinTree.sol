@@ -157,42 +157,7 @@ library IncrementalQuinTree {
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-        require(
-            verify(self, leaf, proofSiblings, proofPathIndices),
-            "IncrementalQuinTree: leaf is not part of the tree"
-        );
-
-        uint256 depth = self.depth;
-        uint256 hash = self.zeroes[0];
-
-        for (uint8 i = 0; i < depth; ) {
-            uint256[5] memory nodes;
-
-            for (uint8 j = 0; j < 5; ) {
-                if (j < proofPathIndices[i]) {
-                    nodes[j] = proofSiblings[i][j];
-                } else if (j == proofPathIndices[i]) {
-                    nodes[j] = hash;
-                } else {
-                    nodes[j] = proofSiblings[i][j - 1];
-                }
-                unchecked {
-                    ++j;
-                }
-            }
-
-            if (nodes[0] == self.lastSubtrees[i][0] || nodes[4] == self.lastSubtrees[i][4]) {
-                self.lastSubtrees[i][proofPathIndices[i]] = hash;
-            }
-
-            hash = PoseidonT6.poseidon(nodes);
-
-            unchecked {
-                ++i;
-            }
-        }
-
-        self.root = hash;
+        update(self, leaf, self.zeroes[0], proofSiblings, proofPathIndices);
     }
 
     /// @dev Verify if the path is correct and the leaf is part of the tree.

@@ -134,35 +134,7 @@ library IncrementalBinaryTree {
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-        require(
-            verify(self, leaf, proofSiblings, proofPathIndices),
-            "IncrementalBinaryTree: leaf is not part of the tree"
-        );
-
-        uint256 depth = self.depth;
-        uint256 hash = self.zeroes[0];
-
-        for (uint8 i = 0; i < depth; ) {
-            if (proofPathIndices[i] == 0) {
-                if (proofSiblings[i] == self.lastSubtrees[i][1]) {
-                    self.lastSubtrees[i][0] = hash;
-                }
-
-                hash = PoseidonT3.poseidon([hash, proofSiblings[i]]);
-            } else {
-                if (proofSiblings[i] == self.lastSubtrees[i][0]) {
-                    self.lastSubtrees[i][1] = hash;
-                }
-
-                hash = PoseidonT3.poseidon([proofSiblings[i], hash]);
-            }
-
-            unchecked {
-                ++i;
-            }
-        }
-
-        self.root = hash;
+        update(self, leaf, self.zeroes[0], proofSiblings, proofPathIndices);
     }
 
     /// @dev Verify if the path is correct and the leaf is part of the tree.
