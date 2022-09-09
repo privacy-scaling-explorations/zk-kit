@@ -134,7 +134,7 @@ library IncrementalBinaryTree {
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-        update(self, leaf, 0, proofSiblings, proofPathIndices);
+        update(self, leaf, self.zeroes[0], proofSiblings, proofPathIndices);
     }
 
     /// @dev Verify if the path is correct and the leaf is part of the tree.
