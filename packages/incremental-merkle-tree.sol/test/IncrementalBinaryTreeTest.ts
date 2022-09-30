@@ -185,6 +185,59 @@ describe("IncrementalBinaryTreeTest", () => {
         await expect(transaction).to.emit(contract, "LeafRemoved").withArgs(treeId, BigInt(1), root)
     })
 
+    it("[Bug Demonstration] - Should update a leaf that hasn't been inserted yet", async () => {
+        // deploy a new, empty tree
+        const treeId = ethers.utils.formatBytes32String("brokenTree")
+        contract.createTree(treeId, depth)
+        const tree = createTree(depth, 0)
+
+        // insert 4 leaves into the tree
+        for (let i = 0; i < 4; i += 1) {
+            tree.insert(BigInt(i + 1))
+            await contract.insertLeaf(treeId, BigInt(i + 1))
+        }
+
+        // we're going to update leaf 7, despite there only being 4 leaves in the tree
+        const leaf = BigInt(42069)
+
+        // note that we can insert zeros into the js library tree and the root won't change!
+        // that's because we use the zeros optimization to calculate the roots efficiently.
+        // technically speaking, there isn't an "empty" tree, there is only a tree that is
+        // entirely full of the zero value at every index. therefore inserting the zero value
+        // at any point into an incremental merkle tree doesn't change it's root, because
+        // that is already the data the root was calculated from previously. in principle,
+        // we can update any leaf that hasn't been inserted yet using this method
+        const rootBeforeZeros = tree.root
+        tree.insert(0)
+        tree.insert(0)
+        tree.insert(0)
+        // the root doesn't change because the tree started full with 0s!
+        expect(tree.root).to.be.equal(rootBeforeZeros)
+
+        // now we can make a merkle proof of zero being included at the uninitialized index
+        const { pathIndices, siblings } = tree.createProof(6)
+        // update the leaf in js
+        tree.update(6, leaf);
+        const newRoot = tree.root;
+
+        const transaction = contract.updateLeaf(
+            treeId,
+            BigInt(0),
+            leaf,
+            siblings.map((s) => s[0]),
+            pathIndices
+        )
+        await expect(transaction).to.emit(contract, "LeafUpdated").withArgs(treeId, leaf, newRoot)
+
+        await contract.insertLeaf(treeId, BigInt(0))
+        await contract.insertLeaf(treeId, BigInt(0))
+        await contract.insertLeaf(treeId, BigInt(6))
+
+        // now the root doesn't match!
+        const { root } = await contract.trees(treeId)
+        expect(root.toString()).to.be.not.equal(newRoot.toString())
+    })
+
     it("Should remove another leaf", async () => {
         const treeId = ethers.utils.formatBytes32String("hello")
         const tree = createTree(depth, 3)
