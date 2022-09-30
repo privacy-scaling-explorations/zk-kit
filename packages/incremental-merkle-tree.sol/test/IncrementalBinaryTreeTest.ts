@@ -185,7 +185,7 @@ describe("IncrementalBinaryTreeTest", () => {
         await expect(transaction).to.emit(contract, "LeafRemoved").withArgs(treeId, BigInt(1), root)
     })
 
-    it("[Bug Demonstration] - Should update a leaf that hasn't been inserted yet", async () => {
+    it("Should not update a leaf that hasn't been inserted yet", async () => {
         // deploy a new, empty tree
         const treeId = ethers.utils.formatBytes32String("brokenTree")
         contract.createTree(treeId, depth)
@@ -197,7 +197,7 @@ describe("IncrementalBinaryTreeTest", () => {
             await contract.insertLeaf(treeId, BigInt(i + 1))
         }
 
-        // we're going to update leaf 7, despite there only being 4 leaves in the tree
+        // we're going to try to update leaf 7, despite there only being 4 leaves in the tree
         const leaf = BigInt(42069)
 
         // note that we can insert zeros into the js library tree and the root won't change!
@@ -216,9 +216,6 @@ describe("IncrementalBinaryTreeTest", () => {
 
         // now we can make a merkle proof of zero being included at the uninitialized index
         const { pathIndices, siblings } = tree.createProof(6)
-        // update the leaf in js
-        tree.update(6, leaf);
-        const newRoot = tree.root;
 
         const transaction = contract.updateLeaf(
             treeId,
@@ -227,15 +224,7 @@ describe("IncrementalBinaryTreeTest", () => {
             siblings.map((s) => s[0]),
             pathIndices
         )
-        await expect(transaction).to.emit(contract, "LeafUpdated").withArgs(treeId, leaf, newRoot)
-
-        await contract.insertLeaf(treeId, BigInt(0))
-        await contract.insertLeaf(treeId, BigInt(0))
-        await contract.insertLeaf(treeId, BigInt(6))
-
-        // now the root doesn't match!
-        const { root } = await contract.trees(treeId)
-        expect(root.toString()).to.be.not.equal(newRoot.toString())
+        await expect(transaction).to.be.revertedWith("IncrementalBinaryTree: leaf index out of range")
     })
 
     it("Should remove another leaf", async () => {
