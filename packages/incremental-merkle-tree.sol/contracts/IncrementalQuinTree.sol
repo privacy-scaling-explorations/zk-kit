@@ -116,9 +116,10 @@ library IncrementalQuinTree {
         uint256 depth = self.depth;
         uint256 hash = newLeaf;
 
+        uint256 updateIndex;
         for (uint8 i = 0; i < depth; ) {
             uint256[5] memory nodes;
-
+            updateIndex += proofPathIndices[i] * 5**i;
             for (uint8 j = 0; j < 5; ) {
                 if (j < proofPathIndices[i]) {
                     nodes[j] = proofSiblings[i][j];
@@ -142,6 +143,7 @@ library IncrementalQuinTree {
                 ++i;
             }
         }
+        require(updateIndex < self.numberOfLeaves, "IncrementalQuinTree: leaf index out of range");
 
         self.root = hash;
     }
