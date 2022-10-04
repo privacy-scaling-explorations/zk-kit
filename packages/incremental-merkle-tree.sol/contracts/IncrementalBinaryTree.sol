@@ -102,7 +102,7 @@ library IncrementalBinaryTree {
 
         uint256 updateIndex;
         for (uint8 i = 0; i < depth; ) {
-            updateIndex |= uint(proofPathIndices[i] & 1) << uint(i);
+            updateIndex |= uint256(proofPathIndices[i] & 1) << uint256(i);
             if (proofPathIndices[i] == 0) {
                 if (proofSiblings[i] == self.lastSubtrees[i][1]) {
                     self.lastSubtrees[i][0] = hash;

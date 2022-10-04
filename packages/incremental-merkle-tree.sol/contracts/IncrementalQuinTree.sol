@@ -119,7 +119,7 @@ library IncrementalQuinTree {
         uint256 updateIndex;
         for (uint8 i = 0; i < depth; ) {
             uint256[5] memory nodes;
-            updateIndex += proofPathIndices[i] * 5 ** i;
+            updateIndex += proofPathIndices[i] * 5**i;
             for (uint8 j = 0; j < 5; ) {
                 if (j < proofPathIndices[i]) {
                     nodes[j] = proofSiblings[i][j];

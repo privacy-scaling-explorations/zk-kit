@@ -217,13 +217,7 @@ describe("IncrementalQuinTreeTest", () => {
         // now we can make a merkle proof of zero being included at the uninitialized index
         const { pathIndices, siblings } = tree.createProof(6)
 
-        const transaction = contract.updateLeaf(
-            treeId,
-            BigInt(0),
-            leaf,
-            siblings,
-            pathIndices
-        )
+        const transaction = contract.updateLeaf(treeId, BigInt(0), leaf, siblings, pathIndices)
         await expect(transaction).to.be.revertedWith("IncrementalQuinTree: leaf index out of range")
     })
 
