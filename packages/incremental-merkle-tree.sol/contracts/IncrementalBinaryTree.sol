@@ -92,6 +92,8 @@ library IncrementalBinaryTree {
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
+        require(newLeaf != leaf, "IncrementalBinaryTree: new leaf cannot be the same as the old one");
+        require(newLeaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: new leaf must be < SNARK_SCALAR_FIELD");
         require(
             verify(self, leaf, proofSiblings, proofPathIndices),
             "IncrementalBinaryTree: leaf is not part of the tree"

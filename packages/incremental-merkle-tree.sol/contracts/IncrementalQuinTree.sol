@@ -108,6 +108,8 @@ library IncrementalQuinTree {
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
+        require(newLeaf != leaf, "IncrementalQuinTree: new leaf cannot be the same as the old one");
+        require(newLeaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: new leaf must be < SNARK_SCALAR_FIELD");
         require(
             verify(self, leaf, proofSiblings, proofPathIndices),
             "IncrementalQuinTree: leaf is not part of the tree"
