@@ -94,10 +94,26 @@ describe("IncrementalQuinTreeTest", () => {
         await expect(transaction).to.be.revertedWith("IncrementalQuinTreeTest: tree does not exist")
     })
 
-    it("Should not update a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
-        const leaf = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495618")
+    it("Should not update a leaf if the new value is the same as the old one", async () => {
+        const leaf = BigInt(3)
 
         const transaction = contract.updateLeaf(treeId, leaf, leaf, [[0, 1, 2, 3]], [0])
+
+        await expect(transaction).to.be.revertedWith("IncrementalQuinTree: new leaf cannot be the same as the old one")
+    })
+
+    it("Should not update a leaf if its new value is > SNARK_SCALAR_FIELD", async () => {
+        const leaf = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495618")
+
+        const transaction = contract.updateLeaf(treeId, BigInt(3), leaf, [[0, 1, 2, 3]], [0])
+
+        await expect(transaction).to.be.revertedWith("IncrementalQuinTree: new leaf must be < SNARK_SCALAR_FIELD")
+    })
+
+    it("Should not update a leaf if its original value is > SNARK_SCALAR_FIELD", async () => {
+        const leaf = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495618")
+
+        const transaction = contract.updateLeaf(treeId, leaf, BigInt(4), [[0, 1, 2, 3]], [0])
 
         await expect(transaction).to.be.revertedWith("IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD")
     })
@@ -115,7 +131,7 @@ describe("IncrementalQuinTreeTest", () => {
         tree.update(2, leaf)
 
         const { pathIndices, siblings } = tree.createProof(2)
-        const transaction = contract.updateLeaf(treeId, leaf, leaf, siblings, pathIndices)
+        const transaction = contract.updateLeaf(treeId, BigInt(4), leaf, siblings, pathIndices)
 
         await expect(transaction).to.be.revertedWith("IncrementalQuinTree: leaf is not part of the tree")
     })
