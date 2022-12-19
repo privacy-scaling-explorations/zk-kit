@@ -43,7 +43,7 @@
             🔎 Issues
         </a>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://discord.gg/9B9WgGP6YM">
+        <a href="https://discord.gg/sF5CT5rzrR">
             🗣️ Chat &amp; Support
         </a>
     </h4>
