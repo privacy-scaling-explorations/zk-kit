@@ -117,11 +117,12 @@ library IncrementalQuinTree {
 
         uint256 depth = self.depth;
         uint256 hash = newLeaf;
-
         uint256 updateIndex;
+
         for (uint8 i = 0; i < depth; ) {
             uint256[5] memory nodes;
             updateIndex += proofPathIndices[i] * 5**i;
+
             for (uint8 j = 0; j < 5; ) {
                 if (j < proofPathIndices[i]) {
                     nodes[j] = proofSiblings[i][j];
@@ -187,6 +188,11 @@ library IncrementalQuinTree {
 
         for (uint8 i = 0; i < depth; ) {
             uint256[5] memory nodes;
+
+            require(
+                proofPathIndices[i] >= 0 && proofPathIndices[i] < 5,
+                "IncrementalQuinTree: path index is not between 0 and 4"
+            );
 
             for (uint8 j = 0; j < 5; ) {
                 if (j < proofPathIndices[i]) {

@@ -118,6 +118,27 @@ describe("IncrementalQuinTreeTest", () => {
         await expect(transaction).to.be.revertedWith("IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD")
     })
 
+    it("Should not update a leaf if the path indices are wrong", async () => {
+        const treeId = ethers.utils.formatBytes32String("tree2")
+        const tree = createTree(depth, 0, 5)
+
+        for (let i = 0; i < 6; i += 1) {
+            tree.insert(BigInt(i + 1))
+        }
+
+        const leaf = BigInt(1337)
+
+        tree.update(2, leaf)
+
+        const { pathIndices, siblings } = tree.createProof(2)
+
+        pathIndices[3] = 6
+
+        const transaction = contract.updateLeaf(treeId, BigInt(3), leaf, siblings, pathIndices)
+
+        await expect(transaction).to.be.revertedWith("IncrementalQuinTree: path index is not between 0 and 4")
+    })
+
     it("Should not update a leaf if the wrong current leaf is given", async () => {
         const treeId = ethers.utils.formatBytes32String("tree2")
         const tree = createTree(depth, 0, 5)
