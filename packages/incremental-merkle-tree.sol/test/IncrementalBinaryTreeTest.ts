@@ -117,6 +117,33 @@ describe("IncrementalBinaryTreeTest", () => {
         await expect(transaction).to.be.revertedWith("IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD")
     })
 
+    it("Should not update a leaf if the path indices are wrong", async () => {
+        const treeId = ethers.utils.formatBytes32String("tree2")
+        const tree = createTree(depth, 0)
+
+        for (let i = 0; i < 4; i += 1) {
+            tree.insert(BigInt(i + 1))
+        }
+
+        const leaf = BigInt(1337)
+
+        tree.update(2, leaf)
+
+        const { pathIndices, siblings } = tree.createProof(2)
+
+        pathIndices[0] = 2
+
+        const transaction = contract.updateLeaf(
+            treeId,
+            BigInt(4),
+            leaf,
+            siblings.map((s) => s[0]),
+            pathIndices
+        )
+
+        await expect(transaction).to.be.revertedWith("IncrementalBinaryTree: path index is neither 0 nor 1")
+    })
+
     it("Should not update a leaf if the wrong current leaf is given", async () => {
         const treeId = ethers.utils.formatBytes32String("tree2")
         const tree = createTree(depth, 0)

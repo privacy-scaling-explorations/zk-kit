@@ -101,10 +101,11 @@ library IncrementalBinaryTree {
 
         uint256 depth = self.depth;
         uint256 hash = newLeaf;
-
         uint256 updateIndex;
+
         for (uint8 i = 0; i < depth; ) {
-            updateIndex |= uint256(proofPathIndices[i] & 1) << uint256(i);
+            updateIndex |= uint256(proofPathIndices[i]) << uint256(i);
+
             if (proofPathIndices[i] == 0) {
                 if (proofSiblings[i] == self.lastSubtrees[i][1]) {
                     self.lastSubtrees[i][0] = hash;
@@ -167,6 +168,11 @@ library IncrementalBinaryTree {
             require(
                 proofSiblings[i] < SNARK_SCALAR_FIELD,
                 "IncrementalBinaryTree: sibling node must be < SNARK_SCALAR_FIELD"
+            );
+
+            require(
+                proofPathIndices[i] == 1 || proofPathIndices[i] == 0,
+                "IncrementalBinaryTree: path index is neither 0 nor 1"
             );
 
             if (proofPathIndices[i] == 0) {
