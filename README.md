@@ -58,7 +58,7 @@
 ♞ [ESLint](https://eslint.org/), [Prettier](https://prettier.io/): code quality and formatting (`yarn prettier` & `yarn lint`)\
 ♝ [Typedocs](https://typedoc.org/): documentation generator for TypeScript (`yarn docs`)\
 ♟ [Benny](https://github.com/caderek/benny): simple benchmarking framework for JavaScript/TypeScript (`yarn benchmarks`)\
-♟ [Github actions](https://github.com/features/actions): software workflows for automatic testing, decumentation deploy and code quality checks
+♟ [Github actions](https://github.com/features/actions): software workflows for automatic testing, documentation deploy and code quality checks
 
 ## 📦 Packages
 
@@ -274,7 +274,7 @@ grep -r -l "sparse-merkle-tree" . | xargs sed -i 's/sparse-merkle-tree/my-packag
 
 #### How can I create benchmarks for my library?
 
-You can see some examples in the `benchmarks` folder. All you have to do is create a file that exports a function to run your benchmark in that folder, and add that function to the `index.ts` file. The `yarn benchmarks` command can be run with no parameters (it will run all the benchmarks), or you can specify the name of your benchmark file to run just that. When you run the command it will creates a `benchmarks/results` folder with your results.
+You can see some examples in the `benchmarks` folder. All you have to do is create a file that exports a function to run your benchmark in that folder, and add that function to the `index.ts` file. The `yarn benchmarks` command can be run with no parameters (it will run all the benchmarks), or you can specify the name of your benchmark file to run just that. When you run the command it will create a `benchmarks/results` folder with your results.
 
 #### How can I publish the documentation of my library with Typedocs?
 
