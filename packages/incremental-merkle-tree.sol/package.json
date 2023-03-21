@@ -26,6 +26,7 @@
         "hardhat": "^2.8.3",
         "hardhat-gas-reporter": "^1.0.7",
         "mocha": "^8.4.0",
+        "poseidon-solidity": "0.0.3",
         "prettier": "^2.5.1",
         "prettier-plugin-solidity": "^1.0.0-beta.19",
         "solhint": "^3.3.6",

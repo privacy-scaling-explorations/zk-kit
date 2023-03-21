@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import {PoseidonT3} from "./Hashes.sol";
+import {PoseidonT3} from "poseidon-solidity/PoseidonT3.sol";
 
 // Each incremental tree has certain properties and data that will
 // be used to add new leaves.
@@ -38,7 +38,7 @@ library IncrementalBinaryTree {
 
         for (uint8 i = 0; i < depth; ) {
             self.zeroes[i] = zero;
-            zero = PoseidonT3.poseidon([zero, zero]);
+            zero = PoseidonT3.hash([zero, zero]);
 
             unchecked {
                 ++i;
@@ -67,7 +67,7 @@ library IncrementalBinaryTree {
                 self.lastSubtrees[i][1] = hash;
             }
 
-            hash = PoseidonT3.poseidon(self.lastSubtrees[i]);
+            hash = PoseidonT3.hash(self.lastSubtrees[i]);
             index >>= 1;
 
             unchecked {
@@ -111,13 +111,13 @@ library IncrementalBinaryTree {
                     self.lastSubtrees[i][0] = hash;
                 }
 
-                hash = PoseidonT3.poseidon([hash, proofSiblings[i]]);
+                hash = PoseidonT3.hash([hash, proofSiblings[i]]);
             } else {
                 if (proofSiblings[i] == self.lastSubtrees[i][0]) {
                     self.lastSubtrees[i][1] = hash;
                 }
 
-                hash = PoseidonT3.poseidon([proofSiblings[i], hash]);
+                hash = PoseidonT3.hash([proofSiblings[i], hash]);
             }
 
             unchecked {
@@ -176,9 +176,9 @@ library IncrementalBinaryTree {
             );
 
             if (proofPathIndices[i] == 0) {
-                hash = PoseidonT3.poseidon([hash, proofSiblings[i]]);
+                hash = PoseidonT3.hash([hash, proofSiblings[i]]);
             } else {
-                hash = PoseidonT3.poseidon([proofSiblings[i], hash]);
+                hash = PoseidonT3.hash([proofSiblings[i], hash]);
             }
 
             unchecked {

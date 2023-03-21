@@ -1,27 +1,15 @@
-import { poseidon_gencontract as poseidonContract } from "circomlibjs"
 import { Contract } from "ethers"
 import { task, types } from "hardhat/config"
 
 task("deploy:iqt-test", "Deploy an IncrementalQuinTreeTest contract")
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
     .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
-        const poseidonT6ABI = poseidonContract.generateABI(5)
-        const poseidonT6Bytecode = poseidonContract.createCode(5)
-
-        const [signer] = await ethers.getSigners()
-
-        const PoseidonLibT6Factory = new ethers.ContractFactory(poseidonT6ABI, poseidonT6Bytecode, signer)
-        const poseidonT6Lib = await PoseidonLibT6Factory.deploy()
-
-        await poseidonT6Lib.deployed()
-
-        if (logs) {
-            console.info(`PoseidonT6 library has been deployed to: ${poseidonT6Lib.address}`)
-        }
+        const PoseidonT6Factory = await ethers.getContractFactory("PoseidonT6")
+        const PoseidonT6 = await PoseidonT6Factory.deploy()
 
         const IncrementalQuinTreeLibFactory = await ethers.getContractFactory("IncrementalQuinTree", {
             libraries: {
-                PoseidonT6: poseidonT6Lib.address
+                PoseidonT6: PoseidonT6.address
             }
         })
         const incrementalQuinTreeLib = await IncrementalQuinTreeLibFactory.deploy()
