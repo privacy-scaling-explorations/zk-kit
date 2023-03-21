@@ -12,6 +12,7 @@ struct IncrementalTreeData {
     mapping(uint256 => uint256) zeroes; // Zero hashes used for empty nodes (level -> zero hash).
     // The nodes of the subtrees used in the last addition of a leaf (level -> [left node, right node]).
     mapping(uint256 => uint256[2]) lastSubtrees; // Caching these values is essential to efficient appends.
+    bool useDefaultZeroes;
 }
 
 /// @title Incremental binary Merkle tree.
@@ -21,6 +22,77 @@ library IncrementalBinaryTree {
     uint8 internal constant MAX_DEPTH = 32;
     uint256 internal constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
+
+    uint256 public constant Z_0 = 0;
+    uint256 public constant Z_1 = 14744269619966411208579211824598458697587494354926760081771325075741142829156;
+    uint256 public constant Z_2 = 7423237065226347324353380772367382631490014989348495481811164164159255474657;
+    uint256 public constant Z_3 = 11286972368698509976183087595462810875513684078608517520839298933882497716792;
+    uint256 public constant Z_4 = 3607627140608796879659380071776844901612302623152076817094415224584923813162;
+    uint256 public constant Z_5 = 19712377064642672829441595136074946683621277828620209496774504837737984048981;
+    uint256 public constant Z_6 = 20775607673010627194014556968476266066927294572720319469184847051418138353016;
+    uint256 public constant Z_7 = 3396914609616007258851405644437304192397291162432396347162513310381425243293;
+    uint256 public constant Z_8 = 21551820661461729022865262380882070649935529853313286572328683688269863701601;
+    uint256 public constant Z_9 = 6573136701248752079028194407151022595060682063033565181951145966236778420039;
+    uint256 public constant Z_10 = 12413880268183407374852357075976609371175688755676981206018884971008854919922;
+    uint256 public constant Z_11 = 14271763308400718165336499097156975241954733520325982997864342600795471836726;
+    uint256 public constant Z_12 = 20066985985293572387227381049700832219069292839614107140851619262827735677018;
+    uint256 public constant Z_13 = 9394776414966240069580838672673694685292165040808226440647796406499139370960;
+    uint256 public constant Z_14 = 11331146992410411304059858900317123658895005918277453009197229807340014528524;
+    uint256 public constant Z_15 = 15819538789928229930262697811477882737253464456578333862691129291651619515538;
+    uint256 public constant Z_16 = 19217088683336594659449020493828377907203207941212636669271704950158751593251;
+    uint256 public constant Z_17 = 21035245323335827719745544373081896983162834604456827698288649288827293579666;
+    uint256 public constant Z_18 = 6939770416153240137322503476966641397417391950902474480970945462551409848591;
+    uint256 public constant Z_19 = 10941962436777715901943463195175331263348098796018438960955633645115732864202;
+    uint256 public constant Z_20 = 15019797232609675441998260052101280400536945603062888308240081994073687793470;
+    uint256 public constant Z_21 = 11702828337982203149177882813338547876343922920234831094975924378932809409969;
+    uint256 public constant Z_22 = 11217067736778784455593535811108456786943573747466706329920902520905755780395;
+    uint256 public constant Z_23 = 16072238744996205792852194127671441602062027943016727953216607508365787157389;
+    uint256 public constant Z_24 = 17681057402012993898104192736393849603097507831571622013521167331642182653248;
+    uint256 public constant Z_25 = 21694045479371014653083846597424257852691458318143380497809004364947786214945;
+    uint256 public constant Z_26 = 8163447297445169709687354538480474434591144168767135863541048304198280615192;
+    uint256 public constant Z_27 = 14081762237856300239452543304351251708585712948734528663957353575674639038357;
+    uint256 public constant Z_28 = 16619959921569409661790279042024627172199214148318086837362003702249041851090;
+    uint256 public constant Z_29 = 7022159125197495734384997711896547675021391130223237843255817587255104160365;
+    uint256 public constant Z_30 = 4114686047564160449611603615418567457008101555090703535405891656262658644463;
+    uint256 public constant Z_31 = 12549363297364877722388257367377629555213421373705596078299904496781819142130;
+    uint256 public constant Z_32 = 21443572485391568159800782191812935835534334817699172242223315142338162256601;
+
+    function defaultZeroes() public pure returns (uint256[32] memory) {
+        return [
+            Z_0,
+            Z_1,
+            Z_2,
+            Z_3,
+            Z_4,
+            Z_5,
+            Z_6,
+            Z_7,
+            Z_8,
+            Z_9,
+            Z_10,
+            Z_11,
+            Z_12,
+            Z_13,
+            Z_14,
+            Z_15,
+            Z_16,
+            Z_17,
+            Z_18,
+            Z_19,
+            Z_20,
+            Z_21,
+            Z_22,
+            Z_23,
+            Z_24,
+            Z_25,
+            Z_26,
+            Z_27,
+            Z_28,
+            Z_29,
+            Z_30,
+            Z_31
+        ];
+    }
 
     /// @dev Initializes a tree.
     /// @param self: Tree data.
@@ -48,6 +120,17 @@ library IncrementalBinaryTree {
         self.root = zero;
     }
 
+    function initDefaultZeroes(IncrementalTreeData storage self, uint256 depth) public {
+        require(depth > 0 && depth <= MAX_DEPTH, "IncrementalBinaryTree: tree depth must be between 1 and 32");
+
+        self.depth = depth;
+        self.useDefaultZeroes = true;
+
+        uint256[32] memory _defaultZeroes = defaultZeroes();
+
+        self.root = _defaultZeroes[depth];
+    }
+
     /// @dev Inserts a leaf in the tree.
     /// @param self: Tree data.
     /// @param leaf: Leaf to be inserted.
@@ -56,13 +139,17 @@ library IncrementalBinaryTree {
 
         require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
         require(self.numberOfLeaves < 2**depth, "IncrementalBinaryTree: tree is full");
+        uint256[32] memory _defaultZeroes;
+        if (self.useDefaultZeroes) {
+            _defaultZeroes = defaultZeroes();
+        }
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
 
         for (uint8 i = 0; i < depth; ) {
             if (index & 1 == 0) {
-                self.lastSubtrees[i] = [hash, self.zeroes[i]];
+                self.lastSubtrees[i] = [hash, self.useDefaultZeroes ? _defaultZeroes[i] : self.zeroes[i]];
             } else {
                 self.lastSubtrees[i][1] = hash;
             }
@@ -140,7 +227,7 @@ library IncrementalBinaryTree {
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-        update(self, leaf, self.zeroes[0], proofSiblings, proofPathIndices);
+        update(self, leaf, self.useDefaultZeroes ? Z_0 : self.zeroes[0], proofSiblings, proofPathIndices);
     }
 
     /// @dev Verify if the path is correct and the leaf is part of the tree.

@@ -1,6 +1,8 @@
 import { expect } from "chai"
 import { Contract } from "ethers"
 import { ethers, run } from "hardhat"
+import { poseidon } from "circomlibjs"
+import { IncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree"
 import { createTree } from "./utils"
 
 /* eslint-disable jest/valid-expect */
@@ -8,6 +10,7 @@ describe("IncrementalBinaryTreeTest", () => {
     let contract: Contract
 
     const treeId = ethers.utils.formatBytes32String("treeId")
+    const treeIdDefaultZeroes = ethers.utils.formatBytes32String("treeDefaultZeroes")
     const leaf = BigInt(1)
     const depth = 16
 
@@ -25,6 +28,12 @@ describe("IncrementalBinaryTreeTest", () => {
         const transaction = contract.createTree(treeId, depth)
 
         await expect(transaction).to.emit(contract, "TreeCreated").withArgs(treeId, depth)
+    })
+
+    it("Should create a tree with default zeroes", async () => {
+        const transaction = contract.createTreeDefaultZeroes(treeIdDefaultZeroes, depth)
+
+        await expect(transaction).to.emit(contract, "TreeCreated").withArgs(treeIdDefaultZeroes, depth)
     })
 
     it("Should not create a tree with an existing id", async () => {
@@ -56,6 +65,14 @@ describe("IncrementalBinaryTreeTest", () => {
         await expect(transaction).to.emit(contract, "LeafInserted").withArgs(treeId, leaf, tree.root)
     })
 
+    it("Should insert a leaf in a default zeroes tree", async () => {
+        const tree = new IncrementalMerkleTree(poseidon, depth, 0)
+        tree.insert(leaf)
+        const transaction = contract.insertLeaf(treeIdDefaultZeroes, leaf)
+
+        await expect(transaction).to.emit(contract, "LeafInserted").withArgs(treeIdDefaultZeroes, leaf, tree.root)
+    })
+
     it("Should insert 4 leaves in a tree", async () => {
         const treeId = ethers.utils.formatBytes32String("tree2")
         await contract.createTree(treeId, depth)
@@ -68,6 +85,20 @@ describe("IncrementalBinaryTreeTest", () => {
             await expect(transaction)
                 .to.emit(contract, "LeafInserted")
                 .withArgs(treeId, BigInt(i + 1), tree.root)
+        }
+    })
+
+    it("Should insert 4 leaves in a default zeroes tree", async () => {
+        const _treeId = ethers.utils.formatBytes32String("tree2DefaultZeroes")
+        const _depth = 32
+        await contract.createTree(_treeId, _depth)
+        const tree = new IncrementalMerkleTree(poseidon, _depth, 0)
+        for (let x = 0; x < 4; x += 1) {
+            const _leaf = BigInt((x + 10) ** 2)
+            tree.insert(_leaf)
+            const transaction = contract.insertLeaf(_treeId, _leaf)
+
+            await expect(transaction).to.emit(contract, "LeafInserted").withArgs(_treeId, _leaf, tree.root)
         }
     })
 
@@ -228,6 +259,28 @@ describe("IncrementalBinaryTreeTest", () => {
         )
 
         await expect(transaction).to.emit(contract, "LeafRemoved").withArgs(treeId, BigInt(1), root)
+    })
+
+    it("Should remove a leaf in default zeroes tree", async () => {
+        const _treeId = ethers.utils.formatBytes32String("defaultZeroesRemoveTree")
+        const tree = new IncrementalMerkleTree(poseidon, depth, 0)
+        await contract.createTreeDefaultZeroes(_treeId, depth)
+        for (let x = 1; x < 4; x += 1) {
+            tree.insert(x)
+            await contract.insertLeaf(_treeId, x)
+        }
+
+        tree.delete(0)
+
+        const { siblings, pathIndices, root } = tree.createProof(0)
+        const transaction = contract.removeLeaf(
+            _treeId,
+            BigInt(1),
+            siblings.map((s) => s[0]),
+            pathIndices
+        )
+
+        await expect(transaction).to.emit(contract, "LeafRemoved").withArgs(_treeId, BigInt(1), root)
     })
 
     it("Should not update a leaf that hasn't been inserted yet", async () => {
