@@ -7,6 +7,10 @@ task("deploy:ibt-test", "Deploy an IncrementalBinaryTreeTest contract")
         const PoseidonT3Factory = await ethers.getContractFactory("PoseidonT3")
         const PoseidonT3 = await PoseidonT3Factory.deploy()
 
+        if (logs) {
+            console.info(`PoseidonT3 library has been deployed to: ${PoseidonT3.address}`)
+        }
+
         const IncrementalBinaryTreeLibFactory = await ethers.getContractFactory("IncrementalBinaryTree", {
             libraries: {
                 PoseidonT3: PoseidonT3.address

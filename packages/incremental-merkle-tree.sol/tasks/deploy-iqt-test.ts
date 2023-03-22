@@ -7,6 +7,10 @@ task("deploy:iqt-test", "Deploy an IncrementalQuinTreeTest contract")
         const PoseidonT6Factory = await ethers.getContractFactory("PoseidonT6")
         const PoseidonT6 = await PoseidonT6Factory.deploy()
 
+        if (logs) {
+            console.info(`PoseidonT6 library has been deployed to: ${PoseidonT6.address}`)
+        }
+
         const IncrementalQuinTreeLibFactory = await ethers.getContractFactory("IncrementalQuinTree", {
             libraries: {
                 PoseidonT6: PoseidonT6.address
