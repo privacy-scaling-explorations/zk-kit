@@ -120,7 +120,7 @@ library IncrementalBinaryTree {
         self.root = zero;
     }
 
-    function initDefaultZeroes(IncrementalTreeData storage self, uint256 depth) public {
+    function initWithDefaultZeroes(IncrementalTreeData storage self, uint256 depth) public {
         require(depth > 0 && depth <= MAX_DEPTH, "IncrementalBinaryTree: tree depth must be between 1 and 32");
 
         self.depth = depth;
