@@ -22,6 +22,14 @@ contract IncrementalBinaryTreeTest {
         emit TreeCreated(_id, _depth);
     }
 
+    function createTreeDefaultZeroes(bytes32 _id, uint256 _depth) external {
+        require(trees[_id].depth == 0, "IncrementalBinaryTreeTest: tree already exists");
+
+        trees[_id].initWithDefaultZeroes(_depth);
+
+        emit TreeCreated(_id, _depth);
+    }
+
     function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
         require(trees[_treeId].depth != 0, "IncrementalBinaryTreeTest: tree does not exist");
 
