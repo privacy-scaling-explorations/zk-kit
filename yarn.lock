@@ -11345,6 +11345,7 @@ __metadata:
     hardhat: ^2.8.3
     hardhat-gas-reporter: ^1.0.7
     mocha: ^8.4.0
+    poseidon-solidity: 0.0.3
     prettier: ^2.5.1
     prettier-plugin-solidity: ^1.0.0-beta.19
     solhint: ^3.3.6
@@ -16092,6 +16093,13 @@ __metadata:
   version: 1.3.6
   resolution: "platform@npm:1.3.6"
   checksum: 6f472a09c61d418c7e26c1c16d0bdc029549d512dbec6526216a1e59ec68100d07007d0097dcba69dddad883d6f2a83361b4bdfe0094a3d9a2af24158643d85e
+  languageName: node
+  linkType: hard
+
+"poseidon-solidity@npm:0.0.3":
+  version: 0.0.3
+  resolution: "poseidon-solidity@npm:0.0.3"
+  checksum: 489e392a382c015be361724fb772386fd856ec84897907621e0b46fe436ecb8ce935e1153071ca156fde25e961b5d15c795459ac40b141a074b41f92e4f07480
   languageName: node
   linkType: hard
 

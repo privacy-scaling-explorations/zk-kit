@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import {PoseidonT6} from "./Hashes.sol";
+import {PoseidonT6} from "poseidon-solidity/PoseidonT6.sol";
 
 // Each incremental tree has certain properties and data that will
 // be used to add new leaves.
@@ -47,7 +47,7 @@ library IncrementalQuinTree {
                 }
             }
 
-            zero = PoseidonT6.poseidon(zeroChildren);
+            zero = PoseidonT6.hash(zeroChildren);
 
             unchecked {
                 ++i;
@@ -83,7 +83,7 @@ library IncrementalQuinTree {
                 }
             }
 
-            hash = PoseidonT6.poseidon(self.lastSubtrees[i]);
+            hash = PoseidonT6.hash(self.lastSubtrees[i]);
             index /= 5;
 
             unchecked {
@@ -140,7 +140,7 @@ library IncrementalQuinTree {
                 self.lastSubtrees[i][proofPathIndices[i]] = hash;
             }
 
-            hash = PoseidonT6.poseidon(nodes);
+            hash = PoseidonT6.hash(nodes);
 
             unchecked {
                 ++i;
@@ -218,7 +218,7 @@ library IncrementalQuinTree {
                 }
             }
 
-            hash = PoseidonT6.poseidon(nodes);
+            hash = PoseidonT6.hash(nodes);
 
             unchecked {
                 ++i;
