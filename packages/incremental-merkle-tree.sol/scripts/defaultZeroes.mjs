@@ -11,10 +11,20 @@ console.log(`
         .map((_, i) => `uint256 constant public Z_${i} = ${zeroes[i]};`)
         .join("\n    ")}
 
+/*
     function defaultZeroes() public pure returns (uint256[32] memory) {
         return [${Array(32)
             .fill()
             .map((_, i) => `Z_${i}`)
             .join(",")}];
+    }
+*/
+
+    function defaultZero(uint256 index) public pure returns (uint256) {
+    ${Array(33)
+        .fill()
+        .map((_, i) => `        if (index == ${i}) return Z_${i};`)
+        .join("\n")}
+        revert('badindex');
     }
 `)

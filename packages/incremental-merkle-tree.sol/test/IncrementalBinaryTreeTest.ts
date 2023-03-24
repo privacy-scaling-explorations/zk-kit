@@ -91,7 +91,7 @@ describe("IncrementalBinaryTreeTest", () => {
     it("Should insert 4 leaves in a default zeroes tree", async () => {
         const _treeId = ethers.utils.formatBytes32String("tree2DefaultZeroes")
         const _depth = 32
-        await contract.createTree(_treeId, _depth)
+        await contract.createTreeDefaultZeroes(_treeId, _depth)
         const tree = new IncrementalMerkleTree(poseidon, _depth, 0)
         for (let x = 0; x < 4; x += 1) {
             const _leaf = BigInt((x + 10) ** 2)
