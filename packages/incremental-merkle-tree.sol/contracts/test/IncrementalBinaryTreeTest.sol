@@ -33,9 +33,11 @@ contract IncrementalBinaryTreeTest {
     function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
         require(trees[_treeId].depth != 0, "IncrementalBinaryTreeTest: tree does not exist");
 
-        trees[_treeId].insert(_leaf);
+        uint256 root = trees[_treeId].insert(_leaf);
 
-        emit LeafInserted(_treeId, _leaf, trees[_treeId].root);
+        require(root == trees[_treeId].root, "root mismatch");
+
+        emit LeafInserted(_treeId, _leaf, root);
     }
 
     function updateLeaf(
