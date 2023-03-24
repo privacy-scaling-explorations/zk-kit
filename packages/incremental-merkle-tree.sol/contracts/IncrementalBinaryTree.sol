@@ -57,41 +57,41 @@ library IncrementalBinaryTree {
     uint256 public constant Z_31 = 12549363297364877722388257367377629555213421373705596078299904496781819142130;
     uint256 public constant Z_32 = 21443572485391568159800782191812935835534334817699172242223315142338162256601;
 
-    function defaultZeroes() public pure returns (uint256[32] memory) {
-        return [
-            Z_0,
-            Z_1,
-            Z_2,
-            Z_3,
-            Z_4,
-            Z_5,
-            Z_6,
-            Z_7,
-            Z_8,
-            Z_9,
-            Z_10,
-            Z_11,
-            Z_12,
-            Z_13,
-            Z_14,
-            Z_15,
-            Z_16,
-            Z_17,
-            Z_18,
-            Z_19,
-            Z_20,
-            Z_21,
-            Z_22,
-            Z_23,
-            Z_24,
-            Z_25,
-            Z_26,
-            Z_27,
-            Z_28,
-            Z_29,
-            Z_30,
-            Z_31
-        ];
+    function defaultZero(uint256 index) public pure returns (uint256) {
+        if (index == 0) return Z_0;
+        if (index == 1) return Z_1;
+        if (index == 2) return Z_2;
+        if (index == 3) return Z_3;
+        if (index == 4) return Z_4;
+        if (index == 5) return Z_5;
+        if (index == 6) return Z_6;
+        if (index == 7) return Z_7;
+        if (index == 8) return Z_8;
+        if (index == 9) return Z_9;
+        if (index == 10) return Z_10;
+        if (index == 11) return Z_11;
+        if (index == 12) return Z_12;
+        if (index == 13) return Z_13;
+        if (index == 14) return Z_14;
+        if (index == 15) return Z_15;
+        if (index == 16) return Z_16;
+        if (index == 17) return Z_17;
+        if (index == 18) return Z_18;
+        if (index == 19) return Z_19;
+        if (index == 20) return Z_20;
+        if (index == 21) return Z_21;
+        if (index == 22) return Z_22;
+        if (index == 23) return Z_23;
+        if (index == 24) return Z_24;
+        if (index == 25) return Z_25;
+        if (index == 26) return Z_26;
+        if (index == 27) return Z_27;
+        if (index == 28) return Z_28;
+        if (index == 29) return Z_29;
+        if (index == 30) return Z_30;
+        if (index == 31) return Z_31;
+        if (index == 32) return Z_32;
+        revert("IncrementalBinaryTree: defaultZero bad index");
     }
 
     /// @dev Initializes a tree.
@@ -126,9 +126,7 @@ library IncrementalBinaryTree {
         self.depth = depth;
         self.useDefaultZeroes = true;
 
-        uint256[32] memory _defaultZeroes = defaultZeroes();
-
-        self.root = _defaultZeroes[depth];
+        self.root = defaultZero(depth);
     }
 
     /// @dev Inserts a leaf in the tree.
@@ -139,17 +137,14 @@ library IncrementalBinaryTree {
 
         require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
         require(self.numberOfLeaves < 2**depth, "IncrementalBinaryTree: tree is full");
-        uint256[32] memory _defaultZeroes;
-        if (self.useDefaultZeroes) {
-            _defaultZeroes = defaultZeroes();
-        }
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
+        bool useDefaultZeroes = self.useDefaultZeroes;
 
         for (uint8 i = 0; i < depth; ) {
             if (index & 1 == 0) {
-                self.lastSubtrees[i] = [hash, self.useDefaultZeroes ? _defaultZeroes[i] : self.zeroes[i]];
+                self.lastSubtrees[i] = [hash, useDefaultZeroes ? defaultZero(i) : self.zeroes[i]];
             } else {
                 self.lastSubtrees[i][1] = hash;
             }
