@@ -132,7 +132,7 @@ library IncrementalBinaryTree {
     /// @dev Inserts a leaf in the tree.
     /// @param self: Tree data.
     /// @param leaf: Leaf to be inserted.
-    function insert(IncrementalTreeData storage self, uint256 leaf) public {
+    function insert(IncrementalTreeData storage self, uint256 leaf) public returns (uint256) {
         uint256 depth = self.depth;
 
         require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
@@ -159,6 +159,7 @@ library IncrementalBinaryTree {
 
         self.root = hash;
         self.numberOfLeaves += 1;
+        return hash;
     }
 
     /// @dev Updates a leaf in the tree.
