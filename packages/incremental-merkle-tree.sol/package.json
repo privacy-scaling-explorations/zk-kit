@@ -9,7 +9,6 @@
         "test": "hardhat test",
         "test:report-gas": "REPORT_GAS=true hardhat test",
         "test:coverage": "hardhat coverage",
-        "test:prod": "yarn lint && yarn coverage",
         "lint": "solhint 'contracts/**/*.sol'"
     },
     "devDependencies": {
