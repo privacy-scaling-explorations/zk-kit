@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/incremental-merkle-tree.sol",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "description": "Incremental Merkle tree Solidity libraries.",
     "license": "MIT",
     "files": [
