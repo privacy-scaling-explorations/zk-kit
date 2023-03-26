@@ -21,7 +21,7 @@
         "docs": "yarn workspaces foreach --no-private run docs",
         "commit": "cz",
         "precommit": "lint-staged",
-        "postinstall": "yarn build"
+        "postinstall": "yarn build && husky install"
     },
     "keywords": [
         "javascript",
@@ -59,6 +59,7 @@
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-import": "^2.25.2",
         "eslint-plugin-jest": "^25.7.0",
+        "husky": "^8.0.3",
         "incrementalquintree": "^1.0.9",
         "jest": "^27.4.1",
         "jest-config": "^27.4.7",
