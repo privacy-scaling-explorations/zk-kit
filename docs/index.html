@@ -7,7 +7,6 @@
     <title>ZK-kit</title>
     <meta name="description" content="A monorepo of reusable JS libraries for zero-knowledge technologies." />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   </head>
   <body
     style="
@@ -43,32 +42,37 @@
     </div>
     <footer style="display: flex; justify-content: center; padding: 15px 20px; background-color: #2e1c1c">
       <div style="display: flex; justify-content: space-between; align-items: center; width: 900px">
-        <p style="margin: 0; font-size: 16px">Copyright © 2022 Ethereum Foundation</p>
+        <p style="margin: 0; font-size: 16px">Copyright © 2023 Ethereum Foundation</p>
         <div>
-          <a style="margin-right: 15px; text-decoration: none" target="_blank" href="https://github.com/privacy-scaling-explorations">
+          <a style="margin-right: 15px; text-decoration: none" target="_blank" href="https://github.com/privacy-scaling-explorations/zk-kit">
             <i class="fa fa-github" style="font-size: 24px; color: white"></i>
           </a>
           <a
             style="margin-right: 15px; text-decoration: none"
             target="_blank"
-            href="https://medium.com/privacy-scaling-explorations"
+            href="https://appliedzkp.org/medium"
           >
             <i class="fa fa-medium" style="font-size: 24px; color: white"></i>
           </a>
           <a
             style="margin-right: 15px; text-decoration: none"
             target="_blank"
-            href="https://twitter.com/PrivacyScaling"
+            href="https://appliedzkp.org/twitter"
           >
             <i class="fa fa-twitter" style="font-size: 24px; color: white"></i>
+          </a>
+          <a
+            style="margin-right: 15px; text-decoration: none"
+            target="_blank"
+            href="https://appliedzkp.org/discord"
+          >
+            <i class="fa-brands fa-discord" style="font-size: 24px; color: white"></i>
           </a>
         </div>
       </div>
     </footer>
   </body>
   <script>
-    const url = "https://api.github.com/repos/privacy-scaling-explorations/zk-kit/contents?ref=gh-pages"
-
     function insertLinks(packages) {
       const [element] = window.document.getElementsByTagName("ul")
       let html = ""
@@ -81,7 +85,7 @@
             <a style="color: white; text-decoration: none; font-size: 16px"
               onmouseover="this.style.color='orange';"
               onmouseout="this.style.color='white';"
-              target="_blank" href="http://zkkit.appliedzkp.org/${package}">
+              target="_blank" href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/${package}">
                 @zk-kit/${package} >
             </a></li>`
       }
@@ -89,15 +93,15 @@
       element.innerHTML = html
     }
 
+    const url = "https://api.github.com/repos/privacy-scaling-explorations/zk-kit/contents/packages?ref=main"
+
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        const ignore = [".nojekyll", "index.html", "CNAME"]
-        const packages = data.map((c) => c.name).filter((name) => !ignore.includes(name))
-
-        localStorage.setItem("packages", JSON.stringify(packages))
+        const packages = data.map((c) => c.name)
 
         insertLinks(packages)
       })
   </script>
+  <script src="https://kit.fontawesome.com/8d1c50a76b.js" crossorigin="anonymous"></script>
 </html>
