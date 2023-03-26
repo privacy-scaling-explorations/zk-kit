@@ -61,6 +61,7 @@ docs/*
 
 # Hardhat
 cache
+typechain-types
 
 # dotenv environment variable files
 .env

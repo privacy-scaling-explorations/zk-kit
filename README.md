@@ -227,25 +227,25 @@ It will also automatically check that the modified files comply with ESLint and 
 
 ### Testing
 
-Run [Jest](https://jestjs.io/) to test the code with coverage:
+Test the code with coverage:
 
 ```bash
 yarn test
 ```
 
-### Build packages
+### Build
 
-Run [Rollup](https://www.rollupjs.org) to build all the packages:
+Build all the packages and compile contracts:
 
 ```bash
 yarn build
 ```
 
-A `dist` folder will be created inside each package.
+A `dist` folder will be created inside each JavaScript package.
 
 ### Documentation
 
-Run [TypeDoc](https://typedoc.org/) to generate a documentation website for each package:
+Generate a documentation website for each package:
 
 ```bash
 yarn docs

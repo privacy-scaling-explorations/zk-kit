@@ -15,6 +15,7 @@ const projects: any = fs
 export default async (): Promise<Config.InitialOptions> => ({
     projects,
     verbose: true,
+    coverageDirectory: "./coverage/js",
     collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts", "!<rootDir>/src/**/*.d.ts"],
     coverageThreshold: {
         global: {
