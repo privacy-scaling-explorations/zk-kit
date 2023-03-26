@@ -40,7 +40,7 @@
             🔎 Issues
         </a>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://discord.gg/sF5CT5rzrR">
+        <a href="https://appliedzkp.org/discord">
             🗣️ Chat &amp; Support
         </a>
     </h4>

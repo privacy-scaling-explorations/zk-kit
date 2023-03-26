@@ -31,7 +31,7 @@
 
 <div align="center">
     <h4>
-        <a href="https://discord.gg/9B9WgGP6YM">
+        <a href="https://appliedzkp.org/discord">
             🗣️ Chat &amp; Support
         </a>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
