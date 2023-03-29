@@ -70,34 +70,33 @@ library HashTower {
         } else {
             digest = PoseidonT3.hash([self.digests[level], toAdd]);
         }
-
         if (fullLevelLength == levelLength) {
             digestOfDigests = digest; // there is no level above
         } else {
             digestOfDigests = PoseidonT3.hash([self.digestOfDigests[level + 1], digest]);
         }
+        self.digests[level] = digest;
+        self.digestOfDigests[level] = digestOfDigests;
 
-        // then go downward
-        uint256 prevDd;
-        while (true) {
-            self.digests[level] = digest;
-            self.digestOfDigests[level] = digestOfDigests;
-
-            if (level == 0) break;
+        // the rest levels are all full
+        while (level != 0) {
+            // go downward
             leadingZeros -= powerOfW;
-            prevDd = digestOfDigests;
             level--;
             powerOfW /= W;
-            // the rest levels are all full
+
             fullLevelLength = (count - leadingZeros) / powerOfW + 1;
-            if (level > 0) {
-                toAdd = self.digests[level - 1];
-            } else {
+            if (level == 0) {
                 toAdd = item;
+            } else {
+                toAdd = self.digests[level - 1];
             }
             emit Add(uint8(level), uint64(fullLevelLength), toAdd);
+
             digest = toAdd;
-            digestOfDigests = PoseidonT3.hash([prevDd, digest]);
+            digestOfDigests = PoseidonT3.hash([digestOfDigests, digest]); // top-down
+            self.digests[level] = digest;
+            self.digestOfDigests[level] = digestOfDigests;
         }
         self.countOfItems = count + 1;
     }
