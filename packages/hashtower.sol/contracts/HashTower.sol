@@ -49,7 +49,7 @@ library HashTower {
                 break;
             } else {
                 fullLevelLength = (count - leadingZeros) / powerOfW + 1;
-                levelLength = (fullLevelLength - 1) % W + 1;
+                levelLength = ((fullLevelLength - 1) % W) + 1;
                 if (levelLength != W) break; // most of the time
             }
             level++;
@@ -102,13 +102,20 @@ library HashTower {
         self.countOfItems = count + 1;
     }
 
-    function getDataForProving(HashTowerData storage self) external view returns (uint256, uint256[] memory, uint256) {
+    function getDataForProving(HashTowerData storage self)
+        external
+        view
+        returns (
+            uint256,
+            uint256[] memory,
+            uint256
+        )
+    {
         uint256 len = self.digests.length;
         uint256[] memory digests = new uint256[](len); // for returning a dynamic array
         for (uint256 i = 0; i < len; i++) {
             digests[i] = self.digests[i];
         }
         return (self.countOfItems, digests, self.digestOfDigests[0]);
-
     }
 }

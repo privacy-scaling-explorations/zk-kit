@@ -14,7 +14,15 @@ contract HashTowerTest {
         towers[_towerId].add(_item);
     }
 
-    function getDataForProving(bytes32 _towerId) external view returns (uint256, uint256[] memory, uint256) {
+    function getDataForProving(bytes32 _towerId)
+        external
+        view
+        returns (
+            uint256,
+            uint256[] memory,
+            uint256
+        )
+    {
         return towers[_towerId].getDataForProving();
     }
 }
