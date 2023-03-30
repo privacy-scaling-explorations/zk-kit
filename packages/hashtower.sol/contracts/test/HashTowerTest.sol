@@ -7,6 +7,9 @@ import "../HashTower.sol";
 contract HashTowerTest {
     using HashTower for HashTowerData;
 
+    // HashTower may emit multiple events in a singal add() call
+    event Add(uint8 indexed level, uint64 indexed lvFullIndex, uint256 value);
+
     // map for multiple test cases
     mapping(bytes32 => HashTowerData) public towers;
 
