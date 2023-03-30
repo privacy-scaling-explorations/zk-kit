@@ -1,0 +1,35 @@
+{
+    "name": "@zk-kit/hashtower.sol",
+    "version": "0.0.1",
+    "description": "HashTower Solidity libraries.",
+    "license": "MIT",
+    "files": [
+        "**/*.sol",
+        "!test/",
+        "README.md"
+    ],
+    "keywords": [
+        "blockchain",
+        "ethereum",
+        "hardhat",
+        "smart-contracts",
+        "solidity",
+        "libraries",
+        "merkle-tree",
+        "incremental-merkle-tree",
+        "hashtower"
+    ],
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/hashtower.sol",
+    "author": {
+        "name": "LCamel",
+        "email": "lcamel@gmail.com",
+        "url": "https://twitter.com/LCamel"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "poseidon-solidity": "0.0.3"
+    }
+}
