@@ -4,16 +4,16 @@ import { task, types } from "hardhat/config"
 task("deploy:ht-test", "Deploy a HashTowerTest contract")
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
     .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
-        const PoseidonT3Factory = await ethers.getContractFactory("PoseidonT3")
-        const PoseidonT3 = await PoseidonT3Factory.deploy()
+        const PoseidonT5Factory = await ethers.getContractFactory("PoseidonT5")
+        const PoseidonT5 = await PoseidonT5Factory.deploy()
 
         if (logs) {
-            console.info(`PoseidonT3 library has been deployed to: ${PoseidonT3.address}`)
+            console.info(`PoseidonT5 library has been deployed to: ${PoseidonT5.address}`)
         }
 
         const HashTowerLibFactory = await ethers.getContractFactory("HashTower", {
             libraries: {
-                PoseidonT3: PoseidonT3.address
+                PoseidonT5: PoseidonT5.address
             }
         })
         const hashTowerLib = await HashTowerLibFactory.deploy()

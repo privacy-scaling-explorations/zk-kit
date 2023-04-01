@@ -27,6 +27,7 @@
         "ethers": "^5.4.7",
         "hardhat": "^2.13.0",
         "hardhat-gas-reporter": "^1.0.8",
+        "poseidon-lite": "^0.1.0",
         "prettier-plugin-solidity": "^1.0.0-beta.19",
         "solhint": "^3.3.6",
         "solhint-plugin-prettier": "^0.0.5",

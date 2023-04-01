@@ -8,7 +8,15 @@ import "./tasks/deploy-ht-test"
 dotenvConfig({ path: resolve(__dirname, "./.env") })
 
 const hardhatConfig: HardhatUserConfig = {
-    solidity: config.solidity,
+    solidity: {
+        version: "0.8.18",
+        settings: {
+            optimizer: {
+                enabled: true,
+                runs: 2 ** 32 - 1
+            }
+        }
+    },
     paths: {
         sources: config.paths.contracts,
         tests: config.paths.tests,

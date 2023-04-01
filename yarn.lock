@@ -10307,6 +10307,7 @@ __metadata:
     ethers: ^5.4.7
     hardhat: ^2.13.0
     hardhat-gas-reporter: ^1.0.8
+    poseidon-lite: ^0.1.0
     poseidon-solidity: 0.0.3
     prettier-plugin-solidity: ^1.0.0-beta.19
     solhint: ^3.3.6
@@ -15115,6 +15116,13 @@ __metadata:
   version: 1.3.6
   resolution: "platform@npm:1.3.6"
   checksum: 6f472a09c61d418c7e26c1c16d0bdc029549d512dbec6526216a1e59ec68100d07007d0097dcba69dddad883d6f2a83361b4bdfe0094a3d9a2af24158643d85e
+  languageName: node
+  linkType: hard
+
+"poseidon-lite@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "poseidon-lite@npm:0.1.0"
+  checksum: 947d339ef4a8ab61e0dc7ddf567514afa7c51f862bb40cb204389335d0b56cf0fc7d66baa4a93f57f9c939691579fd0f8da641d416a5335e30a64c43b1c95204
   languageName: node
   linkType: hard
 
