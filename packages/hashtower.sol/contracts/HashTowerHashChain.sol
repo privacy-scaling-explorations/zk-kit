@@ -14,7 +14,7 @@ uint256 constant ones = 0x111111111111111111111111; // H ones
 // Each HashTower has certain properties and data that will
 // be used to add new items.
 struct HashTowerData {
-    uint256 levelCounts; // count of each level
+    uint256 levelLengths; // length of each level
     uint256[H] digests; // digest of each level
     uint256[H] digestOfDigests; // digest of digests
 }
@@ -26,30 +26,30 @@ library HashTower {
     uint256 internal constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
 
-    function findNonFullLevelThenInc(uint256 levelCounts)
+    function findNonFullLevelThenInc(uint256 levelLengths)
         internal
         pure
         returns (
             uint256 level,
             bool isHead,
             bool isTop,
-            uint256 newLevelCounts
+            uint256 newLevelLengths
         )
     {
-        uint256 levelCount;
+        uint256 levelLength;
         while (true) {
-            levelCount = levelCounts & levelBitmask;
-            if (levelCount < W) break;
+            levelLength = levelLengths & levelBitmask;
+            if (levelLength < W) break;
             level++;
-            levelCounts >>= bitsPerLevel;
+            levelLengths >>= bitsPerLevel;
         }
 
-        isHead = (levelCount == 0);
-        isTop = ((levelCounts >> bitsPerLevel) == 0);
+        isHead = (levelLength == 0);
+        isTop = ((levelLengths >> bitsPerLevel) == 0);
 
         uint256 fullLevelBits = level * bitsPerLevel;
         uint256 onesMask = ((1 << (fullLevelBits + bitsPerLevel)) - 1);
-        newLevelCounts = (levelCounts << fullLevelBits) + (onesMask & ones);
+        newLevelLengths = (levelLengths << fullLevelBits) + (onesMask & ones);
     }
 
     /// @dev Add an item.
@@ -61,7 +61,7 @@ library HashTower {
         uint256 level;
         bool isHead;
         bool isTop;
-        (level, isHead, isTop, self.levelCounts) = findNonFullLevelThenInc(self.levelCounts);
+        (level, isHead, isTop, self.levelLengths) = findNonFullLevelThenInc(self.levelLengths);
 
         uint256 digest;
         uint256 digestOfDigests;
@@ -100,6 +100,6 @@ library HashTower {
         for (uint256 i = 0; i < len; i++) {
             digests[i] = self.digests[i];
         }
-        return (self.levelCounts, digests, self.digestOfDigests[0]);
+        return (self.levelLengths, digests, self.digestOfDigests[0]);
     }
 }
