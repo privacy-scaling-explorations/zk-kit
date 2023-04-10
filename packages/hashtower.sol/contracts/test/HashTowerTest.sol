@@ -8,13 +8,14 @@ contract HashTowerTest {
     using HashTower for HashTowerData;
 
     // HashTower may emit multiple events in a singal add() call
-    event Add(uint8 indexed level, uint64 indexed lvFullIndex, uint256 value);
+    event Add(uint256 item);
 
     // map for multiple test cases
     mapping(bytes32 => HashTowerData) public towers;
 
     function add(bytes32 _towerId, uint256 _item) external {
         towers[_towerId].add(_item);
+        emit Add(_item);
     }
 
     function getDataForProving(bytes32 _towerId)

@@ -23,8 +23,6 @@ library HashTower {
     uint256 internal constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
 
-    event Add(uint8 indexed level, uint64 indexed lvFullIndex, uint256 value);
-
     /// @dev Add an item.
     /// @param self: HashTower data
     /// @param item: item to be added
@@ -63,7 +61,6 @@ library HashTower {
         } else {
             toAdd = item;
         }
-        emit Add(uint8(level), uint64(fullLevelLength), toAdd);
 
         if (levelLength == 0) {
             digest = toAdd; // the first one
@@ -91,7 +88,6 @@ library HashTower {
             } else {
                 toAdd = self.digests[level - 1];
             }
-            emit Add(uint8(level), uint64(fullLevelLength), toAdd);
 
             digest = toAdd;
             digestOfDigests = PoseidonT3.hash([digestOfDigests, digest]); // top-down
