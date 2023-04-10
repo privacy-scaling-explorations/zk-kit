@@ -26,51 +26,51 @@ library HashTower {
     uint256 internal constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
 
+    function findNonFullLevelThenInc(uint256 levelCounts)
+        internal
+        pure
+        returns (
+            uint256 level,
+            bool isHead,
+            bool isTop,
+            uint256 newLevelCounts
+        )
+    {
+        uint256 levelCount;
+        while (true) {
+            levelCount = levelCounts & levelBitmask;
+            if (levelCount < W) break;
+            level++;
+            levelCounts >>= bitsPerLevel;
+        }
+
+        isHead = (levelCount == 0);
+        isTop = ((levelCounts >> bitsPerLevel) == 0);
+
+        uint256 fullLevelBits = level * bitsPerLevel;
+        uint256 onesMask = ((1 << (fullLevelBits + bitsPerLevel)) - 1);
+        newLevelCounts = (levelCounts << fullLevelBits) + (onesMask & ones);
+    }
+
     /// @dev Add an item.
     /// @param self: HashTower data
     /// @param item: item to be added
     function add(HashTowerData storage self, uint256 item) public {
         require(item < SNARK_SCALAR_FIELD, "HashTower: item must be < SNARK_SCALAR_FIELD");
 
-        uint256 levelCounts = self.levelCounts;
-        uint256 levelCount;
         uint256 level;
+        bool isHead;
+        bool isTop;
+        (level, isHead, isTop, self.levelCounts) = findNonFullLevelThenInc(self.levelCounts);
+
         uint256 digest;
         uint256 digestOfDigests;
         uint256 toAdd;
 
-        // find the lowest non-full level and its levelCount
-        while (true) {
-            levelCount = levelCounts & levelBitmask;
-            if (levelCount < W) break;
-            level++;
-            levelCounts >>= 4;
-        }
-        {
-            // update the new levelCounts
-            uint256 fullLevelBits = level * bitsPerLevel;
-            uint256 onesMask = ((1 << (fullLevelBits + bitsPerLevel)) - 1);
-            self.levelCounts = (levelCounts << fullLevelBits) + (onesMask & ones);
-        }
-
         // append at the level
-        if (level > 0) {
-            toAdd = self.digests[level - 1];
-        } else {
-            toAdd = item;
-        }
-
-        if (levelCount == 0) {
-            digest = toAdd; // the first one
-        } else {
-            digest = PoseidonT3.hash([self.digests[level], toAdd]);
-        }
-
-        if ((levelCounts >> 4) == 0) {
-            digestOfDigests = digest; // there is no level above
-        } else {
-            digestOfDigests = PoseidonT3.hash([self.digestOfDigests[level + 1], digest]);
-        }
+        toAdd = (level == 0) ? item : self.digests[level - 1];
+        digest = isHead ? toAdd : PoseidonT3.hash([self.digests[level], toAdd]);
+        digestOfDigests = isTop ? digest : PoseidonT3.hash([self.digestOfDigests[level + 1], digest]);
         self.digests[level] = digest;
         self.digestOfDigests[level] = digestOfDigests;
 
@@ -78,12 +78,7 @@ library HashTower {
         while (level != 0) {
             level--;
 
-            if (level == 0) {
-                toAdd = item;
-            } else {
-                toAdd = self.digests[level - 1];
-            }
-
+            toAdd = (level == 0) ? item : self.digests[level - 1];
             digest = toAdd;
             digestOfDigests = PoseidonT3.hash([digestOfDigests, digest]); // top-down
             self.digests[level] = digest;
