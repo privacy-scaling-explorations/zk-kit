@@ -26,7 +26,7 @@ library HashTower {
     uint256 internal constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
 
-    function findNonFullLevelThenInc(uint256 levelLengths)
+    function findLowestNonFullLevelThenInc(uint256 levelLengths)
         internal
         pure
         returns (
@@ -61,7 +61,7 @@ library HashTower {
         uint256 level;
         bool isHead;
         bool isTop;
-        (level, isHead, isTop, self.levelLengths) = findNonFullLevelThenInc(self.levelLengths);
+        (level, isHead, isTop, self.levelLengths) = findLowestNonFullLevelThenInc(self.levelLengths);
 
         uint256 digest;
         uint256 digestOfDigests;
