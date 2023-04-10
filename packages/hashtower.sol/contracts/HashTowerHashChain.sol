@@ -2,7 +2,6 @@
 pragma solidity ^0.8.4;
 
 import {PoseidonT3} from "poseidon-solidity/PoseidonT3.sol";
-
 // CAPACITY = W * (W**0 + W**1 + ... + W**(H - 1)) = W * (W**H - 1) / (W - 1)
 // 4 * (4**24 - 1) / (4 - 1) = 375_299_968_947_540;
 uint256 constant H = 24;
@@ -10,6 +9,7 @@ uint256 constant W = 4;
 
 uint256 constant bitsPerLevel = 4;
 uint256 constant levelBitmask = 15; // (1 << bitsPerLevel) - 1
+uint256 constant ones = 0x111111111111111111111111; // H ones
 
 // Each HashTower has certain properties and data that will
 // be used to add new items.
@@ -26,21 +26,6 @@ library HashTower {
     uint256 internal constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
 
-    // decode the number of items in the target level
-    function itemsInLevel(uint256 level, uint256 levelCounts) internal pure returns (uint8) {
-        return uint8((levelCounts >> (level * bitsPerLevel)) & levelBitmask);
-    }
-
-    // encode a new number of items in the levelCounts variable
-    function updateItemsInLevel(
-        uint256 level,
-        uint256 newCount,
-        uint256 levelCounts
-    ) internal pure returns (uint256) {
-        uint256 zeroed = levelCounts & ~(levelBitmask << (level * bitsPerLevel));
-        return zeroed + (newCount << (level * bitsPerLevel));
-    }
-
     /// @dev Add an item.
     /// @param self: HashTower data
     /// @param item: item to be added
@@ -55,7 +40,18 @@ library HashTower {
         uint256 toAdd;
 
         // find the lowest non-full level and its levelCount
-        for (; (levelCount = itemsInLevel(level, levelCounts)) == W; level++) {}
+        while (true) {
+            levelCount = levelCounts & levelBitmask;
+            if (levelCount < W) break;
+            level++;
+            levelCounts >>= 4;
+        }
+        {
+            // update the new levelCounts
+            uint256 fullLevelBits = level * bitsPerLevel;
+            uint256 onesMask = ((1 << (fullLevelBits + bitsPerLevel)) - 1);
+            self.levelCounts = (levelCounts << fullLevelBits) + (onesMask & ones);
+        }
 
         // append at the level
         if (level > 0) {
@@ -70,15 +66,13 @@ library HashTower {
             digest = PoseidonT3.hash([self.digests[level], toAdd]);
         }
 
-        if (level == H - 1 || itemsInLevel(level + 1, levelCounts) == 0) {
+        if ((levelCounts >> 4) == 0) {
             digestOfDigests = digest; // there is no level above
         } else {
             digestOfDigests = PoseidonT3.hash([self.digestOfDigests[level + 1], digest]);
         }
         self.digests[level] = digest;
         self.digestOfDigests[level] = digestOfDigests;
-
-        levelCounts = updateItemsInLevel(level, levelCount + 1, levelCounts);
 
         // the rest of levels are all full
         while (level != 0) {
@@ -94,10 +88,7 @@ library HashTower {
             digestOfDigests = PoseidonT3.hash([digestOfDigests, digest]); // top-down
             self.digests[level] = digest;
             self.digestOfDigests[level] = digestOfDigests;
-            levelCounts = updateItemsInLevel(level, 1, levelCounts);
         }
-
-        self.levelCounts = levelCounts;
     }
 
     function getDataForProving(HashTowerData storage self)
