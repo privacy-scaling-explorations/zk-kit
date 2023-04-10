@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.4;
 
-import "../HashTower.sol";
+import "../HashTowerHashChain.sol";
 
 contract HashTowerTest {
     using HashTower for HashTowerData;

@@ -5,7 +5,7 @@ import { poseidon } from "circomlibjs"
 import ShiftTower from "./utils"
 
 /* eslint-disable jest/valid-expect */
-describe("HashTowerTest", () => {
+describe("HashTowerHashChainTest", () => {
     let contract: Contract
 
     before(async () => {
@@ -52,7 +52,7 @@ describe("HashTowerTest", () => {
         const W = 4
         const shiftTower = ShiftTower(W, (vs) => vs.reduce(H2))
         for (let i = 0; i < 150; i += 1) {
-            const maxLevel = shiftTower.add(i)
+            shiftTower.add(i)
 
             const tx = contract.add(hashTowerId, i)
             await tx
