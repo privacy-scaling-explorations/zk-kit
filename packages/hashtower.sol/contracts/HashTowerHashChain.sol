@@ -36,6 +36,7 @@ library HashTowerHashChain {
             uint256 newLevelLengths
         )
     {
+        // find the lowest non-full level
         uint256 levelLength;
         while (true) {
             levelLength = levelLengths & levelBitmask;
@@ -47,9 +48,11 @@ library HashTowerHashChain {
         isHead = (levelLength == 0);
         isTop = ((levelLengths >> bitsPerLevel) == 0);
 
+        // increment the non-full levelLength(s) by one
+        // all full levels below become ones
         uint256 fullLevelBits = level * bitsPerLevel;
-        uint256 onesMask = ((1 << (fullLevelBits + bitsPerLevel)) - 1);
-        newLevelLengths = (levelLengths << fullLevelBits) + (onesMask & ones);
+        uint256 onesMask = (1 << fullLevelBits) - 1;
+        newLevelLengths = ((levelLengths + 1) << fullLevelBits) + (onesMask & ones);
     }
 
     /// @dev Add an item.
@@ -67,7 +70,7 @@ library HashTowerHashChain {
         uint256 digestOfDigests;
         uint256 toAdd;
 
-        // append at the level
+        // append at the first non-full level
         toAdd = (level == 0) ? item : self.digests[level - 1];
         digest = isHead ? toAdd : PoseidonT3.hash([self.digests[level], toAdd]);
         digestOfDigests = isTop ? digest : PoseidonT3.hash([self.digestOfDigests[level + 1], digest]);
