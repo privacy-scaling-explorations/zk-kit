@@ -11,7 +11,7 @@ task("deploy:ht-test", "Deploy a HashTowerTest contract")
             console.info(`PoseidonT3 library has been deployed to: ${PoseidonT3.address}`)
         }
 
-        const HashTowerLibFactory = await ethers.getContractFactory("HashTower", {
+        const HashTowerLibFactory = await ethers.getContractFactory("HashTowerHashChain", {
             libraries: {
                 PoseidonT3: PoseidonT3.address
             }
@@ -21,12 +21,12 @@ task("deploy:ht-test", "Deploy a HashTowerTest contract")
         await hashTowerLib.deployed()
 
         if (logs) {
-            console.info(`HashTower library has been deployed to: ${hashTowerLib.address}`)
+            console.info(`HashTowerHashChain library has been deployed to: ${hashTowerLib.address}`)
         }
 
-        const ContractFactory = await ethers.getContractFactory("HashTowerTest", {
+        const ContractFactory = await ethers.getContractFactory("HashTowerHashChainTest", {
             libraries: {
-                HashTower: hashTowerLib.address
+                HashTowerHashChain: hashTowerLib.address
             }
         })
 

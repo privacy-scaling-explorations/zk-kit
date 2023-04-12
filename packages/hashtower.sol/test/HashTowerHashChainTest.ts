@@ -5,7 +5,7 @@ import { poseidon } from "circomlibjs"
 import ShiftTower from "./utils"
 
 /* eslint-disable jest/valid-expect */
-describe("HashTowerTest", () => {
+describe("HashTowerHashChainTest", () => {
     let contract: Contract
 
     before(async () => {
@@ -22,7 +22,7 @@ describe("HashTowerTest", () => {
         }
         const [count, digests, digestOfDigests] = await contract.getDataForProving(hashTowerId)
 
-        expect(count).to.equal(N)
+        expect(count).to.equal(0x2112)
 
         expect(digests[0]).to.equal(
             BigInt("7484852499570635450337779587061833141700590058395918107227385307780465498841")
@@ -52,22 +52,18 @@ describe("HashTowerTest", () => {
         const W = 4
         const shiftTower = ShiftTower(W, (vs) => vs.reduce(H2))
         for (let i = 0; i < 150; i += 1) {
-            const maxLevel = shiftTower.add(i)
+            shiftTower.add(i)
 
             const tx = contract.add(hashTowerId, i)
             await tx
 
             // event
-            for (let lv = 0; lv <= maxLevel; lv += 1) {
-                const fullLevelIndex = shiftTower.S[lv].length + shiftTower.L[lv].length - 1
-                const value = shiftTower.L[lv].at(-1)
-                await expect(tx).to.emit(contract, "Add").withArgs(lv, fullLevelIndex, value)
-            }
+            await expect(tx).to.emit(contract, "Add").withArgs(i)
 
             // count and digest
             const [count, digests, digestOfDigests] = await contract.getDataForProving(hashTowerId)
 
-            expect(count).to.equal(i + 1)
+            expect(count).to.equal(shiftTower.L.map((l) => l.length).reduce((s, v, lv) => s + (v << (lv * 4))))
 
             const D = shiftTower.L.map((l) => l.reduce(H2))
             for (let lv = 0; lv < digests.length; lv += 1) {
