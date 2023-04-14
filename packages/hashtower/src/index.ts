@@ -1,4 +1,4 @@
-import IncrementalMerkleTree from "./incremental-merkle-tree"
+import ProofBuilder from "./proof-builder"
 
-export { IncrementalMerkleTree }
+export { ProofBuilder }
 export * from "./types"
