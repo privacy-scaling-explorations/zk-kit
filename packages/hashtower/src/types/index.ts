@@ -1,10 +1,13 @@
-export type Node = any
+export type Value = any
 
-export type HashFunction = (values: Node[]) => Node
+export type HashFunction = (values: Value[]) => Value
 
-export type MerkleProof = {
-    root: any
-    leaf: any
-    siblings: any[]
-    pathIndices: number[]
+export type HashTowerHashChainProof = {
+    levelLengths: Value
+    digestOfDigests: Value
+    digests: Value[]
+    rootLv: number
+    rootLevel: Value[]
+    childrens: Value[][]
+    item: Value
 }

@@ -1,4 +1,4 @@
-import ProofBuilder from "./proof-builder"
+import HashTowerHashChainProofBuilder from "./proof-builder"
 
-export { ProofBuilder }
+export { HashTowerHashChainProofBuilder }
 export * from "./types"

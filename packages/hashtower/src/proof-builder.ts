@@ -1,158 +1,88 @@
 import checkParameter from "./checkParameter"
-import _createProof from "./createProof"
-import _indexOf from "./indexOf"
-import _insert from "./insert"
-import { HashFunction, MerkleProof, Node } from "./types"
-import _update from "./update"
-import _verifyProof from "./verifyProof"
+import { HashFunction, HashTowerHashChainProof, Value } from "./types"
 
-/**
- * A Merkle tree is a tree in which every leaf node is labelled with the cryptographic hash of a
- * data block, and every non-leaf node is labelled with the cryptographic hash of the labels of its child nodes.
- * It allows efficient and secure verification of the contents of large data structures.
- * The IncrementalMerkleTree class is a TypeScript implementation of Incremental Merkle tree and it
- * provides all the functions to create efficient trees and to generate and verify proofs of membership.
- */
-export default class IncrementalMerkleTree {
-    static readonly maxDepth = 32
+const pad = (arr: any, len: number, val: any) => arr.concat(Array(len - arr.length).fill(val))
+const pad0 = (arr: any, len: number) => pad(arr, len, BigInt(0))
+const pad00 = (arr2D: any, h: number, w: number) => pad(arr2D, h, []).map((a: any) => pad0(a, w))
+const sum = (a: number, b: number) => a + b
 
-    private _root: Node
-    private readonly _nodes: Node[][]
-    private readonly _zeroes: Node[]
-    private readonly _hash: HashFunction
-    private readonly _depth: number
-    private readonly _arity: number
+export default class HashTowerHashChainProofBuilder {
+    private readonly _H: number
+    private readonly _W: number
+    private readonly _bitsPerLevel: number
+    private readonly _digest: (vs: Value[]) => Value
+    private readonly _levels: Value[][]
+    private readonly _events: Value[][]
 
-    /**
-     * Initializes the tree with the hash function, the depth, the zero value to use for zeroes
-     * and the arity (i.e. the number of children for each node).
-     * @param hash Hash function.
-     * @param depth Tree depth.
-     * @param zeroValue Zero values for zeroes.
-     * @param arity The number of children for each node.
-     */
-    constructor(hash: HashFunction, depth: number, zeroValue: Node, arity = 2) {
+    // TODO: doc
+    // H does not have to be the same with the H of the contract
+    constructor(H: number, W: number, bitsPerLevel: number, hash: HashFunction) {
+        checkParameter(H, "H", "number")
+        checkParameter(W, "W", "number")
+        checkParameter(bitsPerLevel, "bitsPerLevel", "number")
         checkParameter(hash, "hash", "function")
-        checkParameter(depth, "depth", "number")
-        checkParameter(zeroValue, "zeroValue", "number", "string", "bigint")
-        checkParameter(arity, "arity", "number")
+        this._H = H
+        this._W = W
+        this._bitsPerLevel = bitsPerLevel
+        this._digest = (vs: Value[]) => vs.reduce((acc, v) => hash([acc, v]))
+        this._levels = []
+        this._events = []
+    }
 
-        if (depth < 1 || depth > IncrementalMerkleTree.maxDepth) {
-            throw new Error("The tree depth must be between 1 and 32")
+    public add(item: Value) {
+        checkParameter(item, "item", "bigint")
+        this._add(0, item)
+    }
+    private _add(lv: number, toAdd: Value) {
+        if (lv === this._H) {
+            throw new Error("The tower is full.")
+        }
+        if (lv === this._levels.length) {
+            this._levels.push([])
+            this._events.push([])
         }
 
-        // Initialize the attributes.
-        this._hash = hash
-        this._depth = depth
-        this._zeroes = []
-        this._nodes = []
-        this._arity = arity
+        this._events[lv].push(toAdd)
 
-        for (let i = 0; i < depth; i += 1) {
-            this._zeroes.push(zeroValue)
-            this._nodes[i] = []
-            // There must be a zero value for each tree level (except the root).
-            zeroValue = hash(Array(this._arity).fill(zeroValue))
+        const level = this._levels[lv]
+        if (level.length < this._W) {
+            level.push(toAdd)
+        } else {
+            this._add(lv + 1, this._digest(level))
+            this._levels[lv] = [toAdd]
         }
-
-        // The default root is the last zero value.
-        this._root = zeroValue
-
-        // Freeze the array objects. It prevents unintentional changes.
-        Object.freeze(this._zeroes)
-        Object.freeze(this._nodes)
     }
 
-    /**
-     * Returns the root hash of the tree.
-     * @returns Root hash.
-     */
-    public get root(): Node {
-        return this._root
+    public indexOf(item: Value) {
+        checkParameter(item, "item", "bigint")
+        return this._events[0].indexOf(item)
     }
 
-    /**
-     * Returns the depth of the tree.
-     * @returns Tree depth.
-     */
-    public get depth(): number {
-        return this._depth
-    }
-
-    /**
-     * Returns the leaves of the tree.
-     * @returns List of leaves.
-     */
-    public get leaves(): Node[] {
-        return this._nodes[0].slice()
-    }
-
-    /**
-     * Returns the zeroes nodes of the tree.
-     * @returns List of zeroes.
-     */
-    public get zeroes(): Node[] {
-        return this._zeroes
-    }
-
-    /**
-     * Returns the number of children for each node.
-     * @returns Number of children per node.
-     */
-    public get arity(): number {
-        return this._arity
-    }
-
-    /**
-     * Returns the index of a leaf. If the leaf does not exist it returns -1.
-     * @param leaf Tree leaf.
-     * @returns Index of the leaf.
-     */
-    public indexOf(leaf: Node): number {
-        return _indexOf(leaf, this._nodes)
-    }
-
-    /**
-     * Inserts a new leaf in the tree.
-     * @param leaf New leaf.
-     */
-    public insert(leaf: Node) {
-        this._root = _insert(leaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
-    }
-
-    /**
-     * Deletes a leaf from the tree. It does not remove the leaf from
-     * the data structure. It set the leaf to be deleted to a zero value.
-     * @param index Index of the leaf to be deleted.
-     */
-    public delete(index: number) {
-        this._root = _update(index, this.zeroes[0], this.depth, this.arity, this._nodes, this.zeroes, this._hash)
-    }
-
-    /**
-     * Updates a leaf in the tree.
-     * @param index Index of the leaf to be updated.
-     * @param newLeaf New leaf value.
-     */
-    public update(index: number, newLeaf: Node) {
-        this._root = _update(index, newLeaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
-    }
-
-    /**
-     * Creates a proof of membership.
-     * @param index Index of the proof's leaf.
-     * @returns Proof object.
-     */
-    public createProof(index: number): MerkleProof {
-        return _createProof(index, this.depth, this.arity, this._nodes, this.zeroes, this.root)
-    }
-
-    /**
-     * Verifies a proof and return true or false.
-     * @param proof Proof to be verified.
-     * @returns True or false.
-     */
-    public verifyProof(proof: MerkleProof): boolean {
-        return _verifyProof(proof, this._hash)
+    public build(idx: number): HashTowerHashChainProof {
+        checkParameter(idx, "idx", "number")
+        if (idx < 0 || this._events[0] === undefined || idx >= this._events[0].length) {
+            throw new Error(`index out of range: ${idx}`)
+        }
+        const item = this._events[0][idx]
+        let digests = this._levels.map(this._digest)
+        const digestOfDigests = this._digest(digests.reverse())
+        const levelLengths = this._levels.map((level, lv) => level.length << (this._bitsPerLevel * lv)).reduce(sum)
+        const H = this._H
+        const W = this._W
+        let childrens = []
+        for (let lv = 0; ; lv += 1) {
+            const levelStart = this._events[lv].length - this._levels[lv].length
+            const start = idx - (idx % W)
+            if (start === levelStart) {
+                // we are in the tower now
+                digests = pad0(digests, H)
+                const rootLv = lv
+                const rootLevel = pad0(this._events[lv].slice(start, start + this._levels[lv].length), W)
+                childrens = pad00(childrens, H, W)
+                return { levelLengths, digestOfDigests, digests, rootLv, rootLevel, childrens, item }
+            }
+            childrens.push(this._events[lv].slice(start, start + W))
+            idx = Math.floor(idx / W)
+        }
     }
 }
