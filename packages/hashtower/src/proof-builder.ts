@@ -60,8 +60,11 @@ export default class HashTowerHashChainProofBuilder {
 
     public build(idx: number): HashTowerHashChainProof {
         checkParameter(idx, "idx", "number")
-        if (idx < 0 || this._events[0] === undefined || idx >= this._events[0].length) {
-            throw new Error(`index out of range: ${idx}`)
+        if (this._levels.length === 0) {
+            throw new Error("The tower is empty.")
+        }
+        if (idx < 0 || idx >= this._events[0].length) {
+            throw new Error(`Index out of range: ${idx}`)
         }
         const item = this._events[0][idx]
         let digests = this._levels.map(this._digest)

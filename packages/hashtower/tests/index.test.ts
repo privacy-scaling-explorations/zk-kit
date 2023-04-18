@@ -80,16 +80,15 @@ describe("HashTowerHashChainProofBuilder", () => {
     it("Should not create a proof with the wrong index", () => {
         const pb = new HashTowerHashChainProofBuilder(10, 4, 4, poseidon)
         const fun1 = () => pb.build(-1)
-        expect(fun1).toThrow("index out of range: -1")
+        expect(fun1).toThrow("The tower is empty.")
         const fun2 = () => pb.build(0)
-        expect(fun2).toThrow("index out of range: 0")
+        expect(fun2).toThrow("The tower is empty.")
 
         pb.add(BigInt(0))
         const fun3 = () => pb.build(-1)
-        expect(fun3).toThrow("index out of range: -1")
+        expect(fun3).toThrow("Index out of range: -1")
         pb.build(0) // now OK
         const fun4 = () => pb.build(1)
-        expect(fun4).toThrow("index out of range: 1")
+        expect(fun4).toThrow("Index out of range: 1")
     })
-
 })
