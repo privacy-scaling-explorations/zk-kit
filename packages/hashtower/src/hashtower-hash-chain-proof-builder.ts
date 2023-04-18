@@ -5,6 +5,12 @@ const pad = (arr: any, len: number, val: any) => arr.concat(Array(len - arr.leng
 const pad0 = (arr: any, len: number) => pad(arr, len, BigInt(0))
 const pad00 = (arr2D: any, h: number, w: number) => pad(arr2D, h, []).map((a: any) => pad0(a, w))
 
+/**
+ * HashTowerHashChainProofBuilder is a TypeScript implementation of HashTower to generate proofs of membership.
+ * @param H Height of tower of the proving circuit. It can be less than the H in the contract.
+ * @param W Width of tower.
+ * @param hash A hash function which supports 2 input values.
+ */
 export default function HashTowerHashChainProofBuilder(H: number, W: number, hash: HashFunction) {
     checkParameter(H, "H", "number")
     checkParameter(W, "W", "number")
@@ -32,16 +38,30 @@ export default function HashTowerHashChainProofBuilder(H: number, W: number, has
             levels[lv] = [toAdd]
         }
     }
+    /**
+     * Adds a new item in the HashTower.
+     * @param item Item to be added.
+     */
     function add(item: BigInt) {
         checkParameter(item, "item", "bigint")
         _add(0, item)
     }
 
+    /**
+     * Returns the index of a item. If the item does not exist it returns -1.
+     * @param item Added item.
+     * @returns Index of the item.
+     */
     function indexOf(item: BigInt) {
         checkParameter(item, "item", "bigint")
         return fullLevels[0].indexOf(item)
     }
 
+    /**
+     * Builds a proof of membership.
+     * @param index Index of the proof's item.
+     * @returns Proof object.
+     */
     function build(idx: number): HashTowerHashChainProof {
         checkParameter(idx, "idx", "number")
         if (levels.length === 0) {
