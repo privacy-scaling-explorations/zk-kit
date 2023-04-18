@@ -3,7 +3,7 @@ import { HashTowerHashChainProofBuilder } from "../src"
 
 describe("HashTowerHashChainProofBuilder", () => {
     it("Should build a proof", () => {
-        const pb = new HashTowerHashChainProofBuilder(10, 4, 4, poseidon)
+        const pb = HashTowerHashChainProofBuilder(10, 4, 4, poseidon)
         for (let i = BigInt(0); i < 150; i += BigInt(1)) {
             pb.add(i)
         }
@@ -61,15 +61,15 @@ describe("HashTowerHashChainProofBuilder", () => {
     })
 
     it("Should not initialize with wrong parameters", () => {
-        const fun1 = () => new HashTowerHashChainProofBuilder(10, 4, 4, undefined as any)
-        const fun2 = () => new HashTowerHashChainProofBuilder(10, 4, 4, 1 as any)
+        const fun1 = () => HashTowerHashChainProofBuilder(10, 4, 4, undefined as any)
+        const fun2 = () => HashTowerHashChainProofBuilder(10, 4, 4, 1 as any)
 
         expect(fun1).toThrow("Parameter 'hash' is not defined")
         expect(fun2).toThrow("Parameter 'hash' is none of these types: function")
     })
 
     it("Should not add a item in a full tower", () => {
-        const pb = new HashTowerHashChainProofBuilder(2, 3, 4, poseidon)
+        const pb = HashTowerHashChainProofBuilder(2, 3, 4, poseidon)
         for (let i = BigInt(0); i < 12; i += BigInt(1)) {
             pb.add(i)
         }
@@ -78,7 +78,7 @@ describe("HashTowerHashChainProofBuilder", () => {
     })
 
     it("Should not create a proof with the wrong index", () => {
-        const pb = new HashTowerHashChainProofBuilder(10, 4, 4, poseidon)
+        const pb = HashTowerHashChainProofBuilder(10, 4, 4, poseidon)
         const fun1 = () => pb.build(-1)
         expect(fun1).toThrow("The tower is empty.")
         const fun2 = () => pb.build(0)

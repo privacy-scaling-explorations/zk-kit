@@ -6,86 +6,73 @@ const pad0 = (arr: any, len: number) => pad(arr, len, BigInt(0))
 const pad00 = (arr2D: any, h: number, w: number) => pad(arr2D, h, []).map((a: any) => pad0(a, w))
 const sum = (a: number, b: number) => a + b
 
-export default class HashTowerHashChainProofBuilder {
-    private readonly _H: number
-    private readonly _W: number
-    private readonly _bitsPerLevel: number
-    private readonly _digestFunc: (vs: Value[]) => Value
-    private readonly _levels: Value[][]
-    private readonly _fullLevels: Value[][]
+export default function HashTowerHashChainProofBuilder(H: number, W: number, bitsPerLevel: number, hash: HashFunction) {
+    checkParameter(H, "H", "number")
+    checkParameter(W, "W", "number")
+    checkParameter(bitsPerLevel, "bitsPerLevel", "number")
+    checkParameter(hash, "hash", "function")
 
-    // TODO: doc
-    // H does not have to be the same with the H of the contract
-    constructor(H: number, W: number, bitsPerLevel: number, hash: HashFunction) {
-        checkParameter(H, "H", "number")
-        checkParameter(W, "W", "number")
-        checkParameter(bitsPerLevel, "bitsPerLevel", "number")
-        checkParameter(hash, "hash", "function")
-        this._H = H
-        this._W = W
-        this._bitsPerLevel = bitsPerLevel
-        this._digestFunc = (vs: Value[]) => vs.reduce((acc, v) => hash([acc, v]))
-        this._levels = []
-        this._fullLevels = []
-    }
+    const digestFunc = (vs: Value[]) => vs.reduce((acc, v) => hash([acc, v]))
+    const levels: Value[][] = []
+    const fullLevels: Value[][] = []
 
-    public add(item: Value) {
-        checkParameter(item, "item", "bigint")
-        this._add(0, item)
-    }
-    private _add(lv: number, toAdd: Value) {
-        if (lv === this._H) {
+    function _add(lv: number, toAdd: Value) {
+        if (lv === H) {
             throw new Error("The tower is full.")
         }
-        if (lv === this._levels.length) {
-            this._levels.push([])
-            this._fullLevels.push([])
+        if (lv === levels.length) {
+            levels.push([])
+            fullLevels.push([])
         }
 
-        this._fullLevels[lv].push(toAdd)
+        fullLevels[lv].push(toAdd)
 
-        const level = this._levels[lv]
-        if (level.length < this._W) {
+        const level = levels[lv]
+        if (level.length < W) {
             level.push(toAdd)
         } else {
-            this._add(lv + 1, this._digestFunc(level))
-            this._levels[lv] = [toAdd]
+            _add(lv + 1, digestFunc(level))
+            levels[lv] = [toAdd]
         }
     }
-
-    public indexOf(item: Value) {
+    function add(item: Value) {
         checkParameter(item, "item", "bigint")
-        return this._fullLevels[0].indexOf(item)
+        _add(0, item)
     }
 
-    public build(idx: number): HashTowerHashChainProof {
+    function indexOf(item: Value) {
+        checkParameter(item, "item", "bigint")
+        return fullLevels[0].indexOf(item)
+    }
+
+    function build(idx: number): HashTowerHashChainProof {
         checkParameter(idx, "idx", "number")
-        if (this._levels.length === 0) {
+        if (levels.length === 0) {
             throw new Error("The tower is empty.")
         }
-        if (idx < 0 || idx >= this._fullLevels[0].length) {
+        if (idx < 0 || idx >= fullLevels[0].length) {
             throw new Error(`Index out of range: ${idx}`)
         }
-        const item = this._fullLevels[0][idx]
-        let digests = this._levels.map(this._digestFunc)
-        const digestOfDigests = this._digestFunc(digests.reverse())
-        const levelLengths = this._levels.map((level, lv) => level.length << (this._bitsPerLevel * lv)).reduce(sum)
-        const H = this._H
-        const W = this._W
+        const item = fullLevels[0][idx]
+        let digests = levels.map(digestFunc)
+        const digestOfDigests = digestFunc(digests.reverse())
+        const levelLengths = levels.map((level, lv) => level.length << (bitsPerLevel * lv)).reduce(sum)
         let childrens = []
         for (let lv = 0; ; lv += 1) {
-            const levelStart = this._fullLevels[lv].length - this._levels[lv].length
+            const levelStart = fullLevels[lv].length - levels[lv].length
             const start = idx - (idx % W)
             if (start === levelStart) {
                 // we are in the tower now
                 digests = pad0(digests, H)
                 const rootLv = lv
-                const rootLevel = pad0(this._fullLevels[lv].slice(start, start + this._levels[lv].length), W)
+                const rootLevel = pad0(fullLevels[lv].slice(start, start + levels[lv].length), W)
                 childrens = pad00(childrens, H, W)
                 return { levelLengths, digestOfDigests, digests, rootLv, rootLevel, childrens, item }
             }
-            childrens.push(this._fullLevels[lv].slice(start, start + W))
+            childrens.push(fullLevels[lv].slice(start, start + W))
             idx = Math.floor(idx / W)
         }
     }
+
+    return { add, indexOf, build }
 }
