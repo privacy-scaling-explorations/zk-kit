@@ -12,7 +12,7 @@ describe("HashTowerHashChainProofBuilder", () => {
 
         // console.log(proof) and replace (\d+)n with BigInt("$1")
         const ans = {
-            levelLengths: 8466,
+            levelLengths: BigInt("8466"),
             digestOfDigests: BigInt("19260615748091768530426964318883829655407684674262674118201416393073357631548"),
             digests: [
                 BigInt("11606235313340788975553986881206148975708550071371494991713397040288897077102"),

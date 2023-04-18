@@ -1,13 +1,11 @@
-export type Value = any
-
-export type HashFunction = (values: Value[]) => Value
+export type HashFunction = (BigInts: BigInt[]) => BigInt
 
 export type HashTowerHashChainProof = {
-    levelLengths: Value
-    digestOfDigests: Value
-    digests: Value[]
+    levelLengths: BigInt
+    digestOfDigests: BigInt
+    digests: BigInt[]
     rootLv: number
-    rootLevel: Value[]
-    childrens: Value[][]
-    item: Value
+    rootLevel: BigInt[]
+    childrens: BigInt[][]
+    item: BigInt
 }

@@ -1,10 +1,9 @@
 import checkParameter from "./checkParameter"
-import { HashFunction, HashTowerHashChainProof, Value } from "./types"
+import { HashFunction, HashTowerHashChainProof } from "./types"
 
 const pad = (arr: any, len: number, val: any) => arr.concat(Array(len - arr.length).fill(val))
 const pad0 = (arr: any, len: number) => pad(arr, len, BigInt(0))
 const pad00 = (arr2D: any, h: number, w: number) => pad(arr2D, h, []).map((a: any) => pad0(a, w))
-const sum = (a: number, b: number) => a + b
 
 export default function HashTowerHashChainProofBuilder(H: number, W: number, bitsPerLevel: number, hash: HashFunction) {
     checkParameter(H, "H", "number")
@@ -12,11 +11,11 @@ export default function HashTowerHashChainProofBuilder(H: number, W: number, bit
     checkParameter(bitsPerLevel, "bitsPerLevel", "number")
     checkParameter(hash, "hash", "function")
 
-    const digestFunc = (vs: Value[]) => vs.reduce((acc, v) => hash([acc, v]))
-    const levels: Value[][] = []
-    const fullLevels: Value[][] = []
+    const digestFunc = (vs: BigInt[]) => vs.reduce((acc, v) => hash([acc, v]))
+    const levels: BigInt[][] = []
+    const fullLevels: BigInt[][] = []
 
-    function _add(lv: number, toAdd: Value) {
+    function _add(lv: number, toAdd: BigInt) {
         if (lv === H) {
             throw new Error("The tower is full.")
         }
@@ -33,12 +32,12 @@ export default function HashTowerHashChainProofBuilder(H: number, W: number, bit
             levels[lv] = [toAdd]
         }
     }
-    function add(item: Value) {
+    function add(item: BigInt) {
         checkParameter(item, "item", "bigint")
         _add(0, item)
     }
 
-    function indexOf(item: Value) {
+    function indexOf(item: BigInt) {
         checkParameter(item, "item", "bigint")
         return fullLevels[0].indexOf(item)
     }
@@ -51,10 +50,14 @@ export default function HashTowerHashChainProofBuilder(H: number, W: number, bit
         if (idx < 0 || idx >= fullLevels[0].length) {
             throw new Error(`Index out of range: ${idx}`)
         }
+
         const item = fullLevels[0][idx]
         let digests = levels.map(digestFunc)
         const digestOfDigests = digestFunc(digests.reverse())
-        const levelLengths = levels.map((level, lv) => level.length << (bitsPerLevel * lv)).reduce(sum)
+        const levelLengths = levels.reduce(
+            (sum, level, lv) => sum | (BigInt(level.length) << BigInt(bitsPerLevel * lv)),
+            BigInt(0)
+        )
         let childrens = []
         for (let lv = 0; ; lv += 1) {
             const levelStart = fullLevels[lv].length - levels[lv].length
