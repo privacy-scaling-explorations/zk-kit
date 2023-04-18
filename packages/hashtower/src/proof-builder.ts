@@ -10,7 +10,7 @@ export default class HashTowerHashChainProofBuilder {
     private readonly _H: number
     private readonly _W: number
     private readonly _bitsPerLevel: number
-    private readonly _digest: (vs: Value[]) => Value
+    private readonly _digestFunc: (vs: Value[]) => Value
     private readonly _levels: Value[][]
     private readonly _events: Value[][]
 
@@ -24,7 +24,7 @@ export default class HashTowerHashChainProofBuilder {
         this._H = H
         this._W = W
         this._bitsPerLevel = bitsPerLevel
-        this._digest = (vs: Value[]) => vs.reduce((acc, v) => hash([acc, v]))
+        this._digestFunc = (vs: Value[]) => vs.reduce((acc, v) => hash([acc, v]))
         this._levels = []
         this._events = []
     }
@@ -48,7 +48,7 @@ export default class HashTowerHashChainProofBuilder {
         if (level.length < this._W) {
             level.push(toAdd)
         } else {
-            this._add(lv + 1, this._digest(level))
+            this._add(lv + 1, this._digestFunc(level))
             this._levels[lv] = [toAdd]
         }
     }
@@ -67,8 +67,8 @@ export default class HashTowerHashChainProofBuilder {
             throw new Error(`Index out of range: ${idx}`)
         }
         const item = this._events[0][idx]
-        let digests = this._levels.map(this._digest)
-        const digestOfDigests = this._digest(digests.reverse())
+        let digests = this._levels.map(this._digestFunc)
+        const digestOfDigests = this._digestFunc(digests.reverse())
         const levelLengths = this._levels.map((level, lv) => level.length << (this._bitsPerLevel * lv)).reduce(sum)
         const H = this._H
         const W = this._W
