@@ -5,12 +5,12 @@ const pad = (arr: any, len: number, val: any) => arr.concat(Array(len - arr.leng
 const pad0 = (arr: any, len: number) => pad(arr, len, BigInt(0))
 const pad00 = (arr2D: any, h: number, w: number) => pad(arr2D, h, []).map((a: any) => pad0(a, w))
 
-export default function HashTowerHashChainProofBuilder(H: number, W: number, bitsPerLevel: number, hash: HashFunction) {
+export default function HashTowerHashChainProofBuilder(H: number, W: number, hash: HashFunction) {
     checkParameter(H, "H", "number")
     checkParameter(W, "W", "number")
-    checkParameter(bitsPerLevel, "bitsPerLevel", "number")
     checkParameter(hash, "hash", "function")
 
+    const bitsPerLevel = 4
     const digestFunc = (vs: BigInt[]) => vs.reduce((acc, v) => hash([acc, v]))
     const levels: BigInt[][] = []
     const fullLevels: BigInt[][] = []
