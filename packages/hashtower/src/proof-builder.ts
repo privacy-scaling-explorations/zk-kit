@@ -20,18 +20,16 @@ export default function HashTowerHashChainProofBuilder(H: number, W: number, bit
         if (lv === H) {
             throw new Error("The tower is full.")
         }
+
         if (lv === levels.length) {
-            levels.push([])
-            fullLevels.push([])
-        }
-
-        fullLevels[lv].push(toAdd)
-
-        const level = levels[lv]
-        if (level.length < W) {
-            level.push(toAdd)
+            fullLevels.push([toAdd])
+            levels.push([toAdd])
+        } else if (levels[lv].length < W) {
+            fullLevels[lv].push(toAdd)
+            levels[lv].push(toAdd)
         } else {
-            _add(lv + 1, digestFunc(level))
+            fullLevels[lv].push(toAdd)
+            _add(lv + 1, digestFunc(levels[lv]))
             levels[lv] = [toAdd]
         }
     }
