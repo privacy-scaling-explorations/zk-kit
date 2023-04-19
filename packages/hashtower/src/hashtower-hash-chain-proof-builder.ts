@@ -1,50 +1,40 @@
 import checkParameter from "./checkParameter"
 import { HashFunction, HashTowerHashChainProof } from "./types"
-
-const pad = (arr: any, len: number, val: any) => arr.concat(Array(len - arr.length).fill(val))
-const pad0 = (arr: any, len: number) => pad(arr, len, BigInt(0))
-const pad00 = (arr2D: any, h: number, w: number) => pad(arr2D, h, []).map((a: any) => pad0(a, w))
+import _add from "./add"
+import _indexOf from "./indexOf"
+import _build from "./build"
 
 /**
  * HashTowerHashChainProofBuilder is a TypeScript implementation of HashTower to generate proofs of membership.
- * @param H Height of tower of the proving circuit. It can be less than the H in the contract.
- * @param W Width of tower.
- * @param hash A hash function which supports 2 input values.
  */
-export default function HashTowerHashChainProofBuilder(H: number, W: number, hash: HashFunction) {
-    checkParameter(H, "H", "number")
-    checkParameter(W, "W", "number")
-    checkParameter(hash, "hash", "function")
+export default class HashTowerHashChainProofBuilder {
+    private readonly _H: number
+    private readonly _W: number
+    private readonly _digestFunc: HashFunction
+    private readonly _levels: BigInt[][] = []
+    private readonly _fullLevels: BigInt[][] = []
 
-    const bitsPerLevel = 4
-    const digestFunc = (vs: BigInt[]) => vs.reduce((acc, v) => hash([acc, v]))
-    const levels: BigInt[][] = []
-    const fullLevels: BigInt[][] = []
-
-    function _add(lv: number, toAdd: BigInt) {
-        if (lv === H) {
-            throw new Error("The tower is full.")
-        }
-
-        if (lv === levels.length) {
-            fullLevels.push([toAdd])
-            levels.push([toAdd])
-        } else if (levels[lv].length < W) {
-            fullLevels[lv].push(toAdd)
-            levels[lv].push(toAdd)
-        } else {
-            fullLevels[lv].push(toAdd)
-            _add(lv + 1, digestFunc(levels[lv]))
-            levels[lv] = [toAdd]
-        }
+    /**
+     * Initializes the proof builder.
+     * @param H Height of tower of the proving circuit. It can be less than the height declared in the contract.
+     * @param W Width of tower.
+     * @param hash A hash function which supports 2 values.
+     */
+    constructor(H: number, W: number, hash: HashFunction) {
+        checkParameter(H, "H", "number")
+        checkParameter(W, "W", "number")
+        checkParameter(hash, "hash", "function")
+        this._H = H
+        this._W = W
+        this._digestFunc = (vs: BigInt[]) => vs.reduce((acc, v) => hash([acc, v]))
     }
+
     /**
      * Adds a new item in the HashTower.
      * @param item Item to be added.
      */
-    function add(item: BigInt) {
-        checkParameter(item, "item", "bigint")
-        _add(0, item)
+    public add(item: BigInt) {
+        _add(item, this._H, this._W, this._digestFunc, this._levels, this._fullLevels)
     }
 
     /**
@@ -52,9 +42,8 @@ export default function HashTowerHashChainProofBuilder(H: number, W: number, has
      * @param item Added item.
      * @returns Index of the item.
      */
-    function indexOf(item: BigInt) {
-        checkParameter(item, "item", "bigint")
-        return fullLevels[0].indexOf(item)
+    public indexOf(item: BigInt): number {
+        return _indexOf(item, this._fullLevels)
     }
 
     /**
@@ -62,38 +51,7 @@ export default function HashTowerHashChainProofBuilder(H: number, W: number, has
      * @param index Index of the proof's item.
      * @returns Proof object.
      */
-    function build(idx: number): HashTowerHashChainProof {
-        checkParameter(idx, "idx", "number")
-        if (levels.length === 0) {
-            throw new Error("The tower is empty.")
-        }
-        if (idx < 0 || idx >= fullLevels[0].length) {
-            throw new Error(`Index out of range: ${idx}`)
-        }
-
-        const item = fullLevels[0][idx]
-        let digests = levels.map(digestFunc)
-        const digestOfDigests = digestFunc(digests.reverse())
-        const levelLengths = levels.reduce(
-            (sum, level, lv) => sum | (BigInt(level.length) << BigInt(bitsPerLevel * lv)),
-            BigInt(0)
-        )
-        let childrens = []
-        for (let lv = 0; ; lv += 1) {
-            const levelStart = fullLevels[lv].length - levels[lv].length
-            const start = idx - (idx % W)
-            if (start === levelStart) {
-                // we are in the tower now
-                digests = pad0(digests, H)
-                const rootLv = lv
-                const rootLevel = pad0(fullLevels[lv].slice(start, start + levels[lv].length), W)
-                childrens = pad00(childrens, H, W)
-                return { levelLengths, digestOfDigests, digests, rootLv, rootLevel, childrens, item }
-            }
-            childrens.push(fullLevels[lv].slice(start, start + W))
-            idx = Math.floor(idx / W)
-        }
+    public build(idx: number): HashTowerHashChainProof {
+        return _build(idx, this._H, this._W, this._digestFunc, this._levels, this._fullLevels)
     }
-
-    return { add, indexOf, build }
 }

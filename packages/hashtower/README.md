@@ -81,7 +81,7 @@ import { poseidon } from "circomlibjs" // v0.0.8
 
 const H = 10
 const W = 4
-const pb = HashTowerHashChainProofBuilder(H, W, poseidon)
+const pb = new HashTowerHashChainProofBuilder(H, W, poseidon)
 for (let i = BigInt(0); i < 150; i += BigInt(1)) {
     pb.add(i)
 }
