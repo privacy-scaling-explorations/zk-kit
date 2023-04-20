@@ -12,8 +12,6 @@ function checkParameter(value: any, name: string, ...types: string[]) {
     }
 }
 
-export type HashFunction = (BigInts: bigint[]) => bigint
-
 export type HashTowerHashChainProof = {
     levelLengths: bigint
     digestOfDigests: bigint
@@ -30,13 +28,13 @@ export type HashTowerHashChainProof = {
  * @param W Width of tower.
  * @param hash A hash function which supports 2 input values.
  */
-export function HashTowerHashChainProofBuilder(H: number, W: number, hash: HashFunction) {
+export function HashTowerHashChainProofBuilder(H: number, W: number, hash: (a: bigint, b: bigint) => bigint) {
     checkParameter(H, "H", "number")
     checkParameter(W, "W", "number")
     checkParameter(hash, "hash", "function")
 
     const bitsPerLevel = 4
-    const digestFunc = (vs: bigint[]) => vs.reduce((acc, v) => hash([acc, v]))
+    const digestFunc = (arr: bigint[]) => arr.reduce(hash)
     const levels: bigint[][] = []
     const fullLevels: bigint[][] = []
 

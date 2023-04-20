@@ -1,9 +1,11 @@
 import { poseidon } from "circomlibjs"
 import { HashTowerHashChainProofBuilder } from "../src"
 
+const hash = (a: bigint, b: bigint) => poseidon([a, b])
+
 describe("HashTowerHashChainProofBuilder", () => {
     it("Should build a proof", () => {
-        const pb = HashTowerHashChainProofBuilder(10, 4, poseidon)
+        const pb = HashTowerHashChainProofBuilder(10, 4, hash)
         for (let i = BigInt(0); i < 150; i += BigInt(1)) {
             pb.add(i)
         }
@@ -69,7 +71,7 @@ describe("HashTowerHashChainProofBuilder", () => {
     })
 
     it("Should not add a item in a full tower", () => {
-        const pb = HashTowerHashChainProofBuilder(2, 3, poseidon)
+        const pb = HashTowerHashChainProofBuilder(2, 3, hash)
         for (let i = BigInt(0); i < 12; i += BigInt(1)) {
             pb.add(i)
         }
@@ -78,7 +80,7 @@ describe("HashTowerHashChainProofBuilder", () => {
     })
 
     it("Should not create a proof with the wrong index", () => {
-        const pb = HashTowerHashChainProofBuilder(10, 4, poseidon)
+        const pb = HashTowerHashChainProofBuilder(10, 4, hash)
         const fun1 = () => pb.build(-1)
         expect(fun1).toThrow("The tower is empty.")
         const fun2 = () => pb.build(0)
