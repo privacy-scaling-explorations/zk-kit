@@ -1,4 +1,7 @@
-import HashTowerHashChainProofBuilder from "./hashtower-hash-chain-proof-builder"
+import {
+    HashTowerHashChainProofBuilder,
+    HashFunction,
+    HashTowerHashChainProof
+} from "./hashtower-hash-chain-proof-builder"
 
-export { HashTowerHashChainProofBuilder }
-export * from "./types"
+export { HashTowerHashChainProofBuilder, HashFunction, HashTowerHashChainProof }

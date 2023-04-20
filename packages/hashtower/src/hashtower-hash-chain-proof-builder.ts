@@ -1,9 +1,28 @@
-import checkParameter from "./checkParameter"
-import { HashFunction, HashTowerHashChainProof } from "./types"
-
 const pad = (arr: any, len: number, val: any) => arr.concat(Array(len - arr.length).fill(val))
 const pad0 = (arr: any, len: number) => pad(arr, len, BigInt(0))
 const pad00 = (arr2D: any, h: number, w: number) => pad(arr2D, h, []).map((a: any) => pad0(a, w))
+
+function checkParameter(value: any, name: string, ...types: string[]) {
+    if (value === undefined) {
+        throw new TypeError(`Parameter '${name}' is not defined`)
+    }
+
+    if (!types.includes(typeof value)) {
+        throw new TypeError(`Parameter '${name}' is none of these types: ${types.join(", ")}`)
+    }
+}
+
+export type HashFunction = (BigInts: BigInt[]) => BigInt
+
+export type HashTowerHashChainProof = {
+    levelLengths: BigInt
+    digestOfDigests: BigInt
+    digests: BigInt[]
+    rootLv: number
+    rootLevel: BigInt[]
+    childrens: BigInt[][]
+    item: BigInt
+}
 
 /**
  * HashTowerHashChainProofBuilder is a TypeScript implementation of HashTower to generate proofs of membership.
@@ -11,7 +30,7 @@ const pad00 = (arr2D: any, h: number, w: number) => pad(arr2D, h, []).map((a: an
  * @param W Width of tower.
  * @param hash A hash function which supports 2 input values.
  */
-export default function HashTowerHashChainProofBuilder(H: number, W: number, hash: HashFunction) {
+export function HashTowerHashChainProofBuilder(H: number, W: number, hash: HashFunction) {
     checkParameter(H, "H", "number")
     checkParameter(W, "W", "number")
     checkParameter(hash, "hash", "function")
