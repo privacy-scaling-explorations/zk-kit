@@ -12,16 +12,16 @@ function checkParameter(value: any, name: string, ...types: string[]) {
     }
 }
 
-export type HashFunction = (BigInts: BigInt[]) => BigInt
+export type HashFunction = (BigInts: bigint[]) => bigint
 
 export type HashTowerHashChainProof = {
-    levelLengths: BigInt
-    digestOfDigests: BigInt
-    digests: BigInt[]
+    levelLengths: bigint
+    digestOfDigests: bigint
+    digests: bigint[]
     rootLv: number
-    rootLevel: BigInt[]
-    childrens: BigInt[][]
-    item: BigInt
+    rootLevel: bigint[]
+    childrens: bigint[][]
+    item: bigint
 }
 
 /**
@@ -36,11 +36,11 @@ export function HashTowerHashChainProofBuilder(H: number, W: number, hash: HashF
     checkParameter(hash, "hash", "function")
 
     const bitsPerLevel = 4
-    const digestFunc = (vs: BigInt[]) => vs.reduce((acc, v) => hash([acc, v]))
-    const levels: BigInt[][] = []
-    const fullLevels: BigInt[][] = []
+    const digestFunc = (vs: bigint[]) => vs.reduce((acc, v) => hash([acc, v]))
+    const levels: bigint[][] = []
+    const fullLevels: bigint[][] = []
 
-    function _add(lv: number, toAdd: BigInt) {
+    function _add(lv: number, toAdd: bigint) {
         if (lv === H) {
             throw new Error("The tower is full.")
         }
@@ -61,7 +61,7 @@ export function HashTowerHashChainProofBuilder(H: number, W: number, hash: HashF
      * Adds a new item in the HashTower.
      * @param item Item to be added.
      */
-    function add(item: BigInt) {
+    function add(item: bigint) {
         checkParameter(item, "item", "bigint")
         _add(0, item)
     }
@@ -71,7 +71,7 @@ export function HashTowerHashChainProofBuilder(H: number, W: number, hash: HashF
      * @param item Added item.
      * @returns Index of the item.
      */
-    function indexOf(item: BigInt) {
+    function indexOf(item: bigint) {
         checkParameter(item, "item", "bigint")
         return fullLevels[0].indexOf(item)
     }
