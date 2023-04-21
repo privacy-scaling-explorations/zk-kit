@@ -62,11 +62,23 @@ describe("HashTowerHashChainProofBuilder", () => {
         expect(proof).toEqual(ans)
     })
 
-    it("Should not initialize with wrong parameters", () => {
-        const fun1 = () => HashTowerHashChainProofBuilder(10, 4, undefined as any)
-        const fun2 = () => HashTowerHashChainProofBuilder(10, 4, 1 as any)
+    it("Should work with the default hash function.", () => {
+        const pb = HashTowerHashChainProofBuilder(2, 3, hash)
+        for (let i = BigInt(0); i < 12; i += BigInt(1)) {
+            pb.add(i)
+        }
+        const pbDefaultHash = HashTowerHashChainProofBuilder(2, 3)
+        for (let i = BigInt(0); i < 12; i += BigInt(1)) {
+            pbDefaultHash.add(i)
+        }
+        expect(pb.build(11)).toEqual(pbDefaultHash.build(11))
+    })
 
-        expect(fun1).toThrow("Parameter 'hash' is not defined")
+    it("Should not initialize with wrong parameters", () => {
+        const fun1 = () => HashTowerHashChainProofBuilder()
+        expect(fun1).toThrow("Parameter 'H' is not defined")
+
+        const fun2 = () => HashTowerHashChainProofBuilder(10, 4, 1 as any)
         expect(fun2).toThrow("Parameter 'hash' is none of these types: function")
     })
 
