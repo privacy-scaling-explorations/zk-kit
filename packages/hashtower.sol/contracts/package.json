@@ -30,6 +30,6 @@
         "access": "public"
     },
     "dependencies": {
-        "poseidon-solidity": "0.0.3"
+        "poseidon-solidity": "0.0.4"
     }
 }
