@@ -1,7 +1,7 @@
-import { poseidon } from "circomlibjs"
+import { poseidon2 } from "poseidon-lite"
 import { HashTowerHashChainProofBuilder } from "../src"
 
-const hash = (a: bigint, b: bigint) => poseidon([a, b])
+const hash = (a: bigint, b: bigint): bigint => poseidon2([a, b])
 
 describe("HashTowerHashChainProofBuilder", () => {
     it("Should build a proof", () => {
