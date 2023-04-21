@@ -74,6 +74,20 @@ export function HashTowerHashChainProofBuilder(H: number, W: number, hash: (a: b
         return fullLevels[0].indexOf(item)
     }
 
+    function _buildChildrensAndRootLevel(idx: number): [number, bigint[], bigint[][]] {
+        const childrens = []
+        for (let lv = 0; ; lv += 1) {
+            const levelStart = fullLevels[lv].length - levels[lv].length
+            const start = idx - (idx % W)
+            if (start === levelStart) {
+                // we are in the tower now
+                const rootLevel = pad0(fullLevels[lv].slice(start, start + levels[lv].length), W)
+                return [lv, rootLevel, pad00(childrens, H, W)]
+            }
+            childrens.push(fullLevels[lv].slice(start, start + W))
+            idx = Math.floor(idx / W)
+        }
+    }
     /**
      * Builds a proof of membership.
      * @param index Index of the proof's item.
@@ -91,25 +105,13 @@ export function HashTowerHashChainProofBuilder(H: number, W: number, hash: (a: b
         const item = fullLevels[0][idx]
         let digests = levels.map(digestFunc)
         const digestOfDigests = digestFunc(digests.reverse())
+        digests = pad0(digests, H)
         const levelLengths = levels.reduce(
             (sum, level, lv) => sum | (BigInt(level.length) << BigInt(bitsPerLevel * lv)),
             BigInt(0)
         )
-        let childrens = []
-        for (let lv = 0; ; lv += 1) {
-            const levelStart = fullLevels[lv].length - levels[lv].length
-            const start = idx - (idx % W)
-            if (start === levelStart) {
-                // we are in the tower now
-                digests = pad0(digests, H)
-                const rootLv = lv
-                const rootLevel = pad0(fullLevels[lv].slice(start, start + levels[lv].length), W)
-                childrens = pad00(childrens, H, W)
-                return { levelLengths, digestOfDigests, digests, rootLv, rootLevel, childrens, item }
-            }
-            childrens.push(fullLevels[lv].slice(start, start + W))
-            idx = Math.floor(idx / W)
-        }
+        const [rootLv, rootLevel, childrens] = _buildChildrensAndRootLevel(idx)
+        return { levelLengths, digestOfDigests, digests, rootLv, rootLevel, childrens, item }
     }
 
     return { add, indexOf, build }
