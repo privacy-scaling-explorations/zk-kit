@@ -3,6 +3,7 @@ pragma circom 2.1.4;
 include "multiplexer.circom";
 include "poseidon.circom";
 
+// Pick in[sel]
 template PickOne(N) {
     signal input in[N];
     signal input sel;
@@ -19,13 +20,13 @@ template PickOne(N) {
 // len 2:     H(in[0], in[1])
 // len 3:   H(H(in[0], in[1]), in[2])
 // len 4: H(H(H(in[0], in[1]), in[2]), in[3])
-template HashChain(N) { // complexity: 4 -> 729, 20 -> 4601
+template HashChain(N) {
     signal input in[N];
-    signal input len;  // [0..N]
-    signal output out; // one of the N + 1 possibilities
+    signal input len;  // [0...N]
+    signal output out; // one of the N + 1 values
 
     signal outs[N + 1];
-    outs[0] <== 0;     // default 0
+    outs[0] <== 0;     // empty
     outs[1] <== in[0]; // no hash
     for (var i = 2; i < N + 1; i++) {
         outs[i] <== Poseidon(2)([outs[i - 1], in[i - 1]]);
