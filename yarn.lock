@@ -4185,6 +4185,7 @@ __metadata:
   dependencies:
     circom_tester: ^0.0.19
     circomlib: ^2.0.5
+    poseidon-lite: ^0.2.0
     tmp-promise: ^3.0.3
   languageName: unknown
   linkType: soft

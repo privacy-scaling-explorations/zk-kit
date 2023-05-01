@@ -1,4 +1,5 @@
 import * as path from "path"
+import { poseidon2 } from "poseidon-lite"
 import { getTester, getUtils } from "./utils"
 
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "ok", "fail"] }] */
@@ -42,20 +43,12 @@ describe("HashChain", () => {
             { out: BigInt("20127075603631019434055928315203707068407414306847615530687456290565086592967") }
         )
 
+        const H = (a, b) => poseidon2([a, b])
         await ok({ in: [100, 200, 300, 400], len: 0 }, { out: 0 })
         await ok({ in: [100, 200, 300, 400], len: 1 }, { out: 100 })
-        await ok(
-            { in: [100, 200, 300, 400], len: 2 },
-            { out: BigInt("3699275827636970843851136077830925792907611923069205979397427147713774628412") }
-        )
-        await ok(
-            { in: [100, 200, 300, 400], len: 3 },
-            { out: BigInt("3925045059169335782833407477321845405342042180089864692501953598893457304808") }
-        )
-        await ok(
-            { in: [100, 200, 300, 400], len: 4 },
-            { out: BigInt("14874163058214740000325542972470514093833183500825720625361773479542469519892") }
-        )
+        await ok({ in: [100, 200, 300, 400], len: 2 }, { out: H(100, 200) })
+        await ok({ in: [100, 200, 300, 400], len: 3 }, { out: H(H(100, 200), 300) })
+        await ok({ in: [100, 200, 300, 400], len: 4 }, { out: H(H(H(100, 200), 300), 400) })
 
         await fail({ in: [100, 200, 300, 400], len: 5 })
     })
