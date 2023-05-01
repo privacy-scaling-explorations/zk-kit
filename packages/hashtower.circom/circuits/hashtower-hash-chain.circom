@@ -81,8 +81,7 @@ template MustEQ() {
     a === b;
 }
 
-// Include(3)([5, 2, 4], 4) = 1
-// Include(3)([5, 2, 4], 6) = 0
+// Is v being included in in[]?
 template Include(N) {
     signal input in[N];
     signal input v;
@@ -123,4 +122,21 @@ template LeadingOnes(N) {
         from0to1Count += from0to1[i];
     }
     from0to1Count === 0; // no 0 to 1  =>  all 1 must be at the left most side
+}
+
+// Is v being included in the first prefixLen elements of in[]?
+template IncludeInPrefix(N) { // complexity 5N
+    signal input in[N];
+    signal input prefixLen; // 0 <= prefixLen <= N
+    signal input v;
+    signal output out; // 1 iff v is in  in[0 .. prefixLen - 1]
+
+    signal leadingOnes[N] <== LeadingOnes(N)(prefixLen);
+    signal isGood[N];
+    var goodCount = 0;
+    for (var i = 0; i < N; i++) {
+        isGood[i] <== AND()(IsEqual()([in[i], v]), leadingOnes[i]);
+        goodCount += isGood[i];
+    }
+    out <== IsNonZero()(goodCount);
 }

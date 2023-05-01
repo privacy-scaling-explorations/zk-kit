@@ -149,3 +149,26 @@ describe("LeadingOnes", () => {
         await fail({ len: 2 })
     })
 })
+
+describe("IncludeInPrefix", () => {
+    it("IncludeInPrefix", async () => {
+        const { ok, fail } = await utils("IncludeInPrefix", [4])
+        await ok({ in: [8, 6, 10, 9], prefixLen: 2, v: 6 }, { out: 1 })
+        await ok({ in: [8, 6, 10, 9], prefixLen: 2, v: 9 }, { out: 0 })
+        await ok({ in: [8, 6, 10, 9], prefixLen: 0, v: 8 }, { out: 0 })
+        await ok({ in: [8, 6, 10, 9], prefixLen: 1, v: 8 }, { out: 1 })
+        await ok({ in: [8, 6, 10, 9], prefixLen: 4, v: 9 }, { out: 1 })
+        await ok({ in: [8, 6, 10, 9], prefixLen: 4, v: 42 }, { out: 0 })
+
+        await fail({ in: [8, 6, 10, 9], prefixLen: 5, v: 8 })
+
+        const _in = [8, 6, 10, 9]
+        for (let prefixLen = 0; prefixLen <= _in.length; prefixLen += 1) {
+            for (const v of _in) {
+                const out = _in.slice(0, prefixLen).includes(v) ? 1 : 0
+                await ok({ in: _in, prefixLen, v }, { out })
+            }
+            await ok({ in: _in, prefixLen, v: 4242 }, { out: 0 })
+        }
+    })
+})
