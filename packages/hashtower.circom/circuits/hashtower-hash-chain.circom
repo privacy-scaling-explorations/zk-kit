@@ -33,3 +33,19 @@ template HashChain(N) {
     }
     out <== PickOne(N + 1)(outs, len);
 }
+
+// RotateLeft(5)([0, 1, 2, 3, 4], 2) = [2, 3, 4, 0, 1]
+template RotateLeft(N) {
+    signal input in[N];
+    signal input n; // 0 <= n < N
+    signal output out[N];
+    // row 0: rotate 0, row 1: rotate 1, ...
+    component mux = Multiplexer(N, N);
+    for (var i = 0; i < N; i++) {
+        for (var j = 0; j < N; j++) {
+            mux.inp[i][j] <== in[(i + j) % N];
+        }
+    }
+    mux.sel <== n;
+    out <== mux.out;
+}
