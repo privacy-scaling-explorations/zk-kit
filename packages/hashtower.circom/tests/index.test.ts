@@ -124,3 +124,28 @@ describe("Include", () => {
         await ok({ in: [7, 2, 3, 0], v: 0 }, { out: 1 })
     })
 })
+
+describe("LeadingOnes", () => {
+    it("LeadingOnes: N = 4", async () => {
+        const { ok, fail } = await utils("LeadingOnes", [4])
+        await ok({ len: 0 }, { out: [0, 0, 0, 0] })
+        await ok({ len: 1 }, { out: [1, 0, 0, 0] })
+        await ok({ len: 2 }, { out: [1, 1, 0, 0] })
+        await ok({ len: 3 }, { out: [1, 1, 1, 0] })
+        await ok({ len: 4 }, { out: [1, 1, 1, 1] })
+        await fail({ len: 5 })
+    })
+    it("LeadingOnes: N = 2", async () => {
+        const { ok, fail } = await utils("LeadingOnes", [2])
+        await ok({ len: 0 }, { out: [0, 0] })
+        await ok({ len: 1 }, { out: [1, 0] })
+        await ok({ len: 2 }, { out: [1, 1] })
+        await fail({ len: 3 })
+    })
+    it("LeadingOnes: N = 1", async () => {
+        const { ok, fail } = await utils("LeadingOnes", [1])
+        await ok({ len: 0 }, { out: [0] })
+        await ok({ len: 1 }, { out: [1] })
+        await fail({ len: 2 })
+    })
+})

@@ -95,3 +95,32 @@ template Include(N) {
     }
     out <== IsZero()(prod[N - 1]);
 }
+
+// LeadingOnes(4)(0) = [0, 0, 0, 0]
+// LeadingOnes(4)(1) = [1, 0, 0, 0]
+// LeadingOnes(4)(2) = [1, 1, 0, 0]
+// LeadingOnes(4)(3) = [1, 1, 1, 0]
+// LeadingOnes(4)(4) = [1, 1, 1, 1]
+// LeadingOnes(4)(5) = fail
+//
+// Use this component to simulate dynamic loops.
+template LeadingOnes(N) {
+    signal input len; // len <= N
+    signal output out[N]; // out[i] = i < len ? 1 : 0;
+
+    var oneCount = 0;
+    for (var i = 0; i < N; i++) {
+        out[i] <-- i < len ? 1 : 0;
+        (out[i] - 0) * (out[i] - 1) === 0; // out[i] must be 0 or 1
+        oneCount += out[i];
+    }
+    oneCount === len; // it can hold only when len <= N
+
+    signal from0to1[N - 1]; // from0to1[i] = (out[i] == 0) && (out[i + 1] == 1)
+    var from0to1Count = 0;
+    for (var i = 0; i < N - 1; i++) {
+        from0to1[i] <== (1 - out[i]) * out[i + 1];
+        from0to1Count += from0to1[i];
+    }
+    from0to1Count === 0; // no 0 to 1  =>  all 1 must be at the left most side
+}
