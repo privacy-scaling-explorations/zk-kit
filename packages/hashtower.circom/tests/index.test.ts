@@ -66,3 +66,11 @@ describe("RotateLeft", () => {
         await fail({ in: [6, 7, 8, 9], n: 4 }) // out of bounds
     })
 })
+
+describe("Reverse", () => {
+    it("Reverse", async () => {
+        const { ok } = await utils("Reverse", [4])
+
+        await ok({ in: [6, 7, 8, 9] }, { out: [9, 8, 7, 6] })
+    })
+})

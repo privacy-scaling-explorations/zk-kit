@@ -49,3 +49,12 @@ template RotateLeft(N) {
     mux.sel <== n;
     out <== mux.out;
 }
+
+// Reverse(4)([0, 1, 2, 3]) = [3, 2, 1, 0]
+template Reverse(N) {
+    signal input in[N];
+    signal output out[N];
+    for (var i = 0; i < N; i++) {
+        out[i] <== in[N - i - 1];
+    }
+}
