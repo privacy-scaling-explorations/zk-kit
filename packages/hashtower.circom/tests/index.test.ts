@@ -108,3 +108,19 @@ describe("MustEQ", () => {
         await fail({ a: 2, b: 1 })
     })
 })
+
+describe("Include", () => {
+    it("Include", async () => {
+        const { ok } = await utils("Include", [4])
+        await ok({ in: [7, 2, 3, 6], v: 7 }, { out: 1 })
+        await ok({ in: [7, 2, 3, 6], v: 2 }, { out: 1 })
+        await ok({ in: [7, 2, 3, 6], v: 3 }, { out: 1 })
+        await ok({ in: [7, 2, 3, 6], v: 6 }, { out: 1 })
+
+        await ok({ in: [7, 2, 3, 6], v: 8 }, { out: 0 })
+        await ok({ in: [7, 2, 3, 6], v: 0 }, { out: 0 })
+
+        await ok({ in: [0, 2, 3, 6], v: 0 }, { out: 1 })
+        await ok({ in: [7, 2, 3, 0], v: 0 }, { out: 1 })
+    })
+})

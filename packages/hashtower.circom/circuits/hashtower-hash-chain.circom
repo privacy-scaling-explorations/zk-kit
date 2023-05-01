@@ -80,3 +80,18 @@ template MustEQ() {
     signal input b;
     a === b;
 }
+
+// Include(3)([5, 2, 4], 4) = 1
+// Include(3)([5, 2, 4], 6) = 0
+template Include(N) {
+    signal input in[N];
+    signal input v;
+    signal output out;
+
+    signal prod[N];
+    prod[0] <== in[0] - v;
+    for (var i = 1; i < N; i++) {
+        prod[i] <== prod[i - 1] * (in[i] - v);
+    }
+    out <== IsZero()(prod[N - 1]);
+}
