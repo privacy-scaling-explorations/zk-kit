@@ -2,6 +2,8 @@ pragma circom 2.1.4;
 
 include "multiplexer.circom";
 include "poseidon.circom";
+include "comparators.circom";
+include "gates.circom";
 
 // Pick in[sel]
 template PickOne(N) {
@@ -57,4 +59,24 @@ template Reverse(N) {
     for (var i = 0; i < N; i++) {
         out[i] <== in[N - i - 1];
     }
+}
+
+// 0 => 0
+// 1 => 1, 2 => 1, 3 => 1 ...
+template IsNonZero() {
+    signal input in;
+    signal output out <== NOT()(IsZero()(in));
+}
+
+// if in != 1 then abort
+template Must() {
+    signal input in;
+    in === 1;
+}
+
+// if a != b then abort
+template MustEQ() {
+    signal input a;
+    signal input b;
+    a === b;
 }

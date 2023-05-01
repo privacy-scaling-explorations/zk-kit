@@ -74,3 +74,37 @@ describe("Reverse", () => {
         await ok({ in: [6, 7, 8, 9] }, { out: [9, 8, 7, 6] })
     })
 })
+
+describe("IsNonZero", () => {
+    it("IsNonZero", async () => {
+        const { ok } = await utils("IsNonZero", [])
+
+        await ok({ in: 0 }, { out: 0 })
+        await ok({ in: 1 }, { out: 1 })
+        await ok({ in: 2 }, { out: 1 })
+        await ok({ in: 3 }, { out: 1 })
+    })
+})
+
+describe("Must", () => {
+    it("Must", async () => {
+        const { ok, fail } = await utils("Must", [])
+        await ok({ in: 1 }, {})
+
+        await fail({ in: 0 })
+        await fail({ in: 2 })
+    })
+})
+
+describe("MustEQ", () => {
+    it("MustEQ", async () => {
+        const { ok, fail } = await utils("MustEQ", [])
+        await ok({ a: 0, b: 0 }, {})
+        await ok({ a: 1, b: 1 }, {})
+        await ok({ a: 2, b: 2 }, {})
+
+        await fail({ a: 0, b: 1 })
+        await fail({ a: 0, b: 2 })
+        await fail({ a: 2, b: 1 })
+    })
+})
