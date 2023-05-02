@@ -183,3 +183,36 @@ template CheckMerkleProofAndComputeRoot(H, W) {
     }
     root <== PickOne(H)(TBI, rootLv); // root = TBI[rootLv]
 }
+
+function computeDataHeight(levelLengths, bitsPerLevel) {
+    var h = 0;
+    while (levelLengths > 0) {
+        h++;
+        levelLengths >>= bitsPerLevel;
+    }
+    return h;
+}
+function computeSingleLevelLength(levelLengths, lv, bitsPerLevel) {
+    var mask = (1 << bitsPerLevel) - 1;
+    return (levelLengths >> (lv * bitsPerLevel)) & mask;
+}
+template ComputeDataHeightAndLevelLengthArray(H, W, bitsPerLevel) {
+    signal input levelLengths;
+    signal output dataHeight;
+    signal output levelLengthArray[H];
+
+    // compute
+    dataHeight <-- computeDataHeight(levelLengths, bitsPerLevel);
+    for (var lv = 0; lv < H; lv++) {
+        levelLengthArray[lv] <-- computeSingleLevelLength(levelLengths, lv, bitsPerLevel);
+    }
+    // constraints
+    signal ones[H] <== LeadingOnes(H)(dataHeight);
+    var s = 0;
+    for (var lv = 0; lv < H; lv++) {
+        Must()( LessEqThan(bitsPerLevel)([ levelLengthArray[lv], W ]) );  // ll < W
+        MustEQ()( IsNonZero()( levelLengthArray[lv] ), ones[lv] );        // ll != 0 iff lv < dataHeight
+        s += levelLengthArray[lv] * (2 ** (lv * bitsPerLevel));
+    }
+    levelLengths === s;
+}

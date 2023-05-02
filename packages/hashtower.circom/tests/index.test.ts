@@ -226,3 +226,33 @@ describe("CheckMerkleProofAndComputeRoot", () => {
         await ok({ childrens, rootLv: 0, leaf: 42 }, { root: 42 })
     })
 })
+
+const pad = (arr: any[], len: number, val: any) => arr.concat(Array(len - arr.length).fill(val))
+const pad0 = (arr: number[], len: number) => pad(arr, len, BigInt("0"))
+function getLengths(count: number, W: number) {
+    const LL = [] // level lengths
+    for (let lv = 0, z = 0; ; lv += 1) {
+        z += W ** lv
+        if (count < z) break
+        const fl = Math.floor((count - z) / W ** lv) + 1
+        LL.push(((fl - 1) % W) + 1)
+    }
+    return LL
+}
+
+describe("ComputeDataHeightAndLevelLengthArray", () => {
+    it("ComputeDataHeightAndLevelLengthArray", async () => {
+        const H = 3
+        const W = 4
+        const bitsPerLevel = 4
+
+        const { ok } = await utils("ComputeDataHeightAndLevelLengthArray", [H, W, bitsPerLevel])
+        for (let i = 0; i < 85; i += 1) {
+            const LL = getLengths(i, W)
+            const levelLengths = LL.reduce((acc, v, lv) => acc + v * 2 ** (lv * bitsPerLevel), 0)
+            const dataHeight = LL.length
+            const levelLengthArray = pad0(LL, H)
+            await ok({ levelLengths }, { dataHeight, levelLengthArray })
+        }
+    })
+})
