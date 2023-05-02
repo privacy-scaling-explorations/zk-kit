@@ -140,3 +140,46 @@ template IncludeInPrefix(N) { // complexity 5N
     }
     out <== IsNonZero()(goodCount);
 }
+
+// Compuates a Merkle root at rootLv made from childrens[0 .. rootLv - 1][] and leaf.
+//
+// Each childrens[i] must include the digest of childrens[i - 1] for i = 1 ... rootLv - 1
+// childrens[0] must include leaf.
+//
+// root = digest of childrens[rootLv - 1] if rootLv > 0
+// root = leaf if rootLv == 0
+template CheckMerkleProofAndComputeRoot(H, W) {
+    signal input childrens[H - 1][W]; // we only check childrens[] *below* rootLv
+    signal input rootLv; // 0 <= rootLv <= H - 1  (otherwise will be rejected)
+    signal input leaf;
+    signal output root;
+
+    // TBI: to be included
+    //
+    // childrens[lv] must include TBI[lv]  for all lv in [0 ... rootLv - 1]
+    //
+    // TBI[0] = leaf
+    // TBI[lv] = digest of children[lv - 1]  for all lv in [1 ... rootLv]
+    // TBI[rootLv] is the root
+    //
+    // For rootLv = 3, H = 5:                                                         mustInclude[]
+    //                                  TBI[4]                                        0
+    // rootLv =>                        TBI[3] <== digest of childrens[2] ==> *root*  0
+    //           childrens[2]  include  TBI[2] <== digest of childrens[1]             1
+    //           childrens[1]  include  TBI[1] <== digest of childrens[0]             1
+    //           childrens[0]  include  TBI[0] <== *leaf*                             1
+    signal TBI[H];
+    TBI[0] <== leaf;
+
+    // LeadingOnes() will also help us enforce rootLv <= H - 1
+    signal mustInclude[H - 1] <== LeadingOnes(H - 1)(rootLv);
+    for (var lv = 0; lv < H - 1; lv++) {
+        // Either  childrens[lv] include TBI[lv]   or   !mustInclude[lv]
+        Must()(OR()(
+            Include(W)( childrens[lv], TBI[lv] ),
+            NOT()( mustInclude[lv] )
+        ));
+        TBI[lv + 1] <== HashChain(W)(childrens[lv], W);
+    }
+    root <== PickOne(H)(TBI, rootLv); // root = TBI[rootLv]
+}

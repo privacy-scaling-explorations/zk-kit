@@ -43,7 +43,7 @@ describe("HashChain", () => {
             { out: BigInt("20127075603631019434055928315203707068407414306847615530687456290565086592967") }
         )
 
-        const H = (a, b) => poseidon2([a, b])
+        const H = (a: any, b: any) => poseidon2([a, b])
         await ok({ in: [100, 200, 300, 400], len: 0 }, { out: 0 })
         await ok({ in: [100, 200, 300, 400], len: 1 }, { out: 100 })
         await ok({ in: [100, 200, 300, 400], len: 2 }, { out: H(100, 200) })
@@ -170,5 +170,59 @@ describe("IncludeInPrefix", () => {
             }
             await ok({ in: _in, prefixLen, v: 4242 }, { out: 0 })
         }
+    })
+})
+
+describe("CheckMerkleProofAndComputeRoot", () => {
+    it("CheckMerkleProofAndComputeRoot", async () => {
+        const { ok, fail } = await utils("CheckMerkleProofAndComputeRoot", [5, 4])
+
+        const digest = (vs: (number | bigint)[]) => vs.reduce((acc, v) => poseidon2([acc, v]))
+        // let H = 5
+        // let W = 4
+        let childrens = []
+        childrens[0] = [3, 4, 5, 6]
+        childrens[1] = [2, digest(childrens[0]), 4, 8]
+        childrens[2] = [5, 9, 7, digest(childrens[1])]
+        childrens[3] = [7, 6, digest(childrens[2]), 0]
+        await ok({ childrens, rootLv: 4, leaf: 3 }, { root: digest(childrens[3]) })
+        await ok({ childrens, rootLv: 4, leaf: 4 }, { root: digest(childrens[3]) })
+        await ok({ childrens, rootLv: 4, leaf: 5 }, { root: digest(childrens[3]) })
+        await ok({ childrens, rootLv: 4, leaf: 6 }, { root: digest(childrens[3]) })
+        await fail({ childrens, rootLv: 4, leaf: 2 }) // non exist leaf
+        await fail({ childrens, rootLv: 5, leaf: 3 }) // level should <= 5 - 1
+        childrens[2][1] = 42 // break the proof
+        await fail({ childrens, rootLv: 4, leaf: 6 })
+
+        childrens = []
+        childrens[0] = [3, 4, 5, 6]
+        childrens[1] = [2, digest(childrens[0]), 4, 8]
+        childrens[2] = [5, 9, 7, digest(childrens[1])]
+        childrens[3] = [0, 0, 0, 0]
+        await ok({ childrens, rootLv: 3, leaf: 3 }, { root: digest(childrens[2]) })
+        await ok({ childrens, rootLv: 3, leaf: 4 }, { root: digest(childrens[2]) })
+        await ok({ childrens, rootLv: 3, leaf: 5 }, { root: digest(childrens[2]) })
+        await ok({ childrens, rootLv: 3, leaf: 6 }, { root: digest(childrens[2]) })
+        childrens[3] = [8, 9, 10, 11] // don't care
+        await ok({ childrens, rootLv: 3, leaf: 3 }, { root: digest(childrens[2]) })
+
+        childrens = []
+        childrens[0] = [3, 4, 5, 6]
+        childrens[1] = [0, 0, 0, 0]
+        childrens[2] = [0, 0, 0, 0]
+        childrens[3] = [0, 0, 0, 0]
+        await ok({ childrens, rootLv: 1, leaf: 3 }, { root: digest(childrens[0]) })
+        await ok({ childrens, rootLv: 1, leaf: 4 }, { root: digest(childrens[0]) })
+        await ok({ childrens, rootLv: 1, leaf: 5 }, { root: digest(childrens[0]) })
+        await ok({ childrens, rootLv: 1, leaf: 6 }, { root: digest(childrens[0]) })
+        childrens[1] = [8, 9, 10, 11] // don't care
+        await ok({ childrens, rootLv: 1, leaf: 3 }, { root: digest(childrens[0]) })
+
+        childrens = []
+        childrens[0] = [3, 4, 5, 6] // don't care
+        childrens[1] = [0, 1, 2, 0]
+        childrens[2] = [0, 3, 4, 0]
+        childrens[3] = [0, 0, 0, 0]
+        await ok({ childrens, rootLv: 0, leaf: 42 }, { root: 42 })
     })
 })
