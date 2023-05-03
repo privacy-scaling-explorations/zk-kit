@@ -224,34 +224,34 @@ describe("CheckMerkleProofAndComputeRoot", () => {
         childrens[2] = [0, 3, 4, 0]
         childrens[3] = [0, 0, 0, 0]
         await ok({ childrens, rootLv: 0, leaf: 42 }, { root: 42 })
-    })
+    }, 10000) // long-running test
 })
 
-const pad = (arr: any[], len: number, val: any) => arr.concat(Array(len - arr.length).fill(val))
-const pad0 = (arr: number[], len: number) => pad(arr, len, BigInt("0"))
-function getLengths(count: number, W: number) {
-    const LL = [] // level lengths
-    for (let lv = 0, z = 0; ; lv += 1) {
-        z += W ** lv
-        if (count < z) break
-        const fl = Math.floor((count - z) / W ** lv) + 1
-        LL.push(((fl - 1) % W) + 1)
+function increaseLevelLengthArray(levelLengthArray: number[], W: number){
+    for (let lv = 0; ; lv += 1) {
+        levelLengthArray[lv] += 1
+        if (levelLengthArray[lv] <= W) {
+            return
+        }
+        levelLengthArray[lv] = 1
     }
-    return LL
 }
-
 describe("ComputeDataHeightAndLevelLengthArray", () => {
     it("ComputeDataHeightAndLevelLengthArray", async () => {
         const H = 3
         const W = 4
         const bitsPerLevel = 4
-
         const { ok } = await utils("ComputeDataHeightAndLevelLengthArray", [H, W, bitsPerLevel])
-        for (let i = 0; i < 85; i += 1) {
-            const LL = getLengths(i, W)
-            const levelLengths = LL.reduce((acc, v, lv) => acc + v * 2 ** (lv * bitsPerLevel), 0)
-            const dataHeight = LL.length
-            const levelLengthArray = pad0(LL, H)
+        const capacity = W * (W ** H - 1) / (W - 1)
+
+        const levelLengthArray = Array(H).fill(0)
+        let levelLengths = 0
+        let dataHeight = 0
+        await ok({ levelLengths }, { dataHeight, levelLengthArray })
+        for (let i = 0; i < capacity; i += 1) {
+            increaseLevelLengthArray(levelLengthArray, W)
+            dataHeight = levelLengthArray.filter((x) => x).length
+            levelLengths = levelLengthArray.reduce((acc, v, lv) => acc | (v << (lv * bitsPerLevel)), 0)
             await ok({ levelLengths }, { dataHeight, levelLengthArray })
         }
     })
