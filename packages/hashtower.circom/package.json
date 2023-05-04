@@ -1,7 +1,7 @@
 {
     "name": "@zk-kit/hashtower.circom",
     "version": "0.0.1",
-    "description": "Circom circuit for HashTower.",
+    "description": "HashTower CIRCOM libraries.",
     "keywords": [
         "hashtower",
         "ethereum",
