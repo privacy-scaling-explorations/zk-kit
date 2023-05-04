@@ -1,11 +1,36 @@
 {
     "name": "@zk-kit/hashtower.circom",
+    "version": "0.0.1",
+    "description": "Circom circuit for HashTower.",
+    "keywords": [
+        "hashtower",
+        "ethereum",
+        "circuit",
+        "circom",
+        "zksnark",
+        "merkle tree"
+    ],
+    "license": "MIT",
+    "files": [
+        "circuits/",
+        "README.md"
+    ],
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/hashtower.circom",
+    "author": {
+        "name": "LCamel",
+        "email": "lcamel@gmail.com",
+        "url": "https://twitter.com/LCamel"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "circomlib": "^2.0.5"
+    },
     "devDependencies": {
         "circom_tester": "^0.0.19",
         "poseidon-lite": "^0.2.0",
         "tmp-promise": "^3.0.3"
-    },
-    "dependencies": {
-        "circomlib": "^2.0.5"
     }
 }
