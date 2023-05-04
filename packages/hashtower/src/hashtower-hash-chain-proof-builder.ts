@@ -3,7 +3,7 @@ import { poseidon2 } from "poseidon-lite"
 export type HashTowerHashChainProof = {
     levelLengths: bigint
     digestOfDigests: bigint
-    digests: bigint[]
+    topDownDigests: bigint[]
     rootLv: number
     rootLevel: bigint[]
     childrens: bigint[][]
@@ -86,7 +86,7 @@ export function HashTowerHashChainProofBuilder(H: number, W: number, hash = defa
             if (start === levelStart) {
                 // we are in the tower now
                 const rootLevel = pad0(fullLevels[lv].slice(start, start + levels[lv].length), W)
-                return [lv, rootLevel, pad00(childrens, H, W)]
+                return [lv, rootLevel, pad00(childrens, H - 1, W)]
             }
             childrens.push(fullLevels[lv].slice(start, start + W))
             idx = Math.floor(idx / W)
@@ -107,15 +107,15 @@ export function HashTowerHashChainProofBuilder(H: number, W: number, hash = defa
         }
 
         const item = fullLevels[0][idx]
-        let digests = levels.map(digestFunc)
-        const digestOfDigests = digestFunc(digests.reverse())
-        digests = pad0(digests, H)
+        let topDownDigests = levels.map(digestFunc).reverse()
+        const digestOfDigests = digestFunc(topDownDigests)
+        topDownDigests = pad0(topDownDigests, H)
         const levelLengths = levels.reduce(
             (sum, level, lv) => sum | (BigInt(level.length) << BigInt(bitsPerLevel * lv)),
             BigInt(0)
         )
         const [rootLv, rootLevel, childrens] = _buildChildrensAndRootLevel(idx)
-        return { levelLengths, digestOfDigests, digests, rootLv, rootLevel, childrens, item }
+        return { levelLengths, digestOfDigests, topDownDigests, rootLv, rootLevel, childrens, item }
     }
 
     return { add, indexOf, build }

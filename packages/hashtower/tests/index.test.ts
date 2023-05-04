@@ -5,6 +5,44 @@ const hash = (a: bigint, b: bigint): bigint => poseidon2([a, b])
 
 describe("HashTowerHashChainProofBuilder", () => {
     it("Should build a proof", () => {
+        const pb = HashTowerHashChainProofBuilder(3, 3)
+        for (let i = BigInt(0); i < 11; i += BigInt(1)) {
+            pb.add(i)
+        }
+        const index = pb.indexOf(BigInt(4))
+        const proof = pb.build(index)
+
+        const h = (a: number | bigint, b: number | bigint) => hash(BigInt(a), BigInt(b))
+
+        // 012 345 678
+        // 9   10
+        const L = []
+        L[2] = []
+        L[1] = [h(h(0, 1), 2), h(h(3, 4), 5), h(h(6, 7), 8)]
+        L[0] = [9, 10]
+
+        const D = []
+        D[2] = 0
+        D[1] = h(h(L[1][0], L[1][1]), L[1][2])
+        D[0] = h(L[0][0], L[0][1])
+
+        const ans = {
+            levelLengths: BigInt(0x32),
+            digestOfDigests: h(D[1], D[0]), // top-down
+            topDownDigests: [D[1], D[0], BigInt(0)], // top-down and zero padding
+            rootLv: 1,
+            rootLevel: L[1],
+            childrens: [
+                [BigInt(3), BigInt(4), BigInt(5)],
+                [BigInt(0), BigInt(0), BigInt(0)] // rootLv here
+                // only H - 1 levels
+            ],
+            item: BigInt(4)
+        }
+        expect(proof).toEqual(ans)
+    })
+
+    it("Should build a proof 2", () => {
         const pb = HashTowerHashChainProofBuilder(10, 4, hash)
         for (let i = BigInt(0); i < 150; i += BigInt(1)) {
             pb.add(i)
@@ -16,7 +54,7 @@ describe("HashTowerHashChainProofBuilder", () => {
         const ans = {
             levelLengths: BigInt("8466"),
             digestOfDigests: BigInt("19260615748091768530426964318883829655407684674262674118201416393073357631548"),
-            digests: [
+            topDownDigests: [
                 BigInt("11606235313340788975553986881206148975708550071371494991713397040288897077102"),
                 BigInt("18495397265763935736123111771752209927150052777598404957994272011704245682779"),
                 BigInt("18801712394745483811033456933953954791894699812924877968490149877093764724813"),
@@ -54,8 +92,8 @@ describe("HashTowerHashChainProofBuilder", () => {
                 [BigInt("0"), BigInt("0"), BigInt("0"), BigInt("0")],
                 [BigInt("0"), BigInt("0"), BigInt("0"), BigInt("0")],
                 [BigInt("0"), BigInt("0"), BigInt("0"), BigInt("0")],
-                [BigInt("0"), BigInt("0"), BigInt("0"), BigInt("0")],
                 [BigInt("0"), BigInt("0"), BigInt("0"), BigInt("0")]
+                // only H - 1 levels
             ],
             item: BigInt("42")
         }

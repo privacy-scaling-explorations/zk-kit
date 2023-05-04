@@ -216,3 +216,38 @@ template ComputeDataHeightAndLevelLengthArray(H, W, bitsPerLevel) {
     }
     levelLengths === s;
 }
+
+template HashTowerHashChain(H, W, W_BITS) {
+    signal input levelLengths;
+    signal input digestOfDigests;
+    signal input topDownDigests[H];
+    signal input rootLv;
+    signal input rootLevel[W];
+    signal input childrens[H - 1][W];
+    signal input item;
+
+    Must()(IsNonZero()(levelLengths));
+    signal levelLengthArray[H];
+    signal dataHeight;
+    (dataHeight, levelLengthArray) <== ComputeDataHeightAndLevelLengthArray(H, W, W_BITS)(levelLengths);
+    // rootLv < dataHeight  (where dataHeight < 2**8)
+    Must()(LessThan(8)([rootLv, dataHeight]));
+    // rootLevelLength = levelLengthArray[rootLv]
+    signal rootLevelLength <== PickOne(H)(levelLengthArray, rootLv);
+
+
+    // the digest of topDownDigests matches digestOfDigests
+    MustEQ()( HashChain(H)(topDownDigests, dataHeight), digestOfDigests );
+    // now topDownDigests is good
+
+    // the digest of rootLevel matches the one in topDownDigests
+    signal rootLevelDigest <== PickOne(H)(topDownDigests, dataHeight - rootLv - 1);
+    MustEQ()( HashChain(W)(rootLevel, rootLevelLength), rootLevelDigest );
+    // now rootLevel is good
+
+    // the root is in the prefix of the rootLevel
+    // the root covers the item
+    signal root <== CheckMerkleProofAndComputeRoot(H, W)(childrens, rootLv, item);
+    Must()( IncludeInPrefix(W)(rootLevel, rootLevelLength, root) );
+    // now item is good
+}

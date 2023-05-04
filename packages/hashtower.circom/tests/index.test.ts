@@ -1,5 +1,6 @@
 import * as path from "path"
 import { poseidon2 } from "poseidon-lite"
+import { HashTowerHashChainProofBuilder } from "../../hashtower/src"
 import { getTester, getUtils } from "./utils"
 
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "ok", "fail"] }] */
@@ -224,10 +225,10 @@ describe("CheckMerkleProofAndComputeRoot", () => {
         childrens[2] = [0, 3, 4, 0]
         childrens[3] = [0, 0, 0, 0]
         await ok({ childrens, rootLv: 0, leaf: 42 }, { root: 42 })
-    }, 10000) // long-running test
+    }) // long-running test
 })
 
-function increaseLevelLengthArray(levelLengthArray: number[], W: number){
+function increaseLevelLengthArray(levelLengthArray: number[], W: number) {
     for (let lv = 0; ; lv += 1) {
         levelLengthArray[lv] += 1
         if (levelLengthArray[lv] <= W) {
@@ -242,7 +243,7 @@ describe("ComputeDataHeightAndLevelLengthArray", () => {
         const W = 4
         const bitsPerLevel = 4
         const { ok } = await utils("ComputeDataHeightAndLevelLengthArray", [H, W, bitsPerLevel])
-        const capacity = W * (W ** H - 1) / (W - 1)
+        const capacity = (W * (W ** H - 1)) / (W - 1)
 
         const levelLengthArray = Array(H).fill(0)
         let levelLengths = 0
@@ -255,4 +256,57 @@ describe("ComputeDataHeightAndLevelLengthArray", () => {
             await ok({ levelLengths }, { dataHeight, levelLengthArray })
         }
     })
+})
+
+describe("HashTowerHashChain", () => {
+    it("HashTowerHashChain W = 3", async () => {
+        const H = 4
+        const W = 3
+        const bitsPerLevel = 4
+        const { ok } = await utils("HashTowerHashChain", [H, W, bitsPerLevel])
+
+        const pb = HashTowerHashChainProofBuilder(H, W)
+
+        for (let i = BigInt(0); i < 13; i += BigInt(1)) {
+            pb.add(i)
+            for (let j = BigInt(0); j < i; j += BigInt(1)) {
+                const proof = pb.build(pb.indexOf(j))
+                await ok(proof, {})
+            }
+        }
+    }) // long-running test
+
+    it("HashTowerHashChain W = 2", async () => {
+        const H = 3
+        const W = 2
+        const bitsPerLevel = 4
+        const { ok } = await utils("HashTowerHashChain", [H, W, bitsPerLevel])
+
+        const pb = HashTowerHashChainProofBuilder(H, W)
+
+        for (let i = BigInt(0); i < 14; i += BigInt(1)) {
+            pb.add(i)
+            for (let j = BigInt(0); j < i; j += BigInt(1)) {
+                const proof = pb.build(pb.indexOf(j))
+                await ok(proof, {})
+            }
+        }
+    }) // long-running test
+
+    it("HashTowerHashChain W = 2, H = 2", async () => {
+        const H = 2
+        const W = 2
+        const bitsPerLevel = 4
+        const { ok } = await utils("HashTowerHashChain", [H, W, bitsPerLevel])
+
+        const pb = HashTowerHashChainProofBuilder(H, W)
+
+        for (let i = BigInt(0); i < 6; i += BigInt(1)) {
+            pb.add(i)
+            for (let j = BigInt(0); j < i; j += BigInt(1)) {
+                const proof = pb.build(pb.indexOf(j))
+                await ok(proof, {})
+            }
+        }
+    }) // long-running test
 })
