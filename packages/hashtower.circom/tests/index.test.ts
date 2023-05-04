@@ -55,27 +55,6 @@ describe("HashChain", () => {
     })
 })
 
-describe("RotateLeft", () => {
-    it("RotateLeft", async () => {
-        const { ok, fail } = await utils("RotateLeft", [4])
-
-        await ok({ in: [6, 7, 8, 9], n: 0 }, { out: [6, 7, 8, 9] })
-        await ok({ in: [6, 7, 8, 9], n: 1 }, { out: [7, 8, 9, 6] })
-        await ok({ in: [6, 7, 8, 9], n: 2 }, { out: [8, 9, 6, 7] })
-        await ok({ in: [6, 7, 8, 9], n: 3 }, { out: [9, 6, 7, 8] })
-
-        await fail({ in: [6, 7, 8, 9], n: 4 }) // out of bounds
-    })
-})
-
-describe("Reverse", () => {
-    it("Reverse", async () => {
-        const { ok } = await utils("Reverse", [4])
-
-        await ok({ in: [6, 7, 8, 9] }, { out: [9, 8, 7, 6] })
-    })
-})
-
 describe("IsNonZero", () => {
     it("IsNonZero", async () => {
         const { ok } = await utils("IsNonZero", [])
