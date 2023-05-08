@@ -16,7 +16,6 @@ import _verifyProof from "./verifyProof"
 export default class IncrementalMerkleTree {
     static readonly maxDepth = 32
 
-    private _root: Node
     private readonly _nodes: Node[][]
     private readonly _zeroes: Node[]
     private readonly _hash: HashFunction
@@ -30,15 +29,21 @@ export default class IncrementalMerkleTree {
      * @param depth Tree depth.
      * @param zeroValue Zero values for zeroes.
      * @param arity The number of children for each node.
+     * @param leaves The list of initial leaves.
      */
-    constructor(hash: HashFunction, depth: number, zeroValue: Node, arity = 2) {
+    constructor(hash: HashFunction, depth: number, zeroValue: Node, arity = 2, leaves: Node[] = []) {
         checkParameter(hash, "hash", "function")
         checkParameter(depth, "depth", "number")
         checkParameter(zeroValue, "zeroValue", "number", "string", "bigint")
         checkParameter(arity, "arity", "number")
+        checkParameter(leaves, "leaves", "object")
 
         if (depth < 1 || depth > IncrementalMerkleTree.maxDepth) {
             throw new Error("The tree depth must be between 1 and 32")
+        }
+
+        if (leaves.length > arity ** depth) {
+            throw new Error(`The tree cannot contain more than ${arity ** depth} leaves`)
         }
 
         // Initialize the attributes.
@@ -48,15 +53,35 @@ export default class IncrementalMerkleTree {
         this._nodes = []
         this._arity = arity
 
-        for (let i = 0; i < depth; i += 1) {
+        for (let level = 0; level < depth; level += 1) {
             this._zeroes.push(zeroValue)
-            this._nodes[i] = []
+            this._nodes[level] = []
             // There must be a zero value for each tree level (except the root).
             zeroValue = hash(Array(this._arity).fill(zeroValue))
         }
 
-        // The default root is the last zero value.
-        this._root = zeroValue
+        this._nodes[depth] = []
+
+        // It initializes the tree with a list of leaves if there are any.
+        if (leaves.length > 0) {
+            this._nodes[0] = leaves
+
+            for (let level = 0; level < depth; level += 1) {
+                for (let index = 0; index < Math.ceil(this._nodes[level].length / arity); index += 1) {
+                    const position = index * arity
+                    const children = []
+
+                    for (let i = position; i < position + arity; i += 1) {
+                        children.push(this._nodes[level][i] || this.zeroes[level])
+                    }
+
+                    this._nodes[level + 1][index] = hash(children)
+                }
+            }
+        } else {
+            // If there are no leaves, the default root is the last zero value.
+            this._nodes[depth][0] = zeroValue
+        }
 
         // Freeze the array objects. It prevents unintentional changes.
         Object.freeze(this._zeroes)
@@ -68,7 +93,7 @@ export default class IncrementalMerkleTree {
      * @returns Root hash.
      */
     public get root(): Node {
-        return this._root
+        return this._nodes[this.depth][0]
     }
 
     /**
@@ -117,7 +142,7 @@ export default class IncrementalMerkleTree {
      * @param leaf New leaf.
      */
     public insert(leaf: Node) {
-        this._root = _insert(leaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
+        this._nodes[this.depth][0] = _insert(leaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
     }
 
     /**
@@ -126,7 +151,15 @@ export default class IncrementalMerkleTree {
      * @param index Index of the leaf to be deleted.
      */
     public delete(index: number) {
-        this._root = _update(index, this.zeroes[0], this.depth, this.arity, this._nodes, this.zeroes, this._hash)
+        this._nodes[this.depth][0] = _update(
+            index,
+            this.zeroes[0],
+            this.depth,
+            this.arity,
+            this._nodes,
+            this.zeroes,
+            this._hash
+        )
     }
 
     /**
@@ -135,7 +168,15 @@ export default class IncrementalMerkleTree {
      * @param newLeaf New leaf value.
      */
     public update(index: number, newLeaf: Node) {
-        this._root = _update(index, newLeaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
+        this._nodes[this.depth][0] = _update(
+            index,
+            newLeaf,
+            this.depth,
+            this.arity,
+            this._nodes,
+            this.zeroes,
+            this._hash
+        )
     }
 
     /**

@@ -19,9 +19,11 @@ describe("Incremental Merkle Tree", () => {
             it("Should not initialize a tree with wrong parameters", () => {
                 const fun1 = () => new IncrementalMerkleTree(undefined as any, 33, 0, arity)
                 const fun2 = () => new IncrementalMerkleTree(1 as any, 33, 0, arity)
+                const fun3 = () => new IncrementalMerkleTree(poseidon, depth, BigInt(0), arity, 2 as any)
 
                 expect(fun1).toThrow("Parameter 'hash' is not defined")
                 expect(fun2).toThrow("Parameter 'hash' is none of these types: function")
+                expect(fun3).toThrow("Parameter 'leaves' is none of these types: object")
             })
 
             it("Should not initialize a tree with depth > 32", () => {
@@ -30,11 +32,37 @@ describe("Incremental Merkle Tree", () => {
                 expect(fun).toThrow("The tree depth must be between 1 and 32")
             })
 
+            it("Should not initialize a tree with a number of leaves > arity ** depth", () => {
+                const leaves = Array.from(Array(100).keys())
+
+                const fun = () => new IncrementalMerkleTree(poseidon, 2, BigInt(0), arity, leaves)
+
+                expect(fun).toThrow(`The tree cannot contain more than ${arity ** 2} leaves`)
+            })
+
             it("Should initialize a tree", () => {
                 expect(tree.depth).toEqual(depth)
                 expect(tree.leaves).toHaveLength(0)
                 expect(tree.zeroes).toHaveLength(depth)
                 expect(tree.arity).toEqual(arity)
+            })
+
+            it("Should initialize a tree with 100 leaves", () => {
+                const leaves = Array.from(Array(100).keys())
+
+                const tree = new IncrementalMerkleTree(poseidon, depth, BigInt(0), arity, leaves)
+
+                const tree2 = new IncrementalMerkleTree(poseidon, depth, BigInt(0), arity)
+
+                for (const leaf of leaves) {
+                    tree2.insert(leaf)
+                }
+
+                expect(tree.depth).toEqual(depth)
+                expect(tree.leaves).toHaveLength(100)
+                expect(tree.zeroes).toHaveLength(depth)
+                expect(tree.arity).toEqual(arity)
+                expect(tree.root).toEqual(tree2.root)
             })
 
             it("Should not insert a leaf in a full tree", () => {
