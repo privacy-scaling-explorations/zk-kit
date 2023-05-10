@@ -35,11 +35,17 @@
         "typechain": "^8.1.0"
     },
     "dependencies": {
-        "poseidon-solidity": "0.0.4"
+        "poseidon-solidity": "0.0.5"
     },
     "config": {
         "solidity": {
-            "version": "0.8.4"
+            "version": "0.8.4",
+            "settings": {
+                "optimizer": {
+                    "enabled": true,
+                    "runs": 200
+                }
+            }
         },
         "paths": {
             "contracts": "./contracts",
