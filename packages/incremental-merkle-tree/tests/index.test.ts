@@ -47,23 +47,25 @@ describe("Incremental Merkle Tree", () => {
                 expect(tree.arity).toEqual(arity)
             })
 
-            it("Should initialize a tree with 100 leaves", () => {
-                const leaves = Array.from(Array(100).keys())
+            for (let numberOfLeaves = 100; numberOfLeaves < 116; numberOfLeaves += 1) {
+                it(`Should initialize a tree with ${numberOfLeaves} leaves`, () => {
+                    const leaves = Array.from(Array(numberOfLeaves).keys())
 
-                const tree = new IncrementalMerkleTree(poseidon, depth, BigInt(0), arity, leaves)
+                    const tree = new IncrementalMerkleTree(poseidon, depth, BigInt(0), arity, leaves)
 
-                const tree2 = new IncrementalMerkleTree(poseidon, depth, BigInt(0), arity)
+                    const tree2 = new IncrementalMerkleTree(poseidon, depth, BigInt(0), arity)
 
-                for (const leaf of leaves) {
-                    tree2.insert(leaf)
-                }
+                    for (const leaf of leaves) {
+                        tree2.insert(leaf)
+                    }
 
-                expect(tree.depth).toEqual(depth)
-                expect(tree.leaves).toHaveLength(100)
-                expect(tree.zeroes).toHaveLength(depth)
-                expect(tree.arity).toEqual(arity)
-                expect(tree.root).toEqual(tree2.root)
-            })
+                    expect(tree.depth).toEqual(depth)
+                    expect(tree.leaves).toHaveLength(numberOfLeaves)
+                    expect(tree.zeroes).toHaveLength(depth)
+                    expect(tree.arity).toEqual(arity)
+                    expect(tree.root).toEqual(tree2.root)
+                })
+            }
 
             it("Should not insert a leaf in a full tree", () => {
                 const fullTree = new IncrementalMerkleTree(poseidon, 1, BigInt(0), 3)
