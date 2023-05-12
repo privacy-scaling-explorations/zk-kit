@@ -71,8 +71,8 @@ export default class IncrementalMerkleTree {
                     const position = index * arity
                     const children = []
 
-                    for (let i = position; i < position + arity; i += 1) {
-                        children.push(this._nodes[level][i] || this.zeroes[level])
+                    for (let i = 0; i < arity; i += 1) {
+                        children.push(this._nodes[level][position + i] ?? this.zeroes[level])
                     }
 
                     this._nodes[level + 1][index] = hash(children)
