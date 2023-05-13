@@ -7,8 +7,8 @@ import { getTester, getUtils } from "./utils"
 
 async function utils(templateName: string, args: number[]) {
     const srcPath = path.join(__dirname, "..", "circuits", "hashtower-hash-chain.circom")
-    const circomlibPath = path.join(__dirname, "..", "..", "..", "node_modules", "circomlib", "circuits")
-    const tester = await getTester(srcPath, templateName, args, { include: [circomlibPath] })
+    const libPath = path.join(__dirname, "..", "..", "..", "node_modules") // for circomlib
+    const tester = await getTester(srcPath, templateName, args, { include: [libPath] })
     return getUtils(tester)
 }
 

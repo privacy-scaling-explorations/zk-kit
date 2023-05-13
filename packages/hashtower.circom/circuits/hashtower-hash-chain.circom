@@ -1,9 +1,9 @@
 pragma circom 2.1.4;
 
-include "multiplexer.circom";
-include "poseidon.circom";
-include "comparators.circom";
-include "gates.circom";
+include "circomlib/circuits/multiplexer.circom";
+include "circomlib/circuits/poseidon.circom";
+include "circomlib/circuits/comparators.circom";
+include "circomlib/circuits/gates.circom";
 
 // Pick in[sel]
 template PickOne(N) {
