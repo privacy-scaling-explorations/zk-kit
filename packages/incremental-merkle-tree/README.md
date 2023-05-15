@@ -75,13 +75,17 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
-\# **new IncrementalMerkleTree**(hash: _HashFunction_, depth: _number_, zero: _Node_, arity: _number_): _IncrementalMerkleTree_
+\# **new IncrementalMerkleTree**(hash: _HashFunction_, depth: _number_, zero: _Node_, arity: _number_, leaves: _Node\[]_): _IncrementalMerkleTree_
 
 ```typescript
 import { IncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree"
 import { poseidon } from "circomlibjs" // v0.0.8
 
 const tree = new IncrementalMerkleTree(poseidon, 16, BigInt(0), 2) // Binary tree.
+
+// Or, if you already have tree leaves to insert:
+const leaves = [1, 2, 3]
+const tree = new IncrementalMerkleTree(poseidon, 16, BigInt(0), 2, leaves)
 ```
 
 \# **insert**(leaf: _Node_)
