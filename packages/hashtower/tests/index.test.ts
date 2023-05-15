@@ -75,7 +75,7 @@ describe("HashTowerHashChainProofBuilder", () => {
     })
 
     it("Should not initialize with wrong parameters", () => {
-        const fun1 = () => HashTowerHashChainProofBuilder()
+        const fun1 = () => HashTowerHashChainProofBuilder(undefined as any, 2, hash)
         expect(fun1).toThrow("Parameter 'H' is not defined")
 
         const fun2 = () => HashTowerHashChainProofBuilder(10, 4, 1 as any)
