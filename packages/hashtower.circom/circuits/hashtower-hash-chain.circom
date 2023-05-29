@@ -4,8 +4,11 @@ include "circomlib/circuits/multiplexer.circom";
 include "circomlib/circuits/poseidon.circom";
 include "circomlib/circuits/comparators.circom";
 include "circomlib/circuits/gates.circom";
+include "circomlib/circuits/bitify.circom";
 
 // Pick in[sel]
+//
+// side effect: this also ensures that sel < N
 template PickOne(N) {
     signal input in[N];
     signal input sel;
@@ -82,6 +85,13 @@ template LeadingOnes(N) {
     signal input len; // len <= N
     signal output out[N]; // out[i] = i < len ? 1 : 0;
 
+    // The code tries to claim that if
+    //     1. out[i] belongs to {0, 1} for all i in [0, N - 1]
+    //     2. the value never goes from 0 to 1 when we scan from left to right
+    // then the array will match the regex 1*0*  .
+    //
+    // The code further ensures that there should be len 1s .
+    // So out[] could only be len 1s followed by N - len 0s .
     var oneCount = 0;
     for (var i = 0; i < N; i++) {
         out[i] <-- i < len ? 1 : 0;
@@ -176,6 +186,17 @@ template ComputeDataHeightAndLevelLengthArray(H, W, bitsPerLevel) {
     signal output dataHeight;
     signal output levelLengthArray[H];
 
+    // The code relies on the following statement:
+    // If
+    //     1. levelLengthArray[i] belongs to [1, W] for i in [0, dataHeight - 1], otherwise levelLengthArray[i] = 0
+    //     2. dataHeight belongs to [0, H - 1]
+    //     3. the W^i weighted sum of levelLengthArray = levelLengths
+    //
+    // , then levelLengthArray[] and dataHeight will be unique.
+    //
+    // A very rough analogy would be like in the 10-base system,
+    // the only sequence matches with 492 could only be the length 3 [2, 9, 4] .
+
     // compute
     dataHeight <-- computeDataHeight(levelLengths, bitsPerLevel);
     for (var lv = 0; lv < H; lv++) {
@@ -183,8 +204,10 @@ template ComputeDataHeightAndLevelLengthArray(H, W, bitsPerLevel) {
     }
     // constraints
     signal ones[H] <== LeadingOnes(H)(dataHeight);
+    signal dummy[H][bitsPerLevel];
     var s = 0;
     for (var lv = 0; lv < H; lv++) {
+        dummy[lv] <== Num2Bits(bitsPerLevel)(levelLengthArray[lv]);       // preventing LessEqThan from overflow
         Must()( LessEqThan(bitsPerLevel)([ levelLengthArray[lv], W ]) );  // ll < W
         MustEQ()( IsNonZero()( levelLengthArray[lv] ), ones[lv] );        // ll != 0 iff lv < dataHeight
         s += levelLengthArray[lv] * (2 ** (lv * bitsPerLevel));
@@ -192,6 +215,7 @@ template ComputeDataHeightAndLevelLengthArray(H, W, bitsPerLevel) {
     levelLengths === s;
 }
 
+// W_BITS should match the one in the contract (which is 4)
 template HashTowerHashChain(H, W, W_BITS) {
     signal input levelLengths;
     signal input digestOfDigests;
@@ -208,6 +232,7 @@ template HashTowerHashChain(H, W, W_BITS) {
     // rootLv < dataHeight  (where dataHeight < 2**8)
     Must()(LessThan(8)([rootLv, dataHeight]));
     // rootLevelLength = levelLengthArray[rootLv]
+    // the side effect of PickOne enforces rootLv < H, so we don't have to prevent the overflow of LessThan above
     signal rootLevelLength <== PickOne(H)(levelLengthArray, rootLv);
 
 
