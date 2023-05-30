@@ -46,19 +46,6 @@ template IsNonZero() {
     signal output out <== NOT()(IsZero()(in));
 }
 
-// if in != 1 then abort
-template Must() {
-    signal input in;
-    in === 1;
-}
-
-// if a != b then abort
-template MustEQ() {
-    signal input a;
-    signal input b;
-    a === b;
-}
-
 // Is v being included in in[]?
 template Include(N) {
     signal input in[N];
@@ -158,12 +145,14 @@ template CheckMerkleProofAndComputeRoot(H, W) {
 
     // LeadingOnes() will also help us enforce rootLv <= H - 1
     signal mustInclude[H - 1] <== LeadingOnes(H - 1)(rootLv);
+    signal tmp0[H - 1];
     for (var lv = 0; lv < H - 1; lv++) {
         // Either  childrens[lv] include TBI[lv]   or   !mustInclude[lv]
-        Must()(OR()(
+        tmp0[lv] <== OR()(
             Include(W)( childrens[lv], TBI[lv] ),
             NOT()( mustInclude[lv] )
-        ));
+        );
+        tmp0[lv] === 1;
         TBI[lv + 1] <== HashChain(W)(childrens[lv], W);
     }
     root <== PickOne(H)(TBI, rootLv); // root = TBI[rootLv]
@@ -206,10 +195,17 @@ template ComputeDataHeightAndLevelLengthArray(H, W, bitsPerLevel) {
     signal ones[H] <== LeadingOnes(H)(dataHeight);
     signal dummy[H][bitsPerLevel];
     var s = 0;
+    signal tmp0[H];
+    signal tmp1[H];
     for (var lv = 0; lv < H; lv++) {
-        dummy[lv] <== Num2Bits(bitsPerLevel)(levelLengthArray[lv]);       // preventing LessEqThan from overflow
-        Must()( LessEqThan(bitsPerLevel)([ levelLengthArray[lv], W ]) );  // ll < W
-        MustEQ()( IsNonZero()( levelLengthArray[lv] ), ones[lv] );        // ll != 0 iff lv < dataHeight
+        // preventing LessEqThan from overflow
+        dummy[lv] <== Num2Bits(bitsPerLevel)(levelLengthArray[lv]);
+        // level length < W
+        tmp0[lv] <== LessEqThan(bitsPerLevel)([ levelLengthArray[lv], W ]);
+        tmp0[lv] === 1;
+        // level length != 0 iff lv < dataHeight
+        tmp1[lv] <== IsNonZero()( levelLengthArray[lv] );
+        tmp1[lv] === ones[lv];
         s += levelLengthArray[lv] * (2 ** (lv * bitsPerLevel));
     }
     levelLengths === s;
@@ -225,29 +221,34 @@ template HashTowerHashChain(H, W, W_BITS) {
     signal input childrens[H - 1][W];
     signal input item;
 
-    Must()(IsNonZero()(levelLengths));
+    signal tmp0 <== IsNonZero()(levelLengths);
+    tmp0 === 1;
     signal levelLengthArray[H];
     signal dataHeight;
     (dataHeight, levelLengthArray) <== ComputeDataHeightAndLevelLengthArray(H, W, W_BITS)(levelLengths);
     // rootLv < dataHeight  (where dataHeight < 2**8)
-    Must()(LessThan(8)([rootLv, dataHeight]));
+    signal tmp1 <== LessThan(8)([rootLv, dataHeight]);
+    tmp1 === 1;
     // rootLevelLength = levelLengthArray[rootLv]
     // the side effect of PickOne enforces rootLv < H, so we don't have to prevent the overflow of LessThan above
     signal rootLevelLength <== PickOne(H)(levelLengthArray, rootLv);
 
 
     // the digest of topDownDigests matches digestOfDigests
-    MustEQ()( HashChain(H)(topDownDigests, dataHeight), digestOfDigests );
+    signal tmp2 <== HashChain(H)(topDownDigests, dataHeight);
+    tmp2 === digestOfDigests;
     // now topDownDigests is good
 
     // the digest of rootLevel matches the one in topDownDigests
     signal rootLevelDigest <== PickOne(H)(topDownDigests, dataHeight - rootLv - 1);
-    MustEQ()( HashChain(W)(rootLevel, rootLevelLength), rootLevelDigest );
+    signal tmp3 <== HashChain(W)(rootLevel, rootLevelLength);
+    tmp3 === rootLevelDigest;
     // now rootLevel is good
 
     // the root is in the prefix of the rootLevel
     // the root covers the item
     signal root <== CheckMerkleProofAndComputeRoot(H, W)(childrens, rootLv, item);
-    Must()( IncludeInPrefix(W)(rootLevel, rootLevelLength, root) );
+    signal tmp4 <== IncludeInPrefix(W)(rootLevel, rootLevelLength, root);
+    tmp4 === 1;
     // now item is good
 }

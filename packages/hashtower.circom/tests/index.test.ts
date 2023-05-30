@@ -66,29 +66,6 @@ describe("IsNonZero", () => {
     })
 })
 
-describe("Must", () => {
-    it("Must", async () => {
-        const { ok, fail } = await utils("Must", [])
-        await ok({ in: 1 }, {})
-
-        await fail({ in: 0 })
-        await fail({ in: 2 })
-    })
-})
-
-describe("MustEQ", () => {
-    it("MustEQ", async () => {
-        const { ok, fail } = await utils("MustEQ", [])
-        await ok({ a: 0, b: 0 }, {})
-        await ok({ a: 1, b: 1 }, {})
-        await ok({ a: 2, b: 2 }, {})
-
-        await fail({ a: 0, b: 1 })
-        await fail({ a: 0, b: 2 })
-        await fail({ a: 2, b: 1 })
-    })
-})
-
 describe("Include", () => {
     it("Include", async () => {
         const { ok } = await utils("Include", [4])
