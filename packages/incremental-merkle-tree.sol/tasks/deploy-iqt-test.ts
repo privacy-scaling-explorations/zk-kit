@@ -1,11 +1,25 @@
 import { Contract } from "ethers"
 import { task, types } from "hardhat/config"
+import { proxy, PoseidonT6 } from "poseidon-solidity"
 
 task("deploy:iqt-test", "Deploy an IncrementalQuinTreeTest contract")
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
     .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
-        const PoseidonT6Factory = await ethers.getContractFactory("PoseidonT6")
-        const PoseidonT6 = await PoseidonT6Factory.deploy()
+        // deterministically deploy PoseidonT6
+        const signer = await ethers.getSigner()
+        if ((await ethers.provider.getCode(proxy.address)) === "0x") {
+            await signer.sendTransaction({
+                to: proxy.from,
+                value: proxy.gas
+            })
+            await ethers.provider.sendTransaction(proxy.tx)
+        }
+        if ((await ethers.provider.getCode(PoseidonT6.address)) === "0x") {
+            await signer.sendTransaction({
+                to: proxy.address,
+                data: PoseidonT6.data
+            })
+        }
 
         if (logs) {
             console.info(`PoseidonT6 library has been deployed to: ${PoseidonT6.address}`)
