@@ -34,7 +34,7 @@
         "typechain": "^8.1.0"
     },
     "dependencies": {
-        "poseidon-solidity": "0.0.4"
+        "poseidon-solidity": "0.0.5"
     },
     "config": {
         "solidity": {
