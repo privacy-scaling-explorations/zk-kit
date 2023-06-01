@@ -32,13 +32,14 @@ library LazyMerkleTree {
 
     function insert(LazyTreeData storage self, uint256 leaf) public {
         uint40 index = self.numberOfLeaves;
-        self.numberOfLeaves = index + 1;
         require(leaf < SNARK_SCALAR_FIELD, "LazyMerkleTree: leaf must be < SNARK_SCALAR_FIELD");
         require(index < self.maxIndex, "LazyMerkleTree: tree is full");
 
+        self.numberOfLeaves = index + 1;
+
         uint256 hash = leaf;
 
-        for (uint8 i = 0; true; ) {
+        for (uint8 i = 0; ; ) {
             self.elements[indexForElement(i, index)] = hash;
             // it's a left element so we don't hash until there's a right element
             if (index & 1 == 0) break;
