@@ -40,5 +40,5 @@ export default function createProof(
         index = Math.floor(index / arity)
     }
 
-    return { root, leaf: nodes[0][leafIndex], pathIndices, siblings }
+    return { root, leaf: nodes[0][leafIndex], pathIndices, siblings, leafIndex }
 }

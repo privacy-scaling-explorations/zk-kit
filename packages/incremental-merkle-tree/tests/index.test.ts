@@ -7,7 +7,7 @@ describe("Incremental Merkle Tree", () => {
     const numberOfLeaves = 9
 
     for (const arity of [2, 5]) {
-        describe(`Intremental Merkle Tree (arity = ${arity})`, () => {
+        describe(`Incremental Merkle Tree (arity = ${arity})`, () => {
             let tree: IncrementalMerkleTree
             let oldTree: IncrementalQuinTree
 
@@ -153,6 +153,14 @@ describe("Incremental Merkle Tree", () => {
 
                 for (let i = 0; i < numberOfLeaves; i += 1) {
                     const proof = tree.createProof(i)
+                    expect(proof.leafIndex).toEqual(i)
+                    expect(proof.siblings).toHaveLength(depth)
+                    expect(proof.pathIndices).toHaveLength(depth)
+                    for (let j = 0; j < depth; j += 1) {
+                        expect(proof.siblings[j]).toHaveLength(arity - 1)
+                        const leafV = Math.floor(i / arity ** j) % arity
+                        expect(proof.pathIndices[j]).toEqual(leafV)
+                    }
 
                     expect(tree.verifyProof(proof)).toBeTruthy()
                 }
