@@ -23,6 +23,11 @@ contract LazyMerkleTreeTest {
         LazyMerkleTree.update(data, leaf, index);
     }
 
+    // for benchmarking the root cost
+    function benchmarkRoot() public {
+        LazyMerkleTree.root(data);
+    }
+
     function root() public view returns (uint256) {
         return LazyMerkleTree.root(data);
     }
