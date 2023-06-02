@@ -61,17 +61,27 @@ describe("LazyMerkleTree", function () {
                 const e = random()
                 elements.push(e)
                 // construct the tree
-                const targetDepth = Math.max(1, Math.ceil(Math.log2(elements.length)))
-                const merkleTree = new IncrementalMerkleTree(poseidon2, targetDepth, 0n)
-                for (const _e of elements) {
-                    merkleTree.insert(_e)
+                {
+                    const targetDepth = Math.max(1, Math.ceil(Math.log2(elements.length)))
+                    const merkleTree = new IncrementalMerkleTree(poseidon2, targetDepth, 0n)
+                    for (const _e of elements) {
+                        merkleTree.insert(_e)
+                    }
+                    await contract.insert(e)
+                    await contract.benchmarkRoot().then((t) => t.wait())
+                    const root = await contract.root()
+                    expect(root.toString()).to.equal(merkleTree.root.toString())
                 }
-                await contract.insert(e)
-                await contract.benchmarkRoot().then((t) => t.wait())
-                const root = await contract.root()
-                expect(root.toString()).to.equal(merkleTree.root.toString())
                 const treeData = await contract.data()
                 expect(treeData.numberOfLeaves).to.equal(elements.length)
+                for (let y = depth; y < 12; y += 1) {
+                    const merkleTree = new IncrementalMerkleTree(poseidon2, y, 0n)
+                    for (const _e of elements) {
+                        merkleTree.insert(_e)
+                    }
+                    const root = await contract.staticRoot(y)
+                    expect(root.toString()).to.equal(merkleTree.root.toString())
+                }
             }
         })
     }
@@ -188,5 +198,19 @@ describe("LazyMerkleTree", function () {
                 expect(data.numberOfLeaves).to.equal(0)
             }
         }
+    })
+
+    it("should fail to generate out of range static root", async () => {
+        const { contract } = await run("deploy:lmt-test", { logs: false })
+        await contract.init(10)
+
+        const elements = []
+        for (let x = 0; x < 20; x += 1) {
+            const e = random()
+            elements.push(e)
+            await contract.insert(e)
+        }
+        await expect(contract.staticRoot(4)).to.be.revertedWith("LazyMerkleTree: ambiguous depth")
+        await expect(contract.staticRoot(33)).to.be.revertedWith("LazyMerkleTree: depth must be < MAX_DEPTH")
     })
 })
