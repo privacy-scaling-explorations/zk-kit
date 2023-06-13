@@ -1,9 +1,9 @@
 {
-    "name": "@zk-kit/hashtower.circom",
+    "name": "@zk-kit/lazytower.circom",
     "version": "0.0.1",
-    "description": "HashTower CIRCOM libraries.",
+    "description": "LazyTower CIRCOM libraries.",
     "keywords": [
-        "hashtower",
+        "lazytower",
         "ethereum",
         "circuit",
         "circom",
@@ -16,7 +16,7 @@
         "README.md"
     ],
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
-    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/hashtower.circom",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lazytower.circom",
     "author": {
         "name": "LCamel",
         "email": "lcamel@gmail.com",

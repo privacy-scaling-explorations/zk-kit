@@ -1,7 +1,7 @@
 {
-    "name": "@zk-kit/hashtower.sol",
+    "name": "@zk-kit/lazytower.sol",
     "version": "0.0.1",
-    "description": "HashTower Solidity libraries.",
+    "description": "LazyTower Solidity libraries.",
     "license": "MIT",
     "files": [
         "**/*.sol",
@@ -17,10 +17,10 @@
         "libraries",
         "merkle-tree",
         "incremental-merkle-tree",
-        "hashtower"
+        "lazytower"
     ],
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
-    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/hashtower.sol",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lazytower.sol",
     "author": {
         "name": "LCamel",
         "email": "lcamel@gmail.com",

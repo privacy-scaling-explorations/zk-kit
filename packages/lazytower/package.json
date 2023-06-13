@@ -1,7 +1,7 @@
 {
-    "name": "@zk-kit/hashtower",
+    "name": "@zk-kit/lazytower",
     "version": "0.0.1",
-    "description": "HashTower implementation in TypeScript.",
+    "description": "LazyTower implementation in TypeScript.",
     "license": "MIT",
     "iife": "dist/index.js",
     "unpkg": "dist/index.min.js",
@@ -18,7 +18,7 @@
         "README.md"
     ],
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
-    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/hashtower",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lazytower",
     "author": {
         "name": "LCamel",
         "email": "lcamel@gmail.com",
@@ -28,7 +28,7 @@
         "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
         "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
         "prepublishOnly": "yarn build",
-        "docs": "typedoc src/index.ts --out ../../docs/hashtower"
+        "docs": "typedoc src/index.ts --out ../../docs/lazytower"
     },
     "publishConfig": {
         "access": "public"

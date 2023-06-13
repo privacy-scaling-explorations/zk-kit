@@ -5,7 +5,7 @@ import { poseidon } from "circomlibjs"
 import ShiftTower from "./utils"
 
 /* eslint-disable jest/valid-expect */
-describe("HashTowerHashChainTest", () => {
+describe("LazyTowerHashChainTest", () => {
     let contract: Contract
 
     before(async () => {
@@ -13,14 +13,14 @@ describe("HashTowerHashChainTest", () => {
     })
 
     it("Should produce correct count, digests and digest of digests", async () => {
-        const hashTowerId = ethers.utils.formatBytes32String("test1")
+        const lazyTowerId = ethers.utils.formatBytes32String("test1")
 
         const N = 150
         for (let i = 0; i < N; i += 1) {
-            const tx = contract.add(hashTowerId, i)
+            const tx = contract.add(lazyTowerId, i)
             await tx
         }
-        const [count, digests, digestOfDigests] = await contract.getDataForProving(hashTowerId)
+        const [count, digests, digestOfDigests] = await contract.getDataForProving(lazyTowerId)
 
         expect(count).to.equal(0x2112)
 
@@ -46,7 +46,7 @@ describe("HashTowerHashChainTest", () => {
     })
 
     it("Should have the same output as the Javascript fixture)", async () => {
-        const hashTowerId = ethers.utils.formatBytes32String("test2")
+        const lazyTowerId = ethers.utils.formatBytes32String("test2")
 
         const H2 = (a: number, b: number) => poseidon([a, b])
         const W = 4
@@ -54,14 +54,14 @@ describe("HashTowerHashChainTest", () => {
         for (let i = 0; i < 150; i += 1) {
             shiftTower.add(i)
 
-            const tx = contract.add(hashTowerId, i)
+            const tx = contract.add(lazyTowerId, i)
             await tx
 
             // event
             await expect(tx).to.emit(contract, "Add").withArgs(i)
 
             // count and digest
-            const [count, digests, digestOfDigests] = await contract.getDataForProving(hashTowerId)
+            const [count, digests, digestOfDigests] = await contract.getDataForProving(lazyTowerId)
 
             expect(count).to.equal(shiftTower.L.map((l) => l.length).reduce((s, v, lv) => s + (v << (lv * 4))))
 

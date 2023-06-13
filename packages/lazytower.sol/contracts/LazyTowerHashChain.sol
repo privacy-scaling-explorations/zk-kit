@@ -11,18 +11,18 @@ uint256 constant bitsPerLevel = 4;
 uint256 constant levelBitmask = 15; // (1 << bitsPerLevel) - 1
 uint256 constant ones = 0x111111111111111111111111; // H ones
 
-// Each HashTower has certain properties and data that will
+// Each LazyTower has certain properties and data that will
 // be used to add new items.
-struct HashTowerHashChainData {
+struct LazyTowerHashChainData {
     uint256 levelLengths; // length of each level
     uint256[H] digests; // digest of each level
     uint256[H] digestOfDigests; // digest of digests
 }
 
-/// @title HashTower.
-/// @dev The HashTower allows to calculate the digest of digests each time an item is added, ensuring
-/// the integrity of the HashTower.
-library HashTowerHashChain {
+/// @title LazyTower.
+/// @dev The LazyTower allows to calculate the digest of digests each time an item is added, ensuring
+/// the integrity of the LazyTower.
+library LazyTowerHashChain {
     uint256 internal constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
 
@@ -56,10 +56,10 @@ library HashTowerHashChain {
     }
 
     /// @dev Add an item.
-    /// @param self: HashTower data
+    /// @param self: LazyTower data
     /// @param item: item to be added
-    function add(HashTowerHashChainData storage self, uint256 item) public {
-        require(item < SNARK_SCALAR_FIELD, "HashTower: item must be < SNARK_SCALAR_FIELD");
+    function add(LazyTowerHashChainData storage self, uint256 item) public {
+        require(item < SNARK_SCALAR_FIELD, "LazyTower: item must be < SNARK_SCALAR_FIELD");
 
         uint256 level;
         bool isHead;
@@ -89,7 +89,7 @@ library HashTowerHashChain {
         }
     }
 
-    function getDataForProving(HashTowerHashChainData storage self)
+    function getDataForProving(LazyTowerHashChainData storage self)
         external
         view
         returns (

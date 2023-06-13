@@ -216,7 +216,7 @@ template ComputeDataHeightAndLevelLengthArray(H, W, bitsPerLevel) {
 }
 
 // W_BITS should match the one in the contract (which is 4)
-template HashTowerHashChain(H, W, W_BITS) {
+template LazyTowerHashChain(H, W, W_BITS) {
     signal input levelLengths;
     signal input digestOfDigests;
     signal input topDownDigests[H];

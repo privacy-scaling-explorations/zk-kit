@@ -1,5 +1,5 @@
 {
-    "name": "hashtower.sol",
+    "name": "lazytower.sol",
     "private": true,
     "scripts": {
         "start": "hardhat node",
