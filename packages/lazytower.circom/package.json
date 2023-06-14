@@ -10,7 +10,7 @@
         "zksnark",
         "merkle tree"
     ],
-    "license": "MIT",
+    "license": "GPL-3.0",
     "files": [
         "circuits/",
         "README.md"
