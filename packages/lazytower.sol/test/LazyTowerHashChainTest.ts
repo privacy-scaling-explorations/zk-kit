@@ -45,7 +45,7 @@ describe("LazyTowerHashChainTest", () => {
         )
     })
 
-    it("Should have the same output as the Javascript fixture)", async () => {
+    it("Should have the same output as the Javascript fixture", async () => {
         const lazyTowerId = ethers.utils.formatBytes32String("test2")
 
         const H2 = (a: number, b: number) => poseidon([a, b])
@@ -72,5 +72,19 @@ describe("LazyTowerHashChainTest", () => {
 
             expect(digestOfDigests).to.equal(D.reverse().reduce(H2))
         }
+    })
+
+    it("Should reject values not in the field", async () => {
+        const lazyTowerId = ethers.utils.formatBytes32String("test3")
+
+        let item = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495616")
+
+        const tx = contract.add(lazyTowerId, item)
+        await tx
+        await expect(tx).to.emit(contract, "Add").withArgs(item)
+
+        item += BigInt(1)
+        const tx2 = contract.add(lazyTowerId, item)
+        await expect(tx2).to.be.revertedWith("LazyTower: item must be < SNARK_SCALAR_FIELD")
     })
 })
