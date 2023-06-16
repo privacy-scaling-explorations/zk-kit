@@ -1,7 +1,7 @@
 import { Contract } from "ethers"
 import { task, types } from "hardhat/config"
 
-task("deploy:ht-test", "Deploy a HashTowerTest contract")
+task("deploy:lazytower-test", "Deploy a LazyTowerHashChainTest contract")
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
     .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
         const PoseidonT3Factory = await ethers.getContractFactory("PoseidonT3")
@@ -11,22 +11,22 @@ task("deploy:ht-test", "Deploy a HashTowerTest contract")
             console.info(`PoseidonT3 library has been deployed to: ${PoseidonT3.address}`)
         }
 
-        const HashTowerLibFactory = await ethers.getContractFactory("HashTowerHashChain", {
+        const LazyTowerLibFactory = await ethers.getContractFactory("LazyTowerHashChain", {
             libraries: {
                 PoseidonT3: PoseidonT3.address
             }
         })
-        const hashTowerLib = await HashTowerLibFactory.deploy()
+        const lazyTowerLib = await LazyTowerLibFactory.deploy()
 
-        await hashTowerLib.deployed()
+        await lazyTowerLib.deployed()
 
         if (logs) {
-            console.info(`HashTowerHashChain library has been deployed to: ${hashTowerLib.address}`)
+            console.info(`LazyTowerHashChain library has been deployed to: ${lazyTowerLib.address}`)
         }
 
-        const ContractFactory = await ethers.getContractFactory("HashTowerHashChainTest", {
+        const ContractFactory = await ethers.getContractFactory("LazyTowerHashChainTest", {
             libraries: {
-                HashTowerHashChain: hashTowerLib.address
+                LazyTowerHashChain: lazyTowerLib.address
             }
         })
 

@@ -5,24 +5,24 @@ import { poseidon } from "circomlibjs"
 import ShiftTower from "./utils"
 
 /* eslint-disable jest/valid-expect */
-describe("HashTowerHashChainTest", () => {
+describe("LazyTowerHashChainTest", () => {
     let contract: Contract
 
     before(async () => {
-        contract = await run("deploy:ht-test", { logs: false })
+        contract = await run("deploy:lazytower-test", { logs: false })
     })
 
-    it("Should produce correct count, digests and digest of digests", async () => {
-        const hashTowerId = ethers.utils.formatBytes32String("test1")
+    it("Should produce correct levelLengths, digests and digest of digests", async () => {
+        const lazyTowerId = ethers.utils.formatBytes32String("test1")
 
         const N = 150
         for (let i = 0; i < N; i += 1) {
-            const tx = contract.add(hashTowerId, i)
-            await tx
+            await contract.add(lazyTowerId, i)
         }
-        const [count, digests, digestOfDigests] = await contract.getDataForProving(hashTowerId)
 
-        expect(count).to.equal(0x2112)
+        const [levelLengths, digests, digestOfDigests] = await contract.getDataForProving(lazyTowerId)
+
+        expect(levelLengths).to.equal(0x2112)
 
         expect(digests[0]).to.equal(
             BigInt("7484852499570635450337779587061833141700590058395918107227385307780465498841")
@@ -45,8 +45,8 @@ describe("HashTowerHashChainTest", () => {
         )
     })
 
-    it("Should have the same output as the Javascript fixture)", async () => {
-        const hashTowerId = ethers.utils.formatBytes32String("test2")
+    it("Should have the same output as the Javascript fixture", async () => {
+        const lazyTowerId = ethers.utils.formatBytes32String("test2")
 
         const H2 = (a: number, b: number) => poseidon([a, b])
         const W = 4
@@ -54,16 +54,15 @@ describe("HashTowerHashChainTest", () => {
         for (let i = 0; i < 150; i += 1) {
             shiftTower.add(i)
 
-            const tx = contract.add(hashTowerId, i)
-            await tx
+            const tx = contract.add(lazyTowerId, i)
 
             // event
             await expect(tx).to.emit(contract, "Add").withArgs(i)
 
-            // count and digest
-            const [count, digests, digestOfDigests] = await contract.getDataForProving(hashTowerId)
+            // levelLengths and digest
+            const [levelLengths, digests, digestOfDigests] = await contract.getDataForProving(lazyTowerId)
 
-            expect(count).to.equal(shiftTower.L.map((l) => l.length).reduce((s, v, lv) => s + (v << (lv * 4))))
+            expect(levelLengths).to.equal(shiftTower.L.map((l) => l.length).reduce((s, v, lv) => s + (v << (lv * 4))))
 
             const D = shiftTower.L.map((l) => l.reduce(H2))
             for (let lv = 0; lv < digests.length; lv += 1) {
@@ -72,5 +71,18 @@ describe("HashTowerHashChainTest", () => {
 
             expect(digestOfDigests).to.equal(D.reverse().reduce(H2))
         }
+    })
+
+    it("Should reject values not in the field", async () => {
+        const lazyTowerId = ethers.utils.formatBytes32String("test3")
+
+        let item = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495616")
+
+        const tx = contract.add(lazyTowerId, item)
+        await expect(tx).to.emit(contract, "Add").withArgs(item)
+
+        item += BigInt(1)
+        const tx2 = contract.add(lazyTowerId, item)
+        await expect(tx2).to.be.revertedWith("LazyTower: item must be < SNARK_SCALAR_FIELD")
     })
 })

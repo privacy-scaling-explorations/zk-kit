@@ -2,16 +2,15 @@
 
 pragma solidity ^0.8.4;
 
-import "../HashTowerHashChain.sol";
+import "../LazyTowerHashChain.sol";
 
-contract HashTowerHashChainTest {
-    using HashTowerHashChain for HashTowerHashChainData;
+contract LazyTowerHashChainTest {
+    using LazyTowerHashChain for LazyTowerHashChainData;
 
-    // HashTower may emit multiple events in a singal add() call
     event Add(uint256 item);
 
     // map for multiple test cases
-    mapping(bytes32 => HashTowerHashChainData) public towers;
+    mapping(bytes32 => LazyTowerHashChainData) public towers;
 
     function add(bytes32 _towerId, uint256 _item) external {
         towers[_towerId].add(_item);

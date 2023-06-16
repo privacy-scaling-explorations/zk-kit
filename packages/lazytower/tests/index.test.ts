@@ -1,11 +1,11 @@
 import { poseidon2 } from "poseidon-lite"
-import { HashTowerHashChainProofBuilder } from "../src"
+import { LazyTowerHashChainProofBuilder } from "../src"
 
 const hash = (a: bigint, b: bigint): bigint => poseidon2([a, b])
 
-describe("HashTowerHashChainProofBuilder", () => {
+describe("LazyTowerHashChainProofBuilder", () => {
     it("Should build a proof", () => {
-        const pb = HashTowerHashChainProofBuilder(3, 3)
+        const pb = LazyTowerHashChainProofBuilder(3, 3)
         for (let i = BigInt(0); i < 11; i += BigInt(1)) {
             pb.add(i)
         }
@@ -43,7 +43,7 @@ describe("HashTowerHashChainProofBuilder", () => {
     })
 
     it("Should build a proof 2", () => {
-        const pb = HashTowerHashChainProofBuilder(10, 4, hash)
+        const pb = LazyTowerHashChainProofBuilder(10, 4, hash)
         for (let i = BigInt(0); i < 150; i += BigInt(1)) {
             pb.add(i)
         }
@@ -101,11 +101,11 @@ describe("HashTowerHashChainProofBuilder", () => {
     })
 
     it("Should work with the default hash function.", () => {
-        const pb = HashTowerHashChainProofBuilder(2, 3, hash)
+        const pb = LazyTowerHashChainProofBuilder(2, 3, hash)
         for (let i = BigInt(0); i < 12; i += BigInt(1)) {
             pb.add(i)
         }
-        const pbDefaultHash = HashTowerHashChainProofBuilder(2, 3)
+        const pbDefaultHash = LazyTowerHashChainProofBuilder(2, 3)
         for (let i = BigInt(0); i < 12; i += BigInt(1)) {
             pbDefaultHash.add(i)
         }
@@ -113,15 +113,15 @@ describe("HashTowerHashChainProofBuilder", () => {
     })
 
     it("Should not initialize with wrong parameters", () => {
-        const fun1 = () => HashTowerHashChainProofBuilder(undefined as any, 2, hash)
+        const fun1 = () => LazyTowerHashChainProofBuilder(undefined as any, 2, hash)
         expect(fun1).toThrow("Parameter 'H' is not defined")
 
-        const fun2 = () => HashTowerHashChainProofBuilder(10, 4, 1 as any)
+        const fun2 = () => LazyTowerHashChainProofBuilder(10, 4, 1 as any)
         expect(fun2).toThrow("Parameter 'hash' is none of these types: function")
     })
 
     it("Should not add a item in a full tower", () => {
-        const pb = HashTowerHashChainProofBuilder(2, 3, hash)
+        const pb = LazyTowerHashChainProofBuilder(2, 3, hash)
         for (let i = BigInt(0); i < 12; i += BigInt(1)) {
             pb.add(i)
         }
@@ -130,7 +130,7 @@ describe("HashTowerHashChainProofBuilder", () => {
     })
 
     it("Should not create a proof with the wrong index", () => {
-        const pb = HashTowerHashChainProofBuilder(10, 4, hash)
+        const pb = LazyTowerHashChainProofBuilder(10, 4, hash)
         const fun1 = () => pb.build(-1)
         expect(fun1).toThrow("The tower is empty.")
         const fun2 = () => pb.build(0)

@@ -4179,29 +4179,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/hashtower.circom@workspace:packages/hashtower.circom":
-  version: 0.0.0-use.local
-  resolution: "@zk-kit/hashtower.circom@workspace:packages/hashtower.circom"
-  dependencies:
-    circom_tester: ^0.0.19
-    circomlib: ^2.0.5
-    poseidon-lite: ^0.2.0
-    tmp-promise: ^3.0.3
-  languageName: unknown
-  linkType: soft
-
-"@zk-kit/hashtower@workspace:packages/hashtower":
-  version: 0.0.0-use.local
-  resolution: "@zk-kit/hashtower@workspace:packages/hashtower"
-  dependencies:
-    poseidon-lite: ^0.2.0
-    rollup-plugin-cleanup: ^3.2.1
-    rollup-plugin-terser: ^7.0.2
-    rollup-plugin-typescript2: ^0.32.1
-    typedoc: ^0.22.11
-  languageName: unknown
-  linkType: soft
-
 "@zk-kit/incremental-merkle-tree@npm:^0.4.1":
   version: 0.4.3
   resolution: "@zk-kit/incremental-merkle-tree@npm:0.4.3"
@@ -4214,6 +4191,29 @@ __metadata:
   resolution: "@zk-kit/incremental-merkle-tree@workspace:packages/incremental-merkle-tree"
   dependencies:
     circomlibjs: ^0.0.8
+    rollup-plugin-cleanup: ^3.2.1
+    rollup-plugin-terser: ^7.0.2
+    rollup-plugin-typescript2: ^0.32.1
+    typedoc: ^0.22.11
+  languageName: unknown
+  linkType: soft
+
+"@zk-kit/lazytower.circom@workspace:packages/lazytower.circom":
+  version: 0.0.0-use.local
+  resolution: "@zk-kit/lazytower.circom@workspace:packages/lazytower.circom"
+  dependencies:
+    circom_tester: ^0.0.19
+    circomlib: ^2.0.5
+    poseidon-lite: ^0.2.0
+    tmp-promise: ^3.0.3
+  languageName: unknown
+  linkType: soft
+
+"@zk-kit/lazytower@workspace:packages/lazytower":
+  version: 0.0.0-use.local
+  resolution: "@zk-kit/lazytower@workspace:packages/lazytower"
+  dependencies:
+    poseidon-lite: ^0.2.0
     rollup-plugin-cleanup: ^3.2.1
     rollup-plugin-terser: ^7.0.2
     rollup-plugin-typescript2: ^0.32.1
@@ -10436,34 +10436,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hashtower.sol@workspace:packages/hashtower.sol":
-  version: 0.0.0-use.local
-  resolution: "hashtower.sol@workspace:packages/hashtower.sol"
-  dependencies:
-    "@ethersproject/providers": ^5.4.7
-    "@nomicfoundation/hardhat-chai-matchers": ^1.0.0
-    "@nomicfoundation/hardhat-network-helpers": ^1.0.0
-    "@nomicfoundation/hardhat-toolbox": ^2.0.2
-    "@nomiclabs/hardhat-ethers": ^2.0.0
-    "@nomiclabs/hardhat-etherscan": ^3.0.0
-    "@typechain/ethers-v5": ^10.1.0
-    "@typechain/hardhat": ^6.1.2
-    "@types/chai": ^4.2.0
-    "@types/mocha": ">=9.1.0"
-    circomlibjs: ^0.0.8
-    dotenv: ^14.3.2
-    ethers: ^5.4.7
-    hardhat: ^2.13.0
-    hardhat-gas-reporter: ^1.0.8
-    poseidon-solidity: 0.0.5
-    prettier-plugin-solidity: ^1.0.0-beta.19
-    solhint: ^3.3.6
-    solhint-plugin-prettier: ^0.0.5
-    solidity-coverage: ^0.8.1
-    typechain: ^8.1.0
-  languageName: unknown
-  linkType: soft
-
 "he@npm:1.2.0":
   version: 1.2.0
   resolution: "he@npm:1.2.0"
@@ -13053,6 +13025,34 @@ __metadata:
   checksum: c9a6f9c803433b2d143a0788308048c1432a71c5febcfea2af7f2e8bd732b9bfd75c2c220d553752ee9ab9a3f52490f006cfd521db97cd01d8461d67cc1ccc1f
   languageName: node
   linkType: hard
+
+"lazytower.sol@workspace:packages/lazytower.sol":
+  version: 0.0.0-use.local
+  resolution: "lazytower.sol@workspace:packages/lazytower.sol"
+  dependencies:
+    "@ethersproject/providers": ^5.4.7
+    "@nomicfoundation/hardhat-chai-matchers": ^1.0.0
+    "@nomicfoundation/hardhat-network-helpers": ^1.0.0
+    "@nomicfoundation/hardhat-toolbox": ^2.0.2
+    "@nomiclabs/hardhat-ethers": ^2.0.0
+    "@nomiclabs/hardhat-etherscan": ^3.0.0
+    "@typechain/ethers-v5": ^10.1.0
+    "@typechain/hardhat": ^6.1.2
+    "@types/chai": ^4.2.0
+    "@types/mocha": ">=9.1.0"
+    circomlibjs: ^0.0.8
+    dotenv: ^14.3.2
+    ethers: ^5.4.7
+    hardhat: ^2.13.0
+    hardhat-gas-reporter: ^1.0.8
+    poseidon-solidity: 0.0.5
+    prettier-plugin-solidity: ^1.0.0-beta.19
+    solhint: ^3.3.6
+    solhint-plugin-prettier: ^0.0.5
+    solidity-coverage: ^0.8.1
+    typechain: ^8.1.0
+  languageName: unknown
+  linkType: soft
 
 "level-codec@npm:^9.0.0":
   version: 9.0.2

@@ -1,6 +1,6 @@
 import { poseidon2 } from "poseidon-lite"
 
-export type HashTowerHashChainProof = {
+export type LazyTowerHashChainProof = {
     levelLengths: bigint
     digestOfDigests: bigint
     topDownDigests: bigint[]
@@ -27,12 +27,12 @@ const pad00 = (arr2D: any, h: number, w: number) => pad(arr2D, h, []).map((a: an
 const defaultHash = (a: bigint, b: bigint): bigint => poseidon2([a, b])
 
 /**
- * HashTowerHashChainProofBuilder is a TypeScript implementation of HashTower to generate proofs of membership.
+ * LazyTowerHashChainProofBuilder is a TypeScript implementation of LazyTower to generate proofs of membership.
  * @param H Height of tower of the proving circuit. It can be less than the H in the contract.
  * @param W Width of tower.
  * @param hash A hash function which supports 2 input values.
  */
-export function HashTowerHashChainProofBuilder(H: number, W: number, hash = defaultHash) {
+export function LazyTowerHashChainProofBuilder(H: number, W: number, hash = defaultHash) {
     checkParameter(H, "H", "number")
     checkParameter(W, "W", "number")
     checkParameter(hash, "hash", "function")
@@ -60,7 +60,7 @@ export function HashTowerHashChainProofBuilder(H: number, W: number, hash = defa
         }
     }
     /**
-     * Adds a new item in the HashTower.
+     * Adds a new item in the LazyTower.
      * @param item Item to be added.
      */
     function add(item: bigint) {
@@ -97,7 +97,7 @@ export function HashTowerHashChainProofBuilder(H: number, W: number, hash = defa
      * @param index Index of the proof's item.
      * @returns Proof object.
      */
-    function build(idx: number): HashTowerHashChainProof {
+    function build(idx: number): LazyTowerHashChainProof {
         checkParameter(idx, "idx", "number")
         if (levels.length === 0) {
             throw new Error("The tower is empty.")

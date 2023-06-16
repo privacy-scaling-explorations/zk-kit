@@ -1,8 +1,8 @@
 <p align="center">
     <h1 align="center">
-         HashTower (Solidity)
+         LazyTower (Solidity)
     </h1>
-    <p align="center">HashTower Solidity libraries.</p>
+    <p align="center">LazyTower Solidity libraries.</p>
 </p>
 
 <p align="center">
@@ -12,11 +12,11 @@
     <a href="https://github.com/privacy-scaling-explorations/zk-kit/blob/main/LICENSE">
         <img alt="Github license" src="https://img.shields.io/github/license/privacy-scaling-explorations/zk-kit.svg?style=flat-square">
     </a>
-    <a href="https://www.npmjs.com/package/@zk-kit/hashtower.sol">
-        <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/hashtower.sol?style=flat-square" />
+    <a href="https://www.npmjs.com/package/@zk-kit/lazytower.sol">
+        <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/lazytower.sol?style=flat-square" />
     </a>
-    <a href="https://npmjs.org/package/@zk-kit/hashtower.sol">
-        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/hashtower.sol.svg?style=flat-square" />
+    <a href="https://npmjs.org/package/@zk-kit/lazytower.sol">
+        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/lazytower.sol.svg?style=flat-square" />
     </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint" />
@@ -34,9 +34,13 @@
     </h4>
 </div>
 
+## ❗ WARNING
+
+This library has not been audited.
+
 ## Libraries:
 
-✔️ [HashTower](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/hashtower.sol/contracts/HashTower.sol) (Poseidon)
+✔️ [LazyTowerHashChain](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/lazytower.sol/contracts/LazyTowerHashChain.sol) (Poseidon)
 
 ---
 
@@ -44,16 +48,16 @@
 
 ### npm or yarn
 
-Install the `@zk-kit/hashtower.sol` package with npm:
+Install the `@zk-kit/lazytower.sol` package with npm:
 
 ```bash
-npm i @zk-kit/hashtower.sol --save
+npm i @zk-kit/lazytower.sol --save
 ```
 
 or yarn:
 
 ```bash
-yarn add @zk-kit/hashtower.sol
+yarn add @zk-kit/lazytower.sol
 ```
 
 ## 📜 Usage
@@ -65,19 +69,19 @@ yarn add @zk-kit/hashtower.sol
 
 pragma solidity ^0.8.4;
 
-import "../HashTower.sol";
+import "../LazyTowerHashChain.sol";
 
-contract HashTowerTest {
-    using HashTower for HashTowerData;
+contract LazyTowerHashChainTest {
+    using LazyTowerHashChain for LazyTowerHashChainData;
 
-    // HashTower may emit multiple events in a singal add() call
-    event Add(uint8 indexed level, uint64 indexed lvFullIndex, uint256 value);
+    event Add(uint256 item);
 
     // map for multiple test cases
-    mapping(bytes32 => HashTowerData) public towers;
+    mapping(bytes32 => LazyTowerHashChainData) public towers;
 
     function add(bytes32 _towerId, uint256 _item) external {
         towers[_towerId].add(_item);
+        emit Add(_item);
     }
 
     function getDataForProving(bytes32 _towerId)
@@ -101,7 +105,7 @@ contract HashTowerTest {
 import { Contract } from "ethers"
 import { task, types } from "hardhat/config"
 
-task("deploy:ht-test", "Deploy a HashTowerTest contract")
+task("deploy:lazytower-test", "Deploy a LazyTowerHashChainTest contract")
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
     .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
         const PoseidonT3Factory = await ethers.getContractFactory("PoseidonT3")
@@ -111,22 +115,22 @@ task("deploy:ht-test", "Deploy a HashTowerTest contract")
             console.info(`PoseidonT3 library has been deployed to: ${PoseidonT3.address}`)
         }
 
-        const HashTowerLibFactory = await ethers.getContractFactory("HashTower", {
+        const LazyTowerLibFactory = await ethers.getContractFactory("LazyTowerHashChain", {
             libraries: {
                 PoseidonT3: PoseidonT3.address
             }
         })
-        const hashTowerLib = await HashTowerLibFactory.deploy()
+        const lazyTowerLib = await LazyTowerLibFactory.deploy()
 
-        await hashTowerLib.deployed()
+        await lazyTowerLib.deployed()
 
         if (logs) {
-            console.info(`HashTower library has been deployed to: ${hashTowerLib.address}`)
+            console.info(`LazyTowerHashChain library has been deployed to: ${lazyTowerLib.address}`)
         }
 
-        const ContractFactory = await ethers.getContractFactory("HashTowerTest", {
+        const ContractFactory = await ethers.getContractFactory("LazyTowerHashChainTest", {
             libraries: {
-                HashTower: hashTowerLib.address
+                LazyTowerHashChain: lazyTowerLib.address
             }
         })
 
@@ -148,4 +152,4 @@ task("deploy:ht-test", "Deploy a HashTowerTest contract")
 
 -   e-mail : lcamel@gmail.com
 -   github : [@LCamel](https://github.com/LCamel)
--   website : https://twitter.com/LCamel
+-   website : https://www.facebook.com/LCamel

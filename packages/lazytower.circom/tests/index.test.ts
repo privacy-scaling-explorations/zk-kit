@@ -1,12 +1,12 @@
 import * as path from "path"
 import { poseidon2 } from "poseidon-lite"
-import { HashTowerHashChainProofBuilder } from "../../hashtower/src"
+import { LazyTowerHashChainProofBuilder } from "../../lazytower/src"
 import { getTester, getUtils } from "./utils"
 
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "ok", "fail"] }] */
 
 async function utils(templateName: string, args: number[]) {
-    const srcPath = path.join(__dirname, "..", "circuits", "hashtower-hash-chain.circom")
+    const srcPath = path.join(__dirname, "..", "circuits", "lazytower-hash-chain.circom")
     const libPath = path.join(__dirname, "..", "..", "..", "node_modules") // for circomlib
     const tester = await getTester(srcPath, templateName, args, { include: [libPath] })
     return getUtils(tester)
@@ -26,6 +26,8 @@ describe("PickOne", () => {
 })
 
 describe("HashChain", () => {
+    jest.setTimeout(10000)
+
     it("HashChain", async () => {
         const { ok, fail } = await utils("HashChain", [4])
 
@@ -237,14 +239,14 @@ describe("ComputeDataHeightAndLevelLengthArray", () => {
     })
 })
 
-describe("HashTowerHashChain", () => {
-    it("HashTowerHashChain W = 3", async () => {
+describe("LazyTowerHashChain", () => {
+    it("LazyTowerHashChain W = 3", async () => {
         const H = 4
         const W = 3
         const bitsPerLevel = 4
-        const { ok } = await utils("HashTowerHashChain", [H, W, bitsPerLevel])
+        const { ok } = await utils("LazyTowerHashChain", [H, W, bitsPerLevel])
 
-        const pb = HashTowerHashChainProofBuilder(H, W)
+        const pb = LazyTowerHashChainProofBuilder(H, W)
 
         for (let i = BigInt(0); i < 13; i += BigInt(1)) {
             pb.add(i)
@@ -255,13 +257,13 @@ describe("HashTowerHashChain", () => {
         }
     }) // long-running test
 
-    it("HashTowerHashChain W = 2", async () => {
+    it("LazyTowerHashChain W = 2", async () => {
         const H = 3
         const W = 2
         const bitsPerLevel = 4
-        const { ok } = await utils("HashTowerHashChain", [H, W, bitsPerLevel])
+        const { ok } = await utils("LazyTowerHashChain", [H, W, bitsPerLevel])
 
-        const pb = HashTowerHashChainProofBuilder(H, W)
+        const pb = LazyTowerHashChainProofBuilder(H, W)
 
         for (let i = BigInt(0); i < 14; i += BigInt(1)) {
             pb.add(i)
@@ -272,13 +274,13 @@ describe("HashTowerHashChain", () => {
         }
     }) // long-running test
 
-    it("HashTowerHashChain W = 2, H = 2", async () => {
+    it("LazyTowerHashChain W = 2, H = 2", async () => {
         const H = 2
         const W = 2
         const bitsPerLevel = 4
-        const { ok } = await utils("HashTowerHashChain", [H, W, bitsPerLevel])
+        const { ok } = await utils("LazyTowerHashChain", [H, W, bitsPerLevel])
 
-        const pb = HashTowerHashChainProofBuilder(H, W)
+        const pb = LazyTowerHashChainProofBuilder(H, W)
 
         for (let i = BigInt(0); i < 6; i += BigInt(1)) {
             pb.add(i)

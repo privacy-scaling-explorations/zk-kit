@@ -3,7 +3,7 @@ import { config as dotenvConfig } from "dotenv"
 import { HardhatUserConfig } from "hardhat/config"
 import { resolve } from "path"
 import { config } from "./package.json"
-import "./tasks/deploy-ht-test"
+import "./tasks/deploy-lazytower-test"
 
 dotenvConfig({ path: resolve(__dirname, "./.env") })
 
