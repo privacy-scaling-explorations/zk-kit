@@ -43,6 +43,10 @@
 
 ---
 
+## ❗ WARNING
+
+This library has not been audited.
+
 ## 🛠 Install
 
 ### npm or yarn
@@ -96,4 +100,4 @@ console.log(proof)
 
 -   e-mail : lcamel@gmail.com
 -   github : [@LCamel](https://github.com/LCamel)
--   website : https://twitter.com/LCamel
+-   website : https://www.facebook.com/LCamel

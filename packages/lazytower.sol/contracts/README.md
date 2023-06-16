@@ -34,9 +34,13 @@
     </h4>
 </div>
 
+## ❗ WARNING
+
+This library has not been audited.
+
 ## Libraries:
 
-✔️ [LazyTower](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/lazytower.sol/contracts/LazyTower.sol) (Poseidon)
+✔️ [LazyTowerHashChain](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/lazytower.sol/contracts/LazyTowerHashChain.sol) (Poseidon)
 
 ---
 
@@ -148,4 +152,4 @@ task("deploy:lazytower-test", "Deploy a LazyTowerHashChainTest contract")
 
 -   e-mail : lcamel@gmail.com
 -   github : [@LCamel](https://github.com/LCamel)
--   website : https://twitter.com/LCamel
+-   website : https://www.facebook.com/LCamel

@@ -36,6 +36,10 @@
 
 ---
 
+## ❗ WARNING
+
+This library has not been audited.
+
 ## 🛠 Install
 
 ### npm or yarn
@@ -56,4 +60,4 @@ yarn add @zk-kit/lazytower.circom
 
 -   e-mail : lcamel@gmail.com
 -   github : [@LCamel](https://github.com/LCamel)
--   website : https://twitter.com/LCamel
+-   website : https://www.facebook.com/LCamel
