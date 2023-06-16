@@ -17,9 +17,9 @@ describe("LazyTowerHashChainTest", () => {
 
         const N = 150
         for (let i = 0; i < N; i += 1) {
-            const tx = contract.add(lazyTowerId, i)
-            await tx
+            await contract.add(lazyTowerId, i)
         }
+
         const [levelLengths, digests, digestOfDigests] = await contract.getDataForProving(lazyTowerId)
 
         expect(levelLengths).to.equal(0x2112)
@@ -55,7 +55,6 @@ describe("LazyTowerHashChainTest", () => {
             shiftTower.add(i)
 
             const tx = contract.add(lazyTowerId, i)
-            await tx
 
             // event
             await expect(tx).to.emit(contract, "Add").withArgs(i)
@@ -80,7 +79,6 @@ describe("LazyTowerHashChainTest", () => {
         let item = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495616")
 
         const tx = contract.add(lazyTowerId, item)
-        await tx
         await expect(tx).to.emit(contract, "Add").withArgs(item)
 
         item += BigInt(1)
