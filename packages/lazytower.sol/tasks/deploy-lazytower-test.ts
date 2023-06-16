@@ -1,7 +1,7 @@
 import { Contract } from "ethers"
 import { task, types } from "hardhat/config"
 
-task("deploy:ht-test", "Deploy a LazyTowerTest contract")
+task("deploy:lazytower-test", "Deploy a LazyTowerHashChainTest contract")
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
     .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
         const PoseidonT3Factory = await ethers.getContractFactory("PoseidonT3")

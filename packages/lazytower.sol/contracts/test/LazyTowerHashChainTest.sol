@@ -7,7 +7,6 @@ import "../LazyTowerHashChain.sol";
 contract LazyTowerHashChainTest {
     using LazyTowerHashChain for LazyTowerHashChainData;
 
-    // LazyTower may emit multiple events in a singal add() call
     event Add(uint256 item);
 
     // map for multiple test cases

@@ -9,7 +9,7 @@ describe("LazyTowerHashChainTest", () => {
     let contract: Contract
 
     before(async () => {
-        contract = await run("deploy:ht-test", { logs: false })
+        contract = await run("deploy:lazytower-test", { logs: false })
     })
 
     it("Should produce correct levelLengths, digests and digest of digests", async () => {

@@ -65,19 +65,19 @@ yarn add @zk-kit/lazytower.sol
 
 pragma solidity ^0.8.4;
 
-import "../LazyTower.sol";
+import "../LazyTowerHashChain.sol";
 
-contract LazyTowerTest {
-    using LazyTower for LazyTowerData;
+contract LazyTowerHashChainTest {
+    using LazyTowerHashChain for LazyTowerHashChainData;
 
-    // LazyTower may emit multiple events in a singal add() call
-    event Add(uint8 indexed level, uint64 indexed lvFullIndex, uint256 value);
+    event Add(uint256 item);
 
     // map for multiple test cases
-    mapping(bytes32 => LazyTowerData) public towers;
+    mapping(bytes32 => LazyTowerHashChainData) public towers;
 
     function add(bytes32 _towerId, uint256 _item) external {
         towers[_towerId].add(_item);
+        emit Add(_item);
     }
 
     function getDataForProving(bytes32 _towerId)
@@ -101,7 +101,7 @@ contract LazyTowerTest {
 import { Contract } from "ethers"
 import { task, types } from "hardhat/config"
 
-task("deploy:ht-test", "Deploy a LazyTowerTest contract")
+task("deploy:lazytower-test", "Deploy a LazyTowerHashChainTest contract")
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
     .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
         const PoseidonT3Factory = await ethers.getContractFactory("PoseidonT3")
@@ -111,7 +111,7 @@ task("deploy:ht-test", "Deploy a LazyTowerTest contract")
             console.info(`PoseidonT3 library has been deployed to: ${PoseidonT3.address}`)
         }
 
-        const LazyTowerLibFactory = await ethers.getContractFactory("LazyTower", {
+        const LazyTowerLibFactory = await ethers.getContractFactory("LazyTowerHashChain", {
             libraries: {
                 PoseidonT3: PoseidonT3.address
             }
@@ -121,12 +121,12 @@ task("deploy:ht-test", "Deploy a LazyTowerTest contract")
         await lazyTowerLib.deployed()
 
         if (logs) {
-            console.info(`LazyTower library has been deployed to: ${lazyTowerLib.address}`)
+            console.info(`LazyTowerHashChain library has been deployed to: ${lazyTowerLib.address}`)
         }
 
-        const ContractFactory = await ethers.getContractFactory("LazyTowerTest", {
+        const ContractFactory = await ethers.getContractFactory("LazyTowerHashChainTest", {
             libraries: {
-                LazyTower: lazyTowerLib.address
+                LazyTowerHashChain: lazyTowerLib.address
             }
         })
 
