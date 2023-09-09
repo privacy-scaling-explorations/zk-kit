@@ -70,7 +70,7 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/incremental-merkle-tree">
                     @zk-kit/incremental-merkle-tree
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_incremental_merkle_tree">
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_incremental_merkle_tree.html">
                     (docs)
                 </a>
             </td>
@@ -118,7 +118,7 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/sparse-merkle-tree">
                     @zk-kit/sparse-merkle-tree
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_sparse_merkle_tree">
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_sparse_merkle_tree.html">
                     (docs)
                 </a>
             </td>
