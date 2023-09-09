@@ -70,7 +70,7 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/incremental-merkle-tree">
                     @zk-kit/incremental-merkle-tree
                 </a>
-                 <a href="https://zkkit.appliedzkp.org/incremental-merkle-tree">
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_incremental_merkle_tree">
                     (docs)
                 </a>
             </td>
@@ -118,7 +118,7 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/sparse-merkle-tree">
                     @zk-kit/sparse-merkle-tree
                 </a>
-                 <a href="https://zkkit.appliedzkp.org/sparse-merkle-tree/">
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_sparse_merkle_tree">
                     (docs)
                 </a>
             </td>
@@ -272,7 +272,3 @@ grep -r -l "sparse-merkle-tree" . | xargs sed -i 's/sparse-merkle-tree/my-packag
 #### How can I create benchmarks for my library?
 
 You can see some examples in the `benchmarks` folder. All you have to do is create a file that exports a function to run your benchmark in that folder, and add that function to the `index.ts` file. The `yarn benchmarks` command can be run with no parameters (it will run all the benchmarks), or you can specify the name of your benchmark file to run just that. When you run the command it will create a `benchmarks/results` folder with your results.
-
-#### How can I publish the documentation of my library with Typedocs?
-
-You just need to insert the NPM `docs` command in your `package.json` file, as in the other packages. This command will be executed by Yarn and the output of `typedocs` will be placed in the `docs` folder of the root directory, which will be used to deploy the documentation websites by the Github `docs` workflow whenever the `main` branch is updated.

@@ -55,9 +55,7 @@ node_modules/
 # Generate output
 dist
 build
-docs/*
-!docs/CNAME
-!docs/index.html
+docs
 
 # Hardhat
 cache

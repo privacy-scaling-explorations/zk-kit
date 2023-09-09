@@ -18,7 +18,7 @@
         "prettier": "prettier -c .",
         "prettier:write": "prettier -w .",
         "benchmarks": "rimraf benchmarks/results && ts-node benchmarks/index.ts",
-        "docs": "yarn workspaces foreach --no-private run docs",
+        "docs": "typedoc --cname zkkit.pse.dev --githubPages true",
         "commit": "cz",
         "precommit": "lint-staged",
         "postinstall": "yarn build && husky install"
@@ -69,6 +69,7 @@
         "rollup": "^2.64.0",
         "ts-node": "^10.4.0",
         "tslib": "^2.3.1",
+        "typedoc": "^0.25.1",
         "typescript": "^4.5.4"
     },
     "config": {

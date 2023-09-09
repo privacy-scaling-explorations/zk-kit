@@ -1,0 +1,6 @@
+{
+    "entryPoints": ["packages/*"],
+    "name": "ZK-kit",
+    "entryPointStrategy": "packages",
+    "exclude": ["**/*.sol", "**/*.circom", "**/rollup-plugin-rust"]
+}
