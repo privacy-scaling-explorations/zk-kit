@@ -16,6 +16,7 @@ benchmarks/results
 
 # hardhat
 cache
+typechain-types
 
 # production
 dist
