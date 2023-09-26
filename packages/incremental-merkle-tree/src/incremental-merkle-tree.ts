@@ -1,98 +1,53 @@
-import checkParameter from "./checkParameter"
-import _createProof from "./createProof"
-import _indexOf from "./indexOf"
-import _insert from "./insert"
-import { HashFunction, MerkleProof, Node } from "./types"
-import _update from "./update"
-import _verifyProof from "./verifyProof"
+import requireDefinedParameter from "./requireDefinedParameter"
+import { HashFunction, MerkleProof } from "./types"
+
+// TODO: support arity
+// TODO: add comments
 
 /**
  * A Merkle tree is a tree in which every leaf node is labelled with the cryptographic hash of a
  * data block, and every non-leaf node is labelled with the cryptographic hash of the labels of its child nodes.
  * It allows efficient and secure verification of the contents of large data structures.
- * The IncrementalMerkleTree class is a TypeScript implementation of Incremental Merkle tree and it
- * provides all the functions to create efficient trees and to generate and verify proofs of membership.
+ * This class is a TypeScript implementation of Incremental Merkle tree and it
+ * provides all the functions to create efficient trees and generate/verify proofs of membership.
  */
-export default class IncrementalMerkleTree {
-    static readonly maxDepth = 32
-
-    private readonly _nodes: Node[][]
-    private readonly _zeroes: Node[]
-    private readonly _hash: HashFunction
-    private readonly _depth: number
+export default class IncrementalMerkleTree<N = bigint> {
+    private readonly _nodes: N[][]
+    private readonly _hash: HashFunction<N>
     private readonly _arity: number
 
     /**
-     * Initializes the tree with the hash function, the depth, the zero value to use for zeroes
-     * and the arity (i.e. the number of children for each node).
-     * @param hash Hash function.
-     * @param depth Tree depth.
-     * @param zeroValue Zero values for zeroes.
-     * @param arity The number of children for each node.
-     * @param leaves The list of initial leaves.
+     * Initializes the tree with a given hash function and an
+     * optional list of leaves.
+     * @param hash Hash function used to create nodes.
+     * @param arity Number of children for each node.
+     * @param leaves List of leaves.
      */
-    constructor(hash: HashFunction, depth: number, zeroValue: Node, arity = 2, leaves: Node[] = []) {
-        checkParameter(hash, "hash", "function")
-        checkParameter(depth, "depth", "number")
-        checkParameter(zeroValue, "zeroValue", "number", "string", "bigint")
-        checkParameter(arity, "arity", "number")
-        checkParameter(leaves, "leaves", "object")
-
-        if (depth < 1 || depth > IncrementalMerkleTree.maxDepth) {
-            throw new Error("The tree depth must be between 1 and 32")
-        }
-
-        if (leaves.length > arity ** depth) {
-            throw new Error(`The tree cannot contain more than ${arity ** depth} leaves`)
-        }
+    constructor(hash: HashFunction<N>, arity: number, leaves: N[] = []) {
+        requireDefinedParameter(hash, "hash")
+        requireDefinedParameter(hash, "arity")
+        requireDefinedParameter(hash, "leaves")
 
         // Initialize the attributes.
+        this._nodes = [[]]
         this._hash = hash
-        this._depth = depth
-        this._zeroes = []
-        this._nodes = []
         this._arity = arity
 
-        for (let level = 0; level < depth; level += 1) {
-            this._zeroes.push(zeroValue)
-            this._nodes[level] = []
-            // There must be a zero value for each tree level (except the root).
-            zeroValue = hash(Array(this._arity).fill(zeroValue))
-        }
-
-        this._nodes[depth] = []
-
-        // It initializes the tree with a list of leaves if there are any.
+        // Initialize the tree with a list of leaves if there are any.
         if (leaves.length > 0) {
-            this._nodes[0] = leaves
-
-            for (let level = 0; level < depth; level += 1) {
-                for (let index = 0; index < Math.ceil(this._nodes[level].length / arity); index += 1) {
-                    const position = index * arity
-                    const children = []
-
-                    for (let i = 0; i < arity; i += 1) {
-                        children.push(this._nodes[level][position + i] ?? this.zeroes[level])
-                    }
-
-                    this._nodes[level + 1][index] = hash(children)
-                }
-            }
-        } else {
-            // If there are no leaves, the default root is the last zero value.
-            this._nodes[depth][0] = zeroValue
+            this.insertMany(leaves)
         }
 
-        // Freeze the array objects. It prevents unintentional changes.
-        Object.freeze(this._zeroes)
+        // Freeze the objects. It prevents unintentional changes.
         Object.freeze(this._nodes)
+        Object.freeze(this._hash)
     }
 
     /**
      * Returns the root hash of the tree.
      * @returns Root hash.
      */
-    public get root(): Node {
+    public get root(): N {
         return this._nodes[this.depth][0]
     }
 
@@ -101,23 +56,15 @@ export default class IncrementalMerkleTree {
      * @returns Tree depth.
      */
     public get depth(): number {
-        return this._depth
+        return this._nodes.length - 1
     }
 
     /**
      * Returns the leaves of the tree.
      * @returns List of leaves.
      */
-    public get leaves(): Node[] {
+    public get leaves(): N[] {
         return this._nodes[0].slice()
-    }
-
-    /**
-     * Returns the zeroes nodes of the tree.
-     * @returns List of zeroes.
-     */
-    public get zeroes(): Node[] {
-        return this._zeroes
     }
 
     /**
@@ -129,37 +76,103 @@ export default class IncrementalMerkleTree {
     }
 
     /**
+     * Returns the number of leaves in the tree.
+     * @returns Number of leaves.
+     */
+    public get size(): number {
+        return this._nodes[0].length
+    }
+
+    /**
      * Returns the index of a leaf. If the leaf does not exist it returns -1.
      * @param leaf Tree leaf.
      * @returns Index of the leaf.
      */
-    public indexOf(leaf: Node): number {
-        return _indexOf(leaf, this._nodes)
+    public indexOf(leaf: N): number {
+        requireDefinedParameter(leaf, "leaf")
+
+        return this._nodes[0].indexOf(leaf)
+    }
+
+    /**
+     * Returns true if the leaf exists and false otherwise
+     * @param leaf Tree leaf.
+     * @returns True if the tree has the leaf, false otherwise.
+     */
+    public has(leaf: N): boolean {
+        requireDefinedParameter(leaf, "leaf")
+
+        return this._nodes[0].includes(leaf)
     }
 
     /**
      * Inserts a new leaf in the tree.
      * @param leaf New leaf.
      */
-    public insert(leaf: Node) {
-        this._nodes[this.depth][0] = _insert(leaf, this.depth, this.arity, this._nodes, this.zeroes, this._hash)
+    public insert(leaf: N) {
+        requireDefinedParameter(leaf, "leaf")
+
+        // If the next depth is greater, a new tree level will be added.
+        if (this.depth < Math.ceil(Math.log2(this.size + 1))) {
+            // Adding an array is like adding a new level.
+            this._nodes.push([])
+        }
+
+        let node = leaf
+        let index = this.size
+
+        for (let level = 0; level < this.depth; level += 1) {
+            this._nodes[level][index] = node
+
+            // Bitwise AND, 0 -> left or 1 -> right.
+            // If the node is a right node the parent node will be the hash
+            // of the child nodes. Otherwise, parent will equal left child node.
+            if (index & 1) {
+                const sibling = this._nodes[level][index - 1]
+                node = this._hash(sibling, node)
+            }
+
+            // Right shift, it divides a number by 2 and discards the remainder.
+            index >>= 1
+        }
+
+        // Store the new root.
+        this._nodes[this.depth] = [node]
     }
 
-    /**
-     * Deletes a leaf from the tree. It does not remove the leaf from
-     * the data structure. It set the leaf to be deleted to a zero value.
-     * @param index Index of the leaf to be deleted.
-     */
-    public delete(index: number) {
-        this._nodes[this.depth][0] = _update(
-            index,
-            this.zeroes[0],
-            this.depth,
-            this.arity,
-            this._nodes,
-            this.zeroes,
-            this._hash
-        )
+    public insertMany(leaves: N[]) {
+        requireDefinedParameter(leaves, "leaves")
+
+        if (leaves.length === 0) {
+            throw new Error("There are no leaves to add")
+        }
+
+        const oldSize = this.size
+
+        this._nodes[0].push(...leaves)
+
+        // Calculate how many tree levels will need to be added
+        // using the number of leaves.
+        const numberOfNewLevels = Math.ceil(Math.log2(this.size)) - this.depth
+
+        // Add the new levels.
+        for (let i = 0; i < numberOfNewLevels; i += 1) {
+            this._nodes.push([])
+        }
+
+        for (let level = 0; level < this.depth; level += 1) {
+            // Calculate the number of nodes of a level.
+            const numberOfNodes = Math.ceil(this._nodes[level].length / 2)
+
+            for (let index = oldSize >> (level + 1); index < numberOfNodes; index += 1) {
+                const rightNode = this._nodes[level][index * 2 + 1]
+                const leftNode = this._nodes[level][index * 2]
+
+                const parentNode = rightNode ? this._hash(leftNode, rightNode) : leftNode
+
+                this._nodes[level + 1][index] = parentNode
+            }
+        }
     }
 
     /**
@@ -167,33 +180,79 @@ export default class IncrementalMerkleTree {
      * @param index Index of the leaf to be updated.
      * @param newLeaf New leaf value.
      */
-    public update(index: number, newLeaf: Node) {
-        this._nodes[this.depth][0] = _update(
-            index,
-            newLeaf,
-            this.depth,
-            this.arity,
-            this._nodes,
-            this.zeroes,
-            this._hash
-        )
+    public update(index: number, newLeaf: N) {
+        requireDefinedParameter(index, "index")
+        requireDefinedParameter(newLeaf, "newLeaf")
+
+        let node = newLeaf
+
+        for (let level = 0; level < this.depth; level += 1) {
+            this._nodes[level][index] = node
+
+            if (index & 1) {
+                const sibling = this._nodes[level][index - 1]
+                node = this._hash(sibling, node)
+            } else {
+                const sibling = this._nodes[level][index + 1]
+
+                if (sibling) {
+                    node = this._hash(node, sibling)
+                }
+            }
+
+            index >>= 1
+        }
+
+        this._nodes[this.depth] = [node]
     }
 
-    /**
-     * Creates a proof of membership.
-     * @param index Index of the proof's leaf.
-     * @returns Proof object.
-     */
-    public createProof(index: number): MerkleProof {
-        return _createProof(index, this.depth, this.arity, this._nodes, this.zeroes, this.root)
+    public generateProof(index: number): MerkleProof<N> {
+        requireDefinedParameter(index, "index")
+
+        if (index === -1) {
+            throw new Error(`The leaf at index ${index} does not exist in this tree`)
+        }
+
+        const leaf = this.leaves[index]
+        const siblings: N[] = []
+        const path: number[] = []
+
+        for (let level = 0; level < this.depth; level += 1) {
+            const isRightNode = index & 1
+            const siblingIndex = isRightNode ? index - 1 : index + 1
+            const sibling = this._nodes[level][siblingIndex]
+
+            if (sibling !== undefined) {
+                path.push(isRightNode)
+                siblings.push(sibling)
+            }
+
+            index >>= 1
+        }
+
+        return { root: this.root, leaf, index: Number.parseInt(path.reverse().join(""), 2), siblings }
     }
 
-    /**
-     * Verifies a proof and return true or false.
-     * @param proof Proof to be verified.
-     * @returns True or false.
-     */
-    public verifyProof(proof: MerkleProof): boolean {
-        return _verifyProof(proof, this._hash)
+    public verifyProof(proof: MerkleProof<N>): boolean {
+        requireDefinedParameter(proof, "proof")
+
+        const { root, leaf, siblings, index } = proof
+
+        requireDefinedParameter(proof.root, "proof.root")
+        requireDefinedParameter(proof.leaf, "proof.leaf")
+        requireDefinedParameter(proof.siblings, "proof.siblings")
+        requireDefinedParameter(proof.index, "proof.index")
+
+        let node = leaf
+
+        for (let i = 0; i < siblings.length; i += 1) {
+            if ((index >> i) & 1) {
+                node = this._hash(siblings[i], node)
+            } else {
+                node = this._hash(node, siblings[i])
+            }
+        }
+
+        return root === node
     }
 }

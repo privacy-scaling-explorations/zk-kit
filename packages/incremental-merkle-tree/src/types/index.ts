@@ -1,11 +1,8 @@
-export type Node = any
+export type HashFunction<N = bigint> = (a: N, b: N) => N
 
-export type HashFunction = (values: Node[]) => Node
-
-export type MerkleProof = {
-    root: any
-    leaf: any
-    leafIndex: number
-    siblings: any[]
-    pathIndices: number[]
+export type MerkleProof<N = bigint> = {
+    root: N
+    leaf: N
+    index: number
+    siblings: N[]
 }
