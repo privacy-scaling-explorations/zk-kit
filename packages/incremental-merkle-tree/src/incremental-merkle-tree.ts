@@ -1,8 +1,10 @@
-import requireDefinedParameter from "./requireDefinedParameter"
 import { HashFunction, MerkleProof } from "./types"
+import { requireArray, requireDefinedParameter, requireFunction, requireNumber } from "./utils"
 
-// TODO: support arity
+// TODO: move library to new package
+// TODO: add more tests
 // TODO: add comments
+// TODO: check all the dependencies
 
 /**
  * A Merkle tree is a tree in which every leaf node is labelled with the cryptographic hash of a
@@ -14,7 +16,6 @@ import { HashFunction, MerkleProof } from "./types"
 export default class IncrementalMerkleTree<N = bigint> {
     private readonly _nodes: N[][]
     private readonly _hash: HashFunction<N>
-    private readonly _arity: number
 
     /**
      * Initializes the tree with a given hash function and an
@@ -23,24 +24,19 @@ export default class IncrementalMerkleTree<N = bigint> {
      * @param arity Number of children for each node.
      * @param leaves List of leaves.
      */
-    constructor(hash: HashFunction<N>, arity: number, leaves: N[] = []) {
+    constructor(hash: HashFunction<N>, leaves: N[] = []) {
         requireDefinedParameter(hash, "hash")
-        requireDefinedParameter(hash, "arity")
-        requireDefinedParameter(hash, "leaves")
+        requireFunction(hash, "hash")
+        requireArray(leaves, "leaves")
 
         // Initialize the attributes.
         this._nodes = [[]]
         this._hash = hash
-        this._arity = arity
 
         // Initialize the tree with a list of leaves if there are any.
         if (leaves.length > 0) {
             this.insertMany(leaves)
         }
-
-        // Freeze the objects. It prevents unintentional changes.
-        Object.freeze(this._nodes)
-        Object.freeze(this._hash)
     }
 
     /**
@@ -65,14 +61,6 @@ export default class IncrementalMerkleTree<N = bigint> {
      */
     public get leaves(): N[] {
         return this._nodes[0].slice()
-    }
-
-    /**
-     * Returns the number of children for each node.
-     * @returns Number of children per node.
-     */
-    public get arity(): number {
-        return this._arity
     }
 
     /**
@@ -129,6 +117,7 @@ export default class IncrementalMerkleTree<N = bigint> {
             // of the child nodes. Otherwise, parent will equal left child node.
             if (index & 1) {
                 const sibling = this._nodes[level][index - 1]
+
                 node = this._hash(sibling, node)
             }
 
@@ -142,12 +131,13 @@ export default class IncrementalMerkleTree<N = bigint> {
 
     public insertMany(leaves: N[]) {
         requireDefinedParameter(leaves, "leaves")
+        requireArray(leaves, "leaves")
 
         if (leaves.length === 0) {
             throw new Error("There are no leaves to add")
         }
 
-        const oldSize = this.size
+        let startIndex = this.size >> 1
 
         this._nodes[0].push(...leaves)
 
@@ -161,10 +151,10 @@ export default class IncrementalMerkleTree<N = bigint> {
         }
 
         for (let level = 0; level < this.depth; level += 1) {
-            // Calculate the number of nodes of a level.
+            // Calculate the number of nodes of the next level.
             const numberOfNodes = Math.ceil(this._nodes[level].length / 2)
 
-            for (let index = oldSize >> (level + 1); index < numberOfNodes; index += 1) {
+            for (let index = startIndex; index < numberOfNodes; index += 1) {
                 const rightNode = this._nodes[level][index * 2 + 1]
                 const leftNode = this._nodes[level][index * 2]
 
@@ -172,6 +162,8 @@ export default class IncrementalMerkleTree<N = bigint> {
 
                 this._nodes[level + 1][index] = parentNode
             }
+
+            startIndex >>= 1
         }
     }
 
@@ -183,6 +175,7 @@ export default class IncrementalMerkleTree<N = bigint> {
     public update(index: number, newLeaf: N) {
         requireDefinedParameter(index, "index")
         requireDefinedParameter(newLeaf, "newLeaf")
+        requireNumber(index, "index")
 
         let node = newLeaf
 
@@ -208,9 +201,10 @@ export default class IncrementalMerkleTree<N = bigint> {
 
     public generateProof(index: number): MerkleProof<N> {
         requireDefinedParameter(index, "index")
+        requireNumber(index, "index")
 
-        if (index === -1) {
-            throw new Error(`The leaf at index ${index} does not exist in this tree`)
+        if (index < 0 || index >= this.depth) {
+            throw new Error(`The leaf at index '${index}' does not exist in this tree`)
         }
 
         const leaf = this.leaves[index]
@@ -242,6 +236,9 @@ export default class IncrementalMerkleTree<N = bigint> {
         requireDefinedParameter(proof.leaf, "proof.leaf")
         requireDefinedParameter(proof.siblings, "proof.siblings")
         requireDefinedParameter(proof.index, "proof.index")
+
+        requireArray(proof.siblings, "proof.siblings")
+        requireNumber(proof.index, "proof.index")
 
         let node = leaf
 

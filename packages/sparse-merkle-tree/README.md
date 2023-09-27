@@ -35,7 +35,7 @@
             🗣️ Chat &amp; Support
         </a>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://zkkit.appliedzkp.org/sparse-merkle-tree">
+        <a href="https://zkkit.pse.dev/modules/_zk_kit_sparse_merkle_tree.html">
             📘 Docs
         </a>
     </h4>

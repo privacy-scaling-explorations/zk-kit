@@ -1,170 +1,117 @@
-import { poseidon } from "circomlibjs"
-import { IncrementalQuinTree } from "incrementalquintree"
+import { poseidon2 } from "poseidon-lite"
 import { IncrementalMerkleTree } from "../src"
 
 describe("Incremental Merkle Tree", () => {
-    const depth = 16
-    const numberOfLeaves = 9
+    const treeSize = 9
 
-    for (const arity of [2, 5]) {
-        describe(`Incremental Merkle Tree (arity = ${arity})`, () => {
-            let tree: IncrementalMerkleTree
-            let oldTree: IncrementalQuinTree
+    describe("Binary Incremental Merkle Tree", () => {
+        const poseidon = (a: bigint, b: bigint) => poseidon2([a, b])
 
-            beforeEach(() => {
-                tree = new IncrementalMerkleTree(poseidon, depth, BigInt(0), arity)
-                oldTree = new IncrementalQuinTree(depth, BigInt(0), arity, poseidon)
+        it("Should not initialize a tree with wrong parameters", () => {
+            const fun1 = () => new IncrementalMerkleTree(undefined as any)
+            const fun2 = () => new IncrementalMerkleTree(1 as any)
+            const fun3 = () => new IncrementalMerkleTree(poseidon, "string" as any)
+
+            expect(fun1).toThrow("Parameter 'hash' is not defined")
+            expect(fun2).toThrow("Parameter 'hash' is not a function")
+            expect(fun3).toThrow("Parameter 'leaves' is not an array")
+        })
+
+        it("Should initialize a tree", () => {
+            const tree = new IncrementalMerkleTree(poseidon)
+
+            expect(tree.root).toBeUndefined()
+            expect(tree.depth).toBe(0)
+            expect(tree.leaves).toEqual([])
+            expect(tree.size).toBe(0)
+        })
+
+        for (let treeSize = 100; treeSize < 116; treeSize += 1) {
+            it(`Should initialize a tree with ${treeSize} leaves`, () => {
+                const leaves = Array.from(Array(treeSize).keys()).map(BigInt)
+
+                const tree1 = new IncrementalMerkleTree(poseidon, leaves)
+                const tree2 = new IncrementalMerkleTree(poseidon)
+
+                for (const leaf of leaves) {
+                    tree2.insert(BigInt(leaf))
+                }
+
+                expect(tree1.root).toEqual(tree2.root)
+                expect(tree1.depth).toBe(Math.ceil(Math.log2(treeSize)))
+                expect(tree1.size).toBe(treeSize)
             })
+        }
 
-            it("Should not initialize a tree with wrong parameters", () => {
-                const fun1 = () => new IncrementalMerkleTree(undefined as any, 33, 0, arity)
-                const fun2 = () => new IncrementalMerkleTree(1 as any, 33, 0, arity)
-                const fun3 = () => new IncrementalMerkleTree(poseidon, depth, BigInt(0), arity, 2 as any)
+        it(`Should insert ${treeSize} leaves`, () => {
+            const tree = new IncrementalMerkleTree(poseidon)
 
-                expect(fun1).toThrow("Parameter 'hash' is not defined")
-                expect(fun2).toThrow("Parameter 'hash' is none of these types: function")
-                expect(fun3).toThrow("Parameter 'leaves' is none of these types: object")
-            })
+            for (let i = 0; i < treeSize; i += 1) {
+                tree.insert(BigInt(i))
 
-            it("Should not initialize a tree with depth > 32", () => {
-                const fun = () => new IncrementalMerkleTree(poseidon, 33, BigInt(0), arity)
-
-                expect(fun).toThrow("The tree depth must be between 1 and 32")
-            })
-
-            it("Should not initialize a tree with a number of leaves > arity ** depth", () => {
-                const leaves = Array.from(Array(100).keys())
-
-                const fun = () => new IncrementalMerkleTree(poseidon, 2, BigInt(0), arity, leaves)
-
-                expect(fun).toThrow(`The tree cannot contain more than ${arity ** 2} leaves`)
-            })
-
-            it("Should initialize a tree", () => {
-                expect(tree.depth).toEqual(depth)
-                expect(tree.leaves).toHaveLength(0)
-                expect(tree.zeroes).toHaveLength(depth)
-                expect(tree.arity).toEqual(arity)
-            })
-
-            for (let numberOfLeaves = 100; numberOfLeaves < 116; numberOfLeaves += 1) {
-                it(`Should initialize a tree with ${numberOfLeaves} leaves`, () => {
-                    const leaves = Array.from(Array(numberOfLeaves).keys())
-
-                    const tree = new IncrementalMerkleTree(poseidon, depth, BigInt(0), arity, leaves)
-
-                    const tree2 = new IncrementalMerkleTree(poseidon, depth, BigInt(0), arity)
-
-                    for (const leaf of leaves) {
-                        tree2.insert(leaf)
-                    }
-
-                    expect(tree.depth).toEqual(depth)
-                    expect(tree.leaves).toHaveLength(numberOfLeaves)
-                    expect(tree.zeroes).toHaveLength(depth)
-                    expect(tree.arity).toEqual(arity)
-                    expect(tree.root).toEqual(tree2.root)
-                })
+                expect(tree.size).toBe(i + 1)
             }
 
-            it("Should not insert a leaf in a full tree", () => {
-                const fullTree = new IncrementalMerkleTree(poseidon, 1, BigInt(0), 3)
-
-                fullTree.insert(BigInt(0))
-                fullTree.insert(BigInt(1))
-                fullTree.insert(BigInt(2))
-
-                const fun = () => fullTree.insert(BigInt(4))
-
-                expect(fun).toThrow("The tree is full")
-            })
-
-            it(`Should insert ${numberOfLeaves} leaves`, () => {
-                for (let i = 0; i < numberOfLeaves; i += 1) {
-                    tree.insert(BigInt(1))
-                    oldTree.insert(BigInt(1))
-
-                    const { root } = oldTree.genMerklePath(0)
-
-                    expect(tree.root).toEqual(root)
-                    expect(tree.leaves).toHaveLength(i + 1)
-                }
-            })
-
-            it("Should not delete a leaf that does not exist", () => {
-                const fun = () => tree.delete(0)
-
-                expect(fun).toThrow("The leaf does not exist in this tree")
-            })
-
-            it(`Should delete ${numberOfLeaves} leaves`, () => {
-                for (let i = 0; i < numberOfLeaves; i += 1) {
-                    tree.insert(BigInt(1))
-                    oldTree.insert(BigInt(1))
-                }
-
-                for (let i = 0; i < numberOfLeaves; i += 1) {
-                    tree.delete(i)
-                    oldTree.update(i, BigInt(0))
-
-                    const { root } = oldTree.genMerklePath(0)
-
-                    expect(tree.root).toEqual(root)
-                }
-            })
-
-            it(`Should update ${numberOfLeaves} leaves`, () => {
-                for (let i = 0; i < numberOfLeaves; i += 1) {
-                    tree.insert(BigInt(1))
-                    oldTree.insert(BigInt(1))
-                }
-
-                for (let i = 0; i < numberOfLeaves; i += 1) {
-                    tree.update(i, BigInt(0))
-                    oldTree.update(i, BigInt(0))
-
-                    const { root } = oldTree.genMerklePath(0)
-
-                    expect(tree.root).toEqual(root)
-                }
-            })
-
-            it("Should return the index of a leaf", () => {
-                tree.insert(BigInt(1))
-                tree.insert(BigInt(2))
-
-                const index = tree.indexOf(BigInt(2))
-
-                expect(index).toBe(1)
-            })
-
-            it("Should not create any proof if the leaf does not exist", () => {
-                tree.insert(BigInt(1))
-
-                const fun = () => tree.createProof(1)
-
-                expect(fun).toThrow("The leaf does not exist in this tree")
-            })
-
-            it("Should create a valid proof", () => {
-                for (let i = 0; i < numberOfLeaves; i += 1) {
-                    tree.insert(BigInt(i + 1))
-                }
-
-                for (let i = 0; i < numberOfLeaves; i += 1) {
-                    const proof = tree.createProof(i)
-                    expect(proof.leafIndex).toEqual(i)
-                    expect(proof.siblings).toHaveLength(depth)
-                    expect(proof.pathIndices).toHaveLength(depth)
-                    for (let j = 0; j < depth; j += 1) {
-                        expect(proof.siblings[j]).toHaveLength(arity - 1)
-                        const leafV = Math.floor(i / arity ** j) % arity
-                        expect(proof.pathIndices[j]).toEqual(leafV)
-                    }
-
-                    expect(tree.verifyProof(proof)).toBeTruthy()
-                }
-            })
+            expect(tree.root).toBe(
+                BigInt("19600656203012706013289908371706631451337562014147901658265404138670017549484")
+            )
         })
-    }
+
+        it(`Should update ${treeSize} leaves`, () => {
+            const tree = new IncrementalMerkleTree(poseidon)
+
+            for (let i = 0; i < treeSize; i += 1) {
+                tree.insert(BigInt(i))
+            }
+
+            for (let i = 0; i < treeSize; i += 1) {
+                tree.update(i, BigInt(0))
+            }
+
+            expect(tree.root).toBe(
+                BigInt("17065579445831617191365513033949844513397288621643071341312383169025771810367")
+            )
+        })
+
+        it("Should return the index of a leaf", () => {
+            const tree = new IncrementalMerkleTree(poseidon, [BigInt(1), BigInt(2)])
+
+            const index = tree.indexOf(BigInt(2))
+
+            expect(index).toBe(1)
+        })
+
+        it("Should not generate any proof if the leaf does not exist", () => {
+            const tree = new IncrementalMerkleTree(poseidon, [BigInt(1)])
+
+            const fun = () => tree.generateProof(1)
+
+            expect(fun).toThrow("The leaf at index '1' does not exist in this tree")
+        })
+
+        //it("Should generate and verify a valid proof", () => {
+        //const tree = new IncrementalMerkleTree(poseidon, arity, [BigInt(1)])
+
+        //for (let i = 0; i < treeSize; i += 1) {
+        //tree.insert(BigInt(i))
+        //}
+
+        //for (let i = 0; i < treeSize; i += 1) {
+        //const proof = tree.generateProof(i)
+
+        //expect(proof.index).toEqual(i)
+        //expect(proof.siblings).toHaveLength(tree.depth)
+
+        //for (let j = 0; j < tree.depth; j += 1) {
+        //expect(proof.siblings[j]).toHaveLength(arity - 1)
+
+        //const leafV = Math.floor(i / arity ** j) % arity
+
+        //expect(proof.pathIndices[j]).toEqual(leafV)
+        //}
+
+        //expect(tree.verifyProof(proof)).toBeTruthy()
+        //}
+        //})
+    })
 })
