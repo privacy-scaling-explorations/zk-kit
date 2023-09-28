@@ -1,8 +1,8 @@
-export type Node = any
+export type IMTNode = any
 
-export type HashFunction = (values: Node[]) => Node
+export type IMTHashFunction = (values: IMTNode[]) => IMTNode
 
-export type MerkleProof = {
+export type IMTMerkleProof = {
     root: any
     leaf: any
     leafIndex: number

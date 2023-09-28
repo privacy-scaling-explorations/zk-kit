@@ -1,4 +1,4 @@
-import IMT from "./incremental-merkle-tree"
+import IMT from "./imt"
 
 export { IMT }
 export * from "./types"
