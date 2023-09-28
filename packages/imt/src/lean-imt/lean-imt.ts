@@ -1,26 +1,34 @@
 import { LeanIMTHashFunction, LeanIMTMerkleProof } from "./types"
 import { requireArray, requireDefinedParameter, requireFunction, requireNumber } from "./utils"
 
-// TODO: update readme file usage section
-// TODO: update and add comments
-// TODO: check all the dependencies
-
 /**
- * A Merkle tree is a tree in which every leaf node is labelled with the cryptographic hash of a
- * data block, and every non-leaf node is labelled with the cryptographic hash of the labels of its child nodes.
- * It allows efficient and secure verification of the contents of large data structures.
- * This class is a TypeScript implementation of Incremental Merkle tree and it
- * provides all the functions to create efficient trees and generate/verify proofs of membership.
+ * The {@link LeanIMT} is an optimized binary version of the {@link IMT}.
+ * This implementation exclusively supports binary trees, eliminates the use of
+ * zeroes, and the tree's {@link LeanIMT#depth} is dynamic. When a node doesn't have the right child,
+ * instead of using a zero hash as in the IMT, the node's value becomes that
+ * of its left child. Furthermore, rather than utilizing a static tree depth,
+ * it is updated based on the number of {@link LeanIMT#leaves} in the tree. This approach
+ * results in the calculation of significantly fewer hashes, making the tree more efficient.
  */
 export default class LeanIMT<N = bigint> {
+    /**
+     * The matrix where all the tree nodes are stored. The first index indicates
+     * the level of the tree, while the second index represents the node's
+     * position within that specific level. The last level will always contain
+     * a list with a single element, which is the root.
+     * Most of the attributes of this class are getters which can retrieve
+     * their values from this matrix.
+     */
     private readonly _nodes: N[][]
+    /**
+     * The hash function used to compute the tree nodes.
+     */
     private readonly _hash: LeanIMTHashFunction<N>
 
     /**
-     * Initializes the tree with a given hash function and an
-     * optional list of leaves.
-     * @param hash Hash function used to create nodes.
-     * @param leaves List of leaves.
+     * It initializes the tree with a given hash function and an optional list of leaves.
+     * @param hash The hash function used to create nodes.
+     * @param leaves The list of leaves.
      */
     constructor(hash: LeanIMTHashFunction<N>, leaves: N[] = []) {
         requireDefinedParameter(hash, "hash")
@@ -38,41 +46,46 @@ export default class LeanIMT<N = bigint> {
     }
 
     /**
-     * Returns the root hash of the tree.
-     * @returns Root hash.
+     * The root of the tree. This value doesn't need to be stored as
+     * it is always the first and unique element of the last level of the tree.
+     * Its value can be retrieved in {@link LeanIMT#_nodes}.
+     * @returns The root hash of the tree.
      */
     public get root(): N {
         return this._nodes[this.depth][0]
     }
 
     /**
-     * Returns the depth of the tree.
-     * @returns Tree depth.
+     * The depth of the tree, which equals the number of levels - 1.
+     * @returns The depth of the tree.
      */
     public get depth(): number {
         return this._nodes.length - 1
     }
 
     /**
-     * Returns the leaves of the tree.
-     * @returns List of leaves.
+     * The leaves of the tree. They can be retrieved from the first
+     * level of the tree using {@link LeanIMT#_nodes}. The returned
+     * value is a copy of the array and not the original object.
+     * @returns The list of tree leaves.
      */
     public get leaves(): N[] {
         return this._nodes[0].slice()
     }
 
     /**
-     * Returns the number of leaves in the tree.
-     * @returns Number of leaves.
+     * The size of the tree, which the number of its leaves.
+     * It's the length of the first level's list.
+     * @returns The number of leaves of the tree.
      */
     public get size(): number {
         return this._nodes[0].length
     }
 
     /**
-     * Returns the index of a leaf. If the leaf does not exist it returns -1.
-     * @param leaf Tree leaf.
-     * @returns Index of the leaf.
+     * It returns the index of a leaf. If the leaf does not exist it returns -1.
+     * @param leaf A leaf of the tree.
+     * @returns The index of the leaf.
      */
     public indexOf(leaf: N): number {
         requireDefinedParameter(leaf, "leaf")
@@ -81,9 +94,9 @@ export default class LeanIMT<N = bigint> {
     }
 
     /**
-     * Returns true if the leaf exists and false otherwise
-     * @param leaf Tree leaf.
-     * @returns True if the tree has the leaf, false otherwise.
+     * It returns true if the leaf exists, and false otherwise
+     * @param leaf A leaf of the tree.
+     * @returns True if the tree has the leaf, and false otherwise.
      */
     public has(leaf: N): boolean {
         requireDefinedParameter(leaf, "leaf")
@@ -92,8 +105,13 @@ export default class LeanIMT<N = bigint> {
     }
 
     /**
-     * Inserts a new leaf in the tree.
-     * @param leaf New leaf.
+     * The leaves are inserted incrementally. If 'i' is the index of the last
+     * leaf, the new one will be inserted at position 'i + 1'. Every time a
+     * new leaf is inserted, the nodes that separate the new leaf from the root
+     * of the tree are created or updated if they already exist, from bottom to top.
+     * When a node has only one child (the left one), its value takes on the value
+     * of the child. Otherwise, the hash of the children is calculated.
+     * @param leaf The new leaf to be inserted in the tree.
      */
     public insert(leaf: N) {
         requireDefinedParameter(leaf, "leaf")
@@ -105,6 +123,7 @@ export default class LeanIMT<N = bigint> {
         }
 
         let node = leaf
+        // The index of the new leaf equals the number of leaves in the tree.
         let index = this.size
 
         for (let level = 0; level < this.depth; level += 1) {
@@ -127,6 +146,13 @@ export default class LeanIMT<N = bigint> {
         this._nodes[this.depth] = [node]
     }
 
+    /**
+     * This function is useful when you want to insert N leaves all at once.
+     * It is more efficient than using the {@link LeanIMT#insert} method N times because it
+     * significantly reduces the number of cases where a node has only one
+     * child, which is a common occurrence in gradual insertion.
+     * @param leaves The list of leaves to be inserted.
+     */
     public insertMany(leaves: N[]) {
         requireDefinedParameter(leaves, "leaves")
         requireArray(leaves, "leaves")
@@ -166,9 +192,9 @@ export default class LeanIMT<N = bigint> {
     }
 
     /**
-     * Updates a leaf in the tree.
-     * @param index Index of the leaf to be updated.
-     * @param newLeaf New leaf value.
+     * It updates a leaf in the tree. It's very similar to the {@link LeanIMT#insert} function.
+     * @param index The index of the leaf to be updated.
+     * @param newLeaf The new leaf to be inserted.
      */
     public update(index: number, newLeaf: N) {
         requireDefinedParameter(index, "index")
@@ -182,8 +208,12 @@ export default class LeanIMT<N = bigint> {
 
             if (index & 1) {
                 const sibling = this._nodes[level][index - 1]
+
                 node = this._hash(sibling, node)
             } else {
+                // In this case there could still be a right node
+                // because the path might not be the rightmost one
+                // (like the 'insert' function).
                 const sibling = this._nodes[level][index + 1]
 
                 if (sibling) {
@@ -197,6 +227,12 @@ export default class LeanIMT<N = bigint> {
         this._nodes[this.depth] = [node]
     }
 
+    /**
+     * It generates a {@link LeanIMTMerkleProof} for a leaf of the tree.
+     * That proof can be verified by this tree using the same hash function.
+     * @param index The index of the leaf for which a Merkle proof will be generated.
+     * @returns The Merkle proof of the leaf.
+     */
     public generateProof(index: number): LeanIMTMerkleProof<N> {
         requireDefinedParameter(index, "index")
         requireNumber(index, "index")
@@ -214,6 +250,9 @@ export default class LeanIMT<N = bigint> {
             const siblingIndex = isRightNode ? index - 1 : index + 1
             const sibling = this._nodes[level][siblingIndex]
 
+            // If the sibling node does not exist, it means that the node at
+            // this level has the same value as its child. Therefore, there
+            // is no need to include it in the proof since there is no hash to calculate.
             if (sibling !== undefined) {
                 path.push(isRightNode)
                 siblings.push(sibling)
@@ -222,9 +261,17 @@ export default class LeanIMT<N = bigint> {
             index >>= 1
         }
 
+        // The index might be different from the original index of the leaf, since
+        // in some cases some siblings are not included (as explained above).
         return { root: this.root, leaf, index: Number.parseInt(path.reverse().join(""), 2), siblings }
     }
 
+    /**
+     * It verifies a {@link LeanIMTMerkleProof} to confirm that a leaf indeed
+     * belongs to the tree.
+     * @param proof The Merkle tree proof.
+     * @returns True if the leaf is part of the tree, and false otherwise.
+     */
     public verifyProof(proof: LeanIMTMerkleProof<N>): boolean {
         requireDefinedParameter(proof, "proof")
 
