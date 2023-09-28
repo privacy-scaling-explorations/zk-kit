@@ -67,29 +67,29 @@
     <tbody>
         <tr>
             <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/incremental-merkle-tree">
-                    @zk-kit/incremental-merkle-tree
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt">
+                    @zk-kit/imt
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_incremental_merkle_tree.html">
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_imt.html">
                     (docs)
                 </a>
             </td>
             <td>
                 <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/incremental-merkle-tree">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/incremental-merkle-tree.svg?style=flat-square" alt="NPM version" />
+                <a href="https://npmjs.org/package/@zk-kit/imt">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/imt.svg?style=flat-square" alt="NPM version" />
                 </a>
             </td>
             <td>
                 <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/incremental-merkle-tree">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/incremental-merkle-tree.svg?style=flat-square" alt="Downloads" />
+                <a href="https://npmjs.org/package/@zk-kit/imt">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/imt.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
             <td>
                 <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zk-kit/incremental-merkle-tree">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/incremental-merkle-tree" alt="npm bundle size (scoped)" />
+                <a href="https://bundlephobia.com/package/@zk-kit/imt">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/imt" alt="npm bundle size (scoped)" />
                 </a>
             </td>
         </tr>

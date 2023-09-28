@@ -75,26 +75,44 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
-### IMT
+This package currently provides two implementations of incremental Merkle trees: `IMT` and `LeanIMT`. The former supports several degrees (i.e. arity), while the latter is a binary tree optimization. More information on their properties can be found in the [ZK-Kit documentation](https://zkkit.pse.dev/modules/_zk_kit_imt.html).
+
+### IMT ([doc](https://zkkit.pse.dev/classes/_zk_kit_imt.IMT.html))
 
 ```typescript
 import { IMT } from "@zk-kit/imt"
 import { poseidon2 } from "poseidon-lite"
 
 const depth = 16
-const zeroValue = BigInt(0)
+const zeroValue = 0
 const arity = 2 // Binary tree.
 
 const tree = new IMT(poseidon2, depth, zeroValue, arity)
 
-// Or, if you already have tree leaves to insert:
+tree.insert(1)
+tree.insert(3)
 
-const leaves = [1, 2, 3]
+tree.root
+tree.zeroes
+tree.arity // 2
+tree.depth // 1
+tree.leaves // [1, 3]
 
-const tree = new IMT(poseidon, depth, zeroValue, arity, leaves)
+tree.indexOf(3) // 1
+
+tree.update(1, 2) // tree1.leaves -> [1, 2]
+
+tree.delete(1) // tree1.leaves -> [1, 0]
+
+const proof = tree.createProof(1)
+
+tree.verifyProof(proof) // true
+
+// You can also initialize a tree with a list of leaves.
+new IMT(poseidon, depth, zeroValue, arity, [1, 2, 3])
 ```
 
-### LeanIMT
+### LeanIMT ([doc](https://zkkit.pse.dev/classes/_zk_kit_lean-imt.LeanIMT.html))
 
 ```typescript
 import { LeanIMT } from "@zk-kit/imt"
@@ -104,9 +122,27 @@ const hash = (a, b) => poseidon2([a, b])
 
 const tree = new LeanIMT(hash)
 
-// Or, if you already have tree leaves to insert:
+tree.insert(1n)
+tree.insert(3n)
 
-const leaves = [1n, 2n, 3n]
+tree.root
+tree.depth // 1
+tree.size // 2
+tree.leaves // [1n, 3n]
 
-const tree = new LeanIMT(hash, leaves)
+tree.indexOf(3n) // 1
+tree.has(4n) // false
+
+tree.update(1, 2n) // tree1.leaves -> [1n, 2n]
+
+const proof = tree.createProof(1)
+
+tree.verifyProof(proof) // true
+
+// You can initialize a tree with a list of leaves.
+new LeanIMT(hash, [1n, 2n, 3n])
+
+// LeanIMT is strictly typed. Default type for nodes is 'bigint',
+// but you can set your own type.
+new LeanIMT<number>((a, b) => a + b)
 ```
