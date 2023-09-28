@@ -1,9 +1,8 @@
-import { HashFunction, MerkleProof } from "./types"
+import { LeanIMTHashFunction, LeanIMTMerkleProof } from "./types"
 import { requireArray, requireDefinedParameter, requireFunction, requireNumber } from "./utils"
 
-// TODO: move library to new package
-// TODO: add more tests
-// TODO: add comments
+// TODO: update readme file usage section
+// TODO: update and add comments
 // TODO: check all the dependencies
 
 /**
@@ -13,18 +12,17 @@ import { requireArray, requireDefinedParameter, requireFunction, requireNumber }
  * This class is a TypeScript implementation of Incremental Merkle tree and it
  * provides all the functions to create efficient trees and generate/verify proofs of membership.
  */
-export default class IncrementalMerkleTree<N = bigint> {
+export default class LeanIMT<N = bigint> {
     private readonly _nodes: N[][]
-    private readonly _hash: HashFunction<N>
+    private readonly _hash: LeanIMTHashFunction<N>
 
     /**
      * Initializes the tree with a given hash function and an
      * optional list of leaves.
      * @param hash Hash function used to create nodes.
-     * @param arity Number of children for each node.
      * @param leaves List of leaves.
      */
-    constructor(hash: HashFunction<N>, leaves: N[] = []) {
+    constructor(hash: LeanIMTHashFunction<N>, leaves: N[] = []) {
         requireDefinedParameter(hash, "hash")
         requireFunction(hash, "hash")
         requireArray(leaves, "leaves")
@@ -199,11 +197,11 @@ export default class IncrementalMerkleTree<N = bigint> {
         this._nodes[this.depth] = [node]
     }
 
-    public generateProof(index: number): MerkleProof<N> {
+    public generateProof(index: number): LeanIMTMerkleProof<N> {
         requireDefinedParameter(index, "index")
         requireNumber(index, "index")
 
-        if (index < 0 || index >= this.depth) {
+        if (index < 0 || index >= this.size) {
             throw new Error(`The leaf at index '${index}' does not exist in this tree`)
         }
 
@@ -227,7 +225,7 @@ export default class IncrementalMerkleTree<N = bigint> {
         return { root: this.root, leaf, index: Number.parseInt(path.reverse().join(""), 2), siblings }
     }
 
-    public verifyProof(proof: MerkleProof<N>): boolean {
+    public verifyProof(proof: LeanIMTMerkleProof<N>): boolean {
         requireDefinedParameter(proof, "proof")
 
         const { root, leaf, siblings, index } = proof
