@@ -78,6 +78,7 @@ library LazyIMT {
     }
 
     function root(LazyIMTData storage self) public view returns (uint256) {
+        // this will always short circuit if self.numberOfLeaves == 0
         uint40 numberOfLeaves = self.numberOfLeaves;
         // dynamically determine a depth
         uint8 depth = 1;
