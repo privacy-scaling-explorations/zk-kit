@@ -3,9 +3,7 @@ import { config as dotenvConfig } from "dotenv"
 import { HardhatUserConfig } from "hardhat/config"
 import { resolve } from "path"
 import { config } from "./package.json"
-import "./tasks/deploy-ibt-test"
-import "./tasks/deploy-iqt-test"
-import "./tasks/deploy-lmt-test"
+import "./tasks/deploy-imt-test"
 
 dotenvConfig({ path: resolve(__dirname, "./.env") })
 

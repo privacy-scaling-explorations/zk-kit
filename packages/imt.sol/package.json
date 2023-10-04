@@ -1,11 +1,10 @@
 {
-    "name": "incremental-merkle-tree.sol",
+    "name": "imt.sol",
     "private": true,
     "scripts": {
         "start": "hardhat node",
         "build": "hardhat compile",
         "compile": "hardhat compile",
-        "deploy:test-contracts": "hardhat deploy:tree-contracts",
         "test": "hardhat test",
         "test:report-gas": "REPORT_GAS=true hardhat test",
         "test:coverage": "hardhat coverage",
@@ -22,8 +21,7 @@
         "@typechain/hardhat": "^6.1.2",
         "@types/chai": "^4.2.0",
         "@types/mocha": ">=9.1.0",
-        "@zk-kit/incremental-merkle-tree": "^0.4.1",
-        "circomlibjs": "^0.0.8",
+        "@zk-kit/imt": "workspace:packages/imt",
         "dotenv": "^14.3.2",
         "ethers": "^5.4.7",
         "hardhat": "^2.13.0",
@@ -39,7 +37,7 @@
     },
     "config": {
         "solidity": {
-            "version": "0.8.4",
+            "version": "0.8.0",
             "settings": {
                 "optimizer": {
                     "enabled": true,

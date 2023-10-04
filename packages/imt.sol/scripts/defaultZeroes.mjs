@@ -1,6 +1,7 @@
 import { poseidon } from "circomlibjs"
 
 const zeroes = [0]
+
 for (let x = 1; x < 33; x++) {
     zeroes[x] = poseidon([zeroes[x - 1], zeroes[x - 1]])
 }

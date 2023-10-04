@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.0;
 
 import {PoseidonT6} from "poseidon-solidity/PoseidonT6.sol";
 
 // Each incremental tree has certain properties and data that will
 // be used to add new leaves.
-struct IncrementalTreeData {
+struct QuinIMTData {
     uint256 depth; // Depth of the tree (levels - 1).
     uint256 root; // Root hash of the tree.
     uint256 numberOfLeaves; // Number of leaves of the tree.
@@ -17,7 +17,7 @@ struct IncrementalTreeData {
 /// @title Incremental quin Merkle tree.
 /// @dev The incremental tree allows to calculate the root hash each time a leaf is added, ensuring
 /// the integrity of the tree.
-library IncrementalQuinTree {
+library QuinIMT {
     uint8 internal constant MAX_DEPTH = 32;
     uint256 internal constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
@@ -27,12 +27,12 @@ library IncrementalQuinTree {
     /// @param depth: Depth of the tree.
     /// @param zero: Zero value to be used.
     function init(
-        IncrementalTreeData storage self,
+        QuinIMTData storage self,
         uint256 depth,
         uint256 zero
     ) public {
-        require(zero < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
-        require(depth > 0 && depth <= MAX_DEPTH, "IncrementalQuinTree: tree depth must be between 1 and 32");
+        require(zero < SNARK_SCALAR_FIELD, "QuinIMT: leaf must be < SNARK_SCALAR_FIELD");
+        require(depth > 0 && depth <= MAX_DEPTH, "QuinIMT: tree depth must be between 1 and 32");
 
         self.depth = depth;
 
@@ -60,11 +60,11 @@ library IncrementalQuinTree {
     /// @dev Inserts a leaf in the tree.
     /// @param self: Tree data.
     /// @param leaf: Leaf to be inserted.
-    function insert(IncrementalTreeData storage self, uint256 leaf) public {
+    function insert(QuinIMTData storage self, uint256 leaf) public {
         uint256 depth = self.depth;
 
-        require(leaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
-        require(self.numberOfLeaves < 5**depth, "IncrementalQuinTree: tree is full");
+        require(leaf < SNARK_SCALAR_FIELD, "QuinIMT: leaf must be < SNARK_SCALAR_FIELD");
+        require(self.numberOfLeaves < 5**depth, "QuinIMT: tree is full");
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
@@ -102,18 +102,15 @@ library IncrementalQuinTree {
     /// @param proofSiblings: Array of the sibling nodes of the proof of membership.
     /// @param proofPathIndices: Path of the proof of membership.
     function update(
-        IncrementalTreeData storage self,
+        QuinIMTData storage self,
         uint256 leaf,
         uint256 newLeaf,
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-        require(newLeaf != leaf, "IncrementalQuinTree: new leaf cannot be the same as the old one");
-        require(newLeaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: new leaf must be < SNARK_SCALAR_FIELD");
-        require(
-            verify(self, leaf, proofSiblings, proofPathIndices),
-            "IncrementalQuinTree: leaf is not part of the tree"
-        );
+        require(newLeaf != leaf, "QuinIMT: new leaf cannot be the same as the old one");
+        require(newLeaf < SNARK_SCALAR_FIELD, "QuinIMT: new leaf must be < SNARK_SCALAR_FIELD");
+        require(verify(self, leaf, proofSiblings, proofPathIndices), "QuinIMT: leaf is not part of the tree");
 
         uint256 depth = self.depth;
         uint256 hash = newLeaf;
@@ -146,7 +143,7 @@ library IncrementalQuinTree {
                 ++i;
             }
         }
-        require(updateIndex < self.numberOfLeaves, "IncrementalQuinTree: leaf index out of range");
+        require(updateIndex < self.numberOfLeaves, "QuinIMT: leaf index out of range");
 
         self.root = hash;
     }
@@ -157,7 +154,7 @@ library IncrementalQuinTree {
     /// @param proofSiblings: Array of the sibling nodes of the proof of membership.
     /// @param proofPathIndices: Path of the proof of membership.
     function remove(
-        IncrementalTreeData storage self,
+        QuinIMTData storage self,
         uint256 leaf,
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
@@ -172,16 +169,16 @@ library IncrementalQuinTree {
     /// @param proofPathIndices: Path of the proof of membership.
     /// @return True or false.
     function verify(
-        IncrementalTreeData storage self,
+        QuinIMTData storage self,
         uint256 leaf,
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) private view returns (bool) {
-        require(leaf < SNARK_SCALAR_FIELD, "IncrementalQuinTree: leaf must be < SNARK_SCALAR_FIELD");
+        require(leaf < SNARK_SCALAR_FIELD, "QuinIMT: leaf must be < SNARK_SCALAR_FIELD");
         uint256 depth = self.depth;
         require(
             proofPathIndices.length == depth && proofSiblings.length == depth,
-            "IncrementalQuinTree: length of path is not correct"
+            "QuinIMT: length of path is not correct"
         );
 
         uint256 hash = leaf;
@@ -189,16 +186,13 @@ library IncrementalQuinTree {
         for (uint8 i = 0; i < depth; ) {
             uint256[5] memory nodes;
 
-            require(
-                proofPathIndices[i] >= 0 && proofPathIndices[i] < 5,
-                "IncrementalQuinTree: path index is not between 0 and 4"
-            );
+            require(proofPathIndices[i] >= 0 && proofPathIndices[i] < 5, "QuinIMT: path index is not between 0 and 4");
 
             for (uint8 j = 0; j < 5; ) {
                 if (j < proofPathIndices[i]) {
                     require(
                         proofSiblings[i][j] < SNARK_SCALAR_FIELD,
-                        "IncrementalQuinTree: sibling node must be < SNARK_SCALAR_FIELD"
+                        "QuinIMT: sibling node must be < SNARK_SCALAR_FIELD"
                     );
 
                     nodes[j] = proofSiblings[i][j];
@@ -207,7 +201,7 @@ library IncrementalQuinTree {
                 } else {
                     require(
                         proofSiblings[i][j - 1] < SNARK_SCALAR_FIELD,
-                        "IncrementalQuinTree: sibling node must be < SNARK_SCALAR_FIELD"
+                        "QuinIMT: sibling node must be < SNARK_SCALAR_FIELD"
                     );
 
                     nodes[j] = proofSiblings[i][j - 1];

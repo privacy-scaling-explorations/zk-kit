@@ -3,25 +3,25 @@ pragma solidity ^0.8.0;
 
 import "poseidon-solidity/PoseidonT3.sol";
 
-struct LazyTreeData {
+struct LazyIMTData {
     uint32 maxIndex;
     uint40 numberOfLeaves;
     mapping(uint256 => uint256) elements;
 }
 
-library LazyMerkleTree {
+library LazyIMT {
     uint256 public constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
     uint8 public constant MAX_DEPTH = 32;
     uint40 public constant MAX_INDEX = (1 << 32) - 1;
 
-    function init(LazyTreeData storage self, uint8 depth) public {
-        require(depth <= MAX_DEPTH, "LazyMerkleTree: Tree too large");
+    function init(LazyIMTData storage self, uint8 depth) public {
+        require(depth <= MAX_DEPTH, "LazyIMT: Tree too large");
         self.maxIndex = uint32((1 << depth) - 1);
         self.numberOfLeaves = 0;
     }
 
-    function reset(LazyTreeData storage self) public {
+    function reset(LazyIMTData storage self) public {
         self.numberOfLeaves = 0;
     }
 
@@ -30,10 +30,10 @@ library LazyMerkleTree {
         return MAX_INDEX * level + index;
     }
 
-    function insert(LazyTreeData storage self, uint256 leaf) public {
+    function insert(LazyIMTData storage self, uint256 leaf) public {
         uint40 index = self.numberOfLeaves;
-        require(leaf < SNARK_SCALAR_FIELD, "LazyMerkleTree: leaf must be < SNARK_SCALAR_FIELD");
-        require(index < self.maxIndex, "LazyMerkleTree: tree is full");
+        require(leaf < SNARK_SCALAR_FIELD, "LazyIMT: leaf must be < SNARK_SCALAR_FIELD");
+        require(index < self.maxIndex, "LazyIMT: tree is full");
 
         self.numberOfLeaves = index + 1;
 
@@ -53,13 +53,13 @@ library LazyMerkleTree {
     }
 
     function update(
-        LazyTreeData storage self,
+        LazyIMTData storage self,
         uint256 leaf,
         uint40 index
     ) public {
-        require(leaf < SNARK_SCALAR_FIELD, "LazyMerkleTree: leaf must be < SNARK_SCALAR_FIELD");
+        require(leaf < SNARK_SCALAR_FIELD, "LazyIMT: leaf must be < SNARK_SCALAR_FIELD");
         uint40 numberOfLeaves = self.numberOfLeaves;
-        require(index < numberOfLeaves, "LazyMerkleTree: leaf must exist");
+        require(index < numberOfLeaves, "LazyIMT: leaf must exist");
 
         uint256 hash = leaf;
 
@@ -81,7 +81,8 @@ library LazyMerkleTree {
         }
     }
 
-    function root(LazyTreeData storage self) public view returns (uint256) {
+    function root(LazyIMTData storage self) public view returns (uint256) {
+        // this will always short circuit if self.numberOfLeaves == 0
         uint40 numberOfLeaves = self.numberOfLeaves;
         // dynamically determine a depth
         uint8 depth = 1;
@@ -204,6 +205,6 @@ library LazyMerkleTree {
         if (index == 30) return Z_30;
         if (index == 31) return Z_31;
         if (index == 32) return Z_32;
-        revert("LazyMerkleTree: defaultZero bad index");
+        revert("LazyIMT: defaultZero bad index");
     }
 }

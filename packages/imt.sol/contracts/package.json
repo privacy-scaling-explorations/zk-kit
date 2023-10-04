@@ -1,7 +1,7 @@
 {
-    "name": "@zk-kit/incremental-merkle-tree.sol",
-    "version": "1.7.0",
-    "description": "Incremental Merkle tree Solidity libraries.",
+    "name": "@zk-kit/imt.sol",
+    "version": "2.0.0-beta",
+    "description": "Incremental Merkle tree implementations in Solidity.",
     "license": "MIT",
     "files": [
         "**/*.sol",
@@ -19,12 +19,7 @@
         "incremental-merkle-tree"
     ],
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
-    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/incremental-merkle-tree.sol",
-    "author": {
-        "name": "Cedoor",
-        "email": "me@cedoor.dev",
-        "url": "https://cedoor.dev"
-    },
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt.sol",
     "publishConfig": {
         "access": "public"
     },

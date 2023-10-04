@@ -1,12 +1,13 @@
-import { Contract } from "ethers"
 import { task, types } from "hardhat/config"
-import { proxy, PoseidonT3 } from "poseidon-solidity"
+import { PoseidonT3, proxy } from "poseidon-solidity"
 
-task("deploy:incremental-binary-tree-test", "Deploy an IncrementalBinaryTreeTest contract")
+task("deploy:imt-test", "Deploy an IMT contract for testing a library")
+    .addParam<string>("library", "The name of the library", undefined, types.string)
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
-    .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
-        // deterministically deploy PoseidonT3
+    .setAction(async ({ logs, library: libraryName }, { ethers }): Promise<any> => {
+        // Deterministically deploy PoseidonT3.
         const signer = await ethers.getSigner()
+
         if ((await ethers.provider.getCode(proxy.address)) === "0x") {
             await signer.sendTransaction({
                 to: proxy.from,
@@ -14,6 +15,7 @@ task("deploy:incremental-binary-tree-test", "Deploy an IncrementalBinaryTreeTest
             })
             await ethers.provider.sendTransaction(proxy.tx)
         }
+
         if ((await ethers.provider.getCode(PoseidonT3.address)) === "0x") {
             await signer.sendTransaction({
                 to: proxy.address,
@@ -25,22 +27,22 @@ task("deploy:incremental-binary-tree-test", "Deploy an IncrementalBinaryTreeTest
             console.info(`PoseidonT3 library has been deployed to: ${PoseidonT3.address}`)
         }
 
-        const IncrementalBinaryTreeLibFactory = await ethers.getContractFactory("IncrementalBinaryTree", {
+        const LibraryFactory = await ethers.getContractFactory(libraryName, {
             libraries: {
                 PoseidonT3: PoseidonT3.address
             }
         })
-        const incrementalBinaryTreeLib = await IncrementalBinaryTreeLibFactory.deploy()
+        const library = await LibraryFactory.deploy()
 
-        await incrementalBinaryTreeLib.deployed()
+        await library.deployed()
 
         if (logs) {
-            console.info(`IncrementalBinaryTree library has been deployed to: ${incrementalBinaryTreeLib.address}`)
+            console.info(`${libraryName} library has been deployed to: ${library.address}`)
         }
 
-        const ContractFactory = await ethers.getContractFactory("BinaryTreeTest", {
+        const ContractFactory = await ethers.getContractFactory(`${libraryName}Test`, {
             libraries: {
-                IncrementalBinaryTree: incrementalBinaryTreeLib.address
+                [libraryName]: library.address
             }
         })
 
@@ -49,8 +51,8 @@ task("deploy:incremental-binary-tree-test", "Deploy an IncrementalBinaryTreeTest
         await contract.deployed()
 
         if (logs) {
-            console.info(`Test contract has been deployed to: ${contract.address}`)
+            console.info(`${libraryName}Test contract has been deployed to: ${contract.address}`)
         }
 
-        return contract
+        return { library, contract }
     })

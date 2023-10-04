@@ -2,7 +2,7 @@
     <h1 align="center">
          Incremental Merkle Trees (Solidity)
     </h1>
-    <p align="center">Incremental Merkle tree Solidity libraries.</p>
+    <p align="center">Incremental Merkle tree implementations in Solidity.</p>
 </p>
 
 <p align="center">
@@ -12,11 +12,11 @@
     <a href="https://github.com/privacy-scaling-explorations/zk-kit/blob/main/LICENSE">
         <img alt="Github license" src="https://img.shields.io/github/license/privacy-scaling-explorations/zk-kit.svg?style=flat-square">
     </a>
-    <a href="https://www.npmjs.com/package/@zk-kit/incremental-merkle-tree.sol">
-        <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/incremental-merkle-tree.sol?style=flat-square" />
+    <a href="https://www.npmjs.com/package/@zk-kit/imt.sol">
+        <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/imt.sol?style=flat-square" />
     </a>
-    <a href="https://npmjs.org/package/@zk-kit/incremental-merkle-tree.sol">
-        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/incremental-merkle-tree.sol.svg?style=flat-square" />
+    <a href="https://npmjs.org/package/@zk-kit/imt.sol">
+        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/imt.sol.svg?style=flat-square" />
     </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint" />
@@ -34,12 +34,11 @@
     </h4>
 </div>
 
-## Libraries:
+## Libraries
 
-✔️ [IncrementalBinaryTree](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol) (Poseidon)\
-✔️ [IncrementalQuinTree](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/incremental-merkle-tree.sol/contracts/IncrementalQuinTree.sol) (Poseidon)
-
-> The methods of each library are always the same (i.e `insert`, `update`, `remove`, `verify`).
+✔️ [BinaryIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/BinaryIMT.sol) (Poseidon)\
+✔️ [QuinIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/QuinIMT.sol) (Poseidon)\
+✔️ [LazyIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/LazyIMT.sol) (Poseidon)
 
 ---
 
@@ -47,16 +46,16 @@
 
 ### npm or yarn
 
-Install the `@zk-kit/incremental-merkle-tree.sol` package with npm:
+Install the `@zk-kit/imt.sol` package with npm:
 
 ```bash
-npm i @zk-kit/incremental-merkle-tree.sol --save
+npm i @zk-kit/imt.sol --save
 ```
 
 or yarn:
 
 ```bash
-yarn add @zk-kit/incremental-merkle-tree.sol
+yarn add @zk-kit/imt.sol
 ```
 
 ## 📜 Usage
@@ -67,7 +66,7 @@ yarn add @zk-kit/incremental-merkle-tree.sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@zk-kit/incremental-merkle-tree.sol/IncrementalBinaryTree.sol";
+import "@zk-kit/imt.sol/IncrementalBinaryTree.sol";
 
 contract Example {
     using IncrementalBinaryTree for IncrementalTreeData;
@@ -173,11 +172,3 @@ task("deploy:example", "Deploy an Example contract")
         return contract
     })
 ```
-
-## Contacts
-
-### Developers
-
--   e-mail : me@cedoor.dev
--   github : [@cedoor](https://github.com/cedoor)
--   website : https://cedoor.dev

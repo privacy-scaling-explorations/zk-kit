@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.0;
 
 import {PoseidonT3} from "poseidon-solidity/PoseidonT3.sol";
 
 // Each incremental tree has certain properties and data that will
 // be used to add new leaves.
-struct IncrementalTreeData {
+struct BinaryIMTData {
     uint256 depth; // Depth of the tree (levels - 1).
     uint256 root; // Root hash of the tree.
     uint256 numberOfLeaves; // Number of leaves of the tree.
@@ -18,9 +18,9 @@ struct IncrementalTreeData {
 /// @title Incremental binary Merkle tree.
 /// @dev The incremental tree allows to calculate the root hash each time a leaf is added, ensuring
 /// the integrity of the tree.
-library IncrementalBinaryTree {
-    uint8 internal constant MAX_DEPTH = 32;
-    uint256 internal constant SNARK_SCALAR_FIELD =
+library BinaryIMT {
+    uint8 public constant MAX_DEPTH = 32;
+    uint256 public constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
 
     uint256 public constant Z_0 = 0;
@@ -99,12 +99,12 @@ library IncrementalBinaryTree {
     /// @param depth: Depth of the tree.
     /// @param zero: Zero value to be used.
     function init(
-        IncrementalTreeData storage self,
+        BinaryIMTData storage self,
         uint256 depth,
         uint256 zero
     ) public {
-        require(zero < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
-        require(depth > 0 && depth <= MAX_DEPTH, "IncrementalBinaryTree: tree depth must be between 1 and 32");
+        require(zero < SNARK_SCALAR_FIELD, "BinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
+        require(depth > 0 && depth <= MAX_DEPTH, "BinaryIMT: tree depth must be between 1 and 32");
 
         self.depth = depth;
 
@@ -120,8 +120,8 @@ library IncrementalBinaryTree {
         self.root = zero;
     }
 
-    function initWithDefaultZeroes(IncrementalTreeData storage self, uint256 depth) public {
-        require(depth > 0 && depth <= MAX_DEPTH, "IncrementalBinaryTree: tree depth must be between 1 and 32");
+    function initWithDefaultZeroes(BinaryIMTData storage self, uint256 depth) public {
+        require(depth > 0 && depth <= MAX_DEPTH, "BinaryIMT: tree depth must be between 1 and 32");
 
         self.depth = depth;
         self.useDefaultZeroes = true;
@@ -132,11 +132,11 @@ library IncrementalBinaryTree {
     /// @dev Inserts a leaf in the tree.
     /// @param self: Tree data.
     /// @param leaf: Leaf to be inserted.
-    function insert(IncrementalTreeData storage self, uint256 leaf) public returns (uint256) {
+    function insert(BinaryIMTData storage self, uint256 leaf) public returns (uint256) {
         uint256 depth = self.depth;
 
-        require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
-        require(self.numberOfLeaves < 2**depth, "IncrementalBinaryTree: tree is full");
+        require(leaf < SNARK_SCALAR_FIELD, "BinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
+        require(self.numberOfLeaves < 2**depth, "BinaryIMT: tree is full");
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
@@ -169,18 +169,15 @@ library IncrementalBinaryTree {
     /// @param proofSiblings: Array of the sibling nodes of the proof of membership.
     /// @param proofPathIndices: Path of the proof of membership.
     function update(
-        IncrementalTreeData storage self,
+        BinaryIMTData storage self,
         uint256 leaf,
         uint256 newLeaf,
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-        require(newLeaf != leaf, "IncrementalBinaryTree: new leaf cannot be the same as the old one");
-        require(newLeaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: new leaf must be < SNARK_SCALAR_FIELD");
-        require(
-            verify(self, leaf, proofSiblings, proofPathIndices),
-            "IncrementalBinaryTree: leaf is not part of the tree"
-        );
+        require(newLeaf != leaf, "BinaryIMT: new leaf cannot be the same as the old one");
+        require(newLeaf < SNARK_SCALAR_FIELD, "BinaryIMT: new leaf must be < SNARK_SCALAR_FIELD");
+        require(verify(self, leaf, proofSiblings, proofPathIndices), "BinaryIMT: leaf is not part of the tree");
 
         uint256 depth = self.depth;
         uint256 hash = newLeaf;
@@ -207,7 +204,7 @@ library IncrementalBinaryTree {
                 ++i;
             }
         }
-        require(updateIndex < self.numberOfLeaves, "IncrementalBinaryTree: leaf index out of range");
+        require(updateIndex < self.numberOfLeaves, "BinaryIMT: leaf index out of range");
 
         self.root = hash;
     }
@@ -218,7 +215,7 @@ library IncrementalBinaryTree {
     /// @param proofSiblings: Array of the sibling nodes of the proof of membership.
     /// @param proofPathIndices: Path of the proof of membership.
     function remove(
-        IncrementalTreeData storage self,
+        BinaryIMTData storage self,
         uint256 leaf,
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
@@ -233,30 +230,24 @@ library IncrementalBinaryTree {
     /// @param proofPathIndices: Path of the proof of membership.
     /// @return True or false.
     function verify(
-        IncrementalTreeData storage self,
+        BinaryIMTData storage self,
         uint256 leaf,
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) private view returns (bool) {
-        require(leaf < SNARK_SCALAR_FIELD, "IncrementalBinaryTree: leaf must be < SNARK_SCALAR_FIELD");
+        require(leaf < SNARK_SCALAR_FIELD, "BinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
         uint256 depth = self.depth;
         require(
             proofPathIndices.length == depth && proofSiblings.length == depth,
-            "IncrementalBinaryTree: length of path is not correct"
+            "BinaryIMT: length of path is not correct"
         );
 
         uint256 hash = leaf;
 
         for (uint8 i = 0; i < depth; ) {
-            require(
-                proofSiblings[i] < SNARK_SCALAR_FIELD,
-                "IncrementalBinaryTree: sibling node must be < SNARK_SCALAR_FIELD"
-            );
+            require(proofSiblings[i] < SNARK_SCALAR_FIELD, "BinaryIMT: sibling node must be < SNARK_SCALAR_FIELD");
 
-            require(
-                proofPathIndices[i] == 1 || proofPathIndices[i] == 0,
-                "IncrementalBinaryTree: path index is neither 0 nor 1"
-            );
+            require(proofPathIndices[i] == 1 || proofPathIndices[i] == 0, "BinaryIMT: path index is neither 0 nor 1");
 
             if (proofPathIndices[i] == 0) {
                 hash = PoseidonT3.hash([hash, proofSiblings[i]]);
