@@ -1,12 +1,14 @@
 import { task, types } from "hardhat/config"
-import { PoseidonT3, proxy } from "poseidon-solidity"
+import { PoseidonT3, PoseidonT6, proxy } from "poseidon-solidity"
 
 task("deploy:imt-test", "Deploy an IMT contract for testing a library")
     .addParam<string>("library", "The name of the library", undefined, types.string)
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
-    .setAction(async ({ logs, library: libraryName }, { ethers }): Promise<any> => {
-        // Deterministically deploy PoseidonT3.
+    .addOptionalParam<number>("arity", "The arity of the tree", 2, types.int)
+    .setAction(async ({ logs, library: libraryName, arity }, { ethers }): Promise<any> => {
+        // Deterministically deploy Poseidon.
         const signer = await ethers.getSigner()
+        const Poseidon = arity === 5 ? PoseidonT6 : PoseidonT3
 
         if ((await ethers.provider.getCode(proxy.address)) === "0x") {
             await signer.sendTransaction({
@@ -16,20 +18,20 @@ task("deploy:imt-test", "Deploy an IMT contract for testing a library")
             await ethers.provider.sendTransaction(proxy.tx)
         }
 
-        if ((await ethers.provider.getCode(PoseidonT3.address)) === "0x") {
+        if ((await ethers.provider.getCode(Poseidon.address)) === "0x") {
             await signer.sendTransaction({
                 to: proxy.address,
-                data: PoseidonT3.data
+                data: Poseidon.data
             })
         }
 
         if (logs) {
-            console.info(`PoseidonT3 library has been deployed to: ${PoseidonT3.address}`)
+            console.info(`Poseidon library has been deployed to: ${Poseidon.address}`)
         }
 
         const LibraryFactory = await ethers.getContractFactory(libraryName, {
             libraries: {
-                PoseidonT3: PoseidonT3.address
+                [`PoseidonT${arity + 1}`]: Poseidon.address
             }
         })
         const library = await LibraryFactory.deploy()

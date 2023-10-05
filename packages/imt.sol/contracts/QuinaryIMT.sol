@@ -5,7 +5,7 @@ import {PoseidonT6} from "poseidon-solidity/PoseidonT6.sol";
 
 // Each incremental tree has certain properties and data that will
 // be used to add new leaves.
-struct QuinIMTData {
+struct QuinaryIMTData {
     uint256 depth; // Depth of the tree (levels - 1).
     uint256 root; // Root hash of the tree.
     uint256 numberOfLeaves; // Number of leaves of the tree.
@@ -14,12 +14,12 @@ struct QuinIMTData {
     mapping(uint256 => uint256[5]) lastSubtrees; // Caching these values is essential to efficient appends.
 }
 
-/// @title Incremental quin Merkle tree.
+/// @title Incremental quinary Merkle tree.
 /// @dev The incremental tree allows to calculate the root hash each time a leaf is added, ensuring
 /// the integrity of the tree.
-library QuinIMT {
-    uint8 internal constant MAX_DEPTH = 32;
-    uint256 internal constant SNARK_SCALAR_FIELD =
+library QuinaryIMT {
+    uint8 public constant MAX_DEPTH = 32;
+    uint256 public constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
 
     /// @dev Initializes a tree.
@@ -27,12 +27,12 @@ library QuinIMT {
     /// @param depth: Depth of the tree.
     /// @param zero: Zero value to be used.
     function init(
-        QuinIMTData storage self,
+        QuinaryIMTData storage self,
         uint256 depth,
         uint256 zero
     ) public {
-        require(zero < SNARK_SCALAR_FIELD, "QuinIMT: leaf must be < SNARK_SCALAR_FIELD");
-        require(depth > 0 && depth <= MAX_DEPTH, "QuinIMT: tree depth must be between 1 and 32");
+        require(zero < SNARK_SCALAR_FIELD, "QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
+        require(depth > 0 && depth <= MAX_DEPTH, "QuinaryIMT: tree depth must be between 1 and 32");
 
         self.depth = depth;
 
@@ -60,11 +60,11 @@ library QuinIMT {
     /// @dev Inserts a leaf in the tree.
     /// @param self: Tree data.
     /// @param leaf: Leaf to be inserted.
-    function insert(QuinIMTData storage self, uint256 leaf) public {
+    function insert(QuinaryIMTData storage self, uint256 leaf) public {
         uint256 depth = self.depth;
 
-        require(leaf < SNARK_SCALAR_FIELD, "QuinIMT: leaf must be < SNARK_SCALAR_FIELD");
-        require(self.numberOfLeaves < 5**depth, "QuinIMT: tree is full");
+        require(leaf < SNARK_SCALAR_FIELD, "QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
+        require(self.numberOfLeaves < 5**depth, "QuinaryIMT: tree is full");
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
@@ -102,15 +102,15 @@ library QuinIMT {
     /// @param proofSiblings: Array of the sibling nodes of the proof of membership.
     /// @param proofPathIndices: Path of the proof of membership.
     function update(
-        QuinIMTData storage self,
+        QuinaryIMTData storage self,
         uint256 leaf,
         uint256 newLeaf,
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-        require(newLeaf != leaf, "QuinIMT: new leaf cannot be the same as the old one");
-        require(newLeaf < SNARK_SCALAR_FIELD, "QuinIMT: new leaf must be < SNARK_SCALAR_FIELD");
-        require(verify(self, leaf, proofSiblings, proofPathIndices), "QuinIMT: leaf is not part of the tree");
+        require(newLeaf != leaf, "QuinaryIMT: new leaf cannot be the same as the old one");
+        require(newLeaf < SNARK_SCALAR_FIELD, "QuinaryIMT: new leaf must be < SNARK_SCALAR_FIELD");
+        require(verify(self, leaf, proofSiblings, proofPathIndices), "QuinaryIMT: leaf is not part of the tree");
 
         uint256 depth = self.depth;
         uint256 hash = newLeaf;
@@ -143,7 +143,7 @@ library QuinIMT {
                 ++i;
             }
         }
-        require(updateIndex < self.numberOfLeaves, "QuinIMT: leaf index out of range");
+        require(updateIndex < self.numberOfLeaves, "QuinaryIMT: leaf index out of range");
 
         self.root = hash;
     }
@@ -154,7 +154,7 @@ library QuinIMT {
     /// @param proofSiblings: Array of the sibling nodes of the proof of membership.
     /// @param proofPathIndices: Path of the proof of membership.
     function remove(
-        QuinIMTData storage self,
+        QuinaryIMTData storage self,
         uint256 leaf,
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
@@ -169,16 +169,16 @@ library QuinIMT {
     /// @param proofPathIndices: Path of the proof of membership.
     /// @return True or false.
     function verify(
-        QuinIMTData storage self,
+        QuinaryIMTData storage self,
         uint256 leaf,
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) private view returns (bool) {
-        require(leaf < SNARK_SCALAR_FIELD, "QuinIMT: leaf must be < SNARK_SCALAR_FIELD");
+        require(leaf < SNARK_SCALAR_FIELD, "QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
         uint256 depth = self.depth;
         require(
             proofPathIndices.length == depth && proofSiblings.length == depth,
-            "QuinIMT: length of path is not correct"
+            "QuinaryIMT: length of path is not correct"
         );
 
         uint256 hash = leaf;
@@ -186,13 +186,13 @@ library QuinIMT {
         for (uint8 i = 0; i < depth; ) {
             uint256[5] memory nodes;
 
-            require(proofPathIndices[i] >= 0 && proofPathIndices[i] < 5, "QuinIMT: path index is not between 0 and 4");
+            require(proofPathIndices[i] >= 0 && proofPathIndices[i] < 5, "QuinaryIMT: path index is not between 0 and 4");
 
             for (uint8 j = 0; j < 5; ) {
                 if (j < proofPathIndices[i]) {
                     require(
                         proofSiblings[i][j] < SNARK_SCALAR_FIELD,
-                        "QuinIMT: sibling node must be < SNARK_SCALAR_FIELD"
+                        "QuinaryIMT: sibling node must be < SNARK_SCALAR_FIELD"
                     );
 
                     nodes[j] = proofSiblings[i][j];
@@ -201,7 +201,7 @@ library QuinIMT {
                 } else {
                     require(
                         proofSiblings[i][j - 1] < SNARK_SCALAR_FIELD,
-                        "QuinIMT: sibling node must be < SNARK_SCALAR_FIELD"
+                        "QuinaryIMT: sibling node must be < SNARK_SCALAR_FIELD"
                     );
 
                     nodes[j] = proofSiblings[i][j - 1];

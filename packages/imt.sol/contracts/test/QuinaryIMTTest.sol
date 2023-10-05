@@ -2,17 +2,17 @@
 
 pragma solidity ^0.8.0;
 
-import "../QuinIMT.sol";
+import "../QuinaryIMT.sol";
 
-contract QuinIMTTest {
-    QuinIMTData public data;
+contract QuinaryIMTTest {
+    QuinaryIMTData public data;
 
     function init(uint256 depth) external {
-        QuinIMT.init(data, depth, 0);
+        QuinaryIMT.init(data, depth, 0);
     }
 
     function insert(uint256 leaf) external {
-        QuinIMT.insert(data, leaf);
+        QuinaryIMT.insert(data, leaf);
     }
 
     function update(
@@ -21,7 +21,7 @@ contract QuinIMTTest {
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) external {
-        QuinIMT.update(data, leaf, newLeaf, proofSiblings, proofPathIndices);
+        QuinaryIMT.update(data, leaf, newLeaf, proofSiblings, proofPathIndices);
     }
 
     function remove(
@@ -29,6 +29,6 @@ contract QuinIMTTest {
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) external {
-        QuinIMT.remove(data, leaf, proofSiblings, proofPathIndices);
+        QuinaryIMT.remove(data, leaf, proofSiblings, proofPathIndices);
     }
 }

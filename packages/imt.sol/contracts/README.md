@@ -37,7 +37,7 @@
 ## Libraries
 
 ✔️ [BinaryIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/BinaryIMT.sol) (Poseidon)\
-✔️ [QuinIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/QuinIMT.sol) (Poseidon)\
+✔️ [QuinaryIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/QuinaryIMT.sol) (Poseidon)\
 ✔️ [LazyIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/LazyIMT.sol) (Poseidon)
 
 ---
