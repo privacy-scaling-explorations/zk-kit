@@ -26,11 +26,7 @@ library QuinaryIMT {
     /// @param self: Tree data.
     /// @param depth: Depth of the tree.
     /// @param zero: Zero value to be used.
-    function init(
-        QuinaryIMTData storage self,
-        uint256 depth,
-        uint256 zero
-    ) public {
+    function init(QuinaryIMTData storage self, uint256 depth, uint256 zero) public {
         require(zero < SNARK_SCALAR_FIELD, "QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
         require(depth > 0 && depth <= MAX_DEPTH, "QuinaryIMT: tree depth must be between 1 and 32");
 
@@ -64,7 +60,7 @@ library QuinaryIMT {
         uint256 depth = self.depth;
 
         require(leaf < SNARK_SCALAR_FIELD, "QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
-        require(self.numberOfLeaves < 5**depth, "QuinaryIMT: tree is full");
+        require(self.numberOfLeaves < 5 ** depth, "QuinaryIMT: tree is full");
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
@@ -118,7 +114,7 @@ library QuinaryIMT {
 
         for (uint8 i = 0; i < depth; ) {
             uint256[5] memory nodes;
-            updateIndex += proofPathIndices[i] * 5**i;
+            updateIndex += proofPathIndices[i] * 5 ** i;
 
             for (uint8 j = 0; j < 5; ) {
                 if (j < proofPathIndices[i]) {
@@ -186,7 +182,10 @@ library QuinaryIMT {
         for (uint8 i = 0; i < depth; ) {
             uint256[5] memory nodes;
 
-            require(proofPathIndices[i] >= 0 && proofPathIndices[i] < 5, "QuinaryIMT: path index is not between 0 and 4");
+            require(
+                proofPathIndices[i] >= 0 && proofPathIndices[i] < 5,
+                "QuinaryIMT: path index is not between 0 and 4"
+            );
 
             for (uint8 j = 0; j < 5; ) {
                 if (j < proofPathIndices[i]) {

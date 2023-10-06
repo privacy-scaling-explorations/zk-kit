@@ -24,11 +24,7 @@ contract QuinaryIMTTest {
         QuinaryIMT.update(data, leaf, newLeaf, proofSiblings, proofPathIndices);
     }
 
-    function remove(
-        uint256 leaf,
-        uint256[4][] calldata proofSiblings,
-        uint8[] calldata proofPathIndices
-    ) external {
+    function remove(uint256 leaf, uint256[4][] calldata proofSiblings, uint8[] calldata proofPathIndices) external {
         QuinaryIMT.remove(data, leaf, proofSiblings, proofPathIndices);
     }
 }

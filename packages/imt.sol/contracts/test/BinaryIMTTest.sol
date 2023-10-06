@@ -28,11 +28,7 @@ contract BinaryIMTTest {
         BinaryIMT.update(data, leaf, newLeaf, proofSiblings, proofPathIndices);
     }
 
-    function remove(
-        uint256 leaf,
-        uint256[] calldata proofSiblings,
-        uint8[] calldata proofPathIndices
-    ) external {
+    function remove(uint256 leaf, uint256[] calldata proofSiblings, uint8[] calldata proofPathIndices) external {
         BinaryIMT.remove(data, leaf, proofSiblings, proofPathIndices);
     }
 }

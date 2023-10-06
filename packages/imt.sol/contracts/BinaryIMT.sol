@@ -98,11 +98,7 @@ library BinaryIMT {
     /// @param self: Tree data.
     /// @param depth: Depth of the tree.
     /// @param zero: Zero value to be used.
-    function init(
-        BinaryIMTData storage self,
-        uint256 depth,
-        uint256 zero
-    ) public {
+    function init(BinaryIMTData storage self, uint256 depth, uint256 zero) public {
         require(zero < SNARK_SCALAR_FIELD, "BinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
         require(depth > 0 && depth <= MAX_DEPTH, "BinaryIMT: tree depth must be between 1 and 32");
 
@@ -136,7 +132,7 @@ library BinaryIMT {
         uint256 depth = self.depth;
 
         require(leaf < SNARK_SCALAR_FIELD, "BinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
-        require(self.numberOfLeaves < 2**depth, "BinaryIMT: tree is full");
+        require(self.numberOfLeaves < 2 ** depth, "BinaryIMT: tree is full");
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;

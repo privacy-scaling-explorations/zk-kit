@@ -11,11 +11,7 @@ contract LeanIMTTest {
         LeanIMT.insert(data, leaf);
     }
 
-    function update(
-        uint256 oldLeaf,
-        uint256 newLeaf,
-        uint256[] calldata siblingNodes
-    ) external {
+    function update(uint256 oldLeaf, uint256 newLeaf, uint256[] calldata siblingNodes) external {
         LeanIMT.update(data, oldLeaf, newLeaf, siblingNodes);
     }
 

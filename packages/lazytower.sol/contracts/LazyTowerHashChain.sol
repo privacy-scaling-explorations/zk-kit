@@ -26,16 +26,9 @@ library LazyTowerHashChain {
     uint256 internal constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
 
-    function findLowestNonFullLevelThenInc(uint256 levelLengths)
-        internal
-        pure
-        returns (
-            uint256 level,
-            bool isHead,
-            bool isTop,
-            uint256 newLevelLengths
-        )
-    {
+    function findLowestNonFullLevelThenInc(
+        uint256 levelLengths
+    ) internal pure returns (uint256 level, bool isHead, bool isTop, uint256 newLevelLengths) {
         // find the lowest non-full level
         uint256 levelLength;
         while (true) {
@@ -89,15 +82,9 @@ library LazyTowerHashChain {
         }
     }
 
-    function getDataForProving(LazyTowerHashChainData storage self)
-        external
-        view
-        returns (
-            uint256,
-            uint256[] memory,
-            uint256
-        )
-    {
+    function getDataForProving(
+        LazyTowerHashChainData storage self
+    ) external view returns (uint256, uint256[] memory, uint256) {
         uint256 len = self.digests.length;
         uint256[] memory digests = new uint256[](len); // for returning a dynamic array
         for (uint256 i = 0; i < len; i++) {

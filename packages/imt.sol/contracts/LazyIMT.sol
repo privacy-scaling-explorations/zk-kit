@@ -52,11 +52,7 @@ library LazyIMT {
         }
     }
 
-    function update(
-        LazyIMTData storage self,
-        uint256 leaf,
-        uint40 index
-    ) public {
+    function update(LazyIMTData storage self, uint256 leaf, uint40 index) public {
         require(leaf < SNARK_SCALAR_FIELD, "LazyIMT: leaf must be < SNARK_SCALAR_FIELD");
         uint40 numberOfLeaves = self.numberOfLeaves;
         require(index < numberOfLeaves, "LazyIMT: leaf must exist");

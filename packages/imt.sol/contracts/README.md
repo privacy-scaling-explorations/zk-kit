@@ -121,7 +121,6 @@ contract Example {
         emit LeafRemoved(_treeId, _leaf, trees[_treeId].root);
     }
 }
-
 ```
 
 ### Creating an Hardhat task to deploy the contract
