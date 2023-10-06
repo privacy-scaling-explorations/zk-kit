@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.4;
 
-import "../LeanIMT.sol";
+import {LeanIMT, LeanIMTData} from "../LeanIMT.sol";
 
 contract LeanIMTTest {
     LeanIMTData public data;

@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.4;
 
-import "../BinaryIMT.sol";
+import {BinaryIMT, BinaryIMTData} from "../BinaryIMT.sol";
 
 contract BinaryIMTTest {
     BinaryIMTData public data;

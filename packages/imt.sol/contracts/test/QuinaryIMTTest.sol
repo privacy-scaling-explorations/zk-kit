@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.4;
 
-import "../QuinaryIMT.sol";
+import {QuinaryIMT, QuinaryIMTData} from "../QuinaryIMT.sol";
 
 contract QuinaryIMTTest {
     QuinaryIMTData public data;
