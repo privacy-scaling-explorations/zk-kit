@@ -10,7 +10,7 @@
     "scripts": {
         "build": "yarn build:js && yarn compile:sol",
         "build:js": "yarn workspaces foreach --no-private run build",
-        "compile:sol": "yarn workspaces foreach --no-private run compile",
+        "compile:sol": "yarn workspaces foreach run compile",
         "test": "yarn test:js && yarn test:sol",
         "test:js": "jest --coverage",
         "test:sol": "yarn workspace imt.sol test:coverage",
