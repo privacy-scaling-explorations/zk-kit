@@ -108,6 +108,7 @@ library LazyIMT {
         } else {
             levels[0] = defaultZero(0);
         }
+
         for (uint8 i = 0; i < depth; ) {
             if (index & 1 == 0) {
                 levels[i + 1] = PoseidonT3.hash([levels[i], defaultZero(i)]);
