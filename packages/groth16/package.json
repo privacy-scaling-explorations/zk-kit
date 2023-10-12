@@ -1,0 +1,52 @@
+{
+    "name": "@zk-kit/groth16",
+    "version": "0.1.0",
+    "description": "A snippet of SnarkJS code for verifying and generating Groth16 proofs only.",
+    "license": "MIT",
+    "main": "dist/index.node.js",
+    "exports": {
+        "node": {
+            "import": "./dist/index.node.mjs",
+            "require": "./dist/index.node.js"
+        },
+        "browser": "./dist/index.browser.mjs",
+        "default": "./dist/index.browser.mjs"
+    },
+    "types": "dist/types/index.d.ts",
+    "files": [
+        "dist/",
+        "src/",
+        "LICENSE",
+        "README.md"
+    ],
+    "repository": "https://github.com/privacy-scaling-explorations/zk-kit",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/groth16",
+    "bugs": {
+        "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
+    },
+    "scripts": {
+        "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
+        "build": "rimraf dist && yarn build:browser && yarn build:node",
+        "build:browser": "rollup -c rollup.browser.config.ts --configPlugin typescript",
+        "build:node": "rollup -c rollup.node.config.ts --configPlugin typescript",
+        "prepublishOnly": "yarn build"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "@iden3/binfileutils": "0.0.11",
+        "@rollup/plugin-commonjs": "^24.1.0",
+        "@rollup/plugin-node-resolve": "^15.0.2",
+        "@rollup/plugin-virtual": "^3.0.2",
+        "fastfile": "0.0.20",
+        "rimraf": "^5.0.5",
+        "rollup": "^4.0.2",
+        "rollup-plugin-cleanup": "^3.2.1",
+        "rollup-plugin-typescript2": "^0.31.2"
+    },
+    "dependencies": {
+        "circom_runtime": "0.1.24",
+        "ffjavascript": "0.2.60"
+    }
+}
