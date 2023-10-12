@@ -44,6 +44,12 @@
 | This package contains [SnarkJS](https://github.com/iden3/snarkjs) functions for generating and verifying zero knowledge proofs with Groth16 specifically. In addition to the original code it also uses the cached `bn128` curve if it already exists, making verification and generation of consecutive proofs faster. |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
+Some advantages of using this package instead of `snarkjs` directly are:
+* It only includes code to verify and generate Groth16 proofs, making your final bundle lighter.
+* It doesn't call the [ffjavascript](https://github.com/iden3/ffjavascript) `buildBn128` function if a `bn128` cached curve already exists, making verification and generation of consecutive proofs much faster (e.g. verification seems to be ~9 times faster after the first one).
+* It includes TS types.
+* It provides an ESM bundle that is compatible with browsers. So there is no need to add any polyfill or additional configuration.
+
 ## 🛠 Install
 
 ### npm or yarn
