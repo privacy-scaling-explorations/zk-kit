@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/groth16",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "A snippet of SnarkJS code for verifying and generating Groth16 proofs only.",
     "license": "MIT",
     "main": "dist/index.node.js",
