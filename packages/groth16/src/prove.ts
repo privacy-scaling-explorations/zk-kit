@@ -94,6 +94,13 @@ async function joinABC(curve: any, _zkey: any, a: any, b: any, c: any) {
     return outBuff
 }
 
+/**
+ * Creates a Groth16 proof composed of public signals and zero-knowledge parameters.
+ * @param input Input signals of the circuit.
+ * @param wasmFile WASM file of the circuit.
+ * @param zkeyFile ZKey file of the circuit.
+ * @returns A proof containing public signals and zero-knowledge parameters.
+ */
 export default async function prove(
     input: CircuitSignals,
     wasmFile: ZKArtifact,

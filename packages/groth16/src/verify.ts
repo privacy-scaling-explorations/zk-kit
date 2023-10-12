@@ -23,6 +23,12 @@ function publicInputsAreValid(curve: any, publicInputs: any) {
     return true
 }
 
+/**
+ * Verifies if a Groth16 proof is valid or not.
+ * @param verificationKey The verification key used to verify the proof.
+ * @param proof The proof containing public signals and zero-knowledge parameters.
+ * @returns True if the proof is valid, and false otherwise.
+ */
 export default async function verify(
     verificationKey: any,
     {
