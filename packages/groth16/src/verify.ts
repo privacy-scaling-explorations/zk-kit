@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* istanbul ignore file */
 
-import { Scalar, utils, buildBn128 } from "ffjavascript"
+import { Scalar, utils } from "ffjavascript"
+import buildBn128 from "./buildBn128"
 import { Groth16Proof, PublicSignals } from "./types"
 
 const { unstringifyBigInts } = utils
@@ -43,8 +44,7 @@ export default async function verify(
     proof = unstringifyBigInts(proof)
     publicSignals = unstringifyBigInts(publicSignals)
 
-    // @ts-ignore
-    const curve = globalThis.curve_bn128 ?? (await buildBn128(undefined, undefined))
+    const curve = await buildBn128()
 
     const IC0 = curve.G1.fromObject(verificationKey.IC[0])
     const IC = new Uint8Array(curve.G1.F.n8 * 2 * publicSignals.length)

@@ -3,7 +3,7 @@
 
 // @ts-ignore
 import * as binFileUtils from "@iden3/binfileutils"
-import { buildBn128 } from "ffjavascript"
+import buildBn128 from "./buildBn128"
 import { log2 } from "./utils"
 
 async function readG1(fd: any, curve: any, toObject: any) {
@@ -32,8 +32,7 @@ async function readHeaderGroth16(fd: any, sections: any, toObject: any) {
     zkey.n8r = n8r
     zkey.r = await binFileUtils.readBigInt(fd, n8r)
 
-    // @ts-ignore
-    zkey.curve = globalThis.curve_bn128 ?? (await buildBn128(undefined, undefined))
+    zkey.curve = await buildBn128()
 
     zkey.nVars = await fd.readULE32()
     zkey.nPublic = await fd.readULE32()
