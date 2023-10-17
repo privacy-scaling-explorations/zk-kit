@@ -124,3 +124,12 @@ const response = await verify(verificationKey, proof)
 
 console.log(response) // true
 ```
+
+\# **buildBn128**(): Promise\<_any_>
+
+```typescript
+import { buildBn128 } from "@zk-kit/groth16"
+
+const curve = await buildBn128() // WasmField1
+// https://github.com/iden3/ffjavascript/blob/master/src/wasm_field1.js
+```
