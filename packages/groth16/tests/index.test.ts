@@ -1,5 +1,4 @@
-import { getCurveFromName } from "ffjavascript"
-import { verify, prove } from "../src"
+import { verify, prove, buildBn128 } from "../src"
 import verificationKey from "../snark-artifacts/index.json"
 
 describe("Groth16", () => {
@@ -10,7 +9,7 @@ describe("Groth16", () => {
     let proof: any
 
     beforeAll(async () => {
-        curve = await getCurveFromName("bn128")
+        curve = await buildBn128()
     })
 
     afterAll(async () => {
