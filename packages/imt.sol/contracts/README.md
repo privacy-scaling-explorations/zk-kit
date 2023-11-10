@@ -38,7 +38,8 @@
 
 ✔️ [BinaryIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/BinaryIMT.sol) (Poseidon)\
 ✔️ [QuinaryIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/QuinaryIMT.sol) (Poseidon)\
-✔️ [LazyIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/LazyIMT.sol) (Poseidon)
+✔️ [LazyIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/LazyIMT.sol) (Poseidon)\
+✔️ [LeanIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/LeanIMT.sol) (Poseidon)
 
 ---
 
@@ -66,108 +67,34 @@ yarn add @zk-kit/imt.sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@zk-kit/imt.sol/IncrementalBinaryTree.sol";
+import "@zk-kit/imt.sol/BinaryIMT.sol";
 
 contract Example {
-    using IncrementalBinaryTree for IncrementalTreeData;
+    BinaryIMTData public data;
 
-    event TreeCreated(bytes32 id, uint256 depth);
-    event LeafInserted(bytes32 indexed treeId, uint256 leaf, uint256 root);
-    event LeafUpdated(bytes32 indexed treeId, uint256 leaf, uint256 root);
-    event LeafRemoved(bytes32 indexed treeId, uint256 leaf, uint256 root);
-
-    mapping(bytes32 => IncrementalTreeData) public trees;
-
-    function createTree(bytes32 _id, uint256 _depth) external {
-        require(trees[_id].depth == 0, "Example: tree already exists");
-
-        trees[_id].init(_depth, 0);
-
-        emit TreeCreated(_id, _depth);
+    function init(uint256 depth) external {
+        BinaryIMT.init(data, depth, 0);
     }
 
-    function insertLeaf(bytes32 _treeId, uint256 _leaf) external {
-        require(trees[_treeId].depth != 0, "Example: tree does not exist");
-
-        trees[_treeId].insert(_leaf);
-
-        emit LeafInserted(_treeId, _leaf, trees[_treeId].root);
+    function initWithDefaultZeroes(uint256 depth) external {
+        BinaryIMT.initWithDefaultZeroes(data, depth);
     }
 
-    function updateLeaf(
-        bytes32 _treeId,
-        uint256 _leaf,
-        uint256 _newLeaf,
-        uint256[] calldata _proofSiblings,
-        uint8[] calldata _proofPathIndices
+    function insert(uint256 leaf) external {
+        BinaryIMT.insert(data, leaf);
+    }
+
+    function update(
+        uint256 leaf,
+        uint256 newLeaf,
+        uint256[] calldata proofSiblings,
+        uint8[] calldata proofPathIndices
     ) external {
-        require(trees[_treeId].depth != 0, "Example: tree does not exist");
-
-        trees[_treeId].update(_leaf, _newLeaf, _proofSiblings, _proofPathIndices);
-
-        emit LeafUpdated(_treeId, _newLeaf, trees[_treeId].root);
+        BinaryIMT.update(data, leaf, newLeaf, proofSiblings, proofPathIndices);
     }
 
-    function removeLeaf(
-        bytes32 _treeId,
-        uint256 _leaf,
-        uint256[] calldata _proofSiblings,
-        uint8[] calldata _proofPathIndices
-    ) external {
-        require(trees[_treeId].depth != 0, "Example: tree does not exist");
-
-        trees[_treeId].remove(_leaf, _proofSiblings, _proofPathIndices);
-
-        emit LeafRemoved(_treeId, _leaf, trees[_treeId].root);
+    function remove(uint256 leaf, uint256[] calldata proofSiblings, uint8[] calldata proofPathIndices) external {
+        BinaryIMT.remove(data, leaf, proofSiblings, proofPathIndices);
     }
 }
-```
-
-### Creating an Hardhat task to deploy the contract
-
-```typescript
-import { poseidon_gencontract as poseidonContract } from "circomlibjs"
-import { Contract } from "ethers"
-import { task, types } from "hardhat/config"
-
-task("deploy:example", "Deploy an Example contract")
-    .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
-    .setAction(async ({ logs }, { ethers }): Promise<Contract> => {
-        const poseidonT3ABI = poseidonContract.generateABI(2)
-        const poseidonT3Bytecode = poseidonContract.createCode(2)
-
-        const [signer] = await ethers.getSigners()
-
-        const PoseidonLibT3Factory = new ethers.ContractFactory(poseidonT3ABI, poseidonT3Bytecode, signer)
-        const poseidonT3Lib = await PoseidonLibT3Factory.deploy()
-
-        await poseidonT3Lib.deployed()
-
-        logs && console.log(`PoseidonT3 library has been deployed to: ${poseidonT3Lib.address}`)
-
-        const IncrementalBinaryTreeLibFactory = await ethers.getContractFactory("IncrementalBinaryTree", {
-            libraries: {
-                PoseidonT3: poseidonT3Lib.address
-            }
-        })
-        const incrementalBinaryTreeLib = await IncrementalBinaryTreeLibFactory.deploy()
-
-        await incrementalBinaryTreeLib.deployed()
-
-        logs && console.log(`IncrementalBinaryTree library has been deployed to: ${incrementalBinaryTreeLib.address}`)
-
-        const ContractFactory = await ethers.getContractFactory("Example", {
-            libraries: {
-                IncrementalBinaryTree: incrementalBinaryTreeLib.address
-            }
-        })
-
-        const contract = await ContractFactory.deploy()
-
-        await contract.deployed()
-
-        logs && console.log(`Example contract has been deployed to: ${contract.address}`)
-
-        return contract
-    })
 ```
