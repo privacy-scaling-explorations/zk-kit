@@ -22,7 +22,6 @@ error LeafCannotBeZero();
 error LeafAlreadyExists();
 error LeafDoesNotExist();
 
-
 // The LeanIMT is an optimized version of the BinaryIMT.
 // This implementation eliminates the use of zeroes, and make the tree depth dynamic.
 // When a node doesn't have the right child, instead of using a zero hash as in the BinaryIMT,
