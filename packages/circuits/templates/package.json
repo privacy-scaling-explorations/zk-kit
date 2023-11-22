@@ -1,0 +1,24 @@
+{
+    "name": "@zk-kit/circuits",
+    "version": "0.1.0",
+    "description": "A comprehensive library of general-purpose Circom circuits.",
+    "license": "MIT",
+    "files": [
+        "**/*.circom",
+        "LICENSE",
+        "README.md"
+    ],
+    "keywords": [
+        "zk-kit",
+        "circom",
+        "circuits"
+    ],
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/circuits.sol",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "circomlib": "^2.0.5"
+    }
+}
