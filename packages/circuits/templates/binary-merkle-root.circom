@@ -4,7 +4,7 @@ include "poseidon.circom";
 include "mux1.circom";
 include "comparators.circom";
 
-template MerkleRoot(MAX_DEPTH) {
+template BinaryMerkleRoot(MAX_DEPTH) {
     signal input leaf, depth, indices[MAX_DEPTH], siblings[MAX_DEPTH];
 
     signal output out;
