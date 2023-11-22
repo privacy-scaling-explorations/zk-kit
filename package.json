@@ -32,7 +32,8 @@
         "circom"
     ],
     "workspaces": [
-        "packages/*"
+        "packages/*",
+        "packages/circuits/templates"
     ],
     "packageManager": "yarn@3.2.1",
     "devDependencies": {

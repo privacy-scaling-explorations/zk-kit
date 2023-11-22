@@ -4382,6 +4382,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@zk-kit/circuits@workspace:packages/circuits/templates":
+  version: 0.0.0-use.local
+  resolution: "@zk-kit/circuits@workspace:packages/circuits/templates"
+  dependencies:
+    circomlib: ^2.0.5
+  languageName: unknown
+  linkType: soft
+
 "@zk-kit/groth16@workspace:packages/groth16":
   version: 0.0.0-use.local
   resolution: "@zk-kit/groth16@workspace:packages/groth16"
@@ -6518,6 +6526,12 @@ __metadata:
   checksum: 22a1ea2e10164df2c15a9b647b00828497906b1ad5ef03046ec6d6879b6460db3882f4b5ee3567fe1bf2233ddbe439e38462533c9b5c56c23edb6bbf6bedd2f3
   languageName: node
   linkType: hard
+
+"circuits@workspace:packages/circuits":
+  version: 0.0.0-use.local
+  resolution: "circuits@workspace:packages/circuits"
+  languageName: unknown
+  linkType: soft
 
 "cjs-module-lexer@npm:^0.6.0":
   version: 0.6.0
