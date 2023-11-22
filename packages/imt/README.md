@@ -41,6 +41,9 @@
     </h4>
 </div>
 
+> [!WARNING]  
+> If you are looking for the first version of this package, please visit this [link](https://github.com/privacy-scaling-explorations/zk-kit/tree/imt-v1/packages/incremental-merkle-tree).
+
 ---
 
 ## 🛠 Install
