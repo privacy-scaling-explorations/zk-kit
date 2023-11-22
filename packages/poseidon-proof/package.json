@@ -1,0 +1,42 @@
+{
+    "name": "@zk-kit/poseidon-proof",
+    "version": "0.1.0",
+    "description": "A library to generate and verify Poseidon proofs.",
+    "license": "MIT",
+    "main": "dist/index.node.js",
+    "exports": {
+        "import": "./dist/index.node.mjs",
+        "require": "./dist/index.node.js",
+        "types": "./dist/types/index.d.ts"
+    },
+    "types": "dist/types/index.d.ts",
+    "files": [
+        "dist/",
+        "src/",
+        "LICENSE",
+        "README.md"
+    ],
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-proof",
+    "bugs": {
+        "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
+    },
+    "scripts": {
+        "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
+        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
+        "prepublishOnly": "yarn build"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "@rollup/plugin-json": "^5.0.1",
+        "@types/snarkjs": "^0.7.7",
+        "rollup-plugin-cleanup": "^3.2.1",
+        "rollup-plugin-terser": "^7.0.2",
+        "rollup-plugin-typescript2": "^0.32.1"
+    },
+    "dependencies": {
+        "@zk-kit/groth16": "0.3.0"
+    }
+}

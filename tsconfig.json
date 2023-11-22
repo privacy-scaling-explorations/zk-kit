@@ -5,6 +5,7 @@
         "target": "ES5",
         "module": "ES6",
         "moduleResolution": "node",
+        "resolveJsonModule": true,
         "esModuleInterop": true,
         "preserveConstEnums": true,
         "skipLibCheck": true,
