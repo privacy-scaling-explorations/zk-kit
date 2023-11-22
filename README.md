@@ -115,29 +115,29 @@
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/sparse-merkle-tree">
-                    @zk-kit/sparse-merkle-tree
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/smt">
+                    @zk-kit/smt
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_sparse_merkle_tree.html">
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_smt.html">
                     (docs)
                 </a>
             </td>
             <td>
                 <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/sparse-merkle-tree">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/sparse-merkle-tree.svg?style=flat-square" alt="NPM version" />
+                <a href="https://npmjs.org/package/@zk-kit/smt">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/smt.svg?style=flat-square" alt="NPM version" />
                 </a>
             </td>
             <td>
                 <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/sparse-merkle-tree">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/sparse-merkle-tree.svg?style=flat-square" alt="Downloads" />
+                <a href="https://npmjs.org/package/@zk-kit/smt">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/smt.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
             <td>
                 <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zk-kit/sparse-merkle-tree">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/sparse-merkle-tree" alt="npm bundle size (scoped)" />
+                <a href="https://bundlephobia.com/package/@zk-kit/smt">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/smt" alt="npm bundle size (scoped)" />
                 </a>
             </td>
         </tr>
@@ -286,9 +286,9 @@ ZK-kit provides a set of pre-configured development tools. All you have to deal 
 
 ```bash
 cd zk-kit
-cp -r packages/sparse-merkle-tree packages/my-package
+cp -r packages/smt packages/my-package
 cd packages/my-package && rm -fr node_modules dist
-grep -r -l "sparse-merkle-tree" . | xargs sed -i 's/sparse-merkle-tree/my-package/'
+grep -r -l "smt" . | xargs sed -i 's/smt/my-package/'
 # Update the remaining description/usage sections, and write your code in the src & tests folders!
 ```
 

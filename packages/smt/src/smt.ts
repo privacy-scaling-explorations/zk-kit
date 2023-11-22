@@ -3,9 +3,9 @@ import { ChildNodes, EntryMark, HashFunction, Key, Value, Node, Siblings, EntryR
 
 /**
  * SparseMerkleTree class provides all the functions to create a sparse Merkle tree
- * and to take advantage of its features: {@linkcode SparseMerkleTree.add}, {@linkcode SparseMerkleTree.get},
- * {@linkcode SparseMerkleTree.update}, {@linkcode SparseMerkleTree.delete}, {@linkcode SparseMerkleTree.createProof},
- * {@linkcode SparseMerkleTree.verifyProof}.
+ * and to take advantage of its features: {@linkcode SMT.add}, {@linkcode SMT.get},
+ * {@linkcode SMT.update}, {@linkcode SMT.delete}, {@linkcode SMT.createProof},
+ * {@linkcode SMT.verifyProof}.
  * To better understand the code below it may be useful to describe the terminology used:
  * * **nodes**: every node in the tree is the hash of the two child nodes (`H(x, y)`);
  * * **root node**: the root node is the top hash and since it represents the whole data
@@ -22,7 +22,7 @@ import { ChildNodes, EntryMark, HashFunction, Key, Value, Node, Siblings, EntryR
  * this entry is a matching entry and it has some of the first bits in common with the entry not found;
  * * **depth**: the depth of a node is the length of the path to its root.
  */
-export default class SparseMerkleTree {
+export default class SMT {
     // Hash function used to hash the child nodes.
     private hash: HashFunction
     // Value for zero nodes.
