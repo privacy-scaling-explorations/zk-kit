@@ -1,14 +1,14 @@
 import { poseidon, smt } from "circomlibjs"
 import sha256 from "crypto-js/sha256"
-import { ChildNodes, SparseMerkleTree } from "../src"
+import { ChildNodes, SMT } from "../src"
 
-describe("Sparse Merkle tree", () => {
+describe("SMT", () => {
     const hash = (childNodes: ChildNodes) => sha256(childNodes.join("")).toString()
     const testKeys = ["a", "3", "2b", "20", "9", "17"]
 
     describe("Create hexadecimal trees", () => {
         it("Should create an empty sparse Merkle tree", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             expect(tree.root).toBe("0")
         })
@@ -16,7 +16,7 @@ describe("Sparse Merkle tree", () => {
         it("Should not create a hexadecimal tree if the hash function does not return a hexadecimal", () => {
             const hash = (childNodes: ChildNodes) => poseidon(childNodes)
 
-            const fun = () => new SparseMerkleTree(hash)
+            const fun = () => new SMT(hash)
 
             expect(fun).toThrow()
         })
@@ -24,7 +24,7 @@ describe("Sparse Merkle tree", () => {
 
     describe("Add new entries (key/value) in the tree", () => {
         it("Should add a new entry", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
             const oldRoot = tree.root
 
             tree.add("2", "a")
@@ -33,7 +33,7 @@ describe("Sparse Merkle tree", () => {
         })
 
         it("Should not add a new non-hexadecimal entry", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             const fun = () => tree.add(BigInt(2), BigInt(4))
 
@@ -41,7 +41,7 @@ describe("Sparse Merkle tree", () => {
         })
 
         it("Should not add a new entry with an existing key", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             tree.add("2", "a")
             const fun = () => tree.add("2", "a")
@@ -50,7 +50,7 @@ describe("Sparse Merkle tree", () => {
         })
 
         it("Should add 6 new entries and create the correct root hash", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             for (const key of testKeys) {
                 tree.add(key, key)
@@ -62,7 +62,7 @@ describe("Sparse Merkle tree", () => {
 
     describe("Get values from the tree", () => {
         it("Should get a value from the tree using an existing key", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             tree.add("2", "a")
             const value = tree.get("2")
@@ -71,7 +71,7 @@ describe("Sparse Merkle tree", () => {
         })
 
         it("Should not get a value from the tree using a non-existing key", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             tree.add("2", "a")
             const value = tree.get("1")
@@ -82,7 +82,7 @@ describe("Sparse Merkle tree", () => {
 
     describe("Update values in the tree", () => {
         it("Should update a value of an existing key", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             tree.add("2", "a")
             tree.update("2", "5")
@@ -91,7 +91,7 @@ describe("Sparse Merkle tree", () => {
         })
 
         it("Should not update a value with a non-existing key", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             const fun = () => tree.update("1", "5")
 
@@ -101,7 +101,7 @@ describe("Sparse Merkle tree", () => {
 
     describe("Delete entries from the tree", () => {
         it("Should delete an entry with an existing key", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             tree.add("2", "a")
             tree.delete("2")
@@ -110,7 +110,7 @@ describe("Sparse Merkle tree", () => {
         })
 
         it("Should delete 3 entries and create the correct root hash", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             for (const key of testKeys) {
                 tree.add(key, key)
@@ -124,7 +124,7 @@ describe("Sparse Merkle tree", () => {
         })
 
         it("Should not delete an entry with a non-existing key", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             const fun = () => tree.delete("1")
 
@@ -134,7 +134,7 @@ describe("Sparse Merkle tree", () => {
 
     describe("Create Merkle proofs and verify them", () => {
         it("Should create some Merkle proofs and verify them", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             for (const key of testKeys) {
                 tree.add(key, key)
@@ -154,7 +154,7 @@ describe("Sparse Merkle tree", () => {
         })
 
         it("Should not verify a wrong Merkle proof", () => {
-            const tree = new SparseMerkleTree(hash)
+            const tree = new SMT(hash)
 
             for (const key of testKeys) {
                 tree.add(key, key)
@@ -171,7 +171,7 @@ describe("Sparse Merkle tree", () => {
         const hash = (childNodes: ChildNodes) => poseidon(childNodes)
 
         it("Should create a big number tree", () => {
-            const tree = new SparseMerkleTree(hash, true)
+            const tree = new SMT(hash, true)
 
             expect(tree.root).toEqual(BigInt(0))
         })
@@ -179,13 +179,13 @@ describe("Sparse Merkle tree", () => {
         it("Should not create a big number tree if the hash function does not return a big number", () => {
             const hash = (childNodes: ChildNodes) => sha256(childNodes.join("")).toString()
 
-            const fun = () => new SparseMerkleTree(hash, true)
+            const fun = () => new SMT(hash, true)
 
             expect(fun).toThrow()
         })
 
         it("Should add a big number new entry", () => {
-            const tree = new SparseMerkleTree(hash, true)
+            const tree = new SMT(hash, true)
             const oldRoot = tree.root
 
             tree.add(BigInt(2), BigInt(4))
@@ -194,7 +194,7 @@ describe("Sparse Merkle tree", () => {
         })
 
         it("Should not add a new non-big number entry", () => {
-            const tree = new SparseMerkleTree(hash, true)
+            const tree = new SMT(hash, true)
 
             const fun = () => tree.add("2", "a")
 
@@ -205,7 +205,7 @@ describe("Sparse Merkle tree", () => {
     describe("Matching with Circomlib smt implementation", () => {
         it("Should create two trees with different implementations and match their root nodes", async () => {
             const hash = (childNodes: ChildNodes) => poseidon(childNodes)
-            const tree = new SparseMerkleTree(hash, true)
+            const tree = new SMT(hash, true)
             const tree2 = await smt.newMemEmptyTrie()
             const entries: any = [
                 [

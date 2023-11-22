@@ -4385,9 +4385,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/sparse-merkle-tree@workspace:packages/sparse-merkle-tree":
+"@zk-kit/smt@workspace:packages/smt":
   version: 0.0.0-use.local
-  resolution: "@zk-kit/sparse-merkle-tree@workspace:packages/sparse-merkle-tree"
+  resolution: "@zk-kit/smt@workspace:packages/smt"
   dependencies:
     "@types/crypto-js": ^4.1.1
     circomlibjs: ^0.0.8
