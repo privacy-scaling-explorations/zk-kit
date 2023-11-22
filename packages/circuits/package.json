@@ -1,0 +1,9 @@
+{
+    "name": "circuits",
+    "private": true,
+    "description": "A comprehensive library of general-purpose Circom circuits.",
+    "license": "MIT",
+    "scripts": {
+        "compile": "circom --r1cs -l ../../node_modules/circomlib/circuits"
+    }
+}
