@@ -41,7 +41,8 @@
 ✔️ [LazyIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/LazyIMT.sol) (Poseidon)\
 ✔️ [LeanIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/LeanIMT.sol) (Poseidon)
 
----
+> [!WARNING]  
+> If you are looking for the first version of this package, please visit this [link](https://github.com/privacy-scaling-explorations/zk-kit/tree/imt-v1/packages/incremental-merkle-tree.sol).
 
 ## 🛠 Install
 
@@ -61,40 +62,4 @@ yarn add @zk-kit/imt.sol
 
 ## 📜 Usage
 
-### Importing and using the library
-
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
-
-import "@zk-kit/imt.sol/BinaryIMT.sol";
-
-contract Example {
-    BinaryIMTData public data;
-
-    function init(uint256 depth) external {
-        BinaryIMT.init(data, depth, 0);
-    }
-
-    function initWithDefaultZeroes(uint256 depth) external {
-        BinaryIMT.initWithDefaultZeroes(data, depth);
-    }
-
-    function insert(uint256 leaf) external {
-        BinaryIMT.insert(data, leaf);
-    }
-
-    function update(
-        uint256 leaf,
-        uint256 newLeaf,
-        uint256[] calldata proofSiblings,
-        uint8[] calldata proofPathIndices
-    ) external {
-        BinaryIMT.update(data, leaf, newLeaf, proofSiblings, proofPathIndices);
-    }
-
-    function remove(uint256 leaf, uint256[] calldata proofSiblings, uint8[] calldata proofPathIndices) external {
-        BinaryIMT.remove(data, leaf, proofSiblings, proofPathIndices);
-    }
-}
-```
+Please, see the [test contracts](./test) for guidance on utilizing the libraries.
