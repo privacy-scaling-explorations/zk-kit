@@ -1,4 +1,7 @@
 import { prove } from "@zk-kit/groth16"
+import download from "download"
+import fs from "fs"
+import tmp from "tmp"
 import { defaultSnarkArtifacts, libraryName } from "./config"
 import packProof from "./packProof"
 import { BigNumberish, PoseidonProof, SnarkArtifacts } from "./types"
@@ -13,10 +16,6 @@ export default async function generate(
 ): Promise<PoseidonProof> {
     if (!snarkArtifacts) {
         if (isNode()) {
-            const { default: download } = await import("download")
-            const { default: tmp } = await import("tmp")
-            const fs = await import("fs")
-
             const tmpDir = libraryName
             const tmpPath = `${tmp.tmpdir}/${tmpDir}`
 

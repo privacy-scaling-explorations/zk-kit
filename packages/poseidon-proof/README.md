@@ -73,7 +73,7 @@ const message = 2
 
 const fullProof = await generate(message, scope)
 
-// If not specified, the Snark artifacts are download automatically.
+// If not specified, the Snark artifacts are downloaded automatically.
 // You can also specify them.
 const fullProof = await generate(message, scope, {
     zkeyFilePath: "./poseidon-proof.zkey",
