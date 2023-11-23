@@ -4449,6 +4449,7 @@ __metadata:
     rimraf: ^3.0.0
     rollup-plugin-cleanup: ^3.2.1
     rollup-pluginutils: ^2.8.2
+    toml: ^3.0.0
     wasm-pack: ^0.10.2
   languageName: unknown
   linkType: soft
@@ -18399,6 +18400,13 @@ __metadata:
   version: 1.0.1
   resolution: "toidentifier@npm:1.0.1"
   checksum: 952c29e2a85d7123239b5cfdd889a0dde47ab0497f0913d70588f19c53f7e0b5327c95f4651e413c74b785147f9637b17410ac8c846d5d4a20a5a33eb6dc3a45
+  languageName: node
+  linkType: hard
+
+"toml@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "toml@npm:3.0.0"
+  checksum: 5d7f1d8413ad7780e9bdecce8ea4c3f5130dd53b0a4f2e90b93340979a137739879d7b9ce2ce05c938b8cc828897fe9e95085197342a1377dd8850bf5125f15f
   languageName: node
   linkType: hard
 
