@@ -21,10 +21,10 @@ export default async function generate(
 
             if (!fs.existsSync(tmpPath)) {
                 tmp.dirSync({ name: tmpDir })
-            }
 
-            await download(defaultSnarkArtifacts.wasmFilePath, tmpPath)
-            await download(defaultSnarkArtifacts.zkeyFilePath, tmpPath)
+                await download(defaultSnarkArtifacts.wasmFilePath, tmpPath)
+                await download(defaultSnarkArtifacts.zkeyFilePath, tmpPath)
+            }
 
             snarkArtifacts = {
                 wasmFilePath: `${tmpPath}/poseidon-proof.wasm`,
