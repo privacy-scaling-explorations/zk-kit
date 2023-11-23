@@ -13,8 +13,8 @@ export default async function generate(
 ): Promise<PoseidonProof> {
     if (!snarkArtifacts) {
         if (isNode()) {
-            const download = await import("download")
-            const tmp = await import("tmp")
+            const { default: download } = await import("download")
+            const { default: tmp } = await import("tmp")
             const fs = await import("fs")
 
             const tmpDir = libraryName
@@ -24,8 +24,8 @@ export default async function generate(
                 tmp.dirSync({ name: tmpDir })
             }
 
-            await download.default(defaultSnarkArtifacts.wasmFilePath, tmpPath)
-            await download.default(defaultSnarkArtifacts.zkeyFilePath, tmpPath)
+            await download(defaultSnarkArtifacts.wasmFilePath, tmpPath)
+            await download(defaultSnarkArtifacts.zkeyFilePath, tmpPath)
 
             snarkArtifacts = {
                 wasmFilePath: `${tmpPath}/poseidon-proof.wasm`,

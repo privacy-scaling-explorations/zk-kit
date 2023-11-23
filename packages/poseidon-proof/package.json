@@ -3,10 +3,10 @@
     "version": "0.2.0",
     "description": "A library to generate and verify Poseidon proofs.",
     "license": "MIT",
-    "main": "dist/index.node.js",
+    "main": "dist/index.js",
     "exports": {
-        "import": "./dist/index.node.mjs",
-        "require": "./dist/index.node.js",
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.js",
         "types": "./dist/types/index.d.ts"
     },
     "types": "dist/types/index.d.ts",
