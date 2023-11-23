@@ -60,24 +60,25 @@ yarn add @zk-kit/poseidon-proof
 ## 📜 Usage
 
 \# **generate**(
-message: _NumericString_,
-scope: _NumericString_,
+message: _BigNumberish_,
+scope: _BigNumberish_,
 snarkArtifacts?: _SnarkArtifacts_
 ): Promise\<_PoseidonProof_>
 
 ```typescript
 import { generate } from "@zk-kit/poseidon-proof"
 
-const scope = "1"
-const message = "2"
+const scope = 1
+const message = 2
 
+const fullProof = await generate(message, scope)
+
+// If not specified, the Snark artifacts are download automatically.
+// You can also specify them.
 const fullProof = await generate(message, scope, {
     zkeyFilePath: "./poseidon-proof.zkey",
     wasmFilePath: "./poseidon-proof.wasm"
 })
-
-// You can also use the default zkey/wasm files (it only works from browsers!).
-// const fullProof = await generate(message, scope)
 ```
 
 \# **verify**(poseidonProof: _PoseidonProof_): Promise\<_boolean_>
