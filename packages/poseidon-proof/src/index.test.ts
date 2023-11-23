@@ -6,10 +6,7 @@ import { PoseidonProof } from "./types"
 import unpackProof from "./unpackProof"
 
 describe("PoseidonProof", () => {
-    const scope = "1"
-
-    const wasmFilePath = `./snark-artifacts/poseidon-proof.wasm`
-    const zkeyFilePath = `./snark-artifacts/poseidon-proof.zkey`
+    const scope = 1
 
     let fullProof: PoseidonProof
     let curve: any
@@ -24,10 +21,7 @@ describe("PoseidonProof", () => {
 
     describe("# generate", () => {
         it("Should generate a Poseidon proof", async () => {
-            fullProof = await generate("3", scope, {
-                wasmFilePath,
-                zkeyFilePath
-            })
+            fullProof = await generate(3, scope)
 
             expect(typeof fullProof).toBe("object")
         })

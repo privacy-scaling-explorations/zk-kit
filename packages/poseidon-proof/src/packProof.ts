@@ -2,9 +2,9 @@ import { Groth16Proof } from "snarkjs"
 import { PackedProof } from "./types"
 
 /**
- * Packs a proof into a format compatible with Semaphore.
+ * Packs a proof into a format compatible with PoseidonProof.
  * @param proof The Groth16 proof generated with SnarkJS.
- * @returns The proof compatible with Semaphore.
+ * @returns The proof compatible with PoseidonProof.
  */
 export default function packProof(proof: Groth16Proof): PackedProof {
     return [

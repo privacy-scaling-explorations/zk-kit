@@ -1,20 +1,45 @@
 import { prove } from "@zk-kit/groth16"
-import type { NumericString } from "snarkjs"
+import { defaultSnarkArtifacts, libraryName } from "./config"
 import packProof from "./packProof"
-import { PoseidonProof, SnarkArtifacts } from "./types"
+import { BigNumberish, PoseidonProof, SnarkArtifacts } from "./types"
+import { isBrowser, isNode } from "./utils"
 
 /**
  */
 export default async function generate(
-    message: NumericString,
-    scope: NumericString,
+    message: BigNumberish,
+    scope: BigNumberish,
     snarkArtifacts?: SnarkArtifacts
 ): Promise<PoseidonProof> {
     if (!snarkArtifacts) {
-        snarkArtifacts = {
-            wasmFilePath: "https://zkkit.cedoor.dev/poseidon-proof.zkey",
-            zkeyFilePath: "https://zkkit.cedoor.dev/poseidon-proof.zkey"
+        if (isNode()) {
+            const download = await import("download")
+            const tmp = await import("tmp")
+            const fs = await import("fs")
+
+            const tmpDir = libraryName
+            const tmpPath = `${tmp.tmpdir}/${tmpDir}`
+
+            if (!fs.existsSync(tmpPath)) {
+                tmp.dirSync({ name: tmpDir })
+            }
+
+            await download.default(defaultSnarkArtifacts.wasmFilePath, tmpPath)
+            await download.default(defaultSnarkArtifacts.zkeyFilePath, tmpPath)
+
+            snarkArtifacts = {
+                wasmFilePath: `${tmpPath}/poseidon-proof.wasm`,
+                zkeyFilePath: `${tmpPath}/poseidon-proof.zkey`
+            }
         }
+
+        if (isBrowser()) {
+            snarkArtifacts = defaultSnarkArtifacts
+        }
+    }
+
+    if (!snarkArtifacts) {
+        throw new Error("Error: Missing Snark artifacts. Please ensure all necessary Snark artifacts are included.")
     }
 
     const { proof, publicSignals } = await prove(

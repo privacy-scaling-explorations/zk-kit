@@ -1,4 +1,6 @@
-import type { NumericString } from "snarkjs"
+import type { NumericString, SignalValueType } from "snarkjs"
+
+export type BigNumberish = NumericString | number | bigint
 
 export type SnarkArtifacts = {
     wasmFilePath: string

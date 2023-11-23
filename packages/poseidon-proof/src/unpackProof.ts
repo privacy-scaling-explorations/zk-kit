@@ -3,7 +3,7 @@ import { PackedProof } from "./types"
 
 /**
  * Unpacks a proof into its original form.
- * @param proof The proof compatible with Semaphore.
+ * @param proof The proof compatible with PoseidonProof.
  * @returns The proof compatible with SnarkJS.
  */
 export default function unpackProof(proof: PackedProof): Groth16Proof {
