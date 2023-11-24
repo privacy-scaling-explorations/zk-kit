@@ -4,7 +4,7 @@ import { NumericString, prove } from "@zk-kit/groth16"
 import download from "download"
 import fs from "fs"
 import tmp from "tmp"
-import { defaultSnarkArtifacts, libraryName } from "./config"
+import { defaultSnarkArtifacts } from "./config"
 import hash from "./hash"
 import packProof from "./packProof"
 import { PoseidonProof, SnarkArtifacts } from "./types"
@@ -34,7 +34,7 @@ export default async function generate(
     /* istanbul ignore next */
     if (!snarkArtifacts) {
         if (isNode()) {
-            const tmpDir = libraryName
+            const tmpDir = "poseidon-proof"
             const tmpPath = `${tmp.tmpdir}/${tmpDir}`
 
             if (!fs.existsSync(tmpPath)) {

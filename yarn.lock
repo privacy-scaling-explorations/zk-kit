@@ -4385,17 +4385,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/groth16@npm:0.3.0":
-  version: 0.3.0
-  resolution: "@zk-kit/groth16@npm:0.3.0"
-  dependencies:
-    circom_runtime: 0.1.24
-    ffjavascript: 0.2.60
-  checksum: f177fffd7e28c1f6617a67758c017bb962bde8829a6b90bea8053c0c164386b73b58cfe26c2481435bbc0de0c14d8301c23818e4a0450979bceb525f64e9db51
-  languageName: node
-  linkType: hard
-
-"@zk-kit/groth16@workspace:packages/groth16":
+"@zk-kit/groth16@0.4.0, @zk-kit/groth16@workspace:packages/groth16":
   version: 0.0.0-use.local
   resolution: "@zk-kit/groth16@workspace:packages/groth16"
   dependencies:
@@ -4457,7 +4447,7 @@ __metadata:
     "@rollup/plugin-json": ^5.0.1
     "@types/download": ^8.0.5
     "@types/tmp": ^0.2.6
-    "@zk-kit/groth16": 0.3.0
+    "@zk-kit/groth16": 0.4.0
     download: ^8.0.0
     poseidon-lite: ^0.2.0
     rollup-plugin-cleanup: ^3.2.1

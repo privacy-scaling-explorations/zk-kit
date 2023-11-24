@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/poseidon-proof",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "description": "A library to generate and verify Poseidon proofs.",
     "license": "MIT",
     "main": "dist/index.js",
@@ -45,7 +45,7 @@
         "@ethersproject/bignumber": "^5.7.0",
         "@ethersproject/bytes": "^5.7.0",
         "@ethersproject/keccak256": "^5.7.0",
-        "@zk-kit/groth16": "0.3.0",
+        "@zk-kit/groth16": "0.4.0",
         "download": "^8.0.0",
         "tmp": "^0.2.1"
     }

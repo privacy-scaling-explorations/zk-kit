@@ -1,11 +1,11 @@
 import { buildBn128 } from "@zk-kit/groth16"
 import { poseidon1, poseidon2 } from "poseidon-lite"
-import generate from "./generate"
-import packProof from "./packProof"
-import { PoseidonProof } from "./types"
-import unpackProof from "./unpackProof"
-import verify from "./verify"
-import hash from "./hash"
+import generate from "../src/generate"
+import packProof from "../src/packProof"
+import { PoseidonProof } from "../src/types"
+import unpackProof from "../src/unpackProof"
+import verify from "../src/verify"
+import hash from "../src/hash"
 
 describe("PoseidonProof", () => {
     const preimage = 2
