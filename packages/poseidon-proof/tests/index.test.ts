@@ -1,9 +1,9 @@
 import { buildBn128 } from "@zk-kit/groth16"
 import { poseidon1, poseidon2 } from "poseidon-lite"
 import generate from "../src/generate"
-import packProof from "../src/packProof"
+import packProof from "../src/pack-proof"
 import { PoseidonProof } from "../src/types"
-import unpackProof from "../src/unpackProof"
+import unpackProof from "../src/unpack-proof"
 import verify from "../src/verify"
 import hash from "../src/hash"
 

@@ -1,7 +1,7 @@
 import { verify as _verify } from "@zk-kit/groth16"
 import hash from "./hash"
 import { PoseidonProof } from "./types"
-import unpackProof from "./unpackProof"
+import unpackProof from "./unpack-proof"
 import verificationKey from "./verification-key.json"
 
 /**

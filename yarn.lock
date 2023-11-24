@@ -3272,6 +3272,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-alias@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@rollup/plugin-alias@npm:5.0.1"
+  dependencies:
+    slash: ^4.0.0
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: dab5bba16a0425c8412ece858df677c9f792bb0c5a7789c1677ee34b03533c1cda407191fcc40f3e93eb5f992cd8ed0e980e49dad3e38346547a2723b0f56fa1
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-commonjs@npm:^24.1.0":
   version: 24.1.0
   resolution: "@rollup/plugin-commonjs@npm:24.1.0"
@@ -4444,6 +4458,7 @@ __metadata:
     "@ethersproject/bignumber": ^5.7.0
     "@ethersproject/bytes": ^5.7.0
     "@ethersproject/keccak256": ^5.7.0
+    "@rollup/plugin-alias": ^5.0.1
     "@rollup/plugin-json": ^5.0.1
     "@types/download": ^8.0.5
     "@types/tmp": ^0.2.6
@@ -16687,6 +16702,13 @@ __metadata:
   version: 3.0.0
   resolution: "slash@npm:3.0.0"
   checksum: 94a93fff615f25a999ad4b83c9d5e257a7280c90a32a7cb8b4a87996e4babf322e469c42b7f649fd5796edd8687652f3fb452a86dc97a816f01113183393f11c
+  languageName: node
+  linkType: hard
+
+"slash@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "slash@npm:4.0.0"
+  checksum: da8e4af73712253acd21b7853b7e0dbba776b786e82b010a5bfc8b5051a1db38ed8aba8e1e8f400dd2c9f373be91eb1c42b66e91abb407ff42b10feece5e1d2d
   languageName: node
   linkType: hard
 

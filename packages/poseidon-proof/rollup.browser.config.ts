@@ -1,3 +1,4 @@
+import alias from "@rollup/plugin-alias"
 import json from "@rollup/plugin-json"
 import * as fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
@@ -17,19 +18,16 @@ export default {
     input: "src/index.ts",
     output: [
         {
-            file: pkg.exports.require,
-            format: "cjs",
-            banner,
-            exports: "auto"
-        },
-        {
-            file: pkg.exports.import,
+            file: pkg.exports.browser,
             format: "es",
             banner
         }
     ],
     external: Object.keys(pkg.dependencies),
     plugins: [
+        alias({
+            entries: [{ find: "./get-snark-artifacts.node", replacement: "./get-snark-artifacts.browser" }]
+        }),
         typescript({
             tsconfig: "./build.tsconfig.json",
             useTsconfigDeclarationDir: true
