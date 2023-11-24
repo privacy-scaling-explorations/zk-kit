@@ -37,6 +37,7 @@
         "@types/download": "^8.0.5",
         "@types/snarkjs": "^0.7.7",
         "@types/tmp": "^0.2.6",
+        "poseidon-lite": "^0.2.0",
         "rollup-plugin-cleanup": "^3.2.1",
         "rollup-plugin-terser": "^7.0.2",
         "rollup-plugin-typescript2": "^0.32.1"

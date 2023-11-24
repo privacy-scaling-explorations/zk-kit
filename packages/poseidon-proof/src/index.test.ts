@@ -1,12 +1,14 @@
 import { buildBn128 } from "@zk-kit/groth16"
+import { poseidon2, poseidon1 } from "poseidon-lite"
 import generate from "./generate"
-import verify from "./verify"
 import packProof from "./packProof"
 import { PoseidonProof } from "./types"
 import unpackProof from "./unpackProof"
+import verify from "./verify"
 
 describe("PoseidonProof", () => {
     const scope = 1
+    const message = 2
 
     let fullProof: PoseidonProof
     let curve: any
@@ -21,17 +23,31 @@ describe("PoseidonProof", () => {
 
     describe("# generate", () => {
         it("Should generate a Poseidon proof", async () => {
-            fullProof = await generate(3, scope)
+            fullProof = await generate(message, scope)
 
-            expect(typeof fullProof).toBe("object")
+            const hash = poseidon1([message])
+            const nullifier = poseidon2([scope, message])
+
+            expect(fullProof.proof).toHaveLength(8)
+            expect(fullProof.scope).toBe(scope.toString())
+            expect(fullProof.hash).toBe(hash.toString())
+            expect(fullProof.nullifier).toBe(nullifier.toString())
         })
     })
 
     describe("# verify", () => {
-        it("Should verify a Semaphore proof", async () => {
+        it("Should verify a valid Poseidon proof", async () => {
             const response = await verify(fullProof)
 
             expect(response).toBe(true)
+        })
+
+        it("Should verify an invalid Poseidon proof", async () => {
+            fullProof.hash = "3"
+
+            const response = await verify(fullProof)
+
+            expect(response).toBe(false)
         })
     })
 
