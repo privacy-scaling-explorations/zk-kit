@@ -56,6 +56,14 @@ https://github.com/privacy-scaling-explorations/zk-kit/blob/ee457299d36d2601e5bf
 > [!WARNING]  
 > The Snark artifacts currently used to generate zero-knowledge proofs are the result of an unsecure trusted setup, and the library has not yet been audited. Therefore, it is advised not to use it in production.
 
+## 📈 Benchmarks
+
+Benchmarks were run on an Intel Core i7-1165G7, 16 GB RAM machine, after initializing the BN128 curve with [`@zk-kit/groth16`](https://github.com/privacy-scaling-explorations/zk-kit/edit/main/packages/groth16)-`buildBn128` (~230ms).
+
+| Generate proof | Verify proof | Constraints |
+| -------------- | ------------ | ----------- |
+| `80ms`         | `10ms`       | `141`       |
+
 ## 🛠 Install
 
 ### npm or yarn
