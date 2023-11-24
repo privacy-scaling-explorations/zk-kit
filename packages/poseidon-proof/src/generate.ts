@@ -1,21 +1,24 @@
-import { prove } from "@zk-kit/groth16"
+import { BigNumber } from "@ethersproject/bignumber"
+import { BytesLike, Hexable } from "@ethersproject/bytes"
+import { NumericString, prove } from "@zk-kit/groth16"
 import download from "download"
 import fs from "fs"
 import tmp from "tmp"
 import { defaultSnarkArtifacts, libraryName } from "./config"
+import hash from "./hash"
 import packProof from "./packProof"
-import { BigNumberish, PoseidonProof, SnarkArtifacts } from "./types"
+import { PoseidonProof, SnarkArtifacts } from "./types"
 import { isBrowser, isNode } from "./utils"
 
 /**
- * Creates a zero-knowledge proof to prove that you have the pre-image or
- * the original message of a hash, without disclosing the actual message itself.
+ * Creates a zero-knowledge proof to prove that you have the pre-image of a hash,
+ * without disclosing the actual preimage itself.
  * The use of a scope parameter along with a nullifier helps ensure the uniqueness
  * and non-reusability of the proofs, enhancing security in applications like
  * blockchain transactions or private data verification.
  * If, for example, this package were used with Semaphore to demonstrate possession
  * of a Semaphore identity of a group of voters, the scope could be the poll's ID.
- * @param message The message (or pre-image) of the hash.
+ * @param preimage The preimage of the hash.
  * @param scope A public value used to contextualize the cryptographic proof
  * and calculate the nullifier.
  * @param snarkArtifacts The Snark artifacts (wasm and zkey files) generated in
@@ -23,8 +26,8 @@ import { isBrowser, isNode } from "./utils"
  * @returns The Poseidon zero-knowledge proof.
  */
 export default async function generate(
-    message: BigNumberish,
-    scope: BigNumberish,
+    preimage: BytesLike | Hexable | number | bigint,
+    scope: BytesLike | Hexable | number | bigint,
     snarkArtifacts?: SnarkArtifacts
 ): Promise<PoseidonProof> {
     // If the Snark artifacts are not defined they will be automatically downloaded.
@@ -59,16 +62,16 @@ export default async function generate(
 
     const { proof, publicSignals } = await prove(
         {
-            in: message,
-            scope
+            in: hash(preimage),
+            scope: hash(scope)
         },
         snarkArtifacts.wasmFilePath,
         snarkArtifacts.zkeyFilePath
     )
 
     return {
-        scope: publicSignals[2],
-        hash: publicSignals[1],
+        scope: BigNumber.from(scope).toString() as NumericString,
+        digest: publicSignals[1],
         nullifier: publicSignals[0],
         proof: packProof(proof)
     }

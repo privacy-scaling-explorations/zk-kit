@@ -4182,13 +4182,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/snarkjs@npm:^0.7.7":
-  version: 0.7.7
-  resolution: "@types/snarkjs@npm:0.7.7"
-  checksum: 24e655c4828c13f4fb486b00c4051aac6df0c43c27a65c0311fc85f9dcba9da2dbea567e6d87ccfd6971cd550b36bca539de3ac53a91db2b67e1c777530def1f
-  languageName: node
-  linkType: hard
-
 "@types/stack-utils@npm:^2.0.0":
   version: 2.0.3
   resolution: "@types/stack-utils@npm:2.0.3"
@@ -4458,9 +4451,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zk-kit/poseidon-proof@workspace:packages/poseidon-proof"
   dependencies:
+    "@ethersproject/bignumber": ^5.7.0
+    "@ethersproject/bytes": ^5.7.0
+    "@ethersproject/keccak256": ^5.7.0
     "@rollup/plugin-json": ^5.0.1
     "@types/download": ^8.0.5
-    "@types/snarkjs": ^0.7.7
     "@types/tmp": ^0.2.6
     "@zk-kit/groth16": 0.3.0
     download: ^8.0.0

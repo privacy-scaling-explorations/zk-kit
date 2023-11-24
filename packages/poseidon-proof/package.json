@@ -35,7 +35,6 @@
     "devDependencies": {
         "@rollup/plugin-json": "^5.0.1",
         "@types/download": "^8.0.5",
-        "@types/snarkjs": "^0.7.7",
         "@types/tmp": "^0.2.6",
         "poseidon-lite": "^0.2.0",
         "rollup-plugin-cleanup": "^3.2.1",
@@ -43,6 +42,9 @@
         "rollup-plugin-typescript2": "^0.32.1"
     },
     "dependencies": {
+        "@ethersproject/bignumber": "^5.7.0",
+        "@ethersproject/bytes": "^5.7.0",
+        "@ethersproject/keccak256": "^5.7.0",
         "@zk-kit/groth16": "0.3.0",
         "download": "^8.0.0",
         "tmp": "^0.2.1"

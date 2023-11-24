@@ -1,14 +1,15 @@
 import { buildBn128 } from "@zk-kit/groth16"
-import { poseidon2, poseidon1 } from "poseidon-lite"
+import { poseidon1, poseidon2 } from "poseidon-lite"
 import generate from "./generate"
 import packProof from "./packProof"
 import { PoseidonProof } from "./types"
 import unpackProof from "./unpackProof"
 import verify from "./verify"
+import hash from "./hash"
 
 describe("PoseidonProof", () => {
+    const preimage = 2
     const scope = 1
-    const message = 2
 
     let fullProof: PoseidonProof
     let curve: any
@@ -23,14 +24,14 @@ describe("PoseidonProof", () => {
 
     describe("# generate", () => {
         it("Should generate a Poseidon proof", async () => {
-            fullProof = await generate(message, scope)
+            fullProof = await generate(preimage, scope)
 
-            const hash = poseidon1([message])
-            const nullifier = poseidon2([scope, message])
+            const digest = poseidon1([hash(preimage)])
+            const nullifier = poseidon2([hash(scope), hash(preimage)])
 
             expect(fullProof.proof).toHaveLength(8)
             expect(fullProof.scope).toBe(scope.toString())
-            expect(fullProof.hash).toBe(hash.toString())
+            expect(fullProof.digest).toBe(digest.toString())
             expect(fullProof.nullifier).toBe(nullifier.toString())
         })
     })
@@ -43,7 +44,7 @@ describe("PoseidonProof", () => {
         })
 
         it("Should verify an invalid Poseidon proof", async () => {
-            fullProof.hash = "3"
+            fullProof.digest = "3"
 
             const response = await verify(fullProof)
 

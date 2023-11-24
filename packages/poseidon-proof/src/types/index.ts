@@ -1,6 +1,4 @@
-import type { NumericString, SignalValueType } from "snarkjs"
-
-export type BigNumberish = NumericString | number | bigint
+import { NumericString } from "@zk-kit/groth16"
 
 export type SnarkArtifacts = {
     wasmFilePath: string
@@ -9,7 +7,7 @@ export type SnarkArtifacts = {
 
 export type PoseidonProof = {
     scope: NumericString
-    hash: NumericString
+    digest: NumericString
     nullifier: NumericString
     proof: PackedProof
 }
