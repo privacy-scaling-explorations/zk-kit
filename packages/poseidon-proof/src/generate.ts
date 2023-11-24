@@ -1,9 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { NumericString, prove } from "@zk-kit/groth16"
-import download from "download"
-import fs from "fs"
-import tmp from "tmp"
+
 import { defaultSnarkArtifacts } from "./config"
 import hash from "./hash"
 import packProof from "./packProof"
@@ -34,6 +32,10 @@ export default async function generate(
     /* istanbul ignore next */
     if (!snarkArtifacts) {
         if (isNode()) {
+            const { default: download } = await import("download")
+            const { default: fs } = await import("fs")
+            const { default: tmp } = await import("tmp")
+
             const tmpDir = "poseidon-proof"
             const tmpPath = `${tmp.tmpdir}/${tmpDir}`
 
