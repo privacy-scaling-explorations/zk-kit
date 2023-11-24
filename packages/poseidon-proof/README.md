@@ -41,6 +41,21 @@
     </h4>
 </div>
 
+| This zero-knowledge library facilitates the demonstration of having a Poseidon hash pre-image while keeping the pre-image value confidential. Additionally, it offers a mechanism to prevent the same proof from being reused. The circuit that forms the foundation of this library is accessible via this [link](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/circuits/templates/poseidon-proof.circom). |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+Originally developed for integration with [Semaphore V4](https://github.com/semaphore-protocol/semaphore), this library also functions effectively as a standalone tool. Notable use cases in connection with Semaphore can be:
+
+* allowing a Semaphore user to prove that they possess the secret value associated with the identity commitment of their Semaphore identity,
+* unmasking the identity of zero-knowledge proofs earlier created using Semaphore.
+
+The Snark artifacts (`.wasm` and `.zkey` files) can be specified or not in the `generate` function parameters and can possibly be downloaded using the following URLs:
+
+https://github.com/privacy-scaling-explorations/zk-kit/blob/ee457299d36d2601e5bf520237977a9f16b1b599/packages/poseidon-proof/src/config.ts#L5-L8
+
+> [!WARNING]  
+> The Snark artifacts currently used to generate zero-knowledge proofs are the result of an unsecure trusted setup, and the library has not yet been audited. Therefore, it is advised not to use it in production.
+
 ## 🛠 Install
 
 ### npm or yarn
