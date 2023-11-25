@@ -6,6 +6,7 @@ import "../LazyMerkleTree.sol";
 
 contract LazyMerkleTreeTest {
     LazyTreeData public data;
+    uint256 _root;
 
     function init(uint8 depth) public {
         LazyMerkleTree.init(data, depth);
@@ -23,7 +24,20 @@ contract LazyMerkleTreeTest {
         LazyMerkleTree.update(data, leaf, index);
     }
 
+    // for benchmarking the root cost
+    function benchmarkRoot() public {
+        _root = LazyMerkleTree.root(data);
+    }
+
     function root() public view returns (uint256) {
         return LazyMerkleTree.root(data);
+    }
+
+    function dynamicRoot(uint8 depth) public view returns (uint256) {
+        return LazyMerkleTree.root(data, depth);
+    }
+
+    function staticRoot(uint8 depth) public view returns (uint256) {
+        return LazyMerkleTree.root(data, depth);
     }
 }
