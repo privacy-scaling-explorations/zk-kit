@@ -33,6 +33,10 @@ contract LazyMerkleTreeTest {
         return LazyMerkleTree.root(data);
     }
 
+    function dynamicRoot(uint8 depth) public view returns (uint256) {
+        return LazyMerkleTree.root(data, depth);
+    }
+
     function staticRoot(uint8 depth) public view returns (uint256) {
         return LazyMerkleTree.root(data, depth);
     }

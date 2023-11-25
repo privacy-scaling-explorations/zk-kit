@@ -69,8 +69,14 @@ describe("LazyMerkleTree", function () {
                     }
                     await contract.insert(e)
                     await contract.benchmarkRoot().then((t) => t.wait())
-                    const root = await contract.root()
-                    expect(root.toString()).to.equal(merkleTree.root.toString())
+                    {
+                        const root = await contract.root()
+                        expect(root.toString()).to.equal(merkleTree.root.toString())
+                    }
+                    {
+                        const root = await contract.dynamicRoot(targetDepth)
+                        expect(root.toString()).to.equal(merkleTree.root.toString())
+                    }
                 }
                 const treeData = await contract.data()
                 expect(treeData.numberOfLeaves).to.equal(elements.length)

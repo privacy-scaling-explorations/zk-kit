@@ -93,7 +93,7 @@ library LazyMerkleTree {
 
     function root(LazyTreeData storage self, uint8 depth) public view returns (uint256) {
         uint40 numberOfLeaves = self.numberOfLeaves;
-        require(2**depth > numberOfLeaves, "LazyMerkleTree: ambiguous depth");
+        require(2**depth >= numberOfLeaves, "LazyMerkleTree: ambiguous depth");
         return _root(self, self.numberOfLeaves, depth);
     }
 
