@@ -78,29 +78,24 @@ library LazyIMT {
     }
 
     function root(LazyIMTData storage self) public view returns (uint256) {
-        // this will always short circuit if self.numberOfLeaves == 0
         uint40 numberOfLeaves = self.numberOfLeaves;
         // dynamically determine a depth
         uint8 depth = 1;
-        while (uint8(2)**depth < numberOfLeaves) {
+        while (uint8(2) ** depth < numberOfLeaves) {
             depth++;
         }
         return _root(self, numberOfLeaves, depth);
     }
 
-    function root(LazyTreeData storage self, uint8 depth) public view returns (uint256) {
+    function root(LazyIMTData storage self, uint8 depth) public view returns (uint256) {
         uint40 numberOfLeaves = self.numberOfLeaves;
-        require(2**depth >= numberOfLeaves, "LazyMerkleTree: ambiguous depth");
+        require(2 ** depth >= numberOfLeaves, "LazyIMT: ambiguous depth");
         return _root(self, self.numberOfLeaves, depth);
     }
 
-    function _root(
-        LazyTreeData storage self,
-        uint40 numberOfLeaves,
-        uint8 depth
-    ) internal view returns (uint256) {
-        require(depth > 0, "LazyMerkleTree: depth must be > 0");
-        require(depth <= MAX_DEPTH, "LazyMerkleTree: depth must be < MAX_DEPTH");
+    function _root(LazyIMTData storage self, uint40 numberOfLeaves, uint8 depth) internal view returns (uint256) {
+        require(depth > 0, "LazyIMT: depth must be > 0");
+        require(depth <= MAX_DEPTH, "LazyIMT: depth must be < MAX_DEPTH");
         // this should always short circuit if self.numberOfLeaves == 0
         if (numberOfLeaves == 0) return defaultZero(depth);
         uint40 index = numberOfLeaves - 1;
