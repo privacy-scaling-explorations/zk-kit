@@ -143,6 +143,34 @@
         </tr>
         <tr>
             <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-proof">
+                    @zk-kit/poseidon-proof
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_proof.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/poseidon-proof">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/poseidon-proof.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/poseidon-proof">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/poseidon-proof.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/poseidon-proof">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon-proof" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/groth16">
                     @zk-kit/groth16
                 </a>
