@@ -115,7 +115,7 @@ tree.verifyProof(proof) // true
 new IMT(poseidon2, depth, zeroValue, arity, [1, 2, 3])
 ```
 
-### LeanIMT ([doc](https://zkkit.pse.dev/classes/_zk_kit_lean-imt.LeanIMT.html))
+### LeanIMT ([doc](https://zkkit.pse.dev/classes/_zk_kit_imt.LeanIMT.html))
 
 ```typescript
 import { LeanIMT } from "@zk-kit/imt"
