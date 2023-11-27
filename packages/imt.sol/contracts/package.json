@@ -1,0 +1,29 @@
+{
+    "name": "@zk-kit/imt.sol",
+    "version": "2.0.0-beta",
+    "description": "Incremental Merkle tree implementations in Solidity.",
+    "license": "MIT",
+    "files": [
+        "**/*.sol",
+        "!test/",
+        "README.md"
+    ],
+    "keywords": [
+        "blockchain",
+        "ethereum",
+        "hardhat",
+        "smart-contracts",
+        "solidity",
+        "libraries",
+        "merkle-tree",
+        "incremental-merkle-tree"
+    ],
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt.sol",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "poseidon-solidity": "0.0.5"
+    }
+}
