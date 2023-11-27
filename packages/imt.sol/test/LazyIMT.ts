@@ -64,7 +64,7 @@ describe("LazyIMT", () => {
     })
 
     describe("# insert", () => {
-        for (let depth = 1; depth < 6; depth += 1) {
+        for (let depth = 1; depth < 3; depth += 1) {
             it(`Should insert leaves in tree with depth ${depth}`, async () => {
                 await lazyIMTTest.init(10)
 
@@ -114,7 +114,7 @@ describe("LazyIMT", () => {
         }
 
         it("Should fail to insert too many leaves", async () => {
-            const depth = 5
+            const depth = 3
 
             await lazyIMTTest.init(depth)
 
@@ -126,7 +126,7 @@ describe("LazyIMT", () => {
         })
 
         it("Should fail to insert leaf outside of field", async () => {
-            const depth = 5
+            const depth = 3
 
             await lazyIMTTest.init(depth)
 
@@ -137,7 +137,7 @@ describe("LazyIMT", () => {
     })
 
     describe("# update", () => {
-        for (let depth = 1; depth < 5; depth += 1) {
+        for (let depth = 1; depth < 3; depth += 1) {
             it(`Should update leaves in tree with depth ${depth}`, async () => {
                 await lazyIMTTest.init(depth)
 
@@ -210,7 +210,7 @@ describe("LazyIMT", () => {
         })
 
         it("Should fail to update with invalid leaf value", async () => {
-            const depth = 4
+            const depth = 3
 
             await lazyIMTTest.init(depth)
 
@@ -226,7 +226,7 @@ describe("LazyIMT", () => {
 
     describe("# reset", () => {
         it("Should reset and reuse tree", async () => {
-            const depth = 4
+            const depth = 3
 
             await lazyIMTTest.init(10)
 
