@@ -112,7 +112,7 @@ const proof = tree.createProof(1)
 tree.verifyProof(proof) // true
 
 // You can also initialize a tree with a list of leaves.
-new IMT(poseidon, depth, zeroValue, arity, [1, 2, 3])
+new IMT(poseidon2, depth, zeroValue, arity, [1, 2, 3])
 ```
 
 ### LeanIMT ([doc](https://zkkit.pse.dev/classes/_zk_kit_lean-imt.LeanIMT.html))
@@ -138,7 +138,7 @@ tree.has(4n) // false
 
 tree.update(1, 2n) // tree1.leaves -> [1n, 2n]
 
-const proof = tree.createProof(1)
+const proof = tree.generateProof(1)
 
 tree.verifyProof(proof) // true
 
