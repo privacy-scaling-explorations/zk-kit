@@ -23,7 +23,6 @@
         "class-methods-use-this": "warn",
         "import/no-extraneous-dependencies": "off",
         "import/no-relative-packages": "off",
-        "@typescript-eslint/no-implied-eval": "off",
         "@typescript-eslint/no-loop-func": "off",
         "@typescript-eslint/no-shadow": "off",
         "@typescript-eslint/no-explicit-any": "off",

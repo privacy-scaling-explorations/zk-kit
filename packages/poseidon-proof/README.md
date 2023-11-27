@@ -90,7 +90,7 @@ const fullProof = await generate(message, scope)
 
 // If not specified, the Snark artifacts are downloaded automatically.
 // You can also specify them.
-const fullProof = await generate(message, scope, {
+const fullProof2 = await generate(message, scope, {
     zkeyFilePath: "./poseidon-proof.zkey",
     wasmFilePath: "./poseidon-proof.wasm"
 })
@@ -118,9 +118,9 @@ console.log(fullProof)
 \# **verify**(poseidonProof: _PoseidonProof_): Promise\<_boolean_>
 
 ```typescript
-import { verify } from "@zk-key/poseidon-proof"
+import { verify } from "@zk-kit/poseidon-proof"
 
-const response = await verifyProof(fullProof)
+const response = await verify(fullProof)
 
 console.log(response) // true or false
 
