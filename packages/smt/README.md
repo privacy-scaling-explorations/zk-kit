@@ -12,14 +12,14 @@
     <a href="https://github.com/privacy-scaling-explorations/zk-kit/blob/main/LICENSE">
         <img alt="Github license" src="https://img.shields.io/github/license/privacy-scaling-explorations/zk-kit.svg?style=flat-square">
     </a>
-    <a href="https://www.npmjs.com/package/@zk-kit/sparse-merkle-tree">
-        <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/sparse-merkle-tree?style=flat-square" />
+    <a href="https://www.npmjs.com/package/@zk-kit/smt">
+        <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/smt?style=flat-square" />
     </a>
-    <a href="https://npmjs.org/package/@zk-kit/sparse-merkle-tree">
-        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/sparse-merkle-tree.svg?style=flat-square" />
+    <a href="https://npmjs.org/package/@zk-kit/smt">
+        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/smt.svg?style=flat-square" />
     </a>
-    <a href="https://bundlephobia.com/package/@zk-kit/sparse-merkle-tree">
-        <img alt="npm bundle size (scoped)" src="https://img.shields.io/bundlephobia/minzip/@zk-kit/sparse-merkle-tree" />
+    <a href="https://bundlephobia.com/package/@zk-kit/smt">
+        <img alt="npm bundle size (scoped)" src="https://img.shields.io/bundlephobia/minzip/@zk-kit/smt" />
     </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint" />
@@ -35,15 +35,13 @@
             🗣️ Chat &amp; Support
         </a>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://zkkit.pse.dev/modules/_zk_kit_sparse_merkle_tree.html">
+        <a href="https://zkkit.pse.dev/modules/_zk_kit_smt.html">
             📘 Docs
         </a>
     </h4>
 </div>
 
 A sparse Merkle tree is a data structure useful for storing a key/value map where every leaf node of the tree contains the cryptographic hash of a key/value pair and every non leaf node contains the concatenated hashes of its child nodes. Sparse Merkle trees provides a secure and efficient verification of large data sets and they are often used in peer-to-peer technologies. This implementation is an optimized version of the traditional sparse Merkle tree and it is based on the concepts expressed in the papers and resources below.
-
-**Notice**: this library is still not stable and therefore it must be used with care.
 
 ## References
 
@@ -58,16 +56,16 @@ A sparse Merkle tree is a data structure useful for storing a key/value map wher
 
 ### npm or yarn
 
-You can install `@zk-kit/sparse-merkle-tree` package with npm:
+You can install `@zk-kit/smt` package with npm:
 
 ```bash
-npm i @zk-kit/sparse-merkle-tree --save
+npm i @zk-kit/smt --save
 ```
 
 or yarn:
 
 ```bash
-yarn add @zk-kit/sparse-merkle-tree
+yarn add @zk-kit/smt
 ```
 
 ### CDN
@@ -75,31 +73,31 @@ yarn add @zk-kit/sparse-merkle-tree
 You can also load it using a `script` tag using [unpkg](https://unpkg.com/):
 
 ```html
-<script src="https://unpkg.com/@zk-kit/sparse-merkle-tree/"></script>
+<script src="https://unpkg.com/@zk-kit/smt"></script>
 ```
 
 or [JSDelivr](https://www.jsdelivr.com/):
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@zk-kit/sparse-merkle-tree/"></script>
+<script src="https://cdn.jsdelivr.net/npm/@zk-kit/smt"></script>
 ```
 
 ## 📜 Usage
 
-\# **new SparseMerkleTree**(hash: _HashFunction_, bigNumbers?: _boolean_): _SparseMerkleTree_
+\# **new SMT**(hash: _HashFunction_, bigNumbers?: _boolean_): _SMT_
 
 ```typescript
-import { SparseMerkleTree } from "@zk-kit/sparse-merkle-tree"
+import { SMT } from "@zk-kit/smt"
 import sha256 from "crypto-js/sha256"
 import { poseidon } from "circomlibjs"
 
 // Hexadecimal hashes.
 const hash = (childNodes: ChildNodes) => sha256(childNodes.join("")).toString()
-const tree = new SparseMerkleTree(hash)
+const tree = new SMT(hash)
 
 // Big number hashes.
 const hash2 = (childNodes: ChildNodes) => poseidon(childNodes)
-const tree2 = new SparseMerkleTree(hash2, true)
+const tree2 = new SMT(hash2, true)
 
 console.log(tree.root) // 0
 console.log(tree2.root) // 0n
