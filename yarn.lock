@@ -4399,10 +4399,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/circuits@workspace:packages/circuits/templates":
+"@zk-kit/circuits@workspace:packages/circuits":
   version: 0.0.0-use.local
-  resolution: "@zk-kit/circuits@workspace:packages/circuits/templates"
+  resolution: "@zk-kit/circuits@workspace:packages/circuits"
   dependencies:
+    circomkit: ^0.0.18
     circomlib: ^2.0.5
   languageName: unknown
   linkType: soft
@@ -6080,7 +6081,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chai@npm:^4.2.0, chai@npm:^4.3.6":
+"chai@npm:^4.2.0, chai@npm:^4.3.6, chai@npm:^4.3.7":
   version: 4.3.10
   resolution: "chai@npm:4.3.10"
   dependencies:
@@ -6409,6 +6410,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"circomkit@npm:^0.0.18":
+  version: 0.0.18
+  resolution: "circomkit@npm:0.0.18"
+  dependencies:
+    chai: ^4.3.7
+    circom_tester: ^0.0.19
+    loglevel: ^1.8.1
+    snarkjs: ^0.7.0
+  bin:
+    circomkit: dist/bin/index.js
+  checksum: 4120fdf8523f8d595a85e673bb74b8d683a302a401bf049ecb1a0ff4ad178e8f77ed7d12a50856c1be5f56bb8666f861a240d432f2ada78faa13dec161780cf1
+  languageName: node
+  linkType: hard
+
 "circomlib@npm:0.5.1":
   version: 0.5.1
   resolution: "circomlib@npm:0.5.1"
@@ -6454,12 +6469,6 @@ __metadata:
   checksum: 22a1ea2e10164df2c15a9b647b00828497906b1ad5ef03046ec6d6879b6460db3882f4b5ee3567fe1bf2233ddbe439e38462533c9b5c56c23edb6bbf6bedd2f3
   languageName: node
   linkType: hard
-
-"circuits@workspace:packages/circuits":
-  version: 0.0.0-use.local
-  resolution: "circuits@workspace:packages/circuits"
-  languageName: unknown
-  linkType: soft
 
 "cjs-module-lexer@npm:^0.6.0":
   version: 0.6.0
@@ -9123,7 +9132,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ffjavascript@npm:^0.2.30, ffjavascript@npm:^0.2.35, ffjavascript@npm:^0.2.38":
+"ffjavascript@npm:0.2.62, ffjavascript@npm:^0.2.30, ffjavascript@npm:^0.2.35, ffjavascript@npm:^0.2.38":
   version: 0.2.62
   resolution: "ffjavascript@npm:0.2.62"
   dependencies:
@@ -13351,6 +13360,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"loglevel@npm:^1.8.1":
+  version: 1.8.1
+  resolution: "loglevel@npm:1.8.1"
+  checksum: a1a62db40291aaeaef2f612334c49e531bff71cc1d01a2acab689ab80d59e092f852ab164a5aedc1a752fdc46b7b162cb097d8a9eb2cf0b299511106c29af61d
+  languageName: node
+  linkType: hard
+
 "logplease@npm:^1.2.15":
   version: 1.2.15
   resolution: "logplease@npm:1.2.15"
@@ -15501,6 +15517,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"r1csfile@npm:0.0.47":
+  version: 0.0.47
+  resolution: "r1csfile@npm:0.0.47"
+  dependencies:
+    "@iden3/bigarray": 0.0.2
+    "@iden3/binfileutils": 0.0.11
+    fastfile: 0.0.20
+    ffjavascript: 0.2.60
+  checksum: edeb325b83851a71cbca2e5de56eb622ee5347ecae921b526a5fc484c4825b6b30c73b6fde40e9bc5112b9d21e046af885bf212ed9cee2efbc6de93b8454ec06
+  languageName: node
+  linkType: hard
+
 "randombytes@npm:^2.1.0":
   version: 2.1.0
   resolution: "randombytes@npm:2.1.0"
@@ -16836,6 +16864,26 @@ __metadata:
   bin:
     snarkjs: build/cli.cjs
   checksum: f0233103548bcd0f75b2ff8998ba02437e5131486d126c4a6a31355cd3558c7ce4311e21d5f24ea9ca198d0556e91e63e2ec6aef8da44014c16b29b6a7086ca2
+  languageName: node
+  linkType: hard
+
+"snarkjs@npm:^0.7.0":
+  version: 0.7.2
+  resolution: "snarkjs@npm:0.7.2"
+  dependencies:
+    "@iden3/binfileutils": 0.0.11
+    bfj: ^7.0.2
+    blake2b-wasm: ^2.4.0
+    circom_runtime: 0.1.24
+    ejs: ^3.1.6
+    fastfile: 0.0.20
+    ffjavascript: 0.2.62
+    js-sha3: ^0.8.0
+    logplease: ^1.2.15
+    r1csfile: 0.0.47
+  bin:
+    snarkjs: build/cli.cjs
+  checksum: c784e2171278403b2356ddc42fac47093e7cf4c48c0ef46ac3c269c308795d2da63a00dd6b92521b166f3d0349d0b8301454f5a9633b5db447755b4568c4b5e7
   languageName: node
   linkType: hard
 

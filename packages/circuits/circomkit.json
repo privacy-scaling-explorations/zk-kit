@@ -1,0 +1,17 @@
+{
+    "protocol": "groth16",
+    "prime": "bn128",
+    "version": "2.1.5",
+    "circuits": "./circom/circuits.json",
+    "dirPtau": "./ptau",
+    "dirCircuits": "./circom",
+    "dirInputs": "./inputs",
+    "dirBuild": "./build",
+    "optimization": 1,
+    "inspect": true,
+    "include": ["../../node_modules/circomlib/circuits"],
+    "groth16numContributions": 1,
+    "groth16askForEntropy": false,
+    "logLevel": "INFO",
+    "verbose": true
+}

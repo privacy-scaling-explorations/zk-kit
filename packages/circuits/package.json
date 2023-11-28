@@ -1,9 +1,27 @@
 {
-    "name": "circuits",
-    "private": true,
-    "description": "A comprehensive library of general-purpose Circom circuits.",
+    "name": "@zk-kit/circuits",
+    "version": "0.2.0",
+    "description": "A comprehensive library of general-purpose zero-knowledge circuits.",
     "license": "MIT",
+    "files": [
+        "circom",
+        "noir",
+        "LICENSE",
+        "README.md"
+    ],
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/circuits.sol",
     "scripts": {
-        "compile": "circom --r1cs -l ../../node_modules/circomlib/circuits"
+        "circom:compile": "circomkit compile",
+        "circom:setup": "circomkit setup"
+    },
+    "dependencies": {
+        "circomlib": "^2.0.5"
+    },
+    "devDependencies": {
+        "circomkit": "^0.0.18"
+    },
+    "publishConfig": {
+        "access": "public"
     }
 }
