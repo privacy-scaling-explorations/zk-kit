@@ -18,9 +18,6 @@
     <a href="https://npmjs.org/package/@zk-kit/circuits">
         <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/circuits.svg?style=flat-square" />
     </a>
-    <a href="https://bundlephobia.com/package/@zk-kit/circuits">
-        <img alt="npm bundle size (scoped)" src="https://img.shields.io/bundlephobia/minzip/@zk-kit/circuits" />
-    </a>
 </p>
 
 <div align="center">
@@ -31,7 +28,15 @@
     </h4>
 </div>
 
----
+
+| This package offers a collection of reusable circuits designed for integration into other projects or protocols, promoting code modularization within the zero-knowledge ecosystem. |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+## Circuits
+
+* Circom:
+    * [PoseidonProof](./circom/poseidon-proof.circom): It proves the possession of a Posidon pre-image without revealing the pre-image itself.
+    * [BinaryMerkleRoot](./circom/binary-merkle-root.circom): It calculates the root of a binary Merkle tree using a provided proof-of-membership.
 
 ## 🛠 Install
 
