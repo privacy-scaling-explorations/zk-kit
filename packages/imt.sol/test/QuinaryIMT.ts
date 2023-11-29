@@ -4,7 +4,6 @@ import { run } from "hardhat"
 import { poseidon5 } from "poseidon-lite"
 import { QuinaryIMT, QuinaryIMTTest } from "../typechain-types"
 
-/* eslint-disable jest/valid-expect */
 describe("QuinaryIMT", () => {
     let quinaryIMTTest: QuinaryIMTTest
     let quinaryIMT: QuinaryIMT

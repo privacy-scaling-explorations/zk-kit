@@ -5,7 +5,6 @@ import { run } from "hardhat"
 import { poseidon2 } from "poseidon-lite"
 import { BinaryIMT, BinaryIMTTest } from "../typechain-types"
 
-/* eslint-disable jest/valid-expect */
 describe("BinaryIMT", () => {
     let binaryIMTTest: BinaryIMTTest
     let binaryIMT: BinaryIMT

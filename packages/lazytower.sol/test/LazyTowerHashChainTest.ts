@@ -4,7 +4,6 @@ import { ethers, run } from "hardhat"
 import { poseidon } from "circomlibjs"
 import ShiftTower from "./utils"
 
-/* eslint-disable jest/valid-expect */
 describe("LazyTowerHashChainTest", () => {
     let contract: Contract
 

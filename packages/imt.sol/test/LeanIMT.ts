@@ -4,7 +4,6 @@ import { run } from "hardhat"
 import { poseidon2 } from "poseidon-lite"
 import { LeanIMT, LeanIMTTest } from "../typechain-types"
 
-/* eslint-disable jest/valid-expect */
 describe("LeanIMT", () => {
     let leanIMTTest: LeanIMTTest
     let leanIMT: LeanIMT

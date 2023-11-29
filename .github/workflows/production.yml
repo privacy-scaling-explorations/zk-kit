@@ -51,8 +51,9 @@ jobs:
         strategy:
             matrix:
                 type:
-                    - js
-                    - sol
+                    - circuits
+                    - contracts
+                    - libraries
 
         steps:
             - name: Checkout
@@ -86,7 +87,7 @@ jobs:
             - name: Install dependencies
               run: yarn
 
-            - name: Test contracts or libraries
+            - name: Test libraries, contracts and circuits
               run: yarn test:${{ matrix.type }}
 
             - name: Coveralls

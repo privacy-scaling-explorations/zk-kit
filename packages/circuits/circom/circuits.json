@@ -1,0 +1,11 @@
+{
+    "poseidon-proof": {
+        "file": "poseidon-proof",
+        "template": "PoseidonProof"
+    },
+    "binary-merkle-root": {
+        "file": "binary-merkle-root",
+        "template": "BinaryMerkleRoot",
+        "params": [4]
+    }
+}
