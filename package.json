@@ -75,8 +75,5 @@
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
         }
-    },
-    "resolutions": {
-        "circomkit@0.0.18": "patch:circomkit@npm:0.0.18#.yarn/patches/circomkit-npm-0.0.18-e33b63f27f.patch"
     }
 }
