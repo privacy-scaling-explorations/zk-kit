@@ -11,7 +11,7 @@
         "build": "yarn build:js && yarn compile:sol",
         "build:js": "yarn workspaces foreach --no-private run build",
         "compile:sol": "yarn workspaces foreach run compile",
-        "test": "yarn test:libraries && yarn test:contracts && test:circuits",
+        "test": "yarn test:libraries && yarn test:contracts && yarn test:circuits",
         "test:libraries": "jest --coverage",
         "test:circuits": "yarn workspace @zk-kit/circuits test",
         "test:contracts": "yarn workspace imt.sol test:coverage",
