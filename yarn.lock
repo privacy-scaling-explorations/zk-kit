@@ -4394,7 +4394,7 @@ __metadata:
   dependencies:
     "@types/mocha": ^10.0.6
     "@zk-kit/smt": "workspace:^"
-    circomkit: ^0.0.18
+    circomkit: 0.0.18
     circomlib: ^2.0.5
     mocha: ^10.2.0
     poseidon-lite: ^0.2.0
@@ -6403,7 +6403,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"circomkit@npm:^0.0.18":
+"circomkit@npm:0.0.18":
   version: 0.0.18
   resolution: "circomkit@npm:0.0.18"
   dependencies:
@@ -6414,6 +6414,20 @@ __metadata:
   bin:
     circomkit: dist/bin/index.js
   checksum: 4120fdf8523f8d595a85e673bb74b8d683a302a401bf049ecb1a0ff4ad178e8f77ed7d12a50856c1be5f56bb8666f861a240d432f2ada78faa13dec161780cf1
+  languageName: node
+  linkType: hard
+
+"circomkit@patch:circomkit@npm:0.0.18#.yarn/patches/circomkit-npm-0.0.18-e33b63f27f.patch::locator=zk-kit%40workspace%3A.":
+  version: 0.0.18
+  resolution: "circomkit@patch:circomkit@npm%3A0.0.18#.yarn/patches/circomkit-npm-0.0.18-e33b63f27f.patch::version=0.0.18&hash=723f17&locator=zk-kit%40workspace%3A."
+  dependencies:
+    chai: ^4.3.7
+    circom_tester: ^0.0.19
+    loglevel: ^1.8.1
+    snarkjs: ^0.7.0
+  bin:
+    circomkit: dist/bin/index.js
+  checksum: 2c09e6463d1376230cd3693a6bf632511d54566d46f030323f6f778bae5cb8dbbe6f845f0c1fd30ab0ef243b70604b357e875c9349328751b4795b6fd04484b9
   languageName: node
   linkType: hard
 
