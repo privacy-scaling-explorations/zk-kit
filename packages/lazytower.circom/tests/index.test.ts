@@ -3,8 +3,6 @@ import { poseidon2 } from "poseidon-lite"
 import { LazyTowerHashChainProofBuilder } from "../../lazytower/src"
 import { getTester, getUtils } from "./utils"
 
-/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "ok", "fail"] }] */
-
 async function utils(templateName: string, args: number[]) {
     const srcPath = path.join(__dirname, "..", "circuits", "lazytower-hash-chain.circom")
     const libPath = path.join(__dirname, "..", "..", "..", "node_modules") // for circomlib
