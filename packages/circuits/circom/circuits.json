@@ -6,6 +6,6 @@
     "binary-merkle-root": {
         "file": "binary-merkle-root",
         "template": "BinaryMerkleRoot",
-        "params": [20]
+        "params": [4]
     }
 }

@@ -23,7 +23,7 @@ describe("binary-merkle-root", () => {
     // The circuit tree depth is 20, so the number of siblings must be 20, even if
     // the tree depth is actually 3. The missing siblings can be set to 0, as they
     // won't be used to calculate the root in the circuit.
-    const indices = []
+    const indices: number[] = []
 
     for (let i = 0; i < MAX_DEPTH; i += 1) {
         indices.push((index >> i) & 1)
