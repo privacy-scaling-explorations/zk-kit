@@ -84,6 +84,7 @@
                     <img src="https://img.shields.io/npm/dm/@zk-kit/circuits.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
+            <td></td>
         </tr>
         <tr>
             <td>
