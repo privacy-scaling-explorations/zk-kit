@@ -1,10 +1,12 @@
 {
     "name": "@zk-kit/circuits",
-    "version": "0.2.0",
+    "version": "0.2.3",
     "description": "A comprehensive library of general-purpose zero-knowledge circuits.",
     "license": "MIT",
     "files": [
-        "circom",
+        "circom/**/*.circom",
+        "!circom/main",
+        "!circom/test",
         "noir",
         "LICENSE",
         "README.md"
