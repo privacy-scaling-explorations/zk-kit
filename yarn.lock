@@ -4047,7 +4047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mocha@npm:>=9.1.0":
+"@types/mocha@npm:>=9.1.0, @types/mocha@npm:^10.0.6":
   version: 10.0.6
   resolution: "@types/mocha@npm:10.0.6"
   checksum: f7c836cf6cf27dc0f5970d262591b56f2a3caeaec8cfdc612c12e1cfbb207f601f710ece207e935164d4e3343b93be5054d0db5544f31f453b3923775d82099f
@@ -4266,17 +4266,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/experimental-utils@npm:^5.0.0":
-  version: 5.62.0
-  resolution: "@typescript-eslint/experimental-utils@npm:5.62.0"
-  dependencies:
-    "@typescript-eslint/utils": 5.62.0
-  peerDependencies:
-    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-  checksum: ce55d9f74eac5cb94d66d5db9ead9a5d734f4301519fb5956a57f4b405a5318a115b0316195a3c039e0111489138680411709cb769085d71e1e1db1376ea0949
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/parser@npm:^5.9.1":
   version: 5.62.0
   resolution: "@typescript-eslint/parser@npm:5.62.0"
@@ -4403,8 +4392,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zk-kit/circuits@workspace:packages/circuits"
   dependencies:
+    "@types/mocha": ^10.0.6
+    "@zk-kit/smt": "workspace:^"
     circomkit: ^0.0.18
     circomlib: ^2.0.5
+    mocha: ^10.2.0
+    poseidon-lite: ^0.2.0
   languageName: unknown
   linkType: soft
 
@@ -4495,7 +4488,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/smt@workspace:packages/smt":
+"@zk-kit/smt@workspace:^, @zk-kit/smt@workspace:packages/smt":
   version: 0.0.0-use.local
   resolution: "@zk-kit/smt@workspace:packages/smt"
   dependencies:
@@ -8208,23 +8201,6 @@ __metadata:
   peerDependencies:
     eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
   checksum: 19ee541fb95eb7a796f3daebe42387b8d8262bbbcc4fd8a6e92f63a12035f3d2c6cb8bc0b6a70864fa14b1b50ed6b8e6eed5833e625e16cb6bb98b665beff269
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-jest@npm:^25.7.0":
-  version: 25.7.0
-  resolution: "eslint-plugin-jest@npm:25.7.0"
-  dependencies:
-    "@typescript-eslint/experimental-utils": ^5.0.0
-  peerDependencies:
-    "@typescript-eslint/eslint-plugin": ^4.0.0 || ^5.0.0
-    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-  peerDependenciesMeta:
-    "@typescript-eslint/eslint-plugin":
-      optional: true
-    jest:
-      optional: true
-  checksum: fc6da96131f4cbf33d15ef911ec8e600ccd71deb97d73c0ca340427cef7b01ff41a797e2e7d1e351abf97321a46ed0c0acff5ee8eeedac94961dd6dad1f718a9
   languageName: node
   linkType: hard
 
@@ -19638,7 +19614,6 @@ __metadata:
     eslint-config-airbnb-typescript: ^16.1.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-import: ^2.25.2
-    eslint-plugin-jest: ^25.7.0
     husky: ^8.0.3
     jest: ^27.4.1
     jest-config: ^27.4.7
