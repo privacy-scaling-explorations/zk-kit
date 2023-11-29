@@ -4,6 +4,15 @@ include "poseidon.circom";
 include "mux1.circom";
 include "comparators.circom";
 
+// This circuit is designed to calculate the root of a binary Merkle
+// tree given a leaf, its depth, and the necessary sibling
+// information (aka proof of membership).
+// A circuit is designed without the capability to iterate through
+// a dynamic array. To address this, a parameter with the static maximum
+// tree depth is defined (i.e. 'MAX_DEPTH'). And additionally, the circuit
+// receives a dynamic depth as an input, which is utilized in calculating the
+// true root of the Merkle tree. The actual depth of the Merkle tree
+// may be equal to or less than the static maximum depth.
 template BinaryMerkleRoot(MAX_DEPTH) {
     signal input leaf, depth, indices[MAX_DEPTH], siblings[MAX_DEPTH];
 
