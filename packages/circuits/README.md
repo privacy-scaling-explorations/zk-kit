@@ -28,15 +28,14 @@
     </h4>
 </div>
 
-
 | This package offers a collection of reusable circuits designed for integration into other projects or protocols, promoting code modularization within the zero-knowledge ecosystem. |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 ## Circuits
 
-* Circom:
-    * [PoseidonProof](./circom/poseidon-proof.circom): It proves the possession of a Posidon pre-image without revealing the pre-image itself.
-    * [BinaryMerkleRoot](./circom/binary-merkle-root.circom): It calculates the root of a binary Merkle tree using a provided proof-of-membership.
+-   Circom:
+    -   [PoseidonProof](./circom/poseidon-proof.circom): It proves the possession of a Posidon pre-image without revealing the pre-image itself.
+    -   [BinaryMerkleRoot](./circom/binary-merkle-root.circom): It calculates the root of a binary Merkle tree using a provided proof-of-membership.
 
 ## 🛠 Install
 
