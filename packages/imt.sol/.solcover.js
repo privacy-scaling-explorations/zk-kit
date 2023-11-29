@@ -1,3 +1,3 @@
 module.exports = {
-    istanbulFolder: "../../coverage/sol"
+    istanbulFolder: "../../coverage/contracts"
 }
