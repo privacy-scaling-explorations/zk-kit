@@ -6,7 +6,6 @@ import { LazyIMT, LazyIMTTest } from "../typechain-types"
 
 const random = () => poseidon2([Math.floor(Math.random() * 2 ** 40), 0])
 
-/* eslint-disable jest/valid-expect */
 describe("LazyIMT", () => {
     let lazyIMTTest: LazyIMTTest
     let lazyIMT: LazyIMT
