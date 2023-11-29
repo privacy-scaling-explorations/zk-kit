@@ -34,7 +34,7 @@
 ## Circuits
 
 -   Circom:
-    -   [PoseidonProof](./circom/poseidon-proof.circom): It proves the possession of a Posidon pre-image without revealing the pre-image itself.
+    -   [PoseidonProof](./circom/poseidon-proof.circom): It proves the possession of a Poseidon pre-image without revealing the pre-image itself.
     -   [BinaryMerkleRoot](./circom/binary-merkle-root.circom): It calculates the root of a binary Merkle tree using a provided proof-of-membership.
 
 ## 🛠 Install
