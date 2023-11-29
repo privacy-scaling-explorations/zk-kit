@@ -91,6 +91,7 @@ jobs:
               run: yarn test:${{ matrix.type }}
 
             - name: Coveralls
+              if: matrix.type != 'circuits'
               uses: coverallsapp/github-action@master
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
