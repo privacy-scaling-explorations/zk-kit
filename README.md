@@ -51,7 +51,8 @@
 
 ♚ [Yarn workspaces](https://yarnpkg.com/features/workspaces): minimal monorepo package management (`yarn`, `yarn build`, `yarn docs`)\
 ♛ [Conventional Commits](https://www.conventionalcommits.org): human and machine readable meaning to commit messages (`yarn commit`)\
-♜ [Jest](https://jestjs.io/): tests and test coverage for all packages (`yarn test`, `yarn test:all`)\
+♜ [Jest](https://jestjs.io/): tests and test coverage for all libraries (`yarn test:libraries`)\
+♜ [Mocha](https://mochajs.org/): tests for circuits and contracts (`yarn test:circuits`, `yarn test:contracts`)\
 ♞ [ESLint](https://eslint.org/), [Prettier](https://prettier.io/): code quality and formatting (`yarn prettier` & `yarn lint`)\
 ♝ [Typedocs](https://typedoc.org/): documentation generator for TypeScript (`yarn docs`)\
 ♟ [Benny](https://github.com/caderek/benny): simple benchmarking framework for JavaScript/TypeScript (`yarn benchmarks`)\
@@ -277,7 +278,7 @@ It will also automatically check that the modified files comply with ESLint and 
 
 ### Testing
 
-Test the code with coverage:
+Test the code:
 
 ```bash
 yarn test
