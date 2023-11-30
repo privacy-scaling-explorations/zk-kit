@@ -1,0 +1,39 @@
+{
+    "name": "@zk-kit/eddsa-poseidon",
+    "version": "0.1.0",
+    "description": "A JavaScript EdDSA library for secure signing and verification using the Baby Jubjub elliptic curve.",
+    "license": "MIT",
+    "main": "dist/index.node.js",
+    "exports": {
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.node.js"
+    },
+    "types": "dist/types/index.d.ts",
+    "files": [
+        "dist/",
+        "src/",
+        "README.md"
+    ],
+    "repository": "https://github.com/privacy-scaling-explorations/zk-kit",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/eddsa-poseidon",
+    "bugs": {
+        "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
+    },
+    "scripts": {
+        "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
+        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
+        "prepublishOnly": "yarn build"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "circomlibjs": "0.0.8",
+        "rollup-plugin-cleanup": "^3.2.1",
+        "rollup-plugin-typescript2": "^0.31.2"
+    },
+    "dependencies": {
+        "blake-hash": "^2.0.0",
+        "poseidon-lite": "^0.2.0"
+    }
+}

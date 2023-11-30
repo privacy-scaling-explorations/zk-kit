@@ -4401,6 +4401,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon":
+  version: 0.0.0-use.local
+  resolution: "@zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon"
+  dependencies:
+    blake-hash: ^2.0.0
+    circomlibjs: 0.0.8
+    poseidon-lite: ^0.2.0
+    rollup-plugin-cleanup: ^3.2.1
+    rollup-plugin-typescript2: ^0.31.2
+  languageName: unknown
+  linkType: soft
+
 "@zk-kit/groth16@0.4.0, @zk-kit/groth16@workspace:packages/groth16":
   version: 0.0.0-use.local
   resolution: "@zk-kit/groth16@workspace:packages/groth16"
@@ -6450,7 +6462,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"circomlibjs@npm:^0.0.8":
+"circomlibjs@npm:0.0.8, circomlibjs@npm:^0.0.8":
   version: 0.0.8
   resolution: "circomlibjs@npm:0.0.8"
   dependencies:
