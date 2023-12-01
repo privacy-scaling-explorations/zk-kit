@@ -14,6 +14,28 @@ pub fn verify(entry: [Field; 2], matching_entry: [Option<Field>; 2], siblings: [
     assert(calculcated_root == root);
 }
 
+pub fn update(new_value: Field, old_entry: [Field; 2], old_root: Field, siblings: [Field; 256]) -> Field {
+    let key = old_entry[0];
+    let old_value = old_entry[1];
+    let mut old_parent: Field = utils::hash(key, old_value, true);
+    let mut new_parent: Field = utils::hash(key, new_value, true);
+    let path = utils::key_to_path(key);
+    for i in 0..256 {
+        let sibling = siblings[i];
+        if sibling != 0 {
+            if path[i] == 0 {
+                new_parent = utils::hash(new_parent, sibling, false);
+                old_parent = utils::hash(old_parent, sibling, false);
+            } else {
+                new_parent = utils::hash(sibling, new_parent, false);
+                old_parent = utils::hash(sibling, old_parent, false);
+            }
+        }
+    }
+    assert(old_parent == old_root);
+    new_parent
+}
+
 #[test]
 fn test_verify_membership_proof() {
     let root = 3532809757480436997969526334543526996242857122876262144596246439822675654128;
@@ -41,4 +63,19 @@ fn test_verify_non_membership_proof() {
     siblings[254] = 14443001516360873457302534246953033880503978184674311810335857314606403404583;
     siblings[255] = 7842913321420301106140788486336995496832503825951977327575501561489697540557;
     verify(entry, matching_entry, siblings, root);
+}
+
+#[test]
+fn test_update() {
+    let key = 8459688297517826598613412977307486050019239051864711035321718508109192087854;
+    let old_value = 8510347201346963732943571140849185725417245763047403804445415726302354045169;
+    let new_value = 8510347201346963732943571140849185725417245763047403804445415726302354045170;
+    let old_entry = [key, old_value];
+    let old_root = 4202917944688591919039016743999516589372052081571553696755434379850460220435;
+    let mut siblings: [Field; 256] = [0; 256];
+    siblings[253] = 18126944477260144816572365299295230808286197301459941187567621915186392922196;
+    siblings[254] = 14443001516360873457302534246953033880503978184674311810335857314606403404583;
+    siblings[255] = 7842913321420301106140788486336995496832503825951977327575501561489697540557;
+    let expected_new_root = 4657474665007910823901096287220097081233671466281873230928277896829046731272;
+    assert(update(new_value, old_entry, old_root, siblings) == expected_new_root);
 }
