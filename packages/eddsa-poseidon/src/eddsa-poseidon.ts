@@ -3,6 +3,7 @@ import * as babyjub from "./babyjub"
 import blake from "./blake"
 import Field1 from "./field1"
 import * as scalar from "./scalar"
+import { Point, PrivateKey, Signature } from "./types"
 import * as utils from "./utils"
 
 /**
@@ -11,23 +12,10 @@ import * as utils from "./utils"
  * This function utilizes the Baby Jubjub elliptic curve for cryptographic operations.
  * The private key should be securely stored and managed, and it should never be exposed
  * or transmitted in an unsecured manner.
- *
- * @param {String|Buffer|BigInt} privateKey - The private key used for generating the public key.
- *   This can be a string, buffer, or BigInt representing the private key.
- *
- * @returns {Buffer} The derived public key, formatted as a buffer.
- *
- * @example
- * import { generatePublicKey } from "@zk-kit/eddsa-poseidon"
- *
- * const privateKey = "your_private_key_here"
- *
- * const publicKey = generatePublicKey(privateKey)
- *
- * @throws {Error} Throws an error if the private key is invalid or if any cryptographic
- *   operation fails during the public key generation process.
+ * @param privateKey - The private key used for generating the public key.
+ * @returns The derived public key.
  */
-export function generatePublicKey(privateKey: any) {
+export function generatePublicKey(privateKey: PrivateKey): Point {
     const hash = blake(privateKey)
 
     const s = utils.leBuff2int(utils.pruneBuffer(hash.slice(0, 32)))
@@ -38,26 +26,12 @@ export function generatePublicKey(privateKey: any) {
 /**
  * Signs a message using the provided private key, employing Poseidon hashing and
  * EdDSA with the Baby Jubjub elliptic curve.
- *
- * @param {String|Buffer|BigInt} privateKey - The private key used to sign the message.
- *   This can be a string, buffer, or BigInt representing the private key.
- * @param {String|Buffer} message - The message to be signed. Can be a string or a buffer.
- *
- * @returns {Object} The signature object, typically containing properties relevant to
+ * @param privateKey - The private key used to sign the message.
+ * @param message - The message to be signed.
+ * @returns The signature object, typically containing properties relevant to
  *   EdDSA signatures, such as 'r' and 's' values.
- *
- * @example
- * import { signMessage } from "@zk-kit/eddsa-poseidon"
- *
- * const privateKey = "your_private_key_here"
- * const message = "Your message to sign"
- *
- * const signature = signMessage(privateKey, message)
- *
- * @throws {Error} Throws an error if the private key or message is invalid, if the
- *   Poseidon hash function encounters any issues, or if the EdDSA signing process fails.
  */
-export function signMessage(privateKey: any, message: any) {
+export function signMessage(privateKey: PrivateKey, message: bigint): Signature {
     const hash = blake(privateKey)
 
     const sBuff = utils.pruneBuffer(hash.slice(0, 32))
@@ -81,7 +55,10 @@ export function signMessage(privateKey: any, message: any) {
     }
 }
 
-export function verifySignature(message: bigint, signature: any, publicKey: any) {
+/**
+ *
+ */
+export function verifySignature(message: bigint, signature: Signature, publicKey: Point): boolean {
     // if (typeof signature !== "object") return false
     // if (!Array.isArray(signature.R8)) return false
     // if (signature.R8.length !== 2) return false

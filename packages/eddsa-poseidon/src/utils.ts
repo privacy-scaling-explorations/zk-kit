@@ -1,4 +1,4 @@
-export function pruneBuffer(buff: Uint8Array): Uint8Array {
+export function pruneBuffer(buff: Buffer): Buffer {
     buff[0] &= 0xf8
     buff[31] &= 0x7f
     buff[31] |= 0x40
@@ -6,61 +6,32 @@ export function pruneBuffer(buff: Uint8Array): Uint8Array {
     return buff
 }
 
-export function leBuff2int(buff: Uint8Array): bigint {
-    let res = BigInt(0)
-    let i = 0
-    const buffV = new DataView(buff.buffer, buff.byteOffset, buff.byteLength)
-
-    while (i < buff.length) {
-        // if (i + 4 <= buff.length) {
-        res += BigInt(buffV.getUint32(i, true)) << BigInt(i * 8)
-
-        i += 4
-        // } else {
-        // res += BigInt(buffV.getUint8(i)) << BigInt(i * 8)
-
-        // i += 1
-        // }
-    }
-
-    return res
+export function isHexadecimal(s: string) {
+    return /^(0x|0X)[0-9a-fA-F]+$/.test(s)
 }
 
-export function leInt2Buff(n: bigint): Uint8Array {
-    let r = n
+export function int2hex(n: bigint) {
+    let hex = n.toString(16)
 
-    // if (len === undefined) {
-    // len = Math.floor((scalar.bitLength(n) - 1) / 8) + 1
-
-    // if (len === 0) {
-    // len = 1
-    // }
-    // }
-
-    const buff = new Uint8Array(32)
-    const buffV = new DataView(buff.buffer)
-
-    let o = 0
-
-    while (o < 32) {
-        // if (o + 4 <= len) {
-        buffV.setUint32(o, Number(r & BigInt(0xffffffff)), true)
-        o += 4
-        r >>= BigInt(32)
-        // } else if (o + 2 <= len) {
-        // buffV.setUint16(o, Number(r & BigInt(0xffff)), true)
-        // o += 2
-        // r >>= BigInt(16)
-        // } else {
-        // buffV.setUint8(o, Number(r & BigInt(0xff)))
-        // o += 1
-        // r >>= BigInt(8)
-        // }
+    // Ensure even length.
+    if (hex.length % 2 !== 0) {
+        hex = `0${hex}`
     }
 
-    // if (r) {
-    // throw new Error("Number does not fit in this length")
-    // }
+    return hex
+}
 
-    return buff
+export function leBuff2int(buffer: Buffer): bigint {
+    return BigInt(`0x${buffer.reverse().toString("hex")}`)
+}
+
+export function leInt2Buff(n: bigint): Buffer {
+    const hex = int2hex(n)
+
+    // Allocate buffer of the desired size, filled with zeros.
+    const buffer = Buffer.alloc(32, 0)
+
+    Buffer.from(hex, "hex").reverse().copy(buffer)
+
+    return buffer
 }

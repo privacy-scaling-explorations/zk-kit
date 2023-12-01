@@ -14,6 +14,17 @@ describe("EdDSAPoseidon", () => {
         expect(publicKey[1]).toBe(circomlibPublicKey[1])
     })
 
+    it("Should derive a public key from an hexadecimal private key", async () => {
+        const privateKey = "0x12"
+
+        const publicKey = generatePublicKey(privateKey)
+
+        const circomlibPublicKey = eddsa.prv2pub(Buffer.from(privateKey.slice(2), "hex"))
+
+        expect(publicKey[0]).toBe(circomlibPublicKey[0])
+        expect(publicKey[1]).toBe(circomlibPublicKey[1])
+    })
+
     it("Should sign a message", async () => {
         const signature = signMessage(privateKey, message)
 
