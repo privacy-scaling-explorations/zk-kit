@@ -1,5 +1,9 @@
 use dep::std::hash::poseidon;
 
+fn key_to_path(key: Field) -> [u1] {
+    key.to_be_bits(256)
+}
+
 fn hash(left: Field, right: Field, is_leaf: bool) -> Field {
     if (is_leaf) {
         poseidon::bn254::hash_3([left, right, 1])
