@@ -1,3 +1,5 @@
+mod utils;
+
 fn not_equal(x: Field, y: Field) -> bool {
     x != y
 }
