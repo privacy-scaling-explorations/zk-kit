@@ -1,15 +1,32 @@
 use dep::std::hash::poseidon;
 
-fn key_to_path(key: Field) -> [u1] {
+pub fn key_to_path(key: Field) -> [u1] {
     key.to_be_bits(256)
 }
 
-fn hash(left: Field, right: Field, is_leaf: bool) -> Field {
+pub fn hash(left: Field, right: Field, is_leaf: bool) -> Field {
     if (is_leaf) {
         poseidon::bn254::hash_3([left, right, 1])
     } else {
         poseidon::bn254::hash_2([left, right])
     }
+}
+
+pub fn calculcate_root(mut node: Field, siblings: [Field; 256], path: [u1]) -> Field {
+    for i in 0..256 {
+        let sibling = siblings[i];
+        if sibling != 0 {
+            let mut left = sibling;
+            let mut right = node;
+            let own_position = path[i];
+            if own_position == 0 {
+                left = node;
+                right = sibling;
+            }
+            node = hash(left, right, false);
+        }
+    }
+    node
 }
 
 #[test]

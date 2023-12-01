@@ -1,13 +1,44 @@
+use dep::std::option::Option;
+
 mod utils;
 
-fn not_equal(x: Field, y: Field) -> bool {
-    x != y
+pub fn verify(entry: [Field; 2], matching_entry: [Option<Field>; 2], siblings: [Field; 256], root: Field) {
+    let mut calculcated_root: Field = 0;
+    let leaf_node = utils::hash(entry[0], entry[1], true);
+    let path = utils::key_to_path(entry[0]);
+    if matching_entry[0].is_none() | matching_entry[1].is_none() {
+        calculcated_root = utils::calculcate_root(leaf_node, siblings, path);
+    } else {
+        calculcated_root = utils::calculcate_root(utils::hash(matching_entry[0].unwrap(), matching_entry[1].unwrap(), true), siblings, path);
+    }
+    assert(calculcated_root == root);
 }
 
 #[test]
-fn test_not_equal() {
-    assert(not_equal(1, 2));
+fn test_verify_membership_proof() {
+    let root = 3532809757480436997969526334543526996242857122876262144596246439822675654128;
+    let key = 18746990989203767017840856832962652635369613415011636432610873672704085238844;
+    let value = 10223238458026721676606706894638558676629446348345239719814856822628482567791;
+    let entry = [key, value];
+    let matching_entry = [Option::none(), Option::none()];
+    let mut siblings: [Field; 256] = [0; 256];
+    siblings[254] = 18126944477260144816572365299295230808286197301459941187567621915186392922196;
+    siblings[255] = 7842913321420301106140788486336995496832503825951977327575501561489697540557;
+    verify(entry, matching_entry, siblings, root);
+}
 
-    // Uncomment to make test fail
-    // assert(not_equal(1, 1));
+#[test]
+fn test_verify_non_membership_proof() {
+    let root = 3532809757480436997969526334543526996242857122876262144596246439822675654128;
+    let key = 8459688297517826598613412977307486050019239051864711035321718508109192087854;
+    let value = 8510347201346963732943571140849185725417245763047403804445415726302354045170;
+    let entry = [key, value];
+    let matching_entry = [
+        Option::some(13924553918840562069536446401916499801909138643922241340476956069386532478098), 
+        Option::some(13761779908325789083343687318102407319424329800042729673292939195255502025802)
+    ];
+    let mut siblings: [Field; 256] = [0; 256];
+    siblings[254] = 14443001516360873457302534246953033880503978184674311810335857314606403404583;
+    siblings[255] = 7842913321420301106140788486336995496832503825951977327575501561489697540557;
+    verify(entry, matching_entry, siblings, root);
 }
