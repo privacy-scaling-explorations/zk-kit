@@ -17,15 +17,7 @@ import * as utils from "./utils"
  */
 export function generatePublicKey(privateKey: BigNumberish | string): Point<string> {
     // Convert the private key to buffer.
-    if (utils.isBigNumberish(privateKey)) {
-        privateKey = utils.bigNumberish2Buff(privateKey)
-    } else {
-        if (typeof privateKey !== "string") {
-            throw TypeError("Invalid private key type. Supported types: number, bigint, buffer, string")
-        }
-
-        privateKey = Buffer.from(privateKey)
-    }
+    privateKey = utils.checkPrivateKey(privateKey)
 
     const hash = blake(privateKey)
 
@@ -46,26 +38,10 @@ export function generatePublicKey(privateKey: BigNumberish | string): Point<stri
  */
 export function signMessage(privateKey: BigNumberish, message: BigNumberish): Signature<string> {
     // Convert the private key to buffer.
-    if (utils.isBigNumberish(privateKey)) {
-        privateKey = utils.bigNumberish2Buff(privateKey)
-    } else {
-        if (typeof privateKey !== "string") {
-            throw TypeError("Invalid private key type. Supported types: number, bigint, buffer, string")
-        }
-
-        privateKey = Buffer.from(privateKey)
-    }
+    privateKey = utils.checkPrivateKey(privateKey)
 
     // Convert the message to big integer.
-    if (utils.isBigNumberish(message)) {
-        message = utils.bigNumberish2BigNumber(message)
-    } else {
-        if (typeof message !== "string") {
-            throw TypeError("Invalid message type. Supported types: number, bigint, buffer, string")
-        }
-
-        message = utils.buff2int(Buffer.from(message))
-    }
+    message = utils.checkMessage(message)
 
     const hash = blake(privateKey)
 
@@ -110,15 +86,7 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
     }
 
     // Convert the message to big integer.
-    if (utils.isBigNumberish(message)) {
-        message = utils.bigNumberish2BigNumber(message)
-    } else {
-        if (typeof message !== "string") {
-            throw TypeError("Invalid message type. Supported types: number, bigint, buffer, string")
-        }
-
-        message = utils.buff2int(Buffer.from(message))
-    }
+    message = utils.checkMessage(message)
 
     // Convert the signature values to big integers for calculations.
     const _signature: Signature<bigint> = {

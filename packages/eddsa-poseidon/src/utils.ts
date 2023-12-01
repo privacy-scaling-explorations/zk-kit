@@ -68,10 +68,6 @@ export function bigNumberish2Buff(value: BigNumberish): Buffer {
         return Buffer.from(hex, "hex")
     }
 
-    if (typeof value === "string" && isHexadecimal(value)) {
-        value = Buffer.from(value.slice(2), "hex")
-    }
-
     return value as Buffer
 }
 
@@ -105,4 +101,28 @@ export function leInt2Buff(n: bigint): Buffer {
     Buffer.from(hex, "hex").reverse().copy(buffer)
 
     return buffer
+}
+
+export function checkPrivateKey(privateKey: BigNumberish): Buffer {
+    if (isBigNumberish(privateKey)) {
+        return bigNumberish2Buff(privateKey)
+    }
+
+    if (typeof privateKey !== "string") {
+        throw TypeError("Invalid private key type. Supported types: number, bigint, buffer, string.")
+    }
+
+    return Buffer.from(privateKey)
+}
+
+export function checkMessage(message: BigNumberish): bigint {
+    if (isBigNumberish(message)) {
+        return bigNumberish2BigNumber(message)
+    }
+
+    if (typeof message !== "string") {
+        throw TypeError("Invalid message type. Supported types: number, bigint, buffer, string.")
+    }
+
+    return buff2int(Buffer.from(message))
 }
