@@ -29,6 +29,32 @@ pub fn calculcate_root(mut node: Field, siblings: [Field; 256], path: [u1]) -> F
     node
 }
 
+pub fn calculate_two_roots(mut long_path_node: Field, siblings: [Field; 256], path: [u1]) -> (Field, Field) {
+    let mut short_path_node: Field = 0;
+    for i in 0..256 {
+        let sibling = siblings[i];
+        if sibling != 0 {
+            if siblings[i - 1] == 0 {
+                short_path_node = siblings[i];
+            }
+            let sibling = siblings[i];
+            let own_position = path[i];
+            if own_position == 0 {
+                long_path_node = hash(long_path_node, sibling, false);
+                if(short_path_node != sibling) {
+                    short_path_node = hash(short_path_node, sibling, false);
+                }
+            } else {
+                long_path_node = hash(sibling, long_path_node, false);
+                if(short_path_node != sibling) {
+                    short_path_node = hash(sibling, short_path_node, false);
+                }
+            }
+        }
+    }
+    (short_path_node, long_path_node)
+}
+
 #[test]
 fn test_hash_leaf_node() {
     let key = 20438969296305830531522370305156029982566273432331621236661483041446048135547;
