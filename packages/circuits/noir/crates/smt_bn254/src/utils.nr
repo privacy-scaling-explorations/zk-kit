@@ -12,7 +12,9 @@ pub fn hash(left: Field, right: Field, is_leaf: bool) -> Field {
     }
 }
 
-pub fn calculcate_root(mut node: Field, siblings: [Field; 256], path: [u1]) -> Field {
+pub fn calculcate_root(entry: [Field; 2], siblings: [Field; 256]) -> Field {
+    let path = key_to_path(entry[0]);
+    let mut node = hash(entry[0], entry[1], true);
     for i in 0..256 {
         let sibling = siblings[i];
         if sibling != 0 {
@@ -29,7 +31,9 @@ pub fn calculcate_root(mut node: Field, siblings: [Field; 256], path: [u1]) -> F
     node
 }
 
-pub fn calculate_two_roots(mut long_path_node: Field, siblings: [Field; 256], path: [u1]) -> (Field, Field) {
+pub fn calculate_two_roots(entry: [Field; 2], siblings: [Field; 256]) -> (Field, Field) {
+    let path = key_to_path(entry[0]);
+    let mut long_path_node = hash(entry[0], entry[1], true);
     let mut short_path_node: Field = 0;
     for i in 0..256 {
         let sibling = siblings[i];

@@ -4,34 +4,26 @@ mod utils;
 
 pub fn verify(entry: [Field; 2], matching_entry: [Option<Field>; 2], siblings: [Field; 256], root: Field) {
     let mut calculcated_root: Field = 0;
-    let leaf_node = utils::hash(entry[0], entry[1], true);
-    let path = utils::key_to_path(entry[0]);
     if matching_entry[0].is_none() | matching_entry[1].is_none() {
-        calculcated_root = utils::calculcate_root(leaf_node, siblings, path);
+        calculcated_root = utils::calculcate_root(entry, siblings);
     } else {
-        calculcated_root = utils::calculcate_root(utils::hash(matching_entry[0].unwrap(), matching_entry[1].unwrap(), true), siblings, path);
+        calculcated_root = utils::calculcate_root([matching_entry[0].unwrap(), matching_entry[1].unwrap()], siblings);
     }
     assert(calculcated_root == root);
 }
 
 pub fn add(entry: [Field; 2], old_root: Field, siblings: [Field; 256]) -> Field {
-    let key = entry[0];
-    let value = entry[1];
     if (old_root == 0) {
-        utils::hash(key, value, true)
+        utils::hash(entry[0], entry[1], true)
     } else {
-        let path = utils::key_to_path(key);
-        let (old, new) = utils::calculate_two_roots(utils::hash(key, value, true), siblings, path);
+        let (old, new) = utils::calculate_two_roots(entry, siblings);
         assert(old == old_root);
         new
     }
 }
 
 pub fn delete(entry: [Field; 2], old_root: Field, siblings: [Field; 256]) -> Field {
-    let key = entry[0];
-    let value = entry[1];
-    let path = utils::key_to_path(key);
-    let (new, old) = utils::calculate_two_roots(utils::hash(key, value, true), siblings, path);
+    let (new, old) = utils::calculate_two_roots(entry, siblings);
     assert(old == old_root);
     new 
 }
