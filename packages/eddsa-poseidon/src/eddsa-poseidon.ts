@@ -1,10 +1,9 @@
-// @ts-ignore
-import createBlakeHash from "blake-hash"
-import { poseidon5 } from "poseidon-lite"
+import { poseidon5 } from "poseidon-lite/poseidon5"
 import * as babyjub from "./babyjub"
+import blake from "./blake"
+import Field1 from "./field1"
 import * as scalar from "./scalar"
 import * as utils from "./utils"
-import Field1 from "./field1"
 
 /**
  * Generates a public key from a given private key using the
@@ -29,9 +28,9 @@ import Field1 from "./field1"
  *   operation fails during the public key generation process.
  */
 export function generatePublicKey(privateKey: any) {
-    const blakeHash = createBlakeHash("blake512").update(privateKey).digest()
+    const hash = blake(privateKey)
 
-    const s = utils.leBuff2int(utils.pruneBuffer(blakeHash.slice(0, 32)))
+    const s = utils.leBuff2int(utils.pruneBuffer(hash.slice(0, 32)))
 
     return babyjub.mulPointEscalar(babyjub.Base8, scalar.shiftRight(s, BigInt(3)))
 }
@@ -59,17 +58,15 @@ export function generatePublicKey(privateKey: any) {
  *   Poseidon hash function encounters any issues, or if the EdDSA signing process fails.
  */
 export function signMessage(privateKey: any, message: any) {
-    const blakeHash = createBlakeHash("blake512").update(privateKey).digest()
+    const hash = blake(privateKey)
 
-    const sBuff = utils.pruneBuffer(blakeHash.slice(0, 32))
+    const sBuff = utils.pruneBuffer(hash.slice(0, 32))
     const s = utils.leBuff2int(sBuff)
     const A = babyjub.mulPointEscalar(babyjub.Base8, scalar.shiftRight(s, BigInt(3)))
 
     const msgBuff = utils.leInt2Buff(message)
 
-    const rBuff = createBlakeHash("blake512")
-        .update(Buffer.concat([blakeHash.slice(32, 64), msgBuff]))
-        .digest()
+    const rBuff = blake(Buffer.concat([hash.slice(32, 64), msgBuff]))
 
     const Fr = new Field1(babyjub.subOrder)
     const r = Fr.e(utils.leBuff2int(rBuff))
