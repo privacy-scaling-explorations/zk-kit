@@ -10,8 +10,8 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibPublicKey = eddsa.prv2pub(privateKey)
 
-        expect(publicKey[0]).toBe(circomlibPublicKey[0])
-        expect(publicKey[1]).toBe(circomlibPublicKey[1])
+        expect(publicKey[0]).toBe(circomlibPublicKey[0].toString())
+        expect(publicKey[1]).toBe(circomlibPublicKey[1].toString())
     })
 
     it("Should derive a public key from an hexadecimal private key", async () => {
@@ -21,8 +21,8 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibPublicKey = eddsa.prv2pub(Buffer.from(privateKey.slice(2), "hex"))
 
-        expect(publicKey[0]).toBe(circomlibPublicKey[0])
-        expect(publicKey[1]).toBe(circomlibPublicKey[1])
+        expect(publicKey[0]).toBe(circomlibPublicKey[0].toString())
+        expect(publicKey[1]).toBe(circomlibPublicKey[1].toString())
     })
 
     it("Should sign a message", async () => {
@@ -30,9 +30,9 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibSignature = eddsa.signPoseidon(privateKey, message)
 
-        expect(signature.R8[0]).toBe(circomlibSignature.R8[0])
-        expect(signature.R8[1]).toBe(circomlibSignature.R8[1])
-        expect(signature.S).toBe(circomlibSignature.S)
+        expect(signature.R8[0]).toBe(circomlibSignature.R8[0].toString())
+        expect(signature.R8[1]).toBe(circomlibSignature.R8[1].toString())
+        expect(signature.S).toBe(circomlibSignature.S.toString())
     })
 
     it("Should verify a signature", async () => {

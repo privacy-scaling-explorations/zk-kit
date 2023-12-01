@@ -62,4 +62,8 @@ export default class Field1 {
     eq(a: bigint, b: bigint): boolean {
         return a === b
     }
+
+    square(a: bigint): bigint {
+        return (a * a) % this._order
+    }
 }
