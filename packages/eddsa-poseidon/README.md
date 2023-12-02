@@ -42,7 +42,7 @@
 </div>
 
 | This package offers a simplified JavaScript codebase essential for creating and validating digital signatures using EdDSA and Poseidon. It's built upon the Baby Jubjub elliptic curve, ensuring seamless integration with [Circom](https://github.com/iden3/circom) and enhancing the developer experience. |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 
 -   Super lightweight: [**~33kB**](https://bundlephobia.com/package/@zk-kit/eddsa-poseidon@0.1.0) (minified)
 -   Compatible with browsers and NodeJS
@@ -67,6 +67,20 @@ or yarn:
 
 ```bash
 yarn add @zk-kit/eddsa-poseidon
+```
+
+### CDN
+
+You can also load it using a `script` tag using [unpkg](https://unpkg.com/):
+
+```html
+<script src="https://unpkg.com/@zk-kit/eddsa-poseidon"></script>
+```
+
+or [JSDelivr](https://www.jsdelivr.com/):
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@zk-kit/eddsa-poseidon"></script>
 ```
 
 ## 📜 Usage
@@ -110,7 +124,6 @@ console.log(signature)
 }
 */
 ```
-
 
 \# **verifySignature**(message: _BigNumberish_, signature: _Signature_, publicKey: _Point_): _boolean_
 
