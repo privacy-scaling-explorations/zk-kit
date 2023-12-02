@@ -13,8 +13,7 @@ pub fn hash(left: Field, right: Field, is_leaf: bool) -> Field {
     }
 }
 
-pub fn calculcate_root(entry: [Field; 2], siblings: [Field; TREE_DEPTH]) -> Field {
-    let path = key_to_path(entry[0]);
+pub fn calculcate_root(entry: [Field; 2], siblings: [Field; TREE_DEPTH], path: [u1]) -> Field {
     let mut node = hash(entry[0], entry[1], true);
     for i in 0..TREE_DEPTH {
         let sibling = siblings[i];
