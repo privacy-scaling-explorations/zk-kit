@@ -36,6 +36,12 @@
 -   Circom:
     -   [PoseidonProof](./circom/poseidon-proof.circom): It proves the possession of a Poseidon pre-image without revealing the pre-image itself.
     -   [BinaryMerkleRoot](./circom/binary-merkle-root.circom): It calculates the root of a binary Merkle tree using a provided proof-of-membership.
+-   Noir:
+    -   [Sparse Merkle Tree PoseidonBN254](./noir/crates/smt_bn254/src/lib.nr): A reusable library of functions related to Sparse Merkle Trees based on the JS implementation of [@zk-kit/smt](../smt). The library uses the Poseidon hash to implement the following functions:
+        -   verifying membership and non-membership proofs
+        -   adding a new entry to a SMT
+        -   updating an entry of an SMT
+        -   deleting an existing entry from an SMT
 
 ## 🛠 Install
 
@@ -51,4 +57,13 @@ or yarn:
 
 ```bash
 yarn add @zk-kit/circuits
+```
+
+### Using Nargo (for Noir circuits)
+
+In your Nargo.toml file, add the following dependency:
+
+```toml
+[dependencies]
+smt_bn254 = { tag = "v0.1.0", git = "https://github.com/privacy-scaling-explorations/zk-kit", directory="crates/smt_bn254" }
 ```
