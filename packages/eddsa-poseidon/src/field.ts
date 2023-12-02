@@ -1,4 +1,4 @@
-export default class Field1 {
+export default class Field {
     one = BigInt(1)
     zero = BigInt(0)
 

@@ -1,7 +1,7 @@
 import { poseidon5 } from "poseidon-lite/poseidon5"
 import * as babyjub from "./babyjub"
 import blake from "./blake"
-import Field1 from "./field1"
+import Field from "./field"
 import * as scalar from "./scalar"
 import { BigNumberish, Point, Signature } from "./types"
 import * as utils from "./utils"
@@ -53,7 +53,7 @@ export function signMessage(privateKey: BigNumberish, message: BigNumberish): Si
 
     const rBuff = blake(Buffer.concat([hash.slice(32, 64), msgBuff]))
 
-    const Fr = new Field1(babyjub.subOrder)
+    const Fr = new Field(babyjub.subOrder)
     const r = Fr.e(utils.leBuff2int(rBuff))
 
     const R8 = babyjub.mulPointEscalar(babyjub.Base8, r)
@@ -104,5 +104,5 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
     pRight = babyjub.addPoint(_signature.R8, pRight)
 
     // Return true if the points match.
-    return babyjub.F.eq(BigInt(pLeft[0]), pRight[0]) && babyjub.F.eq(pLeft[1], pRight[1])
+    return babyjub.Fr.eq(BigInt(pLeft[0]), pRight[0]) && babyjub.Fr.eq(pLeft[1], pRight[1])
 }
