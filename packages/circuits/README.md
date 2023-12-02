@@ -65,5 +65,5 @@ In your Nargo.toml file, add the following dependency:
 
 ```toml
 [dependencies]
-smt_bn254 = { tag = "v0.1.0", git = "https://github.com/privacy-scaling-explorations/zk-kit", directory="crates/smt_bn254" }
+smt_bn254 = { tag = "v0.1.0", git = "https://github.com/privacy-scaling-explorations/zk-kit/packages/circuits/noir", directory="crates/smt_bn254" }
 ```
