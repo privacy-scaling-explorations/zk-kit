@@ -7,7 +7,7 @@ import { BigNumberish, Point, Signature } from "./types"
 import * as utils from "./utils"
 
 /**
- * Generates a public key from a given private key using the
+ * Derives a public key from a given private key using the
  * {@link https://eips.ethereum.org/EIPS/eip-2494|Baby Jubjub} elliptic curve.
  * This function utilizes the Baby Jubjub elliptic curve for cryptographic operations.
  * The private key should be securely stored and managed, and it should never be exposed
@@ -15,7 +15,7 @@ import * as utils from "./utils"
  * @param privateKey - The private key used for generating the public key.
  * @returns The derived public key.
  */
-export function generatePublicKey(privateKey: BigNumberish | string): Point<string> {
+export function derivePublicKey(privateKey: BigNumberish): Point<string> {
     // Convert the private key to buffer.
     privateKey = utils.checkPrivateKey(privateKey)
 
