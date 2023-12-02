@@ -1,7 +1,8 @@
 use dep::std::hash::poseidon;
+use crate::TREE_DEPTH;
 
 pub fn key_to_path(key: Field) -> [u1] {
-    key.to_be_bits(256)
+    key.to_be_bits(TREE_DEPTH)
 }
 
 pub fn hash(left: Field, right: Field, is_leaf: bool) -> Field {
@@ -12,10 +13,10 @@ pub fn hash(left: Field, right: Field, is_leaf: bool) -> Field {
     }
 }
 
-pub fn calculcate_root(entry: [Field; 2], siblings: [Field; 256]) -> Field {
+pub fn calculcate_root(entry: [Field; 2], siblings: [Field; TREE_DEPTH]) -> Field {
     let path = key_to_path(entry[0]);
     let mut node = hash(entry[0], entry[1], true);
-    for i in 0..256 {
+    for i in 0..TREE_DEPTH {
         let sibling = siblings[i];
         if sibling != 0 {
             let mut left = sibling;
@@ -31,11 +32,11 @@ pub fn calculcate_root(entry: [Field; 2], siblings: [Field; 256]) -> Field {
     node
 }
 
-pub fn calculate_two_roots(entry: [Field; 2], siblings: [Field; 256]) -> (Field, Field) {
+pub fn calculate_two_roots(entry: [Field; 2], siblings: [Field; TREE_DEPTH]) -> (Field, Field) {
     let path = key_to_path(entry[0]);
     let mut long_path_node = hash(entry[0], entry[1], true);
     let mut short_path_node: Field = 0;
-    for i in 0..256 {
+    for i in 0..TREE_DEPTH {
         let sibling = siblings[i];
         if sibling != 0 {
             if siblings[i - 1] == 0 {
