@@ -3324,6 +3324,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-inject@npm:^5.0.4":
+  version: 5.0.5
+  resolution: "@rollup/plugin-inject@npm:5.0.5"
+  dependencies:
+    "@rollup/pluginutils": ^5.0.1
+    estree-walker: ^2.0.2
+    magic-string: ^0.30.3
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: 22cb772fd6f7178308b2ece95cdde5f8615f6257197832166294552a7e4c0d3976dc996cbfa6470af3151d8b86c00091aa93da5f4db6ec563f11b6db29fd1b63
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-json@npm:^5.0.1":
   version: 5.0.2
   resolution: "@rollup/plugin-json@npm:5.0.2"
@@ -4426,9 +4442,11 @@ __metadata:
   dependencies:
     "@rollup/plugin-commonjs": ^25.0.7
     "@rollup/plugin-node-resolve": ^15.2.3
+    blake-hash: 2.0.0
     circomlibjs: 0.0.8
-    poseidon-lite: ^0.2.0
+    poseidon-lite: 0.2.0
     rollup-plugin-cleanup: ^3.2.1
+    rollup-plugin-polyfill-node: ^0.13.0
     rollup-plugin-terser: ^7.0.2
     rollup-plugin-typescript2: ^0.31.2
   languageName: unknown
@@ -5526,6 +5544,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"blake-hash@npm:2.0.0, blake-hash@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "blake-hash@npm:2.0.0"
+  dependencies:
+    node-addon-api: ^3.0.0
+    node-gyp: latest
+    node-gyp-build: ^4.2.2
+    readable-stream: ^3.6.0
+  checksum: a0d9a8f3953b986d3b30a741a6c000dedcc9a03b1318f52cc01ae62d18829ba6cb1a4d8cbe74785abfdc952a21db410984523bd457764aca716162cfd3ca8ea4
+  languageName: node
+  linkType: hard
+
 "blake-hash@npm:^1.1.0":
   version: 1.1.1
   resolution: "blake-hash@npm:1.1.1"
@@ -5535,18 +5565,6 @@ __metadata:
     nan: ^2.2.1
     node-gyp: latest
   checksum: 116c724179d98bee96fed742bbebc4d9efbf7c8537365b93f96c3ffe2cbbd6e0a7a24b9a7ddd95056ab4a47c120fe20671c9964f95128b1dff3b17afc1762261
-  languageName: node
-  linkType: hard
-
-"blake-hash@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "blake-hash@npm:2.0.0"
-  dependencies:
-    node-addon-api: ^3.0.0
-    node-gyp: latest
-    node-gyp-build: ^4.2.2
-    readable-stream: ^3.6.0
-  checksum: a0d9a8f3953b986d3b30a741a6c000dedcc9a03b1318f52cc01ae62d18829ba6cb1a4d8cbe74785abfdc952a21db410984523bd457764aca716162cfd3ca8ea4
   languageName: node
   linkType: hard
 
@@ -15235,7 +15253,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"poseidon-lite@npm:^0.2.0":
+"poseidon-lite@npm:0.2.0, poseidon-lite@npm:^0.2.0":
   version: 0.2.0
   resolution: "poseidon-lite@npm:0.2.0"
   checksum: c47c6fd0a29a78ca1f7cf6ccb8b0c4f4e72930d944e63425e36f60c15d37fb0aeca30b8a22a30640ed68d631142282c0b8308da83b1a2b2bb92b87f5a2432c93
@@ -16130,6 +16148,17 @@ __metadata:
   peerDependencies:
     rollup: ">=2.0"
   checksum: e11a6ac0a697a9c17154073cf1e663e31e7b99e3e507dacccd58ea10e9c9ae4c10fe93ee93f68432b9beda8834a71b4dfa73700923f3415ecdac4ee283531c54
+  languageName: node
+  linkType: hard
+
+"rollup-plugin-polyfill-node@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "rollup-plugin-polyfill-node@npm:0.13.0"
+  dependencies:
+    "@rollup/plugin-inject": ^5.0.4
+  peerDependencies:
+    rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
+  checksum: 73c5b9086955afa108c940c13205fab4cece149d020a3faa696c5711bbb391d11aecd4c913ad2cc5ac24f9d43a4969ad8d087d085dd8d423dece45b6be4039bb
   languageName: node
   linkType: hard
 
