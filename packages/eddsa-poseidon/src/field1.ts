@@ -9,14 +9,6 @@ export default class Field1 {
     }
 
     e(res: bigint): bigint {
-        // if (res < 0) {
-        // let nres = -res
-
-        // if (nres >= this._order) nres %= this._order
-
-        // return this._order - nres
-        // }
-
         return res >= this._order ? res % this._order : res
     }
 
@@ -35,8 +27,6 @@ export default class Field1 {
     }
 
     inv(a: bigint): bigint {
-        // if (!a) throw new Error("Division by zero")
-
         let t = this.zero
         let r = this._order
         let newt = this.one
