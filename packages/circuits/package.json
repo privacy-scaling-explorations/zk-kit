@@ -7,7 +7,6 @@
         "circom/**/*.circom",
         "!circom/main",
         "!circom/test",
-        "noir",
         "LICENSE",
         "README.md"
     ],

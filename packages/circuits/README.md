@@ -31,6 +31,9 @@
 | This package offers a collection of reusable circuits designed for integration into other projects or protocols, promoting code modularization within the zero-knowledge ecosystem. |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
+> [!IMPORTANT]  
+> Installation of [Circom](https://docs.circom.io/getting-started/installation/) and [Nargo](https://noir-lang.org/getting_started/nargo_installation) required for circuit tests.
+
 ## Circuits
 
 -   Circom:
@@ -45,7 +48,7 @@
 
 ## 🛠 Install
 
-### npm or yarn
+### Using NPM or Yarn (Circom circuits)
 
 Install the `@zk-kit/circuits` package with npm:
 
@@ -59,7 +62,7 @@ or yarn:
 yarn add @zk-kit/circuits
 ```
 
-### Using Nargo (for Noir circuits)
+### Using Nargo (Noir circuits)
 
 In your Nargo.toml file, add the following dependency:
 
