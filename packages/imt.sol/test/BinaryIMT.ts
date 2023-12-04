@@ -3,18 +3,17 @@ import { expect } from "chai"
 import { poseidon } from "circomlibjs"
 import { run } from "hardhat"
 import { poseidon2 } from "poseidon-lite"
-import { BinaryIMT, BinaryIMTTest } from "../typechain-types"
+import { BinaryIMTTest } from "../typechain-types"
 
 describe("BinaryIMT", () => {
+    const SNARK_SCALAR_FIELD = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
     let binaryIMTTest: BinaryIMTTest
-    let binaryIMT: BinaryIMT
     let jsBinaryIMT: JSBinaryIMT
 
     beforeEach(async () => {
-        const { library, contract } = await run("deploy:imt-test", { library: "BinaryIMT", logs: false })
+        const { contract } = await run("deploy:imt-test", { library: "BinaryIMT", logs: false })
 
         binaryIMTTest = contract
-        binaryIMT = library
         jsBinaryIMT = new JSBinaryIMT(poseidon2, 16, 0, 2)
     })
 
@@ -45,9 +44,7 @@ describe("BinaryIMT", () => {
 
     describe("# insert", () => {
         it("Should not insert a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
-            const leaf = await binaryIMT.SNARK_SCALAR_FIELD()
-
-            const transaction = binaryIMTTest.insert(leaf)
+            const transaction = binaryIMTTest.insert(SNARK_SCALAR_FIELD)
 
             await expect(transaction).to.be.revertedWith("BinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
         })
@@ -133,9 +130,7 @@ describe("BinaryIMT", () => {
             await binaryIMTTest.init(jsBinaryIMT.depth)
             await binaryIMTTest.insert(1)
 
-            const newLeaf = await binaryIMT.SNARK_SCALAR_FIELD()
-
-            const transaction = binaryIMTTest.update(1, newLeaf, [0, 1], [0, 1])
+            const transaction = binaryIMTTest.update(1, SNARK_SCALAR_FIELD, [0, 1], [0, 1])
 
             await expect(transaction).to.be.revertedWith("BinaryIMT: new leaf must be < SNARK_SCALAR_FIELD")
         })
@@ -144,9 +139,7 @@ describe("BinaryIMT", () => {
             await binaryIMTTest.init(jsBinaryIMT.depth)
             await binaryIMTTest.insert(1)
 
-            const oldLeaf = await binaryIMT.SNARK_SCALAR_FIELD()
-
-            const transaction = binaryIMTTest.update(oldLeaf, 2, [0, 1], [0, 1])
+            const transaction = binaryIMTTest.update(SNARK_SCALAR_FIELD, 2, [0, 1], [0, 1])
 
             await expect(transaction).to.be.revertedWith("BinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
         })
@@ -257,9 +250,7 @@ describe("BinaryIMT", () => {
 
     describe("# remove", () => {
         it("Should not remove a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
-            const leaf = await binaryIMT.SNARK_SCALAR_FIELD()
-
-            const transaction = binaryIMTTest.remove(leaf, [0, 1], [0, 1])
+            const transaction = binaryIMTTest.remove(SNARK_SCALAR_FIELD, [0, 1], [0, 1])
 
             await expect(transaction).to.be.revertedWith("BinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
         })
