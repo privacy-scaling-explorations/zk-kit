@@ -15,6 +15,15 @@ struct BinaryIMTData {
     bool useDefaultZeroes;
 }
 
+error ValueGreaterThanSnarkScalarField();
+error DepthNotSupported();
+error WrongDefaultZeroIndex();
+error TreeIsFull();
+error NewLeafCannotEqualOldLeaf();
+error LeafDoesNotExist();
+error LeafIndexOutOfRange();
+error WrongMerkleProofPath();
+
 /// @title Incremental binary Merkle tree.
 /// @dev The incremental tree allows to calculate the root hash each time a leaf is added, ensuring
 /// the integrity of the tree.
@@ -91,7 +100,8 @@ library BinaryIMT {
         if (index == 30) return Z_30;
         if (index == 31) return Z_31;
         if (index == 32) return Z_32;
-        revert("IncrementalBinaryTree: defaultZero bad index");
+
+        revert WrongDefaultZeroIndex();
     }
 
     /// @dev Initializes a tree.
@@ -99,8 +109,11 @@ library BinaryIMT {
     /// @param depth: Depth of the tree.
     /// @param zero: Zero value to be used.
     function init(BinaryIMTData storage self, uint256 depth, uint256 zero) public {
-        require(zero < SNARK_SCALAR_FIELD, "BinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
-        require(depth > 0 && depth <= MAX_DEPTH, "BinaryIMT: tree depth must be between 1 and 32");
+        if (zero >= SNARK_SCALAR_FIELD) {
+            revert ValueGreaterThanSnarkScalarField();
+        } else if (depth <= 0 || depth > MAX_DEPTH) {
+            revert DepthNotSupported();
+        }
 
         self.depth = depth;
 
@@ -117,7 +130,9 @@ library BinaryIMT {
     }
 
     function initWithDefaultZeroes(BinaryIMTData storage self, uint256 depth) public {
-        require(depth > 0 && depth <= MAX_DEPTH, "BinaryIMT: tree depth must be between 1 and 32");
+        if (depth <= 0 || depth > MAX_DEPTH) {
+            revert DepthNotSupported();
+        }
 
         self.depth = depth;
         self.useDefaultZeroes = true;
@@ -131,8 +146,11 @@ library BinaryIMT {
     function insert(BinaryIMTData storage self, uint256 leaf) public returns (uint256) {
         uint256 depth = self.depth;
 
-        require(leaf < SNARK_SCALAR_FIELD, "BinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
-        require(self.numberOfLeaves < 2 ** depth, "BinaryIMT: tree is full");
+        if (leaf >= SNARK_SCALAR_FIELD) {
+            revert ValueGreaterThanSnarkScalarField();
+        } else if (self.numberOfLeaves >= 2 ** depth) {
+            revert TreeIsFull();
+        }
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
@@ -155,6 +173,7 @@ library BinaryIMT {
 
         self.root = hash;
         self.numberOfLeaves += 1;
+
         return hash;
     }
 
@@ -171,9 +190,13 @@ library BinaryIMT {
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-        require(newLeaf != leaf, "BinaryIMT: new leaf cannot be the same as the old one");
-        require(newLeaf < SNARK_SCALAR_FIELD, "BinaryIMT: new leaf must be < SNARK_SCALAR_FIELD");
-        require(verify(self, leaf, proofSiblings, proofPathIndices), "BinaryIMT: leaf is not part of the tree");
+        if (newLeaf == leaf) {
+            revert NewLeafCannotEqualOldLeaf();
+        } else if (newLeaf >= SNARK_SCALAR_FIELD) {
+            revert ValueGreaterThanSnarkScalarField();
+        } else if (!verify(self, leaf, proofSiblings, proofPathIndices)) {
+            revert LeafDoesNotExist();
+        }
 
         uint256 depth = self.depth;
         uint256 hash = newLeaf;
@@ -200,7 +223,10 @@ library BinaryIMT {
                 ++i;
             }
         }
-        require(updateIndex < self.numberOfLeaves, "BinaryIMT: leaf index out of range");
+
+        if (updateIndex >= self.numberOfLeaves) {
+            revert LeafIndexOutOfRange();
+        }
 
         self.root = hash;
     }
@@ -231,19 +257,22 @@ library BinaryIMT {
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) private view returns (bool) {
-        require(leaf < SNARK_SCALAR_FIELD, "BinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
         uint256 depth = self.depth;
-        require(
-            proofPathIndices.length == depth && proofSiblings.length == depth,
-            "BinaryIMT: length of path is not correct"
-        );
+
+        if (leaf >= SNARK_SCALAR_FIELD) {
+            revert ValueGreaterThanSnarkScalarField();
+        } else if (proofPathIndices.length != depth || proofSiblings.length != depth) {
+            revert WrongMerkleProofPath();
+        }
 
         uint256 hash = leaf;
 
         for (uint8 i = 0; i < depth; ) {
-            require(proofSiblings[i] < SNARK_SCALAR_FIELD, "BinaryIMT: sibling node must be < SNARK_SCALAR_FIELD");
-
-            require(proofPathIndices[i] == 1 || proofPathIndices[i] == 0, "BinaryIMT: path index is neither 0 nor 1");
+            if (proofSiblings[i] >= SNARK_SCALAR_FIELD) {
+                revert ValueGreaterThanSnarkScalarField();
+            } else if (proofPathIndices[i] != 1 && proofPathIndices[i] != 0) {
+                revert WrongMerkleProofPath();
+            }
 
             if (proofPathIndices[i] == 0) {
                 hash = PoseidonT3.hash([hash, proofSiblings[i]]);
