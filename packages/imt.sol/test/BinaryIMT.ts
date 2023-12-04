@@ -3,16 +3,18 @@ import { expect } from "chai"
 import { poseidon } from "circomlibjs"
 import { run } from "hardhat"
 import { poseidon2 } from "poseidon-lite"
-import { BinaryIMTTest } from "../typechain-types"
+import { BinaryIMT, BinaryIMTTest } from "../typechain-types"
 
 describe("BinaryIMT", () => {
     const SNARK_SCALAR_FIELD = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
+    let binaryIMT: BinaryIMT
     let binaryIMTTest: BinaryIMTTest
     let jsBinaryIMT: JSBinaryIMT
 
     beforeEach(async () => {
-        const { contract } = await run("deploy:imt-test", { library: "BinaryIMT", logs: false })
+        const { library, contract } = await run("deploy:imt-test", { library: "BinaryIMT", logs: false })
 
+        binaryIMT = library
         binaryIMTTest = contract
         jsBinaryIMT = new JSBinaryIMT(poseidon2, 16, 0, 2)
     })
@@ -21,7 +23,7 @@ describe("BinaryIMT", () => {
         it("Should not create a tree with a depth > 32", async () => {
             const transaction = binaryIMTTest.init(33)
 
-            await expect(transaction).to.be.revertedWith("BinaryIMT: tree depth must be between 1 and 32")
+            await expect(transaction).to.be.revertedWithCustomError(binaryIMT, "DepthNotSupported")
         })
 
         it("Should create a tree", async () => {
@@ -46,7 +48,7 @@ describe("BinaryIMT", () => {
         it("Should not insert a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
             const transaction = binaryIMTTest.insert(SNARK_SCALAR_FIELD)
 
-            await expect(transaction).to.be.revertedWith("BinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
+            await expect(transaction).to.be.revertedWithCustomError(binaryIMT, "ValueGreaterThanSnarkScalarField")
         })
 
         it("Should insert a leaf in a tree", async () => {
@@ -112,7 +114,7 @@ describe("BinaryIMT", () => {
 
             const transaction = binaryIMTTest.insert(3)
 
-            await expect(transaction).to.be.revertedWith("BinaryIMT: tree is full")
+            await expect(transaction).to.be.revertedWithCustomError(binaryIMT, "TreeIsFull")
         })
     })
 
@@ -123,7 +125,7 @@ describe("BinaryIMT", () => {
 
             const transaction = binaryIMTTest.update(1, 1, [0, 1], [0, 1])
 
-            await expect(transaction).to.be.revertedWith("BinaryIMT: new leaf cannot be the same as the old one")
+            await expect(transaction).to.be.revertedWithCustomError(binaryIMT, "NewLeafCannotEqualOldLeaf")
         })
 
         it("Should not update a leaf if its new value is > SNARK_SCALAR_FIELD", async () => {
@@ -132,7 +134,7 @@ describe("BinaryIMT", () => {
 
             const transaction = binaryIMTTest.update(1, SNARK_SCALAR_FIELD, [0, 1], [0, 1])
 
-            await expect(transaction).to.be.revertedWith("BinaryIMT: new leaf must be < SNARK_SCALAR_FIELD")
+            await expect(transaction).to.be.revertedWithCustomError(binaryIMT, "ValueGreaterThanSnarkScalarField")
         })
 
         it("Should not update a leaf if its original value is > SNARK_SCALAR_FIELD", async () => {
@@ -141,7 +143,7 @@ describe("BinaryIMT", () => {
 
             const transaction = binaryIMTTest.update(SNARK_SCALAR_FIELD, 2, [0, 1], [0, 1])
 
-            await expect(transaction).to.be.revertedWith("BinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
+            await expect(transaction).to.be.revertedWithCustomError(binaryIMT, "ValueGreaterThanSnarkScalarField")
         })
 
         it("Should not update a leaf if the path indices are wrong", async () => {
@@ -162,7 +164,7 @@ describe("BinaryIMT", () => {
                 pathIndices
             )
 
-            await expect(transaction).to.be.revertedWith("BinaryIMT: path index is neither 0 nor 1")
+            await expect(transaction).to.be.revertedWithCustomError(binaryIMT, "WrongMerkleProofPath")
         })
 
         it("Should not update a leaf if the old leaf is wrong", async () => {
@@ -181,7 +183,7 @@ describe("BinaryIMT", () => {
                 pathIndices
             )
 
-            await expect(transaction).to.be.revertedWith("BinaryIMT: leaf is not part of the tree")
+            await expect(transaction).to.be.revertedWithCustomError(binaryIMT, "LeafDoesNotExist")
         })
 
         it("Should update a leaf", async () => {
@@ -244,7 +246,7 @@ describe("BinaryIMT", () => {
                 pathIndices
             )
 
-            await expect(transaction).to.be.revertedWith("BinaryIMT: leaf index out of range")
+            await expect(transaction).to.be.revertedWithCustomError(binaryIMT, "LeafIndexOutOfRange")
         })
     })
 
@@ -252,7 +254,7 @@ describe("BinaryIMT", () => {
         it("Should not remove a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
             const transaction = binaryIMTTest.remove(SNARK_SCALAR_FIELD, [0, 1], [0, 1])
 
-            await expect(transaction).to.be.revertedWith("BinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
+            await expect(transaction).to.be.revertedWithCustomError(binaryIMT, "ValueGreaterThanSnarkScalarField")
         })
 
         it("Should not remove a leaf that does not exist", async () => {
@@ -270,7 +272,7 @@ describe("BinaryIMT", () => {
                 pathIndices
             )
 
-            await expect(transaction).to.be.revertedWith("BinaryIMT: leaf is not part of the tree")
+            await expect(transaction).to.be.revertedWithCustomError(binaryIMT, "LeafDoesNotExist")
         })
 
         it("Should remove a leaf", async () => {

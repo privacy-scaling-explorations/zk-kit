@@ -31,15 +31,24 @@
 | This package offers a collection of reusable circuits designed for integration into other projects or protocols, promoting code modularization within the zero-knowledge ecosystem. |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
+> [!IMPORTANT]  
+> Installation of [Circom](https://docs.circom.io/getting-started/installation/) and [Nargo](https://noir-lang.org/getting_started/nargo_installation) required for circuit tests.
+
 ## Circuits
 
 -   Circom:
     -   [PoseidonProof](./circom/poseidon-proof.circom): It proves the possession of a Poseidon pre-image without revealing the pre-image itself.
     -   [BinaryMerkleRoot](./circom/binary-merkle-root.circom): It calculates the root of a binary Merkle tree using a provided proof-of-membership.
+-   Noir:
+    -   [Sparse Merkle Tree PoseidonBN254](./noir/crates/smt_bn254/src/lib.nr): A reusable library of functions related to Sparse Merkle Trees based on the JS implementation of [@zk-kit/smt](../smt). The library uses the Poseidon hash to implement the following functions:
+        -   verifying membership and non-membership proofs
+        -   adding a new entry to a SMT
+        -   updating an entry of an SMT
+        -   deleting an existing entry from an SMT
 
 ## 🛠 Install
 
-### npm or yarn
+### Using NPM or Yarn (Circom circuits)
 
 Install the `@zk-kit/circuits` package with npm:
 
@@ -51,4 +60,13 @@ or yarn:
 
 ```bash
 yarn add @zk-kit/circuits
+```
+
+### Using Nargo (Noir circuits)
+
+In your Nargo.toml file, add the following dependency:
+
+```toml
+[dependencies]
+smt_bn254 = { tag = "v0.1.0", git = "https://github.com/privacy-scaling-explorations/zk-kit/packages/circuits/noir", directory="crates/smt_bn254" }
 ```

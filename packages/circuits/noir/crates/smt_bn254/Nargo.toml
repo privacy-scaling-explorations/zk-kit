@@ -1,0 +1,5 @@
+[package]
+name = "smt_bn254"
+authors = ["fabianschu"]
+type = "lib"
+compiler_version = ">=0.19.3"

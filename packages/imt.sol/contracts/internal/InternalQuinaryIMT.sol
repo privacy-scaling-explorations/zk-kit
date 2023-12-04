@@ -15,6 +15,14 @@ struct QuinaryIMTData {
     mapping(uint256 => uint256[5]) lastSubtrees; // Caching these values is essential to efficient appends.
 }
 
+error ValueGreaterThanSnarkScalarField();
+error DepthNotSupported();
+error TreeIsFull();
+error NewLeafCannotEqualOldLeaf();
+error LeafDoesNotExist();
+error LeafIndexOutOfRange();
+error WrongMerkleProofPath();
+
 /// @title Incremental quinary Merkle tree.
 /// @dev The incremental tree allows to calculate the root hash each time a leaf is added, ensuring
 /// the integrity of the tree.
@@ -24,8 +32,11 @@ library InternalQuinaryIMT {
     /// @param depth: Depth of the tree.
     /// @param zero: Zero value to be used.
     function _init(QuinaryIMTData storage self, uint256 depth, uint256 zero) internal {
-        require(zero < SNARK_SCALAR_FIELD, "QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
-        require(depth > 0 && depth <= MAX_DEPTH, "QuinaryIMT: tree depth must be between 1 and 32");
+        if (zero >= SNARK_SCALAR_FIELD) {
+            revert ValueGreaterThanSnarkScalarField();
+        } else if (depth <= 0 || depth > MAX_DEPTH) {
+            revert DepthNotSupported();
+        }
 
         self.depth = depth;
 
@@ -56,8 +67,11 @@ library InternalQuinaryIMT {
     function _insert(QuinaryIMTData storage self, uint256 leaf) internal {
         uint256 depth = self.depth;
 
-        require(leaf < SNARK_SCALAR_FIELD, "QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
-        require(self.numberOfLeaves < 5 ** depth, "QuinaryIMT: tree is full");
+        if (leaf >= SNARK_SCALAR_FIELD) {
+            revert ValueGreaterThanSnarkScalarField();
+        } else if (self.numberOfLeaves >= 5 ** depth) {
+            revert TreeIsFull();
+        }
 
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
@@ -101,9 +115,13 @@ library InternalQuinaryIMT {
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) internal {
-        require(newLeaf != leaf, "QuinaryIMT: new leaf cannot be the same as the old one");
-        require(newLeaf < SNARK_SCALAR_FIELD, "QuinaryIMT: new leaf must be < SNARK_SCALAR_FIELD");
-        require(_verify(self, leaf, proofSiblings, proofPathIndices), "QuinaryIMT: leaf is not part of the tree");
+        if (newLeaf == leaf) {
+            revert NewLeafCannotEqualOldLeaf();
+        } else if (newLeaf >= SNARK_SCALAR_FIELD) {
+            revert ValueGreaterThanSnarkScalarField();
+        } else if (!_verify(self, leaf, proofSiblings, proofPathIndices)) {
+            revert LeafDoesNotExist();
+        }
 
         uint256 depth = self.depth;
         uint256 hash = newLeaf;
@@ -136,7 +154,10 @@ library InternalQuinaryIMT {
                 ++i;
             }
         }
-        require(updateIndex < self.numberOfLeaves, "QuinaryIMT: leaf index out of range");
+
+        if (updateIndex >= self.numberOfLeaves) {
+            revert LeafIndexOutOfRange();
+        }
 
         self.root = hash;
     }
@@ -167,22 +188,22 @@ library InternalQuinaryIMT {
         uint256[4][] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) internal view returns (bool) {
-        require(leaf < SNARK_SCALAR_FIELD, "QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD");
         uint256 depth = self.depth;
-        require(
-            proofPathIndices.length == depth && proofSiblings.length == depth,
-            "QuinaryIMT: length of path is not correct"
-        );
+
+        if (leaf >= SNARK_SCALAR_FIELD) {
+            revert ValueGreaterThanSnarkScalarField();
+        } else if (proofPathIndices.length != depth || proofSiblings.length != depth) {
+            revert WrongMerkleProofPath();
+        }
 
         uint256 hash = leaf;
 
         for (uint8 i = 0; i < depth; ) {
             uint256[5] memory nodes;
 
-            require(
-                proofPathIndices[i] >= 0 && proofPathIndices[i] < 5,
-                "QuinaryIMT: path index is not between 0 and 4"
-            );
+            if (proofPathIndices[i] < 0 || proofPathIndices[i] >= 5) {
+                revert WrongMerkleProofPath();
+            }
 
             for (uint8 j = 0; j < 5; ) {
                 if (j < proofPathIndices[i]) {

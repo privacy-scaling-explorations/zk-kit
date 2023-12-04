@@ -7,7 +7,6 @@
         "circom/**/*.circom",
         "!circom/main",
         "!circom/test",
-        "noir",
         "LICENSE",
         "README.md"
     ],
@@ -16,7 +15,7 @@
     "scripts": {
         "circom:compile": "circomkit compile",
         "circom:setup": "circomkit setup",
-        "test": "mocha"
+        "test": "mocha && cd noir && nargo test"
     },
     "dependencies": {
         "circomlib": "^2.0.5"

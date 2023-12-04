@@ -2,16 +2,18 @@ import { IMT as JSQuinaryIMT } from "@zk-kit/imt"
 import { expect } from "chai"
 import { run } from "hardhat"
 import { poseidon5 } from "poseidon-lite"
-import { QuinaryIMTTest } from "../typechain-types"
+import { QuinaryIMT, QuinaryIMTTest } from "../typechain-types"
 
 describe("QuinaryIMT", () => {
     const SNARK_SCALAR_FIELD = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
+    let quinaryIMT: QuinaryIMT
     let quinaryIMTTest: QuinaryIMTTest
     let jsQuinaryIMT: JSQuinaryIMT
 
     beforeEach(async () => {
-        const { contract } = await run("deploy:imt-test", { library: "QuinaryIMT", arity: 5, logs: false })
+        const { library, contract } = await run("deploy:imt-test", { library: "QuinaryIMT", arity: 5, logs: false })
 
+        quinaryIMT = library
         quinaryIMTTest = contract
         jsQuinaryIMT = new JSQuinaryIMT(poseidon5, 16, 0, 5)
     })
@@ -20,7 +22,7 @@ describe("QuinaryIMT", () => {
         it("Should not create a tree with a depth > 32", async () => {
             const transaction = quinaryIMTTest.init(33)
 
-            await expect(transaction).to.be.revertedWith("QuinaryIMT: tree depth must be between 1 and 32")
+            await expect(transaction).to.be.revertedWithCustomError(quinaryIMT, "DepthNotSupported")
         })
 
         it("Should create a tree", async () => {
@@ -36,7 +38,7 @@ describe("QuinaryIMT", () => {
         it("Should not insert a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
             const transaction = quinaryIMTTest.insert(SNARK_SCALAR_FIELD)
 
-            await expect(transaction).to.be.revertedWith("QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
+            await expect(transaction).to.be.revertedWithCustomError(quinaryIMT, "ValueGreaterThanSnarkScalarField")
         })
 
         it("Should insert a leaf in a tree", async () => {
@@ -75,7 +77,7 @@ describe("QuinaryIMT", () => {
 
             const transaction = quinaryIMTTest.insert(3)
 
-            await expect(transaction).to.be.revertedWith("QuinaryIMT: tree is full")
+            await expect(transaction).to.be.revertedWithCustomError(quinaryIMT, "TreeIsFull")
         })
     })
 
@@ -86,7 +88,7 @@ describe("QuinaryIMT", () => {
 
             const transaction = quinaryIMTTest.update(1, 1, [[0, 1, 2, 3]], [0])
 
-            await expect(transaction).to.be.revertedWith("QuinaryIMT: new leaf cannot be the same as the old one")
+            await expect(transaction).to.be.revertedWithCustomError(quinaryIMT, "NewLeafCannotEqualOldLeaf")
         })
 
         it("Should not update a leaf if its new value is > SNARK_SCALAR_FIELD", async () => {
@@ -95,7 +97,7 @@ describe("QuinaryIMT", () => {
 
             const transaction = quinaryIMTTest.update(1, SNARK_SCALAR_FIELD, [[0, 1, 2, 3]], [0])
 
-            await expect(transaction).to.be.revertedWith("QuinaryIMT: new leaf must be < SNARK_SCALAR_FIELD")
+            await expect(transaction).to.be.revertedWithCustomError(quinaryIMT, "ValueGreaterThanSnarkScalarField")
         })
 
         it("Should not update a leaf if its original value is > SNARK_SCALAR_FIELD", async () => {
@@ -104,7 +106,7 @@ describe("QuinaryIMT", () => {
 
             const transaction = quinaryIMTTest.update(SNARK_SCALAR_FIELD, 2, [[0, 1, 2, 3]], [0])
 
-            await expect(transaction).to.be.revertedWith("QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
+            await expect(transaction).to.be.revertedWithCustomError(quinaryIMT, "ValueGreaterThanSnarkScalarField")
         })
 
         it("Should not update a leaf if the path indices are wrong", async () => {
@@ -120,7 +122,7 @@ describe("QuinaryIMT", () => {
 
             const transaction = quinaryIMTTest.update(1, 2, siblings, pathIndices)
 
-            await expect(transaction).to.be.revertedWith("QuinaryIMT: path index is not between 0 and 4")
+            await expect(transaction).to.be.revertedWithCustomError(quinaryIMT, "WrongMerkleProofPath")
         })
 
         it("Should not update a leaf if the old leaf is wrong", async () => {
@@ -134,7 +136,7 @@ describe("QuinaryIMT", () => {
 
             const transaction = quinaryIMTTest.update(2, 3, siblings, pathIndices)
 
-            await expect(transaction).to.be.revertedWith("QuinaryIMT: leaf is not part of the tree")
+            await expect(transaction).to.be.revertedWithCustomError(quinaryIMT, "LeafDoesNotExist")
         })
 
         it("Should update a leaf", async () => {
@@ -187,7 +189,7 @@ describe("QuinaryIMT", () => {
 
             const transaction = quinaryIMTTest.update(0, leaf, siblings, pathIndices)
 
-            await expect(transaction).to.be.revertedWith("QuinaryIMT: leaf index out of range")
+            await expect(transaction).to.be.revertedWithCustomError(quinaryIMT, "LeafIndexOutOfRange")
         })
     })
 
@@ -195,7 +197,7 @@ describe("QuinaryIMT", () => {
         it("Should not remove a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
             const transaction = quinaryIMTTest.remove(SNARK_SCALAR_FIELD, [[0, 1, 2, 3]], [0])
 
-            await expect(transaction).to.be.revertedWith("QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
+            await expect(transaction).to.be.revertedWithCustomError(quinaryIMT, "ValueGreaterThanSnarkScalarField")
         })
 
         it("Should not remove a leaf that does not exist", async () => {
@@ -209,7 +211,7 @@ describe("QuinaryIMT", () => {
 
             const transaction = quinaryIMTTest.remove(2, siblings, pathIndices)
 
-            await expect(transaction).to.be.revertedWith("QuinaryIMT: leaf is not part of the tree")
+            await expect(transaction).to.be.revertedWithCustomError(quinaryIMT, "LeafDoesNotExist")
         })
 
         it("Should remove a leaf", async () => {
