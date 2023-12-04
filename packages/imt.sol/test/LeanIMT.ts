@@ -5,6 +5,7 @@ import { poseidon2 } from "poseidon-lite"
 import { LeanIMT, LeanIMTTest } from "../typechain-types"
 
 describe("LeanIMT", () => {
+    const SNARK_SCALAR_FIELD = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
     let leanIMTTest: LeanIMTTest
     let leanIMT: LeanIMT
     let jsLeanIMT: JSLeanIMT
@@ -19,9 +20,7 @@ describe("LeanIMT", () => {
 
     describe("# insert", () => {
         it("Should not insert a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
-            const leaf = await leanIMT.SNARK_SCALAR_FIELD()
-
-            const transaction = leanIMTTest.insert(leaf)
+            const transaction = leanIMTTest.insert(SNARK_SCALAR_FIELD)
 
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafGreaterThanSnarkScalarField")
         })
@@ -73,9 +72,7 @@ describe("LeanIMT", () => {
         })
 
         it("Should not update a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
-            const leaf = await leanIMT.SNARK_SCALAR_FIELD()
-
-            const transaction = leanIMTTest.update(2, leaf, [1, 2, 3, 4])
+            const transaction = leanIMTTest.update(2, SNARK_SCALAR_FIELD, [1, 2, 3, 4])
 
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafGreaterThanSnarkScalarField")
         })
@@ -103,7 +100,7 @@ describe("LeanIMT", () => {
 
             const { siblings } = jsLeanIMT.generateProof(0)
 
-            siblings[0] = (await leanIMT.SNARK_SCALAR_FIELD()).toBigInt()
+            siblings[0] = SNARK_SCALAR_FIELD
 
             const transaction = leanIMTTest.update(1, 2, siblings)
 

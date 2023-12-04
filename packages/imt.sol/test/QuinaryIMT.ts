@@ -2,18 +2,17 @@ import { IMT as JSQuinaryIMT } from "@zk-kit/imt"
 import { expect } from "chai"
 import { run } from "hardhat"
 import { poseidon5 } from "poseidon-lite"
-import { QuinaryIMT, QuinaryIMTTest } from "../typechain-types"
+import { QuinaryIMTTest } from "../typechain-types"
 
 describe("QuinaryIMT", () => {
+    const SNARK_SCALAR_FIELD = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
     let quinaryIMTTest: QuinaryIMTTest
-    let quinaryIMT: QuinaryIMT
     let jsQuinaryIMT: JSQuinaryIMT
 
     beforeEach(async () => {
-        const { library, contract } = await run("deploy:imt-test", { library: "QuinaryIMT", arity: 5, logs: false })
+        const { contract } = await run("deploy:imt-test", { library: "QuinaryIMT", arity: 5, logs: false })
 
         quinaryIMTTest = contract
-        quinaryIMT = library
         jsQuinaryIMT = new JSQuinaryIMT(poseidon5, 16, 0, 5)
     })
 
@@ -35,9 +34,7 @@ describe("QuinaryIMT", () => {
 
     describe("# insert", () => {
         it("Should not insert a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
-            const leaf = await quinaryIMT.SNARK_SCALAR_FIELD()
-
-            const transaction = quinaryIMTTest.insert(leaf)
+            const transaction = quinaryIMTTest.insert(SNARK_SCALAR_FIELD)
 
             await expect(transaction).to.be.revertedWith("QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
         })
@@ -96,9 +93,7 @@ describe("QuinaryIMT", () => {
             await quinaryIMTTest.init(jsQuinaryIMT.depth)
             await quinaryIMTTest.insert(1)
 
-            const newLeaf = await quinaryIMT.SNARK_SCALAR_FIELD()
-
-            const transaction = quinaryIMTTest.update(1, newLeaf, [[0, 1, 2, 3]], [0])
+            const transaction = quinaryIMTTest.update(1, SNARK_SCALAR_FIELD, [[0, 1, 2, 3]], [0])
 
             await expect(transaction).to.be.revertedWith("QuinaryIMT: new leaf must be < SNARK_SCALAR_FIELD")
         })
@@ -107,9 +102,7 @@ describe("QuinaryIMT", () => {
             await quinaryIMTTest.init(jsQuinaryIMT.depth)
             await quinaryIMTTest.insert(1)
 
-            const oldLeaf = await quinaryIMT.SNARK_SCALAR_FIELD()
-
-            const transaction = quinaryIMTTest.update(oldLeaf, 2, [[0, 1, 2, 3]], [0])
+            const transaction = quinaryIMTTest.update(SNARK_SCALAR_FIELD, 2, [[0, 1, 2, 3]], [0])
 
             await expect(transaction).to.be.revertedWith("QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
         })
@@ -200,9 +193,7 @@ describe("QuinaryIMT", () => {
 
     describe("# remove", () => {
         it("Should not remove a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
-            const leaf = await quinaryIMT.SNARK_SCALAR_FIELD()
-
-            const transaction = quinaryIMTTest.remove(leaf, [[0, 1, 2, 3]], [0])
+            const transaction = quinaryIMTTest.remove(SNARK_SCALAR_FIELD, [[0, 1, 2, 3]], [0])
 
             await expect(transaction).to.be.revertedWith("QuinaryIMT: leaf must be < SNARK_SCALAR_FIELD")
         })

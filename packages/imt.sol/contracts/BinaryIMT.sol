@@ -2,14 +2,9 @@
 pragma solidity ^0.8.4;
 
 import {InternalBinaryIMT, BinaryIMTData} from "./internal/InternalBinaryIMT.sol";
-import {MAX_DEPTH} from "./Constants.sol";
 
 library BinaryIMT {
     using InternalBinaryIMT for *;
-
-    function getMaxDepth() public pure returns (uint8) {
-        return MAX_DEPTH;
-    }
 
     function defaultZero(uint256 index) public pure returns (uint256) {
         return InternalBinaryIMT._defaultZero(index);
