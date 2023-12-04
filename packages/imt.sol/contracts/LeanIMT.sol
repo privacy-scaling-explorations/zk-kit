@@ -22,12 +22,13 @@ error LeafCannotBeZero();
 error LeafAlreadyExists();
 error LeafDoesNotExist();
 
-// The LeanIMT is an optimized version of the BinaryIMT.
-// This implementation eliminates the use of zeroes, and make the tree depth dynamic.
-// When a node doesn't have the right child, instead of using a zero hash as in the BinaryIMT,
-// the node's value becomes that of its left child. Furthermore, rather than utilizing a static tree depth,
-// it is updated based on the number of leaves in the tree. This approach
-// results in the calculation of significantly fewer hashes, making the tree more efficient.
+/// @title Lean Incremental binary Merkle tree.
+/// @dev The LeanIMT is an optimized version of the BinaryIMT.
+/// This implementation eliminates the use of zeroes, and make the tree depth dynamic.
+/// When a node doesn't have the right child, instead of using a zero hash as in the BinaryIMT,
+/// the node's value becomes that of its left child. Furthermore, rather than utilizing a static tree depth,
+/// it is updated based on the number of leaves in the tree. This approach
+/// results in the calculation of significantly fewer hashes, making the tree more efficient.
 library LeanIMT {
     uint256 public constant SNARK_SCALAR_FIELD =
         21888242871839275222246405745257275088548364400416034343698204186575808495617;
