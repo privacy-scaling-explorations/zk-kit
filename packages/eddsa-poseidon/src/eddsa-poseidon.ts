@@ -7,6 +7,25 @@ import { BigNumberish, Point, Signature } from "./types"
 import * as utils from "./utils"
 
 /**
+ * Hashes the 32-byte private key using Blake1, prunes the lower 32 bytes
+ * of the buffer and converts it to a little-endian integer.
+ * This function is used to obtain the secret scalar to be used as
+ * the input of the private key in the circuits, since the circuit only
+ * performs a fixed-base scalar multiplication.
+ * For more info about these steps: {@link https://datatracker.ietf.org/doc/html/rfc8032#section-5.1.5}.
+ * @param privateKey - The private key used for generating the public key.
+ * @returns The secret scalar to be used to calculate public key.
+ */
+export function deriveSecretScalar(privateKey: BigNumberish): bigint {
+    // Convert the private key to buffer.
+    privateKey = utils.checkPrivateKey(privateKey)
+
+    const hash = blake(privateKey)
+
+    return utils.leBuff2int(utils.pruneBuffer(hash.slice(0, 32)))
+}
+
+/**
  * Derives a public key from a given private key using the
  * {@link https://eips.ethereum.org/EIPS/eip-2494|Baby Jubjub} elliptic curve.
  * This function utilizes the Baby Jubjub elliptic curve for cryptographic operations.
@@ -16,12 +35,7 @@ import * as utils from "./utils"
  * @returns The derived public key.
  */
 export function derivePublicKey(privateKey: BigNumberish): Point<string> {
-    // Convert the private key to buffer.
-    privateKey = utils.checkPrivateKey(privateKey)
-
-    const hash = blake(privateKey)
-
-    const s = utils.leBuff2int(utils.pruneBuffer(hash.slice(0, 32)))
+    const s = deriveSecretScalar(privateKey)
 
     const publicKey = babyjub.mulPointEscalar(babyjub.Base8, scalar.shiftRight(s, BigInt(3)))
 
