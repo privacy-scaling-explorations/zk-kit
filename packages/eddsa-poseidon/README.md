@@ -142,3 +142,16 @@ const response = verifySignature(message, signature, publicKey)
 
 console.log(response) // true
 ```
+
+\# **deriveSecretScalar**(privateKey: _BigNumberish_): _bigint_
+
+```typescript
+import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
+
+const privateKey = "secret"
+// Use this value as the input for your Circom circuit.
+const secretScalar = deriveSecretScalar(privateKey)
+
+console.log(secretScalar)
+// 52359937820999550851358128406546520360380553803646081112576207882956925379784n
+```
