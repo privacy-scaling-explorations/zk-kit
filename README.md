@@ -2,7 +2,7 @@
     <h1 align="center">
         🧰 ZK-kit
     </h1>
-    <p align="center">A monorepo of reusable JS libraries for zero-knowledge technologies.</p>
+    <p align="center">A monorepo of reusable libraries for zero-knowledge technologies.</p>
 </p>
 
 <p align="center">
