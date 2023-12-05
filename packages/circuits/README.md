@@ -9,8 +9,8 @@
     <a href="https://github.com/privacy-scaling-explorations/zk-kit">
         <img src="https://img.shields.io/badge/project-zk--kit-blue.svg?style=flat-square">
     </a>
-    <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/circuits.sol/LICENSE">
-        <img alt="Github license" src="https://img.shields.io/github/license/privacy-scaling-explorations/zk-kit.svg?style=flat-square">
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/circuits/LICENSE">
+        <img alt="NPM license" src="https://img.shields.io/npm/l/%40zk-kit%2Fcircuits?style=flat-square">
     </a>
     <a href="https://www.npmjs.com/package/@zk-kit/circuits">
         <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/circuits?style=flat-square" />
