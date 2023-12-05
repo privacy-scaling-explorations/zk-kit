@@ -10,7 +10,8 @@
             "require": "./dist/index.node.js"
         },
         "browser": "./dist/index.browser.mjs",
-        "default": "./dist/index.browser.mjs"
+        "default": "./dist/index.browser.mjs",
+        "types": "./dist/types/index.d.ts"
     },
     "types": "dist/types/index.d.ts",
     "files": [
