@@ -13,7 +13,8 @@
     "license": "GPL-3.0",
     "files": [
         "circuits/",
-        "README.md"
+        "README.md",
+        "LICENSE"
     ],
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
     "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lazytower.circom",
