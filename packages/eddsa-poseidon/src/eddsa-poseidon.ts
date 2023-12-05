@@ -20,9 +20,12 @@ export function deriveSecretScalar(privateKey: BigNumberish): bigint {
     // Convert the private key to buffer.
     privateKey = utils.checkPrivateKey(privateKey)
 
-    const hash = blake(privateKey)
+    let hash = blake(privateKey)
 
-    return utils.leBuff2int(utils.pruneBuffer(hash.slice(0, 32)))
+    hash = hash.slice(0, 32)
+    hash = utils.pruneBuffer(hash)
+
+    return scalar.shiftRight(utils.leBuff2int(hash), BigInt(3))
 }
 
 /**
@@ -37,7 +40,7 @@ export function deriveSecretScalar(privateKey: BigNumberish): bigint {
 export function derivePublicKey(privateKey: BigNumberish): Point<string> {
     const s = deriveSecretScalar(privateKey)
 
-    const publicKey = babyjub.mulPointEscalar(babyjub.Base8, scalar.shiftRight(s, BigInt(3)))
+    const publicKey = babyjub.mulPointEscalar(babyjub.Base8, s)
 
     // Convert the public key values to strings so that it can easily be exported as a JSON.
     return [publicKey[0].toString(), publicKey[1].toString()]
