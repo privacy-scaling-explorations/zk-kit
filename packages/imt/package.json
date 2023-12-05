@@ -15,6 +15,7 @@
     "files": [
         "dist/",
         "src/",
+        "LICENSE",
         "README.md"
     ],
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
