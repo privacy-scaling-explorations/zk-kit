@@ -186,7 +186,7 @@ console.log(secretScalar)
 // 52359937820999550851358128406546520360380553803646081112576207882956925379784n
 ```
 
-\# **packPublicKey**(publicKey: _Point_): _string_ | _null_
+\# **packPublicKey**(publicKey: _Point_): _string_
 
 ```typescript
 import { derivePublicKey, packPublicKey } from "@zk-kit/eddsa-poseidon"
@@ -200,7 +200,7 @@ console.log(packedPublicKey)
 // 52359937820999550851358128406546520360380553803646081112576207882956925379784n
 ```
 
-\# **unpackPublicKey**(publicKey: _string_): _Point_
+\# **unpackPublicKey**(publicKey: _BigNumber_): _Point\<string>_
 
 ```typescript
 import { derivePublicKey, packPublicKey, unpackPublicKey } from "@zk-kit/eddsa-poseidon"

@@ -8,7 +8,7 @@ export function pruneBuffer(buff: Buffer): Buffer {
     return buff
 }
 
-function isStringifiedBigint(s: BigNumber | string): boolean {
+export function isStringifiedBigint(s: BigNumber | string): boolean {
     try {
         BigInt(s)
 

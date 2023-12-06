@@ -212,16 +212,16 @@ describe("EdDSAPoseidon", () => {
 
         const packedPublicKey = packPublicKey(publicKey)
 
-        expect(packedPublicKey).toBe(
-            BigInt(`0x${Buffer.from(babyjub.packPoint(publicKey)).toString("hex")}`).toString()
-        )
+        const expectedPackedPublicKey = babyjub.packPoint([BigInt(publicKey[0]), BigInt(publicKey[1])])
+
+        expect(packedPublicKey).toBe(BigInt(`0x${Buffer.from(expectedPackedPublicKey).toString("hex")}`).toString())
     })
 
     it("Should unpack a packed public key", async () => {
         const publicKey = derivePublicKey(privateKey)
 
         const packedPublicKey = packPublicKey(publicKey)
-        const unpackedPublicKey = unpackPublicKey(packedPublicKey as string) as Point
+        const unpackedPublicKey = unpackPublicKey(packedPublicKey)
 
         expect(unpackedPublicKey[0]).toBe(publicKey[0])
         expect(unpackedPublicKey[1]).toBe(publicKey[1])

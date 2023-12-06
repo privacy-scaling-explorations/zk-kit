@@ -3,7 +3,7 @@ import * as babyjub from "./babyjub"
 import blake from "./blake"
 import Field from "./field"
 import * as scalar from "./scalar"
-import { BigNumberish, Point, Signature } from "./types"
+import { BigNumber, BigNumberish, Point, Signature } from "./types"
 import * as utils from "./utils"
 
 /**
@@ -124,19 +124,39 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
     return babyjub.Fr.eq(BigInt(pLeft[0]), pRight[0]) && babyjub.Fr.eq(pLeft[1], pRight[1])
 }
 
-export function packPublicKey(publicKey: Point): string | null {
+export function packPublicKey(publicKey: Point): string {
     if (!utils.isPoint(publicKey) || !babyjub.inCurve(publicKey)) {
-        return null
+        throw new Error("Invalid public key")
     }
 
     // Convert the public key values to big integers for calculations.
     const _publicKey: Point<bigint> = [BigInt(publicKey[0]), BigInt(publicKey[1])]
 
-    return babyjub.packPoint(_publicKey).toString()
+    const packedPublicKey = babyjub.packPoint(_publicKey)
+
+    if (packedPublicKey === null) {
+        throw new Error("Invalid public key")
+    }
+
+    return packedPublicKey.toString()
 }
 
-export function unpackPublicKey(publicKey: string): Point | null {
-    return babyjub.unpackPoint(BigInt(publicKey))
+export function unpackPublicKey(publicKey: BigNumber): Point<string> {
+    if (
+        typeof publicKey !== "bigint" &&
+        (typeof publicKey !== "string" || !utils.isStringifiedBigint(publicKey)) &&
+        (typeof publicKey !== "string" || !utils.isHexadecimal(publicKey))
+    ) {
+        throw new TypeError("Invalid public key type")
+    }
+
+    const unpackedPublicKey = babyjub.unpackPoint(BigInt(publicKey))
+
+    if (unpackedPublicKey === null) {
+        throw new Error("Invalid public key")
+    }
+
+    return [unpackedPublicKey[0].toString(), unpackedPublicKey[1].toString()]
 }
 
 export class EdDSAPoseidon {

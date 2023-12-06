@@ -88,11 +88,11 @@ export function mulPointEscalar(base: Point<bigint>, e: bigint): Point<bigint> {
 }
 
 export function inCurve(p: Point) {
-    p[0] = BigInt(p[0])
-    p[1] = BigInt(p[1])
+    const x1 = BigInt(p[0])
+    const y1 = BigInt(p[1])
 
-    const x2 = Fr.square(p[0])
-    const y2 = Fr.square(p[1])
+    const x2 = Fr.square(x1)
+    const y2 = Fr.square(y1)
 
     return Fr.eq(Fr.add(Fr.mul(a, x2), y2), Fr.add(Fr.one, Fr.mul(Fr.mul(x2, y2), d)))
 }
