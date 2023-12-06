@@ -87,6 +87,36 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
+\# **new EdDSAPoseidon**(privateKey: _BigNumberish_): _EdDSAPoseidon_
+
+```typescript
+import { EdDSAPoseidon } from "@zk-kit/eddsa-poseidon"
+
+const privateKey = "secret"
+const message = "message"
+
+const eddsa = new EdDSAPoseidon(privateKey)
+const signature = eddsa.signMessage(message)
+
+eddsa.verifySignature(message, signature)
+
+// This class implements its methods based on external functions.
+// See below for more details on them.
+
+console.log(eddsa)
+/*
+EdDSAPoseidon {
+    _privateKey: 'secret',
+    _secretScalar: '6544992227624943856419766050818315045047569225455760139072025985369615672473',
+    _publicKey: [
+        17191193026255111087474416516591393721975640005415762645730433950079177536248n,
+        13751717961795090314625781035919035073474308127816403910435238282697898234143n
+    ],
+    _packedPublicKey: '14277921624107172450683599157880963081763136590946434672207840996093731170206'
+}
+*/
+```
+
 \# **derivePublicKey**(privateKey: _BigNumberish_): _Point\<string>_
 
 ```typescript
@@ -143,7 +173,7 @@ const response = verifySignature(message, signature, publicKey)
 console.log(response) // true
 ```
 
-\# **deriveSecretScalar**(privateKey: _BigNumberish_): _bigint_
+\# **deriveSecretScalar**(privateKey: _BigNumberish_): _string_
 
 ```typescript
 import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
@@ -153,5 +183,19 @@ const privateKey = "secret"
 const secretScalar = deriveSecretScalar(privateKey)
 
 console.log(secretScalar)
+// 52359937820999550851358128406546520360380553803646081112576207882956925379784n
+```
+
+\# **packPublicKey**(publicKey: _Point_): _string_ | _null_
+
+```typescript
+import { derivePublicKey, packPublicKey } from "@zk-kit/eddsa-poseidon"
+
+const privateKey = "secret"
+const publicKey = derivePublicKey(privateKey)
+
+const packedPublicKey = packPublicKey(publicKey)
+
+console.log(packedPublicKey)
 // 52359937820999550851358128406546520360380553803646081112576207882956925379784n
 ```

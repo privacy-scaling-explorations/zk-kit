@@ -1,6 +1,8 @@
 import Field from "./field"
 import * as scalar from "./scalar"
 import { Point } from "./types"
+import * as utils from "./utils"
+import * as sqrt from "./sqrt"
 
 // Spec: https://eips.ethereum.org/EIPS/eip-2494
 
@@ -93,4 +95,48 @@ export function inCurve(p: Point) {
     const y2 = Fr.square(p[1])
 
     return Fr.eq(Fr.add(Fr.mul(a, x2), y2), Fr.add(Fr.one, Fr.mul(Fr.mul(x2, y2), d)))
+}
+
+export function packPoint(unpackedPoint: Point<bigint>): bigint {
+    const buffer = utils.leInt2Buff(unpackedPoint[1])
+
+    if (Fr.lt(unpackedPoint[0], Fr.zero)) {
+        buffer[31] |= 0x80
+    }
+
+    return utils.buff2int(buffer)
+}
+
+export function unpackPoint(packedPoint: bigint): Point | null {
+    const buffer = Buffer.from(utils.int2hex(packedPoint), "hex")
+    const unpackedPoint = new Array(2)
+
+    let sign = false
+
+    if (buffer[31] & 0x80) {
+        sign = true
+        buffer[31] &= 0x7f
+    }
+
+    unpackedPoint[1] = utils.leBuff2int(buffer)
+
+    if (scalar.gt(unpackedPoint[1], r)) {
+        return null
+    }
+
+    const y2 = Fr.square(unpackedPoint[1])
+
+    let x = sqrt.tonelliShanks(Fr.div(Fr.sub(Fr.one, y2), Fr.sub(a, Fr.mul(d, y2))))
+
+    if (x == null) {
+        return null
+    }
+
+    if (sign) {
+        x = Fr.neg(x)
+    }
+
+    unpackedPoint[0] = x
+
+    return unpackedPoint as Point
 }

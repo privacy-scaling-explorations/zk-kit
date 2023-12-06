@@ -1,11 +1,17 @@
+import * as scalar from "./scalar"
+
 export default class Field {
     one = BigInt(1)
     zero = BigInt(0)
 
     _order: bigint
+    _half: bigint
+    _negone: bigint
 
     constructor(order: bigint) {
         this._order = order
+        this._half = order >> this.one
+        this._negone = this._order - this.one
     }
 
     e(res: bigint): bigint {
@@ -55,5 +61,51 @@ export default class Field {
 
     square(a: bigint): bigint {
         return (a * a) % this._order
+    }
+
+    lt(a: bigint, b: bigint) {
+        const aa = a > this._half ? a - this._order : a
+        const bb = b > this._half ? b - this._order : b
+
+        return aa < bb
+    }
+
+    geq(a: bigint, b: bigint) {
+        const aa = a > this._half ? a - this._order : a
+        const bb = b > this._half ? b - this._order : b
+
+        return aa >= bb
+    }
+
+    neg(a: bigint) {
+        return a ? this._order - a : a
+    }
+
+    isZero(a: bigint) {
+        return a === this.zero
+    }
+
+    pow(base: bigint, e: bigint) {
+        if (scalar.isZero(e)) {
+            return this.one
+        }
+
+        const n = scalar.bits(e)
+
+        if (n.length === 0) {
+            return this.one
+        }
+
+        let res = base
+
+        for (let i = n.length - 2; i >= 0; i -= 1) {
+            res = this.square(res)
+
+            if (n[i]) {
+                res = this.mul(res, base)
+            }
+        }
+
+        return res
     }
 }
