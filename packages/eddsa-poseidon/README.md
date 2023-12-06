@@ -199,3 +199,19 @@ const packedPublicKey = packPublicKey(publicKey)
 console.log(packedPublicKey)
 // 52359937820999550851358128406546520360380553803646081112576207882956925379784n
 ```
+
+\# **unpackPublicKey**(publicKey: _string_): _Point_
+
+```typescript
+import { derivePublicKey, packPublicKey, unpackPublicKey } from "@zk-kit/eddsa-poseidon"
+
+const privateKey = "secret"
+const publicKey = derivePublicKey(privateKey)
+
+const packedPublicKey = packPublicKey(publicKey)
+
+const unpackedPublicKey = unpackPublicKey(packedPublicKey)
+
+console.log(publicKey[0] === unpackedPublicKey[0]) // true
+console.log(publicKey[1] === unpackedPublicKey[1]) // true
+```
