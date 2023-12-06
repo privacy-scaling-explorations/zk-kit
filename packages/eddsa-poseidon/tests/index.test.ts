@@ -1,14 +1,13 @@
-import { eddsa, babyjub } from "circomlibjs"
+import { babyjub, eddsa } from "circomlibjs"
 import crypto from "crypto"
 import {
-    derivePublicKey,
-    signMessage,
-    verifySignature,
     EdDSAPoseidon,
+    derivePublicKey,
     deriveSecretScalar,
     packPublicKey,
+    signMessage,
     unpackPublicKey,
-    Point
+    verifySignature
 } from "../src"
 
 describe("EdDSAPoseidon", () => {
