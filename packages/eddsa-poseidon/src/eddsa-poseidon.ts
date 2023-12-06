@@ -16,7 +16,7 @@ import * as utils from "./utils"
  * @param privateKey - The private key used for generating the public key.
  * @returns The secret scalar to be used to calculate public key.
  */
-export function deriveSecretScalar(privateKey: BigNumberish): bigint {
+export function deriveSecretScalar(privateKey: BigNumberish): string {
     // Convert the private key to buffer.
     privateKey = utils.checkPrivateKey(privateKey)
 
@@ -25,7 +25,7 @@ export function deriveSecretScalar(privateKey: BigNumberish): bigint {
     hash = hash.slice(0, 32)
     hash = utils.pruneBuffer(hash)
 
-    return scalar.shiftRight(utils.leBuff2int(hash), BigInt(3))
+    return scalar.shiftRight(utils.leBuff2int(hash), BigInt(3)).toString()
 }
 
 /**
@@ -40,7 +40,7 @@ export function deriveSecretScalar(privateKey: BigNumberish): bigint {
 export function derivePublicKey(privateKey: BigNumberish): Point<string> {
     const s = deriveSecretScalar(privateKey)
 
-    const publicKey = babyjub.mulPointEscalar(babyjub.Base8, s)
+    const publicKey = babyjub.mulPointEscalar(babyjub.Base8, BigInt(s))
 
     // Convert the public key values to strings so that it can easily be exported as a JSON.
     return [publicKey[0].toString(), publicKey[1].toString()]
@@ -122,4 +122,41 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
 
     // Return true if the points match.
     return babyjub.Fr.eq(BigInt(pLeft[0]), pRight[0]) && babyjub.Fr.eq(pLeft[1], pRight[1])
+}
+
+export function packPublicKey(publicKey: Point): string | null {
+    if (!utils.isPoint(publicKey) || !babyjub.inCurve(publicKey)) {
+        return null
+    }
+
+    // Convert the public key values to big integers for calculations.
+    const _publicKey: Point<bigint> = [BigInt(publicKey[0]), BigInt(publicKey[1])]
+
+    return babyjub.packPoint(_publicKey).toString()
+}
+
+export function unpackPublicKey(publicKey: string): Point | null {
+    return babyjub.unpackPoint(BigInt(publicKey))
+}
+
+export class EdDSAPoseidon {
+    privateKey: BigNumberish
+    secretScalar: string
+    publicKey: Point
+    packedPublicKey: string
+
+    constructor(privateKey: BigNumberish) {
+        this.privateKey = privateKey
+        this.secretScalar = deriveSecretScalar(privateKey)
+        this.publicKey = derivePublicKey(privateKey)
+        this.packedPublicKey = packPublicKey(this.publicKey) as string
+    }
+
+    signMessage(message: BigNumberish): Signature<string> {
+        return signMessage(this.privateKey, message)
+    }
+
+    verifySignature(message: BigNumberish, signature: Signature): boolean {
+        return verifySignature(message, signature, this.publicKey)
+    }
 }

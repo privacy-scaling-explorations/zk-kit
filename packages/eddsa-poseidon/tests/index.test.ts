@@ -1,6 +1,15 @@
-import { eddsa } from "circomlibjs"
+import { eddsa, babyjub } from "circomlibjs"
 import crypto from "crypto"
-import { derivePublicKey, signMessage, verifySignature } from "../src"
+import {
+    derivePublicKey,
+    signMessage,
+    verifySignature,
+    EdDSAPoseidon,
+    deriveSecretScalar,
+    packPublicKey,
+    unpackPublicKey,
+    Point
+} from "../src"
 
 describe("EdDSAPoseidon", () => {
     const privateKey = "secret"
@@ -196,5 +205,35 @@ describe("EdDSAPoseidon", () => {
             expect(publicKey[0]).toBe(circomlibPublicKey[0].toString())
             expect(publicKey[1]).toBe(circomlibPublicKey[1].toString())
         }
+    })
+
+    it("Should pack a public key", async () => {
+        const publicKey = derivePublicKey(privateKey)
+
+        const packedPublicKey = packPublicKey(publicKey)
+
+        expect(packedPublicKey).toBe(
+            BigInt(`0x${Buffer.from(babyjub.packPoint(publicKey)).toString("hex")}`).toString()
+        )
+    })
+
+    it("Should unpack a packed public key", async () => {
+        const publicKey = derivePublicKey(privateKey)
+
+        const packedPublicKey = packPublicKey(publicKey)
+        const unpackedPublicKey = unpackPublicKey(packedPublicKey as string) as Point
+
+        expect(unpackedPublicKey[0]).toBe(publicKey[0])
+        expect(unpackedPublicKey[1]).toBe(publicKey[1])
+    })
+
+    it("Should create an EdDSAPoseidon instance", async () => {
+        const eddsa = new EdDSAPoseidon(privateKey)
+
+        const signature = eddsa.signMessage(message)
+
+        expect(eddsa.secretScalar).toBe(deriveSecretScalar(privateKey))
+        expect(eddsa.packedPublicKey).toBe(packPublicKey(eddsa.publicKey))
+        expect(eddsa.verifySignature(message, signature)).toBeTruthy()
     })
 })
