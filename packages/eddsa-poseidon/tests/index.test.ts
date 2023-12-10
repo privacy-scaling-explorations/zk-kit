@@ -14,6 +14,11 @@ describe("EdDSAPoseidon", () => {
     const privateKey = "secret"
     const message = BigInt(2)
 
+    console.log(babyjub.p)
+
+    console.log(babyjub.mulPointEscalar(babyjub.Base8, babyjub.p - BigInt(3)))
+    console.log(babyjub.mulPointEscalar(babyjub.Base8, 3))
+
     it("Should derive a public key from a private key (string)", async () => {
         const publicKey = derivePublicKey(privateKey)
 
