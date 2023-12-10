@@ -15,6 +15,16 @@ export default class Field {
     }
 
     e(res: bigint): bigint {
+        if (res < 0) {
+            let nres = -res
+
+            if (nres >= this._order) {
+                nres %= this._order
+            }
+
+            return this._order - nres
+        }
+
         return res >= this._order ? res % this._order : res
     }
 
