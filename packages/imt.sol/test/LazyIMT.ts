@@ -7,6 +7,7 @@ import { LazyIMT, LazyIMTTest } from "../typechain-types"
 const random = () => poseidon2([Math.floor(Math.random() * 2 ** 40), 0])
 
 describe("LazyIMT", () => {
+    const SNARK_SCALAR_FIELD = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
     let lazyIMTTest: LazyIMTTest
     let lazyIMT: LazyIMT
 
@@ -129,9 +130,9 @@ describe("LazyIMT", () => {
 
             await lazyIMTTest.init(depth)
 
-            const F = await lazyIMT.SNARK_SCALAR_FIELD()
-
-            await expect(lazyIMTTest.insert(F)).to.be.revertedWith("LazyIMT: leaf must be < SNARK_SCALAR_FIELD")
+            await expect(lazyIMTTest.insert(SNARK_SCALAR_FIELD)).to.be.revertedWith(
+                "LazyIMT: leaf must be < SNARK_SCALAR_FIELD"
+            )
         })
     })
 
@@ -217,9 +218,9 @@ describe("LazyIMT", () => {
                 await lazyIMTTest.insert(random())
             }
 
-            const F = await lazyIMT.SNARK_SCALAR_FIELD()
-
-            await expect(lazyIMTTest.update(F, 0)).to.be.revertedWith("LazyIMT: leaf must be < SNARK_SCALAR_FIELD")
+            await expect(lazyIMTTest.update(SNARK_SCALAR_FIELD, 0)).to.be.revertedWith(
+                "LazyIMT: leaf must be < SNARK_SCALAR_FIELD"
+            )
         })
     })
 
