@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import {PoseidonT3} from "poseidon-solidity/PoseidonT3.sol";
 import {InternalLazyIMT, LazyIMTData} from "./internal/InternalLazyIMT.sol";
 
 library LazyIMT {

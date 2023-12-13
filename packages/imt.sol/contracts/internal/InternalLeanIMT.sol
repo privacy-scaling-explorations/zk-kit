@@ -73,6 +73,132 @@ library InternalLeanIMT {
         return node;
     }
 
+    /// @dev Inserts many leaves into the incremental merkle tree.
+    /// The function ensures that the leaves are valid according to the
+    /// constraints of the tree and then updates the tree's structure accordingly.
+    /// @param self: A storage reference to the 'LeanIMTData' struct.
+    /// @param leaves: The values of the new leaves to be inserted into the tree.
+    /// @return The root after the leaves have been inserted.
+    function _insertMany(LeanIMTData storage self, uint256[] calldata leaves) public returns (uint256) {
+        // Check that all the new values are correct to be added.
+        for (uint256 i = 0; i < leaves.length; ) {
+            if (leaves[i] >= SNARK_SCALAR_FIELD) {
+                revert LeafGreaterThanSnarkScalarField();
+            } else if (leaves[i] == 0) {
+                revert LeafCannotBeZero();
+            } else if (_has(self, leaves[i])) {
+                revert LeafAlreadyExists();
+            }
+
+            self.leaves[leaves[i]] = self.size + i;
+
+            unchecked {
+                ++i;
+            }
+        }
+
+        // Array to save the nodes that will be used to create the next level of the tree.
+        uint256[] memory levelTemp;
+
+        levelTemp = leaves;
+
+        // Calculate the depth of the tree after adding the new values.
+        while (2 ** self.depth < self.size + leaves.length) {
+            self.depth += 1;
+        }
+
+        // First index to change in every level.
+        uint256 startIndex = self.size;
+
+        // Size of the level used to create the next level.
+        uint256 levelTempSize = self.size + leaves.length;
+
+        // The index where changes begin at the next level.
+        uint256 startIndexNew = startIndex >> 1;
+
+        // The size of the next level.
+        uint256 levelNewTempSize = ((levelTempSize - 1) >> 1) + 1;
+
+        for (uint256 level = 0; level < self.depth; ) {
+            // The number of nodes for the new level that will be created,
+            // only the new values, not the entire level.
+            uint256 numberOfNodes = levelNewTempSize - startIndexNew;
+            uint256[] memory levelNewTemp = new uint256[](numberOfNodes);
+            for (uint256 i = 0; i < numberOfNodes; ) {
+                uint256 rightNode;
+                uint256 leftNode;
+
+                // Assign the right node if the value exists.
+                if ((i + startIndexNew) * 2 + 1 < levelTempSize) {
+                    rightNode = levelTemp[(i + startIndexNew) * 2 + 1 - startIndex];
+                }
+
+                // Assign the left node using the saved path or the position in the array.
+                if ((i + startIndexNew) * 2 < startIndex) {
+                    leftNode = self.sideNodes[level];
+                } else {
+                    leftNode = levelTemp[(i + startIndexNew) * 2 - startIndex];
+                }
+
+                uint256 parentNode;
+
+                // Assign the parent node.
+                // If it has a right child the result will be the hash(leftNode, rightNode) if not,
+                // it will be the leftNode.
+                if (rightNode != 0) {
+                    parentNode = PoseidonT3.hash([leftNode, rightNode]);
+                } else {
+                    parentNode = leftNode;
+                }
+
+                levelNewTemp[i] = parentNode;
+
+                unchecked {
+                    ++i;
+                }
+            }
+
+            // Update the `sideNodes` variable.
+            // If `levelTempSize` is odd, the saved value will be the last value of the array
+            // if it is even and there are more than 1 elements in `levelTemp`, the saved value
+            // will be the value before the last one.
+            // If it is even and there is only one element, there is no need to save anything because
+            // the correct value for this level was already saved before.
+            if (levelTempSize & 1 == 1) {
+                self.sideNodes[level] = levelTemp[levelTemp.length - 1];
+            } else if (levelTemp.length > 1) {
+                self.sideNodes[level] = levelTemp[levelTemp.length - 2];
+            }
+
+            startIndex = startIndexNew;
+
+            // Calculate the next startIndex value.
+            // It is the position of the paret node which is pos/2.
+            startIndexNew >>= 1;
+
+            // Update the next array that will be used to calculate the next level.
+            levelTemp = levelNewTemp;
+
+            levelTempSize = levelNewTempSize;
+
+            // Calculate the size of the next level.
+            // The size of the next level is (currentLevelSize - 1) / 2 + 1.
+            levelNewTempSize = ((levelNewTempSize - 1) >> 1) + 1;
+
+            unchecked {
+                ++level;
+            }
+        }
+
+        // Update tree size
+        self.size += leaves.length;
+
+        // Update tree root
+        self.sideNodes[self.depth] = levelTemp[0];
+
+        return levelTemp[0];
+    }
+
     /// @dev Updates the value of an existing leaf and recalculates hashes
     /// to maintain tree integrity.
     /// @param self: A storage reference to the 'LeanIMTData' struct.

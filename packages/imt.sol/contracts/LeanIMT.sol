@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import {PoseidonT3} from "poseidon-solidity/PoseidonT3.sol";
 import {InternalLeanIMT, LeanIMTData} from "./internal/InternalLeanIMT.sol";
 
 library LeanIMT {
@@ -9,6 +8,10 @@ library LeanIMT {
 
     function insert(LeanIMTData storage self, uint256 leaf) public returns (uint256) {
         return InternalLeanIMT._insert(self, leaf);
+    }
+
+    function insertMany(LeanIMTData storage self, uint256[] calldata leaves) public returns (uint256) {
+        return InternalLeanIMT._insertMany(self, leaves);
     }
 
     function update(
