@@ -79,7 +79,7 @@ library InternalLeanIMT {
     /// @param self: A storage reference to the 'LeanIMTData' struct.
     /// @param leaves: The values of the new leaves to be inserted into the tree.
     /// @return The root after the leaves have been inserted.
-    function _insertMany(LeanIMTData storage self, uint256[] calldata leaves) public returns (uint256) {
+    function _insertMany(LeanIMTData storage self, uint256[] calldata leaves) internal returns (uint256) {
         // Check that all the new values are correct to be added.
         for (uint256 i = 0; i < leaves.length; ) {
             if (leaves[i] >= SNARK_SCALAR_FIELD) {
