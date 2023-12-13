@@ -9,9 +9,9 @@ struct LeanIMTData {
     uint256 size;
     // Represents the current depth of the tree, which can increase as new leaves are inserted.
     uint256 depth;
-    // A mapping from each level of the tree to the rightmost node at that level.
-    // Used for efficient updates and root calculations.
-    mapping(uint256 => uint256) rightmostNodes;
+    // A mapping from each level of the tree to the node value of the last even position at that level.
+    // Used for efficient inserts, updates and root calculations.
+    mapping(uint256 => uint256) sideNodes;
     // A mapping from leaf values to their respective indices in the tree.
     // This facilitates checks for leaf existence and retrieval of leaf positions.
     mapping(uint256 => uint256) leaves;
@@ -55,9 +55,9 @@ library InternalLeanIMT {
 
         for (uint256 level = 0; level < self.depth; ) {
             if ((index >> level) & 1 == 1) {
-                node = PoseidonT3.hash([self.rightmostNodes[level], node]);
+                node = PoseidonT3.hash([self.sideNodes[level], node]);
             } else {
-                self.rightmostNodes[level] = node;
+                self.sideNodes[level] = node;
             }
 
             unchecked {
@@ -67,7 +67,7 @@ library InternalLeanIMT {
 
         self.size += 1;
 
-        self.rightmostNodes[self.depth] = node;
+        self.sideNodes[self.depth] = node;
         self.leaves[leaf] = self.size;
 
         return node;
@@ -116,17 +116,17 @@ library InternalLeanIMT {
 
             uint256 level = i + s;
 
-            if (oldRoot == self.rightmostNodes[level]) {
-                self.rightmostNodes[level] = node;
+            if (oldRoot == self.sideNodes[level]) {
+                self.sideNodes[level] = node;
 
-                if (oldRoot == self.rightmostNodes[level + 1]) {
+                if (oldRoot == self.sideNodes[level + 1]) {
                     s += 1;
                 }
 
                 uint256 j = 0;
 
-                while (oldRoot == self.rightmostNodes[level + j + 1]) {
-                    self.rightmostNodes[level + j + 1] = node;
+                while (oldRoot == self.sideNodes[level + j + 1]) {
+                    self.sideNodes[level + j + 1] = node;
 
                     unchecked {
                         ++s;
@@ -154,7 +154,7 @@ library InternalLeanIMT {
             revert WrongSiblingNodes();
         }
 
-        self.rightmostNodes[self.depth] = node;
+        self.sideNodes[self.depth] = node;
         self.leaves[newLeaf] = self.leaves[oldLeaf];
         self.leaves[oldLeaf] = 0;
 
@@ -192,11 +192,11 @@ library InternalLeanIMT {
         return self.leaves[leaf] - 1;
     }
 
-    /// @dev Retrieves the root of the tree from the 'rightmostNodes' mapping using the
+    /// @dev Retrieves the root of the tree from the 'sideNodes' mapping using the
     /// current tree depth.
     /// @param self: A storage reference to the 'LeanIMTData' struct.
     /// @return The root hash of the tree.
     function _root(LeanIMTData storage self) internal view returns (uint256) {
-        return self.rightmostNodes[self.depth];
+        return self.sideNodes[self.depth];
     }
 }
