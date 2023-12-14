@@ -4,6 +4,8 @@ pragma solidity ^0.8.4;
 import {PoseidonT3} from "poseidon-solidity/PoseidonT3.sol";
 import {SNARK_SCALAR_FIELD} from "../Constants.sol";
 
+import "hardhat/console.sol";
+
 struct LeanIMTData {
     // Tracks the current number of leaves in the tree.
     uint256 size;
@@ -92,61 +94,48 @@ library InternalLeanIMT {
             revert LeafDoesNotExist();
         } else if (newLeaf != 0 && _has(self, newLeaf)) {
             revert LeafAlreadyExists();
+        } else if (siblingNodes.length == 0) {
+            revert WrongSiblingNodes();
         }
 
         uint256 index = _indexOf(self, oldLeaf);
         uint256 node = newLeaf;
         uint256 oldRoot = oldLeaf;
 
-        // A counter that adjusts the level at which sibling nodes are
-        // accessed and updated during the tree's update process.
-        // It ensures that the update function correctly navigates and
-        // modifies the tree's nodes at the appropriate levels, accounting
-        // for situations where not every level of the tree requires an
-        // update or a hash calculation.
-        uint256 s = 0;
+        uint256 lastIndex = self.size - 1;
+        uint256 i = 0;
 
-        // The number of siblings of a proof can be less than
-        // the depth of the tree, because in some levels it might not
-        // be necessary to hash any value.
-        for (uint256 i = 0; i < siblingNodes.length; ) {
-            if (siblingNodes[i] >= SNARK_SCALAR_FIELD) {
-                revert LeafGreaterThanSnarkScalarField();
-            }
-
-            uint256 level = i + s;
-
-            if (oldRoot == self.sideNodes[level]) {
-                self.sideNodes[level] = node;
-
-                if (oldRoot == self.sideNodes[level + 1]) {
-                    s += 1;
+        for (uint256 level = 0; level < self.depth; ) {
+            if ((index >> level) & 1 == 1) {
+                if (siblingNodes[i] >= SNARK_SCALAR_FIELD) {
+                    revert LeafGreaterThanSnarkScalarField();
                 }
 
-                uint256 j = 0;
-
-                while (oldRoot == self.sideNodes[level + j + 1]) {
-                    self.sideNodes[level + j + 1] = node;
-
-                    unchecked {
-                        ++s;
-                        ++j;
-                    }
-                }
-
-                level = i + s;
-            }
-
-            if ((index >> level) & 1 != 0) {
                 node = PoseidonT3.hash([siblingNodes[i], node]);
                 oldRoot = PoseidonT3.hash([siblingNodes[i], oldRoot]);
+
+                unchecked {
+                    ++i;
+                }
             } else {
-                node = PoseidonT3.hash([node, siblingNodes[i]]);
-                oldRoot = PoseidonT3.hash([oldRoot, siblingNodes[i]]);
+                if (index >> level != lastIndex >> level) {
+                    if (siblingNodes[i] >= SNARK_SCALAR_FIELD) {
+                        revert LeafGreaterThanSnarkScalarField();
+                    }
+
+                    node = PoseidonT3.hash([node, siblingNodes[i]]);
+                    oldRoot = PoseidonT3.hash([oldRoot, siblingNodes[i]]);
+
+                    unchecked {
+                        ++i;
+                    }
+                } else {
+                    self.sideNodes[i] = node;
+                }
             }
 
             unchecked {
-                ++i;
+                ++level;
             }
         }
 

@@ -77,7 +77,7 @@ describe("LeanIMT", () => {
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafGreaterThanSnarkScalarField")
         })
 
-        it("Should update a leaf", async () => {
+        it("Should not update a leaf if there are no sibling nodes", async () => {
             await leanIMTTest.insert(1)
 
             jsLeanIMT.insert(BigInt(1))
@@ -85,33 +85,49 @@ describe("LeanIMT", () => {
 
             const { siblings } = jsLeanIMT.generateProof(0)
 
-            await leanIMTTest.update(1, 2, siblings)
+            const transaction = leanIMTTest.update(1, 2, siblings)
+
+            await expect(transaction).to.be.revertedWithCustomError(leanIMT, "WrongSiblingNodes")
+        })
+
+        it("Should update a leaf", async () => {
+            await leanIMTTest.insert(1)
+            await leanIMTTest.insert(2)
+
+            jsLeanIMT.insertMany([BigInt(1), BigInt(2)])
+            jsLeanIMT.update(0, BigInt(3))
+
+            const { siblings } = jsLeanIMT.generateProof(0)
+
+            await leanIMTTest.update(1, 3, siblings)
 
             const root = await leanIMTTest.root()
 
             expect(root).to.equal(jsLeanIMT.root)
         })
 
-        it("Should not update a leaf if the value of at least one leaf is > SNARK_SCALAR_FIELD", async () => {
+        it("Should not update a leaf if the value of at least one sibling node is > SNARK_SCALAR_FIELD", async () => {
             await leanIMTTest.insert(1)
+            await leanIMTTest.insert(2)
 
-            jsLeanIMT.insert(BigInt(1))
-            jsLeanIMT.update(0, BigInt(2))
+            jsLeanIMT.insertMany([BigInt(1), BigInt(2)])
+            jsLeanIMT.update(0, BigInt(3))
 
             const { siblings } = jsLeanIMT.generateProof(0)
 
             siblings[0] = SNARK_SCALAR_FIELD
 
-            const transaction = leanIMTTest.update(1, 2, siblings)
+            const transaction = leanIMTTest.update(1, 3, siblings)
 
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafGreaterThanSnarkScalarField")
         })
 
         it("Should not update a leaf if the siblings are wrong", async () => {
             await leanIMTTest.insert(1)
+            await leanIMTTest.insert(2)
 
-            jsLeanIMT.insert(BigInt(1))
-            jsLeanIMT.update(0, BigInt(2))
+            jsLeanIMT.insertMany([BigInt(1), BigInt(2)])
+            jsLeanIMT.update(0, BigInt(3))
 
             const { siblings } = jsLeanIMT.generateProof(0)
 
@@ -122,19 +138,19 @@ describe("LeanIMT", () => {
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "WrongSiblingNodes")
         })
 
-        it("Should update 10 leaves", async () => {
-            for (let i = 0; i < 10; i += 1) {
+        it("Should update 6 leaves", async () => {
+            for (let i = 0; i < 6; i += 1) {
                 jsLeanIMT.insert(BigInt(i + 1))
 
                 await leanIMTTest.insert(i + 1)
             }
 
-            for (let i = 0; i < 10; i += 1) {
-                jsLeanIMT.update(i, BigInt(i + 11))
+            for (let i = 0; i < 6; i += 1) {
+                jsLeanIMT.update(i, BigInt(i + 7))
 
                 const { siblings } = jsLeanIMT.generateProof(i)
 
-                await leanIMTTest.update(i + 1, i + 11, siblings)
+                await leanIMTTest.update(i + 1, i + 7, siblings)
 
                 const root = await leanIMTTest.root()
 
@@ -146,13 +162,15 @@ describe("LeanIMT", () => {
     describe("# remove", () => {
         it("Should remove a leaf", async () => {
             await leanIMTTest.insert(1)
+            await leanIMTTest.insert(2)
+            await leanIMTTest.insert(3)
 
-            jsLeanIMT.insert(BigInt(1))
-            jsLeanIMT.update(0, BigInt(0))
+            jsLeanIMT.insertMany([BigInt(1), BigInt(2), BigInt(3)])
+            jsLeanIMT.update(2, BigInt(0))
 
-            const { siblings } = jsLeanIMT.generateProof(0)
+            const { siblings } = jsLeanIMT.generateProof(2)
 
-            await leanIMTTest.remove(1, siblings)
+            await leanIMTTest.remove(3, siblings)
 
             const root = await leanIMTTest.root()
 
