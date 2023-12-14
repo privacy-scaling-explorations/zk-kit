@@ -4,8 +4,6 @@ pragma solidity ^0.8.4;
 import {PoseidonT3} from "poseidon-solidity/PoseidonT3.sol";
 import {SNARK_SCALAR_FIELD} from "../Constants.sol";
 
-import "hardhat/console.sol";
-
 struct LeanIMTData {
     // Tracks the current number of leaves in the tree.
     uint256 size;
