@@ -4452,7 +4452,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/groth16@0.4.0, @zk-kit/groth16@workspace:packages/groth16":
+"@zk-kit/groth16@npm:0.4.0":
+  version: 0.4.0
+  resolution: "@zk-kit/groth16@npm:0.4.0"
+  dependencies:
+    circom_runtime: 0.1.24
+    ffjavascript: 0.2.60
+  checksum: b71b99d3ccb9f5dc509a4879c6b597c44792992e03760b3936fcd018359c197d1d30102306faafeb0c87a02ca312aec91384b5e43d5727385aac5e2287c7ae4f
+  languageName: node
+  linkType: hard
+
+"@zk-kit/groth16@workspace:packages/groth16":
   version: 0.0.0-use.local
   resolution: "@zk-kit/groth16@workspace:packages/groth16"
   dependencies:
