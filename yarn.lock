@@ -4462,7 +4462,7 @@ __metadata:
     "@rollup/plugin-virtual": ^3.0.2
     circom_runtime: 0.1.24
     fastfile: 0.0.20
-    ffjavascript: 0.2.60
+    ffjavascript: 0.2.62
     rimraf: ^5.0.5
     rollup: ^4.0.2
     rollup-plugin-cleanup: ^3.2.1
