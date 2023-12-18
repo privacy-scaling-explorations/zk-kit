@@ -106,6 +106,22 @@ describe("LeanIMT", () => {
             const root = await leanIMTTest.root()
             expect(root).to.equal(jsLeanIMT.root)
         })
+        it("Should insert many leaves when the tree is not empty", async () => {
+            jsLeanIMT.insert(BigInt(1))
+
+            await leanIMTTest.insert(BigInt(1))
+
+            const elems: bigint[] = []
+            for (let i = 1; i < 10; i += 1) {
+                elems.push(BigInt(i + 1))
+            }
+
+            jsLeanIMT.insertMany(elems)
+            await leanIMTTest.insertMany(elems)
+
+            const root = await leanIMTTest.root()
+            expect(root).to.equal(jsLeanIMT.root)
+        })
     })
 
     describe("# update", () => {
