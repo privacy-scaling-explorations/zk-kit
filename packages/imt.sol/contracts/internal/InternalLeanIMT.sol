@@ -108,13 +108,13 @@ library InternalLeanIMT {
         }
 
         // First index to change in every level.
-        uint256 startIndex = self.size;
+        uint256 currentLevelStartIndex = self.size;
 
         // Size of the level used to create the next level.
         uint256 currentLevelSize = self.size + leaves.length;
 
         // The index where changes begin at the next level.
-        uint256 startIndexNew = startIndex >> 1;
+        uint256 startIndexNew = currentLevelStartIndex >> 1;
 
         // The size of the next level.
         uint256 levelNewTempSize = ((currentLevelSize - 1) >> 1) + 1;
@@ -130,14 +130,14 @@ library InternalLeanIMT {
 
                 // Assign the right node if the value exists.
                 if ((i + startIndexNew) * 2 + 1 < currentLevelSize) {
-                    rightNode = currentLevel[(i + startIndexNew) * 2 + 1 - startIndex];
+                    rightNode = currentLevel[(i + startIndexNew) * 2 + 1 - currentLevelStartIndex];
                 }
 
                 // Assign the left node using the saved path or the position in the array.
-                if ((i + startIndexNew) * 2 < startIndex) {
+                if ((i + startIndexNew) * 2 < currentLevelStartIndex) {
                     leftNode = self.sideNodes[level];
                 } else {
-                    leftNode = currentLevel[(i + startIndexNew) * 2 - startIndex];
+                    leftNode = currentLevel[(i + startIndexNew) * 2 - currentLevelStartIndex];
                 }
 
                 uint256 parentNode;
@@ -170,7 +170,7 @@ library InternalLeanIMT {
                 self.sideNodes[level] = currentLevel[currentLevel.length - 2];
             }
 
-            startIndex = startIndexNew;
+            currentLevelStartIndex = startIndexNew;
 
             // Calculate the next startIndex value.
             // It is the position of the paret node which is pos/2.
