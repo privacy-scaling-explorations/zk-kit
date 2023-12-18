@@ -123,7 +123,7 @@ library InternalLeanIMT {
             // The number of nodes for the new level that will be created,
             // only the new values, not the entire level.
             uint256 numberOfNodes = nextLevelSize - nextLevelStartIndex;
-            uint256[] memory levelNewTemp = new uint256[](numberOfNodes);
+            uint256[] memory nextLevel = new uint256[](numberOfNodes);
             for (uint256 i = 0; i < numberOfNodes; ) {
                 uint256 rightNode;
                 uint256 leftNode;
@@ -151,7 +151,7 @@ library InternalLeanIMT {
                     parentNode = leftNode;
                 }
 
-                levelNewTemp[i] = parentNode;
+                nextLevel[i] = parentNode;
 
                 unchecked {
                     ++i;
@@ -177,7 +177,7 @@ library InternalLeanIMT {
             nextLevelStartIndex >>= 1;
 
             // Update the next array that will be used to calculate the next level.
-            currentLevel = levelNewTemp;
+            currentLevel = nextLevel;
 
             currentLevelSize = nextLevelSize;
 
