@@ -111,13 +111,13 @@ library InternalLeanIMT {
         uint256 startIndex = self.size;
 
         // Size of the level used to create the next level.
-        uint256 levelTempSize = self.size + leaves.length;
+        uint256 currentLevelSize = self.size + leaves.length;
 
         // The index where changes begin at the next level.
         uint256 startIndexNew = startIndex >> 1;
 
         // The size of the next level.
-        uint256 levelNewTempSize = ((levelTempSize - 1) >> 1) + 1;
+        uint256 levelNewTempSize = ((currentLevelSize - 1) >> 1) + 1;
 
         for (uint256 level = 0; level < self.depth; ) {
             // The number of nodes for the new level that will be created,
@@ -129,7 +129,7 @@ library InternalLeanIMT {
                 uint256 leftNode;
 
                 // Assign the right node if the value exists.
-                if ((i + startIndexNew) * 2 + 1 < levelTempSize) {
+                if ((i + startIndexNew) * 2 + 1 < currentLevelSize) {
                     rightNode = currentLevel[(i + startIndexNew) * 2 + 1 - startIndex];
                 }
 
@@ -159,12 +159,12 @@ library InternalLeanIMT {
             }
 
             // Update the `sideNodes` variable.
-            // If `levelTempSize` is odd, the saved value will be the last value of the array
+            // If `currentLevelSize` is odd, the saved value will be the last value of the array
             // if it is even and there are more than 1 elements in `levelTemp`, the saved value
             // will be the value before the last one.
             // If it is even and there is only one element, there is no need to save anything because
             // the correct value for this level was already saved before.
-            if (levelTempSize & 1 == 1) {
+            if (currentLevelSize & 1 == 1) {
                 self.sideNodes[level] = currentLevel[currentLevel.length - 1];
             } else if (currentLevel.length > 1) {
                 self.sideNodes[level] = currentLevel[currentLevel.length - 2];
@@ -179,7 +179,7 @@ library InternalLeanIMT {
             // Update the next array that will be used to calculate the next level.
             currentLevel = levelNewTemp;
 
-            levelTempSize = levelNewTempSize;
+            currentLevelSize = levelNewTempSize;
 
             // Calculate the size of the next level.
             // The size of the next level is (currentLevelSize - 1) / 2 + 1.
