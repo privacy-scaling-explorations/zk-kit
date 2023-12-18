@@ -98,9 +98,9 @@ library InternalLeanIMT {
         }
 
         // Array to save the nodes that will be used to create the next level of the tree.
-        uint256[] memory levelTemp;
+        uint256[] memory currentLevel;
 
-        levelTemp = leaves;
+        currentLevel = leaves;
 
         // Calculate the depth of the tree after adding the new values.
         while (2 ** self.depth < self.size + leaves.length) {
@@ -130,14 +130,14 @@ library InternalLeanIMT {
 
                 // Assign the right node if the value exists.
                 if ((i + startIndexNew) * 2 + 1 < levelTempSize) {
-                    rightNode = levelTemp[(i + startIndexNew) * 2 + 1 - startIndex];
+                    rightNode = currentLevel[(i + startIndexNew) * 2 + 1 - startIndex];
                 }
 
                 // Assign the left node using the saved path or the position in the array.
                 if ((i + startIndexNew) * 2 < startIndex) {
                     leftNode = self.sideNodes[level];
                 } else {
-                    leftNode = levelTemp[(i + startIndexNew) * 2 - startIndex];
+                    leftNode = currentLevel[(i + startIndexNew) * 2 - startIndex];
                 }
 
                 uint256 parentNode;
@@ -165,9 +165,9 @@ library InternalLeanIMT {
             // If it is even and there is only one element, there is no need to save anything because
             // the correct value for this level was already saved before.
             if (levelTempSize & 1 == 1) {
-                self.sideNodes[level] = levelTemp[levelTemp.length - 1];
-            } else if (levelTemp.length > 1) {
-                self.sideNodes[level] = levelTemp[levelTemp.length - 2];
+                self.sideNodes[level] = currentLevel[currentLevel.length - 1];
+            } else if (currentLevel.length > 1) {
+                self.sideNodes[level] = currentLevel[currentLevel.length - 2];
             }
 
             startIndex = startIndexNew;
@@ -177,7 +177,7 @@ library InternalLeanIMT {
             startIndexNew >>= 1;
 
             // Update the next array that will be used to calculate the next level.
-            levelTemp = levelNewTemp;
+            currentLevel = levelNewTemp;
 
             levelTempSize = levelNewTempSize;
 
@@ -194,9 +194,9 @@ library InternalLeanIMT {
         self.size += leaves.length;
 
         // Update tree root
-        self.sideNodes[self.depth] = levelTemp[0];
+        self.sideNodes[self.depth] = currentLevel[0];
 
-        return levelTemp[0];
+        return currentLevel[0];
     }
 
     /// @dev Updates the value of an existing leaf and recalculates hashes
