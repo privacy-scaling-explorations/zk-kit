@@ -72,7 +72,7 @@ export function addPoint(p1: Point<bigint>, p2: Point<bigint>): Point<bigint> {
  */
 export function mulPointEscalar(base: Point<bigint>, e: bigint): Point<bigint> {
     let res: Point<bigint> = [Fr.e(BigInt(0)), Fr.e(BigInt(1))]
-    let rem: bigint = Fr.e(e)
+    let rem: bigint = e
     let exp: Point<bigint> = base
 
     while (!scalar.isZero(rem)) {
