@@ -9,7 +9,7 @@
     "private": true,
     "scripts": {
         "build": "yarn build:libraries && yarn compile:contracts",
-        "build:libraries": "yarn workspaces foreach --no-private run build",
+        "build:libraries": "yarn workspaces foreach -t --no-private run build",
         "compile:contracts": "yarn workspaces foreach run compile",
         "test": "yarn test:libraries && yarn test:contracts && yarn test:circuits",
         "test:libraries": "jest --coverage",

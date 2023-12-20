@@ -41,17 +41,6 @@
     </h4>
 </div>
 
-| WIP |
-| --- |
-
--   Super lightweight: [**~33kB**](https://bundlephobia.com/package/@zk-kit/baby-jubjub) (minified)
--   Compatible with browsers and NodeJS
--   TS type support
--   Comprehensive code [documentation](https://zkkit.pse.dev/modules/_zk_kit_baby_jubjub.html)
--   Full test coverage
-
-👾 Would you like to try it now? Explore it now on [Ceditor](https://ceditor.cedoor.dev/52787e4ad57d2f2076648d509efc3448)!
-
 > [!WARNING]  
 > This library has **not** been audited.
 
@@ -87,4 +76,63 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
-WIP
+\# **addPoint**(p1: _Point\<bigint>_, p2: _Point\<bigint>_): _bigint_
+
+```typescript
+import { addPoint } from "@zk-kit/baby-jubjub"
+
+const p1: Point<bigint> = [BigInt(0), BigInt(1)]
+
+const newPoint = addPoint(p1, Base8)
+```
+
+\# **mulPointEscalar**(base: _Point\<bigint>_, e: _bigint_): _Point\<bigint>_
+
+```typescript
+import { Base8, mulPointEscalar } from "@zk-kit/baby-jubjub"
+
+const secretScalar = BigInt(324)
+
+const publicKey = mulPointEscalar(Base8, secretScalar)
+```
+
+\# **mulPointEscalar**(base: _Point\<bigint>_, e: _bigint_): _Point\<bigint>_
+
+```typescript
+import { inCurve, Base8, mulPointEscalar } from "@zk-kit/baby-jubjub"
+
+const secretScalar = BigInt(324)
+
+const publicKey = mulPointEscalar(Base8, secretScalar)
+
+const isInCurve = inCurve(publicKey)
+```
+
+\# **packPoint**(unpackedPoint: _Point\<bigint>_): _bigint_
+
+```typescript
+import { packPoint, Base8, mulPointEscalar } from "@zk-kit/baby-jubjub"
+
+const secretScalar = BigInt(324)
+
+const publicKey = mulPointEscalar(Base8, secretScalar)
+
+const packedPoint = packPoint(publicKey)
+```
+
+\# **unpackPoint**(packedPoint: _bigint_): _Point\<bigint>_ | _null_
+
+```typescript
+import { packPoint, unpackPoint, Base8, mulPointEscalar } from "@zk-kit/baby-jubjub"
+
+const secretScalar = BigInt(324)
+
+const publicKey = mulPointEscalar(Base8, secretScalar)
+
+const packedPoint = packPoint(publicKey)
+
+const unpackedPoint = unpackPoint(packedPoint)
+
+console.log(publicKey[0] === unpackedPoint[0]) // true
+console.log(publicKey[1] === unpackedPoint[1]) // true
+```

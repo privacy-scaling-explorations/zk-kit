@@ -1,7 +1,6 @@
-import typescript from "rollup-plugin-typescript2"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
-import { terser } from "rollup-plugin-terser"
+import typescript from "rollup-plugin-typescript2"
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
 const banner = `/**
@@ -13,26 +12,13 @@ const banner = `/**
  * @see [Github]{@link ${pkg.homepage}}
 */`
 
-const name = pkg.name.substr(1).replace(/[-/]./g, (x: string) => x.toUpperCase()[1])
-
 export default {
     input: "src/index.ts",
     output: [
-        {
-            file: pkg.iife,
-            name,
-            format: "iife",
-            banner
-        },
-        {
-            file: pkg.unpkg,
-            name,
-            format: "iife",
-            plugins: [terser({ output: { preamble: banner } })]
-        },
         { file: pkg.exports.require, format: "cjs", banner },
         { file: pkg.exports.import, format: "es", banner }
     ],
+    external: [],
     plugins: [
         typescript({ tsconfig: "./build.tsconfig.json", useTsconfigDeclarationDir: true }),
         cleanup({ comments: "jsdoc" })

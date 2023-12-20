@@ -1,8 +1,6 @@
-import Field from "./field"
-import * as scalar from "./scalar"
-import { Point } from "./types"
-import * as utils from "./utils"
+import { F1Field, bigintToHexadecimal, bufferToBigint, leBigintToBuffer, leBufferToBigint, scalar } from "@zk-kit/utils"
 import * as sqrt from "./sqrt"
+import { Point } from "./types"
 
 // Spec: https://eips.ethereum.org/EIPS/eip-2494
 
@@ -10,7 +8,7 @@ import * as sqrt from "./sqrt"
 export const r = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
 
 // 'F' (F_r) is the prime finite field with r elements.
-export const Fr = new Field(r)
+export const Fr = new F1Field(r)
 
 // Base8 is the base point used to generate other points on the curve.
 export const Base8: Point<bigint> = [
@@ -72,7 +70,7 @@ export function addPoint(p1: Point<bigint>, p2: Point<bigint>): Point<bigint> {
  */
 export function mulPointEscalar(base: Point<bigint>, e: bigint): Point<bigint> {
     let res: Point<bigint> = [Fr.e(BigInt(0)), Fr.e(BigInt(1))]
-    let rem: bigint = Fr.e(e)
+    let rem: bigint = e
     let exp: Point<bigint> = base
 
     while (!scalar.isZero(rem)) {
@@ -87,7 +85,7 @@ export function mulPointEscalar(base: Point<bigint>, e: bigint): Point<bigint> {
     return res
 }
 
-export function inCurve(p: Point) {
+export function inCurve(p: Point): boolean {
     const x1 = BigInt(p[0])
     const y1 = BigInt(p[1])
 
@@ -98,17 +96,17 @@ export function inCurve(p: Point) {
 }
 
 export function packPoint(unpackedPoint: Point<bigint>): bigint {
-    const buffer = utils.leInt2Buff(unpackedPoint[1])
+    const buffer = leBigintToBuffer(unpackedPoint[1])
 
     if (Fr.lt(unpackedPoint[0], Fr.zero)) {
         buffer[31] |= 0x80
     }
 
-    return utils.buff2int(buffer)
+    return bufferToBigint(buffer)
 }
 
-export function unpackPoint(packedPoint: bigint): Point | null {
-    const buffer = Buffer.from(utils.int2hex(packedPoint), "hex")
+export function unpackPoint(packedPoint: bigint): Point<bigint> | null {
+    const buffer = Buffer.from(bigintToHexadecimal(packedPoint), "hex")
     const unpackedPoint = new Array(2)
 
     let sign = false
@@ -118,7 +116,7 @@ export function unpackPoint(packedPoint: bigint): Point | null {
         buffer[31] &= 0x7f
     }
 
-    unpackedPoint[1] = utils.leBuff2int(buffer)
+    unpackedPoint[1] = leBufferToBigint(buffer)
 
     if (scalar.gt(unpackedPoint[1], r)) {
         return null
@@ -126,7 +124,7 @@ export function unpackPoint(packedPoint: bigint): Point | null {
 
     const y2 = Fr.square(unpackedPoint[1])
 
-    let x = sqrt.tonelliShanks(Fr.div(Fr.sub(Fr.one, y2), Fr.sub(a, Fr.mul(d, y2))))
+    let x = sqrt.tonelliShanks(Fr.div(Fr.sub(Fr.one, y2), Fr.sub(a, Fr.mul(d, y2))), r)
 
     if (x == null) {
         return null
@@ -138,5 +136,5 @@ export function unpackPoint(packedPoint: bigint): Point | null {
 
     unpackedPoint[0] = x
 
-    return unpackedPoint as Point
+    return unpackedPoint as Point<bigint>
 }

@@ -1,7 +1,7 @@
 import fs from "fs"
 import type { Config } from "@jest/types"
 
-const exclude = ["circuits", "imt.sol", "rollup-plugin-rust", "lazytower.sol", "lazytower.circom"]
+const exclude = ["circuits", "imt.sol", "rollup-plugin-rust", "lazytower.sol", "lazytower.circom", "utils"]
 
 const projects: any = fs
     .readdirSync("./packages", { withFileTypes: true })

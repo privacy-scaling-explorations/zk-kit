@@ -20,7 +20,7 @@ export default {
         { file: pkg.exports.require, format: "cjs", banner },
         { file: pkg.exports.import, format: "es", banner }
     ],
-    external: [],
+    external: Object.keys(pkg.dependencies),
     plugins: [
         typescript({ tsconfig: "./build.tsconfig.json", useTsconfigDeclarationDir: true }),
         commonjs(),

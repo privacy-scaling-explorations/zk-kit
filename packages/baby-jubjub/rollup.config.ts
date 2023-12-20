@@ -1,5 +1,3 @@
-import commonjs from "@rollup/plugin-commonjs"
-import { nodeResolve } from "@rollup/plugin-node-resolve"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
 import typescript from "rollup-plugin-typescript2"
@@ -20,13 +18,9 @@ export default {
         { file: pkg.exports.require, format: "cjs", banner },
         { file: pkg.exports.import, format: "es", banner }
     ],
-    external: [],
+    external: Object.keys(pkg.dependencies),
     plugins: [
         typescript({ tsconfig: "./build.tsconfig.json", useTsconfigDeclarationDir: true }),
-        commonjs(),
-        nodeResolve({
-            preferBuiltins: true
-        }),
         cleanup({ comments: "jsdoc" })
     ]
 }
