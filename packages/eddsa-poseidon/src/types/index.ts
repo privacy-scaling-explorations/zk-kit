@@ -1,8 +1,5 @@
-export type BigNumber = bigint | string
-
-export type BigNumberish = BigNumber | number | Buffer
-
-export type Point<N = BigNumber> = [N, N]
+import { Point } from "@zk-kit/baby-jubjub"
+import { BigNumber } from "@zk-kit/utils"
 
 export type Signature<N = BigNumber> = {
     R8: Point<N>

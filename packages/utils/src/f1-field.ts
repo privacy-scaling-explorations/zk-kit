@@ -1,6 +1,6 @@
 import * as scalar from "./scalar"
 
-export default class Field {
+export default class F1Field {
     one = BigInt(1)
     zero = BigInt(0)
 

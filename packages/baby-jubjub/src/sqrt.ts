@@ -1,5 +1,4 @@
-import { r } from "./babyjub"
-import Field from "./field"
+import { F1Field } from "@zk-kit/utils"
 
 // Based on https://eprint.iacr.org/2012/685.pdf
 // and https://github.com/iden3/ffjavascript/blob/6f37a93fabddf45100bf221de6a1399599497e5d/src/fsqrt.js#L38
@@ -11,8 +10,8 @@ import Field from "./field"
  * @returns The square root.
  */
 // eslint-disable-next-line import/prefer-default-export
-export function tonelliShanks(n: bigint) {
-    const Fr = new Field(r)
+export function tonelliShanks(n: bigint, order: bigint) {
+    const Fr = new F1Field(order)
 
     const sqrt_s = 28
     const sqrt_z = BigInt("5978345932401256595026418116861078668372907927053715034645334559810731495452")

@@ -1,8 +1,8 @@
 import commonjs from "@rollup/plugin-commonjs"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import fs from "fs"
-import cleanup from "rollup-plugin-cleanup"
 import nodePolyfills from "rollup-plugin-polyfill-node"
+import cleanup from "rollup-plugin-cleanup"
 import { terser } from "rollup-plugin-terser"
 import typescript from "rollup-plugin-typescript2"
 

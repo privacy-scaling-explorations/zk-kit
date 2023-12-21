@@ -116,6 +116,62 @@
         </tr>
         <tr>
             <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/baby-jubjub">
+                    @zk-kit/baby-jubjub
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_baby_jubjub.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/baby-jubjub">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/baby-jubjub.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/baby-jubjub">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/baby-jubjub.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/baby-jubjub">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/baby-jubjub" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/utils">
+                    @zk-kit/utils
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_utils.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/utils">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/utils.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/utils">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/utils.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/utils">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/utils" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt">
                     @zk-kit/imt
                 </a>

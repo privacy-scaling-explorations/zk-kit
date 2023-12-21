@@ -1,9 +1,27 @@
+import {
+    Base8,
+    Fr,
+    Point,
+    addPoint,
+    inCurve,
+    mulPointEscalar,
+    packPoint,
+    subOrder,
+    unpackPoint
+} from "@zk-kit/baby-jubjub"
+import {
+    BigNumber,
+    BigNumberish,
+    F1Field,
+    isHexadecimal,
+    isStringifiedBigint,
+    leBigintToBuffer,
+    leBufferToBigint,
+    scalar
+} from "@zk-kit/utils"
 import { poseidon5 } from "poseidon-lite/poseidon5"
-import * as babyjub from "./babyjub"
 import blake from "./blake"
-import Field from "./field"
-import * as scalar from "./scalar"
-import { BigNumber, BigNumberish, Point, Signature } from "./types"
+import { Signature } from "./types"
 import * as utils from "./utils"
 
 /**
@@ -25,7 +43,7 @@ export function deriveSecretScalar(privateKey: BigNumberish): string {
     hash = hash.slice(0, 32)
     hash = utils.pruneBuffer(hash)
 
-    return scalar.shiftRight(utils.leBuff2int(hash), BigInt(3)).toString()
+    return scalar.shiftRight(leBufferToBigint(hash), BigInt(3)).toString()
 }
 
 /**
@@ -40,7 +58,7 @@ export function deriveSecretScalar(privateKey: BigNumberish): string {
 export function derivePublicKey(privateKey: BigNumberish): Point<string> {
     const s = deriveSecretScalar(privateKey)
 
-    const publicKey = babyjub.mulPointEscalar(babyjub.Base8, BigInt(s))
+    const publicKey = mulPointEscalar(Base8, BigInt(s))
 
     // Convert the public key values to strings so that it can easily be exported as a JSON.
     return [publicKey[0].toString(), publicKey[1].toString()]
@@ -63,17 +81,17 @@ export function signMessage(privateKey: BigNumberish, message: BigNumberish): Si
     const hash = blake(privateKey)
 
     const sBuff = utils.pruneBuffer(hash.slice(0, 32))
-    const s = utils.leBuff2int(sBuff)
-    const A = babyjub.mulPointEscalar(babyjub.Base8, scalar.shiftRight(s, BigInt(3)))
+    const s = leBufferToBigint(sBuff)
+    const A = mulPointEscalar(Base8, scalar.shiftRight(s, BigInt(3)))
 
-    const msgBuff = utils.leInt2Buff(message)
+    const msgBuff = leBigintToBuffer(message)
 
     const rBuff = blake(Buffer.concat([hash.slice(32, 64), msgBuff]))
 
-    const Fr = new Field(babyjub.subOrder)
-    const r = Fr.e(utils.leBuff2int(rBuff))
+    const Fr = new F1Field(subOrder)
+    const r = Fr.e(leBufferToBigint(rBuff))
 
-    const R8 = babyjub.mulPointEscalar(babyjub.Base8, r)
+    const R8 = mulPointEscalar(Base8, r)
     const hm = poseidon5([R8[0], R8[1], A[0], A[1], message])
     const S = Fr.add(r, Fr.mul(hm, s))
 
@@ -95,9 +113,9 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
     if (
         !utils.isPoint(publicKey) ||
         !utils.isSignature(signature) ||
-        !babyjub.inCurve(signature.R8) ||
-        !babyjub.inCurve(publicKey) ||
-        BigInt(signature.S) >= babyjub.subOrder
+        !inCurve(signature.R8) ||
+        !inCurve(publicKey) ||
+        BigInt(signature.S) >= subOrder
     ) {
         return false
     }
@@ -115,24 +133,24 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
 
     const hm = poseidon5([signature.R8[0], signature.R8[1], publicKey[0], publicKey[1], message])
 
-    const pLeft = babyjub.mulPointEscalar(babyjub.Base8, BigInt(signature.S))
-    let pRight = babyjub.mulPointEscalar(_publicKey, scalar.mul(hm, BigInt(8)))
+    const pLeft = mulPointEscalar(Base8, BigInt(signature.S))
+    let pRight = mulPointEscalar(_publicKey, scalar.mul(hm, BigInt(8)))
 
-    pRight = babyjub.addPoint(_signature.R8, pRight)
+    pRight = addPoint(_signature.R8, pRight)
 
     // Return true if the points match.
-    return babyjub.Fr.eq(BigInt(pLeft[0]), pRight[0]) && babyjub.Fr.eq(pLeft[1], pRight[1])
+    return Fr.eq(BigInt(pLeft[0]), pRight[0]) && Fr.eq(pLeft[1], pRight[1])
 }
 
 export function packPublicKey(publicKey: Point): string {
-    if (!utils.isPoint(publicKey) || !babyjub.inCurve(publicKey)) {
+    if (!utils.isPoint(publicKey) || !inCurve(publicKey)) {
         throw new Error("Invalid public key")
     }
 
     // Convert the public key values to big integers for calculations.
     const _publicKey: Point<bigint> = [BigInt(publicKey[0]), BigInt(publicKey[1])]
 
-    const packedPublicKey = babyjub.packPoint(_publicKey)
+    const packedPublicKey = packPoint(_publicKey)
 
     if (packedPublicKey === null) {
         throw new Error("Invalid public key")
@@ -144,13 +162,13 @@ export function packPublicKey(publicKey: Point): string {
 export function unpackPublicKey(publicKey: BigNumber): Point<string> {
     if (
         typeof publicKey !== "bigint" &&
-        (typeof publicKey !== "string" || !utils.isStringifiedBigint(publicKey)) &&
-        (typeof publicKey !== "string" || !utils.isHexadecimal(publicKey))
+        (typeof publicKey !== "string" || !isStringifiedBigint(publicKey)) &&
+        (typeof publicKey !== "string" || !isHexadecimal(publicKey))
     ) {
         throw new TypeError("Invalid public key type")
     }
 
-    const unpackedPublicKey = babyjub.unpackPoint(BigInt(publicKey))
+    const unpackedPublicKey = unpackPoint(BigInt(publicKey))
 
     if (unpackedPublicKey === null) {
         throw new Error("Invalid public key")

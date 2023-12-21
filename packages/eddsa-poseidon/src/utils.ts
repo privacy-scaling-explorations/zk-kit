@@ -1,4 +1,13 @@
-import { BigNumber, BigNumberish, Point, Signature } from "./types"
+import { Point } from "@zk-kit/baby-jubjub"
+import {
+    BigNumberish,
+    bigNumberishToBigint,
+    bigNumberishToBuffer,
+    bufferToBigint,
+    isBigNumberish,
+    isStringifiedBigint
+} from "@zk-kit/utils"
+import { Signature } from "./types"
 
 export function pruneBuffer(buff: Buffer): Buffer {
     buff[0] &= 0xf8
@@ -6,30 +15,6 @@ export function pruneBuffer(buff: Buffer): Buffer {
     buff[31] |= 0x40
 
     return buff
-}
-
-export function isStringifiedBigint(s: BigNumber | string): boolean {
-    try {
-        BigInt(s)
-
-        return true
-    } catch (e) {
-        return false
-    }
-}
-
-export function isHexadecimal(s: string) {
-    return /^(0x|0X)[0-9a-fA-F]+$/.test(s)
-}
-
-export function isBigNumberish(value: BigNumberish): boolean {
-    return (
-        typeof value === "number" ||
-        typeof value === "bigint" ||
-        (typeof value === "string" && isStringifiedBigint(value)) ||
-        (typeof value === "string" && isHexadecimal(value)) ||
-        Buffer.isBuffer(value)
-    )
 }
 
 export function isPoint(point: Point): boolean {
@@ -46,66 +31,9 @@ export function isSignature(signature: Signature): boolean {
     )
 }
 
-export function int2hex(n: bigint) {
-    let hex = n.toString(16)
-
-    // Ensure even length.
-    if (hex.length % 2 !== 0) {
-        hex = `0${hex}`
-    }
-
-    return hex
-}
-
-export function bigNumberish2Buff(value: BigNumberish): Buffer {
-    if (
-        typeof value === "number" ||
-        typeof value === "bigint" ||
-        (typeof value === "string" && isStringifiedBigint(value))
-    ) {
-        const hex = int2hex(BigInt(value))
-
-        return Buffer.from(hex, "hex")
-    }
-
-    return value as Buffer
-}
-
-export function buff2int(buffer: Buffer): bigint {
-    return BigInt(`0x${buffer.toString("hex")}`)
-}
-
-export function bigNumberish2BigNumber(value: BigNumberish): bigint {
-    if (
-        typeof value === "number" ||
-        typeof value === "bigint" ||
-        (typeof value === "string" && isStringifiedBigint(value)) ||
-        (typeof value === "string" && isHexadecimal(value))
-    ) {
-        return BigInt(value)
-    }
-
-    return buff2int(value as Buffer)
-}
-
-export function leBuff2int(buffer: Buffer): bigint {
-    return BigInt(`0x${buffer.reverse().toString("hex")}`)
-}
-
-export function leInt2Buff(n: bigint): Buffer {
-    const hex = int2hex(n)
-
-    // Allocate buffer of the desired size, filled with zeros.
-    const buffer = Buffer.alloc(32, 0)
-
-    Buffer.from(hex, "hex").reverse().copy(buffer)
-
-    return buffer
-}
-
 export function checkPrivateKey(privateKey: BigNumberish): Buffer {
     if (isBigNumberish(privateKey)) {
-        return bigNumberish2Buff(privateKey)
+        return bigNumberishToBuffer(privateKey)
     }
 
     if (typeof privateKey !== "string") {
@@ -117,12 +45,12 @@ export function checkPrivateKey(privateKey: BigNumberish): Buffer {
 
 export function checkMessage(message: BigNumberish): bigint {
     if (isBigNumberish(message)) {
-        return bigNumberish2BigNumber(message)
+        return bigNumberishToBigint(message)
     }
 
     if (typeof message !== "string") {
         throw TypeError("Invalid message type. Supported types: number, bigint, buffer, string.")
     }
 
-    return buff2int(Buffer.from(message))
+    return bufferToBigint(Buffer.from(message))
 }
