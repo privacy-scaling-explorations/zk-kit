@@ -8,7 +8,7 @@ const banner = `/**
  * @module ${pkg.name}
  * @version ${pkg.version}
  * @file ${pkg.description}
- * @copyright ${pkg.author.name} ${new Date().getFullYear()}
+ * @copyright Ethereum Foundation ${new Date().getFullYear()}
  * @license ${pkg.license}
  * @see [Github]{@link ${pkg.homepage}}
 */`

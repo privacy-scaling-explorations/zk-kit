@@ -1,7 +1,7 @@
 import { r } from "@zk-kit/baby-jubjub"
 import { poseidon } from "circomlibjs"
 import { N_ROUNDS_P, two128 } from "../src/constants"
-import { checkEqual, normalize, poseidonPerm, pow5, validateNonce } from "../src/utils"
+import { checkEqual, normalize, poseidonPerm, pow5, unstringifyBigInts, validateNonce } from "../src/utils"
 
 describe("utils", () => {
     describe("poseidonPerm", () => {
@@ -63,6 +63,61 @@ describe("utils", () => {
             expect(normalize(BigInt(1))).toBe(BigInt(1))
             expect(normalize(BigInt(r))).toBe(BigInt(0))
             expect(normalize(BigInt(r + BigInt(1)))).toBe(BigInt(1))
+        })
+    })
+
+    describe("unstringifyBigInts", () => {
+        it("should work on a string input with decimal numbers", () => {
+            expect(unstringifyBigInts("1")).toBe(BigInt(1))
+        })
+        it("should work on a string input with hex number", () => {
+            expect(unstringifyBigInts("0xA")).toBe(BigInt(10))
+        })
+        it("should work on a string[] input", () => {
+            expect(unstringifyBigInts(["1", "2"])).toStrictEqual([BigInt(1), BigInt(2)])
+        })
+        it("should work on a string[][] input", () => {
+            expect(
+                unstringifyBigInts([
+                    ["1", "2"],
+                    ["3", "4"]
+                ])
+            ).toStrictEqual([
+                [BigInt(1), BigInt(2)],
+                [BigInt(3), BigInt(4)]
+            ])
+        })
+        it("should work on a string[][][] input", () => {
+            expect(
+                unstringifyBigInts([
+                    [
+                        ["1", "2"],
+                        ["3", "4"]
+                    ],
+                    [
+                        ["5", "6"],
+                        ["7", "8"]
+                    ]
+                ])
+            ).toStrictEqual([
+                [
+                    [BigInt(1), BigInt(2)],
+                    [BigInt(3), BigInt(4)]
+                ],
+                [
+                    [BigInt(5), BigInt(6)],
+                    [BigInt(7), BigInt(8)]
+                ]
+            ])
+        })
+        it("should work on a { [key: string]: string } input", () => {
+            expect(unstringifyBigInts({ a: "1", b: "2" })).toStrictEqual({ a: BigInt(1), b: BigInt(2) })
+        })
+        it("should work on a null input", () => {
+            expect(unstringifyBigInts(null)).toBe(null)
+        })
+        it("should return the input if it is not a valid value", () => {
+            expect(unstringifyBigInts("A")).toBe("A")
         })
     })
 })

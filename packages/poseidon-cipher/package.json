@@ -46,7 +46,6 @@
         "rollup-plugin-typescript2": "^0.32.1"
     },
     "dependencies": {
-        "@zk-kit/baby-jubjub": "workspace:^",
-        "ffjavascript": "0.2.62"
+        "@zk-kit/baby-jubjub": "workspace:^"
     }
 }
