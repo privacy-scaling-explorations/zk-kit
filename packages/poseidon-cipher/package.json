@@ -32,7 +32,8 @@
     "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-cipher",
     "scripts": {
         "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
-        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
+        "build:iife": "rollup -c rollup.iife.config.ts --configPlugin typescript",
+        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript && yarn build:iife",
         "prepublishOnly": "yarn build"
     },
     "publishConfig": {
