@@ -116,8 +116,8 @@
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-chiper">
-                    @zk-kit/poseidon-chiper
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-cipher">
+                    @zk-kit/poseidon-cipher
                 </a>
                  <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_chiper.html">
                     (docs)
@@ -125,20 +125,20 @@
             </td>
             <td>
                 <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/poseidon-chiper">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/poseidon-chiper.svg?style=flat-square" alt="NPM version" />
+                <a href="https://npmjs.org/package/@zk-kit/poseidon-cipher">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/poseidon-cipher.svg?style=flat-square" alt="NPM version" />
                 </a>
             </td>
             <td>
                 <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/poseidon-chiper">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/poseidon-chiper.svg?style=flat-square" alt="Downloads" />
+                <a href="https://npmjs.org/package/@zk-kit/poseidon-cipher">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/poseidon-cipher.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
             <td>
                 <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zk-kit/poseidon-chiper">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon-chiper" alt="npm bundle size (scoped)" />
+                <a href="https://bundlephobia.com/package/@zk-kit/poseidon-cipher">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon-cipher" alt="npm bundle size (scoped)" />
                 </a>
             </td>
         </tr>
