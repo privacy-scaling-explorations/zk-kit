@@ -160,7 +160,7 @@ library InternalLeanIMT {
 
             // Update the `sideNodes` variable.
             // If `currentLevelSize` is odd, the saved value will be the last value of the array
-            // if it is even and there are more than 1 elements in `levelTemp`, the saved value
+            // if it is even and there are more than 1 element in `currentLevel`, the saved value
             // will be the value before the last one.
             // If it is even and there is only one element, there is no need to save anything because
             // the correct value for this level was already saved before.
