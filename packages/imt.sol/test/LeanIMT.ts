@@ -64,6 +64,66 @@ describe("LeanIMT", () => {
         })
     })
 
+    describe("# insertMany", () => {
+        it("Should not insert a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
+            const transaction = leanIMTTest.insertMany([SNARK_SCALAR_FIELD])
+
+            await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafGreaterThanSnarkScalarField")
+        })
+
+        it("Should not insert a leaf if it is 0", async () => {
+            const leaf = 0
+
+            const transaction = leanIMTTest.insertMany([leaf])
+
+            await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafCannotBeZero")
+        })
+        it("Should not insert a leaf if it was already inserted before", async () => {
+            await leanIMTTest.insert(1)
+
+            const transaction = leanIMTTest.insertMany([1])
+
+            await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafAlreadyExists")
+        })
+        it("Should insert a leaf", async () => {
+            jsLeanIMT.insert(BigInt(1))
+
+            await leanIMTTest.insertMany([1])
+
+            const root = await leanIMTTest.root()
+
+            expect(root).to.equal(jsLeanIMT.root)
+        })
+        it("Should insert 10 leaves", async () => {
+            const elems: bigint[] = []
+            for (let i = 0; i < 10; i += 1) {
+                elems.push(BigInt(i + 1))
+            }
+
+            jsLeanIMT.insertMany(elems)
+            await leanIMTTest.insertMany(elems)
+
+            const root = await leanIMTTest.root()
+            expect(root).to.equal(jsLeanIMT.root)
+        })
+        it("Should insert many leaves when the tree is not empty", async () => {
+            jsLeanIMT.insert(BigInt(1))
+
+            await leanIMTTest.insert(BigInt(1))
+
+            const elems: bigint[] = []
+            for (let i = 1; i < 10; i += 1) {
+                elems.push(BigInt(i + 1))
+            }
+
+            jsLeanIMT.insertMany(elems)
+            await leanIMTTest.insertMany(elems)
+
+            const root = await leanIMTTest.root()
+            expect(root).to.equal(jsLeanIMT.root)
+        })
+    })
+
     describe("# update", () => {
         it("Should not update a leaf if the leaf does not exist", async () => {
             const transaction = leanIMTTest.update(2, 1, [1, 2, 3, 4])
