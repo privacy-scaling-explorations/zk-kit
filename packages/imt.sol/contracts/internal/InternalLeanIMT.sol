@@ -172,8 +172,8 @@ library InternalLeanIMT {
 
             currentLevelStartIndex = nextLevelStartIndex;
 
-            // Calculate the next startIndex value.
-            // It is the position of the paret node which is pos/2.
+            // Calculate the next level startIndex value.
+            // It is the position of the parent node which is pos/2.
             nextLevelStartIndex >>= 1;
 
             // Update the next array that will be used to calculate the next level.
