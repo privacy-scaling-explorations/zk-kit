@@ -106,7 +106,7 @@ export function packPoint(unpackedPoint: Point<bigint>): bigint {
 }
 
 export function unpackPoint(packedPoint: bigint): Point<bigint> | null {
-    const buffer = Buffer.from(bigintToHexadecimal(packedPoint), "hex")
+    const buffer = Buffer.from(bigintToHexadecimal(packedPoint).padStart(64, "0"), "hex")
     const unpackedPoint = new Array(2)
 
     let sign = false

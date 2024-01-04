@@ -1,5 +1,5 @@
 import { babyjub } from "circomlibjs"
-import { addPoint, mulPointEscalar, Base8, inCurve, packPoint, unpackPoint, Point } from "../src"
+import { Base8, Point, addPoint, inCurve, mulPointEscalar, packPoint, unpackPoint } from "../src"
 
 describe("BabyJubjub", () => {
     const secretScalar = BigInt(324)
@@ -39,6 +39,20 @@ describe("BabyJubjub", () => {
 
     it("Should unpack a packed public key", async () => {
         const publicKey = mulPointEscalar(Base8, secretScalar)
+        const packedPoint = packPoint(publicKey)
+        const unpackedPoint = unpackPoint(packedPoint) as Point<bigint>
+
+        expect(unpackedPoint).not.toBeNull()
+        expect(unpackedPoint[0]).toBe(publicKey[0])
+        expect(unpackedPoint[1]).toBe(publicKey[1])
+    })
+
+    it("Should unpack a packed public key with less bytes than 32", async () => {
+        const publicKey: Point<bigint> = [
+            BigInt("10207164244839265210731148792003399330071235260758262804307337735329782473514"),
+            BigInt("4504034976288485670718230979254896078098063043333320048161019268102694534400")
+        ]
+
         const packedPoint = packPoint(publicKey)
         const unpackedPoint = unpackPoint(packedPoint) as Point<bigint>
 
