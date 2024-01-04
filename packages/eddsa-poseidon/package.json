@@ -44,7 +44,7 @@
         "rollup-plugin-typescript2": "^0.31.2"
     },
     "dependencies": {
-        "@zk-kit/baby-jubjub": "0.1.0",
+        "@zk-kit/baby-jubjub": "0.1.1",
         "@zk-kit/utils": "0.1.0"
     }
 }
