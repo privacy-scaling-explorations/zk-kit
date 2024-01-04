@@ -4438,7 +4438,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/baby-jubjub@0.1.0, @zk-kit/baby-jubjub@workspace:packages/baby-jubjub":
+"@zk-kit/baby-jubjub@0.1.1, @zk-kit/baby-jubjub@workspace:packages/baby-jubjub":
   version: 0.0.0-use.local
   resolution: "@zk-kit/baby-jubjub@workspace:packages/baby-jubjub"
   dependencies:
@@ -4452,6 +4452,15 @@ __metadata:
     rollup-plugin-typescript2: ^0.31.2
   languageName: unknown
   linkType: soft
+
+"@zk-kit/baby-jubjub@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@zk-kit/baby-jubjub@npm:0.1.0"
+  dependencies:
+    "@zk-kit/utils": 0.1.0
+  checksum: 73d3c03c276c4752d0582e2fadc03dc1a78ee3b869a7944cfec7f121df7bdad8d96caefab3eb3acdf7f6d10d5945bfc42307979ddbc6fd54c451a312509e1c16
+  languageName: node
+  linkType: hard
 
 "@zk-kit/circuits@workspace:packages/circuits":
   version: 0.0.0-use.local
@@ -4481,7 +4490,7 @@ __metadata:
   dependencies:
     "@rollup/plugin-commonjs": ^25.0.7
     "@rollup/plugin-node-resolve": ^15.2.3
-    "@zk-kit/baby-jubjub": 0.1.0
+    "@zk-kit/baby-jubjub": 0.1.1
     "@zk-kit/utils": 0.1.0
     blake-hash: 2.0.0
     circomlibjs: 0.0.8
