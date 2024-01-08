@@ -78,7 +78,7 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
-This package currently provides two implementations of incremental Merkle trees: `IMT` and `LeanIMT`. The former supports several degrees (i.e. arity), while the latter is a binary tree optimization. More information on their properties can be found in the [ZK-Kit documentation](https://zkkit.pse.dev/modules/_zk_kit_imt.html).
+This package currently provides two implementations of incremental Merkle trees: `IMT` and `LeanIMT`. The former supports several degrees (i.e. arity), while the latter is a binary tree optimization. More information on their properties can be found in the [ZK-Kit documentation](https://zkkit.pse.dev/modules/_zk_kit_imt.html). 
 
 ### IMT ([doc](https://zkkit.pse.dev/classes/_zk_kit_imt.IMT.html))
 
@@ -137,6 +137,9 @@ tree.indexOf(3n) // 1
 tree.has(4n) // false
 
 tree.update(1, 2n) // tree1.leaves -> [1n, 2n]
+
+// If you want to delete a leaf with LeanIMT you can use the update function with an
+// arbitrary value to be used for the removed leaves.
 
 const proof = tree.generateProof(1)
 
