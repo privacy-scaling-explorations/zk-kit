@@ -78,7 +78,7 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
-This package currently provides two implementations of incremental Merkle trees: `IMT` and `LeanIMT`. The former supports several degrees (i.e. arity), while the latter is a binary tree optimization. More information on their properties can be found in the [ZK-Kit documentation](https://zkkit.pse.dev/modules/_zk_kit_imt.html). 
+This package currently provides two implementations of incremental Merkle trees: `IMT` and `LeanIMT`. The former supports several degrees (i.e. arity), while the latter is a binary tree optimization. More information on their properties can be found in the [ZK-Kit documentation](https://zkkit.pse.dev/modules/_zk_kit_imt.html).
 
 ### IMT ([doc](https://zkkit.pse.dev/classes/_zk_kit_imt.IMT.html))
 
