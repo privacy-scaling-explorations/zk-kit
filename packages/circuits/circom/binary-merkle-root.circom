@@ -25,9 +25,9 @@ template BinaryMerkleRoot(MAX_DEPTH) {
     var root = 0;
 
     for (var i = 0; i < MAX_DEPTH; i++) {
-        var a = IsEqual()([depth, i]);
+        var isDepth = IsEqual()([depth, i]);
 
-        roots[i] <== a * nodes[i];
+        roots[i] <== isDepth * nodes[i];
 
         root += roots[i];
 
@@ -37,5 +37,7 @@ template BinaryMerkleRoot(MAX_DEPTH) {
         nodes[i + 1] <== Poseidon(2)(childNodes);
     }
 
-    out <== root;
+    var isDepth = IsEqual()([depth, MAX_DEPTH]);
+
+    out <== root + isDepth * nodes[MAX_DEPTH];
 }
