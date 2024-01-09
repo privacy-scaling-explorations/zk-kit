@@ -4458,7 +4458,10 @@ __metadata:
   resolution: "@zk-kit/circuits@workspace:packages/circuits"
   dependencies:
     "@types/mocha": ^10.0.6
-    "@zk-kit/smt": "workspace:^"
+    "@zk-kit/baby-jubjub": 0.1.1
+    "@zk-kit/eddsa-poseidon": 0.5.1
+    "@zk-kit/poseidon-cipher": 0.1.1
+    "@zk-kit/smt": 1.0.0
     circomkit: 0.0.19
     circomlib: ^2.0.5
     mocha: ^10.2.0
@@ -4466,16 +4469,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/eddsa-poseidon@npm:0.1.0":
-  version: 0.1.0
-  resolution: "@zk-kit/eddsa-poseidon@npm:0.1.0"
-  dependencies:
-    poseidon-lite: ^0.2.0
-  checksum: f87acefaf8a4195d1e0d6bc4cefdbd088900580616d2f23d04540f7687810774f2bccf0bc0332129c05eff1df76a96ed7f9b3f7107857f4d1be263729e92d186
-  languageName: node
-  linkType: hard
-
-"@zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon":
+"@zk-kit/eddsa-poseidon@0.5.1, @zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon":
   version: 0.0.0-use.local
   resolution: "@zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon"
   dependencies:
@@ -4492,6 +4486,15 @@ __metadata:
     rollup-plugin-typescript2: ^0.31.2
   languageName: unknown
   linkType: soft
+
+"@zk-kit/eddsa-poseidon@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@zk-kit/eddsa-poseidon@npm:0.1.0"
+  dependencies:
+    poseidon-lite: ^0.2.0
+  checksum: f87acefaf8a4195d1e0d6bc4cefdbd088900580616d2f23d04540f7687810774f2bccf0bc0332129c05eff1df76a96ed7f9b3f7107857f4d1be263729e92d186
+  languageName: node
+  linkType: hard
 
 "@zk-kit/groth16@npm:0.4.0":
   version: 0.4.0
@@ -4555,7 +4558,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher":
+"@zk-kit/poseidon-cipher@0.1.1, @zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher":
   version: 0.0.0-use.local
   resolution: "@zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher"
   dependencies:
@@ -4604,7 +4607,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/smt@workspace:^, @zk-kit/smt@workspace:packages/smt":
+"@zk-kit/smt@1.0.0, @zk-kit/smt@workspace:packages/smt":
   version: 0.0.0-use.local
   resolution: "@zk-kit/smt@workspace:packages/smt"
   dependencies:

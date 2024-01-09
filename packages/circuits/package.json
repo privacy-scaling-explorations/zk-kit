@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/circuits",
-    "version": "0.2.4",
+    "version": "0.3.0",
     "description": "A comprehensive library of general-purpose zero-knowledge circuits.",
     "license": "MIT",
     "files": [
@@ -22,7 +22,10 @@
     },
     "devDependencies": {
         "@types/mocha": "^10.0.6",
-        "@zk-kit/smt": "workspace:^",
+        "@zk-kit/baby-jubjub": "0.1.1",
+        "@zk-kit/eddsa-poseidon": "0.5.1",
+        "@zk-kit/poseidon-cipher": "0.1.1",
+        "@zk-kit/smt": "1.0.0",
         "circomkit": "0.0.19",
         "mocha": "^10.2.0",
         "poseidon-lite": "^0.2.0"
