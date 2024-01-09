@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/circuits",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "description": "A comprehensive library of general-purpose zero-knowledge circuits.",
     "license": "MIT",
     "files": [
