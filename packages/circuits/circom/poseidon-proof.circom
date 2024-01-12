@@ -2,7 +2,7 @@ pragma circom 2.1.5;
 
 include "poseidon.circom";
 
-// This circuit can be used to prove the possession of a pre-image of a
+// This circuit can be used to prove the possession of pre-images of a
 // hash without revealing the pre-image itself. It utilizes the Poseidon
 // hash function, a highly efficient and secure hash function suited
 // for zero-knowledge proof contexts. A parameter is defined to specify
@@ -21,7 +21,7 @@ template PoseidonProof(NUMBER_OF_INPUTS) {
     signal output digest;
     digest <== Poseidon(NUMBER_OF_INPUTS)(preimages);
 
-    // A nullifier is also computed using both the pre-image and the digest, providing a value
+    // A nullifier is also computed using both the scope and the digest, providing a value
     // to prevent the same proof from being reused twice.
     signal output nullifier;
     nullifier <== Poseidon(2)([scope, digest]);

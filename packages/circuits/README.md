@@ -37,7 +37,7 @@
 ## Circuits
 
 -   Circom:
-    -   [PoseidonProof](./circom/poseidon-proof.circom): It proves the possession of Poseidon pre-images without revealing the pre-images itself.
+    -   [PoseidonProof](./circom/poseidon-proof.circom): It proves the possession of Poseidon pre-images without revealing the pre-images themselves.
     -   [BinaryMerkleRoot](./circom/binary-merkle-root.circom): It calculates the root of a binary Merkle tree using a provided proof-of-membership.
 -   Noir:
     -   [Sparse Merkle Tree PoseidonBN254](./noir/crates/smt_bn254/src/lib.nr): A reusable library of functions related to Sparse Merkle Trees based on the JS implementation of [@zk-kit/smt](../smt). The library uses the Poseidon hash to implement the following functions:
