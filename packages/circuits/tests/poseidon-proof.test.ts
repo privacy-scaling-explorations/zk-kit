@@ -27,7 +27,7 @@ describe("poseidon-proof", () => {
         })
     })
 
-    it("Should compute hash correctly", async () => {
+    it("Should compute the hash correctly", async () => {
         await circuit.expectPass(INPUT, OUTPUT)
     })
 })

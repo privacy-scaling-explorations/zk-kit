@@ -7,5 +7,25 @@
         "file": "binary-merkle-root",
         "template": "BinaryMerkleRoot",
         "params": [4]
+    },
+    "poseidon-cipherWithoutCheck": {
+        "file": "poseidon-cipher",
+        "template": "PoseidonDecryptWithoutCheck",
+        "params": [2]
+    },
+    "poseidon-cipher": {
+        "file": "poseidon-cipher",
+        "template": "PoseidonDecrypt",
+        "params": [2]
+    },
+    "poseidon-decryptIterations": {
+        "file": "poseidon-cipher",
+        "template": "PoseidonDecryptIterations",
+        "params": [2]
+    },
+    "poseidon-perm": {
+        "file": "poseidon-cipher",
+        "template": "PoseidonPerm",
+        "params": [2]
     }
 }
