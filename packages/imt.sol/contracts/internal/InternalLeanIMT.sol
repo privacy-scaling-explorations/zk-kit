@@ -90,7 +90,7 @@ library InternalLeanIMT {
                 revert LeafAlreadyExists();
             }
 
-            self.leaves[leaves[i]] = self.size + i;
+            self.leaves[leaves[i]] = self.size + 1 + i;
 
             unchecked {
                 ++i;
