@@ -30,6 +30,7 @@
     },
     "eddsa-proof": {
         "file": "eddsa-proof",
-        "template": "EddsaProof"
+        "template": "EddsaProof",
+        "pubs": ["scope"]
     }
 }
