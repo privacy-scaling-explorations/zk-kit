@@ -10,7 +10,9 @@ export default async function getSnarkArtifacts(numberOfInputs: number): Promise
 
     if (!fs.existsSync(tmpPath)) {
         tmp.dirSync({ name: `${tmpDir}-${numberOfInputs}` })
+    }
 
+    if (fs.readdirSync(tmpPath).length !== 2) {
         await download(
             `https://zkkit.cedoor.dev/poseidon-proof/artifacts/${numberOfInputs}/poseidon-proof.wasm`,
             tmpPath
