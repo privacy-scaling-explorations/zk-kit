@@ -16,6 +16,7 @@ template PoseidonProof(NUMBER_OF_INPUTS) {
     signal input scope;
 
     assert (NUMBER_OF_INPUTS >= 1);
+    assert (NUMBER_OF_INPUTS <= 16);
 
     // It applies the Poseidon hash function to the pre-image to produce a hash digest.
     signal output digest;
