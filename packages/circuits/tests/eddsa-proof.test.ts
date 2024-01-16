@@ -4,18 +4,18 @@ import { deriveSecretScalar, derivePublicKey } from "@zk-kit/eddsa-poseidon"
 import { circomkit } from "./common"
 
 describe("eddsa-proof", () => {
-    let circuit: WitnessTester<["privateKey", "scope"], ["commitment", "nullifier"]>
+    let circuit: WitnessTester<["secret", "scope"], ["commitment", "nullifier"]>
 
-    const privateKey = 3
+    const secret = 3
     const scope = 2
 
-    const publicKey = derivePublicKey(privateKey)
+    const publicKey = derivePublicKey(secret)
     const commitment = poseidon2(publicKey)
 
     const nullifier = poseidon2([scope, commitment])
 
     const INPUT = {
-        privateKey: BigInt(deriveSecretScalar(privateKey)),
+        secret: BigInt(deriveSecretScalar(secret)),
         scope
     }
 

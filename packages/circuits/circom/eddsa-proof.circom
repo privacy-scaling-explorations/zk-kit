@@ -11,7 +11,7 @@ include "poseidon.circom";
 // proof from being re-used twice.
 template EddsaProof() {
     // The circuit takes two inputs: the private key and an additional scope parameter.
-    signal input privateKey;
+    signal input secret;
     signal input scope;
 
     signal output commitment;
@@ -19,7 +19,7 @@ template EddsaProof() {
     var Ax, Ay;
 
     // Get the two Baby Jubjub points using the private key.
-    (Ax, Ay) = BabyPbk()(privateKey);
+    (Ax, Ay) = BabyPbk()(secret);
 
     // It applies the Poseidon hash function to the to Baby Jubjub poits to produce the commitment.
     commitment <== Poseidon(2)([Ax, Ay]);
