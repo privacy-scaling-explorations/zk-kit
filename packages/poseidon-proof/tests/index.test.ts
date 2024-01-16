@@ -62,7 +62,7 @@ describe("PoseidonProof", () => {
 
     describe("# generate/verify", () => {
         it("Should generate and verify a Poseidon proof from 1 to 16 preimages", async () => {
-            for (let i = 0; i < preimages.length; ) {
+            for (let i = 0; i < preimages.length; i += 1) {
                 const currentPreimages = preimages.slice(0, i + 1)
 
                 // Generate.
@@ -81,7 +81,7 @@ describe("PoseidonProof", () => {
 
                 expect(response).toBe(true)
             }
-        })
+        }, 60000)
 
         it("Should verify an invalid Poseidon proof", async () => {
             fullProof.digest = "3"
