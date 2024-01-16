@@ -25,9 +25,10 @@ describe("eddsa-proof", () => {
     }
 
     before(async () => {
-        circuit = await circomkit.WitnessTester("poseidon-proof", {
+        circuit = await circomkit.WitnessTester("eddsa-proof", {
             file: "eddsa-proof",
-            template: "EddsaProof"
+            template: "EddsaProof",
+            pubs: ["scope"]
         })
     })
 
