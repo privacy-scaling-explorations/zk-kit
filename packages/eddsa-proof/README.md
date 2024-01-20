@@ -9,17 +9,17 @@
     <a href="https://github.com/privacy-scaling-explorations/zk-kit">
         <img src="https://img.shields.io/badge/project-zk--kit-blue.svg?style=flat-square">
     </a>
-    <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-proof/LICENSE">
-        <img alt="NPM license" src="https://img.shields.io/npm/l/%40zk-kit%2Fposeidon-proof?style=flat-square">
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/eddsa-proof/LICENSE">
+        <img alt="NPM license" src="https://img.shields.io/npm/l/%40zk-kit%eddsa-proof?style=flat-square">
     </a>
-    <a href="https://www.npmjs.com/package/@zk-kit/poseidon-proof">
-        <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/poseidon-proof?style=flat-square" />
+    <a href="https://www.npmjs.com/package/@zk-kit/eddsa-proof">
+        <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/eddsa-proof?style=flat-square" />
     </a>
-    <a href="https://npmjs.org/package/@zk-kit/poseidon-proof">
-        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/poseidon-proof.svg?style=flat-square" />
+    <a href="https://npmjs.org/package/@zk-kit/eddsa-proof">
+        <img alt="Downloads" src="https://img.shields.io/npm/dm/@zk-kit/eddsa-proof.svg?style=flat-square" />
     </a>
-    <a href="https://bundlephobia.com/package/@zk-kit/poseidon-proof">
-        <img alt="npm bundle size (scoped)" src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon-proof" />
+    <a href="https://bundlephobia.com/package/@zk-kit/eddsa-proof">
+        <img alt="npm bundle size (scoped)" src="https://img.shields.io/bundlephobia/minzip/@zk-kit/eddsa-proof" />
     </a>
     <a href="https://eslint.org/">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint" />
@@ -35,7 +35,7 @@
             🗣️ Chat &amp; Support
         </a>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_proof.html">
+        <a href="https://zkkit.pse.dev/modules/_zk_kit_eddsa_proof.html">
             📘 Docs
         </a>
     </h4>
@@ -55,7 +55,7 @@ https://github.com/privacy-scaling-explorations/zk-kit/blob/feat/eddsa-proof-pac
 
 ### npm or yarn
 
-Install the `@zk-kit/poseidon-proof` package:
+Install the `@zk-kit/eddsa-proof` package:
 
 ```bash
 npm i @zk-kit/eddsa-proof
@@ -73,10 +73,10 @@ yarn add @zk-kit/eddsa-proof
 message: _BigNumberish_,
 scope: _BigNumberish_,
 snarkArtifacts?: _SnarkArtifacts_
-): Promise\<_PoseidonProof_>
+): Promise\<_EddsaProof_>
 
 ```typescript
-import { generate } from "@zk-kit/poseidon-proof"
+import { generate } from "@zk-kit/eddsa-proof"
 
 const scope = 1
 const message = 2
@@ -86,8 +86,8 @@ const fullProof = await generate(message, scope)
 // If not specified, the Snark artifacts are downloaded automatically.
 // You can also specify them.
 const fullProof2 = await generate(message, scope, {
-    zkeyFilePath: "./poseidon-proof.zkey",
-    wasmFilePath: "./poseidon-proof.wasm"
+    zkeyFilePath: "./eddsa-proof.zkey",
+    wasmFilePath: "./eddsa-proof.wasm"
 })
 
 console.log(fullProof)
@@ -110,10 +110,10 @@ console.log(fullProof)
 */
 ```
 
-\# **verify**(poseidonProof: _PoseidonProof_): Promise\<_boolean_>
+\# **verify**(eddsaProof: _EddsaProof_): Promise\<_boolean_>
 
 ```typescript
-import { verify } from "@zk-kit/poseidon-proof"
+import { verify } from "@zk-kit/eddsa-proof"
 
 const response = await verify(fullProof)
 
@@ -131,7 +131,7 @@ Benchmarks were run on an Intel Core i7-1165G7, 16 GB RAM machine, after initial
 | `80ms`         | `10ms`       | `141`       |
 
 ```js
-import { generate, verify } from "@zk-kit/poseidon-proof"
+import { generate, verify } from "@zk-kit/eddsa-proof"
 import { buildBn128 } from "@zk-kit/groth16"
 
 await buildBn128()
