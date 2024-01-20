@@ -85,8 +85,8 @@ const fullProof = await generate(privateKey, scope)
 // If not specified, the Snark artifacts are downloaded automatically.
 // You can also specify them.
 const fullProof2 = await generate(privateKey, scope, {
-    zkeyFilePath: "./eddsa-proof.zkey",
-    wasmFilePath: "./eddsa-proof.wasm"
+    wasmFilePath: "./eddsa-proof.wasm",
+    zkeyFilePath: "./eddsa-proof.zkey"
 })
 
 console.log(fullProof)
