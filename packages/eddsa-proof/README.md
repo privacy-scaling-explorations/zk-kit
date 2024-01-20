@@ -48,7 +48,7 @@ This library allows you to prove and verify that you have the private key of a S
 
 The Snark artifacts (`.wasm` and `.zkey` files) can be specified or not in the `generate` function parameters and can possibly be downloaded using the following URLs:
 
-https://github.com/privacy-scaling-explorations/zk-kit/blob/ee457299d36d2601e5bf520237977a9f16b1b599/packages/eddsa-proof/src/config.ts
+https://github.com/privacy-scaling-explorations/zk-kit/blob/feat/eddsa-proof-package/packages/eddsa-proof/src/config.ts#L3-L4
 
 > [!WARNING]  
 > The Snark artifacts currently used to generate zero-knowledge proofs are the result of an unsecure trusted setup, and the library has not yet been audited. Therefore, it is advised not to use it in production.
