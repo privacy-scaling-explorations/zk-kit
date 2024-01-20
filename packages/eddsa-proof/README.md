@@ -124,13 +124,13 @@ console.log(response) // true or false
 
 ## 📈 Benchmarks
 
-Benchmarks were run on an Intel Core i7-1165G7, 16 GB RAM machine, after initializing the BN128 curve with [`@zk-kit/groth16`](https://github.com/privacy-scaling-explorations/zk-kit/edit/main/packages/groth16)-`buildBn128` (~230ms).
+Benchmarks were run on a MacBook Pro, Apple M2 Pro, 16 GB RAM machine, after initializing the BN128 curve with [`@zk-kit/groth16`](https://github.com/privacy-scaling-explorations/zk-kit/edit/main/packages/groth16)-`buildBn128` (~230ms).
 
 | Generate proof | Verify proof | Constraints |
 | -------------- | ------------ | ----------- |
-| `80ms`         | `10ms`       | `141`       |
+| `167.652 ms`   | `10.337 ms`  | `1256`      |
 
-```js
+```ts
 import { generate, verify } from "@zk-kit/eddsa-proof"
 import { buildBn128 } from "@zk-kit/groth16"
 
