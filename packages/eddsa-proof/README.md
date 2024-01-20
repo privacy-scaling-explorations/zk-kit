@@ -1,8 +1,8 @@
 <p align="center">
     <h1 align="center">
-        Poseidon proof
+        Eddsa proof
     </h1>
-    <p align="center">A library to generate and verify Poseidon proofs.</p>
+    <p align="center">A library to generate and verify Eddsa proofs.</p>
 </p>
 
 <p align="center">
@@ -41,17 +41,14 @@
     </h4>
 </div>
 
-| This zero-knowledge library facilitates the demonstration of having a Poseidon hash pre-image while keeping the pre-image value confidential. Additionally, it offers a mechanism to prevent the same proof from being reused. The circuit that forms the foundation of this library is accessible via this [link](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/circuits/templates/poseidon-proof.circom). |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| This zero-knowledge library facilitates the demonstration of having an Eddsa hash pre-image while keeping the pre-image value confidential. Additionally, it offers a mechanism to prevent the same proof from being reused. The circuit that forms the foundation of this library is accessible via this [link](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/circuits/templates/eddsa-proof.circom). |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
-Originally developed for integration with [Semaphore V4](https://github.com/semaphore-protocol/semaphore), this library also functions effectively as a standalone tool. Notable use cases in connection with Semaphore can be:
-
--   allowing a Semaphore user to prove that they possess the secret value associated with the identity commitment of their Semaphore identity,
--   unmasking the identity of zero-knowledge proofs earlier created using Semaphore.
+This library allows you to prove and verify that you have the private key of a Semaphore identity. It will mainly be used to verify it on-chain because you can verify it off-chain using the `@semaphore-protocol/identitiy` package.
 
 The Snark artifacts (`.wasm` and `.zkey` files) can be specified or not in the `generate` function parameters and can possibly be downloaded using the following URLs:
 
-https://github.com/privacy-scaling-explorations/zk-kit/blob/ee457299d36d2601e5bf520237977a9f16b1b599/packages/poseidon-proof/src/config.ts#L5-L8
+https://github.com/privacy-scaling-explorations/zk-kit/blob/ee457299d36d2601e5bf520237977a9f16b1b599/packages/eddsa-proof/src/config.ts#L5-L8
 
 > [!WARNING]  
 > The Snark artifacts currently used to generate zero-knowledge proofs are the result of an unsecure trusted setup, and the library has not yet been audited. Therefore, it is advised not to use it in production.
@@ -63,13 +60,13 @@ https://github.com/privacy-scaling-explorations/zk-kit/blob/ee457299d36d2601e5bf
 Install the `@zk-kit/poseidon-proof` package:
 
 ```bash
-npm i @zk-kit/poseidon-proof
+npm i @zk-kit/eddsa-proof
 ```
 
 or yarn:
 
 ```bash
-yarn add @zk-kit/poseidon-proof
+yarn add @zk-kit/eddsa-proof
 ```
 
 ## 📜 Usage

@@ -6,9 +6,9 @@ export type SnarkArtifacts = {
 }
 
 export type EddsaProof = {
-    scope: NumericString
     commitment: NumericString
     nullifier: NumericString
+    scope: NumericString
     proof: PackedProof
 }
 

@@ -8,7 +8,7 @@ import packProof from "./pack-proof"
 import { EddsaProof, SnarkArtifacts } from "./types"
 
 /**
- * Creates a zero-knowledge proof to prove that you have the pre-image of a hash,
+ * Creates a zero-knowledge proof to prove that you have the pre-image of a Semaphore commitment,
  * without disclosing the actual preimage itself.
  * The use of a scope parameter along with a nullifier helps ensure the uniqueness
  * and non-reusability of the proofs, enhancing security in applications like
@@ -37,7 +37,7 @@ export default async function generate(
 
     const { proof, publicSignals } = await prove(
         {
-            privateKey: hash(secretScalar),
+            secret: secretScalar,
             scope: hash(scope)
         },
         snarkArtifacts.wasmFilePath,
@@ -45,9 +45,9 @@ export default async function generate(
     )
 
     return {
+        commitment: publicSignals[0],
+        nullifier: publicSignals[1],
         scope: BigNumber.from(scope).toString() as NumericString,
-        commitment: publicSignals[1],
-        nullifier: publicSignals[0],
         proof: packProof(proof)
     }
 }

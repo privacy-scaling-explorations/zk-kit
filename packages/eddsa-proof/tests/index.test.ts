@@ -1,5 +1,6 @@
 import { buildBn128 } from "@zk-kit/groth16"
-import { poseidon1, poseidon2 } from "poseidon-lite"
+import { poseidon2 } from "poseidon-lite"
+import { derivePublicKey } from "@zk-kit/eddsa-poseidon"
 import generate from "../src/generate"
 import packProof from "../src/pack-proof"
 import { EddsaProof } from "../src/types"
@@ -23,15 +24,23 @@ describe("EddsaProof", () => {
     })
 
     describe("# generate", () => {
-        it("Should generate a Eddsa proof", async () => {
-            fullProof = await generate(privateKey, scope)
+        it("Should generate an Eddsa proof", async () => {
+            fullProof = await generate(privateKey, scope, {
+                wasmFilePath: "./packages/eddsa-proof/tests/artifacts/eddsa-proof.wasm",
+                zkeyFilePath: "./packages/eddsa-proof/tests/artifacts/eddsa-proof.zkey"
+            })
 
-            const digest = poseidon1([hash(privateKey)])
-            const nullifier = poseidon2([hash(scope), hash(privateKey)])
+            const scopeHash = hash(scope)
+
+            const publicKey = derivePublicKey(privateKey)
+
+            const commitment = poseidon2(publicKey)
+
+            const nullifier = poseidon2([scopeHash, commitment])
 
             expect(fullProof.proof).toHaveLength(8)
             expect(fullProof.scope).toBe(scope.toString())
-            expect(fullProof.commitment).toBe(digest.toString())
+            expect(fullProof.commitment).toBe(commitment.toString())
             expect(fullProof.nullifier).toBe(nullifier.toString())
         })
     })

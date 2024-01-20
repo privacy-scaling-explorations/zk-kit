@@ -15,6 +15,7 @@ template EddsaProof() {
     signal input scope;
 
     signal output commitment;
+    signal output nullifier;
 
     var Ax, Ay;
 
@@ -26,6 +27,5 @@ template EddsaProof() {
 
     // A nullifier is also computed using both the scope and the commitment, providing a value
     // to prevent the same proof from being reused twice.
-    signal output nullifier;
     nullifier <== Poseidon(2)([scope, commitment]);
 }

@@ -2,9 +2,9 @@ import { Groth16Proof } from "@zk-kit/groth16"
 import { PackedProof } from "./types"
 
 /**
- * Packs a proof into a format compatible with PoseidonProof.
+ * Packs a proof into a format compatible with EddsaProof.
  * @param proof The Groth16 proof generated with SnarkJS.
- * @returns The proof compatible with PoseidonProof.
+ * @returns The proof compatible with EddsaProof.
  */
 export default function packProof(proof: Groth16Proof): PackedProof {
     return [
