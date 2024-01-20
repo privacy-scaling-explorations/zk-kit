@@ -44,11 +44,11 @@
 | This zero-knowledge library facilitates the demonstration of having an Eddsa hash pre-image while keeping the pre-image value confidential. Additionally, it offers a mechanism to prevent the same proof from being reused. The circuit that forms the foundation of this library is accessible via this [link](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/circuits/templates/eddsa-proof.circom). |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
-This library allows you to prove and verify that you have the private key of a Semaphore identity. It will mainly be used to verify it on-chain because you can verify it off-chain using the `@semaphore-protocol/identitiy` package.
+This library allows you to prove and verify that you have the private key of a Semaphore identity. It will mainly be used to verify it on-chain because you can verify it off-chain using the `@semaphore-protocol/identity` package.
 
 The Snark artifacts (`.wasm` and `.zkey` files) can be specified or not in the `generate` function parameters and can possibly be downloaded using the following URLs:
 
-https://github.com/privacy-scaling-explorations/zk-kit/blob/ee457299d36d2601e5bf520237977a9f16b1b599/packages/eddsa-proof/src/config.ts#L5-L8
+https://github.com/privacy-scaling-explorations/zk-kit/blob/ee457299d36d2601e5bf520237977a9f16b1b599/packages/eddsa-proof/src/config.ts
 
 > [!WARNING]  
 > The Snark artifacts currently used to generate zero-knowledge proofs are the result of an unsecure trusted setup, and the library has not yet been audited. Therefore, it is advised not to use it in production.
