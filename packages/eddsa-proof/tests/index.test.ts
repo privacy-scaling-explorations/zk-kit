@@ -25,10 +25,7 @@ describe("EddsaProof", () => {
 
     describe("# generate", () => {
         it("Should generate an Eddsa proof", async () => {
-            fullProof = await generate(privateKey, scope, {
-                wasmFilePath: "./packages/eddsa-proof/tests/artifacts/eddsa-proof.wasm",
-                zkeyFilePath: "./packages/eddsa-proof/tests/artifacts/eddsa-proof.zkey"
-            })
+            fullProof = await generate(privateKey, scope)
 
             const scopeHash = hash(scope)
 
