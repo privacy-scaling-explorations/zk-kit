@@ -5,7 +5,7 @@ import fs from "fs"
 import { defaultSnarkArtifacts } from "./config"
 
 export default async function getSnarkArtifacts() {
-    const tmpDir = "poseidon-proof"
+    const tmpDir = "eddsa-proof"
     const tmpPath = `${tmp.tmpdir}/${tmpDir}`
 
     if (!fs.existsSync(tmpPath)) {
@@ -16,7 +16,7 @@ export default async function getSnarkArtifacts() {
     }
 
     return {
-        wasmFilePath: `${tmpPath}/poseidon-proof.wasm`,
-        zkeyFilePath: `${tmpPath}/poseidon-proof.zkey`
+        wasmFilePath: `${tmpPath}/eddsa-proof.wasm`,
+        zkeyFilePath: `${tmpPath}/eddsa-proof.zkey`
     }
 }
