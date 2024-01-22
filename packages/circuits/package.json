@@ -23,7 +23,7 @@
     "devDependencies": {
         "@types/mocha": "^10.0.6",
         "@zk-kit/baby-jubjub": "0.1.1",
-        "@zk-kit/eddsa-poseidon": "0.5.0",
+        "@zk-kit/eddsa-poseidon": "0.5.1",
         "@zk-kit/poseidon-cipher": "0.1.1",
         "@zk-kit/smt": "1.0.0",
         "circomkit": "0.0.19",
