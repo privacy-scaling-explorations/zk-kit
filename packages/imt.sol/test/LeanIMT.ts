@@ -280,6 +280,15 @@ describe("LeanIMT", () => {
 
             expect(index).to.equal(0)
         })
+        it("Should return the indices of the leaves", async () => {
+            await leanIMTTest.insertMany([1, 2])
+
+            const index1 = await leanIMTTest.indexOf(1)
+            const index2 = await leanIMTTest.indexOf(2)
+
+            expect(index1).to.equal(0)
+            expect(index2).to.equal(1)
+        })
     })
 
     describe("# root", () => {

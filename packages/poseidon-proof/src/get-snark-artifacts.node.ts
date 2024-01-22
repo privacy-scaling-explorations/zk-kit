@@ -1,18 +1,26 @@
 /* istanbul ignore file */
 import download from "download"
-import tmp from "tmp"
 import fs from "fs"
-import { defaultSnarkArtifacts } from "./config"
+import tmp from "tmp"
+import { SnarkArtifacts } from "./types"
 
-export default async function getSnarkArtifacts() {
-    const tmpDir = "poseidon-proof"
-    const tmpPath = `${tmp.tmpdir}/${tmpDir}`
+export default async function getSnarkArtifacts(numberOfInputs: number): Promise<SnarkArtifacts> {
+    const tmpDir = `poseidon-proof`
+    const tmpPath = `${tmp.tmpdir}/${tmpDir}-${numberOfInputs}`
 
     if (!fs.existsSync(tmpPath)) {
-        tmp.dirSync({ name: tmpDir })
+        tmp.dirSync({ name: `${tmpDir}-${numberOfInputs}` })
+    }
 
-        await download(defaultSnarkArtifacts.wasmFilePath, tmpPath)
-        await download(defaultSnarkArtifacts.zkeyFilePath, tmpPath)
+    if (fs.readdirSync(tmpPath).length !== 2) {
+        await download(
+            `https://zkkit.cedoor.dev/poseidon-proof/artifacts/${numberOfInputs}/poseidon-proof.wasm`,
+            tmpPath
+        )
+        await download(
+            `https://zkkit.cedoor.dev/poseidon-proof/artifacts/${numberOfInputs}/poseidon-proof.zkey`,
+            tmpPath
+        )
     }
 
     return {

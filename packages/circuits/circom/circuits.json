@@ -1,7 +1,9 @@
 {
     "poseidon-proof": {
         "file": "poseidon-proof",
-        "template": "PoseidonProof"
+        "template": "PoseidonProof",
+        "pubs": ["scope"],
+        "params": [1]
     },
     "binary-merkle-root": {
         "file": "binary-merkle-root",
