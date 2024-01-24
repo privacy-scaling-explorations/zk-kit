@@ -24,7 +24,7 @@
         "node": ">=18.0.0"
     },
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
-    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-proof",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/eddsa-proof",
     "bugs": {
         "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
     },
