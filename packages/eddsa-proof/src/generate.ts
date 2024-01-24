@@ -23,7 +23,7 @@ import { EddsaProof, SnarkArtifacts } from "./types"
  * @returns The Poseidon zero-knowledge proof.
  */
 export default async function generate(
-    privateKey: string | number | bigint,
+    privateKey: string | number | bigint | Buffer,
     scope: BytesLike | Hexable | number | bigint,
     snarkArtifacts?: SnarkArtifacts
 ): Promise<EddsaProof> {
