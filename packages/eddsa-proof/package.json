@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/eddsa-proof",
-    "version": "0.5.0",
+    "version": "0.1.0",
     "description": "A library to generate and verify Poseidon proofs using eddsa.",
     "license": "MIT",
     "main": "dist/index.node.js",
