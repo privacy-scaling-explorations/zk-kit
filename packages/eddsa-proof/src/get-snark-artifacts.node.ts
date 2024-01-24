@@ -8,9 +8,7 @@ export default async function getSnarkArtifacts() {
     const tmpDir = "eddsa-proof"
     const tmpPath = `${tmp.tmpdir}/${tmpDir}`
 
-    if (!fs.existsSync(tmpPath)) {
-        tmp.dirSync({ name: tmpDir })
-
+    if (fs.readdirSync(tmpPath).length !== 2) {
         await download(defaultSnarkArtifacts.wasmFilePath, tmpPath)
         await download(defaultSnarkArtifacts.zkeyFilePath, tmpPath)
     }
