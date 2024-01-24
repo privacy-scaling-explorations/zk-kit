@@ -6,7 +6,6 @@ import packProof from "../src/pack-proof"
 import { EddsaProof } from "../src/types"
 import unpackProof from "../src/unpack-proof"
 import verify from "../src/verify"
-import hash from "../src/hash"
 
 describe("EddsaProof", () => {
     const privateKey = 2
@@ -27,18 +26,13 @@ describe("EddsaProof", () => {
         it("Should generate an Eddsa proof", async () => {
             fullProof = await generate(privateKey, scope)
 
-            const scopeHash = hash(scope)
-
             const publicKey = derivePublicKey(privateKey)
 
             const commitment = poseidon2(publicKey)
 
-            const nullifier = poseidon2([scopeHash, commitment])
-
             expect(fullProof.proof).toHaveLength(8)
             expect(fullProof.scope).toBe(scope.toString())
             expect(fullProof.commitment).toBe(commitment.toString())
-            expect(fullProof.nullifier).toBe(nullifier.toString())
         })
     })
 

@@ -15,7 +15,6 @@ template EddsaProof() {
     signal input scope;
 
     signal output commitment;
-    signal output nullifier;
 
     var Ax, Ay;
 
@@ -24,8 +23,4 @@ template EddsaProof() {
 
     // It applies the Poseidon hash function to the to Baby Jubjub poits to produce the commitment.
     commitment <== Poseidon(2)([Ax, Ay]);
-
-    // A nullifier is also computed using both the scope and the commitment, providing a value
-    // to prevent the same proof from being reused twice.
-    nullifier <== Poseidon(2)([scope, commitment]);
 }

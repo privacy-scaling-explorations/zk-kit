@@ -9,9 +9,9 @@ import hash from "./hash"
  * @param eddsaProof The Eddsa zero-knowledge proof.
  * @returns True if the proof is valid, false otherwise.
  */
-export default function verify({ proof, commitment, nullifier, scope }: EddsaProof): Promise<boolean> {
+export default function verify({ commitment, scope, proof }: EddsaProof): Promise<boolean> {
     return _verify(verificationKey, {
-        publicSignals: [commitment, nullifier, hash(scope)],
+        publicSignals: [commitment, hash(scope)],
         proof: unpackProof(proof)
     })
 }

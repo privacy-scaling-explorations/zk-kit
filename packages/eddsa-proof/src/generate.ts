@@ -46,7 +46,6 @@ export default async function generate(
 
     return {
         commitment: publicSignals[0],
-        nullifier: publicSignals[1],
         scope: BigNumber.from(scope).toString() as NumericString,
         proof: packProof(proof)
     }
