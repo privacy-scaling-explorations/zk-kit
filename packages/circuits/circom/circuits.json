@@ -29,5 +29,11 @@
         "file": "poseidon-cipher",
         "template": "PoseidonPerm",
         "params": [2]
+    },
+    "ecdh": {
+        "file": "ecdh",
+        "template": "Ecdh",
+        "pubs": ["publicKey"],
+        "params": []
     }
 }
