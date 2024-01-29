@@ -10948,6 +10948,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"imt-rs@workspace:packages/imt-rs":
+  version: 0.0.0-use.local
+  resolution: "imt-rs@workspace:packages/imt-rs"
+  languageName: unknown
+  linkType: soft
+
 "imt.sol@workspace:packages/imt.sol":
   version: 0.0.0-use.local
   resolution: "imt.sol@workspace:packages/imt.sol"
