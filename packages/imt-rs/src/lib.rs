@@ -1,3 +1,5 @@
+use std::error::Error;
+
 use tiny_keccak::{Hasher, Keccak};
 
 pub struct IMT {
@@ -56,6 +58,23 @@ impl IMT {
         }
 
         Ok(imt)
+    }
+
+    pub fn root(&mut self) -> Option<String>  {
+        let nodes = self.nodes[self.depth].clone();
+        return nodes[0].clone();
+    }
+
+    pub fn depth(&mut self) -> usize {
+        return self.depth;
+    }
+
+    pub fn leaves(&mut self) -> Vec<Option<String>> {
+        return self.nodes[0].clone();
+    }
+
+    pub fn arity(&mut self) -> usize {
+        return self.arity;
     }
 
     pub fn insert(&mut self, leaf: IMTNode) -> Result<(), &'static str> {
