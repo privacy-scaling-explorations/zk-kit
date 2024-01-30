@@ -113,6 +113,19 @@ describe("LazyIMT", () => {
             })
         }
 
+        it("Should insert multiple leaves", async () => {
+            const depth = 10
+
+            await lazyIMTTest.init(depth)
+
+            for (let x = 0; x < 129; x += 1) {
+                await lazyIMTTest.insert(random())
+            }
+
+            let root = await lazyIMTTest.root()
+            console.log("root: ", root.toString())
+        })
+
         it("Should fail to insert too many leaves", async () => {
             const depth = 3
 
