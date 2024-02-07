@@ -159,7 +159,7 @@ library InternalLazyIMT {
 
     function _root(LazyIMTData storage self, uint8 depth) internal view returns (uint256) {
         require(depth > 0, "LazyIMT: depth must be > 0");
-        require(depth <= MAX_DEPTH, "LazyIMT: depth must be < MAX_DEPTH");
+        require(depth <= MAX_DEPTH, "LazyIMT: depth must be <= MAX_DEPTH");
         uint40 numberOfLeaves = self.numberOfLeaves;
         require(uint32(2) ** uint32(depth) >= numberOfLeaves, "LazyIMT: ambiguous depth");
         return _root(self, numberOfLeaves, depth);
@@ -168,7 +168,7 @@ library InternalLazyIMT {
     // Here it's assumed that the depth value is valid. If it is either 0 or > 2^8-1
     // this function will panic.
     function _root(LazyIMTData storage self, uint40 numberOfLeaves, uint8 depth) internal view returns (uint256) {
-        require(depth <= MAX_DEPTH, "LazyIMT: depth must be < MAX_DEPTH");
+        require(depth <= MAX_DEPTH, "LazyIMT: depth must be <= MAX_DEPTH");
         // this should always short circuit if self.numberOfLeaves == 0
         if (numberOfLeaves == 0) return _defaultZero(depth);
         uint40 index = numberOfLeaves - 1;
