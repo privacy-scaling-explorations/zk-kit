@@ -283,6 +283,6 @@ describe("LazyIMT", () => {
             await lazyIMTTest.insert(e)
         }
         await expect(lazyIMTTest.staticRoot(4)).to.be.revertedWith("LazyIMT: ambiguous depth")
-        await expect(lazyIMTTest.staticRoot(33)).to.be.revertedWith("LazyIMT: depth must be < MAX_DEPTH")
+        await expect(lazyIMTTest.staticRoot(33)).to.be.revertedWith("LazyIMT: depth must be <= MAX_DEPTH")
     })
 })
