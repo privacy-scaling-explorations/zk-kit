@@ -5,7 +5,7 @@ import {PoseidonT3} from "poseidon-solidity/PoseidonT3.sol";
 import {SNARK_SCALAR_FIELD, MAX_DEPTH} from "../Constants.sol";
 
 struct LazyIMTData {
-    uint32 maxIndex;
+    uint40 maxIndex;
     uint40 numberOfLeaves;
     mapping(uint256 => uint256) elements;
 }
@@ -86,7 +86,7 @@ library InternalLazyIMT {
 
     function _init(LazyIMTData storage self, uint8 depth) internal {
         require(depth <= MAX_DEPTH, "LazyIMT: Tree too large");
-        self.maxIndex = uint32((1 << depth) - 1);
+        self.maxIndex = uint40((1 << depth) - 1);
         self.numberOfLeaves = 0;
     }
 
@@ -151,7 +151,7 @@ library InternalLazyIMT {
         uint40 numberOfLeaves = self.numberOfLeaves;
         // dynamically determine a depth
         uint8 depth = 1;
-        while (uint32(2) ** uint32(depth) < numberOfLeaves) {
+        while (uint40(2) ** uint40(depth) < numberOfLeaves) {
             depth++;
         }
         return _root(self, numberOfLeaves, depth);
@@ -161,7 +161,7 @@ library InternalLazyIMT {
         require(depth > 0, "LazyIMT: depth must be > 0");
         require(depth <= MAX_DEPTH, "LazyIMT: depth must be <= MAX_DEPTH");
         uint40 numberOfLeaves = self.numberOfLeaves;
-        require(uint32(2) ** uint32(depth) >= numberOfLeaves, "LazyIMT: ambiguous depth");
+        require(uint40(2) ** uint40(depth) >= numberOfLeaves, "LazyIMT: ambiguous depth");
         return _root(self, numberOfLeaves, depth);
     }
 
