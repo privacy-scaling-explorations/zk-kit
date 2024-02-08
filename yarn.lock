@@ -4453,6 +4453,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@zk-kit/baby-jubjub@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@zk-kit/baby-jubjub@npm:0.1.0"
+  dependencies:
+    "@zk-kit/utils": 0.1.0
+  checksum: 73d3c03c276c4752d0582e2fadc03dc1a78ee3b869a7944cfec7f121df7bdad8d96caefab3eb3acdf7f6d10d5945bfc42307979ddbc6fd54c451a312509e1c16
+  languageName: node
+  linkType: hard
+
 "@zk-kit/circuits@workspace:packages/circuits":
   version: 0.0.0-use.local
   resolution: "@zk-kit/circuits@workspace:packages/circuits"
@@ -4558,7 +4567,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/poseidon-cipher@0.1.1, @zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher":
+"@zk-kit/poseidon-cipher@npm:0.1.1":
+  version: 0.1.1
+  resolution: "@zk-kit/poseidon-cipher@npm:0.1.1"
+  dependencies:
+    "@zk-kit/baby-jubjub": 0.1.0
+  checksum: d7e08976a26d85bbf864ff90b8eb1e0d490286d384ca29f37c845c0f515dcf187186f33bd9b1cda595ca50031b0d9c787ba92ea40c358e16e4ab775ead4d58a3
+  languageName: node
+  linkType: hard
+
+"@zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher":
   version: 0.0.0-use.local
   resolution: "@zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher"
   dependencies:
