@@ -30,6 +30,18 @@ export function bufferToBigint(buffer: Buffer): bigint {
     return BigInt(`0x${buffer.toString("hex")}`)
 }
 
+export function bigintToBuffer(n: bigint): Buffer {
+    const hex = bigintToHexadecimal(n)
+
+    // Allocate buffer of the desired size, filled with zeros.
+    const buffer = Buffer.alloc(32, 0)
+
+    const fromHex = Buffer.from(hex, "hex")
+    fromHex.copy(buffer, 32 - fromHex.length)
+
+    return buffer
+}
+
 export function bigNumberishToBigint(value: BigNumberish): bigint {
     if (
         typeof value === "number" ||
@@ -44,7 +56,7 @@ export function bigNumberishToBigint(value: BigNumberish): bigint {
 }
 
 export function leBufferToBigint(buffer: Buffer): bigint {
-    return BigInt(`0x${buffer.reverse().toString("hex")}`)
+    return BigInt(`0x${Buffer.from(buffer).reverse().toString("hex")}`)
 }
 
 export function leBigintToBuffer(n: bigint): Buffer {
@@ -53,7 +65,8 @@ export function leBigintToBuffer(n: bigint): Buffer {
     // Allocate buffer of the desired size, filled with zeros.
     const buffer = Buffer.alloc(32, 0)
 
-    Buffer.from(hex, "hex").reverse().copy(buffer)
+    const fromHex = Buffer.from(hex, "hex").reverse()
+    fromHex.copy(buffer, 0)
 
     return buffer
 }
