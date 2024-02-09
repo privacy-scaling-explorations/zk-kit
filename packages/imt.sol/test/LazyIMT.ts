@@ -113,6 +113,22 @@ describe("LazyIMT", () => {
             })
         }
 
+        it("Should insert multiple leaves", async () => {
+            const depth = 8
+
+            const merkleTree = new IMT(poseidon2, depth, BigInt(0))
+            await lazyIMTTest.init(depth)
+
+            for (let x = 0; x < 130; x += 1) {
+                const e = random()
+                await lazyIMTTest.insert(e)
+                merkleTree.insert(e)
+            }
+
+            const root = await lazyIMTTest.root()
+            expect(root.toString()).to.equal(merkleTree.root.toString())
+        })
+
         it("Should fail to insert too many leaves", async () => {
             const depth = 3
 
@@ -283,6 +299,6 @@ describe("LazyIMT", () => {
             await lazyIMTTest.insert(e)
         }
         await expect(lazyIMTTest.staticRoot(4)).to.be.revertedWith("LazyIMT: ambiguous depth")
-        await expect(lazyIMTTest.staticRoot(33)).to.be.revertedWith("LazyIMT: depth must be < MAX_DEPTH")
+        await expect(lazyIMTTest.staticRoot(33)).to.be.revertedWith("LazyIMT: depth must be <= MAX_DEPTH")
     })
 })
