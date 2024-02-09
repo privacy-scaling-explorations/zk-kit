@@ -114,16 +114,19 @@ describe("LazyIMT", () => {
         }
 
         it("Should insert multiple leaves", async () => {
-            const depth = 10
+            const depth = 8
 
+            const merkleTree = new IMT(poseidon2, depth, BigInt(0))
             await lazyIMTTest.init(depth)
 
-            for (let x = 0; x < 129; x += 1) {
-                await lazyIMTTest.insert(random())
+            for (let x = 0; x < 130; x += 1) {
+                const e = random()
+                await lazyIMTTest.insert(e)
+                merkleTree.insert(e)
             }
 
-            let root = await lazyIMTTest.root()
-            console.log("root: ", root.toString())
+            const root = await lazyIMTTest.root()
+            expect(root.toString()).to.equal(merkleTree.root.toString())
         })
 
         it("Should fail to insert too many leaves", async () => {
