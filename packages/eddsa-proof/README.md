@@ -127,7 +127,7 @@ Benchmarks were run on a MacBook Pro, Apple M2 Pro, 16 GB RAM machine, after ini
 
 | Generate proof | Verify proof | Constraints |
 | -------------- | ------------ | ----------- |
-| `167.652 ms`   | `10.337 ms`  | `1256`      |
+| `528.91 ms`    | `10. 997ms`  | `1017`      |
 
 ```ts
 import { generate, verify } from "@zk-kit/eddsa-proof"

@@ -23,4 +23,7 @@ template EddsaProof() {
 
     // It applies the Poseidon hash function to the to Baby Jubjub poits to produce the commitment.
     commitment <== Poseidon(2)([Ax, Ay]);
+
+    // Dummy constraint to prevent compiler from optimizing it.
+    signal dummySquare <== scope * scope;
 }
