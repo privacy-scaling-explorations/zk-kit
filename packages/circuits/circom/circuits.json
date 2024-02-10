@@ -29,5 +29,10 @@
         "file": "poseidon-cipher",
         "template": "PoseidonPerm",
         "params": [2]
+    },
+    "eddsa-proof": {
+        "file": "eddsa-proof",
+        "template": "EddsaProof",
+        "pubs": ["scope"]
     }
 }
