@@ -1,5 +1,5 @@
 ---
-name: "♻️ Refactoring request"
+name: "♻️ Refactoring"
 about: Suggest any improvements for this project
 title: ''
 labels: 'refactoring :recycle:'
