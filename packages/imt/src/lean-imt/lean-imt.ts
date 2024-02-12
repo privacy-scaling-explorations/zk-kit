@@ -1,5 +1,5 @@
 import { LeanIMTHashFunction, LeanIMTMerkleProof } from "./types"
-import { requireArray, requireDefinedParameter, requireFunction, requireNumber } from "./utils"
+import { requireArray, requireDefinedParameter, requireFunction, requireNumber, requireString } from "./utils"
 
 /**
  * The {@link LeanIMT} is an optimized binary version of the {@link IMT}.
@@ -19,7 +19,7 @@ export default class LeanIMT<N = bigint> {
      * Most of the attributes of this class are getters which can retrieve
      * their values from this matrix.
      */
-    private readonly _nodes: N[][]
+    private _nodes: N[][]
     /**
      * The hash function used to compute the tree nodes.
      */
@@ -296,5 +296,33 @@ export default class LeanIMT<N = bigint> {
         }
 
         return root === node
+    }
+
+    /**
+     * It enables the conversion of the full tree structure into a JSON string,
+     * facilitating future imports of the tree. This approach is beneficial for
+     * large trees, as it saves time by storing hashes instead of recomputing them
+     * @returns The stringified JSON of the tree.
+     */
+    public export(): string {
+        return JSON.stringify(this._nodes, (_, v) => (typeof v === "bigint" ? v.toString() : v))
+    }
+
+    /**
+     * It imports an entire tree by initializing the nodes without calculating
+     * any hashes. Note that it is crucial to ensure the integrity of the tree
+     * before or after importing it.
+     * The tree must be empty before importing.
+     * @param nodes The stringified JSON of the tree.
+     */
+    public import(nodes: string) {
+        requireDefinedParameter(nodes, "nodes")
+        requireString(nodes, "nodes")
+
+        if (this.size !== 0) {
+            throw new Error("Import failed: the target tree structure is not empty")
+        }
+
+        this._nodes = JSON.parse(nodes)
     }
 }
