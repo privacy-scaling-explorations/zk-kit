@@ -51,6 +51,9 @@ Some advantages of using this package instead of `snarkjs` directly are:
 -   It includes TS types.
 -   It provides an ESM bundle that is compatible with browsers. So there is no need to add any polyfill or additional configuration.
 
+> [!WARNING]  
+> This package is no longer maintained as [SnarkJS](https://github.com/iden3/snarkjs) has integrated most of the above optimizations. Please, consider installing it instead.
+
 ## 🛠 Install
 
 ### npm or yarn
