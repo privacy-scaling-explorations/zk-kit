@@ -317,5 +317,58 @@ describe("Lean IMT", () => {
 
             expect(tree.verifyProof(proof)).toBe(true)
         })
+
+        it("Should export a tree", () => {
+            const tree = new LeanIMT(poseidon, leaves)
+
+            const exportedTree = tree.export()
+
+            expect(typeof exportedTree).toBe("string")
+            expect(JSON.parse(exportedTree)).toHaveLength(4)
+            expect(JSON.parse(exportedTree)[0]).toHaveLength(5)
+        })
+
+        it("Should not import a tree if it the exported tree is not defined", () => {
+            const tree = new LeanIMT(poseidon, leaves)
+
+            const fun = () => tree.import(undefined as any)
+
+            expect(fun).toThrow("Parameter 'nodes' is not defined")
+        })
+
+        it("Should not import a tree if it the exported tree is not a string", () => {
+            const tree = new LeanIMT(poseidon, leaves)
+
+            const fun = () => tree.import(1 as any)
+
+            expect(fun).toThrow("Parameter 'nodes' is not a string")
+        })
+
+        it("Should not import a tree if it is not empty", () => {
+            const tree1 = new LeanIMT(poseidon, leaves)
+            const exportedTree = tree1.export()
+
+            const tree2 = new LeanIMT(poseidon, leaves)
+
+            const fun = () => tree2.import(exportedTree)
+
+            expect(fun).toThrow("Import failed: the target tree structure is not empty")
+        })
+
+        it("Should import a tree", () => {
+            const tree1 = new LeanIMT(poseidon, leaves)
+            const exportedTree = tree1.export()
+
+            const tree2 = new LeanIMT(poseidon)
+
+            tree2.import(exportedTree)
+
+            tree1.insert(BigInt(4))
+            tree2.insert(BigInt(4))
+
+            expect(tree2.depth).toBe(tree1.depth)
+            expect(tree2.size).toBe(tree1.size)
+            expect(tree2.root).toBe(tree1.root)
+        })
     })
 })
