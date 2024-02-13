@@ -2,7 +2,7 @@
     <h1 align="center">
         Poseidon Cipher
     </h1>
-    <p align="center">Poseidon Encryption and Decryption implementation in TypeScript.</p>
+    <p align="center">Poseidon Hash function Encryption and Decryption implementation in TypeScript.</p>
 </p>
 
 <p align="center">
@@ -41,12 +41,11 @@
     </h4>
 </div>
 
-This package implements encryption and decryption using the Poseidon hash function, and following the paper available [at](https://drive.google.com/file/d/1EVrP3DzoGbmzkRmYnyEDcIQcXVU7GlOd/view).
+This package implements encryption and decryption using the Poseidon hash function. This is a rewrite of the [original implementation](https://github.com/weijiekoh/circomlib/tree/feat/poseidon-encryption/src).
 
 ## References
 
-1. Poseidon Cipher [Paper](https://drive.google.com/file/d/1EVrP3DzoGbmzkRmYnyEDcIQcXVU7GlOd/view)
-2. Original Implementation's [repo](https://github.com/weijiekoh/circomlib/tree/feat/poseidon-encryption/src)
+1. Dmitry Khovratovich. _Encryption with Poseidon_. 2019-12-26. https://drive.google.com/file/d/1EVrP3DzoGbmzkRmYnyEDcIQcXVU7GlOd/view.
 
 ---
 

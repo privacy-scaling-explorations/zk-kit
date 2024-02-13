@@ -74,57 +74,55 @@ yarn add @zk-kit/poseidon-proof
 
 ## 📜 Usage
 
-\# **generate**(
-message: _BigNumberish_,
-scope: _BigNumberish_,
-snarkArtifacts?: _SnarkArtifacts_
-): Promise\<_PoseidonProof_>
-
 ```typescript
-import { generate } from "@zk-kit/poseidon-proof"
+import { generate, verify } from "@zk-kit/poseidon-proof"
+;(async () => {
+    // A public value used to contextualize the cryptographic proof and calculate the nullifier.
+    const scope = 1
+    // The message (preimage) to prove (secret).
+    const message = 2
 
-const scope = 1
-const message = 2
+    // Generate the proof.
+    const fullProof = await generate(message, scope)
 
-const fullProof = await generate(message, scope)
+    /*
+        nb. scope, digest and nullifier are always the same - proof is variable.
+        {
+            scope: '2',
+            digest: '13713635907739611880977640264956372443229506353728466835599871320028961887800',
+            nullifier: '4995263610384888704435371233168916617325583088652670186865584118891394144999',
+            proof: [
+                '4344680442683455359115899095464919042642166233886432616638435348359080260980',
+                '20569010229031596977566212621532395450352277701036306316464269899598925981651',
+                '19318221594436336163085169568471746851468100277321435282188061183430353155289',
+                '13863222659316400652438453097923451250965656325472339120118358727133180331649',
+                '2718553541880998786976126630362604850217726344847462841516918030540821216281',
+                '11960084231774590415377471656397863783771599717615252119734899677642065267169',
+                '10666072962579546268534775428261696356732715643486735369393626224913301307278',
+                '4251217137130113647513155953595492143724626859298741948572817563032672674599'
+            ]
+        }
+    */
+    console.log(fullProof)
 
-// If not specified, the Snark artifacts are downloaded automatically.
-// You can also specify them.
-const fullProof2 = await generate(message, scope, {
-    zkeyFilePath: "./poseidon-proof.zkey",
-    wasmFilePath: "./poseidon-proof.wasm"
-})
+    // If not specified, the Snark artifacts are downloaded automatically.
+    // You can specify them as follows.
 
-console.log(fullProof)
-/*
-{
-    scope: '1',
-    hash: '8645981980787649023086883978738420856660271013038108762834452721572614684349',
-    nullifier: '7853200120776062878684798364095072458815029376092732009249414926327459813530',
-    proof: [
-        '8439157877715136449451128027974582198942685548176158240742469858289217640295',
-        '7742778415084033741154475792823260193410560424636243716622958831215275441500',
-        '19005176609208302398813682947612978224483117018101271134113308439452561466691',
-        '6209272538382784759793219866517186573065390524051102537220446165983489601194',
-        '12222537243697573476419214640884921904066033266502734603198915705889607365883',
-        '20066191345466355816238393590466176790809335456890624395337970890893401456064',
-        '4851746896803117511000878727783002155680855098198108089136166702412365578625',
-        '18391775232946751568173446051923718267369779168471637305003186214102154164036'
-    ]
-}
-*/
-```
+    // const fullProof = await generate(message, scope, {
+    //     wasmFilePath: "<your-path>/poseidon-proof.wasm",
+    //     zkeyFilePath: "<your-path>/poseidon-proof.zkey"
+    // })
 
-\# **verify**(poseidonProof: _PoseidonProof_): Promise\<_boolean_>
+    // Verify the proof.
+    const response = await verify(fullProof)
 
-```typescript
-import { verify } from "@zk-kit/poseidon-proof"
+    // true.
+    console.log(response)
 
-const response = await verify(fullProof)
+    // Eventually you may want to check the nullifier.
 
-console.log(response) // true or false
-
-// Eventually you may want to check the nullifier.
+    process.exit(0)
+})()
 ```
 
 ## 📈 Benchmarks
@@ -138,18 +136,21 @@ Benchmarks were run on an Intel Core i7-1165G7, 16 GB RAM machine, after initial
 ```js
 import { generate, verify } from "@zk-kit/poseidon-proof"
 import { buildBn128 } from "@zk-kit/groth16"
+;(async () => {
+    await buildBn128()
 
-await buildBn128()
+    console.time("generate")
 
-console.time("generate")
+    const proof = await generate(1, 2)
 
-const proof = await generate(1, 2)
+    console.timeEnd("generate")
 
-console.timeEnd("generate")
+    console.time("verify")
 
-console.time("verify")
+    console.log(await verify(proof))
 
-console.log(await verify(proof))
+    console.timeEnd("verify")
 
-console.timeEnd("verify")
+    process.exit(0)
+})()
 ```

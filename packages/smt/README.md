@@ -84,72 +84,63 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
-\# **new SMT**(hash: _HashFunction_, bigNumbers?: _boolean_): _SMT_
-
 ```typescript
-import { SMT } from "@zk-kit/smt"
+import { ChildNodes, SMT } from "@zk-kit/smt"
 import sha256 from "crypto-js/sha256"
-import { poseidon } from "circomlibjs"
+import { poseidon2 } from "poseidon-lite"
 
 // Hexadecimal hashes.
 const hash = (childNodes: ChildNodes) => sha256(childNodes.join("")).toString()
+
+// Create the SMT with an Hexadecimal (SHA256) hash.
 const tree = new SMT(hash)
 
+// 0
+console.log(tree.root)
+
 // Big number hashes.
-const hash2 = (childNodes: ChildNodes) => poseidon(childNodes)
+const hash2 = (childNodes: ChildNodes) => poseidon2(childNodes)
+
+// Create the SMT with a BigNumber (Poseidon) hash.
 const tree2 = new SMT(hash2, true)
 
-console.log(tree.root) // 0
-console.log(tree2.root) // 0n
-```
+// 0n
+console.log(tree2.root)
 
-\# **add**(key: _string_ | _number_, value: _string_ | _number_): _void_
-
-```typescript
-tree.add("2b", "44") // Hexadecimal key/value.
+// Add nodes to the SMT.
+tree.add("2b", "44")
 tree.add("16", "78")
 tree.add("d", "e7")
 tree.add("10", "141")
 tree.add("20", "340")
 
-console.log(tree.root) // 31ee2a59741c9c32a32d8c7fafe461cca1ccaf5986c2d592586e3e6482a48645
-```
+// 31ee2a59741c9c32a32d8c7fafe461cca1ccaf5986c2d592586e3e6482a48645
+console.log(tree.root)
 
-\# **get**(key: _string_ | _number_): _undefined_ | _string_
-
-```typescript
+// Get the value of the leaf.
 const value = tree.get("16")
 
-console.log(value) // 78
-```
+// 78
+console.log(value)
 
-\# **update**(key: _string_ | _number_, value: _string_ | _number_): _void_
-
-```typescript
+// Update the value of the leaf.
 tree.update("16", "79")
 
-const value = tree.get("16")
+// 79
+console.log(tree.get("16"))
 
-console.log(value) // 79
-```
-
-\# **delete**(key: _string_ | _number_): _void_
-
-```typescript
+// Delete the leaf.
 tree.delete("16")
 
-const value = tree.get("16")
+// undefined
+console.log(tree.get("16"))
 
-console.log(value) // undefined
-```
-
-\# **createProof**(key: _string_ | _number_): _Proof_
-
-```typescript
+// Compute the proof of membership for the leaf.
 const membershipProof = tree.createProof("2b")
+
+// Compute the proof of membership for a previously deleted leaf.
 const nonMembershipProof = tree.createProof("16") // This key has been deleted.
 
-console.log(membershipProof)
 /*
 {
     entry: [ '2b', '44', '1' ],
@@ -162,8 +153,8 @@ console.log(membershipProof)
     membership: true
 }
 */
+console.log(membershipProof)
 
-console.log(nonMembershipProof)
 /*
 {
     entry: [ '16' ],
@@ -176,19 +167,9 @@ console.log(nonMembershipProof)
     membership: false
 }
 */
-```
+console.log(nonMembershipProof)
 
-\# **verifyProof**(proof: _Proof_): _boolean_
-
-```typescript
+// Verify the proofs.
 console.log(tree.verifyProof(membershipProof)) // true
 console.log(tree.verifyProof(nonMembershipProof)) // true
 ```
-
-## Contacts
-
-### Developers
-
--   e-mail : me@cedoor.dev
--   github : [@cedoor](https://github.com/cedoor)
--   website : https://cedoor.dev
