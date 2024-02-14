@@ -38,8 +38,10 @@ template SafeLessEqThan(n) {
 
 // Template for safely comparing if one input is greater than another.
 template SafeGreaterThan(n) {
-    signal input in[2]; // Two inputs to compare.
-    signal output out; // Output signal indicating comparison result.
+    // Two inputs to compare.
+    signal input in[2];
+    // Output signal indicating comparison result.
+    signal output out;
 
     // Invert the inputs for SafeLessThan to check if in[1] is less than in[0].
     out <== SafeLessThan(n)([in[1], in[0]]);
@@ -47,8 +49,10 @@ template SafeGreaterThan(n) {
 
 // Template to check if one input is greater than or equal to another.
 template SafeGreaterEqThan(n) {
-    signal input in[2]; // Two inputs to compare.
-    signal output out; // Output signal indicating comparison result.
+    // Two inputs to compare.
+    signal input in[2];
+    // Output signal indicating comparison result.
+    signal output out;
 
     // Invert the inputs and adjust for equality in SafeLessThan to 
     // check if in[1] is less than or equal to in[0].
