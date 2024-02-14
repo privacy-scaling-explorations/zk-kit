@@ -19,29 +19,35 @@ template MSB(n) {
 
 // Template for bit-shifting a dividend and partial remainder.
 template Shift(n) {
-    signal input divident; // Dividend input.
-    signal input rem; // Partial remainder input.
+    // Dividend.
+    signal input dividend;
+    // Remainder.
+    signal input remainder;
 
-    signal output divident1; // Output for the shifted dividend.
-    signal output rem1; // Output for the updated partial remainder.
+    // Shifted dividend.
+    signal output outDividend;
+    // Partial remainder (updated).
+    signal output outRemainder;
     
     // Determine the MSB of the dividend.
     var lmsb;
-    lmsb = MSB(n)(divident);
+    lmsb = MSB(n)(dividend);
 
     // Shift the dividend.
-    divident1 <== divident - lmsb * 2 ** (n - 1);
+    outDividend <== dividend - lmsb * 2 ** (n - 1);
 
     // Update the partial remainder.
-    rem1 <== rem * 2 + lmsb; 
+    outRemainder <== remainder * 2 + lmsb; 
 }
 
 // Template for performing integer division.
 template IntegerDivision(n) {
-    signal input a; // Dividend.
-    signal input b; // Divisor.
-
-    signal output c; // Quotient.
+    // Dividend.
+    signal input a;
+    // Divisor.
+    signal input b;
+    // Quotient.
+    signal output c;
 
     // Ensure inputs are within the valid range.
     var lta;
@@ -61,23 +67,23 @@ template IntegerDivision(n) {
     assert(isz == 0);
 
     // Prepare variables for division.
-    var divident = a;
-    var rem = 0;
+    var dividend = a;
+    var remainder = 0;
 
     var bits[n];
 
     // Loop to perform division through bit-shifting and subtraction.
     for (var i = n - 1; i >= 0; i--) {
-        // Shift 'divident' and 'rem' and determine if 'b' can be subtracted from the new 'rem'.
-        var divident1;
-        var rem1;
+        // Shift 'dividend' and 'rem' and determine if 'b' can be subtracted from the new 'rem'.
+        var shiftedDividend;
+        var shiftedRem;
 
-        (divident1, rem1) = Shift(i + 1)(divident, rem);
+        (shiftedDividend, shiftedRem) = Shift(i + 1)(dividend, remainder);
 
         // Determine if 'b' <= 'rem'.
         var canSubtract;
 
-        canSubtract = LessEqThan(n)([b, rem1]);
+        canSubtract = LessEqThan(n)([b, shiftedRem]);
 
         // Select 1 if 'b' can be subtracted (i.e., 'b' <= 'rem'), else select 0.
         var subtractBit;
@@ -87,10 +93,10 @@ template IntegerDivision(n) {
         // Subtract 'b' from 'rem' if possible, and set the corresponding bit in 'bits'.
         bits[i] = subtractBit;
 
-        rem = rem1 - b * subtractBit;
+        remainder = shiftedRem - b * subtractBit;
 
-        // Prepare 'divident' for the next iteration.
-        divident = divident1;
+        // Prepare 'dividend' for the next iteration.
+        dividend = shiftedDividend;
     }
 
     // Convert the bit array representing the quotient into a number.
@@ -123,11 +129,13 @@ template DivisionFromFloat(W, n) {
     assert(W < 75); 
     // Ensure n, the bit-width of inputs, is within a valid range.
     assert(n < 252); 
-
-    signal input a; // Numerator.
-    signal input b; // Denominator.
-
-    signal output c; // Quotient.
+    
+     // Numerator.
+    signal input a;
+    // Denominator.
+    signal input b;
+    // Quotient.
+    signal output c;
     
     // Ensure the numerator 'a' is within the range of valid floating-point numbers.
     var lt;
@@ -142,10 +150,12 @@ template DivisionFromFloat(W, n) {
 
 // Performs division on integers by first converting them to floating-point representation.
 template DivisionFromNormal(W, n) {
-    signal input a; // Numerator.
-    signal input b; // Denominator.
-
-    signal output c; // Quotient.
+     // Numerator.
+    signal input a;
+    // Denominator.
+    signal input b;
+    // Quotient.
+    signal output c;
         
     // Convert input to float and perform division.
     c <== DivisionFromFloat(W, n)(ToFloat(W)(a), ToFloat(W)(b));
@@ -159,11 +169,13 @@ template MultiplicationFromFloat(W, n) {
     assert(n < 252); 
     // Ensure scaling factor is within the range of 'n' bits.
     assert(10**W < 2**n);     
-
-    signal input a; // Multiplicand.
-    signal input b; // Multiplier.
-
-    signal output c; // Product.
+    
+    // Multiplicand.
+    signal input a;
+    // Multiplier.
+    signal input b;
+    // Product.
+    signal output c;
     
     // Ensure both inputs 'a' and 'b' are within a valid range for multiplication.
     var lta;
@@ -181,11 +193,12 @@ template MultiplicationFromFloat(W, n) {
 
 // Performs multiplication on integers by first converting them to floating-point representation.
 template MultiplicationFromNormal(W, n) {
-    signal input a; // Multiplicand.
-    signal input b; // Multiplier.
-
-    signal output c; // Product.
-
+    // Multiplicand.
+    signal input a;
+    // Multiplier.
+    signal input b;
+    // Product.
+    signal output c;
     
     // Convert input to float and perform multiplication.
     c <== MultiplicationFromFloat(W, n)(ToFloat(W)(a), ToFloat(W)(b));
