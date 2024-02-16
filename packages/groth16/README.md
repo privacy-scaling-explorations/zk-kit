@@ -83,53 +83,50 @@ yarn add @zk-kit/groth16
 
 ```typescript
 import { prove, verify, buildBn128 } from "@zk-kit/groth16"
-;(async () => {
-    // Build the BN128 curve for Groth16.
-    // https://github.com/iden3/ffjavascript/blob/master/src/wasm_field1.js
-    await buildBn128() // WasmField1
 
-    // Define your circuit input.
-    // const input = {
-    //     input1: 1,
-    //     input2: 2,
-    //     inputN: "N"
-    // }
+// Build the BN128 curve for Groth16.
+// https://github.com/iden3/ffjavascript/blob/master/src/wasm_field1.js
+await buildBn128() // WasmField1
 
-    // Compute the proof.
-    const proof = await prove(input, "<YOUR-PATH>/circuit.zkey", "<YOUR-PATH>/circuit.wasm")
+// Define your circuit input.
+// const input = {
+//     input1: 1,
+//     input2: 2,
+//     inputN: "N"
+// }
 
-    /*
-    {
-        proof: {
-            pi_a: [
-                '8259885706934172848141475422209230656096448508815982888010519325096632035723',
-                '3142099172052192611205205328157407975469005554072266974009053708782134081166',
-                '1'
-            ],
-            pi_b: [ [Array], [Array], [Array] ],
-            pi_c: [
-                '13863804425308906943736719856399634046638544298517159271373916818387594277305',
-                '21340646707244019956779928177502771923632450548108204371058275686712196195969',
-                '1'
-            ],
-            protocol: 'groth16',
-            curve: 'bn128'
-        },
-        publicSignals: [
-            '527758365153958423212195330785598453331596731388181860789801455413116800554',
-            '19104626566001952573667666924569656871967113105870778077087237826253896482830',
-            '122'
-        ]
-    }
-    */
-    console.log(proof)
+// Compute the proof.
+const proof = await prove(input, "<YOUR-PATH>/circuit.zkey", "<YOUR-PATH>/circuit.wasm")
 
-    // Verify the proof.
-    const response = await verify("<YOUR-PATH>/circuit_verification_key.json", proof)
+/*
+{
+    proof: {
+        pi_a: [
+            '8259885706934172848141475422209230656096448508815982888010519325096632035723',
+            '3142099172052192611205205328157407975469005554072266974009053708782134081166',
+            '1'
+        ],
+        pi_b: [ [Array], [Array], [Array] ],
+        pi_c: [
+            '13863804425308906943736719856399634046638544298517159271373916818387594277305',
+            '21340646707244019956779928177502771923632450548108204371058275686712196195969',
+            '1'
+        ],
+        protocol: 'groth16',
+        curve: 'bn128'
+    },
+    publicSignals: [
+        '527758365153958423212195330785598453331596731388181860789801455413116800554',
+        '19104626566001952573667666924569656871967113105870778077087237826253896482830',
+        '122'
+    ]
+}
+*/
+console.log(proof)
 
-    // true or false.
-    console.log(response)
+// Verify the proof.
+const response = await verify("<YOUR-PATH>/circuit_verification_key.json", proof)
 
-    process.exit(0)
-})()
+// true or false.
+console.log(response)
 ```

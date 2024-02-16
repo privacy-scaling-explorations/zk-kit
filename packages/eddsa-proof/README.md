@@ -71,50 +71,47 @@ yarn add @zk-kit/eddsa-proof
 
 ```typescript
 import { generate, verify } from "@zk-kit/eddsa-proof"
-;(async () => {
-    // Your private key (secret) associated with your commitment.
-    const privateKey = 1
-    // A public value used to contextualize the cryptographic proof and calculate the nullifier.
-    const scope = 2
 
-    // Generate the proof.
-    const fullProof = await generate(privateKey, scope)
+// Your private key (secret) associated with your commitment.
+const privateKey = 1
+// A public value used to contextualize the cryptographic proof and calculate the nullifier.
+const scope = 2
 
-    /*
-        nb. commitment and scope are always the same - proof is variable.
-    {
-        commitment: '5049599877119858813001062015237093339640938925333103011635461484168047396248',
-        scope: '2',
-        proof: [
-            '8187226249860430947135181878676566080058748127595453962723730464659559265736',
-            '8666342086907686904498490524943571067960174826127841344605359274053291451578',
-            '16951173581335355551706227874569504050650723200983520067525262527574411463239',
-            '5330430283785726456850074841877892816784859299864106837646103067998557420540',
-            '4275240916243995687770977511669101428890222781102049409716491642577511403456',
-            '5254784175927576727963123852365247945765593646193022684829294352292688366957',
-            '1691932310118878640744410451232696949890002258184298580387126997072583471834',
-            '18016798021948724211946223868702828962374378289486618942397810491195719212700'
-        ]
-    }
-    */
-    console.log(fullProof)
+// Generate the proof.
+const fullProof = await generate(privateKey, scope)
 
-    // If not specified, the Snark artifacts are downloaded automatically.
-    // You can specify them as follows.
+/*
+    nb. commitment and scope are always the same - proof is variable.
+{
+    commitment: '5049599877119858813001062015237093339640938925333103011635461484168047396248',
+    scope: '2',
+    proof: [
+        '8187226249860430947135181878676566080058748127595453962723730464659559265736',
+        '8666342086907686904498490524943571067960174826127841344605359274053291451578',
+        '16951173581335355551706227874569504050650723200983520067525262527574411463239',
+        '5330430283785726456850074841877892816784859299864106837646103067998557420540',
+        '4275240916243995687770977511669101428890222781102049409716491642577511403456',
+        '5254784175927576727963123852365247945765593646193022684829294352292688366957',
+        '1691932310118878640744410451232696949890002258184298580387126997072583471834',
+        '18016798021948724211946223868702828962374378289486618942397810491195719212700'
+    ]
+}
+*/
+console.log(fullProof)
 
-    // const fullProof = await generate(privateKey, scope, {
-    //     wasmFilePath: "<your-path>/eddsa-proof.wasm",
-    //     zkeyFilePath: "<your-path>/eddsa-proof.zkey"
-    // })
+// If not specified, the Snark artifacts are downloaded automatically.
+// You can specify them as follows.
 
-    // Verify the proof.
-    const response = await verify(fullProof)
+// const fullProof = await generate(privateKey, scope, {
+//     wasmFilePath: "<your-path>/eddsa-proof.wasm",
+//     zkeyFilePath: "<your-path>/eddsa-proof.zkey"
+// })
 
-    // true.
-    console.log(response)
+// Verify the proof.
+const response = await verify(fullProof)
 
-    process.exit(0)
-})()
+// true.
+console.log(response)
 ```
 
 ## 📈 Benchmarks
@@ -128,21 +125,18 @@ Benchmarks were run on a MacBook Pro, Apple M2 Pro, 16 GB RAM machine, after ini
 ```ts
 import { generate, verify } from "@zk-kit/eddsa-proof"
 import { buildBn128 } from "@zk-kit/groth16"
-;(async () => {
-    await buildBn128()
 
-    console.time("generate")
+await buildBn128()
 
-    const proof = await generate(1, 2)
+console.time("generate")
 
-    console.timeEnd("generate")
+const proof = await generate(1, 2)
 
-    console.time("verify")
+console.timeEnd("generate")
 
-    console.log(await verify(proof))
+console.time("verify")
 
-    console.timeEnd("verify")
+console.log(await verify(proof))
 
-    process.exit(0)
-})()
+console.timeEnd("verify")
 ```
