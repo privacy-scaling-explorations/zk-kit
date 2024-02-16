@@ -2,7 +2,7 @@
     <h1 align="center">
         Poseidon Cipher
     </h1>
-    <p align="center">Poseidon Encryption and Decryption implementation in TypeScript.</p>
+    <p align="center">Poseidon Hash function Encryption and Decryption implementation in TypeScript.</p>
 </p>
 
 <p align="center">
@@ -41,16 +41,15 @@
     </h4>
 </div>
 
-This package implements encryption and decryption using the Poseidon hash function, and following the paper available [at](https://drive.google.com/file/d/1EVrP3DzoGbmzkRmYnyEDcIQcXVU7GlOd/view).
+This package implements encryption and decryption using the Poseidon hash function. This is a rewrite of the [original implementation](https://github.com/weijiekoh/circomlib/tree/feat/poseidon-encryption/src).
 
 ## References
 
-1. Poseidon Cipher [Paper](https://drive.google.com/file/d/1EVrP3DzoGbmzkRmYnyEDcIQcXVU7GlOd/view)
-2. Original Implementation's [repo](https://github.com/weijiekoh/circomlib/tree/feat/poseidon-encryption/src)
+1. Dmitry Khovratovich. _Encryption with Poseidon_. 2019-12-26. https://drive.google.com/file/d/1EVrP3DzoGbmzkRmYnyEDcIQcXVU7GlOd/view.
 
 ---
 
-## Install
+## 🛠 Install
 
 ### npm or yarn
 
@@ -78,4 +77,81 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@zk-kit/poseidon-cipher"></script>
+```
+
+## 📜 Usage
+
+```typescript
+import { poseidonEncrypt, poseidonDecrypt, poseidonDecryptWithoutCheck } from "@zk-kit/poseidon-cipher"
+
+// BabyJubJub random value used as private key.
+const privateKey = BigInt("10108149867830299554549347844489388280570828384194562713227904027271736843407")
+
+console.log(privateKey)
+
+// The BabyJubJub public key derived from the private key.
+const publicKey = [
+    BigInt("15100511232447817691325643662379962541629809665246870882117771367990737816375"),
+    BigInt("16289853525630400225782441139722681929418024277641315637394850958390724375621")
+]
+/**
+[
+    15100511232447817691325643662379962541629809665246870882117771367990737816375n,
+    16289853525630400225782441139722681929418024277641315637394850958390724375621n
+]
+ */
+console.log(publicKey)
+
+/**
+ * The Elliptic-Curve Diffie–Hellman (ECDH) shared key from the private and public key.
+ * Learn more at https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman.
+ */
+const encryptionKey = [
+    BigInt("18215233274609902892566361706948385597370728108990013889912246034099844508236"),
+    BigInt("14884395706232754242497822954958766875005771827082919466711779658153477561231")
+]
+/**
+[
+    18215233274609902892566361706948385597370728108990013889912246034099844508236n,
+    14884395706232754242497822954958766875005771827082919466711779658153477561231n
+]
+ */
+console.log(encryptionKey)
+
+// The plaintext to be encrypted.
+const plainText = [BigInt(0), BigInt(1)]
+// The unique random value.
+const nonce = BigInt(5)
+
+// Compute the encryption.
+const encrypted = poseidonEncrypt(plainText, encryptionKey, nonce)
+/*
+[
+  13027563531333274777964504528445510545245985419061604793949748860800093661040n,
+  21542829407417339379457427303368865281142518080970543920113508599380643597111n,
+  334052772696549592017166610161467257195783602071397160212931200489386609812n,
+  9075054520224362422769554641603717496449971372103870041485347221024944155182n
+]
+ */
+console.log(encrypted)
+
+// Compute the decryption.
+const decrypted = poseidonDecrypt(encrypted, encryptionKey, nonce, plainText.length)
+/*
+[
+    0n,
+    1n
+]
+ */
+console.log(decrypted)
+
+// Compute the decryption without check.
+const decryptedWithoutCheck = poseidonDecryptWithoutCheck(encrypted, encryptionKey, nonce, plainText.length)
+/*
+[
+    0n,
+    1n
+]
+ */
+console.log(decryptedWithoutCheck)
 ```
