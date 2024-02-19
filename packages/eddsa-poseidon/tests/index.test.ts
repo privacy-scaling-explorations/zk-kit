@@ -1,3 +1,4 @@
+import { leBufferToBigint } from "@zk-kit/utils"
 import { babyjub, eddsa } from "circomlibjs"
 import crypto from "crypto"
 import {
@@ -213,7 +214,7 @@ describe("EdDSAPoseidon", () => {
 
         const expectedPackedPublicKey = babyjub.packPoint([BigInt(publicKey[0]), BigInt(publicKey[1])])
 
-        expect(packedPublicKey).toBe(BigInt(`0x${Buffer.from(expectedPackedPublicKey).toString("hex")}`).toString())
+        expect(packedPublicKey).toBe(leBufferToBigint(expectedPackedPublicKey).toString())
     })
 
     it("Should unpack a packed public key", async () => {
