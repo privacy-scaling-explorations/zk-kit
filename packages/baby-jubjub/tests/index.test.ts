@@ -1,5 +1,5 @@
-import { leBufferToBigint } from "@zk-kit/utils"
 import { babyjub } from "circomlibjs"
+import { utils } from "ffjavascript"
 import { Base8, Point, addPoint, inCurve, mulPointEscalar, packPoint, unpackPoint } from "../src"
 
 describe("BabyJubjub", () => {
@@ -35,7 +35,7 @@ describe("BabyJubjub", () => {
 
         const expectedPackedPoint = babyjub.packPoint(publicKey)
 
-        expect(packedPoint).toBe(leBufferToBigint(expectedPackedPoint))
+        expect(packedPoint).toBe(utils.leBuff2int(expectedPackedPoint))
     })
 
     it("Should unpack a packed public key", async () => {
