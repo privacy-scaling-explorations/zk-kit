@@ -1,6 +1,5 @@
 import { IMT as JSBinaryIMT } from "@zk-kit/imt"
 import { expect } from "chai"
-import { poseidon } from "circomlibjs"
 import { run } from "hardhat"
 import { poseidon2 } from "poseidon-lite"
 import { BinaryIMT, BinaryIMTTest } from "../typechain-types"
@@ -91,7 +90,7 @@ describe("BinaryIMT", () => {
         })
 
         it("Should insert 4 leaves in a default zeroes tree", async () => {
-            const jsBinaryIMT = new JSBinaryIMT(poseidon, 32, 0)
+            const jsBinaryIMT = new JSBinaryIMT(poseidon2, 32, 0)
 
             await binaryIMTTest.initWithDefaultZeroes(jsBinaryIMT.depth)
 
