@@ -26,7 +26,7 @@ describe("Utility functions", () => {
         it("Should return -1 if there are not non-zero elements", () => {
             const index = getIndexOfLastNonZeroElement(["0", "0", "0", "0"])
 
-            expect(index).toEqual(-1)
+            expect(index).toBe(-1)
         })
     })
 

@@ -14,7 +14,7 @@ describe("Poseidon Cipher", () => {
         it("Should encrypt a ciphertext given a key and a nonce", () => {
             const cipherText = poseidonEncrypt(plainText, encryptionKey, nonce)
             expect(cipherText).toBeDefined()
-            expect(cipherText.length).toBe(4)
+            expect(cipherText).toHaveLength(4)
         })
     })
 
