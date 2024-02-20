@@ -1,6 +1,6 @@
 import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
-import { NumericString, prove } from "@zk-kit/groth16"
+import { NumericString, groth16 } from "snarkjs"
 import getSnarkArtifacts from "./get-snark-artifacts.node"
 import hash from "./hash"
 import packProof from "./pack-proof"
@@ -32,7 +32,7 @@ export default async function generate(
         snarkArtifacts = await getSnarkArtifacts(preimages.length)
     }
 
-    const { proof, publicSignals } = await prove(
+    const { proof, publicSignals } = await groth16.fullProve(
         {
             preimages: preimages.map((preimage) => hash(preimage)),
             scope: hash(scope)

@@ -42,6 +42,7 @@
         "@rollup/plugin-json": "^6.1.0",
         "@rollup/plugin-typescript": "^11.1.6",
         "@types/download": "^8.0.5",
+        "@types/snarkjs": "^0",
         "@types/tmp": "^0.2.6",
         "poseidon-lite": "^0.2.0",
         "rimraf": "^5.0.5",
@@ -52,8 +53,8 @@
         "@ethersproject/bignumber": "^5.7.0",
         "@ethersproject/bytes": "^5.7.0",
         "@ethersproject/keccak256": "^5.7.0",
-        "@zk-kit/groth16": "0.4.0",
         "download": "^8.0.0",
+        "snarkjs": "^0.7.3",
         "tmp": "^0.2.1"
     }
 }
