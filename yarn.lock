@@ -2265,6 +2265,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prettier/sync@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@prettier/sync@npm:0.3.0"
+  peerDependencies:
+    prettier: ^3.0.0
+  checksum: a663ceca292629c66c2c983662293b047b48435942c25b7ea76f0eab899e434f2bc17ae3dce56ee66b29929f7853118073f716fd4c7dabc3cccf78458a168dd4
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-alias@npm:^5.1.0":
   version: 5.1.0
   resolution: "@rollup/plugin-alias@npm:5.1.0"
@@ -10092,7 +10101,7 @@ __metadata:
     poseidon-solidity: 0.0.5
     prettier-plugin-solidity: ^1.3.1
     solhint: ^3.3.6
-    solhint-plugin-prettier: ^0.0.5
+    solhint-plugin-prettier: ^0.1.0
     solidity-coverage: ^0.8.0
     ts-node: ^10.9.2
     typechain: ^8.3.0
@@ -12287,7 +12296,7 @@ __metadata:
     poseidon-solidity: 0.0.5
     prettier-plugin-solidity: ^1.3.1
     solhint: ^3.3.6
-    solhint-plugin-prettier: ^0.0.5
+    solhint-plugin-prettier: ^0.1.0
     solidity-coverage: ^0.8.0
     ts-node: ^10.9.2
     typechain: ^8.3.0
@@ -15997,15 +16006,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"solhint-plugin-prettier@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "solhint-plugin-prettier@npm:0.0.5"
+"solhint-plugin-prettier@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "solhint-plugin-prettier@npm:0.1.0"
   dependencies:
+    "@prettier/sync": ^0.3.0
     prettier-linter-helpers: ^1.0.0
   peerDependencies:
-    prettier: ^1.15.0 || ^2.0.0
-    prettier-plugin-solidity: ^1.0.0-alpha.14
-  checksum: ca721e327daf49a4d9ef0ee5c9622482a8c5563d600eedfd3856c69ce67e416dd77da5166a033e2e641c9cdd7a0f2cbc7913b0eb1712081b3c7e8c633eef82a5
+    prettier: ^3.0.0
+    prettier-plugin-solidity: ^1.0.0
+  checksum: 241caa07b9d1570117cf0cc56371cc81c69fb17706dbc68136dfb112279c8c1cf815dbaa70c146acd06876e16d9a7385312b63302f2381868c02c3bdfa23715b
   languageName: node
   linkType: hard
 
