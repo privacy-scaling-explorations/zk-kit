@@ -21,7 +21,7 @@
         "docs": "typedoc --cname zkkit.pse.dev --githubPages true",
         "commit": "cz",
         "precommit": "lint-staged",
-        "postinstall": "yarn build && husky install"
+        "postinstall": "husky install"
     },
     "keywords": [
         "javascript",
@@ -38,11 +38,9 @@
     "devDependencies": {
         "@commitlint/cli": "^18.6.1",
         "@commitlint/config-conventional": "^18.6.2",
-        "@rollup/plugin-typescript": "^8.3.3",
         "@types/glob": "^7.2.0",
         "@types/jest": "^29.5.12",
         "@types/node": "^17.0.9",
-        "@types/rimraf": "^3.0.2",
         "@typescript-eslint/eslint-plugin": "^7.0.2",
         "@typescript-eslint/parser": "^7.0.2",
         "benny": "^3.7.1",
@@ -60,13 +58,12 @@
         "lint-staged": "^15.2.2",
         "poseidon-lite": "^0.2.0",
         "prettier": "^3.2.5",
-        "rimraf": "^3.0.2",
-        "rollup": "^2.64.0",
+        "rimraf": "^5.0.5",
         "ts-jest": "^29.1.2",
-        "ts-node": "^10.4.0",
-        "tslib": "^2.3.1",
+        "ts-node": "^10.9.2",
+        "tslib": "^2.6.2",
         "typedoc": "^0.25.1",
-        "typescript": "^4.5.4"
+        "typescript": "^5.3.3"
     },
     "config": {
         "commitizen": {

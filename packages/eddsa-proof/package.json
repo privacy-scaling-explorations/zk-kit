@@ -2,27 +2,27 @@
     "name": "@zk-kit/eddsa-proof",
     "version": "0.1.0",
     "description": "A library to generate and verify EdDSA proofs.",
+    "type": "module",
     "license": "MIT",
-    "main": "dist/index.node.js",
-    "exports": {
-        "node": {
-            "import": "./dist/index.node.mjs",
-            "require": "./dist/index.node.js"
-        },
-        "browser": "./dist/index.browser.mjs",
-        "default": "./dist/index.browser.mjs",
-        "types": "./dist/types/index.d.ts"
-    },
+    "main": "dist/index.browser.js",
     "types": "dist/types/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/types/index.d.ts",
+            "node": {
+                "require": "./dist/index.node.cjs",
+                "default": "./dist/index.node.js"
+            },
+            "browser": "./dist/index.browser.js",
+            "default": "./dist/index.browser.js"
+        }
+    },
     "files": [
         "dist/",
         "src/",
         "LICENSE",
         "README.md"
     ],
-    "engines": {
-        "node": ">=18.0.0"
-    },
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
     "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/eddsa-proof",
     "bugs": {
@@ -38,21 +38,22 @@
         "access": "public"
     },
     "devDependencies": {
-        "@rollup/plugin-alias": "^5.0.1",
-        "@rollup/plugin-json": "^5.0.1",
+        "@rollup/plugin-alias": "^5.1.0",
+        "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-typescript": "^11.1.6",
         "@types/download": "^8.0.5",
         "@types/tmp": "^0.2.6",
         "poseidon-lite": "^0.2.0",
-        "rollup-plugin-cleanup": "^3.2.1",
-        "rollup-plugin-terser": "^7.0.2",
-        "rollup-plugin-typescript2": "^0.32.1"
+        "rimraf": "^5.0.5",
+        "rollup": "^4.12.0",
+        "rollup-plugin-cleanup": "^3.2.1"
     },
     "dependencies": {
         "@ethersproject/bignumber": "^5.7.0",
         "@ethersproject/bytes": "^5.7.0",
         "@ethersproject/keccak256": "^5.7.0",
         "@zk-kit/eddsa-poseidon": "0.5.1",
-        "@zk-kit/groth16": "0.4.0",
+        "@zk-kit/groth16": "0.5.0",
         "download": "^8.0.0",
         "tmp": "^0.2.1"
     }

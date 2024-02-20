@@ -2,13 +2,16 @@
     "name": "@zk-kit/rollup-plugin-rust",
     "version": "0.1.0",
     "description": "Rollup plugin to create WASM/JS libraries from Rust crates.",
+    "type": "module",
     "license": "MIT",
-    "main": "dist/index.node.js",
-    "exports": {
-        "import": "./dist/index.mjs",
-        "require": "./dist/index.node.js"
-    },
+    "main": "dist/index.js",
     "types": "dist/types/index.d.ts",
+    "exports": {
+        ".": {
+            "require": "./dist/index.cjs",
+            "default": "./dist/index.js"
+        }
+    },
     "files": [
         "dist/",
         "src/",
@@ -23,7 +26,6 @@
         "url": "https://cedoor.dev"
     },
     "scripts": {
-        "build:watch": "rollup -c rollup.config.ts --configPlugin typescript",
         "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
         "prepublishOnly": "yarn build"
     },
@@ -31,12 +33,13 @@
         "access": "public"
     },
     "devDependencies": {
-        "@rollup/plugin-typescript": "^8.3.0",
+        "@rollup/plugin-typescript": "^11.1.6",
+        "rollup": "^4.12.0",
         "rollup-plugin-cleanup": "^3.2.1"
     },
     "dependencies": {
         "glob": "^7.1.6",
-        "rimraf": "^3.0.0",
+        "rimraf": "^5.0.5",
         "rollup-pluginutils": "^2.8.2",
         "toml": "^3.0.0",
         "wasm-pack": "^0.10.2"
