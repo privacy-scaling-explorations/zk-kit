@@ -53,8 +53,6 @@
         "@ethersproject/bignumber": "^5.7.0",
         "@ethersproject/bytes": "^5.7.0",
         "@ethersproject/keccak256": "^5.7.0",
-        "download": "^8.0.0",
-        "snarkjs": "^0.7.3",
-        "tmp": "^0.2.1"
+        "snarkjs": "^0.7.3"
     }
 }
