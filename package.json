@@ -12,6 +12,7 @@
         "compile:contracts": "yarn workspaces foreach run compile",
         "test": "yarn test:libraries && yarn test:contracts && yarn test:circuits",
         "test:libraries": "jest --coverage",
+        "test:library": "jest packages/${0}",
         "test:circuits": "yarn workspace @zk-kit/circuits test",
         "test:contracts": "yarn workspace imt.sol test:coverage",
         "lint": "eslint . --ext .js,.ts && yarn workspace imt.sol lint",
