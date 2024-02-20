@@ -59,7 +59,7 @@
         "jest-config": "^29.7.0",
         "lint-staged": "^12.1.7",
         "poseidon-lite": "^0.2.0",
-        "prettier": "^2.5.1",
+        "prettier": "^3.2.5",
         "rimraf": "^3.0.2",
         "rollup": "^2.64.0",
         "ts-jest": "^29.1.2",
