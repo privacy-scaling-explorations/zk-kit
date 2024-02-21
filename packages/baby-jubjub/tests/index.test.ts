@@ -32,9 +32,11 @@ describe("BabyJubjub", () => {
 
     it("Should pack a point", async () => {
         const packedPoint = packPoint(publicKey)
+        const strippedPackedPoint = packedPoint & ~(BigInt(1) << BigInt(255))
 
         const expectedPackedPoint = babyjub.packPoint(publicKey)
 
+        expect(strippedPackedPoint).toBe(publicKey[1])
         expect(packedPoint).toBe(utils.leBuff2int(expectedPackedPoint))
     })
 
