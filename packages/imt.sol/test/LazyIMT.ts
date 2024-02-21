@@ -4,12 +4,13 @@ import { poseidon2 } from "poseidon-lite"
 import { IMT } from "@zk-kit/imt"
 import type { BigNumber } from "ethers"
 import { LazyIMT, LazyIMTTest } from "../typechain-types"
+
 const random = () => poseidon2([Math.floor(Math.random() * 2 ** 40), 0])
 
 // Given a a merkle proof (elements and indexes) and a leaf, calculates the root
 function calculateRoot(element: BigInt, proofElements: BigNumber[], proofIndexes: boolean[]) {
-    var hash = element
-    for (let i = 0; i < proofElements.length; i++) {
+    let hash = element
+    for (let i = 0; i < proofElements.length; i += 1) {
         const proofElement = proofElements[i]
         const proofIndex = proofIndexes[i]
         if (proofIndex) {
@@ -316,6 +317,7 @@ describe("LazyIMT", () => {
             }
 
             // For each depth
+            // eslint-disable-next-line guard-for-in
             for (const depth in tests) {
                 // For each amount of leafs
                 for (const numLeaf of tests[depth]) {
