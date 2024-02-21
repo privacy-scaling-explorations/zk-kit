@@ -1,4 +1,4 @@
-import { NumericString } from "@zk-kit/groth16"
+import { NumericString } from "snarkjs"
 
 export type SnarkArtifacts = {
     wasmFilePath: string

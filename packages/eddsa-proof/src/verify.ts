@@ -1,8 +1,8 @@
-import { verify as _verify } from "@zk-kit/groth16"
+import { groth16 } from "snarkjs"
+import hash from "./hash"
 import { EddsaProof } from "./types"
 import unpackProof from "./unpack-proof"
 import verificationKey from "./verification-key.json"
-import hash from "./hash"
 
 /**
  * Verifies that a Eddsa proof is valid.
@@ -10,8 +10,5 @@ import hash from "./hash"
  * @returns True if the proof is valid, false otherwise.
  */
 export default function verify({ commitment, scope, proof }: EddsaProof): Promise<boolean> {
-    return _verify(verificationKey, {
-        publicSignals: [commitment, hash(scope)],
-        proof: unpackProof(proof)
-    })
+    return groth16.verify(verificationKey, [commitment, hash(scope)], unpackProof(proof))
 }

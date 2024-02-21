@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
-import { NumericString, prove } from "@zk-kit/groth16"
 import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
+import { NumericString, groth16 } from "snarkjs"
 import getSnarkArtifacts from "./get-snark-artifacts.node"
 import hash from "./hash"
 import packProof from "./pack-proof"
@@ -35,7 +35,7 @@ export default async function generate(
 
     const secretScalar = deriveSecretScalar(privateKey)
 
-    const { proof, publicSignals } = await prove(
+    const { proof, publicSignals } = await groth16.fullProve(
         {
             secret: secretScalar,
             scope: hash(scope)

@@ -3215,6 +3215,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/snarkjs@npm:^0":
+  version: 0.7.8
+  resolution: "@types/snarkjs@npm:0.7.8"
+  checksum: 10/26b2f8b8329ca9e6a0f027990262504faeae4154fbd60f18218f94623d26e2cf5abbad7048b1a0c859e19f7a7848e28f40d212a2feb4f6ff975cad23b8bd55c4
+  languageName: node
+  linkType: hard
+
 "@types/stack-utils@npm:^2.0.0":
   version: 2.0.3
   resolution: "@types/stack-utils@npm:2.0.3"
@@ -3543,29 +3550,20 @@ __metadata:
     "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@types/download": "npm:^8.0.5"
+    "@types/snarkjs": "npm:^0"
     "@types/tmp": "npm:^0.2.6"
     "@zk-kit/eddsa-poseidon": "npm:0.5.1"
-    "@zk-kit/groth16": "npm:0.5.0"
     download: "npm:^8.0.0"
     poseidon-lite: "npm:^0.2.0"
     rimraf: "npm:^5.0.5"
     rollup: "npm:^4.12.0"
     rollup-plugin-cleanup: "npm:^3.2.1"
+    snarkjs: "npm:^0.7.3"
     tmp: "npm:^0.2.1"
   languageName: unknown
   linkType: soft
 
-"@zk-kit/groth16@npm:0.4.0":
-  version: 0.4.0
-  resolution: "@zk-kit/groth16@npm:0.4.0"
-  dependencies:
-    circom_runtime: "npm:0.1.24"
-    ffjavascript: "npm:0.2.60"
-  checksum: 10/80d6b1a67e24cc5105464799a3e105fb4be7b825daccf185171f86b4a1d106aef775d4aafd221e92679147c8d783fe66383cf545c993c96645f1a0ffefc8ccb9
-  languageName: node
-  linkType: hard
-
-"@zk-kit/groth16@npm:0.5.0, @zk-kit/groth16@workspace:packages/groth16":
+"@zk-kit/groth16@workspace:packages/groth16":
   version: 0.0.0-use.local
   resolution: "@zk-kit/groth16@workspace:packages/groth16"
   dependencies:
@@ -3656,13 +3654,14 @@ __metadata:
     "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@types/download": "npm:^8.0.5"
+    "@types/snarkjs": "npm:^0"
     "@types/tmp": "npm:^0.2.6"
-    "@zk-kit/groth16": "npm:0.4.0"
     download: "npm:^8.0.0"
     poseidon-lite: "npm:^0.2.0"
     rimraf: "npm:^5.0.5"
     rollup: "npm:^4.12.0"
     rollup-plugin-cleanup: "npm:^3.2.1"
+    snarkjs: "npm:^0.7.3"
     tmp: "npm:^0.2.1"
   languageName: unknown
   linkType: soft
@@ -15946,7 +15945,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"snarkjs@npm:^0.7.0":
+"snarkjs@npm:^0.7.0, snarkjs@npm:^0.7.3":
   version: 0.7.3
   resolution: "snarkjs@npm:0.7.3"
   dependencies:
