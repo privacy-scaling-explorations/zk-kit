@@ -1,7 +1,7 @@
 import { spawn } from "child_process"
 import _fs from "fs"
 import _glob from "glob"
-import _rimraf from "rimraf"
+import { rimraf as _rimraf } from "rimraf"
 
 export function exec(command: string, args: ReadonlyArray<string>, cwd: string): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -52,14 +52,6 @@ export function readFile(path: string): Promise<Buffer> {
     })
 }
 
-export function rm(path: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-        _rimraf(path, { glob: false }, (error) => {
-            if (error) {
-                reject(error)
-            } else {
-                resolve()
-            }
-        })
-    })
+export function rm(path: string): Promise<boolean> {
+    return _rimraf(path, { glob: false })
 }

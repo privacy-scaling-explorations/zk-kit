@@ -1,4 +1,4 @@
-import typescript from "rollup-plugin-typescript2"
+import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
 
@@ -15,11 +15,9 @@ const banner = `/**
 export default {
     input: "src/index.ts",
     output: [
-        { file: pkg.exports.require, format: "cjs", banner },
-        { file: pkg.exports.import, format: "es", banner }
+        { file: pkg.exports["."].require, format: "cjs", banner },
+        { file: pkg.exports["."].default, format: "es", banner }
     ],
-    plugins: [
-        typescript({ tsconfig: "./build.tsconfig.json", useTsconfigDeclarationDir: true }),
-        cleanup({ comments: "jsdoc" })
-    ]
+    external: Object.keys(pkg.dependencies),
+    plugins: [typescript({ tsconfig: "./build.tsconfig.json" }), cleanup({ comments: "jsdoc" })]
 }

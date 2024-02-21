@@ -1,7 +1,4 @@
 {
     "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "resolveJsonModule": true
-    },
-    "include": ["src", "tests", "rollup.config.ts"]
+    "include": ["src", "tests", "rollup.node.config.ts", "rollup.browser.config.ts"]
 }

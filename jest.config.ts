@@ -8,6 +8,7 @@ const projects: any = fs
     .filter((directory) => directory.isDirectory())
     .filter((directory) => !exclude.includes(directory.name))
     .map(({ name }) => ({
+        preset: "ts-jest",
         rootDir: `packages/${name}`,
         displayName: name,
         moduleNameMapper: {
@@ -19,7 +20,6 @@ export default async (): Promise<Config.InitialOptions> => ({
     projects,
     verbose: true,
     coverageDirectory: "./coverage/libraries",
-    collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts", "!<rootDir>/src/**/*.d.ts"],
     coverageThreshold: {
         global: {
             branches: 90,
