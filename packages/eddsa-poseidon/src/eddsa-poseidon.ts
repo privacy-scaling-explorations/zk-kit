@@ -84,7 +84,7 @@ export function signMessage(privateKey: BigNumberish, message: BigNumberish): Si
     const s = leBufferToBigint(sBuff)
     const A = mulPointEscalar(Base8, scalar.shiftRight(s, BigInt(3)))
 
-    const msgBuff = leBigintToBuffer(message)
+    const msgBuff = leBigintToBuffer(message, 32)
 
     const rBuff = blake(Buffer.concat([hash.slice(32, 64), msgBuff]))
 

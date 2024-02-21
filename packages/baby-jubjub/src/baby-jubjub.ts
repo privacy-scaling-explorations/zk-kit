@@ -108,7 +108,7 @@ export function inCurve(p: Point): boolean {
  * @returns The packed representation of the point as a bigint.
  */
 export function packPoint(unpackedPoint: Point<bigint>): bigint {
-    const buffer = leBigintToBuffer(unpackedPoint[1])
+    const buffer = leBigintToBuffer(unpackedPoint[1], 32)
 
     if (Fr.lt(unpackedPoint[0], Fr.zero)) {
         buffer[31] |= 0x80

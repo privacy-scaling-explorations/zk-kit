@@ -82,16 +82,24 @@ export function bufferToBigint(b: Buffer): bigint {
 /**
  * Converts a bigint to a buffer, assuming big-endian byte order, and fills with zeros if necessary.
  * @param n The bigint to convert.
+ * @param length The number of bytes of the buffer to return.
  * @returns The buffer representation of the bigint.
  */
-export function beBigintToBuffer(n: bigint): Buffer {
+export function beBigintToBuffer(n: bigint, length?: number): Buffer {
     const hex = bigIntToHexadecimal(n)
 
+    // Calculate the minimum buffer length required to represent 'n' in bytes.
+    // Each hexadecimal character represents 4 bits, so 2 characters are 1 byte.
+    const minLength = Math.ceil(hex.length / 2)
+
+    // Use the provided length or the calculated minimum length, whichever is greater.
+    const bufferLength = length ? Math.max(length, minLength) : minLength
+
     // Allocate buffer of the desired size, filled with zeros.
-    const buffer = Buffer.alloc(32, 0)
+    const buffer = Buffer.alloc(bufferLength, 0)
 
     const fromHex = Buffer.from(hex, "hex")
-    fromHex.copy(buffer, 32 - fromHex.length)
+    fromHex.copy(buffer, bufferLength - fromHex.length)
 
     return buffer
 }
@@ -171,13 +179,21 @@ export function leBufferToBigint(buffer: Buffer): bigint {
 /**
  * Converts a bigint to a buffer, assuming little-endian byte order, and fills with zeros if necessary.
  * @param n The bigint to convert.
+ * @param length The number of bytes of the buffer to return.
  * @returns The buffer representation of the bigint in little-endian.
  */
-export function leBigintToBuffer(n: bigint): Buffer {
+export function leBigintToBuffer(n: bigint, length?: number): Buffer {
     const hex = bigIntToHexadecimal(n)
 
+    // Calculate the minimum buffer length required to represent 'n' in bytes.
+    // Each hexadecimal character represents 4 bits, so 2 characters are 1 byte.
+    const minLength = Math.ceil(hex.length / 2)
+
+    // Use the provided length or the calculated minimum length, whichever is greater.
+    const bufferLength = length ? Math.max(length, minLength) : minLength
+
     // Allocate buffer of the desired size, filled with zeros.
-    const buffer = Buffer.alloc(32, 0)
+    const buffer = Buffer.alloc(bufferLength, 0)
 
     const fromHex = Buffer.from(hex, "hex").reverse()
     fromHex.copy(buffer, 0)

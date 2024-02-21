@@ -39,7 +39,7 @@ describe("Conversions", () => {
         it("Should convert a big numberish to a BE buffer", async () => {
             const result = bigNumberishToBuffer(testBigInt1BE)
 
-            expect(result).toStrictEqual(Buffer.from(testBytes1))
+            expect(result).toStrictEqual(Buffer.from(testBytes1.slice(1)))
         })
     })
 
@@ -56,7 +56,7 @@ describe("Conversions", () => {
             const in1 = Buffer.from(testBytes1)
             const n1 = leBufferToBigint(in1)
             expect(n1).toBe(testBigInt1LE)
-            const out1 = leBigintToBuffer(n1)
+            const out1 = leBigintToBuffer(n1, 32)
             expect(out1).toHaveLength(32)
             expect(out1).toStrictEqual(Buffer.from(testBytes1))
         })
@@ -65,18 +65,18 @@ describe("Conversions", () => {
             const in1 = Buffer.from(testBytes1)
             const n1 = beBufferToBigint(in1)
             expect(n1).toBe(testBigInt1BE)
-            const out1 = beBigintToBuffer(n1)
+            const out1 = beBigintToBuffer(n1, 32)
             expect(out1).toHaveLength(32)
             expect(out1).toStrictEqual(Buffer.from(testBytes1))
         })
 
         it("Should pad small numbers", async () => {
-            const smallBufLE = leBigintToBuffer(BigInt(0x020100))
+            const smallBufLE = leBigintToBuffer(BigInt(0x020100), 32)
             expect(smallBufLE).toHaveLength(32)
             const smallOutLE = leBufferToBigint(smallBufLE)
             expect(smallOutLE).toBe(BigInt(0x020100))
 
-            const smallBufBE = beBigintToBuffer(BigInt(0x020100))
+            const smallBufBE = beBigintToBuffer(BigInt(0x020100), 32)
             expect(smallBufBE).toHaveLength(32)
             const smallOutBE = beBufferToBigint(smallBufBE)
             expect(smallOutBE).toBe(BigInt(0x020100))
