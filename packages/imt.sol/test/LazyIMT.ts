@@ -2,24 +2,19 @@ import { expect } from "chai"
 import { run } from "hardhat"
 import { poseidon2 } from "poseidon-lite"
 import { IMT } from "@zk-kit/imt"
-import type { BigNumber } from "ethers";
+import type { BigNumber } from "ethers"
 import { LazyIMT, LazyIMTTest } from "../typechain-types"
 const random = () => poseidon2([Math.floor(Math.random() * 2 ** 40), 0])
 
 // Given a a merkle proof (elements and indexes) and a leaf, calculates the root
-function calculateRoot(
-    element: BigInt,
-    proofElements: BigNumber[],
-    proofIndexes: boolean[]) {
-
-    var hash = element;
+function calculateRoot(element: BigInt, proofElements: BigNumber[], proofIndexes: boolean[]) {
+    var hash = element
     for (let i = 0; i < proofElements.length; i++) {
-        const proofElement = proofElements[i];
-        const proofIndex = proofIndexes[i];
+        const proofElement = proofElements[i]
+        const proofIndex = proofIndexes[i]
         if (proofIndex) {
             hash = poseidon2([proofElement.toString(), hash.toString()])
-        }
-        else {
+        } else {
             hash = poseidon2([hash.toString(), proofElement.toString()])
         }
     }
@@ -318,14 +313,12 @@ describe("LazyIMT", () => {
                 5: [6, 7, 8, 15, 16],
                 7: [7, 127],
                 20: [9, 14, 15, 16, 18, 26, 27, 28, 40, 128, 129]
-            };
+            }
 
             // For each depth
             for (const depth in tests) {
-
                 // For each amount of leafs
                 for (const numLeaf of tests[depth]) {
-
                     // Create the tree
                     await lazyIMTTest.init(depth)
                     for (let x = 0; x < numLeaf; x += 1) {
@@ -348,7 +341,7 @@ describe("LazyIMT", () => {
                     }
                 }
             }
-        }).timeout(5 * 60 * 1000);
+        }).timeout(5 * 60 * 1000)
     })
 
     it("Should fail to generate out of range static root", async () => {
