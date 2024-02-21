@@ -157,6 +157,70 @@ library InternalLazyIMT {
         return _root(self, numberOfLeaves, depth);
     }
 
+    function _merkleProofElements(LazyIMTData storage self, uint40 index, uint8 depth)
+                                  internal view returns (uint256[] memory) {
+        uint40 numberOfLeaves = self.numberOfLeaves;
+        require(index < numberOfLeaves, "LazyIMT: leaf must exist");
+        require(depth > 0, "LazyIMT: depth must be > 0");
+        require(depth <= MAX_DEPTH, "LazyIMT: depth must be < MAX_DEPTH");
+
+        uint256[] memory proof = new uint256[](depth);
+        uint256 levelCount = self.numberOfLeaves;
+
+        for (uint8 i = 0; i < depth; ) {
+            // Left leaf
+            if (index & 1 == 0) {
+                bool outsideLimits = ((index+1) << i) % self.numberOfLeaves != 0;
+                if ((index + 1) < levelCount) {
+                    proof[i] = self.elements[_indexForElement(i, index + 1)];
+                } else if (((index+1) == levelCount) && (outsideLimits)) {
+                    proof[i] = _root(self, numberOfLeaves, i);
+                } else {
+                    proof[i] = _defaultZero(i);
+                }
+            // Right leaf
+            } else {
+                proof[i] = self.elements[_indexForElement(i, index -1)];
+            }
+            unchecked {
+                index >>= 1;
+                i++;
+            }
+            levelCount = numberOfLeaves >> i;
+        }
+        return proof;
+    }
+
+    function _merkleProofIndexes(LazyIMTData storage self, uint40 index, uint8 depth)
+                                 internal view returns (bool[] memory) {
+        uint40 numberOfLeaves = self.numberOfLeaves;
+        require(index < numberOfLeaves, "LazyIMT: leaf must exist");
+        require(depth > 0, "LazyIMT: depth must be > 0");
+        require(depth <= MAX_DEPTH, "LazyIMT: depth must be < MAX_DEPTH");
+
+        bool[] memory proofIndexes = new bool[](depth);
+
+        uint256 levelCount = self.numberOfLeaves;
+        for (uint8 i = 0; i < depth; ) {
+            if (levelCount > index >> 1) {
+                // Left leaf
+                if (index & 1 == 0) {
+                    proofIndexes[i] = false;
+                // Right leaf
+                } else {
+                    proofIndexes[i] = true;
+                }
+            }
+
+            unchecked {
+                index >>= 1;
+                i++;
+            }
+            levelCount = numberOfLeaves >> i;
+        }
+        return proofIndexes;
+    }
+
     function _root(LazyIMTData storage self, uint8 depth) internal view returns (uint256) {
         require(depth > 0, "LazyIMT: depth must be > 0");
         require(depth <= MAX_DEPTH, "LazyIMT: depth must be <= MAX_DEPTH");
