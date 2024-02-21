@@ -46,7 +46,8 @@
 
 The Snark artifacts (`.wasm` and `.zkey` files) can be specified or not in the `generate` function parameters and can possibly be downloaded using the following URLs:
 
-https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/eddsa-proof/src/config.ts#L3-L4
+-   https://zkkit.cedoor.dev/eddsa-proof/eddsa-proof.wasm
+-   https://zkkit.cedoor.dev/eddsa-proof/eddsa-proof.zkey
 
 > [!WARNING]  
 > The Snark artifacts currently used to generate zero-knowledge proofs are the result of an unsecure trusted setup, and the library has not yet been audited. Therefore, it is advised not to use it in production.

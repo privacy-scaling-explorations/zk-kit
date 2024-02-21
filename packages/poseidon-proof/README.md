@@ -51,7 +51,8 @@ Originally developed for integration with [Semaphore V4](https://github.com/sema
 
 The Snark artifacts (`.wasm` and `.zkey` files) can be specified or not in the `generate` function parameters and can possibly be downloaded using the following URLs:
 
-https://github.com/privacy-scaling-explorations/zk-kit/blob/ee457299d36d2601e5bf520237977a9f16b1b599/packages/poseidon-proof/src/config.ts#L5-L8
+-   https://zkkit.cedoor.dev/poseidon-proof/artifacts/${numberOfInputs}/poseidon-proof.wasm
+-   https://zkkit.cedoor.dev/poseidon-proof/artifacts/${numberOfInputs}/poseidon-proof.zkey
 
 > [!WARNING]  
 > The Snark artifacts currently used to generate zero-knowledge proofs are the result of an unsecure trusted setup, and the library has not yet been audited. Therefore, it is advised not to use it in production.
