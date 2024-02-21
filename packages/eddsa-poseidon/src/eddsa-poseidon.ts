@@ -14,7 +14,7 @@ import {
     BigNumberish,
     F1Field,
     isHexadecimal,
-    isStringifiedBigint,
+    isStringifiedBigInt,
     leBigIntToBuffer,
     leBufferToBigInt,
     scalar
@@ -169,7 +169,7 @@ export function packPublicKey(publicKey: Point): string {
 export function unpackPublicKey(publicKey: BigNumber): Point<string> {
     if (
         typeof publicKey !== "bigint" &&
-        (typeof publicKey !== "string" || !isStringifiedBigint(publicKey)) &&
+        (typeof publicKey !== "string" || !isStringifiedBigInt(publicKey)) &&
         (typeof publicKey !== "string" || !isHexadecimal(publicKey))
     ) {
         throw new TypeError("Invalid public key type")

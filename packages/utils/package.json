@@ -14,6 +14,16 @@
             "types": "./dist/types/index.d.ts",
             "require": "./dist/index.cjs",
             "default": "./dist/index.js"
+        },
+        "./error-handlers": {
+            "types": "./dist/types/error-handlers.d.ts",
+            "require": "./dist/lib.commonjs/error-handlers.cjs",
+            "default": "./dist/lib.esm/error-handlers.js"
+        },
+        "./type-checks": {
+            "types": "./dist/types/type-checks.d.ts",
+            "require": "./dist/lib.commonjs/type-checks.cjs",
+            "default": "./dist/lib.esm/type-checks.js"
         }
     },
     "files": [

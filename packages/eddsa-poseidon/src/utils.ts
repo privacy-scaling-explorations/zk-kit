@@ -5,7 +5,7 @@ import {
     bigNumberishToBuffer,
     bufferToBigInt,
     isBigNumberish,
-    isStringifiedBigint
+    isStringifiedBigInt
 } from "@zk-kit/utils"
 import { Signature } from "./types"
 
@@ -29,7 +29,7 @@ export function pruneBuffer(buff: Buffer): Buffer {
  * @returns True if the object is a valid point, false otherwise.
  */
 export function isPoint(point: Point): boolean {
-    return Array.isArray(point) && point.length === 2 && isStringifiedBigint(point[0]) && isStringifiedBigint(point[1])
+    return Array.isArray(point) && point.length === 2 && isStringifiedBigInt(point[0]) && isStringifiedBigInt(point[1])
 }
 
 /**
@@ -43,7 +43,7 @@ export function isSignature(signature: Signature): boolean {
         Object.prototype.hasOwnProperty.call(signature, "R8") &&
         Object.prototype.hasOwnProperty.call(signature, "S") &&
         isPoint(signature.R8) &&
-        isStringifiedBigint(signature.S)
+        isStringifiedBigInt(signature.S)
     )
 }
 
