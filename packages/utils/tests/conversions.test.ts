@@ -6,11 +6,16 @@ import {
     bigNumberishToBuffer,
     hexadecimalToBigInt,
     leBigIntToBuffer,
+    leBigNumberishToBuffer,
     leBufferToBigInt
 } from "../src/conversions"
 
 describe("Conversions", () => {
-    const testBytes1 = [
+    const testBytes1LE = [
+        0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11,
+        0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f
+    ]
+    const testBytes1BE = [
         0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11,
         0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f
     ]
@@ -39,13 +44,21 @@ describe("Conversions", () => {
         it("Should convert a big numberish to a BE buffer", async () => {
             const result = bigNumberishToBuffer(testBigInt1BE)
 
-            expect(result).toStrictEqual(Buffer.from(testBytes1.slice(1)))
+            expect(result).toStrictEqual(Buffer.from(testBytes1BE.slice(1)))
+        })
+    })
+
+    describe("# leBigNumberishToBuffer", () => {
+        it("Should convert a big numberish to a LE buffer", async () => {
+            const result = leBigNumberishToBuffer(testBigInt1LE)
+
+            expect(result).toStrictEqual(Buffer.from(testBytes1BE))
         })
     })
 
     describe("# bigNumberishToBigInt", () => {
         it("Should convert a BE big numberish to a bigint", async () => {
-            const result = bigNumberishToBigInt(Buffer.from(testBytes1))
+            const result = bigNumberishToBigInt(Buffer.from(testBytes1BE))
 
             expect(result).toBe(testBigInt1BE)
         })
@@ -53,21 +66,21 @@ describe("Conversions", () => {
 
     describe("BigInt to/from Buffer Conversions", () => {
         it("Should support little-endian conversions", async () => {
-            const in1 = Buffer.from(testBytes1)
+            const in1 = Buffer.from(testBytes1BE)
             const n1 = leBufferToBigInt(in1)
             expect(n1).toBe(testBigInt1LE)
             const out1 = leBigIntToBuffer(n1, 32)
             expect(out1).toHaveLength(32)
-            expect(out1).toStrictEqual(Buffer.from(testBytes1))
+            expect(out1).toStrictEqual(Buffer.from(testBytes1BE))
         })
 
         it("Should support big-endian conversions", async () => {
-            const in1 = Buffer.from(testBytes1)
+            const in1 = Buffer.from(testBytes1BE)
             const n1 = beBufferToBigInt(in1)
             expect(n1).toBe(testBigInt1BE)
             const out1 = beBigIntToBuffer(n1, 32)
             expect(out1).toHaveLength(32)
-            expect(out1).toStrictEqual(Buffer.from(testBytes1))
+            expect(out1).toStrictEqual(Buffer.from(testBytes1BE))
         })
 
         it("Should pad small numbers", async () => {
@@ -83,16 +96,16 @@ describe("Conversions", () => {
         })
 
         it("Should not mutate input buffers", async () => {
-            const in1 = Buffer.from(testBytes1)
-            expect(in1).toStrictEqual(Buffer.from(testBytes1))
+            const in1 = Buffer.from(testBytes1BE)
+            expect(in1).toStrictEqual(Buffer.from(testBytes1BE))
 
             const n1LE = leBufferToBigInt(in1)
             expect(n1LE).toBe(testBigInt1LE)
-            expect(in1).toStrictEqual(Buffer.from(testBytes1))
+            expect(in1).toStrictEqual(Buffer.from(testBytes1BE))
 
             const n1BE = beBufferToBigInt(in1)
             expect(n1BE).toBe(testBigInt1BE)
-            expect(in1).toStrictEqual(Buffer.from(testBytes1))
+            expect(in1).toStrictEqual(Buffer.from(testBytes1BE))
         })
     })
 })
