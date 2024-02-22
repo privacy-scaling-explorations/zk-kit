@@ -32,6 +32,9 @@ describe("BabyJubjub", () => {
 
     it("Should pack a point", async () => {
         const packedPoint = packPoint(publicKey)
+        // As a bigint, we expect the packed point to be identical to the Y coordinate,
+        // except for the 1 bit added to represent whether the X coordinate is negative or positive.
+        // We strip off that extra bit and check this expectation below.
         const strippedPackedPoint = packedPoint & ~(BigInt(1) << BigInt(255))
 
         const expectedPackedPoint = babyjub.packPoint(publicKey)
