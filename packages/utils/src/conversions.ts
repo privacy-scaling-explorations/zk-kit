@@ -17,6 +17,7 @@ import { isHexadecimal, isStringifiedBigint } from "./number-checks"
 
 /**
  * Converts a bigint to a hexadecimal string ensuring even length.
+ * It uses big-endian byte order.
  * @param n The bigint value to convert.
  * @returns The hexadecimal representation of the bigint.
  */
@@ -41,7 +42,8 @@ export function bigIntToHexadecimal(n: bigint): string {
 }
 
 /**
- * Converts a hexadecimal string to a bigint, ensuring the hex string starts with '0x'.
+ * Converts a hexadecimal string to a bigint. The input is interpreted as hexadecimal
+ * with or without a '0x' prefix. It uses big-endian byte order.
  * @param hex The hexadecimal string to convert.
  * @returns The bigint representation of the hexadecimal string.
  */
@@ -62,7 +64,7 @@ export function hexadecimalToBigint(hex: string): bigint {
 }
 
 /**
- * Converts a buffer to a bigint by interpreting the buffer as a hexadecimal string.
+ * Converts a buffer of bytes to a bigint using big-endian byte order.
  * @param b The buffer to convert.
  * @returns The bigint representation of the buffer's contents.
  */
@@ -72,7 +74,7 @@ export function beBufferToBigint(b: Buffer): bigint {
 
 /**
  * Converts a buffer to a bigint. Alias for beBufferToBigint.
- * @param b - The buffer to convert.
+ * @param b The buffer to convert.
  * @returns The bigint representation of the buffer's contents.
  */
 export function bufferToBigint(b: Buffer): bigint {
@@ -80,7 +82,8 @@ export function bufferToBigint(b: Buffer): bigint {
 }
 
 /**
- * Converts a bigint to a buffer, assuming big-endian byte order, and fills with zeros if necessary.
+ * Converts a bigint to a buffer and fills with zeros if necessary.
+ * It uses big-endian byte order.
  * @param n The bigint to convert.
  * @param length The number of bytes of the buffer to return.
  * @returns The buffer representation of the bigint.
@@ -106,7 +109,7 @@ export function beBigintToBuffer(n: bigint, length?: number): Buffer {
 
 /**
  * Converts a bigint to a buffer. Alias for beBigintToBuffer.
- * @param n - The bigint to convert.
+ * @param n The bigint to convert.
  * @returns The buffer representation of the bigint.
  */
 export function bigintToBuffer(n: bigint): Buffer {
@@ -114,34 +117,8 @@ export function bigintToBuffer(n: bigint): Buffer {
 }
 
 /**
- * Converts a BigNumberish type to a buffer, handling various input types and converting them to bigint first if necessary.
- * @param n The BigNumberish value to convert.
- * @returns The buffer representation of the BigNumberish value.
- */
-export function beBigNumberishToBuffer(n: BigNumberish): Buffer {
-    if (
-        typeof n === "number" ||
-        typeof n === "bigint" ||
-        (typeof n === "string" && isStringifiedBigint(n)) ||
-        (typeof n === "string" && isHexadecimal(n))
-    ) {
-        return bigintToBuffer(BigInt(n))
-    }
-
-    return n as Buffer
-}
-
-/**
- * Converts a BigNumberish type to a buffer. Alias for beBigNumberishToBuffer.
- * @param n The BigNumberish value to convert.
- * @returns The buffer representation of the BigNumberish value.
- */
-export function bigNumberishToBuffer(n: BigNumberish): Buffer {
-    return beBigNumberishToBuffer(n)
-}
-
-/**
  * Converts a BigNumberish type to a bigint, handling various input types.
+ * It uses big-endian byte order.
  * @param n The BigNumberish value to convert.
  * @returns The bigint representation of the BigNumberish value.
  */
@@ -168,7 +145,30 @@ export function bigNumberishToBigint(n: BigNumberish): bigint {
 }
 
 /**
- * Converts a buffer to a bigint assuming little-endian byte order.
+ * Converts a BigNumberish type to a buffer, handling various input types and converting
+ * them to bigint first if necessary. It uses big-endian byte order.
+ * @param n The BigNumberish value to convert.
+ * @returns The buffer representation of the BigNumberish value.
+ */
+export function beBigNumberishToBuffer(n: BigNumberish): Buffer {
+    if (n instanceof Buffer) {
+        return n
+    }
+
+    return bigintToBuffer(bigNumberishToBigint(n))
+}
+
+/**
+ * Converts a BigNumberish type to a buffer. Alias for beBigNumberishToBuffer.
+ * @param n The BigNumberish value to convert.
+ * @returns The buffer representation of the BigNumberish value.
+ */
+export function bigNumberishToBuffer(n: BigNumberish): Buffer {
+    return beBigNumberishToBuffer(n)
+}
+
+/**
+ * Converts a buffer to a bigint using little-endian byte order.
  * @param buffer The buffer to convert.
  * @returns The bigint representation of the buffer's contents in little-endian.
  */
@@ -177,7 +177,8 @@ export function leBufferToBigint(buffer: Buffer): bigint {
 }
 
 /**
- * Converts a bigint to a buffer, assuming little-endian byte order, and fills with zeros if necessary.
+ * Converts a bigint to a buffer and fills with zeros if necessary.
+ * It uses little-endian byte order.
  * @param n The bigint to convert.
  * @param length The number of bytes of the buffer to return.
  * @returns The buffer representation of the bigint in little-endian.
