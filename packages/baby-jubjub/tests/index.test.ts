@@ -1,4 +1,5 @@
 import { babyjub } from "circomlibjs"
+import { utils } from "ffjavascript"
 import { Base8, Point, addPoint, inCurve, mulPointEscalar, packPoint, unpackPoint } from "../src"
 
 describe("BabyJubjub", () => {
@@ -31,10 +32,15 @@ describe("BabyJubjub", () => {
 
     it("Should pack a point", async () => {
         const packedPoint = packPoint(publicKey)
+        // As a bigint, we expect the packed point to be identical to the Y coordinate,
+        // except for the 1 bit added to represent whether the X coordinate is negative or positive.
+        // We strip off that extra bit and check this expectation below.
+        const strippedPackedPoint = packedPoint & ~(BigInt(1) << BigInt(255))
 
         const expectedPackedPoint = babyjub.packPoint(publicKey)
 
-        expect(packedPoint).toBe(BigInt(`0x${Buffer.from(expectedPackedPoint).toString("hex")}`))
+        expect(strippedPackedPoint).toBe(publicKey[1])
+        expect(packedPoint).toBe(utils.leBuff2int(expectedPackedPoint))
     })
 
     it("Should unpack a packed public key", async () => {

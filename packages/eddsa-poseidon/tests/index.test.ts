@@ -1,5 +1,6 @@
 import { babyjub, eddsa } from "circomlibjs"
 import crypto from "crypto"
+import { utils } from "ffjavascript"
 import {
     EdDSAPoseidon,
     derivePublicKey,
@@ -213,7 +214,7 @@ describe("EdDSAPoseidon", () => {
 
         const expectedPackedPublicKey = babyjub.packPoint([BigInt(publicKey[0]), BigInt(publicKey[1])])
 
-        expect(packedPublicKey).toBe(BigInt(`0x${Buffer.from(expectedPackedPublicKey).toString("hex")}`).toString())
+        expect(packedPublicKey).toBe(utils.leBuff2int(expectedPackedPublicKey).toString())
     })
 
     it("Should unpack a packed public key", async () => {

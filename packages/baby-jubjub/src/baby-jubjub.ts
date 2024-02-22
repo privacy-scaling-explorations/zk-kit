@@ -1,4 +1,4 @@
-import { F1Field, bigintToHexadecimal, bufferToBigint, leBigintToBuffer, leBufferToBigint, scalar } from "@zk-kit/utils"
+import { F1Field, leBigintToBuffer, leBufferToBigint, scalar } from "@zk-kit/utils"
 import * as sqrt from "./sqrt"
 import { Point } from "./types"
 
@@ -102,11 +102,11 @@ export function packPoint(unpackedPoint: Point<bigint>): bigint {
         buffer[31] |= 0x80
     }
 
-    return bufferToBigint(buffer)
+    return leBufferToBigint(buffer)
 }
 
 export function unpackPoint(packedPoint: bigint): Point<bigint> | null {
-    const buffer = Buffer.from(bigintToHexadecimal(packedPoint).padStart(64, "0"), "hex")
+    const buffer = leBigintToBuffer(packedPoint)
     const unpackedPoint = new Array(2)
 
     let sign = false
