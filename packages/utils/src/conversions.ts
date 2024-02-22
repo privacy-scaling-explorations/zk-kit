@@ -5,7 +5,7 @@
  * conversions involving bigints, hexadecimals and buffers.
  * The module is structured with clear function naming to indicate
  * the conversion direction (e.g., `bigIntToHexadecimal` for BigInt
- * to hexadecimal, `bufferToBigint` for buffer to bigint) and employs
+ * to hexadecimal, `bufferToBigInt` for buffer to bigint) and employs
  * type checks to ensure the correct handling of various input types.
  * It also includes variations for both big-endian (`be`) and little-endian
  * (`le`) conversions. It is important to note that when there is no prefix,
@@ -47,7 +47,7 @@ export function bigIntToHexadecimal(n: bigint): string {
  * @param hex The hexadecimal string to convert.
  * @returns The bigint representation of the hexadecimal string.
  */
-export function beHexadecimalToBigint(hex: string): bigint {
+export function beHexadecimalToBigInt(hex: string): bigint {
     // Ensure the hex string starts with '0x'.
     const formattedHexString = hex.startsWith("0x") ? hex : `0x${hex}`
 
@@ -55,12 +55,12 @@ export function beHexadecimalToBigint(hex: string): bigint {
 }
 
 /**
- * Converts a hexadecimal string to a bigint. Alias for beHexadecimalToBigint.
+ * Converts a hexadecimal string to a bigint. Alias for beHexadecimalToBigInt.
  * @param hex The hexadecimal string to convert.
  * @returns The bigint representation of the hexadecimal string.
  */
-export function hexadecimalToBigint(hex: string): bigint {
-    return beHexadecimalToBigint(hex)
+export function hexadecimalToBigInt(hex: string): bigint {
+    return beHexadecimalToBigInt(hex)
 }
 
 /**
@@ -68,17 +68,17 @@ export function hexadecimalToBigint(hex: string): bigint {
  * @param b The buffer to convert.
  * @returns The bigint representation of the buffer's contents.
  */
-export function beBufferToBigint(b: Buffer): bigint {
+export function beBufferToBigInt(b: Buffer): bigint {
     return BigInt(`0x${b.toString("hex")}`)
 }
 
 /**
- * Converts a buffer to a bigint. Alias for beBufferToBigint.
+ * Converts a buffer to a bigint. Alias for beBufferToBigInt.
  * @param b The buffer to convert.
  * @returns The bigint representation of the buffer's contents.
  */
-export function bufferToBigint(b: Buffer): bigint {
-    return beBufferToBigint(b)
+export function bufferToBigInt(b: Buffer): bigint {
+    return beBufferToBigInt(b)
 }
 
 /**
@@ -88,7 +88,7 @@ export function bufferToBigint(b: Buffer): bigint {
  * @param length The number of bytes of the buffer to return.
  * @returns The buffer representation of the bigint.
  */
-export function beBigintToBuffer(n: bigint, length?: number): Buffer {
+export function beBigIntToBuffer(n: bigint, length?: number): Buffer {
     const hex = bigIntToHexadecimal(n)
 
     // Calculate the minimum buffer length required to represent 'n' in bytes.
@@ -108,12 +108,12 @@ export function beBigintToBuffer(n: bigint, length?: number): Buffer {
 }
 
 /**
- * Converts a bigint to a buffer. Alias for beBigintToBuffer.
+ * Converts a bigint to a buffer. Alias for beBigIntToBuffer.
  * @param n The bigint to convert.
  * @returns The buffer representation of the bigint.
  */
 export function bigintToBuffer(n: bigint): Buffer {
-    return beBigintToBuffer(n)
+    return beBigIntToBuffer(n)
 }
 
 /**
@@ -122,7 +122,7 @@ export function bigintToBuffer(n: bigint): Buffer {
  * @param n The BigNumberish value to convert.
  * @returns The bigint representation of the BigNumberish value.
  */
-export function beBigNumberishToBigint(n: BigNumberish): bigint {
+export function beBigNumberishToBigInt(n: BigNumberish): bigint {
     if (
         typeof n === "number" ||
         typeof n === "bigint" ||
@@ -132,16 +132,16 @@ export function beBigNumberishToBigint(n: BigNumberish): bigint {
         return BigInt(n)
     }
 
-    return bufferToBigint(n as Buffer)
+    return bufferToBigInt(n as Buffer)
 }
 
 /**
- * Converts a BigNumberish type to a bigint. Alias for beBigNumberishToBigint.
+ * Converts a BigNumberish type to a bigint. Alias for beBigNumberishToBigInt.
  * @param n The BigNumberish value to convert.
  * @returns The bigint representation of the BigNumberish value.
  */
-export function bigNumberishToBigint(n: BigNumberish): bigint {
-    return beBigNumberishToBigint(n)
+export function bigNumberishToBigInt(n: BigNumberish): bigint {
+    return beBigNumberishToBigInt(n)
 }
 
 /**
@@ -155,7 +155,7 @@ export function beBigNumberishToBuffer(n: BigNumberish): Buffer {
         return n
     }
 
-    return bigintToBuffer(bigNumberishToBigint(n))
+    return bigintToBuffer(bigNumberishToBigInt(n))
 }
 
 /**
@@ -172,7 +172,7 @@ export function bigNumberishToBuffer(n: BigNumberish): Buffer {
  * @param buffer The buffer to convert.
  * @returns The bigint representation of the buffer's contents in little-endian.
  */
-export function leBufferToBigint(buffer: Buffer): bigint {
+export function leBufferToBigInt(buffer: Buffer): bigint {
     return BigInt(`0x${Buffer.from(buffer).reverse().toString("hex")}`)
 }
 
@@ -183,7 +183,7 @@ export function leBufferToBigint(buffer: Buffer): bigint {
  * @param length The number of bytes of the buffer to return.
  * @returns The buffer representation of the bigint in little-endian.
  */
-export function leBigintToBuffer(n: bigint, length?: number): Buffer {
+export function leBigIntToBuffer(n: bigint, length?: number): Buffer {
     const hex = bigIntToHexadecimal(n)
 
     // Calculate the minimum buffer length required to represent 'n' in bytes.
