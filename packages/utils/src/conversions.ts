@@ -94,24 +94,27 @@ export function bufferToBigInt(b: Buffer): bigint {
  * Converts a bigint to a buffer and fills with zeros if necessary.
  * It uses big-endian byte order.
  * @param n The bigint to convert.
- * @param length The number of bytes of the buffer to return.
+ * @param size The number of bytes of the buffer to return.
  * @returns The buffer representation of the bigint.
  */
-export function beBigIntToBuffer(n: bigint, length?: number): Buffer {
+export function beBigIntToBuffer(n: bigint, size?: number): Buffer {
     const hex = bigIntToHexadecimal(n)
 
-    // Calculate the minimum buffer length required to represent 'n' in bytes.
+    // Calculate the minimum buffer size required to represent 'n' in bytes.
     // Each hexadecimal character represents 4 bits, so 2 characters are 1 byte.
-    const minLength = Math.ceil(hex.length / 2)
+    const minSize = Math.ceil(hex.length / 2)
 
-    // Use the provided length or the calculated minimum length, whichever is greater.
-    const bufferLength = length ? Math.max(length, minLength) : minLength
+    if (!size) {
+        size = minSize
+    } else if (size < minSize) {
+        throw Error(`Size ${size} is too small, need at least ${minSize} bytes`)
+    }
 
     // Allocate buffer of the desired size, filled with zeros.
-    const buffer = Buffer.alloc(bufferLength, 0)
+    const buffer = Buffer.alloc(size, 0)
 
     const fromHex = Buffer.from(hex, "hex")
-    fromHex.copy(buffer, bufferLength - fromHex.length)
+    fromHex.copy(buffer, size - fromHex.length)
 
     return buffer
 }
@@ -120,21 +123,24 @@ export function beBigIntToBuffer(n: bigint, length?: number): Buffer {
  * Converts a bigint to a buffer and fills with zeros if necessary.
  * It uses little-endian byte order.
  * @param n The bigint to convert.
- * @param length The number of bytes of the buffer to return.
+ * @param size The number of bytes of the buffer to return.
  * @returns The buffer representation of the bigint in little-endian.
  */
-export function leBigIntToBuffer(n: bigint, length?: number): Buffer {
+export function leBigIntToBuffer(n: bigint, size?: number): Buffer {
     const hex = bigIntToHexadecimal(n)
 
-    // Calculate the minimum buffer length required to represent 'n' in bytes.
+    // Calculate the minimum buffer size required to represent 'n' in bytes.
     // Each hexadecimal character represents 4 bits, so 2 characters are 1 byte.
-    const minLength = Math.ceil(hex.length / 2)
+    const minSize = Math.ceil(hex.length / 2)
 
-    // Use the provided length or the calculated minimum length, whichever is greater.
-    const bufferLength = length ? Math.max(length, minLength) : minLength
+    if (!size) {
+        size = minSize
+    } else if (size < minSize) {
+        throw Error(`Size ${size} is too small, need at least ${minSize} bytes`)
+    }
 
     // Allocate buffer of the desired size, filled with zeros.
-    const buffer = Buffer.alloc(bufferLength, 0)
+    const buffer = Buffer.alloc(size, 0)
 
     const fromHex = Buffer.from(hex, "hex").reverse()
     fromHex.copy(buffer, 0)
