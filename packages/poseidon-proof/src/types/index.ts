@@ -8,7 +8,6 @@ export type SnarkArtifacts = {
 export type PoseidonProof = {
     scope: NumericString
     digest: NumericString
-    nullifier: NumericString
     proof: PackedProof
 }
 

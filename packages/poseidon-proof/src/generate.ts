@@ -9,7 +9,7 @@ import { PoseidonProof, SnarkArtifacts } from "./types"
 /**
  * Creates a zero-knowledge proof to prove that you have the preimages of a hash,
  * without disclosing the actual preimages themselves.
- * The use of a scope parameter along with a nullifier helps ensure the uniqueness
+ * The use of a scope parameter helps ensure the uniqueness
  * and non-reusability of the proofs, enhancing security in applications like
  * blockchain transactions or private data verification.
  * If, for example, this package were used with Semaphore to demonstrate possession
@@ -44,7 +44,6 @@ export default async function generate(
     return {
         scope: BigNumber.from(scope).toString() as NumericString,
         digest: publicSignals[0],
-        nullifier: publicSignals[1],
         proof: packProof(proof)
     }
 }

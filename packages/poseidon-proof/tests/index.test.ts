@@ -69,12 +69,10 @@ describe("PoseidonProof", () => {
                 fullProof = await generate(currentPreimages, scope)
 
                 const digest = computePoseidon(currentPreimages.map((preimage) => hash(preimage)))
-                const nullifier = poseidon2([hash(scope), digest])
 
                 expect(fullProof.proof).toHaveLength(8)
                 expect(fullProof.scope).toBe(scope.toString())
                 expect(fullProof.digest).toBe(digest.toString())
-                expect(fullProof.nullifier).toBe(nullifier.toString())
 
                 // Verify.
                 const response = await verify(currentPreimages.length, fullProof)
