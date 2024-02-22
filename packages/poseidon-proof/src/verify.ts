@@ -9,15 +9,12 @@ import verificationKeys from "./verification-keys.json"
  * @param poseidonProof The Poseidon zero-knowledge proof.
  * @returns True if the proof is valid, false otherwise.
  */
-export default function verify(
-    numberOfInputs: number,
-    { scope, digest, nullifier, proof }: PoseidonProof
-): Promise<boolean> {
+export default function verify(numberOfInputs: number, { scope, digest, proof }: PoseidonProof): Promise<boolean> {
     const verificationKey = {
         ...verificationKeys,
         vk_delta_2: verificationKeys.vk_delta_2[numberOfInputs - 1],
         IC: verificationKeys.IC[numberOfInputs - 1]
     }
 
-    return groth16.verify(verificationKey, [digest, nullifier, hash(scope)], unpackProof(proof))
+    return groth16.verify(verificationKey, [digest, hash(scope)], unpackProof(proof))
 }

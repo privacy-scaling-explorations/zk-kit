@@ -1,15 +1,14 @@
 import { WitnessTester } from "circomkit"
-import { poseidon2, poseidon3 } from "poseidon-lite"
+import { poseidon3 } from "poseidon-lite"
 import { circomkit } from "./common"
 
 describe("poseidon-proof", () => {
-    let circuit: WitnessTester<["preimages", "scope"], ["digest", "nullifier"]>
+    let circuit: WitnessTester<["preimages", "scope"], ["digest"]>
 
     const numberOfInputs = 3
     const preimages = [1, 2, 3]
     const scope = 2
     const digest = poseidon3(preimages)
-    const nullifier = poseidon2([scope, digest])
 
     const INPUT = {
         preimages,
@@ -17,8 +16,7 @@ describe("poseidon-proof", () => {
     }
 
     const OUTPUT = {
-        digest,
-        nullifier
+        digest
     }
 
     before(async () => {
