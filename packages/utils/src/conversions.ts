@@ -112,7 +112,7 @@ export function beBigIntToBuffer(n: bigint, length?: number): Buffer {
  * @param n The bigint to convert.
  * @returns The buffer representation of the bigint.
  */
-export function bigintToBuffer(n: bigint): Buffer {
+export function bigIntToBuffer(n: bigint): Buffer {
     return beBigIntToBuffer(n)
 }
 
@@ -155,7 +155,7 @@ export function beBigNumberishToBuffer(n: BigNumberish): Buffer {
         return n
     }
 
-    return bigintToBuffer(bigNumberishToBigInt(n))
+    return bigIntToBuffer(bigNumberishToBigInt(n))
 }
 
 /**
