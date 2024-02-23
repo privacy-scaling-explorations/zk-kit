@@ -1,97 +1,142 @@
-import { LeanIMT } from "@zk-kit/imt"
 import { WitnessTester } from "circomkit"
-import { poseidon2 } from "poseidon-lite"
-import { circomkit } from "./common"
+import { circomkit, generateBinaryMerkleRoot } from "./common"
 
 describe("binary-merkle-root", () => {
     let circuit: WitnessTester<["leaf", "depth", "indices", "siblings"], ["out"]>
 
     const MAX_DEPTH = 5
 
-    before(async () => {
+    it("Should throw an error if MAX_DEPTH is zero", async () => {
+        const INPUT = {
+            leaf: BigInt(0),
+            depth: BigInt(0),
+            indices: [],
+            siblings: []
+        }
+
         circuit = await circomkit.WitnessTester("binary-merkle-root", {
             file: "binary-merkle-root",
             template: "BinaryMerkleRoot",
             params: [MAX_DEPTH]
         })
+
+        await circuit.expectFail(INPUT)
     })
 
-    it("Should calculate the root correctly if the depth is less than MAX_DEPTH", async () => {
-        const tree = new LeanIMT((a, b) => poseidon2([a, b]))
-        const leaf = BigInt(0)
-
-        tree.insert(leaf)
-
-        for (let i = 1; i < 8; i += 1) {
-            tree.insert(BigInt(i))
+    it("Should throw an error if there are not enough values for input signal indices", async () => {
+        const INPUT = {
+            leaf: BigInt(0),
+            depth: MAX_DEPTH,
+            indices: [],
+            siblings: []
         }
 
-        const { siblings, index } = tree.generateProof(0)
+        circuit = await circomkit.WitnessTester("binary-merkle-root", {
+            file: "binary-merkle-root",
+            template: "BinaryMerkleRoot",
+            params: [MAX_DEPTH]
+        })
 
-        // The index must be converted to a list of indices, 1 for each tree level.
-        // The circuit tree depth is 20, so the number of siblings must be 20, even if
-        // the tree depth is actually 3. The missing siblings can be set to 0, as they
-        // won't be used to calculate the root in the circuit.
-        const indices: number[] = []
+        await circuit.expectFail(INPUT)
+    })
 
-        for (let i = 0; i < MAX_DEPTH; i += 1) {
-            indices.push((index >> i) & 1)
-
-            if (siblings[i] === undefined) {
-                siblings[i] = BigInt(0)
-            }
+    it("Should throw an error if there are not enough values for input signal siblings", async () => {
+        const INPUT = {
+            leaf: BigInt(0),
+            depth: MAX_DEPTH,
+            indices: [BigInt(0), BigInt(0), BigInt(0), BigInt(0), BigInt(0)],
+            siblings: []
         }
+
+        circuit = await circomkit.WitnessTester("binary-merkle-root", {
+            file: "binary-merkle-root",
+            template: "BinaryMerkleRoot",
+            params: [MAX_DEPTH]
+        })
+
+        await circuit.expectFail(INPUT)
+    })
+
+    it("Should throw an error if there are too many values for input signal siblings", async () => {
+        const { leaf, depth, indices, siblings } = generateBinaryMerkleRoot(MAX_DEPTH, 2 ** MAX_DEPTH + 1)
 
         const INPUT = {
             leaf,
-            depth: tree.depth,
+            depth,
+            indices,
+            siblings
+        }
+
+        circuit = await circomkit.WitnessTester("binary-merkle-root", {
+            file: "binary-merkle-root",
+            template: "BinaryMerkleRoot",
+            params: [MAX_DEPTH]
+        })
+
+        await circuit.expectFail(INPUT)
+    })
+
+    it("Should throw an error if number of leafs is more than MAX_DEPTH", async () => {
+        const { leaf, depth, indices, siblings } = generateBinaryMerkleRoot(MAX_DEPTH, 2 ** MAX_DEPTH + 1)
+
+        const INPUT = {
+            leaf,
+            depth,
+            indices,
+            siblings
+        }
+
+        circuit = await circomkit.WitnessTester("binary-merkle-root", {
+            file: "binary-merkle-root",
+            template: "BinaryMerkleRoot",
+            params: [MAX_DEPTH]
+        })
+
+        await circuit.expectFail(INPUT)
+    })
+
+    it("Should calculate the root correctly if the depth is less than MAX_DEPTH", async () => {
+        const { leaf, depth, indices, siblings, root } = generateBinaryMerkleRoot(MAX_DEPTH, 2 ** (MAX_DEPTH - 2))
+
+        const INPUT = {
+            leaf,
+            depth,
             indices,
             siblings
         }
 
         const OUTPUT = {
-            out: tree.root
+            out: root
         }
+
+        circuit = await circomkit.WitnessTester("binary-merkle-root", {
+            file: "binary-merkle-root",
+            template: "BinaryMerkleRoot",
+            params: [MAX_DEPTH]
+        })
 
         await circuit.expectPass(INPUT, OUTPUT)
     })
 
     it("Should calculate the root correctly if the depth equals MAX_DEPTH", async () => {
-        const tree = new LeanIMT((a, b) => poseidon2([a, b]))
-        const leaf = BigInt(0)
-
-        tree.insert(leaf)
-
-        for (let i = 1; i < 32; i += 1) {
-            tree.insert(BigInt(i))
-        }
-
-        const { siblings, index } = tree.generateProof(0)
-
-        // The index must be converted to a list of indices, 1 for each tree level.
-        // The circuit tree depth is 20, so the number of siblings must be 20, even if
-        // the tree depth is actually 3. The missing siblings can be set to 0, as they
-        // won't be used to calculate the root in the circuit.
-        const indices: number[] = []
-
-        for (let i = 0; i < MAX_DEPTH; i += 1) {
-            indices.push((index >> i) & 1)
-
-            if (siblings[i] === undefined) {
-                siblings[i] = BigInt(0)
-            }
-        }
+        const { leaf, depth, indices, siblings, root } = generateBinaryMerkleRoot(MAX_DEPTH, 2 ** MAX_DEPTH)
 
         const INPUT = {
             leaf,
-            depth: tree.depth,
+            depth,
             indices,
             siblings
         }
 
         const OUTPUT = {
-            out: tree.root
+            out: root
         }
+
+        circuit = await circomkit.WitnessTester("binary-merkle-root", {
+            file: "binary-merkle-root",
+            template: "BinaryMerkleRoot",
+            params: [MAX_DEPTH]
+        })
 
         await circuit.expectPass(INPUT, OUTPUT)
     })
