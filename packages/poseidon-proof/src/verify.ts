@@ -1,5 +1,5 @@
 import { groth16 } from "snarkjs"
-import { unpackProof } from "@zk-kit/utils"
+import { unpackGroth16Proof } from "@zk-kit/utils"
 import hash from "./hash"
 import { PoseidonProof } from "./types"
 import verificationKeys from "./verification-keys.json"
@@ -16,5 +16,5 @@ export default function verify(numberOfInputs: number, { scope, digest, proof }:
         IC: verificationKeys.IC[numberOfInputs - 1]
     }
 
-    return groth16.verify(verificationKey, [digest, hash(scope)], unpackProof(proof))
+    return groth16.verify(verificationKey, [digest, hash(scope)], unpackGroth16Proof(proof))
 }

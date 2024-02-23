@@ -1,10 +1,10 @@
-import { packProof, unpackProof } from "../src/groth16-proof"
-import { PackedProof } from "../src/types"
+import { packGroth16Proof, unpackGroth16Proof } from "../src/groth16-proof"
+import { PackedGroth16Proof } from "../src/types"
 
 describe("Groth16 Proof", () => {
-    describe("packProof/unpackProof", () => {
+    describe("packGroth16Proof/unpackGroth16Proof", () => {
         it("Should return a packed proof", async () => {
-            const packedProof: PackedProof = [
+            const packedGroth16Proof: PackedGroth16Proof = [
                 "17455271319858434926499425298909035958151998411844026248469741053531717339265",
                 "1809640036543354632013745302316626518616523187165817131215850368558792945688",
                 "10412520870708905678204104934659225353238049211955054582580393588023887103880",
@@ -15,10 +15,10 @@ describe("Groth16 Proof", () => {
                 "17279707263918322800069730194548839248077368939211596384106376344385089451889"
             ]
 
-            const originalProof = unpackProof(packedProof)
-            const proof = packProof(originalProof)
+            const originalProof = unpackGroth16Proof(packedGroth16Proof)
+            const proof = packGroth16Proof(originalProof)
 
-            expect(proof).toStrictEqual(packedProof)
+            expect(proof).toStrictEqual(packedGroth16Proof)
         })
     })
 })

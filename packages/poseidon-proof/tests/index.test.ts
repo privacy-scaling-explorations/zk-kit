@@ -17,7 +17,6 @@ import {
     poseidon15,
     poseidon16
 } from "poseidon-lite"
-import { packProof, unpackProof } from "@zk-kit/utils"
 import generate from "../src/generate"
 import { PoseidonProof } from "../src/types"
 import verify from "../src/verify"
@@ -86,15 +85,6 @@ describe("PoseidonProof", () => {
             const response = await verify(preimages.length, fullProof)
 
             expect(response).toBe(false)
-        })
-    })
-
-    describe("# packProof/unpackProof", () => {
-        it("Should return a packed proof", async () => {
-            const originalProof = unpackProof(fullProof.proof)
-            const proof = packProof(originalProof)
-
-            expect(proof).toStrictEqual(fullProof.proof)
         })
     })
 })

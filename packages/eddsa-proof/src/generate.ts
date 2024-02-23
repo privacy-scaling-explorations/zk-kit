@@ -2,7 +2,7 @@ import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
 import { NumericString, groth16 } from "snarkjs"
-import { packProof } from "@zk-kit/utils"
+import { packGroth16Proof } from "@zk-kit/utils"
 import getSnarkArtifacts from "./get-snark-artifacts.node"
 import hash from "./hash"
 import { EddsaProof, SnarkArtifacts } from "./types"
@@ -47,6 +47,6 @@ export default async function generate(
     return {
         commitment: publicSignals[0],
         scope: BigNumber.from(scope).toString() as NumericString,
-        proof: packProof(proof)
+        proof: packGroth16Proof(proof)
     }
 }

@@ -1,12 +1,12 @@
 import { Groth16Proof } from "snarkjs"
-import { PackedProof } from "./types"
+import { PackedGroth16Proof } from "./types"
 
 /**
  * Packs a Snarkjs Groth16 proof into a format compatible with Smart Contracts.
  * @param proof The Groth16 proof generated with SnarkJS.
  * @returns The proof compatible with Smart Contracts.
  */
-export function packProof(proof: Groth16Proof): PackedProof {
+export function packGroth16Proof(proof: Groth16Proof): PackedGroth16Proof {
     return [
         proof.pi_a[0],
         proof.pi_a[1],
@@ -20,11 +20,11 @@ export function packProof(proof: Groth16Proof): PackedProof {
 }
 
 /**
- * Unpacks a PackedProof proof into its original form which is a SnarkJS Groth16 proof.
+ * Unpacks a Smart Contracts compatible proof into its original form which is a SnarkJS Groth16 proof.
  * @param proof The proof compatible with Smart Contracts.
  * @returns The Groth16 proof compatible with SnarkJS.
  */
-export function unpackProof(proof: PackedProof): Groth16Proof {
+export function unpackGroth16Proof(proof: PackedGroth16Proof): Groth16Proof {
     return {
         pi_a: [proof[0], proof[1]],
         pi_b: [
