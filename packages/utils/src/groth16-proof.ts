@@ -2,9 +2,9 @@ import { Groth16Proof } from "snarkjs"
 import { PackedProof } from "./types"
 
 /**
- * Packs a proof into a format compatible with EddsaProof.
+ * Packs a Snarkjs Groth16 proof into a format compatible with Smart Contracts.
  * @param proof The Groth16 proof generated with SnarkJS.
- * @returns The proof compatible with EddsaProof.
+ * @returns The proof compatible with Smart Contracts.
  */
 export function packProof(proof: Groth16Proof): PackedProof {
     return [
@@ -20,9 +20,9 @@ export function packProof(proof: Groth16Proof): PackedProof {
 }
 
 /**
- * Unpacks a proof into its original form.
- * @param proof The proof compatible with EddsaProof.
- * @returns The proof compatible with SnarkJS.
+ * Unpacks a PackedProof proof into its original form which is a SnarkJS Groth16 proof.
+ * @param proof The proof compatible with Smart Contracts.
+ * @returns The Groth16 proof compatible with SnarkJS.
  */
 export function unpackProof(proof: PackedProof): Groth16Proof {
     return {
