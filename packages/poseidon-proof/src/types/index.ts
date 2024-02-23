@@ -1,4 +1,5 @@
 import { NumericString } from "snarkjs"
+import { PackedProof } from "@zk-kit/utils"
 
 export type SnarkArtifacts = {
     wasmFilePath: string
@@ -10,14 +11,3 @@ export type PoseidonProof = {
     digest: NumericString
     proof: PackedProof
 }
-
-export type PackedProof = [
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString
-]

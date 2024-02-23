@@ -17,10 +17,9 @@ import {
     poseidon15,
     poseidon16
 } from "poseidon-lite"
+import { packProof, unpackProof } from "@zk-kit/utils"
 import generate from "../src/generate"
-import packProof from "../src/pack-proof"
 import { PoseidonProof } from "../src/types"
-import unpackProof from "../src/unpack-proof"
 import verify from "../src/verify"
 import hash from "../src/hash"
 

@@ -1,7 +1,7 @@
 import { groth16 } from "snarkjs"
+import { unpackProof } from "@zk-kit/utils"
 import hash from "./hash"
 import { EddsaProof } from "./types"
-import unpackProof from "./unpack-proof"
 import verificationKey from "./verification-key.json"
 
 /**

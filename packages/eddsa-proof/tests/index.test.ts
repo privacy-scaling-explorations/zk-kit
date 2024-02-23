@@ -1,10 +1,9 @@
 import { buildBn128 } from "@zk-kit/groth16"
 import { poseidon2 } from "poseidon-lite"
 import { derivePublicKey } from "@zk-kit/eddsa-poseidon"
+import { packProof, unpackProof } from "@zk-kit/utils"
 import generate from "../src/generate"
-import packProof from "../src/pack-proof"
 import { EddsaProof } from "../src/types"
-import unpackProof from "../src/unpack-proof"
 import verify from "../src/verify"
 
 describe("EddsaProof", () => {
