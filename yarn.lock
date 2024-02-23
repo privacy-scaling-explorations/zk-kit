@@ -3579,7 +3579,7 @@ __metadata:
     "@zk-kit/eddsa-poseidon": "npm:0.5.1"
     "@zk-kit/poseidon-cipher": "npm:0.1.1"
     "@zk-kit/smt": "npm:1.0.0"
-    circomkit: "npm:0.0.19"
+    circomkit: "npm:0.0.24"
     circomlib: "npm:^2.0.5"
     mocha: "npm:^10.2.0"
     poseidon-lite: "npm:^0.2.0"
@@ -5609,9 +5609,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"circomkit@npm:0.0.19":
-  version: 0.0.19
-  resolution: "circomkit@npm:0.0.19"
+"circomkit@npm:0.0.24":
+  version: 0.0.24
+  resolution: "circomkit@npm:0.0.24"
   dependencies:
     chai: "npm:^4.3.7"
     circom_tester: "npm:^0.0.19"
@@ -5619,7 +5619,7 @@ __metadata:
     snarkjs: "npm:^0.7.0"
   bin:
     circomkit: dist/bin/index.js
-  checksum: 10/eaed7b3494d1269c4fa347e9eeef2efb8e119870e14a06b1adeca5b0d58c60d05730f23d9b5aa4bc917ee482ebb13334098b0a8d5a1ada27b3b0f18b42b2f5dc
+  checksum: 10/25ea42a1a90cfe09474af254db1171c6518bfe67aa3b06bacfaf944ddf892f1893bc6e5aa1fb0d0c32676712a0474f89fffaf8da07de7c38e227febbcd62bc57
   languageName: node
   linkType: hard
 
