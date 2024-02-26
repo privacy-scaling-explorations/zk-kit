@@ -2,9 +2,7 @@ import { buildBn128 } from "@zk-kit/groth16"
 import { poseidon2 } from "poseidon-lite"
 import { derivePublicKey } from "@zk-kit/eddsa-poseidon"
 import generate from "../src/generate"
-import packProof from "../src/pack-proof"
 import { EddsaProof } from "../src/types"
-import unpackProof from "../src/unpack-proof"
 import verify from "../src/verify"
 
 describe("EddsaProof", () => {
@@ -49,15 +47,6 @@ describe("EddsaProof", () => {
             const response = await verify(fullProof)
 
             expect(response).toBe(false)
-        })
-    })
-
-    describe("# packProof/unpackProof", () => {
-        it("Should return a packed proof", async () => {
-            const originalProof = unpackProof(fullProof.proof)
-            const proof = packProof(originalProof)
-
-            expect(proof).toStrictEqual(fullProof.proof)
         })
     })
 })

@@ -1,7 +1,7 @@
 import { groth16 } from "snarkjs"
+import { unpackGroth16Proof } from "@zk-kit/utils"
 import hash from "./hash"
 import { EddsaProof } from "./types"
-import unpackProof from "./unpack-proof"
 import verificationKey from "./verification-key.json"
 
 /**
@@ -10,5 +10,5 @@ import verificationKey from "./verification-key.json"
  * @returns True if the proof is valid, false otherwise.
  */
 export default function verify({ commitment, scope, proof }: EddsaProof): Promise<boolean> {
-    return groth16.verify(verificationKey, [commitment, hash(scope)], unpackProof(proof))
+    return groth16.verify(verificationKey, [commitment, hash(scope)], unpackGroth16Proof(proof))
 }

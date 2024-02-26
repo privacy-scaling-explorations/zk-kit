@@ -18,9 +18,7 @@ import {
     poseidon16
 } from "poseidon-lite"
 import generate from "../src/generate"
-import packProof from "../src/pack-proof"
 import { PoseidonProof } from "../src/types"
-import unpackProof from "../src/unpack-proof"
 import verify from "../src/verify"
 import hash from "../src/hash"
 
@@ -87,15 +85,6 @@ describe("PoseidonProof", () => {
             const response = await verify(preimages.length, fullProof)
 
             expect(response).toBe(false)
-        })
-    })
-
-    describe("# packProof/unpackProof", () => {
-        it("Should return a packed proof", async () => {
-            const originalProof = unpackProof(fullProof.proof)
-            const proof = packProof(originalProof)
-
-            expect(proof).toStrictEqual(fullProof.proof)
         })
     })
 })

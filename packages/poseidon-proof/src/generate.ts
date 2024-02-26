@@ -1,9 +1,9 @@
 import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { NumericString, groth16 } from "snarkjs"
+import { packGroth16Proof } from "@zk-kit/utils"
 import getSnarkArtifacts from "./get-snark-artifacts.node"
 import hash from "./hash"
-import packProof from "./pack-proof"
 import { PoseidonProof, SnarkArtifacts } from "./types"
 
 /**
@@ -44,6 +44,6 @@ export default async function generate(
     return {
         scope: BigNumber.from(scope).toString() as NumericString,
         digest: publicSignals[0],
-        proof: packProof(proof)
+        proof: packGroth16Proof(proof)
     }
 }

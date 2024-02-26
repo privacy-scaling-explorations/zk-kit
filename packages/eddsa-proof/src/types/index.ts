@@ -1,4 +1,5 @@
 import { NumericString } from "snarkjs"
+import { PackedGroth16Proof } from "@zk-kit/utils"
 
 export type SnarkArtifacts = {
     wasmFilePath: string
@@ -8,16 +9,5 @@ export type SnarkArtifacts = {
 export type EddsaProof = {
     commitment: NumericString
     scope: NumericString
-    proof: PackedProof
+    proof: PackedGroth16Proof
 }
-
-export type PackedProof = [
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString
-]
