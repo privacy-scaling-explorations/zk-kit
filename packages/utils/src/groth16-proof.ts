@@ -2,9 +2,9 @@ import { Groth16Proof } from "snarkjs"
 import { PackedGroth16Proof } from "./types"
 
 /**
- * Packs a Snarkjs Groth16 proof into a format compatible with Smart Contracts.
+ * Packs a Snarkjs Groth16 proof into a single list usable as calldata in Solidity (public signals are not included).
  * @param proof The Groth16 proof generated with SnarkJS.
- * @returns The proof compatible with Smart Contracts.
+ * @returns Solidity calldata.
  */
 export function packGroth16Proof(proof: Groth16Proof): PackedGroth16Proof {
     return [
@@ -20,8 +20,8 @@ export function packGroth16Proof(proof: Groth16Proof): PackedGroth16Proof {
 }
 
 /**
- * Unpacks a Smart Contracts compatible proof into its original form which is a SnarkJS Groth16 proof.
- * @param proof The proof compatible with Smart Contracts.
+ * Unpacks a PackedGroth16Proof Solidity calldata into its original form which is a SnarkJS Groth16 proof.
+ * @param proof Solidity calldata.
  * @returns The Groth16 proof compatible with SnarkJS.
  */
 export function unpackGroth16Proof(proof: PackedGroth16Proof): Groth16Proof {
