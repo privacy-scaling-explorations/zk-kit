@@ -291,16 +291,16 @@ describe("LazyIMT", () => {
     })
 
     describe("# merkleProof", () => {
-        // Given a a merkle proof (elements and indexes) and a leaf, calculates the root
+        // Given a a merkle proof (elements and indices) and a leaf, calculates the root
         function calculateRoot(leafIndex: number, leaf: BigNumber, proofElements: BigNumber[]) {
             let hash = leaf
-            const proofIndexes = []
+            const proofIndices = []
             for (let x = 0; x < proofElements.length; x += 1) {
-                proofIndexes.push((leafIndex >> x) & 1)
+                proofIndices.push((leafIndex >> x) & 1)
             }
             for (let i = 0; i < proofElements.length; i += 1) {
                 const proofElement = proofElements[i]
-                const proofIndex = proofIndexes[i]
+                const proofIndex = proofIndices[i]
                 if (proofIndex) {
                     hash = poseidon2([proofElement.toString(), hash.toString()])
                 } else {
@@ -350,9 +350,10 @@ describe("LazyIMT", () => {
                         // If they match, proof is valid
                         await expect(calculatedRoot).to.be.equal(staticRoot)
                     }
+
+                    // Done with test, revert the tree state
+                    await network.provider.request({ method: "evm_revert", params: [snapshoot] })
                 }
-                // Done with test, revert the tree state
-                await network.provider.request({ method: "evm_revert", params: [snapshoot] })
             }
         }).timeout(5 * 60 * 1000)
     })
