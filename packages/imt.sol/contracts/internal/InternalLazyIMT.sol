@@ -171,17 +171,16 @@ library InternalLazyIMT {
         require(depth <= MAX_DEPTH, "LazyIMT: depth must be <= MAX_DEPTH");
         // this should always short circuit if self.numberOfLeaves == 0
         if (numberOfLeaves == 0) return _defaultZero(depth);
-        uint256[] memory levels = _levels(self, numberOfLeaves, depth);
+        uint256[] memory levels = new uint256[](depth + 1);
+        _levels(self, numberOfLeaves, depth, levels);
         return levels[depth];
     }
 
-    function _levels(LazyIMTData storage self, uint40 numberOfLeaves, uint8 depth) internal view returns (uint256[] memory) {
+    function _levels(LazyIMTData storage self, uint40 numberOfLeaves, uint8 depth, uint256[] memory levels) internal view/* returns (uint256[] memory)*/ {
         require(depth <= MAX_DEPTH, "LazyIMT: depth must be <= MAX_DEPTH");
         require(numberOfLeaves > 0, "LazyIMT: number of leaves must be > 0");
         // this should always short circuit if self.numberOfLeaves == 0
         uint40 index = numberOfLeaves - 1;
-
-        uint256[] memory levels = new uint256[](MAX_DEPTH + 1);
 
         if (index & 1 == 0) {
             levels[0] = self.elements[_indexForElement(0, index)];
@@ -207,7 +206,6 @@ library InternalLazyIMT {
                 i++;
             }
         }
-        return levels;
     }
 
     function _merkleProofElements(
@@ -218,12 +216,17 @@ library InternalLazyIMT {
         uint40 numberOfLeaves = self.numberOfLeaves;
         require(index < numberOfLeaves, "LazyIMT: leaf must exist");
 
+        uint8 targetDepth = 1;
+        while (uint40(2) ** uint40(targetDepth) < numberOfLeaves) {
+            targetDepth++;
+        }
+        require(depth >= targetDepth, "LazyIMT: proof depth");
         // pass depth -1 because we don't need the root value
-        uint256[] memory outerLevels = _levels(self, numberOfLeaves, depth - 1);
         uint256[] memory _elements = new uint256[](depth);
+        _levels(self, numberOfLeaves, targetDepth - 1, _elements);
 
         // unroll the bottom entry of the tree because it will never need to
-        // be pulled from outerLevels
+        // be pulled from _levels
         if (index & 1 == 0) {
             if (index + 1 >= numberOfLeaves) {
                 _elements[0] = _defaultZero(0);
@@ -238,14 +241,11 @@ library InternalLazyIMT {
         for (uint8 i = 1; i < depth; ) {
             uint256 currentLevelCount = numberOfLeaves >> i;
             if (index & 1 == 0) {
-                // pull from outerLevels if we need an element from
-                // a subtree that hasn't been built. e.g. a lazy segment of the tree
-                if (index + 1 >= currentLevelCount) {
-                    if ((numberOfLeaves - 1 >> i) > index) {
-                        _elements[i] = outerLevels[i];
-                    } else {
-                        _elements[i] = _defaultZero(i);
-                    }
+                // if the element is an uncomputed edge node we'll use the value set
+                // from _levels above
+                // otherwise set as usual below
+                if (index + 1 >= currentLevelCount && (numberOfLeaves - 1 >> i) <= index) {
+                    _elements[i] = _defaultZero(i);
                 } else {
                     _elements[i] = self.elements[_indexForElement(i, index + 1)];
                 }
