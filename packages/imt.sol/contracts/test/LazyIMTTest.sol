@@ -44,8 +44,4 @@ contract LazyIMTTest {
     function merkleProofElements(uint40 index, uint8 depth) public view returns (uint256[] memory) {
         return LazyIMT.merkleProofElements(data, index, depth);
     }
-
-    function merkleProofIndexes(uint40 index, uint8 depth) public view returns (bool[] memory) {
-        return LazyIMT.merkleProofIndexes(data, index, depth);
-    }
 }

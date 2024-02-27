@@ -1,26 +1,11 @@
 import { expect } from "chai"
-import { run } from "hardhat"
+import { run, network } from "hardhat"
 import { poseidon2 } from "poseidon-lite"
 import { IMT } from "@zk-kit/imt"
 import type { BigNumber } from "ethers"
 import { LazyIMT, LazyIMTTest } from "../typechain-types"
 
 const random = () => poseidon2([Math.floor(Math.random() * 2 ** 40), 0])
-
-// Given a a merkle proof (elements and indexes) and a leaf, calculates the root
-function calculateRoot(element: BigInt, proofElements: BigNumber[], proofIndexes: boolean[]) {
-    let hash = element
-    for (let i = 0; i < proofElements.length; i += 1) {
-        const proofElement = proofElements[i]
-        const proofIndex = proofIndexes[i]
-        if (proofIndex) {
-            hash = poseidon2([proofElement.toString(), hash.toString()])
-        } else {
-            hash = poseidon2([hash.toString(), proofElement.toString()])
-        }
-    }
-    return hash
-}
 
 describe("LazyIMT", () => {
     const SNARK_SCALAR_FIELD = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617")
@@ -306,6 +291,25 @@ describe("LazyIMT", () => {
     })
 
     describe("# merkleProof", () => {
+        // Given a a merkle proof (elements and indexes) and a leaf, calculates the root
+        function calculateRoot(leafIndex: number, leaf: BigNumber, proofElements: BigNumber[]) {
+            let hash = leaf
+            const proofIndexes = []
+            for (let x = 0; x < proofElements.length; x+=1) {
+                proofIndexes.push((leafIndex >> x) & 1)
+            }
+            for (let i = 0; i < proofElements.length; i += 1) {
+                const proofElement = proofElements[i]
+                const proofIndex = proofIndexes[i]
+                if (proofIndex) {
+                    hash = poseidon2([proofElement.toString(), hash.toString()])
+                } else {
+                    hash = poseidon2([hash.toString(), proofElement.toString()])
+                }
+            }
+            return hash
+        }
+
         it("Should produce valid Merke proofs for different trees", async () => {
             // Test different depths (key) and leafs (values)
             const tests: { [key: number]: number[] } = {
@@ -316,6 +320,9 @@ describe("LazyIMT", () => {
                 20: [9, 14, 15, 16, 18, 26, 27, 28, 40, 128, 129]
             }
 
+            // Freeze the state
+            const snapshoot = await network.provider.request({ method: "evm_snapshot", params: [] })
+
             // For each depth
             // eslint-disable-next-line guard-for-in
             for (const depth in tests) {
@@ -323,17 +330,19 @@ describe("LazyIMT", () => {
                 for (const numLeaf of tests[depth]) {
                     // Create the tree
                     await lazyIMTTest.init(depth)
+                    const elements = []
                     for (let x = 0; x < numLeaf; x += 1) {
-                        await lazyIMTTest.insert(x)
+                        const e = random()
+                        elements.push(e)
+                        await lazyIMTTest.insert(e)
                     }
 
                     // Get proofs for every leafs and verify against the root
                     for (let leafIndex = 0; leafIndex < numLeaf; leafIndex += 1) {
                         const proofElements = await lazyIMTTest.merkleProofElements(leafIndex, depth)
-                        const proofIndexes = await lazyIMTTest.merkleProofIndexes(leafIndex, depth)
 
                         // Calculate the root we arrive at with the proof we got
-                        const calculatedRoot = calculateRoot(BigInt(leafIndex), proofElements, proofIndexes)
+                        const calculatedRoot = calculateRoot(leafIndex, elements[leafIndex], proofElements)
 
                         // Get the root from the contract
                         const staticRoot = await lazyIMTTest.staticRoot(depth)
@@ -342,6 +351,8 @@ describe("LazyIMT", () => {
                         await expect(calculatedRoot).to.be.equal(staticRoot)
                     }
                 }
+                // Done with test, revert the tree state
+                await network.provider.request({ method: "evm_revert", params: [snapshoot] })
             }
         }).timeout(5 * 60 * 1000)
     })
