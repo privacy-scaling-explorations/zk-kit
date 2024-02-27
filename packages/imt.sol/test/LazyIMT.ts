@@ -295,7 +295,7 @@ describe("LazyIMT", () => {
         function calculateRoot(leafIndex: number, leaf: BigNumber, proofElements: BigNumber[]) {
             let hash = leaf
             const proofIndexes = []
-            for (let x = 0; x < proofElements.length; x+=1) {
+            for (let x = 0; x < proofElements.length; x += 1) {
                 proofIndexes.push((leafIndex >> x) & 1)
             }
             for (let i = 0; i < proofElements.length; i += 1) {
