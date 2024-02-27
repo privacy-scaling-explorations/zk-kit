@@ -62,7 +62,7 @@ pub fn calculcate_root(entry: [Field; 2], siblings: [Field; TREE_DEPTH], path: [
  * Calculates two roots for a given leaf entry based on the passed array of siblings: one root 
  * for if the leaf entry was included in the tree and one for if the leaf entry was not included
  * in the tree. This is useful for efficiently proving the membership of leaf entries for a
- * tree while simultaneously modifiying the tree.
+ * tree while simultaneously modifying the tree.
  * @param entry The key and value of an entry [k, v]
  * @param siblings Contains the siblings from bottom to top
  * @returns Two root nodes: the first one doesn't include entry, the second does

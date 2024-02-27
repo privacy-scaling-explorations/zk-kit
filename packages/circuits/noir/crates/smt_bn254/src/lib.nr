@@ -88,7 +88,7 @@ pub fn update(new_value: Field, old_entry: [Field; 2], old_root: Field, siblings
     let mut old_parent: Field = utils::hash(key, old_value, true);
     // new_parent is a container to temporarily store the nodes that ultimately lead to the NEW root
     let mut new_parent: Field = utils::hash(key, new_value, true);
-    // starting from the botton of the tree, for each level it checks whether there is a sibling and if
+    // starting from the bottom of the tree, for each level it checks whether there is a sibling and if
     // that is the case, it hashes the two containers with the sibling and updates the containers with the
     // resulting hashes until the uppermost level is reached aka the root node
     for i in 0..TREE_DEPTH {

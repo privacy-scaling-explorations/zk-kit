@@ -21,7 +21,7 @@ template EddsaProof() {
     // Get the two Baby Jubjub points using the private key.
     (Ax, Ay) = BabyPbk()(secret);
 
-    // It applies the Poseidon hash function to the to Baby Jubjub poits to produce the commitment.
+    // It applies the Poseidon hash function to the to Baby Jubjub points to produce the commitment.
     commitment <== Poseidon(2)([Ax, Ay]);
 
     // Dummy constraint to prevent compiler from optimizing it.

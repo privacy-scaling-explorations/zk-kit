@@ -14,7 +14,7 @@ export function hexToBin(n: string): string {
 }
 
 /**
- * Returns the binary representation of a key. For each key it is possibile
+ * Returns the binary representation of a key. For each key it is possible
  * to obtain an array of 256 padded bits.
  * @param key The key of a tree entry.
  * @returns The relative array of bits.
