@@ -81,7 +81,10 @@ export function bufferToBigInt(b: Buffer): bigint {
 }
 
 /**
- * Converts a bigint to a buffer and fills with zeros if necessary.
+ * Converts a bigint to a buffer and fills with zeros if a valid
+ * size (i.e. number of bytes) is specified. If the size is not defined,
+ * it gets the size from the given bigint. If the specified size is smaller than
+ * the size of the bigint (i.e. `minSize`), an error is thrown.
  * It uses big-endian byte order.
  * @param n The bigint to convert.
  * @param size The number of bytes of the buffer to return.
@@ -110,7 +113,10 @@ export function beBigIntToBuffer(n: bigint, size?: number): Buffer {
 }
 
 /**
- * Converts a bigint to a buffer and fills with zeros if necessary.
+ * Converts a bigint to a buffer and fills with zeros if a valid
+ * size (i.e. number of bytes) is specified. If the size is not defined,
+ * it gets the size from the given bigint. If the specified size is smaller than
+ * the size of the bigint (i.e. `minSize`), an error is thrown.
  * It uses little-endian byte order.
  * @param n The bigint to convert.
  * @param size The number of bytes of the buffer to return.
