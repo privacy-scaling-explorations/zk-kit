@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/imt",
-    "version": "2.0.0-beta.1",
+    "version": "2.0.0-beta.2",
     "description": "Incremental Merkle tree implementations in TypeScript.",
     "type": "module",
     "license": "MIT",
