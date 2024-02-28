@@ -12,7 +12,7 @@ import { Signature } from "./types"
 /**
  * Prunes a buffer to meet the specific requirements for using it as a private key
  * or part of a signature.
- * @param buff - The buffer to be pruned.
+ * @param buff The buffer to be pruned.
  * @returns The pruned buffer.
  */
 export function pruneBuffer(buff: Buffer): Buffer {
@@ -25,7 +25,7 @@ export function pruneBuffer(buff: Buffer): Buffer {
 
 /**
  * Validates if the given object is a valid point on the Baby Jubjub elliptic curve.
- * @param point - The point to validate.
+ * @param point The point to validate.
  * @returns True if the object is a valid point, false otherwise.
  */
 export function isPoint(point: Point): boolean {
@@ -34,7 +34,7 @@ export function isPoint(point: Point): boolean {
 
 /**
  * Checks if the provided object conforms to the expected format of a Signature.
- * @param signature - The signature to validate.
+ * @param signature The signature to validate.
  * @returns True if the object is a valid Signature, false otherwise.
  */
 export function isSignature(signature: Signature): boolean {
@@ -49,7 +49,7 @@ export function isSignature(signature: Signature): boolean {
 
 /**
  * Validates and converts a BigNumberish private key to a Buffer.
- * @param privateKey - The private key to check and convert.
+ * @param privateKey The private key to check and convert.
  * @returns The private key as a Buffer.
  */
 export function checkPrivateKey(privateKey: BigNumberish): Buffer {
@@ -66,7 +66,7 @@ export function checkPrivateKey(privateKey: BigNumberish): Buffer {
 
 /**
  * Validates and converts a BigNumberish message to a bigint.
- * @param message - The message to check and convert.
+ * @param message The message to check and convert.
  * @returns The message as a bigint.
  */
 export function checkMessage(message: BigNumberish): bigint {
