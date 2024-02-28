@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/poseidon-cipher",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "description": "Poseidon encryption and decryption in TypeScript.",
     "type": "module",
     "license": "MIT",
@@ -49,7 +49,7 @@
         "rollup-plugin-cleanup": "^3.2.1"
     },
     "dependencies": {
-        "@zk-kit/baby-jubjub": "0.1.1",
-        "@zk-kit/utils": "0.1.0"
+        "@zk-kit/baby-jubjub": "0.2.0",
+        "@zk-kit/utils": "0.3.0"
     }
 }
