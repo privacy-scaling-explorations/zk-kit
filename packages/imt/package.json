@@ -4,9 +4,9 @@
     "description": "Incremental Merkle tree implementations in TypeScript.",
     "type": "module",
     "license": "MIT",
-    "iife": "dist/index.js",
-    "unpkg": "dist/index.min.js",
-    "jsdelivr": "dist/index.min.js",
+    "iife": "dist/index.iife.js",
+    "unpkg": "dist/index.iife.min.js",
+    "jsdelivr": "dist/index.iife.min.js",
     "main": "dist/index.js",
     "types": "dist/types/index.d.ts",
     "exports": {
