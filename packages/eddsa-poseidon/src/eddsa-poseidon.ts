@@ -142,6 +142,12 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
     return Fr.eq(BigInt(pLeft[0]), pRight[0]) && Fr.eq(pLeft[1], pRight[1])
 }
 
+/**
+ * Converts a given public key into a packed (compressed) string format for efficient transmission and storage.
+ * This method ensures the public key is valid and within the Baby Jubjub curve before packing.
+ * @param publicKey - The public key to be packed.
+ * @returns A string representation of the packed public key.
+ */
 export function packPublicKey(publicKey: Point): string {
     if (!utils.isPoint(publicKey) || !inCurve(publicKey)) {
         throw new Error("Invalid public key")
@@ -159,6 +165,12 @@ export function packPublicKey(publicKey: Point): string {
     return packedPublicKey.toString()
 }
 
+/**
+ * Unpacks a public key from its packed string representation back to its original point form on the Baby Jubjub curve.
+ * This function checks for the validity of the input format before attempting to unpack.
+ * @param publicKey - The packed public key as a string or bigint.
+ * @returns The unpacked public key as a point.
+ */
 export function unpackPublicKey(publicKey: BigNumber): Point<string> {
     if (
         typeof publicKey !== "bigint" &&
@@ -177,12 +189,24 @@ export function unpackPublicKey(publicKey: BigNumber): Point<string> {
     return [unpackedPublicKey[0].toString(), unpackedPublicKey[1].toString()]
 }
 
+/**
+ * Represents a cryptographic entity capable of signing messages and verifying signatures
+ * using the EdDSA scheme with Poseidon hash and the Baby Jubjub elliptic curve.
+ */
 export class EdDSAPoseidon {
+    // Private key for signing, stored securely.
     privateKey: BigNumberish
+    // The secret scalar derived from the private key.
     secretScalar: string
+    // The public key corresponding to the private key.
     publicKey: Point
+    // A packed (compressed) representation of the public key for efficient operations.
     packedPublicKey: string
 
+    /**
+     * Initializes a new instance, deriving necessary cryptographic parameters from the provided private key.
+     * @param privateKey - The private key used for signing and public key derivation.
+     */
     constructor(privateKey: BigNumberish) {
         this.privateKey = privateKey
         this.secretScalar = deriveSecretScalar(privateKey)
@@ -190,10 +214,21 @@ export class EdDSAPoseidon {
         this.packedPublicKey = packPublicKey(this.publicKey) as string
     }
 
+    /**
+     * Signs a given message using the private key and returns the signature.
+     * @param message - The message to be signed.
+     * @returns The signature of the message.
+     */
     signMessage(message: BigNumberish): Signature<string> {
         return signMessage(this.privateKey, message)
     }
 
+    /**
+     * Verifies a signature against a message and the public key stored in this instance.
+     * @param message - The message whose signature is to be verified.
+     * @param signature - The signature to be verified.
+     * @returns True if the signature is valid for the message and public key, false otherwise.
+     */
     verifySignature(message: BigNumberish, signature: Signature): boolean {
         return verifySignature(message, signature, this.publicKey)
     }
