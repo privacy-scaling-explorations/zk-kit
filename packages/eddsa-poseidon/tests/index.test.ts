@@ -1,6 +1,7 @@
 import { babyjub, eddsa } from "circomlibjs"
 import crypto from "crypto"
 import { utils } from "ffjavascript"
+import { r, packPoint } from "@zk-kit/baby-jubjub"
 import {
     EdDSAPoseidon,
     derivePublicKey,
@@ -217,6 +218,16 @@ describe("EdDSAPoseidon", () => {
         expect(packedPublicKey).toBe(utils.leBuff2int(expectedPackedPublicKey).toString())
     })
 
+    it("Should not pack a public key if the public key is not on the curve", async () => {
+        const publicKey = derivePublicKey(privateKey)
+
+        publicKey[1] = BigInt(3).toString()
+
+        const fun = () => packPublicKey(publicKey)
+
+        expect(fun).toThrow("Invalid public key")
+    })
+
     it("Should unpack a packed public key", async () => {
         const publicKey = derivePublicKey(privateKey)
 
@@ -225,6 +236,20 @@ describe("EdDSAPoseidon", () => {
 
         expect(unpackedPublicKey[0]).toBe(publicKey[0])
         expect(unpackedPublicKey[1]).toBe(publicKey[1])
+    })
+
+    it("Should not unpack a public key if the public key type is not supported", async () => {
+        const fun = () => unpackPublicKey("e")
+
+        expect(fun).toThrow("Invalid public key")
+    })
+
+    it("Should not unpack a public key if the public key does not correspond to a valid point on the curve", async () => {
+        const invalidPublicKey = packPoint([BigInt("0"), BigInt(r + BigInt(1))]).toString()
+
+        const fun = () => unpackPublicKey(invalidPublicKey)
+
+        expect(fun).toThrow("Invalid public key")
     })
 
     it("Should create an EdDSAPoseidon instance", async () => {
