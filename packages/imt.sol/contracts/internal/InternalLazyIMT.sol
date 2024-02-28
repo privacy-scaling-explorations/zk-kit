@@ -244,10 +244,10 @@ library InternalLazyIMT {
                 // if the element is an uncomputed edge node we'll use the value set
                 // from _levels above
                 // otherwise set as usual below
-                if (index + 1 >= currentLevelCount && (numberOfLeaves - 1 >> i) <= index) {
-                    _elements[i] = _defaultZero(i);
-                } else {
+                if (index + 1 < currentLevelCount) {
                     _elements[i] = self.elements[_indexForElement(i, index + 1)];
+                } else if ((numberOfLeaves - 1 >> i) <= index) {
+                    _elements[i] = _defaultZero(i);
                 }
             } else {
                 _elements[i] = self.elements[_indexForElement(i, index - 1)];
