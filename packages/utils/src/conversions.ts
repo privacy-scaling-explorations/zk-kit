@@ -16,12 +16,11 @@ import { BigNumberish } from "./types"
 import { isHexadecimal, isStringifiedBigint } from "./number-checks"
 
 /**
- * Converts a bigint to a hexadecimal string ensuring even length.
- * It uses big-endian byte order.
+ * Converts a bigint to a hexadecimal string.
  * @param n The bigint value to convert.
  * @returns The hexadecimal representation of the bigint.
  */
-export function beBigIntToHexadecimal(n: bigint): string {
+export function bigIntToHexadecimal(n: bigint): string {
     let hex = n.toString(16)
 
     // Ensure even length.
@@ -30,15 +29,6 @@ export function beBigIntToHexadecimal(n: bigint): string {
     }
 
     return hex
-}
-
-/**
- * Converts a bigint to a hexadecimal string. Alias for beBigIntToHexadecimal.
- * @param n The bigint value to convert.
- * @returns The hexadecimal representation of the bigint.
- */
-export function bigIntToHexadecimal(n: bigint): string {
-    return beBigIntToHexadecimal(n)
 }
 
 /**
