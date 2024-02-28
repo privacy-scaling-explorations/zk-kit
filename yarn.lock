@@ -3552,7 +3552,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/baby-jubjub@npm:0.1.1, @zk-kit/baby-jubjub@workspace:packages/baby-jubjub":
+"@zk-kit/baby-jubjub@npm:0.1.1":
+  version: 0.1.1
+  resolution: "@zk-kit/baby-jubjub@npm:0.1.1"
+  dependencies:
+    "@zk-kit/utils": "npm:0.1.0"
+  checksum: 10/81e118277865b583e4db79aad715f9366a92023766c1ca9dabfedc02640c11ff379da44f4701ae84e3eb7c9d65d18e6b494752c6b185f4a132c4c3a6add61366
+  languageName: node
+  linkType: hard
+
+"@zk-kit/baby-jubjub@npm:0.2.0, @zk-kit/baby-jubjub@workspace:packages/baby-jubjub":
   version: 0.0.0-use.local
   resolution: "@zk-kit/baby-jubjub@workspace:packages/baby-jubjub"
   dependencies:
@@ -3560,7 +3569,7 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:^15.2.3"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@zk-kit/utils": "npm:0.2.0"
+    "@zk-kit/utils": "npm:0.3.0"
     circomlibjs: "npm:0.0.8"
     ffjavascript: "npm:0.2.38"
     rimraf: "npm:^5.0.5"
@@ -3595,7 +3604,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/eddsa-poseidon@npm:0.5.1, @zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon":
+"@zk-kit/eddsa-poseidon@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@zk-kit/eddsa-poseidon@npm:0.5.1"
+  dependencies:
+    "@zk-kit/baby-jubjub": "npm:0.1.1"
+    "@zk-kit/utils": "npm:0.1.0"
+  checksum: 10/f3800425f34bed247efdd7541566cdbde790e32558af1adc743143d8f4108a0c31a210fbf940d8a010b68321b4a9251809e33875f9c09346289c9aabf4492fdb
+  languageName: node
+  linkType: hard
+
+"@zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon":
   version: 0.0.0-use.local
   resolution: "@zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon"
   dependencies:
@@ -3603,8 +3622,8 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:^15.2.3"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@zk-kit/baby-jubjub": "npm:0.1.1"
-    "@zk-kit/utils": "npm:0.2.0"
+    "@zk-kit/baby-jubjub": "npm:0.2.0"
+    "@zk-kit/utils": "npm:0.3.0"
     blake-hash: "npm:2.0.0"
     circomlibjs: "npm:0.0.8"
     ffjavascript: "npm:0.2.38"
@@ -3708,9 +3727,9 @@ __metadata:
   resolution: "@zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher"
   dependencies:
     "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@zk-kit/baby-jubjub": "npm:0.1.1"
+    "@zk-kit/baby-jubjub": "npm:0.2.0"
     "@zk-kit/eddsa-poseidon": "npm:0.1.0"
-    "@zk-kit/utils": "npm:0.1.0"
+    "@zk-kit/utils": "npm:0.3.0"
     circomlibjs: "npm:^0.0.8"
     rimraf: "npm:^5.0.5"
     rollup: "npm:^4.12.0"
@@ -3776,7 +3795,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/utils@npm:0.2.0, @zk-kit/utils@workspace:packages/utils":
+"@zk-kit/utils@npm:0.3.0, @zk-kit/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@zk-kit/utils@workspace:packages/utils"
   dependencies:
