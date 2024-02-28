@@ -320,14 +320,14 @@ describe("LazyIMT", () => {
                 20: [9, 14, 15, 16, 18, 26, 27, 28, 40, 128, 129]
             }
 
-            // Freeze the state
-            const snapshoot = await network.provider.request({ method: "evm_snapshot", params: [] })
-
             // For each depth
             // eslint-disable-next-line guard-for-in
             for (const depth in tests) {
                 // For each amount of leafs
                 for (const numLeaf of tests[depth]) {
+                    // Freeze the state
+                    const snapshoot = await network.provider.request({ method: "evm_snapshot", params: [] })
+
                     // Create the tree
                     await lazyIMTTest.init(depth)
                     const elements = []
