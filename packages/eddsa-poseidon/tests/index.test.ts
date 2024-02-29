@@ -74,7 +74,7 @@ describe("EdDSAPoseidon", () => {
 
         const fun = () => derivePublicKey(privateKey as any)
 
-        expect(fun).toThrow("Invalid private key type.")
+        expect(fun).toThrow(`Parameter 'privateKey' is none of the following types: bignumberish, string`)
     })
 
     it("Should sign a message (bigint)", async () => {
@@ -140,7 +140,7 @@ describe("EdDSAPoseidon", () => {
 
         const fun = () => signMessage(privateKey, message as any)
 
-        expect(fun).toThrow("Invalid message type.")
+        expect(fun).toThrow(`Parameter 'message' is none of the following types: bignumberish, string`)
     })
 
     it("Should verify a signature", async () => {
@@ -241,7 +241,7 @@ describe("EdDSAPoseidon", () => {
     it("Should not unpack a public key if the public key type is not supported", async () => {
         const fun = () => unpackPublicKey("e")
 
-        expect(fun).toThrow("Invalid public key")
+        expect(fun).toThrow(`Parameter 'publicKey' is not a bignumber-ish`)
     })
 
     it("Should not unpack a public key if the public key does not correspond to a valid point on the curve", async () => {

@@ -12,8 +12,8 @@
  * the order of bytes is always big-endian.
  */
 
-import { BigNumberish } from "./types"
-import { isHexadecimal, isStringifiedBigint } from "./number-checks"
+import { isBigInt, isHexadecimal, isNumber, isStringifiedBigInt } from "./type-checks"
+import { BigNumber, BigNumberish } from "./types"
 
 /**
  * Converts a bigint to a hexadecimal string.
@@ -161,13 +161,8 @@ export function bigIntToBuffer(n: bigint): Buffer {
  * @returns The bigint representation of the BigNumberish value.
  */
 export function bigNumberishToBigInt(n: BigNumberish): bigint {
-    if (
-        typeof n === "number" ||
-        typeof n === "bigint" ||
-        (typeof n === "string" && isStringifiedBigint(n)) ||
-        (typeof n === "string" && isHexadecimal(n))
-    ) {
-        return BigInt(n)
+    if (isNumber(n) || isBigInt(n) || isStringifiedBigInt(n) || isHexadecimal(n)) {
+        return BigInt(n as BigNumber | number)
     }
 
     return bufferToBigInt(n as Buffer)
