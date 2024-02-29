@@ -6,7 +6,6 @@ import {
     bigNumberishToBuffer,
     hexadecimalToBigInt,
     leBigIntToBuffer,
-    leBigNumberishToBuffer,
     leBufferToBigInt
 } from "../src/conversions"
 
@@ -67,40 +66,6 @@ describe("Conversions", () => {
             const result = bigNumberishToBuffer(Buffer.from(testHex1BE))
 
             expect(result).toStrictEqual(Buffer.from(testHex1BE))
-        })
-    })
-
-    describe("# leBigNumberishToBuffer", () => {
-        it("Should convert a big numberish (number) to a LE buffer", async () => {
-            const n = 1234
-
-            const result = leBigNumberishToBuffer(n)
-
-            expect(result).toStrictEqual(Buffer.from([0xd2, 0x04]))
-        })
-
-        it("Should convert a big numberish (bigint) to a LE buffer", async () => {
-            const result = leBigNumberishToBuffer(testBigInt1LE)
-
-            expect(result).toStrictEqual(Buffer.from(testBytes1))
-        })
-
-        it("Should convert a big numberish (stringified bigint) to a LE buffer", async () => {
-            const result = leBigNumberishToBuffer(testBigInt1LE.toString())
-
-            expect(result).toStrictEqual(Buffer.from(testBytes1))
-        })
-
-        it("Should convert a big numberish (hexadecimal) to a LE buffer", async () => {
-            const result = leBigNumberishToBuffer(testHex1LE)
-
-            expect(result).toStrictEqual(Buffer.from(testBytes1))
-        })
-
-        it("Should convert a big numberish (buffer) to a LE buffer", async () => {
-            const result = leBigNumberishToBuffer(Buffer.from(testHex1LE.slice(2), "hex"))
-
-            expect(result).toStrictEqual(Buffer.from(testBytes1))
         })
     })
 

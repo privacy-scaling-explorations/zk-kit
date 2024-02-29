@@ -154,12 +154,13 @@ export function bigIntToBuffer(n: bigint): Buffer {
 }
 
 /**
- * Converts a BigNumberish type to a bigint, handling various input types.
- * It uses big-endian byte order.
+ * Converts a BigNumberish type to a bigint. If the input is already a bigint,
+ * the return value will be the bigint itself, otherwise it will be converted
+ * to a bigint using big-endian byte order.
  * @param n The BigNumberish value to convert.
  * @returns The bigint representation of the BigNumberish value.
  */
-export function beBigNumberishToBigInt(n: BigNumberish): bigint {
+export function bigNumberishToBigInt(n: BigNumberish): bigint {
     if (
         typeof n === "number" ||
         typeof n === "bigint" ||
@@ -173,47 +174,16 @@ export function beBigNumberishToBigInt(n: BigNumberish): bigint {
 }
 
 /**
- * Converts a BigNumberish type to a bigint. Alias for beBigNumberishToBigInt.
- * @param n The BigNumberish value to convert.
- * @returns The bigint representation of the BigNumberish value.
- */
-export function bigNumberishToBigInt(n: BigNumberish): bigint {
-    return beBigNumberishToBigInt(n)
-}
-
-/**
- * Converts a BigNumberish type to a buffer, handling various input types and converting
- * them to bigint first if necessary. It uses big-endian byte order.
+ * Converts a BigNumberish type to a buffer. If the input is already a buffer,
+ * the return value will be the buffer itself, otherwise it will be converted
+ * to a buffer using big-endian byte order.
  * @param n The BigNumberish value to convert.
  * @returns The buffer representation of the BigNumberish value.
  */
-export function beBigNumberishToBuffer(n: BigNumberish): Buffer {
+export function bigNumberishToBuffer(n: BigNumberish): Buffer {
     if (n instanceof Buffer) {
         return n
     }
 
     return bigIntToBuffer(bigNumberishToBigInt(n))
-}
-
-/**
- * Converts a BigNumberish type to a buffer, handling various input types and converting
- * them to bigint first if necessary. It uses little-endian byte order.
- * @param n The BigNumberish value to convert.
- * @returns The buffer representation of the BigNumberish value.
- */
-export function leBigNumberishToBuffer(n: BigNumberish): Buffer {
-    if (n instanceof Buffer) {
-        return Buffer.from(n).reverse()
-    }
-
-    return leBigIntToBuffer(bigNumberishToBigInt(n))
-}
-
-/**
- * Converts a BigNumberish type to a buffer. Alias for beBigNumberishToBuffer.
- * @param n The BigNumberish value to convert.
- * @returns The buffer representation of the BigNumberish value.
- */
-export function bigNumberishToBuffer(n: BigNumberish): Buffer {
-    return beBigNumberishToBuffer(n)
 }
