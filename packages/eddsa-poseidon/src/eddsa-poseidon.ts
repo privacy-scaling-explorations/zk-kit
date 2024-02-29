@@ -15,8 +15,8 @@ import {
     F1Field,
     isHexadecimal,
     isStringifiedBigint,
-    leBigintToBuffer,
-    leBufferToBigint,
+    leBigIntToBuffer,
+    leBufferToBigInt,
     scalar
 } from "@zk-kit/utils"
 import { poseidon5 } from "poseidon-lite/poseidon5"
@@ -44,7 +44,7 @@ export function deriveSecretScalar(privateKey: BigNumberish): string {
     hash = hash.slice(0, 32)
     hash = utils.pruneBuffer(hash)
 
-    return scalar.shiftRight(leBufferToBigint(hash), BigInt(3)).toString()
+    return scalar.shiftRight(leBufferToBigInt(hash), BigInt(3)).toString()
 }
 
 /**
@@ -82,15 +82,15 @@ export function signMessage(privateKey: BigNumberish, message: BigNumberish): Si
     const hash = blake(privateKey)
 
     const sBuff = utils.pruneBuffer(hash.slice(0, 32))
-    const s = leBufferToBigint(sBuff)
+    const s = leBufferToBigInt(sBuff)
     const A = mulPointEscalar(Base8, scalar.shiftRight(s, BigInt(3)))
 
-    const msgBuff = leBigintToBuffer(message)
+    const msgBuff = leBigIntToBuffer(message, 32)
 
     const rBuff = blake(Buffer.concat([hash.slice(32, 64), msgBuff]))
 
     const Fr = new F1Field(subOrder)
-    const r = Fr.e(leBufferToBigint(rBuff))
+    const r = Fr.e(leBufferToBigInt(rBuff))
 
     const R8 = mulPointEscalar(Base8, r)
     const hm = poseidon5([R8[0], R8[1], A[0], A[1], message])

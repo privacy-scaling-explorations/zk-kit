@@ -1,9 +1,9 @@
 import { Point } from "@zk-kit/baby-jubjub"
 import {
     BigNumberish,
-    bigNumberishToBigint,
+    bigNumberishToBigInt,
     bigNumberishToBuffer,
-    bufferToBigint,
+    bufferToBigInt,
     isBigNumberish,
     isStringifiedBigint
 } from "@zk-kit/utils"
@@ -71,12 +71,12 @@ export function checkPrivateKey(privateKey: BigNumberish): Buffer {
  */
 export function checkMessage(message: BigNumberish): bigint {
     if (isBigNumberish(message)) {
-        return bigNumberishToBigint(message)
+        return bigNumberishToBigInt(message)
     }
 
     if (typeof message !== "string") {
         throw TypeError("Invalid message type. Supported types: number, bigint, buffer, string.")
     }
 
-    return bufferToBigint(Buffer.from(message))
+    return bufferToBigInt(Buffer.from(message))
 }

@@ -1,4 +1,4 @@
-import { F1Field, leBigintToBuffer, leBufferToBigint, scalar } from "@zk-kit/utils"
+import { F1Field, leBigIntToBuffer, leBufferToBigInt, scalar } from "@zk-kit/utils"
 import * as sqrt from "./sqrt"
 import { Point } from "./types"
 
@@ -108,13 +108,13 @@ export function inCurve(p: Point): boolean {
  * @returns The packed representation of the point as a bigint.
  */
 export function packPoint(unpackedPoint: Point<bigint>): bigint {
-    const buffer = leBigintToBuffer(unpackedPoint[1])
+    const buffer = leBigIntToBuffer(unpackedPoint[1], 32)
 
     if (Fr.lt(unpackedPoint[0], Fr.zero)) {
         buffer[31] |= 0x80
     }
 
-    return leBufferToBigint(buffer)
+    return leBufferToBigInt(buffer)
 }
 
 /**
@@ -125,7 +125,7 @@ export function packPoint(unpackedPoint: Point<bigint>): bigint {
  * @returns The unpacked point as a pair of bigint values, or null if the point is invalid.
  */
 export function unpackPoint(packedPoint: bigint): Point<bigint> | null {
-    const buffer = leBigintToBuffer(packedPoint)
+    const buffer = leBigIntToBuffer(packedPoint)
     const unpackedPoint = new Array(2)
 
     let sign = false
@@ -135,7 +135,7 @@ export function unpackPoint(packedPoint: bigint): Point<bigint> | null {
         buffer[31] &= 0x7f
     }
 
-    unpackedPoint[1] = leBufferToBigint(buffer)
+    unpackedPoint[1] = leBufferToBigInt(buffer)
 
     if (scalar.gt(unpackedPoint[1], r)) {
         return null
