@@ -1,4 +1,4 @@
-import { packGroth16Proof, unpackGroth16Proof } from "../src/packing"
+import { packGroth16Proof, unpackGroth16Proof } from "../src/proof-packing"
 import { PackedGroth16Proof } from "../src/types"
 
 describe("Packing", () => {

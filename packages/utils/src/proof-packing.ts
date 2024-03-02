@@ -1,5 +1,5 @@
 /**
- * @module Packing
+ * @module ProofPacking
  *
  * This module provides utility functions to pack and unpack
  * various types of objects, making it easier to export or use

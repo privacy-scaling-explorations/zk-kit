@@ -30,10 +30,10 @@
             "require": "./dist/lib.commonjs/conversions.cjs",
             "default": "./dist/lib.esm/conversions.js"
         },
-        "./packing": {
-            "types": "./dist/types/packing.d.ts",
-            "require": "./dist/lib.commonjs/packing.cjs",
-            "default": "./dist/lib.esm/packing.js"
+        "./proof-packing": {
+            "types": "./dist/types/proof-packing.d.ts",
+            "require": "./dist/lib.commonjs/proof-packing.cjs",
+            "default": "./dist/lib.esm/proof-packing.js"
         },
         "./scalar": {
             "types": "./dist/types/scalar.d.ts",
