@@ -25,7 +25,7 @@ const supportedTypes = [
 export type SupportedType = (typeof supportedTypes)[number]
 
 /**
- * It returns true if the value is defined, false otherwise.
+ * Returns true if the value is defined, false otherwise.
  * @param value The value to be checked.
  */
 export function isDefined(value: any): boolean {
@@ -33,7 +33,7 @@ export function isDefined(value: any): boolean {
 }
 
 /**
- * It returns true if the value is a number, false otherwise.
+ * Returns true if the value is a number, false otherwise.
  * @param value The value to be checked.
  */
 export function isNumber(value: any): boolean {
@@ -41,7 +41,7 @@ export function isNumber(value: any): boolean {
 }
 
 /**
- * It returns true if the value is a string, false otherwise.
+ * Returns true if the value is a string, false otherwise.
  * @param value The value to be checked.
  */
 export function isString(value: any): boolean {
@@ -49,7 +49,7 @@ export function isString(value: any): boolean {
 }
 
 /**
- * It returns true if the value is a function, false otherwise.
+ * Returns true if the value is a function, false otherwise.
  * @param value The value to be checked.
  */
 export function isFunction(value: any): boolean {
@@ -57,7 +57,7 @@ export function isFunction(value: any): boolean {
 }
 
 /**
- * It returns true if the value is an array, false otherwise.
+ * Returns true if the value is an array, false otherwise.
  * @param value The value to be checked.
  */
 export function isArray(value: any): boolean {
@@ -65,7 +65,7 @@ export function isArray(value: any): boolean {
 }
 
 /**
- * It returns true if the value is a uint8array, false otherwise.
+ * Returns true if the value is a uint8array, false otherwise.
  * @param value The value to be checked.
  */
 export function isUint8Array(value: any): boolean {
@@ -73,7 +73,7 @@ export function isUint8Array(value: any): boolean {
 }
 
 /**
- * It returns true if the value is an object, false otherwise.
+ * Returns true if the value is an object, false otherwise.
  * @param value The value to be checked.
  */
 export function isObject(value: any): boolean {
@@ -81,7 +81,7 @@ export function isObject(value: any): boolean {
 }
 
 /**
- * It returns true if the value is a bigint, false otherwise.
+ * Returns true if the value is a bigint, false otherwise.
  * @param value The value to be checked.
  */
 export function isBigInt(value: any): boolean {
@@ -136,7 +136,7 @@ export function isBigNumberish(value: any): boolean {
 }
 
 /**
- * It returns true if the value type is the same as the type passed
+ * Returns true if the value type is the same as the type passed
  * as the second parameter, false otherwise.
  * @param type The expected type.
  */
@@ -168,7 +168,7 @@ export function isType(value: any, type: SupportedType): boolean {
 }
 
 /**
- * Return true if the type is being supported by this utility
+ * Returns true if the type is being supported by this utility
  * functions, false otherwise.
  * @param type The type to be checked.
  */

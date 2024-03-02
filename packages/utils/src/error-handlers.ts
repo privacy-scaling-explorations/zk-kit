@@ -26,7 +26,7 @@ import {
 } from "./type-checks"
 
 /**
- * It throws a type error if the parameter value has not been defined.
+ * @throws Throws a type error if the parameter value has not been defined.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
@@ -37,7 +37,7 @@ export function requireDefined(parameterValue: any, parameterName: string) {
 }
 
 /**
- * It throws a type error if the parameter value is not a number.
+ * @throws Throws a type error if the parameter value is not a number.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
@@ -48,7 +48,7 @@ export function requireNumber(parameterValue: number, parameterName: string) {
 }
 
 /**
- * It throws a type error if the parameter value is not a string.
+ * @throws Throws a type error if the parameter value is not a string.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
@@ -59,7 +59,7 @@ export function requireString(parameterValue: string, parameterName: string) {
 }
 
 /**
- * It throws a type error if the parameter value is not a function.
+ * @throws Throws a type error if the parameter value is not a function.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
@@ -70,7 +70,7 @@ export function requireFunction(parameterValue: Function, parameterName: string)
 }
 
 /**
- * It throws a type error if the parameter value is not an array.
+ * @throws Throws a type error if the parameter value is not an array.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
@@ -81,7 +81,7 @@ export function requireArray(parameterValue: any[], parameterName: string) {
 }
 
 /**
- * It throws a type error if the parameter value is not a uint8array.
+ * @throws Throws a type error if the parameter value is not a uint8array.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
@@ -92,7 +92,7 @@ export function requireUint8Array(parameterValue: Uint8Array, parameterName: str
 }
 
 /**
- * It throws a type error if the parameter value is not an object.
+ * @throws Throws a type error if the parameter value is not an object.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
@@ -103,7 +103,7 @@ export function requireObject(parameterValue: object, parameterName: string) {
 }
 
 /**
- * It throws a type error if the parameter value is not a bigint.
+ * @throws Throws a type error if the parameter value is not a bigint.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
@@ -114,7 +114,7 @@ export function requireBigInt(parameterValue: bigint, parameterName: string) {
 }
 
 /**
- * It throws a type error if the parameter value is not a stringified bigint.
+ * @throws Throws a type error if the parameter value is not a stringified bigint.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
@@ -125,7 +125,7 @@ export function requireStringifiedBigInt(parameterValue: string, parameterName: 
 }
 
 /**
- * It throws a type error if the parameter value is not a hexadecimal.
+ * @throws Throws a type error if the parameter value is not a hexadecimal.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
@@ -136,7 +136,7 @@ export function requireHexadecimal(parameterValue: string, parameterName: string
 }
 
 /**
- * It throws a type error if the parameter value is not a bignumber-ish.
+ * @throws Throws a type error if the parameter value is not a bignumber-ish.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
@@ -147,7 +147,7 @@ export function requireBigNumberish(parameterValue: any, parameterName: string) 
 }
 
 /**
- * It throws a type error if the parameter value type is not part of the list of types.
+ * @throws Throws a type error if the parameter value type is not part of the list of types.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
