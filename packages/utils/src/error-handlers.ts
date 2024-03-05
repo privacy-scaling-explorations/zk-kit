@@ -43,7 +43,7 @@ export function requireDefined(parameterValue: any, parameterName: string) {
  */
 export function requireNumber(parameterValue: number, parameterName: string) {
     if (!isNumber(parameterValue)) {
-        throw new TypeError(`Parameter '${parameterName}' is not a number`)
+        throw new TypeError(`Parameter '${parameterName}' is not a number, but received type: ${typeof parameterValue}`)
     }
 }
 
@@ -54,7 +54,7 @@ export function requireNumber(parameterValue: number, parameterName: string) {
  */
 export function requireString(parameterValue: string, parameterName: string) {
     if (!isString(parameterValue)) {
-        throw new TypeError(`Parameter '${parameterName}' is not a string`)
+        throw new TypeError(`Parameter '${parameterName}' is not a string, but received type: ${typeof parameterValue}`)
     }
 }
 
@@ -65,7 +65,9 @@ export function requireString(parameterValue: string, parameterName: string) {
  */
 export function requireFunction(parameterValue: Function, parameterName: string) {
     if (!isFunction(parameterValue)) {
-        throw new TypeError(`Parameter '${parameterName}' is not a function`)
+        throw new TypeError(
+            `Parameter '${parameterName}' is not a function, but received type: ${typeof parameterValue}`
+        )
     }
 }
 
@@ -76,7 +78,7 @@ export function requireFunction(parameterValue: Function, parameterName: string)
  */
 export function requireArray(parameterValue: any[], parameterName: string) {
     if (!isArray(parameterValue)) {
-        throw new TypeError(`Parameter '${parameterName}' is not an array`)
+        throw new TypeError(`Parameter '${parameterName}' is not an array, but received type: ${typeof parameterValue}`)
     }
 }
 
@@ -87,18 +89,23 @@ export function requireArray(parameterValue: any[], parameterName: string) {
  */
 export function requireUint8Array(parameterValue: Uint8Array, parameterName: string) {
     if (!isUint8Array(parameterValue)) {
-        throw new TypeError(`Parameter '${parameterName}' is not a Uint8Array`)
+        throw new TypeError(
+            `Parameter '${parameterName}' is not a Uint8Array, but received type: ${typeof parameterValue}`
+        )
     }
 }
 
 /**
  * @throws Throws a type error if the parameter value is not an object.
+ * Please, note that arrays are also objects in JavaScript.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
 export function requireObject(parameterValue: object, parameterName: string) {
     if (!isObject(parameterValue)) {
-        throw new TypeError(`Parameter '${parameterName}' is not an object`)
+        throw new TypeError(
+            `Parameter '${parameterName}' is not an object, but received type: ${typeof parameterValue}`
+        )
     }
 }
 
@@ -109,7 +116,7 @@ export function requireObject(parameterValue: object, parameterName: string) {
  */
 export function requireBigInt(parameterValue: bigint, parameterName: string) {
     if (!isBigInt(parameterValue)) {
-        throw new TypeError(`Parameter '${parameterName}' is not a bigint`)
+        throw new TypeError(`Parameter '${parameterName}' is not a bigint, but received type: ${typeof parameterValue}`)
     }
 }
 
@@ -125,13 +132,13 @@ export function requireStringifiedBigInt(parameterValue: string, parameterName: 
 }
 
 /**
- * @throws Throws a type error if the parameter value is not a hexadecimal.
+ * @throws Throws a type error if the parameter value is not a hexadecimal string.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  */
 export function requireHexadecimal(parameterValue: string, parameterName: string) {
     if (!isHexadecimal(parameterValue)) {
-        throw new TypeError(`Parameter '${parameterName}' is not a hexadecimal`)
+        throw new TypeError(`Parameter '${parameterName}' is not a hexadecimal string`)
     }
 }
 

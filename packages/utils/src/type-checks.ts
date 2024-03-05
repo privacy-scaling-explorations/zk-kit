@@ -74,6 +74,7 @@ export function isUint8Array(value: any): boolean {
 
 /**
  * Returns true if the value is an object, false otherwise.
+ * Please, note that arrays are also objects in JavaScript.
  * @param value The value to be checked.
  */
 export function isObject(value: any): boolean {
@@ -109,7 +110,7 @@ export function isStringifiedBigInt(value: any): boolean {
 }
 
 /**
- * Checks if a string is a valid hexadecimal representation.
+ * Checks if a string is a valid hexadecimal string representation.
  * The string must start with '0x' or '0X' followed by one or more hexadecimal digits (0-9, a-f, A-F).
  * @param value The string to be tested.
  */
