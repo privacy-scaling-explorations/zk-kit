@@ -59,5 +59,11 @@
         "template": "SafeGreaterEqThan",
         "pubs": ["in"],
         "params": [252]
+    },
+    "unpack-element": {
+        "file": "unpack-element",
+        "template": "UnpackElement",
+        "params": [4],
+        "pubs": ["in"]
     }
 }
