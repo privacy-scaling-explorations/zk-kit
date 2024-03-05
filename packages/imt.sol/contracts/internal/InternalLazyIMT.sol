@@ -176,7 +176,12 @@ library InternalLazyIMT {
         return levels[depth];
     }
 
-    function _levels(LazyIMTData storage self, uint40 numberOfLeaves, uint8 depth, uint256[] memory levels) internal view {
+    function _levels(
+        LazyIMTData storage self,
+        uint40 numberOfLeaves,
+        uint8 depth,
+        uint256[] memory levels
+    ) internal view {
         require(depth <= MAX_DEPTH, "LazyIMT: depth must be <= MAX_DEPTH");
         require(numberOfLeaves > 0, "LazyIMT: number of leaves must be > 0");
         // this should always short circuit if self.numberOfLeaves == 0
@@ -246,7 +251,7 @@ library InternalLazyIMT {
                 // otherwise set as usual below
                 if (index + 1 < currentLevelCount) {
                     _elements[i] = self.elements[_indexForElement(i, index + 1)];
-                } else if ((numberOfLeaves - 1 >> i) <= index) {
+                } else if (((numberOfLeaves - 1) >> i) <= index) {
                     _elements[i] = _defaultZero(i);
                 }
             } else {
