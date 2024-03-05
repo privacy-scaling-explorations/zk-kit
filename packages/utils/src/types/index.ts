@@ -1,4 +1,5 @@
 import type { NumericString } from "snarkjs"
+import { Buffer } from "buffer"
 
 export type BigNumber = bigint | string
 

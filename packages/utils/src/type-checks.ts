@@ -7,6 +7,8 @@
  * enhancing code robustness and reliability.
  */
 
+import { Buffer } from "buffer"
+
 // The list of types supported by this utility functions.
 const supportedTypes = [
     "number",
