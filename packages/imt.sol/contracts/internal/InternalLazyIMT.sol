@@ -171,9 +171,16 @@ library InternalLazyIMT {
         require(depth <= MAX_DEPTH, "LazyIMT: depth must be <= MAX_DEPTH");
         // this should always short circuit if self.numberOfLeaves == 0
         if (numberOfLeaves == 0) return _defaultZero(depth);
-        uint40 index = numberOfLeaves - 1;
+        uint256[] memory levels = new uint256[](depth + 1);
+        _levels(self, numberOfLeaves, depth, levels);
+        return levels[depth];
+    }
 
-        uint256[MAX_DEPTH + 1] memory levels;
+    function _levels(LazyIMTData storage self, uint40 numberOfLeaves, uint8 depth, uint256[] memory levels) internal view {
+        require(depth <= MAX_DEPTH, "LazyIMT: depth must be <= MAX_DEPTH");
+        require(numberOfLeaves > 0, "LazyIMT: number of leaves must be > 0");
+        // this should always short circuit if self.numberOfLeaves == 0
+        uint40 index = numberOfLeaves - 1;
 
         if (index & 1 == 0) {
             levels[0] = self.elements[_indexForElement(0, index)];
@@ -199,7 +206,6 @@ library InternalLazyIMT {
                 i++;
             }
         }
-        return levels[depth];
     }
 
     function _merkleProofElements(
@@ -209,32 +215,48 @@ library InternalLazyIMT {
     ) internal view returns (uint256[] memory) {
         uint40 numberOfLeaves = self.numberOfLeaves;
         require(index < numberOfLeaves, "LazyIMT: leaf must exist");
-        require(depth > 0, "LazyIMT: depth must be > 0");
-        require(depth <= MAX_DEPTH, "LazyIMT: depth must be < MAX_DEPTH");
 
-        uint256[] memory proof = new uint256[](depth);
-        uint256 levelCount = self.numberOfLeaves;
+        uint8 targetDepth = 1;
+        while (uint40(2) ** uint40(targetDepth) < numberOfLeaves) {
+            targetDepth++;
+        }
+        require(depth >= targetDepth, "LazyIMT: proof depth");
+        // pass depth -1 because we don't need the root value
+        uint256[] memory _elements = new uint256[](depth);
+        _levels(self, numberOfLeaves, targetDepth - 1, _elements);
 
-        for (uint8 i = 0; i < depth; ) {
-            // Left leaf
+        // unroll the bottom entry of the tree because it will never need to
+        // be pulled from _levels
+        if (index & 1 == 0) {
+            if (index + 1 >= numberOfLeaves) {
+                _elements[0] = _defaultZero(0);
+            } else {
+                _elements[0] = self.elements[_indexForElement(0, index + 1)];
+            }
+        } else {
+            _elements[0] = self.elements[_indexForElement(0, index - 1)];
+        }
+        index >>= 1;
+
+        for (uint8 i = 1; i < depth; ) {
+            uint256 currentLevelCount = numberOfLeaves >> i;
             if (index & 1 == 0) {
-                bool outsideLimits = ((index + 1) << i) % self.numberOfLeaves != 0;
-                if ((index + 1) < levelCount) {
-                    proof[i] = self.elements[_indexForElement(i, index + 1)];
-                } else if (((index + 1) == levelCount) && (outsideLimits)) {
-                    proof[i] = _root(self, numberOfLeaves, i);
-                } else {
-                    proof[i] = _defaultZero(i);
+                // if the element is an uncomputed edge node we'll use the value set
+                // from _levels above
+                // otherwise set as usual below
+                if (index + 1 < currentLevelCount) {
+                    _elements[i] = self.elements[_indexForElement(i, index + 1)];
+                } else if ((numberOfLeaves - 1 >> i) <= index) {
+                    _elements[i] = _defaultZero(i);
                 }
             } else {
-                proof[i] = self.elements[_indexForElement(i, index - 1)];
+                _elements[i] = self.elements[_indexForElement(i, index - 1)];
             }
             unchecked {
                 index >>= 1;
                 i++;
             }
-            levelCount = numberOfLeaves >> i;
         }
-        return proof;
+        return _elements;
     }
 }
