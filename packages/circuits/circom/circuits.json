@@ -75,5 +75,29 @@
         "file": "float",
         "template": "MultiplicationFromNormal",
         "params": [74, 251]
+    },
+    "safe-less-than": {
+        "file": "safe-comparators",
+        "template": "SafeLessThan",
+        "pubs": ["in"],
+        "params": [252]
+    },
+    "safe-less-eq-than": {
+        "file": "safe-comparators",
+        "template": "SafeLessEqThan",
+        "pubs": ["in"],
+        "params": [252]
+    },
+    "safe-greater-than": {
+        "file": "safe-comparators",
+        "template": "SafeGreaterThan",
+        "pubs": ["in"],
+        "params": [252]
+    },
+    "safe-greater-eq-than": {
+        "file": "safe-comparators",
+        "template": "SafeGreaterEqThan",
+        "pubs": ["in"],
+        "params": [252]
     }
 }
