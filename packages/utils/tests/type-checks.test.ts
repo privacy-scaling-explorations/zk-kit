@@ -38,19 +38,19 @@ describe("# type-checks", () => {
         expect(isFunction(1)).toBeFalsy()
     })
 
-    it("Should return true if the value is an array", () => {
+    it("Should return true if the value is an Array instance", () => {
         expect(isArray([])).toBeTruthy()
     })
 
-    it("Should return false if the value is not an array", () => {
+    it("Should return false if the value is not an Array instance", () => {
         expect(isArray(1)).toBeFalsy()
     })
 
-    it("Should return true if the value is a uint8array", () => {
+    it("Should return true if the value is a Uint8Array instance", () => {
         expect(isUint8Array(new Uint8Array([]))).toBeTruthy()
     })
 
-    it("Should return false if the value is not a uint8array", () => {
+    it("Should return false if the value is not a Uint8Array", () => {
         expect(isUint8Array(1)).toBeFalsy()
     })
 
@@ -103,8 +103,8 @@ describe("# type-checks", () => {
         expect(isType(1, "number")).toBeTruthy()
         expect(isType("string", "string")).toBeTruthy()
         expect(isType(() => true, "function")).toBeTruthy()
-        expect(isType([], "array")).toBeTruthy()
-        expect(isType(new Uint8Array([]), "uint8array")).toBeTruthy()
+        expect(isType([], "Array")).toBeTruthy()
+        expect(isType(new Uint8Array([]), "Uint8Array")).toBeTruthy()
         expect(isType({}, "object")).toBeTruthy()
         expect(isType(BigInt(1), "bigint")).toBeTruthy()
         expect(isType("1242342342342342", "stringified-bigint")).toBeTruthy()
@@ -116,8 +116,8 @@ describe("# type-checks", () => {
         expect(isType("string", "number")).toBeFalsy()
         expect(isType(1, "string")).toBeFalsy()
         expect(isType(1, "function")).toBeFalsy()
-        expect(isType(1, "array")).toBeFalsy()
-        expect(isType(1, "uint8array")).toBeFalsy()
+        expect(isType(1, "Array")).toBeFalsy()
+        expect(isType(1, "Uint8Array")).toBeFalsy()
         expect(isType(1, "object")).toBeFalsy()
         expect(isType(1, "bigint")).toBeFalsy()
         expect(isType(1, "stringified-bigint")).toBeFalsy()

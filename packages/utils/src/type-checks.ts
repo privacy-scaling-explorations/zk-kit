@@ -12,8 +12,8 @@ const supportedTypes = [
     "number",
     "string",
     "function",
-    "array",
-    "uint8array",
+    "Array",
+    "Uint8Array",
     "object",
     "bigint",
     "stringified-bigint",
@@ -57,28 +57,28 @@ export function isFunction(value: any): boolean {
 }
 
 /**
- * Returns true if the value is an array, false otherwise.
- * @param value The value to be checked.
- */
-export function isArray(value: any): boolean {
-    return typeof value === "object" && Array.isArray(value)
-}
-
-/**
- * Returns true if the value is a uint8array, false otherwise.
- * @param value The value to be checked.
- */
-export function isUint8Array(value: any): boolean {
-    return value instanceof Uint8Array
-}
-
-/**
  * Returns true if the value is an object, false otherwise.
  * Please, note that arrays are also objects in JavaScript.
  * @param value The value to be checked.
  */
 export function isObject(value: any): boolean {
     return typeof value === "object"
+}
+
+/**
+ * Returns true if the value is an Array instance, false otherwise.
+ * @param value The value to be checked.
+ */
+export function isArray(value: any): boolean {
+    return isObject(value) && Array.isArray(value)
+}
+
+/**
+ * Returns true if the value is a Uint8Array instance, false otherwise.
+ * @param value The value to be checked.
+ */
+export function isUint8Array(value: any): boolean {
+    return value instanceof Uint8Array
 }
 
 /**
@@ -119,8 +119,8 @@ export function isHexadecimal(value: any) {
 }
 
 /**
- * Checks if the given value can be considered as "BigNumber-ish".
- * A value is considered "BigNumber-ish" if it meets
+ * Checks if the given value can be considered as BigNumberish.
+ * A value is considered BigNumberish if it meets
  * any of the following conditions: it's a number, a bigint, a string
  * that can be converted to a bigint, a hexadecimal
  * string, or a Buffer object.
@@ -149,9 +149,9 @@ export function isType(value: any, type: SupportedType): boolean {
             return isString(value)
         case "function":
             return isFunction(value)
-        case "array":
+        case "Array":
             return isArray(value)
-        case "uint8array":
+        case "Uint8Array":
             return isUint8Array(value)
         case "object":
             return isObject(value)

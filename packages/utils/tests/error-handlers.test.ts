@@ -53,7 +53,7 @@ describe("# error-handlers", () => {
     it("Should throw an error if the parameter is not an array", () => {
         const fun = () => requireArray(1 as any, "parameter")
 
-        expect(fun).toThrow("Parameter 'parameter' is not an array")
+        expect(fun).toThrow("Parameter 'parameter' is not an Array instance")
     })
 
     it("Should not throw an error if the parameter is an array", () => {
@@ -62,13 +62,13 @@ describe("# error-handlers", () => {
         expect(fun).not.toThrow()
     })
 
-    it("Should throw an error if the parameter is not a uint8array", () => {
+    it("Should throw an error if the parameter is not a Uint8Array", () => {
         const fun = () => requireUint8Array([] as any, "parameter")
 
-        expect(fun).toThrow("Parameter 'parameter' is not a Uint8Array")
+        expect(fun).toThrow("Parameter 'parameter' is not a Uint8Array instance")
     })
 
-    it("Should not throw an error if the parameter is a uint8array", () => {
+    it("Should not throw an error if the parameter is a Uint8Array", () => {
         const fun = () => requireUint8Array(new Uint8Array([]), "parameter")
 
         expect(fun).not.toThrow()
@@ -153,7 +153,7 @@ describe("# error-handlers", () => {
     })
 
     it("Should not throw an error if the parameter is either a string or an array", () => {
-        const fun = () => requireTypes("string", "parameter", ["string", "array"])
+        const fun = () => requireTypes("string", "parameter", ["string", "Array"])
 
         expect(fun).not.toThrow()
     })
