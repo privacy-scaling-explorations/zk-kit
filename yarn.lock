@@ -3719,7 +3719,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zk-kit/lazytower.sol@workspace:packages/lazytower.sol/contracts"
   dependencies:
-    poseidon-solidity: "npm:0.0.4"
+    poseidon-solidity: "npm:0.0.5"
   languageName: unknown
   linkType: soft
 
@@ -14369,13 +14369,6 @@ __metadata:
   version: 0.2.0
   resolution: "poseidon-lite@npm:0.2.0"
   checksum: 10/63c7668b480ee3d57aaca0eda7e56d563ab2bfcc40bbce0e4bccdc9deed4c0d68255749356e328b622ce8715b1f1ba689fe1a86ca78eb1056a51a18daa252ee1
-  languageName: node
-  linkType: hard
-
-"poseidon-solidity@npm:0.0.4":
-  version: 0.0.4
-  resolution: "poseidon-solidity@npm:0.0.4"
-  checksum: 10/2441c1af550a13e8f8456b738cfe9e9676711b6fad7134eb276651407739b44f4e41a7821c3876ec38c75dede69888ac0a97168300acad45f32e04d58727c0b9
   languageName: node
   linkType: hard
 
