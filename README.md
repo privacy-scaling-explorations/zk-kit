@@ -445,7 +445,7 @@ Bump a new version for your package with:
 
 ```bash
 yarn version:bump <package-name> <version>
-# e.g. yarn version:bump @zk-kit/utils 2.0.0
+# e.g. yarn version:bump utils 2.0.0
 ```
 
 It will create a commit and a git tag that you'll need to push on the main branch. A workflow will be triggered and will

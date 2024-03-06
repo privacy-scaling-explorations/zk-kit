@@ -15,7 +15,7 @@
         "test:library": "jest packages/${0}",
         "test:circuits": "yarn workspace @zk-kit/circuits test",
         "test:contracts": "yarn workspace imt.sol test:coverage",
-        "version:bump": "yarn workspace ${0} version ${1} && git commit -am \"chore(${0}): v${1}\" && git tag v${1}",
+        "version:bump": "yarn workspace @zk-kit/${0} version ${1} && git commit -am \"chore(${0}): v${1}\" && git tag ${0}-v${1}",
         "version:publish": "yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public",
         "version:release": "changelogithub",
         "lint": "eslint . --ext .js,.ts && yarn workspace imt.sol lint",
