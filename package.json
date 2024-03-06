@@ -15,6 +15,9 @@
         "test:library": "jest packages/${0}",
         "test:circuits": "yarn workspace @zk-kit/circuits test",
         "test:contracts": "yarn workspace imt.sol test:coverage",
+        "version:bump": "yarn workspace ${0} version ${1} && git commit -am \"chore(${0}): v${1}\" && git tag v${1}",
+        "version:publish": "yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public",
+        "version:release": "changelogithub",
         "lint": "eslint . --ext .js,.ts && yarn workspace imt.sol lint",
         "prettier": "prettier -c .",
         "prettier:write": "prettier -w .",
@@ -33,7 +36,8 @@
         "circom"
     ],
     "workspaces": [
-        "packages/*"
+        "packages/*",
+        "packages/*/contracts"
     ],
     "packageManager": "yarn@4.1.0",
     "devDependencies": {
@@ -45,6 +49,7 @@
         "@typescript-eslint/eslint-plugin": "^7.0.2",
         "@typescript-eslint/parser": "^7.0.2",
         "benny": "^3.7.1",
+        "changelogithub": "patch:changelogithub@npm%3A0.13.3#~/.yarn/patches/changelogithub-npm-0.13.3-1783949906.patch",
         "commitizen": "^4.3.0",
         "cz-conventional-changelog": "^3.3.0",
         "eslint": "^8.56.0",
