@@ -3576,7 +3576,7 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:^15.2.3"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@zk-kit/utils": "npm:0.3.0"
+    "@zk-kit/utils": "npm:0.4.0"
     circomlibjs: "npm:0.0.8"
     ffjavascript: "npm:0.2.38"
     rimraf: "npm:^5.0.5"
@@ -3630,7 +3630,7 @@ __metadata:
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@zk-kit/baby-jubjub": "npm:0.2.0"
-    "@zk-kit/utils": "npm:0.3.0"
+    "@zk-kit/utils": "npm:0.4.0"
     blake-hash: "npm:2.0.0"
     circomlibjs: "npm:0.0.8"
     ffjavascript: "npm:0.2.38"
@@ -3752,7 +3752,7 @@ __metadata:
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@zk-kit/baby-jubjub": "npm:0.2.0"
     "@zk-kit/eddsa-poseidon": "npm:0.1.0"
-    "@zk-kit/utils": "npm:0.3.0"
+    "@zk-kit/utils": "npm:0.4.0"
     circomlibjs: "npm:^0.0.8"
     rimraf: "npm:^5.0.5"
     rollup: "npm:^4.12.0"
@@ -3818,7 +3818,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/utils@npm:0.3.0, @zk-kit/utils@workspace:packages/utils":
+"@zk-kit/utils@npm:0.4.0, @zk-kit/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@zk-kit/utils@workspace:packages/utils"
   dependencies:
