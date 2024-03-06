@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/utils",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "description": "Essential zero-knowledge utility library for JavaScript developers.",
     "type": "module",
     "license": "MIT",
