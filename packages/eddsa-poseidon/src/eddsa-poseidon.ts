@@ -9,20 +9,15 @@ import {
     subOrder,
     unpackPoint
 } from "@zk-kit/baby-jubjub"
-import {
-    BigNumber,
-    BigNumberish,
-    F1Field,
-    isHexadecimal,
-    isStringifiedBigint,
-    leBigIntToBuffer,
-    leBufferToBigInt,
-    scalar
-} from "@zk-kit/utils"
+import type { BigNumberish } from "@zk-kit/utils"
+import { bigNumberishToBigInt, leBigIntToBuffer, leBufferToBigInt } from "@zk-kit/utils/conversions"
+import { requireBigNumberish } from "@zk-kit/utils/error-handlers"
+import F1Field from "@zk-kit/utils/f1-field"
+import * as scalar from "@zk-kit/utils/scalar"
 import { poseidon5 } from "poseidon-lite/poseidon5"
 import blake from "./blake"
 import { Signature } from "./types"
-import * as utils from "./utils"
+import { checkMessage, checkPrivateKey, isPoint, isSignature, pruneBuffer } from "./utils"
 
 /**
  * Derives a secret scalar from a given EdDSA private key.
@@ -37,12 +32,12 @@ import * as utils from "./utils"
  */
 export function deriveSecretScalar(privateKey: BigNumberish): string {
     // Convert the private key to buffer.
-    privateKey = utils.checkPrivateKey(privateKey)
+    privateKey = checkPrivateKey(privateKey)
 
     let hash = blake(privateKey)
 
     hash = hash.slice(0, 32)
-    hash = utils.pruneBuffer(hash)
+    hash = pruneBuffer(hash)
 
     return scalar.shiftRight(leBufferToBigInt(hash), BigInt(3)).toString()
 }
@@ -74,14 +69,14 @@ export function derivePublicKey(privateKey: BigNumberish): Point<string> {
  */
 export function signMessage(privateKey: BigNumberish, message: BigNumberish): Signature<string> {
     // Convert the private key to buffer.
-    privateKey = utils.checkPrivateKey(privateKey)
+    privateKey = checkPrivateKey(privateKey)
 
     // Convert the message to big integer.
-    message = utils.checkMessage(message)
+    message = checkMessage(message)
 
     const hash = blake(privateKey)
 
-    const sBuff = utils.pruneBuffer(hash.slice(0, 32))
+    const sBuff = pruneBuffer(hash.slice(0, 32))
     const s = leBufferToBigInt(sBuff)
     const A = mulPointEscalar(Base8, scalar.shiftRight(s, BigInt(3)))
 
@@ -112,8 +107,8 @@ export function signMessage(privateKey: BigNumberish, message: BigNumberish): Si
  */
 export function verifySignature(message: BigNumberish, signature: Signature, publicKey: Point): boolean {
     if (
-        !utils.isPoint(publicKey) ||
-        !utils.isSignature(signature) ||
+        !isPoint(publicKey) ||
+        !isSignature(signature) ||
         !inCurve(signature.R8) ||
         !inCurve(publicKey) ||
         BigInt(signature.S) >= subOrder
@@ -122,7 +117,7 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
     }
 
     // Convert the message to big integer.
-    message = utils.checkMessage(message)
+    message = checkMessage(message)
 
     // Convert the signature values to big integers for calculations.
     const _signature: Signature<bigint> = {
@@ -150,7 +145,7 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
  * @returns A string representation of the packed public key.
  */
 export function packPublicKey(publicKey: Point): string {
-    if (!utils.isPoint(publicKey) || !inCurve(publicKey)) {
+    if (!isPoint(publicKey) || !inCurve(publicKey)) {
         throw new Error("Invalid public key")
     }
 
@@ -163,19 +158,13 @@ export function packPublicKey(publicKey: Point): string {
 /**
  * Unpacks a public key from its packed string representation back to its original point form on the Baby Jubjub curve.
  * This function checks for the validity of the input format before attempting to unpack.
- * @param publicKey The packed public key as a string or bigint.
+ * @param publicKey The packed public key as a bignumberish.
  * @returns The unpacked public key as a point.
  */
-export function unpackPublicKey(publicKey: BigNumber): Point<string> {
-    if (
-        typeof publicKey !== "bigint" &&
-        (typeof publicKey !== "string" || !isStringifiedBigint(publicKey)) &&
-        (typeof publicKey !== "string" || !isHexadecimal(publicKey))
-    ) {
-        throw new TypeError("Invalid public key type")
-    }
+export function unpackPublicKey(publicKey: BigNumberish): Point<string> {
+    requireBigNumberish(publicKey, "publicKey")
 
-    const unpackedPublicKey = unpackPoint(BigInt(publicKey))
+    const unpackedPublicKey = unpackPoint(bigNumberishToBigInt(publicKey))
 
     if (unpackedPublicKey === null) {
         throw new Error("Invalid public key")

@@ -14,6 +14,36 @@
             "types": "./dist/types/index.d.ts",
             "require": "./dist/index.cjs",
             "default": "./dist/index.js"
+        },
+        "./error-handlers": {
+            "types": "./dist/types/error-handlers.d.ts",
+            "require": "./dist/lib.commonjs/error-handlers.cjs",
+            "default": "./dist/lib.esm/error-handlers.js"
+        },
+        "./type-checks": {
+            "types": "./dist/types/type-checks.d.ts",
+            "require": "./dist/lib.commonjs/type-checks.cjs",
+            "default": "./dist/lib.esm/type-checks.js"
+        },
+        "./conversions": {
+            "types": "./dist/types/conversions.d.ts",
+            "require": "./dist/lib.commonjs/conversions.cjs",
+            "default": "./dist/lib.esm/conversions.js"
+        },
+        "./proof-packing": {
+            "types": "./dist/types/proof-packing.d.ts",
+            "require": "./dist/lib.commonjs/proof-packing.cjs",
+            "default": "./dist/lib.esm/proof-packing.js"
+        },
+        "./scalar": {
+            "types": "./dist/types/scalar.d.ts",
+            "require": "./dist/lib.commonjs/scalar.cjs",
+            "default": "./dist/lib.esm/scalar.js"
+        },
+        "./f1-field": {
+            "types": "./dist/types/f1-field.d.ts",
+            "require": "./dist/lib.commonjs/f1-field.cjs",
+            "default": "./dist/lib.esm/f1-field.js"
         }
     },
     "files": [
@@ -38,6 +68,7 @@
     "devDependencies": {
         "@rollup/plugin-terser": "^0.4.4",
         "@rollup/plugin-typescript": "^11.1.6",
+        "@types/snarkjs": "^0",
         "rimraf": "^5.0.5",
         "rollup": "^4.12.0",
         "rollup-plugin-cleanup": "^3.2.1",

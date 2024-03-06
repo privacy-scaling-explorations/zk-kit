@@ -1,8 +1,8 @@
-import { packGroth16Proof, unpackGroth16Proof } from "../src/groth16-proof"
+import { packGroth16Proof, unpackGroth16Proof } from "../src/proof-packing"
 import { PackedGroth16Proof } from "../src/types"
 
-describe("Groth16 Proof", () => {
-    describe("packGroth16Proof/unpackGroth16Proof", () => {
+describe("Packing", () => {
+    describe("# packGroth16Proof/unpackGroth16Proof", () => {
         it("Should return a packed proof", async () => {
             const packedGroth16Proof: PackedGroth16Proof = [
                 "17455271319858434926499425298909035958151998411844026248469741053531717339265",

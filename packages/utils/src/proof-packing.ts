@@ -1,4 +1,12 @@
-import { Groth16Proof } from "snarkjs"
+/**
+ * @module ProofPacking
+ *
+ * This module provides utility functions to pack and unpack
+ * various types of objects, making it easier to export or use
+ * them externally.
+ */
+
+import type { Groth16Proof } from "snarkjs"
 import { PackedGroth16Proof } from "./types"
 
 /**

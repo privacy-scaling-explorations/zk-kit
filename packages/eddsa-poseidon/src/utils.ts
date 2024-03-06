@@ -1,12 +1,7 @@
 import { Point } from "@zk-kit/baby-jubjub"
-import {
-    BigNumberish,
-    bigNumberishToBigInt,
-    bigNumberishToBuffer,
-    bufferToBigInt,
-    isBigNumberish,
-    isStringifiedBigint
-} from "@zk-kit/utils"
+import { isBigNumberish, requireTypes, type BigNumberish } from "@zk-kit/utils"
+import { bigNumberishToBigInt, bigNumberishToBuffer, bufferToBigInt } from "@zk-kit/utils/conversions"
+import { isArray, isObject, isStringifiedBigInt } from "@zk-kit/utils/type-checks"
 import { Signature } from "./types"
 
 /**
@@ -29,7 +24,7 @@ export function pruneBuffer(buff: Buffer): Buffer {
  * @returns True if the object is a valid point, false otherwise.
  */
 export function isPoint(point: Point): boolean {
-    return Array.isArray(point) && point.length === 2 && isStringifiedBigint(point[0]) && isStringifiedBigint(point[1])
+    return isArray(point) && point.length === 2 && isStringifiedBigInt(point[0]) && isStringifiedBigInt(point[1])
 }
 
 /**
@@ -39,11 +34,11 @@ export function isPoint(point: Point): boolean {
  */
 export function isSignature(signature: Signature): boolean {
     return (
-        typeof signature === "object" &&
+        isObject(signature) &&
         Object.prototype.hasOwnProperty.call(signature, "R8") &&
         Object.prototype.hasOwnProperty.call(signature, "S") &&
         isPoint(signature.R8) &&
-        isStringifiedBigint(signature.S)
+        isStringifiedBigInt(signature.S)
     )
 }
 
@@ -53,15 +48,13 @@ export function isSignature(signature: Signature): boolean {
  * @returns The private key as a Buffer.
  */
 export function checkPrivateKey(privateKey: BigNumberish): Buffer {
+    requireTypes(privateKey, "privateKey", ["bignumberish", "string"])
+
     if (isBigNumberish(privateKey)) {
         return bigNumberishToBuffer(privateKey)
     }
 
-    if (typeof privateKey !== "string") {
-        throw TypeError("Invalid private key type. Supported types: number, bigint, buffer, string.")
-    }
-
-    return Buffer.from(privateKey)
+    return Buffer.from(privateKey as string)
 }
 
 /**
@@ -70,13 +63,11 @@ export function checkPrivateKey(privateKey: BigNumberish): Buffer {
  * @returns The message as a bigint.
  */
 export function checkMessage(message: BigNumberish): bigint {
+    requireTypes(message, "message", ["bignumberish", "string"])
+
     if (isBigNumberish(message)) {
         return bigNumberishToBigInt(message)
     }
 
-    if (typeof message !== "string") {
-        throw TypeError("Invalid message type. Supported types: number, bigint, buffer, string.")
-    }
-
-    return bufferToBigInt(Buffer.from(message))
+    return bufferToBigInt(Buffer.from(message as string))
 }
