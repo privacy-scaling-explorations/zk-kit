@@ -449,7 +449,7 @@ yarn version:bump <package-name> <version>
 ```
 
 It will create a commit and a git tag that you'll need to push on the main branch. A workflow will be triggered and will
-publish your package on NPM and release a new version on Github with its changelogs automatically.
+publish your package on [npm](https://www.npmjs.com/) and release a new version on Github with its changelogs automatically.
 
 ## ❓ FAQ
 
