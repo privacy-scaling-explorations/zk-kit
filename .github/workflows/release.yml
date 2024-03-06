@@ -25,9 +25,10 @@ jobs:
                   registry-url: "https://registry.npmjs.org"
 
             - name: Authentication
-              run: echo npmAuthToken: "$NODE_AUTH_TOKEN" >> ./.yarnrc.yml
+              run: |
+                  echo npmAuthToken: "$NODE_AUTH_TOKEN" >> ./.yarnrc.yml
               env:
-                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Install dependencies
               run: yarn
