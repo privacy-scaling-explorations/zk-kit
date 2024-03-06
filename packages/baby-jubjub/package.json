@@ -48,6 +48,6 @@
         "rollup-plugin-polyfill-node": "^0.13.0"
     },
     "dependencies": {
-        "@zk-kit/utils": "0.4.2"
+        "@zk-kit/utils": "0.4.3"
     }
 }
