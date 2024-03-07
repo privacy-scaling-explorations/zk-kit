@@ -36,6 +36,12 @@ describe("Conversions", () => {
 
             expect(result).toBe(testBigInt1BE)
         })
+
+        it("Should convert a bigint to a BE hexadecimal adding the '0x' prefix if missing", async () => {
+            const result = hexadecimalToBigInt(testHex1BE.slice(2))
+
+            expect(result).toBe(testBigInt1BE)
+        })
     })
 
     describe("# bigNumberishToBuffer", () => {

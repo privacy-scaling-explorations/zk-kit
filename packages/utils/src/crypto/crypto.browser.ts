@@ -9,5 +9,7 @@ import { getRandomValues } from "crypto"
  */
 /* eslint-disable import/prefer-default-export */
 export function getRandomValue(size: number): bigint {
+    if (size === 0) throw Error(`size ${size} is too small, need at least 1`)
+
     return BigInt(`0x${getRandomValues(Buffer.alloc(size)).toString("hex")}`)
 }
