@@ -24,6 +24,9 @@
     <a href="https://prettier.io/">
         <img alt="Code style prettier" src="https://img.shields.io/badge/code%20style-prettier-f8bc45?style=flat-square&logo=prettier">
     </a>
+    <a href="http://commitizen.github.io/cz-cli/">
+        <img alt="Commitizen friendly" src="https://img.shields.io/badge/commitizen-friendly-586D76?style=flat-square">
+    </a>
 </p>
 
 <div align="center">

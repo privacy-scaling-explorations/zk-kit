@@ -23,7 +23,6 @@
         "prettier:write": "prettier -w .",
         "benchmarks": "rimraf benchmarks/results && ts-node benchmarks/index.ts",
         "docs": "typedoc --cname zkkit.pse.dev --githubPages true",
-        "commit": "cz",
         "precommit": "lint-staged",
         "postinstall": "husky install"
     },
@@ -51,7 +50,7 @@
         "benny": "^3.7.1",
         "changelogithub": "patch:changelogithub@npm%3A0.13.3#~/.yarn/patches/changelogithub-npm-0.13.3-1783949906.patch",
         "commitizen": "^4.3.0",
-        "cz-conventional-changelog": "^3.3.0",
+        "cz-git": "^1.9.0",
         "eslint": "^8.56.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-config-airbnb-typescript": "^17.1.0",
@@ -72,7 +71,7 @@
     },
     "config": {
         "commitizen": {
-            "path": "./node_modules/cz-conventional-changelog"
+            "path": "./node_modules/cz-git"
         }
     }
 }
