@@ -6583,7 +6583,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cz-conventional-changelog@npm:3.3.0, cz-conventional-changelog@npm:^3.3.0":
+"cz-conventional-changelog@npm:3.3.0":
   version: 3.3.0
   resolution: "cz-conventional-changelog@npm:3.3.0"
   dependencies:
@@ -6598,6 +6598,13 @@ __metadata:
     "@commitlint/load":
       optional: true
   checksum: 10/790c201a7fbbf082f780fa0542843a3f85bb6894d29194e544440edaacc727ad9c11cfd526de766bf8e1c89ddec66bc7d489e2b2af2bcf092022b554f3d1ee73
+  languageName: node
+  linkType: hard
+
+"cz-git@npm:^1.9.0":
+  version: 1.9.0
+  resolution: "cz-git@npm:1.9.0"
+  checksum: 10/cae0dc50c3093600073a384493066cd50a31c66cf93c5601733510ac564bf01febb2bd9b873a71c5f623d64d69160a7b23881069088cd77342364573cfa6f4b8
   languageName: node
   linkType: hard
 
@@ -18753,7 +18760,7 @@ __metadata:
     benny: "npm:^3.7.1"
     changelogithub: "patch:changelogithub@npm%3A0.13.3#~/.yarn/patches/changelogithub-npm-0.13.3-1783949906.patch"
     commitizen: "npm:^4.3.0"
-    cz-conventional-changelog: "npm:^3.3.0"
+    cz-git: "npm:^1.9.0"
     eslint: "npm:^8.56.0"
     eslint-config-airbnb-base: "npm:^15.0.0"
     eslint-config-airbnb-typescript: "npm:^17.1.0"
