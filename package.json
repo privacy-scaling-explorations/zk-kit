@@ -23,7 +23,6 @@
         "prettier:write": "prettier -w .",
         "benchmarks": "rimraf benchmarks/results && ts-node benchmarks/index.ts",
         "docs": "typedoc --cname zkkit.pse.dev --githubPages true",
-        "commit": "cz",
         "precommit": "lint-staged",
         "postinstall": "husky install"
     },
