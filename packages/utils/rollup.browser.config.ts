@@ -2,7 +2,8 @@ import terser from "@rollup/plugin-terser"
 import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
-import nodePolyfills from "rollup-plugin-polyfill-node"
+import alias from "@rollup/plugin-alias"
+import json from "@rollup/plugin-json"
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
 const banner = `/**
@@ -30,12 +31,22 @@ export default {
             name,
             format: "iife",
             plugins: [terser({ output: { preamble: banner } })]
+        },
+        {
+            file: pkg.exports["."].browser,
+            format: "es",
+            banner
         }
     ],
-    external: [],
+    external: Object.keys(pkg.dependencies),
     plugins: [
-        typescript({ tsconfig: "./build.tsconfig.json" }),
-        nodePolyfills({ include: null }),
-        cleanup({ comments: "jsdoc" })
+        alias({
+            entries: [{ find: "./crypto.node", replacement: "./crypto.browser" }]
+        }),
+        typescript({
+            tsconfig: "./build.tsconfig.json"
+        }),
+        cleanup({ comments: "jsdoc" }),
+        json()
     ]
 }

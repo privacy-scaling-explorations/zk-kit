@@ -1,13 +1,13 @@
 import { WitnessTester } from "circomkit"
 import { Nonce, PlainText, poseidonDecrypt, poseidonEncrypt, poseidonPerm } from "@zk-kit/poseidon-cipher"
-
-import { circomkit, genEcdhSharedKey, genPublicKey, genRandomBabyJubValue } from "./common"
+import { cryptoNode } from "@zk-kit/utils"
+import { circomkit, genEcdhSharedKey, genPublicKey } from "./common"
 
 describe("poseidon-cipher", () => {
     describe("poseidonDecrypt", () => {
         let circuit: WitnessTester<["ciphertext", "nonce", "key"], ["decrypted"]>
 
-        const privateKey = genRandomBabyJubValue()
+        const privateKey = cryptoNode.getRandomValue(32)
         const publicKey = genPublicKey(privateKey)
         const encryptionKey = genEcdhSharedKey(privateKey, publicKey)
 
@@ -96,7 +96,7 @@ describe("poseidon-cipher", () => {
     describe("poseidonDecryptWithoutChecks", () => {
         let circuit: WitnessTester<["ciphertext", "nonce", "key"], ["decrypted"]>
 
-        const privateKey = genRandomBabyJubValue()
+        const privateKey = cryptoNode.getRandomValue(32)
         const publicKey = genPublicKey(privateKey)
         const encryptionKey = genEcdhSharedKey(privateKey, publicKey)
 
@@ -153,7 +153,7 @@ describe("poseidon-cipher", () => {
     describe("poseidonIterations", () => {
         let circuit: WitnessTester<["ciphertext", "nonce", "key"], ["decrypted"]>
 
-        const privateKey = genRandomBabyJubValue()
+        const privateKey = cryptoNode.getRandomValue(32)
         const publicKey = genPublicKey(privateKey)
         const encryptionKey = genEcdhSharedKey(privateKey, publicKey)
 

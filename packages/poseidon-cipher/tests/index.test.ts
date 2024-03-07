@@ -1,9 +1,10 @@
+import { cryptoNode } from "@zk-kit/utils"
 import { poseidonDecrypt, poseidonDecryptWithoutCheck, poseidonEncrypt } from "../src/poseidonCipher"
 import { Nonce, PlainText } from "../src/types"
-import { genEcdhSharedKey, genPublicKey, genRandomBabyJubValue } from "./utils"
+import { genEcdhSharedKey, genPublicKey } from "./utils"
 
 describe("Poseidon Cipher", () => {
-    const privateKey = genRandomBabyJubValue()
+    const privateKey = cryptoNode.getRandomValue(32)
     const publicKey = genPublicKey(privateKey)
     const encryptionKey = genEcdhSharedKey(privateKey, publicKey)
 
