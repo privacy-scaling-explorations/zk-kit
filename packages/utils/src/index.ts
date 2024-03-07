@@ -4,12 +4,12 @@ import * as conversions from "./conversions"
 import * as packing from "./proof-packing"
 import * as typeChecks from "./type-checks"
 import * as errorHandlers from "./error-handlers"
-import * as cryptoNode from "./crypto/crypto.node"
-import * as cryptoBrowser from "./crypto/crypto.browser"
+import * as crypto from "./crypto/crypto.node"
 
-export { F1Field, scalar, conversions, packing, typeChecks, errorHandlers, cryptoNode, cryptoBrowser }
+export { F1Field, scalar, conversions, packing, typeChecks, errorHandlers, crypto }
 export * from "./types"
 export * from "./conversions"
 export * from "./proof-packing"
 export * from "./type-checks"
 export * from "./error-handlers"
+export * from "./blake512"

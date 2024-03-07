@@ -40,7 +40,7 @@
         "@rollup/plugin-node-resolve": "^15.2.3",
         "@rollup/plugin-terser": "^0.4.4",
         "@rollup/plugin-typescript": "^11.1.6",
-        "blake-hash": "2.0.0",
+        "buffer": "6.0.3",
         "circomlibjs": "0.0.8",
         "ffjavascript": "0.2.38",
         "poseidon-lite": "0.2.0",

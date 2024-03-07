@@ -1,5 +1,6 @@
 import { babyjub, eddsa } from "circomlibjs"
-import { beBigIntToBuffer, cryptoNode } from "@zk-kit/utils"
+import { Buffer } from "buffer"
+import { beBigIntToBuffer, beBufferToBigInt, crypto } from "@zk-kit/utils"
 import { utils } from "ffjavascript"
 import { r, packPoint } from "@zk-kit/baby-jubjub"
 import {
@@ -197,11 +198,12 @@ describe("EdDSAPoseidon", () => {
 
     it("Should derive a public key from N random private keys", async () => {
         for (let i = 0, len = 10; i < len; i += 1) {
-            const privateKey = cryptoNode.getRandomValue(32)
+            const privateKey = crypto.getRandomValues(32)
+            const bgPrivateKey = beBufferToBigInt(Buffer.from(privateKey))
 
-            const publicKey = derivePublicKey(privateKey)
+            const publicKey = derivePublicKey(bgPrivateKey)
 
-            const circomlibPublicKey = eddsa.prv2pub(beBigIntToBuffer(privateKey))
+            const circomlibPublicKey = eddsa.prv2pub(beBigIntToBuffer(bgPrivateKey))
 
             expect(publicKey[0]).toBe(circomlibPublicKey[0].toString())
             expect(publicKey[1]).toBe(circomlibPublicKey[1].toString())

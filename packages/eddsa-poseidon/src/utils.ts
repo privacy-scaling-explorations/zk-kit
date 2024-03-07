@@ -2,6 +2,7 @@ import { Point } from "@zk-kit/baby-jubjub"
 import { isBigNumberish, requireTypes, type BigNumberish } from "@zk-kit/utils"
 import { bigNumberishToBigInt, bigNumberishToBuffer, bufferToBigInt } from "@zk-kit/utils/conversions"
 import { isArray, isObject, isStringifiedBigInt } from "@zk-kit/utils/type-checks"
+import { Buffer } from "buffer"
 import { Signature } from "./types"
 
 /**

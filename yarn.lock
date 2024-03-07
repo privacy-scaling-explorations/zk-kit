@@ -3572,7 +3572,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zk-kit/baby-jubjub@workspace:packages/baby-jubjub"
   dependencies:
-    "@rollup/plugin-commonjs": "npm:^25.0.7"
     "@rollup/plugin-node-resolve": "npm:^15.2.3"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
@@ -4790,18 +4789,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"blake-hash@npm:2.0.0, blake-hash@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "blake-hash@npm:2.0.0"
-  dependencies:
-    node-addon-api: "npm:^3.0.0"
-    node-gyp: "npm:latest"
-    node-gyp-build: "npm:^4.2.2"
-    readable-stream: "npm:^3.6.0"
-  checksum: 10/91cb584c2c98bfeb94f2fe01ab1663577fd8a69c330b03ea071ce53eda8e3e28293da891e3eacd78a95ad1275325cf7055e39294535c0474f297ada373083fd2
-  languageName: node
-  linkType: hard
-
 "blake-hash@npm:^1.1.0":
   version: 1.1.1
   resolution: "blake-hash@npm:1.1.1"
@@ -4811,6 +4798,18 @@ __metadata:
     nan: "npm:^2.2.1"
     node-gyp: "npm:latest"
   checksum: 10/116c724179d98bee96fed742bbebc4d9efbf7c8537365b93f96c3ffe2cbbd6e0a7a24b9a7ddd95056ab4a47c120fe20671c9964f95128b1dff3b17afc1762261
+  languageName: node
+  linkType: hard
+
+"blake-hash@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "blake-hash@npm:2.0.0"
+  dependencies:
+    node-addon-api: "npm:^3.0.0"
+    node-gyp: "npm:latest"
+    node-gyp-build: "npm:^4.2.2"
+    readable-stream: "npm:^3.6.0"
+  checksum: 10/91cb584c2c98bfeb94f2fe01ab1663577fd8a69c330b03ea071ce53eda8e3e28293da891e3eacd78a95ad1275325cf7055e39294535c0474f297ada373083fd2
   languageName: node
   linkType: hard
 
@@ -5104,6 +5103,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"buffer@npm:6.0.3, buffer@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "buffer@npm:6.0.3"
+  dependencies:
+    base64-js: "npm:^1.3.1"
+    ieee754: "npm:^1.2.1"
+  checksum: 10/b6bc68237ebf29bdacae48ce60e5e28fc53ae886301f2ad9496618efac49427ed79096750033e7eab1897a4f26ae374ace49106a5758f38fb70c78c9fda2c3b1
+  languageName: node
+  linkType: hard
+
 "buffer@npm:^5.0.5, buffer@npm:^5.5.0, buffer@npm:^5.6.0":
   version: 5.7.1
   resolution: "buffer@npm:5.7.1"
@@ -5111,16 +5120,6 @@ __metadata:
     base64-js: "npm:^1.3.1"
     ieee754: "npm:^1.1.13"
   checksum: 10/997434d3c6e3b39e0be479a80288875f71cd1c07d75a3855e6f08ef848a3c966023f79534e22e415ff3a5112708ce06127277ab20e527146d55c84566405c7c6
-  languageName: node
-  linkType: hard
-
-"buffer@npm:^6.0.3":
-  version: 6.0.3
-  resolution: "buffer@npm:6.0.3"
-  dependencies:
-    base64-js: "npm:^1.3.1"
-    ieee754: "npm:^1.2.1"
-  checksum: 10/b6bc68237ebf29bdacae48ce60e5e28fc53ae886301f2ad9496618efac49427ed79096750033e7eab1897a4f26ae374ace49106a5758f38fb70c78c9fda2c3b1
   languageName: node
   linkType: hard
 

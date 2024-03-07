@@ -7,7 +7,7 @@
     "iife": "dist/index.iife.js",
     "unpkg": "dist/index.iife.min.js",
     "jsdelivr": "dist/index.iife.min.js",
-    "main": "dist/index.node.js",
+    "main": "dist/index.browser.js",
     "types": "dist/types/index.d.ts",
     "exports": {
         ".": {
@@ -17,7 +17,7 @@
                 "default": "./dist/index.node.js"
             },
             "browser": "./dist/index.browser.js",
-            "default": "./dist/index.node.js"
+            "default": "./dist/index.browser.js"
         },
         "./error-handlers": {
             "types": "./dist/types/error-handlers.d.ts",
@@ -49,15 +49,20 @@
             "require": "./dist/lib.commonjs/f1-field.cjs",
             "default": "./dist/lib.esm/f1-field.js"
         },
-        "./crypto.browser": {
-            "types": "./dist/types/crypto.browser.d.ts",
-            "require": "./dist/lib.commonjs/crypto.browser.cjs",
-            "default": "./dist/lib.esm/crypto.browser.js"
+        "./blake512": {
+            "types": "./dist/types/blake512.d.ts",
+            "require": "./dist/lib.commonjs/blake512.cjs",
+            "default": "./dist/lib.esm/blake512.js"
         },
-        "./crypto.node": {
-            "types": "./dist/types/crypto.node.d.ts",
-            "require": "./dist/lib.commonjs/crypto.node.cjs",
-            "default": "./dist/lib.esm/crypto.node.js"
+        "./crypto": {
+            "types": "./dist/types/crypto.browser.d.ts",
+            "node": {
+                "types": "./dist/types/crypto.node.d.ts",
+                "require": "./dist/lib.commonjs/crypto.node.cjs",
+                "default": "./dist/lib.esm/crypto.node.js"
+            },
+            "browser": "./dist/lib.esm/crypto.browser.js",
+            "default": "./dist/lib.esm/crypto.browser.js"
         }
     },
     "files": [

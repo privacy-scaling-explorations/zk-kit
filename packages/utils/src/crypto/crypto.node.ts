@@ -1,15 +1,15 @@
-import { randomBytes as rb } from "crypto"
+import { randomBytes } from "crypto"
 
 /**
- * Generates a random bigint value. It leverages Node.js's crypto module to create
- * a buffer of size securely generated random bytes. The bytes are then converted to
- * a hexadecimal string, which is used to create a bigint.
- * @param size The number of bytes.
- * @returns A randomly generated bigint value.
+ * Generates a random sequence of bytes securely using Node.js's crypto module.
+ * @param size The number of bytes to generate.
+ * @returns A Uint8Array containing the generated random bytes.
  */
 /* eslint-disable import/prefer-default-export */
-export function getRandomValue(size: number): bigint {
-    if (size === 0) throw Error(`size ${size} is too small, need at least 1`)
+export function getRandomValues(size: number): Uint8Array {
+    if (size <= 0) throw Error(`size ${size} is too small, need at least 1`)
 
-    return BigInt(`0x${rb(size).toString("hex")}`)
+    const buffer = randomBytes(size)
+
+    return new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength)
 }

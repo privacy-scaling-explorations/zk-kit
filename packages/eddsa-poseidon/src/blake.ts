@@ -1,5 +1,5 @@
-// @ts-ignore
-import { Blake512 } from "blake-hash/lib"
+import { Blake512 } from "@zk-kit/utils"
+import { Buffer } from "buffer"
 
 /**
  * Computes the Blake512 hash of the input message.
