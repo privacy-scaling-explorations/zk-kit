@@ -14,6 +14,7 @@ const supportedTypes = [
     "function",
     "Array",
     "Uint8Array",
+    "Buffer",
     "object",
     "bigint",
     "stringified-bigint",
@@ -82,6 +83,14 @@ export function isUint8Array(value: any): boolean {
 }
 
 /**
+ * Returns true if the value is a Buffer instance, false otherwise.
+ * @param value The value to be checked.
+ */
+export function isBuffer(value: any): boolean {
+    return Buffer.isBuffer(value)
+}
+
+/**
  * Returns true if the value is a bigint, false otherwise.
  * @param value The value to be checked.
  */
@@ -111,11 +120,17 @@ export function isStringifiedBigInt(value: any): boolean {
 
 /**
  * Checks if a string is a valid hexadecimal string representation.
- * The string must start with '0x' or '0X' followed by one or more hexadecimal digits (0-9, a-f, A-F).
+ * If 'prefix' is not defined and set to 'false', the string must start with '0x' or '0X'
+ * followed by one or more hexadecimal digits (0-9, a-f, A-F).
  * @param value The string to be tested.
+ * @param prefix A boolean to include or not a '0x' or '0X' prefix.
  */
-export function isHexadecimal(value: any) {
-    return /^(0x|0X)[0-9a-fA-F]+$/.test(value)
+export function isHexadecimal(value: any, prefix = true) {
+    if (prefix) {
+        return /^(0x|0X)[0-9a-fA-F]+$/.test(value)
+    }
+
+    return /^[0-9a-fA-F]+$/.test(value)
 }
 
 /**
@@ -127,13 +142,7 @@ export function isHexadecimal(value: any) {
  * @param value The value to check.
  */
 export function isBigNumberish(value: any): boolean {
-    return (
-        isNumber(value) ||
-        isBigInt(value) ||
-        isStringifiedBigInt(value) ||
-        isHexadecimal(value) ||
-        Buffer.isBuffer(value)
-    )
+    return isNumber(value) || isBigInt(value) || isStringifiedBigInt(value) || isHexadecimal(value) || isBuffer(value)
 }
 
 /**
@@ -153,6 +162,8 @@ export function isType(value: any, type: SupportedType): boolean {
             return isArray(value)
         case "Uint8Array":
             return isUint8Array(value)
+        case "Buffer":
+            return isBuffer(value)
         case "object":
             return isObject(value)
         case "bigint":

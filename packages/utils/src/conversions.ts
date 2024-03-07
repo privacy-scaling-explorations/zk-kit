@@ -12,7 +12,8 @@
  * the order of bytes is always big-endian.
  */
 
-import { isBigInt, isHexadecimal, isNumber, isStringifiedBigInt } from "./type-checks"
+import { requireHexadecimal, requireTypes } from "./error-handlers"
+import { isBigInt, isBuffer, isHexadecimal, isNumber, isStringifiedBigInt } from "./type-checks"
 import { BigNumber, BigNumberish } from "./types"
 
 /**
@@ -176,9 +177,79 @@ export function bigNumberishToBigInt(n: BigNumberish): bigint {
  * @returns The buffer representation of the BigNumberish value.
  */
 export function bigNumberishToBuffer(n: BigNumberish): Buffer {
-    if (n instanceof Buffer) {
-        return n
+    if (isBuffer(n)) {
+        return n as Buffer
     }
 
     return bigIntToBuffer(bigNumberishToBigInt(n))
+}
+
+/**
+ * Converts an hexadecimal string to a buffer. The hexadecimal string
+ * should not start with '0x' or '0X'.
+ * It uses a big-endian byte order.
+ * @param value The hexadecimal string to convert.
+ * @returns The buffer representation of the hexadecimal string.
+ */
+export function beHexadecimalToBuffer(value: string): Buffer {
+    requireHexadecimal(value, "value", false)
+
+    return Buffer.from(value, "hex")
+}
+
+/**
+ * Converts an hexadecimal string to a buffer. The hexadecimal string
+ * should not start with '0x' or '0X'.
+ * It uses a little-endian byte order.
+ * @param value The hexadecimal string to convert.
+ * @returns The buffer representation of the hexadecimal string.
+ */
+export function leHexadecimalToBuffer(value: string): Buffer {
+    requireHexadecimal(value, "value", false)
+
+    return Buffer.from(value, "hex").reverse()
+}
+
+/**
+ * Converts an hexadecimal string to a buffer. Alias for beHexadecimalToBuffer.
+ * @param value The hexadecimal string to convert.
+ * @returns The buffer representation of the hexadecimal string.
+ */
+export function hexadecimalToBuffer(value: string): Buffer {
+    return beHexadecimalToBuffer(value)
+}
+
+/**
+ * Converts a buffer to a hexadecimal string. It accepts 'Buffer' or 'Uint8Array'.
+ * The hexadecimal string will not start with '0x' or '0X'.
+ * It uses a big-endian byte order.
+ * @param value The buffer to convert.
+ * @returns The converted hexadecimal string.
+ */
+export function beBufferToHexadecimal(value: Buffer | Uint8Array): string {
+    requireTypes(value, "value", ["Buffer", "Uint8Array"])
+
+    return Buffer.from(value).toString("hex")
+}
+
+/**
+ * Converts a buffer to a hexadecimal string. It accepts 'Buffer' or 'Uint8Array'.
+ * The hexadecimal string will not start with '0x' or '0X'.
+ * It uses a little-endian byte order.
+ * @param value The buffer to convert.
+ * @returns The converted hexadecimal string.
+ */
+export function leBufferToHexadecimal(value: Buffer | Uint8Array): string {
+    requireTypes(value, "value", ["Buffer", "Uint8Array"])
+
+    return Buffer.from(value).reverse().toString("hex")
+}
+
+/**
+ * Converts a buffer to a hexadecimal string. Alias for beBufferToHexadecimal.
+ * @param value The buffer to convert.
+ * @returns The converted hexadecimal string.
+ */
+export function bufferToHexadecimal(value: Buffer | Uint8Array): string {
+    return beBufferToHexadecimal(value)
 }

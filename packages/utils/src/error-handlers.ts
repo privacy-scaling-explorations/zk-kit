@@ -13,6 +13,7 @@ import {
     isArray,
     isBigInt,
     isBigNumberish,
+    isBuffer,
     isDefined,
     isFunction,
     isHexadecimal,
@@ -92,6 +93,17 @@ export function requireUint8Array(parameterValue: Uint8Array, parameterName: str
 }
 
 /**
+ * @throws Throws a type error if the parameter value is not a Buffer.
+ * @param parameterValue The parameter value.
+ * @param parameterName The parameter name.
+ */
+export function requireBuffer(parameterValue: Buffer, parameterName: string) {
+    if (!isBuffer(parameterValue)) {
+        throw new TypeError(`Parameter '${parameterName}' is not a Buffer instance`)
+    }
+}
+
+/**
  * @throws Throws a type error if the parameter value is not an object.
  * Please, note that arrays are also objects in JavaScript.
  * @param parameterValue The parameter value.
@@ -127,11 +139,14 @@ export function requireStringifiedBigInt(parameterValue: string, parameterName: 
 
 /**
  * @throws Throws a type error if the parameter value is not a hexadecimal string.
+ * If 'prefix' is not defined and set to 'false', the string must start with '0x' or '0X'
+ * followed by one or more hexadecimal digits (0-9, a-f, A-F).
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
+ * @param prefix A boolean to include or not a '0x' or '0X' prefix.
  */
-export function requireHexadecimal(parameterValue: string, parameterName: string) {
-    if (!isHexadecimal(parameterValue)) {
+export function requireHexadecimal(parameterValue: string, parameterName: string, prefix = true) {
+    if (!isHexadecimal(parameterValue, prefix)) {
         throw new TypeError(`Parameter '${parameterName}' is not a hexadecimal string`)
     }
 }
