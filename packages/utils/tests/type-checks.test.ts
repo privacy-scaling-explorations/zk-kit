@@ -2,6 +2,7 @@ import {
     isArray,
     isBigInt,
     isBigNumberish,
+    isBuffer,
     isFunction,
     isHexadecimal,
     isNumber,
@@ -46,12 +47,20 @@ describe("# type-checks", () => {
         expect(isArray(1)).toBeFalsy()
     })
 
-    it("Should return true if the value is a Uint8Array instance", () => {
+    it("Should return true if the value is a Uint8Array", () => {
         expect(isUint8Array(new Uint8Array([]))).toBeTruthy()
     })
 
     it("Should return false if the value is not a Uint8Array", () => {
         expect(isUint8Array(1)).toBeFalsy()
+    })
+
+    it("Should return true if the value is a Buffer", () => {
+        expect(isBuffer(Buffer.from("buffer"))).toBeTruthy()
+    })
+
+    it("Should return false if the value is not a Buffer", () => {
+        expect(isBuffer(1)).toBeFalsy()
     })
 
     it("Should return true if the value is an object", () => {
@@ -105,6 +114,7 @@ describe("# type-checks", () => {
         expect(isType(() => true, "function")).toBeTruthy()
         expect(isType([], "Array")).toBeTruthy()
         expect(isType(new Uint8Array([]), "Uint8Array")).toBeTruthy()
+        expect(isType(Buffer.from("buffer"), "Buffer")).toBeTruthy()
         expect(isType({}, "object")).toBeTruthy()
         expect(isType(BigInt(1), "bigint")).toBeTruthy()
         expect(isType("1242342342342342", "stringified-bigint")).toBeTruthy()
@@ -118,6 +128,7 @@ describe("# type-checks", () => {
         expect(isType(1, "function")).toBeFalsy()
         expect(isType(1, "Array")).toBeFalsy()
         expect(isType(1, "Uint8Array")).toBeFalsy()
+        expect(isType(1, "Buffer")).toBeFalsy()
         expect(isType(1, "object")).toBeFalsy()
         expect(isType(1, "bigint")).toBeFalsy()
         expect(isType(1, "stringified-bigint")).toBeFalsy()

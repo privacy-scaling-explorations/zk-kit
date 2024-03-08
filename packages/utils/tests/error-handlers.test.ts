@@ -2,6 +2,7 @@ import {
     requireArray,
     requireBigInt,
     requireBigNumberish,
+    requireBuffer,
     requireDefined,
     requireFunction,
     requireHexadecimal,
@@ -70,6 +71,18 @@ describe("# error-handlers", () => {
 
     it("Should not throw an error if the parameter is a Uint8Array", () => {
         const fun = () => requireUint8Array(new Uint8Array([]), "parameter")
+
+        expect(fun).not.toThrow()
+    })
+
+    it("Should throw an error if the parameter is not a Buffer", () => {
+        const fun = () => requireBuffer([] as any, "parameter")
+
+        expect(fun).toThrow("Parameter 'parameter' is not a Buffer instance")
+    })
+
+    it("Should not throw an error if the parameter is a Buffer", () => {
+        const fun = () => requireBuffer(Buffer.from("buffer"), "parameter")
 
         expect(fun).not.toThrow()
     })

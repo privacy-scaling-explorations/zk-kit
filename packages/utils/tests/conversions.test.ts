@@ -4,7 +4,9 @@ import {
     bigIntToHexadecimal,
     bigNumberishToBigInt,
     bigNumberishToBuffer,
+    bufferToHexadecimal,
     hexadecimalToBigInt,
+    hexadecimalToBuffer,
     leBigIntToBuffer,
     leBufferToBigInt
 } from "../src/conversions"
@@ -100,6 +102,34 @@ describe("Conversions", () => {
             const result = bigNumberishToBigInt(Buffer.from(testBytes1))
 
             expect(result).toBe(testBigInt1BE)
+        })
+    })
+
+    describe("# bufferToHexadecimal", () => {
+        it("Should convert a BE buffer to a hexadecimal string", async () => {
+            const result = bufferToHexadecimal(Buffer.from(testBytes1))
+
+            expect(result).toBe(testHex1BE.slice(2))
+        })
+
+        it("Should throw an error if the input is not a valid buffer (BE)", async () => {
+            const fun = () => bufferToHexadecimal(1 as any)
+
+            expect(fun).toThrow("Parameter 'value' is none of the following types: Buffer, Uint8Array")
+        })
+    })
+
+    describe("# hexadecimalToBuffer", () => {
+        it("Should convert a BE hexadecimal string to a buffer", async () => {
+            const result = hexadecimalToBuffer(testHex1BE.slice(2))
+
+            expect(result).toStrictEqual(Buffer.from(testBytes1))
+        })
+
+        it("Should throw an error if the input is not a valid hexadecimal (BE)", async () => {
+            const fun = () => hexadecimalToBuffer("0x12")
+
+            expect(fun).toThrow("Parameter 'value' is not a hexadecimal string")
         })
     })
 
