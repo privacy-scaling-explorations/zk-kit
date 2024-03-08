@@ -120,8 +120,9 @@ export function isStringifiedBigInt(value: any): boolean {
 
 /**
  * Checks if a string is a valid hexadecimal string representation.
- * If 'prefix' is not defined and set to 'false', the string must start with '0x' or '0X'
- * followed by one or more hexadecimal digits (0-9, a-f, A-F).
+ * If 'prefix' is 'true', the string must start with '0x' or '0X' followed by one or more
+ * hexadecimal digits (0-9, a-f, A-F), otherwise no prefix is needed. 'prefix' is optional and
+ * if its value it is not explicitly defined it will be set to 'true' by default.
  * @param value The string to be tested.
  * @param prefix A boolean to include or not a '0x' or '0X' prefix.
  */

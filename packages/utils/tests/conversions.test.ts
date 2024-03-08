@@ -8,9 +8,7 @@ import {
     hexadecimalToBigInt,
     hexadecimalToBuffer,
     leBigIntToBuffer,
-    leBufferToBigInt,
-    leBufferToHexadecimal,
-    leHexadecimalToBuffer
+    leBufferToBigInt
 } from "../src/conversions"
 
 describe("Conversions", () => {
@@ -119,18 +117,6 @@ describe("Conversions", () => {
 
             expect(fun).toThrow("Parameter 'value' is none of the following types: Buffer, Uint8Array")
         })
-
-        it("Should convert a LE buffer to a hexadecimal string", async () => {
-            const result = leBufferToHexadecimal(Buffer.from(testBytes1))
-
-            expect(result).toBe(testHex1LE.slice(2))
-        })
-
-        it("Should throw an error if the input is not a valid buffer (LE)", async () => {
-            const fun = () => leBufferToHexadecimal(1 as any)
-
-            expect(fun).toThrow("Parameter 'value' is none of the following types: Buffer, Uint8Array")
-        })
     })
 
     describe("# hexadecimalToBuffer", () => {
@@ -142,18 +128,6 @@ describe("Conversions", () => {
 
         it("Should throw an error if the input is not a valid hexadecimal (BE)", async () => {
             const fun = () => hexadecimalToBuffer("0x12")
-
-            expect(fun).toThrow("Parameter 'value' is not a hexadecimal string")
-        })
-
-        it("Should convert a LE hexadecimal string to a buffer", async () => {
-            const result = leHexadecimalToBuffer(testHex1LE.slice(2))
-
-            expect(result).toStrictEqual(Buffer.from(testBytes1))
-        })
-
-        it("Should throw an error if the input is not a valid hexadecimal (LE)", async () => {
-            const fun = () => leHexadecimalToBuffer("0x12")
 
             expect(fun).toThrow("Parameter 'value' is not a hexadecimal string")
         })

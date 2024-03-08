@@ -139,8 +139,9 @@ export function requireStringifiedBigInt(parameterValue: string, parameterName: 
 
 /**
  * @throws Throws a type error if the parameter value is not a hexadecimal string.
- * If 'prefix' is not defined and set to 'false', the string must start with '0x' or '0X'
- * followed by one or more hexadecimal digits (0-9, a-f, A-F).
+ * If 'prefix' is 'true', the string must start with '0x' or '0X' followed by one or more
+ * hexadecimal digits (0-9, a-f, A-F), otherwise no prefix is needed. 'prefix' is optional and
+ * if its value it is not explicitly defined it will be set to 'true' by default.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.
  * @param prefix A boolean to include or not a '0x' or '0X' prefix.
