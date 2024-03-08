@@ -16,8 +16,8 @@ index 8d005a0e1896ec10e6d09755b5859587882e3f93..580cb17bb6be135b45e8060155d0eb5c
      let padding = "";
      let prefix = "";
 -    const scopeText = `**${options.scopeMap[scope] || scope}**`;
-+    const url = `https://github.com/${options.github}/tree/main/packages/${scope}`;
-+    const scopeText = `[**@${options.github.split("/")[1]}/${options.scopeMap[scope] || scope}**](${url})`;
++    const url = `https://github.com/${options.repo}/tree/main/packages/${scope}`;
++    const scopeText = `[**@${options.repo.split("/")[1]}/${options.scopeMap[scope] || scope}**](${url})`;
      if (scope && (useScopeGroup === true || useScopeGroup === "multiple" && scopes[scope].length > 1)) {
        lines.push(`- ${scopeText}:`);
        padding = "  ";
