@@ -125,3 +125,44 @@ export const poseidonDecrypt = (
 
     return message.slice(0, length)
 }
+
+/**
+ * Decrypt some ciphertext using poseidon encryption
+ * @dev Do not throw if the plaintext is invalid
+ * @param ciphertext the ciphertext to decrypt
+ * @param key the key to decrypt with
+ * @param nonce the nonce used to encrypt
+ * @param length the length of the plaintext
+ * @returns the plaintext
+ */
+export const poseidonDecryptWithoutCheck = (
+    ciphertext: CipherText<bigint>,
+    key: EncryptionKey<bigint>,
+    nonce: Nonce<bigint>,
+    length: number
+): PlainText<bigint> => {
+    // Create the initial state
+    // S = (0, kS[0], kS[1], N + l ∗ 2^128).
+    let state = [Fr.zero, Fr.e(key[0]), Fr.e(key[1]), Fr.add(Fr.e(nonce), Fr.mul(Fr.e(BigInt(length)), two128))]
+
+    const message = []
+
+    const n = Math.floor(ciphertext.length / 3)
+
+    for (let i = 0; i < n; i += 1) {
+        // Iterate Poseidon on the state
+        state = poseidonPerm(state)
+
+        // Release three elements of the message
+        message.push(Fr.sub(ciphertext[i * 3], state[1]))
+        message.push(Fr.sub(ciphertext[i * 3 + 1], state[2]))
+        message.push(Fr.sub(ciphertext[i * 3 + 2], state[3]))
+
+        // Modify the state
+        state[1] = ciphertext[i * 3]
+        state[2] = ciphertext[i * 3 + 1]
+        state[3] = ciphertext[i * 3 + 2]
+    }
+
+    return message.slice(0, length)
+}

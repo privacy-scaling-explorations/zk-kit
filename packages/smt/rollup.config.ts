@@ -1,7 +1,7 @@
-import typescript from "rollup-plugin-typescript2"
+import terser from "@rollup/plugin-terser"
+import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
-import { terser } from "rollup-plugin-terser"
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
 const banner = `/**
@@ -29,11 +29,8 @@ export default {
             format: "iife",
             plugins: [terser({ output: { preamble: banner } })]
         },
-        { file: pkg.exports.require, format: "cjs", banner },
-        { file: pkg.exports.import, format: "es", banner }
+        { file: pkg.exports["."].require, format: "cjs", banner },
+        { file: pkg.exports["."].default, format: "es", banner }
     ],
-    plugins: [
-        typescript({ tsconfig: "./build.tsconfig.json", useTsconfigDeclarationDir: true }),
-        cleanup({ comments: "jsdoc" })
-    ]
+    plugins: [typescript({ tsconfig: "./build.tsconfig.json" }), cleanup({ comments: "jsdoc" })]
 }

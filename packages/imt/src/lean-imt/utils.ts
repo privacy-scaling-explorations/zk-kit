@@ -21,6 +21,17 @@ export function requireNumber(parameterValue: any, parameterName: string) {
 }
 
 /**
+ * It throws a type error if the parameter value is not a string.
+ * @param parameterValue The parameter value.
+ * @param parameterName The parameter name.
+ */
+export function requireString(parameterValue: any, parameterName: string) {
+    if (typeof parameterValue !== "string") {
+        throw new TypeError(`Parameter '${parameterName}' is not a string`)
+    }
+}
+
+/**
  * It throws a type error if the parameter value is not a function.
  * @param parameterValue The parameter value.
  * @param parameterName The parameter name.

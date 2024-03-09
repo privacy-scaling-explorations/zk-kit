@@ -18,9 +18,7 @@ import {
     poseidon16
 } from "poseidon-lite"
 import generate from "../src/generate"
-import packProof from "../src/pack-proof"
 import { PoseidonProof } from "../src/types"
-import unpackProof from "../src/unpack-proof"
 import verify from "../src/verify"
 import hash from "../src/hash"
 
@@ -69,12 +67,10 @@ describe("PoseidonProof", () => {
                 fullProof = await generate(currentPreimages, scope)
 
                 const digest = computePoseidon(currentPreimages.map((preimage) => hash(preimage)))
-                const nullifier = poseidon2([hash(scope), digest])
 
                 expect(fullProof.proof).toHaveLength(8)
                 expect(fullProof.scope).toBe(scope.toString())
                 expect(fullProof.digest).toBe(digest.toString())
-                expect(fullProof.nullifier).toBe(nullifier.toString())
 
                 // Verify.
                 const response = await verify(currentPreimages.length, fullProof)
@@ -89,15 +85,6 @@ describe("PoseidonProof", () => {
             const response = await verify(preimages.length, fullProof)
 
             expect(response).toBe(false)
-        })
-    })
-
-    describe("# packProof/unpackProof", () => {
-        it("Should return a packed proof", async () => {
-            const originalProof = unpackProof(fullProof.proof)
-            const proof = packProof(originalProof)
-
-            expect(proof).toStrictEqual(fullProof.proof)
         })
     })
 })

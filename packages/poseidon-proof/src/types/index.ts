@@ -1,4 +1,5 @@
-import { NumericString } from "@zk-kit/groth16"
+import { NumericString } from "snarkjs"
+import { PackedGroth16Proof } from "@zk-kit/utils"
 
 export type SnarkArtifacts = {
     wasmFilePath: string
@@ -8,17 +9,5 @@ export type SnarkArtifacts = {
 export type PoseidonProof = {
     scope: NumericString
     digest: NumericString
-    nullifier: NumericString
-    proof: PackedProof
+    proof: PackedGroth16Proof
 }
-
-export type PackedProof = [
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString
-]

@@ -1,10 +1,10 @@
 import commonjs from "@rollup/plugin-commonjs"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
+import terser from "@rollup/plugin-terser"
+import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
-import nodePolyfills from "rollup-plugin-polyfill-node"
 import cleanup from "rollup-plugin-cleanup"
-import { terser } from "rollup-plugin-terser"
-import typescript from "rollup-plugin-typescript2"
+import nodePolyfills from "rollup-plugin-polyfill-node"
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
 const banner = `/**
@@ -36,7 +36,7 @@ export default {
     ],
     external: [],
     plugins: [
-        typescript({ tsconfig: "./build.tsconfig.json", useTsconfigDeclarationDir: true }),
+        typescript({ tsconfig: "./build.tsconfig.json" }),
         commonjs(),
         nodeResolve({
             preferBuiltins: true

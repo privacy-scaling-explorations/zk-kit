@@ -1,59 +1,43 @@
 import { task, types } from "hardhat/config"
-import { PoseidonT3, PoseidonT6, proxy } from "poseidon-solidity"
 
 task("deploy:imt-test", "Deploy an IMT contract for testing a library")
     .addParam<string>("library", "The name of the library", undefined, types.string)
     .addOptionalParam<boolean>("logs", "Print the logs", true, types.boolean)
     .addOptionalParam<number>("arity", "The arity of the tree", 2, types.int)
     .setAction(async ({ logs, library: libraryName, arity }, { ethers }): Promise<any> => {
-        // Deterministically deploy Poseidon.
-        const signer = await ethers.getSigner()
-        const Poseidon = arity === 5 ? PoseidonT6 : PoseidonT3
+        const PoseidonFactory = await ethers.getContractFactory(`PoseidonT${arity + 1}`)
 
-        if ((await ethers.provider.getCode(proxy.address)) === "0x") {
-            await signer.sendTransaction({
-                to: proxy.from,
-                value: proxy.gas
-            })
-            await ethers.provider.sendTransaction(proxy.tx)
-        }
-
-        if ((await ethers.provider.getCode(Poseidon.address)) === "0x") {
-            await signer.sendTransaction({
-                to: proxy.address,
-                data: Poseidon.data
-            })
-        }
+        const poseidon = await PoseidonFactory.deploy()
+        const poseidonAddress = await poseidon.getAddress()
 
         if (logs) {
-            console.info(`Poseidon library has been deployed to: ${Poseidon.address}`)
+            console.info(`PoseidonT${arity + 1} library has been deployed to: ${poseidonAddress}`)
         }
 
         const LibraryFactory = await ethers.getContractFactory(libraryName, {
             libraries: {
-                [`PoseidonT${arity + 1}`]: Poseidon.address
+                [`PoseidonT${arity + 1}`]: poseidonAddress
             }
         })
-        const library = await LibraryFactory.deploy()
 
-        await library.deployed()
+        const library = await LibraryFactory.deploy()
+        const libraryAddress = await library.getAddress()
 
         if (logs) {
-            console.info(`${libraryName} library has been deployed to: ${library.address}`)
+            console.info(`${libraryName} library has been deployed to: ${libraryAddress}`)
         }
 
         const ContractFactory = await ethers.getContractFactory(`${libraryName}Test`, {
             libraries: {
-                [libraryName]: library.address
+                [libraryName]: libraryAddress
             }
         })
 
         const contract = await ContractFactory.deploy()
-
-        await contract.deployed()
+        const contractAddress = await contract.getAddress()
 
         if (logs) {
-            console.info(`${libraryName}Test contract has been deployed to: ${contract.address}`)
+            console.info(`${libraryName}Test contract has been deployed to: ${contractAddress}`)
         }
 
         return { library, contract }

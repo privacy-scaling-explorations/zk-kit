@@ -9,41 +9,37 @@ import {
     subOrder,
     unpackPoint
 } from "@zk-kit/baby-jubjub"
-import {
-    BigNumber,
-    BigNumberish,
-    F1Field,
-    isHexadecimal,
-    isStringifiedBigint,
-    leBigintToBuffer,
-    leBufferToBigint,
-    scalar
-} from "@zk-kit/utils"
+import type { BigNumberish } from "@zk-kit/utils"
+import { bigNumberishToBigInt, leBigIntToBuffer, leBufferToBigInt } from "@zk-kit/utils/conversions"
+import { requireBigNumberish } from "@zk-kit/utils/error-handlers"
+import F1Field from "@zk-kit/utils/f1-field"
+import * as scalar from "@zk-kit/utils/scalar"
 import { poseidon5 } from "poseidon-lite/poseidon5"
 import blake from "./blake"
 import { Signature } from "./types"
-import * as utils from "./utils"
+import { checkMessage, checkPrivateKey, isPoint, isSignature, pruneBuffer } from "./utils"
 
 /**
- * Hashes the 32-byte private key using Blake1, prunes the lower 32 bytes
- * of the buffer and converts it to a little-endian integer.
- * This function is used to obtain the secret scalar to be used as
- * the input of the private key in the circuits, since the circuit only
- * performs a fixed-base scalar multiplication.
- * For more info about these steps: {@link https://datatracker.ietf.org/doc/html/rfc8032#section-5.1.5}.
- * @param privateKey - The private key used for generating the public key.
- * @returns The secret scalar to be used to calculate public key.
+ * Derives a secret scalar from a given EdDSA private key.
+ * This process involves hashing the private key with Blake1, pruning the resulting hash to retain the lower 32 bytes,
+ * and converting it into a little-endian integer. The use of the secret scalar streamlines the public key generation
+ * process by omitting steps 1, 2, and 3 as outlined in RFC 8032 section 5.1.5, enhancing circuit efficiency and simplicity.
+ * This method is crucial for fixed-base scalar multiplication operations within the correspondent cryptographic circuit.
+ * For detailed steps, see: {@link https://datatracker.ietf.org/doc/html/rfc8032#section-5.1.5}.
+ * For example usage in a circuit, see: {@link https://github.com/semaphore-protocol/semaphore/blob/2c144fc9e55b30ad09474aeafa763c4115338409/packages/circuits/semaphore.circom#L21}
+ * @param privateKey The EdDSA private key for generating the associated public key.
+ * @returns The derived secret scalar to be used to calculate public key and optimized for circuit calculations.
  */
 export function deriveSecretScalar(privateKey: BigNumberish): string {
     // Convert the private key to buffer.
-    privateKey = utils.checkPrivateKey(privateKey)
+    privateKey = checkPrivateKey(privateKey)
 
     let hash = blake(privateKey)
 
     hash = hash.slice(0, 32)
-    hash = utils.pruneBuffer(hash)
+    hash = pruneBuffer(hash)
 
-    return scalar.shiftRight(leBufferToBigint(hash), BigInt(3)).toString()
+    return scalar.shiftRight(leBufferToBigInt(hash), BigInt(3)).toString()
 }
 
 /**
@@ -52,7 +48,7 @@ export function deriveSecretScalar(privateKey: BigNumberish): string {
  * This function utilizes the Baby Jubjub elliptic curve for cryptographic operations.
  * The private key should be securely stored and managed, and it should never be exposed
  * or transmitted in an unsecured manner.
- * @param privateKey - The private key used for generating the public key.
+ * @param privateKey The private key used for generating the public key.
  * @returns The derived public key.
  */
 export function derivePublicKey(privateKey: BigNumberish): Point<string> {
@@ -67,29 +63,29 @@ export function derivePublicKey(privateKey: BigNumberish): Point<string> {
 /**
  * Signs a message using the provided private key, employing Poseidon hashing and
  * EdDSA with the Baby Jubjub elliptic curve.
- * @param privateKey - The private key used to sign the message.
- * @param message - The message to be signed.
+ * @param privateKey The private key used to sign the message.
+ * @param message The message to be signed.
  * @returns The signature object, containing properties relevant to EdDSA signatures, such as 'R8' and 'S' values.
  */
 export function signMessage(privateKey: BigNumberish, message: BigNumberish): Signature<string> {
     // Convert the private key to buffer.
-    privateKey = utils.checkPrivateKey(privateKey)
+    privateKey = checkPrivateKey(privateKey)
 
     // Convert the message to big integer.
-    message = utils.checkMessage(message)
+    message = checkMessage(message)
 
     const hash = blake(privateKey)
 
-    const sBuff = utils.pruneBuffer(hash.slice(0, 32))
-    const s = leBufferToBigint(sBuff)
+    const sBuff = pruneBuffer(hash.slice(0, 32))
+    const s = leBufferToBigInt(sBuff)
     const A = mulPointEscalar(Base8, scalar.shiftRight(s, BigInt(3)))
 
-    const msgBuff = leBigintToBuffer(message)
+    const msgBuff = leBigIntToBuffer(message, 32)
 
     const rBuff = blake(Buffer.concat([hash.slice(32, 64), msgBuff]))
 
     const Fr = new F1Field(subOrder)
-    const r = Fr.e(leBufferToBigint(rBuff))
+    const r = Fr.e(leBufferToBigInt(rBuff))
 
     const R8 = mulPointEscalar(Base8, r)
     const hm = poseidon5([R8[0], R8[1], A[0], A[1], message])
@@ -104,15 +100,15 @@ export function signMessage(privateKey: BigNumberish, message: BigNumberish): Si
 
 /**
  * Verifies an EdDSA signature using the Baby Jubjub elliptic curve and Poseidon hash function.
- * @param message - The original message that was be signed.
- * @param signature - The EdDSA signature to be verified.
- * @param publicKey - The public key associated with the private key used to sign the message.
+ * @param message The original message that was be signed.
+ * @param signature The EdDSA signature to be verified.
+ * @param publicKey The public key associated with the private key used to sign the message.
  * @returns Returns true if the signature is valid and corresponds to the message and public key, false otherwise.
  */
 export function verifySignature(message: BigNumberish, signature: Signature, publicKey: Point): boolean {
     if (
-        !utils.isPoint(publicKey) ||
-        !utils.isSignature(signature) ||
+        !isPoint(publicKey) ||
+        !isSignature(signature) ||
         !inCurve(signature.R8) ||
         !inCurve(publicKey) ||
         BigInt(signature.S) >= subOrder
@@ -121,7 +117,7 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
     }
 
     // Convert the message to big integer.
-    message = utils.checkMessage(message)
+    message = checkMessage(message)
 
     // Convert the signature values to big integers for calculations.
     const _signature: Signature<bigint> = {
@@ -142,33 +138,33 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
     return Fr.eq(BigInt(pLeft[0]), pRight[0]) && Fr.eq(pLeft[1], pRight[1])
 }
 
+/**
+ * Converts a given public key into a packed (compressed) string format for efficient transmission and storage.
+ * This method ensures the public key is valid and within the Baby Jubjub curve before packing.
+ * @param publicKey The public key to be packed.
+ * @returns A string representation of the packed public key.
+ */
 export function packPublicKey(publicKey: Point): string {
-    if (!utils.isPoint(publicKey) || !inCurve(publicKey)) {
+    if (!isPoint(publicKey) || !inCurve(publicKey)) {
         throw new Error("Invalid public key")
     }
 
     // Convert the public key values to big integers for calculations.
     const _publicKey: Point<bigint> = [BigInt(publicKey[0]), BigInt(publicKey[1])]
 
-    const packedPublicKey = packPoint(_publicKey)
-
-    if (packedPublicKey === null) {
-        throw new Error("Invalid public key")
-    }
-
-    return packedPublicKey.toString()
+    return packPoint(_publicKey).toString()
 }
 
-export function unpackPublicKey(publicKey: BigNumber): Point<string> {
-    if (
-        typeof publicKey !== "bigint" &&
-        (typeof publicKey !== "string" || !isStringifiedBigint(publicKey)) &&
-        (typeof publicKey !== "string" || !isHexadecimal(publicKey))
-    ) {
-        throw new TypeError("Invalid public key type")
-    }
+/**
+ * Unpacks a public key from its packed string representation back to its original point form on the Baby Jubjub curve.
+ * This function checks for the validity of the input format before attempting to unpack.
+ * @param publicKey The packed public key as a bignumberish.
+ * @returns The unpacked public key as a point.
+ */
+export function unpackPublicKey(publicKey: BigNumberish): Point<string> {
+    requireBigNumberish(publicKey, "publicKey")
 
-    const unpackedPublicKey = unpackPoint(BigInt(publicKey))
+    const unpackedPublicKey = unpackPoint(bigNumberishToBigInt(publicKey))
 
     if (unpackedPublicKey === null) {
         throw new Error("Invalid public key")
@@ -177,12 +173,24 @@ export function unpackPublicKey(publicKey: BigNumber): Point<string> {
     return [unpackedPublicKey[0].toString(), unpackedPublicKey[1].toString()]
 }
 
+/**
+ * Represents a cryptographic entity capable of signing messages and verifying signatures
+ * using the EdDSA scheme with Poseidon hash and the Baby Jubjub elliptic curve.
+ */
 export class EdDSAPoseidon {
+    // Private key for signing, stored securely.
     privateKey: BigNumberish
+    // The secret scalar derived from the private key to compute the public key.
     secretScalar: string
+    // The public key corresponding to the private key.
     publicKey: Point
+    // A packed (compressed) representation of the public key for efficient operations.
     packedPublicKey: string
 
+    /**
+     * Initializes a new instance, deriving necessary cryptographic parameters from the provided private key.
+     * @param privateKey The private key used for signing and public key derivation.
+     */
     constructor(privateKey: BigNumberish) {
         this.privateKey = privateKey
         this.secretScalar = deriveSecretScalar(privateKey)
@@ -190,10 +198,21 @@ export class EdDSAPoseidon {
         this.packedPublicKey = packPublicKey(this.publicKey) as string
     }
 
+    /**
+     * Signs a given message using the private key and returns the signature.
+     * @param message The message to be signed.
+     * @returns The signature of the message.
+     */
     signMessage(message: BigNumberish): Signature<string> {
         return signMessage(this.privateKey, message)
     }
 
+    /**
+     * Verifies a signature against a message and the public key stored in this instance.
+     * @param message The message whose signature is to be verified.
+     * @param signature The signature to be verified.
+     * @returns True if the signature is valid for the message and public key, false otherwise.
+     */
     verifySignature(message: BigNumberish, signature: Signature): boolean {
         return verifySignature(message, signature, this.publicKey)
     }

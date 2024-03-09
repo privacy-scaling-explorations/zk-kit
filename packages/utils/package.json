@@ -1,25 +1,58 @@
 {
     "name": "@zk-kit/utils",
-    "version": "0.1.0",
+    "version": "0.5.0",
     "description": "Essential zero-knowledge utility library for JavaScript developers.",
+    "type": "module",
     "license": "MIT",
-    "iife": "dist/index.js",
-    "unpkg": "dist/index.min.js",
-    "jsdelivr": "dist/index.min.js",
-    "main": "dist/index.node.js",
-    "exports": {
-        "import": "./dist/index.mjs",
-        "require": "./dist/index.node.js",
-        "types": "./dist/types/index.d.ts"
-    },
+    "iife": "dist/index.iife.js",
+    "unpkg": "dist/index.iife.min.js",
+    "jsdelivr": "dist/index.iife.min.js",
+    "main": "dist/index.js",
     "types": "dist/types/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/types/index.d.ts",
+            "require": "./dist/index.cjs",
+            "default": "./dist/index.js"
+        },
+        "./error-handlers": {
+            "types": "./dist/types/error-handlers.d.ts",
+            "require": "./dist/lib.commonjs/error-handlers.cjs",
+            "default": "./dist/lib.esm/error-handlers.js"
+        },
+        "./type-checks": {
+            "types": "./dist/types/type-checks.d.ts",
+            "require": "./dist/lib.commonjs/type-checks.cjs",
+            "default": "./dist/lib.esm/type-checks.js"
+        },
+        "./conversions": {
+            "types": "./dist/types/conversions.d.ts",
+            "require": "./dist/lib.commonjs/conversions.cjs",
+            "default": "./dist/lib.esm/conversions.js"
+        },
+        "./proof-packing": {
+            "types": "./dist/types/proof-packing.d.ts",
+            "require": "./dist/lib.commonjs/proof-packing.cjs",
+            "default": "./dist/lib.esm/proof-packing.js"
+        },
+        "./scalar": {
+            "types": "./dist/types/scalar.d.ts",
+            "require": "./dist/lib.commonjs/scalar.cjs",
+            "default": "./dist/lib.esm/scalar.js"
+        },
+        "./f1-field": {
+            "types": "./dist/types/f1-field.d.ts",
+            "require": "./dist/lib.commonjs/f1-field.cjs",
+            "default": "./dist/lib.esm/f1-field.js"
+        }
+    },
     "files": [
         "dist/",
         "src/",
         "LICENSE",
         "README.md"
     ],
-    "repository": "https://github.com/privacy-scaling-explorations/zk-kit",
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
     "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/utils",
     "bugs": {
         "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
@@ -33,9 +66,12 @@
         "access": "public"
     },
     "devDependencies": {
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^11.1.6",
+        "@types/snarkjs": "^0",
+        "rimraf": "^5.0.5",
+        "rollup": "^4.12.0",
         "rollup-plugin-cleanup": "^3.2.1",
-        "rollup-plugin-polyfill-node": "^0.13.0",
-        "rollup-plugin-terser": "^7.0.2",
-        "rollup-plugin-typescript2": "^0.31.2"
+        "rollup-plugin-polyfill-node": "^0.13.0"
     }
 }

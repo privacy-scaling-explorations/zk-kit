@@ -1,5 +1,7 @@
 import { babyjub, eddsa } from "circomlibjs"
 import crypto from "crypto"
+import { utils } from "ffjavascript"
+import { r, packPoint } from "@zk-kit/baby-jubjub"
 import {
     EdDSAPoseidon,
     derivePublicKey,
@@ -72,7 +74,7 @@ describe("EdDSAPoseidon", () => {
 
         const fun = () => derivePublicKey(privateKey as any)
 
-        expect(fun).toThrow("Invalid private key type.")
+        expect(fun).toThrow(`Parameter 'privateKey' is none of the following types: bignumberish, string`)
     })
 
     it("Should sign a message (bigint)", async () => {
@@ -138,7 +140,7 @@ describe("EdDSAPoseidon", () => {
 
         const fun = () => signMessage(privateKey, message as any)
 
-        expect(fun).toThrow("Invalid message type.")
+        expect(fun).toThrow(`Parameter 'message' is none of the following types: bignumberish, string`)
     })
 
     it("Should verify a signature", async () => {
@@ -213,7 +215,17 @@ describe("EdDSAPoseidon", () => {
 
         const expectedPackedPublicKey = babyjub.packPoint([BigInt(publicKey[0]), BigInt(publicKey[1])])
 
-        expect(packedPublicKey).toBe(BigInt(`0x${Buffer.from(expectedPackedPublicKey).toString("hex")}`).toString())
+        expect(packedPublicKey).toBe(utils.leBuff2int(expectedPackedPublicKey).toString())
+    })
+
+    it("Should not pack a public key if the public key is not on the curve", async () => {
+        const publicKey = derivePublicKey(privateKey)
+
+        publicKey[1] = BigInt(3).toString()
+
+        const fun = () => packPublicKey(publicKey)
+
+        expect(fun).toThrow("Invalid public key")
     })
 
     it("Should unpack a packed public key", async () => {
@@ -224,6 +236,20 @@ describe("EdDSAPoseidon", () => {
 
         expect(unpackedPublicKey[0]).toBe(publicKey[0])
         expect(unpackedPublicKey[1]).toBe(publicKey[1])
+    })
+
+    it("Should not unpack a public key if the public key type is not supported", async () => {
+        const fun = () => unpackPublicKey("e")
+
+        expect(fun).toThrow(`Parameter 'publicKey' is not a bignumber-ish`)
+    })
+
+    it("Should not unpack a public key if the public key does not correspond to a valid point on the curve", async () => {
+        const invalidPublicKey = packPoint([BigInt("0"), BigInt(r + BigInt(1))]).toString()
+
+        const fun = () => unpackPublicKey(invalidPublicKey)
+
+        expect(fun).toThrow("Invalid public key")
     })
 
     it("Should create an EdDSAPoseidon instance", async () => {

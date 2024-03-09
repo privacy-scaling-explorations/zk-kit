@@ -1,7 +1,7 @@
 import { expect } from "chai"
-import { Contract } from "ethers"
-import { ethers, run } from "hardhat"
-import { poseidon } from "circomlibjs"
+import { Contract, encodeBytes32String } from "ethers"
+import { run } from "hardhat"
+import { poseidon2 } from "poseidon-lite"
 import ShiftTower from "./utils"
 
 describe("LazyTowerHashChainTest", () => {
@@ -12,7 +12,7 @@ describe("LazyTowerHashChainTest", () => {
     })
 
     it("Should produce correct levelLengths, digests and digest of digests", async () => {
-        const lazyTowerId = ethers.utils.formatBytes32String("test1")
+        const lazyTowerId = encodeBytes32String("test1")
 
         const N = 150
         for (let i = 0; i < N; i += 1) {
@@ -45,11 +45,11 @@ describe("LazyTowerHashChainTest", () => {
     })
 
     it("Should have the same output as the Javascript fixture", async () => {
-        const lazyTowerId = ethers.utils.formatBytes32String("test2")
+        const lazyTowerId = encodeBytes32String("test2")
 
-        const H2 = (a: number, b: number) => poseidon([a, b])
+        const H2 = (a: bigint, b: bigint) => poseidon2([a, b])
         const W = 4
-        const shiftTower = ShiftTower(W, (vs) => vs.reduce(H2))
+        const shiftTower = ShiftTower(W, (vs: any[]) => vs.reduce(H2))
         for (let i = 0; i < 150; i += 1) {
             shiftTower.add(i)
 
@@ -63,7 +63,7 @@ describe("LazyTowerHashChainTest", () => {
 
             expect(levelLengths).to.equal(shiftTower.L.map((l) => l.length).reduce((s, v, lv) => s + (v << (lv * 4))))
 
-            const D = shiftTower.L.map((l) => l.reduce(H2))
+            const D = shiftTower.L.map((l: any[]) => l.reduce(H2))
             for (let lv = 0; lv < digests.length; lv += 1) {
                 expect(digests[lv]).to.equal(D[lv] ?? 0)
             }
@@ -73,7 +73,7 @@ describe("LazyTowerHashChainTest", () => {
     })
 
     it("Should reject values not in the field", async () => {
-        const lazyTowerId = ethers.utils.formatBytes32String("test3")
+        const lazyTowerId = encodeBytes32String("test3")
 
         let item = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495616")
 

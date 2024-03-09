@@ -41,6 +41,9 @@
     </h4>
 </div>
 
+> [!WARNING]  
+> This package is no longer maintained as [SnarkJS](https://github.com/iden3/snarkjs) has integrated most of the above optimizations. Please, consider installing it instead.
+
 | This package contains [SnarkJS](https://github.com/iden3/snarkjs) functions for generating and verifying zero knowledge proofs with Groth16 specifically. In addition to the original code it also uses the cached `bn128` curve if it already exists, making verification and generation of consecutive proofs faster. |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
@@ -50,6 +53,12 @@ Some advantages of using this package instead of `snarkjs` directly are:
 -   It doesn't call the [ffjavascript](https://github.com/iden3/ffjavascript) `buildBn128` function if a `bn128` cached curve already exists, making verification and generation of consecutive proofs much faster (e.g. verification seems to be ~9 times faster after the first one).
 -   It includes TS types.
 -   It provides an ESM bundle that is compatible with browsers. So there is no need to add any polyfill or additional configuration.
+
+## References
+
+1. Jens Groth. _On the Size of Pairing-Based Non-interactive Arguments_. 2016-04-28. https://link.springer.com/chapter/10.1007/978-3-662-49896-5_11.
+
+---
 
 ## 🛠 Install
 
@@ -69,22 +78,26 @@ yarn add @zk-kit/groth16
 
 ## 📜 Usage
 
-\# **prove**(input: _CircuitSignals_, wasmFile: _ZKArtifact_, zkeyFile: _ZKArtifact_): Promise\<_{
-proof: Groth16Proof
-publicSignals: PublicSignals
-}_>
+> [!WARNING]  
+> You will need to provide your own circuits here in your specified path. Remember to define your circuit input and rename the files accordingly.
 
 ```typescript
-import { prove } from "@zk-kit/groth16"
+import { prove, verify, buildBn128 } from "@zk-kit/groth16"
 
-const input = {
-    message: 12,
-    scope: 122
-}
+// Build the BN128 curve for Groth16.
+// https://github.com/iden3/ffjavascript/blob/master/src/wasm_field1.js
+await buildBn128() // WasmField1
 
-const proof = await prove(input, "./circuit.zkey", "./circuit.wasm")
+// Define your circuit input.
+// const input = {
+//     input1: 1,
+//     input2: 2,
+//     inputN: "N"
+// }
 
-console.log(proof)
+// Compute the proof.
+const proof = await prove(input, "<YOUR-PATH>/circuit.zkey", "<YOUR-PATH>/circuit.wasm")
+
 /*
 {
     proof: {
@@ -109,27 +122,11 @@ console.log(proof)
     ]
 }
 */
-```
+console.log(proof)
 
-\# **verify**(verificationKey: _any_, proof: _{
-proof: Groth16Proof
-publicSignals: PublicSignals
-}_): Promise\<_boolean_>
+// Verify the proof.
+const response = await verify("<YOUR-PATH>/circuit_verification_key.json", proof)
 
-```typescript
-import { verify } from "@zk-kit/groth16"
-import verificationKey from "./circuit.json"
-
-const response = await verify(verificationKey, proof)
-
-console.log(response) // true
-```
-
-\# **buildBn128**(): Promise\<_any_>
-
-```typescript
-import { buildBn128 } from "@zk-kit/groth16"
-
-const curve = await buildBn128() // WasmField1
-// https://github.com/iden3/ffjavascript/blob/master/src/wasm_field1.js
+// true or false.
+console.log(response)
 ```

@@ -8,10 +8,12 @@ const projects: any = fs
     .filter((directory) => directory.isDirectory())
     .filter((directory) => !exclude.includes(directory.name))
     .map(({ name }) => ({
+        preset: "ts-jest",
         rootDir: `packages/${name}`,
         displayName: name,
         moduleNameMapper: {
-            "@zk-kit/(.*)": "<rootDir>/../$1/src/index.ts" // Interdependency packages.
+            "@zk-kit/(.*)/(.*)": "<rootDir>/../$1/src/$2.ts",
+            "@zk-kit/(.*)": "<rootDir>/../$1/src/index.ts"
         }
     }))
 
@@ -19,7 +21,6 @@ export default async (): Promise<Config.InitialOptions> => ({
     projects,
     verbose: true,
     coverageDirectory: "./coverage/libraries",
-    collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts", "!<rootDir>/src/**/*.d.ts"],
     coverageThreshold: {
         global: {
             branches: 90,

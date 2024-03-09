@@ -114,7 +114,7 @@ describe("utils", () => {
             expect(unstringifyBigInts({ a: "1", b: "2" })).toStrictEqual({ a: BigInt(1), b: BigInt(2) })
         })
         it("should work on a null input", () => {
-            expect(unstringifyBigInts(null)).toBe(null)
+            expect(unstringifyBigInts(null)).toBeNull()
         })
         it("should return the input if it is not a valid value", () => {
             expect(unstringifyBigInts("A")).toBe("A")

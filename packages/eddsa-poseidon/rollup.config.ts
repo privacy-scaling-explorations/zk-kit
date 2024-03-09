@@ -2,7 +2,7 @@ import commonjs from "@rollup/plugin-commonjs"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
-import typescript from "rollup-plugin-typescript2"
+import typescript from "@rollup/plugin-typescript"
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
 const banner = `/**
@@ -17,12 +17,12 @@ const banner = `/**
 export default {
     input: "src/index.ts",
     output: [
-        { file: pkg.exports.require, format: "cjs", banner },
-        { file: pkg.exports.import, format: "es", banner }
+        { file: pkg.exports["."].require, format: "cjs", banner },
+        { file: pkg.exports["."].default, format: "es", banner }
     ],
     external: Object.keys(pkg.dependencies),
     plugins: [
-        typescript({ tsconfig: "./build.tsconfig.json", useTsconfigDeclarationDir: true }),
+        typescript({ tsconfig: "./build.tsconfig.json" }),
         commonjs(),
         nodeResolve({
             preferBuiltins: true
