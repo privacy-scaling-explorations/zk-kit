@@ -36,6 +36,46 @@
         "pubs": ["publicKey"],
         "params": []
     },
+    "msb": {
+        "file": "float",
+        "template": "MSB",
+        "params": [252]
+    },
+    "shift": {
+        "file": "float",
+        "template": "Shift",
+        "params": [252]
+    },
+    "integer-division": {
+        "file": "float",
+        "template": "IntegerDivision",
+        "params": [252]
+    },
+    "to-float": {
+        "file": "float",
+        "template": "ToFloat",
+        "params": [74]
+    },
+    "division-from-float": {
+        "file": "float",
+        "template": "DivisionFromFloat",
+        "params": [74, 251]
+    },
+    "division-from-normal": {
+        "file": "float",
+        "template": "DivisionFromNormal",
+        "params": [74, 251]
+    },
+    "multiplication-from-float": {
+        "file": "float",
+        "template": "MultiplicationFromFloat",
+        "params": [74, 251]
+    },
+    "multiplication-from-normal": {
+        "file": "float",
+        "template": "MultiplicationFromNormal",
+        "params": [74, 251]
+    },
     "safe-less-than": {
         "file": "safe-comparators",
         "template": "SafeLessThan",
