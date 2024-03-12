@@ -3572,7 +3572,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zk-kit/baby-jubjub@workspace:packages/baby-jubjub"
   dependencies:
-    "@rollup/plugin-commonjs": "npm:^25.0.7"
     "@rollup/plugin-node-resolve": "npm:^15.2.3"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
@@ -3595,6 +3594,7 @@ __metadata:
     "@zk-kit/eddsa-poseidon": "npm:0.5.1"
     "@zk-kit/poseidon-cipher": "npm:0.1.1"
     "@zk-kit/smt": "npm:1.0.0"
+    "@zk-kit/utils": "npm:0.5.0"
     circomkit: "npm:0.0.24"
     circomlib: "npm:^2.0.5"
     mocha: "npm:^10.2.0"
@@ -3631,7 +3631,7 @@ __metadata:
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@zk-kit/baby-jubjub": "npm:0.2.0"
     "@zk-kit/utils": "npm:0.5.0"
-    blake-hash: "npm:2.0.0"
+    buffer: "npm:6.0.3"
     circomlibjs: "npm:0.0.8"
     ffjavascript: "npm:0.2.38"
     poseidon-lite: "npm:0.2.0"
@@ -3822,13 +3822,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zk-kit/utils@workspace:packages/utils"
   dependencies:
+    "@rollup/plugin-alias": "npm:^5.1.0"
+    "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@types/snarkjs": "npm:^0"
+    buffer: "npm:^6.0.3"
     rimraf: "npm:^5.0.5"
     rollup: "npm:^4.12.0"
     rollup-plugin-cleanup: "npm:^3.2.1"
-    rollup-plugin-polyfill-node: "npm:^0.13.0"
   languageName: unknown
   linkType: soft
 
@@ -4787,18 +4789,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"blake-hash@npm:2.0.0, blake-hash@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "blake-hash@npm:2.0.0"
-  dependencies:
-    node-addon-api: "npm:^3.0.0"
-    node-gyp: "npm:latest"
-    node-gyp-build: "npm:^4.2.2"
-    readable-stream: "npm:^3.6.0"
-  checksum: 10/91cb584c2c98bfeb94f2fe01ab1663577fd8a69c330b03ea071ce53eda8e3e28293da891e3eacd78a95ad1275325cf7055e39294535c0474f297ada373083fd2
-  languageName: node
-  linkType: hard
-
 "blake-hash@npm:^1.1.0":
   version: 1.1.1
   resolution: "blake-hash@npm:1.1.1"
@@ -4808,6 +4798,18 @@ __metadata:
     nan: "npm:^2.2.1"
     node-gyp: "npm:latest"
   checksum: 10/116c724179d98bee96fed742bbebc4d9efbf7c8537365b93f96c3ffe2cbbd6e0a7a24b9a7ddd95056ab4a47c120fe20671c9964f95128b1dff3b17afc1762261
+  languageName: node
+  linkType: hard
+
+"blake-hash@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "blake-hash@npm:2.0.0"
+  dependencies:
+    node-addon-api: "npm:^3.0.0"
+    node-gyp: "npm:latest"
+    node-gyp-build: "npm:^4.2.2"
+    readable-stream: "npm:^3.6.0"
+  checksum: 10/91cb584c2c98bfeb94f2fe01ab1663577fd8a69c330b03ea071ce53eda8e3e28293da891e3eacd78a95ad1275325cf7055e39294535c0474f297ada373083fd2
   languageName: node
   linkType: hard
 
@@ -5098,6 +5100,16 @@ __metadata:
   version: 1.0.3
   resolution: "buffer-xor@npm:1.0.3"
   checksum: 10/4a63d48b5117c7eda896d81cd3582d9707329b07c97a14b0ece2edc6e64220ea7ea17c94b295e8c2cb7b9f8291e2b079f9096be8ac14be238420a43e06ec66e2
+  languageName: node
+  linkType: hard
+
+"buffer@npm:6.0.3, buffer@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "buffer@npm:6.0.3"
+  dependencies:
+    base64-js: "npm:^1.3.1"
+    ieee754: "npm:^1.2.1"
+  checksum: 10/b6bc68237ebf29bdacae48ce60e5e28fc53ae886301f2ad9496618efac49427ed79096750033e7eab1897a4f26ae374ace49106a5758f38fb70c78c9fda2c3b1
   languageName: node
   linkType: hard
 
@@ -10073,7 +10085,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ieee754@npm:^1.1.13":
+"ieee754@npm:^1.1.13, ieee754@npm:^1.2.1":
   version: 1.2.1
   resolution: "ieee754@npm:1.2.1"
   checksum: 10/d9f2557a59036f16c282aaeb107832dc957a93d73397d89bbad4eb1130560560eb695060145e8e6b3b498b15ab95510226649a0b8f52ae06583575419fe10fc4

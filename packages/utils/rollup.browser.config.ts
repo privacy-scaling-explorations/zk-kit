@@ -1,10 +1,9 @@
-import commonjs from "@rollup/plugin-commonjs"
-import { nodeResolve } from "@rollup/plugin-node-resolve"
 import terser from "@rollup/plugin-terser"
 import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
-import nodePolyfills from "rollup-plugin-polyfill-node"
+import alias from "@rollup/plugin-alias"
+import json from "@rollup/plugin-json"
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
 const banner = `/**
@@ -16,7 +15,7 @@ const banner = `/**
  * @see [Github]{@link ${pkg.homepage}}
 */`
 
-const name = pkg.name.split("/")[1].replace(/[-/]./g, (x: string) => x.toUpperCase()[1])
+const name = pkg.name.substr(1).replace(/[-/]./g, (x: any) => x.toUpperCase()[1])
 
 export default {
     input: "src/index.ts",
@@ -32,16 +31,22 @@ export default {
             name,
             format: "iife",
             plugins: [terser({ output: { preamble: banner } })]
+        },
+        {
+            file: pkg.exports["."].browser,
+            format: "es",
+            banner
         }
     ],
-    external: [],
+    external: Object.keys(pkg.dependencies),
     plugins: [
-        typescript({ tsconfig: "./build.tsconfig.json" }),
-        commonjs(),
-        nodeResolve({
-            preferBuiltins: true
+        alias({
+            entries: [{ find: "./crypto.node", replacement: "./crypto.browser" }]
         }),
-        nodePolyfills({ include: null }),
-        cleanup({ comments: "jsdoc" })
+        typescript({
+            tsconfig: "./build.tsconfig.json"
+        }),
+        cleanup({ comments: "jsdoc" }),
+        json()
     ]
 }

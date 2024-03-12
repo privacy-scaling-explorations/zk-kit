@@ -1,11 +1,13 @@
+import { beBufferToBigInt, crypto } from "@zk-kit/utils"
 import { poseidonDecrypt, poseidonDecryptWithoutCheck, poseidonEncrypt } from "../src/poseidonCipher"
 import { Nonce, PlainText } from "../src/types"
-import { genEcdhSharedKey, genPublicKey, genRandomBabyJubValue } from "./utils"
+import { genEcdhSharedKey, genPublicKey } from "./utils"
 
 describe("Poseidon Cipher", () => {
-    const privateKey = genRandomBabyJubValue()
-    const publicKey = genPublicKey(privateKey)
-    const encryptionKey = genEcdhSharedKey(privateKey, publicKey)
+    const privateKey = crypto.getRandomValues(32)
+    const bgPrivateKey = beBufferToBigInt(Buffer.from(privateKey))
+    const publicKey = genPublicKey(bgPrivateKey)
+    const encryptionKey = genEcdhSharedKey(bgPrivateKey, publicKey)
 
     const plainText: PlainText<bigint> = [BigInt(0), BigInt(1)]
     const nonce: Nonce = BigInt(5)

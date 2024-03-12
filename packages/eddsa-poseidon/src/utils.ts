@@ -2,7 +2,9 @@ import { Point } from "@zk-kit/baby-jubjub"
 import { isBigNumberish, requireTypes, type BigNumberish } from "@zk-kit/utils"
 import { bigNumberishToBigInt, bigNumberishToBuffer, bufferToBigInt } from "@zk-kit/utils/conversions"
 import { isArray, isObject, isStringifiedBigInt } from "@zk-kit/utils/type-checks"
+import { Buffer } from "buffer"
 import { Signature } from "./types"
+import { Blake512 } from "./blake"
 
 /**
  * Prunes a buffer to meet the specific requirements for using it as a private key
@@ -70,4 +72,19 @@ export function checkMessage(message: BigNumberish): bigint {
     }
 
     return bufferToBigInt(Buffer.from(message as string))
+}
+
+/**
+ * Computes the Blake512 hash of the input message.
+ * Blake512 is a cryptographic hash function that produces a hash value of 512 bits,
+ * commonly used for data integrity checks and other cryptographic applications.
+ * @param message The input data to hash, provided as a Buffer.
+ * @returns A Buffer containing the 512-bit hash result.
+ */
+export function hash(message: Buffer): Buffer {
+    const engine = new Blake512()
+
+    engine.update(message)
+
+    return engine.digest()
 }

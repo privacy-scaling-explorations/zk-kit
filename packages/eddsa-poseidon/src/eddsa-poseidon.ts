@@ -15,9 +15,8 @@ import { requireBigNumberish } from "@zk-kit/utils/error-handlers"
 import F1Field from "@zk-kit/utils/f1-field"
 import * as scalar from "@zk-kit/utils/scalar"
 import { poseidon5 } from "poseidon-lite/poseidon5"
-import blake from "./blake"
 import { Signature } from "./types"
-import { checkMessage, checkPrivateKey, isPoint, isSignature, pruneBuffer } from "./utils"
+import { checkMessage, checkPrivateKey, isPoint, isSignature, pruneBuffer, hash as blake } from "./utils"
 
 /**
  * Derives a secret scalar from a given EdDSA private key.

@@ -12,6 +12,7 @@
  * the order of bytes is always big-endian.
  */
 
+import { Buffer } from "buffer"
 import { requireHexadecimal, requireTypes } from "./error-handlers"
 import { isBigInt, isBuffer, isHexadecimal, isNumber, isStringifiedBigInt } from "./type-checks"
 import { BigNumber, BigNumberish } from "./types"
