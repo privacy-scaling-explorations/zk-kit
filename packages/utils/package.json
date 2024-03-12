@@ -49,11 +49,6 @@
             "require": "./dist/lib.commonjs/f1-field.cjs",
             "default": "./dist/lib.esm/f1-field.js"
         },
-        "./blake512": {
-            "types": "./dist/types/blake512.d.ts",
-            "require": "./dist/lib.commonjs/blake512.cjs",
-            "default": "./dist/lib.esm/blake512.js"
-        },
         "./crypto": {
             "types": "./dist/types/crypto.browser.d.ts",
             "node": {

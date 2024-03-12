@@ -1,13 +1,13 @@
 /**
- * @module ScalarOperations
+ * @module Scalar
  * This module provides utility functions for performing scalar operations
- * within a finite field, especially designed to handle operations on bigints.
+ * within a field, especially designed to handle operations on bigints.
  * The operations include scalar inversion (`inv`), scalar exponentiation (`pow`),
  * and modular reduction. Functions are carefully implemented to ensure
  * mathematical correctness and efficiency, supporting both positive and
  * negative bigint values. The module aims to provide robust tools for
  * cryptographic calculations and other applications requiring high-precision
- * arithmetic in finite fields.
+ * arithmetic in fields.
  */
 
 /**

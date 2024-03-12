@@ -7,9 +7,5 @@
 export function getRandomValues(size: number): Uint8Array {
     if (size <= 0) throw Error(`size ${size} is too small, need at least 1`)
 
-    const byteArray = new Uint8Array(size)
-
-    crypto.getRandomValues(byteArray)
-
-    return byteArray
+    return crypto.getRandomValues(new Uint8Array(size))
 }
