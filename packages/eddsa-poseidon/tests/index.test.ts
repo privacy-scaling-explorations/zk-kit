@@ -260,4 +260,16 @@ describe("EdDSAPoseidon", () => {
         expect(eddsa.packedPublicKey).toBe(packPublicKey(eddsa.publicKey))
         expect(eddsa.verifySignature(message, signature)).toBeTruthy()
     })
+
+    it("Should create an EdDSAPoseidon instance with a random private key", async () => {
+        const eddsa = new EdDSAPoseidon()
+
+        const signature = eddsa.signMessage(message)
+
+        expect(eddsa.privateKey).toBeInstanceOf(Buffer)
+        expect(eddsa.privateKey).toHaveLength(32)
+        expect(eddsa.secretScalar).toBe(deriveSecretScalar(eddsa.privateKey))
+        expect(eddsa.packedPublicKey).toBe(packPublicKey(eddsa.publicKey))
+        expect(eddsa.verifySignature(message, signature)).toBeTruthy()
+    })
 })
