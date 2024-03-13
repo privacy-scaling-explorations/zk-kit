@@ -3823,7 +3823,6 @@ __metadata:
   resolution: "@zk-kit/utils@workspace:packages/utils"
   dependencies:
     "@rollup/plugin-alias": "npm:^5.1.0"
-    "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@types/snarkjs": "npm:^0"
@@ -3831,6 +3830,7 @@ __metadata:
     rimraf: "npm:^5.0.5"
     rollup: "npm:^4.12.0"
     rollup-plugin-cleanup: "npm:^3.2.1"
+    rollup-plugin-polyfill-node: "npm:^0.13.0"
   languageName: unknown
   linkType: soft
 

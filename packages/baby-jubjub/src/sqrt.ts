@@ -1,4 +1,4 @@
-import { F1Field } from "@zk-kit/utils"
+import F1Field from "@zk-kit/utils/f1-field"
 
 /**
  * The following is a sqrt function (i.e. tonelliShanks) with some pre-computed

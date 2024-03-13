@@ -48,16 +48,6 @@
             "types": "./dist/types/f1-field.d.ts",
             "require": "./dist/lib.commonjs/f1-field.cjs",
             "default": "./dist/lib.esm/f1-field.js"
-        },
-        "./crypto": {
-            "types": "./dist/types/crypto.browser.d.ts",
-            "node": {
-                "types": "./dist/types/crypto.node.d.ts",
-                "require": "./dist/lib.commonjs/crypto.node.cjs",
-                "default": "./dist/lib.esm/crypto.node.js"
-            },
-            "browser": "./dist/lib.esm/crypto.browser.js",
-            "default": "./dist/lib.esm/crypto.browser.js"
         }
     },
     "files": [
@@ -72,9 +62,7 @@
         "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
     },
     "scripts": {
-        "build": "rimraf dist && yarn build:browser && yarn build:node",
-        "build:browser": "rollup -c rollup.browser.config.ts --configPlugin typescript",
-        "build:node": "rollup -c rollup.node.config.ts --configPlugin typescript",
+        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
         "prepublishOnly": "yarn build"
     },
     "publishConfig": {
@@ -82,13 +70,13 @@
     },
     "devDependencies": {
         "@rollup/plugin-alias": "^5.1.0",
-        "@rollup/plugin-json": "^6.1.0",
         "@rollup/plugin-terser": "^0.4.4",
         "@rollup/plugin-typescript": "^11.1.6",
         "@types/snarkjs": "^0",
         "rimraf": "^5.0.5",
         "rollup": "^4.12.0",
-        "rollup-plugin-cleanup": "^3.2.1"
+        "rollup-plugin-cleanup": "^3.2.1",
+        "rollup-plugin-polyfill-node": "^0.13.0"
     },
     "dependencies": {
         "buffer": "^6.0.3"

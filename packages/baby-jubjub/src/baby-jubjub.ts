@@ -1,4 +1,6 @@
-import { F1Field, leBigIntToBuffer, leBufferToBigInt, scalar } from "@zk-kit/utils"
+import { leBigIntToBuffer, leBufferToBigInt } from "@zk-kit/utils/conversions"
+import F1Field from "@zk-kit/utils/f1-field"
+import * as scalar from "@zk-kit/utils/scalar"
 import * as sqrt from "./sqrt"
 import { Point } from "./types"
 
