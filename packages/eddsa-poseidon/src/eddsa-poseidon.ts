@@ -10,13 +10,15 @@ import {
     unpackPoint
 } from "@zk-kit/baby-jubjub"
 import type { BigNumberish } from "@zk-kit/utils"
+import { crypto } from "@zk-kit/utils"
 import { bigNumberishToBigInt, leBigIntToBuffer, leBufferToBigInt } from "@zk-kit/utils/conversions"
 import { requireBigNumberish } from "@zk-kit/utils/error-handlers"
 import F1Field from "@zk-kit/utils/f1-field"
 import * as scalar from "@zk-kit/utils/scalar"
+import { Buffer } from "buffer"
 import { poseidon5 } from "poseidon-lite/poseidon5"
 import { Signature } from "./types"
-import { checkMessage, checkPrivateKey, isPoint, isSignature, pruneBuffer, hash as blake } from "./utils"
+import { hash as blake, checkMessage, checkPrivateKey, isPoint, isSignature, pruneBuffer } from "./utils"
 
 /**
  * Derives a secret scalar from a given EdDSA private key.
@@ -188,9 +190,10 @@ export class EdDSAPoseidon {
 
     /**
      * Initializes a new instance, deriving necessary cryptographic parameters from the provided private key.
+     * If the private key is not passed as a parameter, a random 32-byte key is generated.
      * @param privateKey The private key used for signing and public key derivation.
      */
-    constructor(privateKey: BigNumberish) {
+    constructor(privateKey: BigNumberish = Buffer.from(crypto.getRandomValues(32))) {
         this.privateKey = privateKey
         this.secretScalar = deriveSecretScalar(privateKey)
         this.publicKey = derivePublicKey(privateKey)
