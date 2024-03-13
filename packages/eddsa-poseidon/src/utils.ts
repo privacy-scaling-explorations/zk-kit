@@ -1,10 +1,11 @@
 import { Point } from "@zk-kit/baby-jubjub"
-import { isBigNumberish, requireTypes, type BigNumberish } from "@zk-kit/utils"
+import type { BigNumberish } from "@zk-kit/utils"
 import { bigNumberishToBigInt, bigNumberishToBuffer, bufferToBigInt } from "@zk-kit/utils/conversions"
-import { isArray, isObject, isStringifiedBigInt } from "@zk-kit/utils/type-checks"
+import { requireTypes } from "@zk-kit/utils/error-handlers"
+import { isArray, isBigNumberish, isObject, isStringifiedBigInt } from "@zk-kit/utils/type-checks"
 import { Buffer } from "buffer"
-import { Signature } from "./types"
 import { Blake512 } from "./blake"
+import { Signature } from "./types"
 
 /**
  * Prunes a buffer to meet the specific requirements for using it as a private key
