@@ -48,7 +48,7 @@
         "rollup-plugin-polyfill-node": "^0.13.0"
     },
     "dependencies": {
-        "@zk-kit/baby-jubjub": "0.2.0",
+        "@zk-kit/baby-jubjub": "0.3.0",
         "@zk-kit/utils": "0.6.0",
         "buffer": "6.0.3"
     }

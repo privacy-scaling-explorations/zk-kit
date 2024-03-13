@@ -3568,7 +3568,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/baby-jubjub@npm:0.2.0, @zk-kit/baby-jubjub@workspace:packages/baby-jubjub":
+"@zk-kit/baby-jubjub@npm:0.3.0, @zk-kit/baby-jubjub@workspace:packages/baby-jubjub":
   version: 0.0.0-use.local
   resolution: "@zk-kit/baby-jubjub@workspace:packages/baby-jubjub"
   dependencies:
@@ -3629,7 +3629,7 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:^15.2.3"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@zk-kit/baby-jubjub": "npm:0.2.0"
+    "@zk-kit/baby-jubjub": "npm:0.3.0"
     "@zk-kit/utils": "npm:0.6.0"
     buffer: "npm:6.0.3"
     circomlibjs: "npm:0.0.8"
@@ -3750,7 +3750,7 @@ __metadata:
   resolution: "@zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher"
   dependencies:
     "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@zk-kit/baby-jubjub": "npm:0.2.0"
+    "@zk-kit/baby-jubjub": "npm:0.3.0"
     "@zk-kit/eddsa-poseidon": "npm:0.1.0"
     "@zk-kit/utils": "npm:0.6.0"
     circomlibjs: "npm:^0.0.8"
