@@ -129,6 +129,9 @@ describe("# type-checks", () => {
         expect(isType(BigInt(1), "bigint")).toBeTruthy()
         expect(isType("1242342342342342", "stringified-bigint")).toBeTruthy()
         expect(isType("0x12", "hexadecimal")).toBeTruthy()
+        expect(isType(BigInt(1), "bignumber")).toBeTruthy()
+        expect(isType("123", "bignumber")).toBeTruthy()
+        expect(isType("0xa123", "bignumber")).toBeTruthy()
         expect(isType(1, "bignumberish")).toBeTruthy()
     })
 
@@ -143,6 +146,8 @@ describe("# type-checks", () => {
         expect(isType(1, "bigint")).toBeFalsy()
         expect(isType(1, "stringified-bigint")).toBeFalsy()
         expect(isType(1, "hexadecimal")).toBeFalsy()
+        expect(isType(1, "bignumber")).toBeFalsy()
+        expect(isType("string", "bignumber")).toBeFalsy()
         expect(isType("string", "bignumberish")).toBeFalsy()
         expect(isType(1, "type" as any)).toBeFalsy()
     })

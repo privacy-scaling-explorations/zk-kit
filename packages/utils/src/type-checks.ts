@@ -21,6 +21,7 @@ const supportedTypes = [
     "bigint",
     "stringified-bigint",
     "hexadecimal",
+    "bignumber",
     "bignumberish"
 ] as const
 
@@ -185,6 +186,8 @@ export function isType(value: any, type: SupportedType): boolean {
             return isStringifiedBigInt(value)
         case "hexadecimal":
             return isHexadecimal(value)
+        case "bignumber":
+            return isBigNumber(value)
         case "bignumberish":
             return isBigNumberish(value)
         default:
