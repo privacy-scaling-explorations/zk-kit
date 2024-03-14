@@ -337,6 +337,21 @@ describe("EdDSAPoseidon", () => {
         unpackSignature(packedSignature)
     })
 
+    it("Should handle a signature with values smaller than 32 bytes", async () => {
+        const signature = signMessage(privateKey, message)
+
+        // S is the only value which we can easily make artifically small, since
+        // R8 has to be a point on the curve.
+        // Note that overly-large values also ruled out by the inCurve check on
+        // R8 and the subOrder check on S.
+        signature.S = "3"
+
+        const packedSignature = packSignature(signature)
+
+        const unpackedSignature = unpackSignature(packedSignature)
+        expect(unpackedSignature).toEqual(signature)
+    })
+
     it("Should create an EdDSAPoseidon instance", async () => {
         const eddsa = new EdDSAPoseidon(privateKey)
 

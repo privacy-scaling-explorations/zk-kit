@@ -198,8 +198,8 @@ export function packSignature(signature: Signature): Buffer {
 
     const packedR8 = packPoint(numericSignature.R8)
     const packedBytes = Buffer.alloc(64)
-    packedBytes.set(leBigIntToBuffer(packedR8), 0)
-    packedBytes.set(leBigIntToBuffer(numericSignature.S), 32)
+    packedBytes.set(leBigIntToBuffer(packedR8, 32), 0)
+    packedBytes.set(leBigIntToBuffer(numericSignature.S, 32), 32)
     return packedBytes
 }
 
