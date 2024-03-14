@@ -82,10 +82,10 @@ export function checkMessage(message: BigNumberish): bigint {
  * @param message The input data to hash, provided as a Buffer.
  * @returns A Buffer containing the 512-bit hash result.
  */
-export function hash(message: Buffer): Buffer {
+export function hash(message: Buffer | Uint8Array): Buffer {
     const engine = new Blake512()
 
-    engine.update(message)
+    engine.update(Buffer.from(message))
 
     return engine.digest()
 }

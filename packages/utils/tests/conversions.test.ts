@@ -28,6 +28,12 @@ describe("Conversions", () => {
 
             expect(result).toBe(testHex1BE.slice(4))
         })
+
+        it("Should throw an error if the parameter is not a bigint", async () => {
+            const fun = () => bigIntToHexadecimal(32 as any)
+
+            expect(fun).toThrow("Parameter 'value' is not a bigint, received type: number")
+        })
     })
 
     describe("# hexadecimalToBigInt", () => {
@@ -41,6 +47,12 @@ describe("Conversions", () => {
             const result = hexadecimalToBigInt(testHex1BE.slice(2))
 
             expect(result).toBe(testBigInt1BE)
+        })
+
+        it("Should throw an error if the parameter is not a valid hexadecimal", async () => {
+            const fun = () => hexadecimalToBigInt(32 as any)
+
+            expect(fun).toThrow("Parameter 'value' is not a hexadecimal")
         })
     })
 
@@ -76,6 +88,12 @@ describe("Conversions", () => {
 
             expect(result).toStrictEqual(Buffer.from(testHex1BE))
         })
+
+        it("Should throw an error if the parameter is not a valid bignumber-ish", async () => {
+            const fun = () => bigNumberishToBuffer("string" as any)
+
+            expect(fun).toThrow("Parameter 'value' is not a bignumber-ish")
+        })
     })
 
     describe("# bigNumberishToBigInt", () => {
@@ -109,6 +127,12 @@ describe("Conversions", () => {
             const result = bigNumberishToBigInt(Buffer.from(testBytes1))
 
             expect(result).toBe(testBigInt1BE)
+        })
+
+        it("Should throw an error if the parameter is not a valid bignumber-ish", async () => {
+            const fun = () => bigNumberishToBigInt("string" as any)
+
+            expect(fun).toThrow("Parameter 'value' is not a bignumber-ish")
         })
     })
 

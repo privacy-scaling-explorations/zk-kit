@@ -129,7 +129,11 @@ export function isStringifiedBigInt(value: any): boolean {
  * @param value The string to be tested.
  * @param prefix A boolean to include or not a '0x' or '0X' prefix.
  */
-export function isHexadecimal(value: any, prefix = true) {
+export function isHexadecimal(value: any, prefix = true): boolean {
+    if (!isString(value)) {
+        return false
+    }
+
     if (prefix) {
         return /^(0x|0X)[0-9a-fA-F]+$/.test(value)
     }
@@ -156,7 +160,14 @@ export function isBigNumber(value: any): boolean {
  * @param value The value to check.
  */
 export function isBigNumberish(value: any): boolean {
-    return isNumber(value) || isBigInt(value) || isStringifiedBigInt(value) || isHexadecimal(value) || isBuffer(value)
+    return (
+        isNumber(value) ||
+        isBigInt(value) ||
+        isStringifiedBigInt(value) ||
+        isHexadecimal(value) ||
+        isBuffer(value) ||
+        isUint8Array(value)
+    )
 }
 
 /**
