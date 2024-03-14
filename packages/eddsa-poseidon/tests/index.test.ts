@@ -295,7 +295,17 @@ describe("EdDSAPoseidon", () => {
         expect(packedSignature).toEqual(circomlibPackedSignature)
     })
 
-    // TODO(artwyman): Add test case for numericSignature after #200 lands
+    it("Should pack a signature (numeric)", async () => {
+        const signature = signMessage(privateKey, message)
+
+        const packedSignature = packSignature(numericSignature(signature))
+        expect(packedSignature).toHaveLength(64)
+
+        const circomlibSignature = eddsa.signPoseidon(privateKey, message)
+        const circomlibPackedSignature = eddsa.packSignature(circomlibSignature)
+
+        expect(packedSignature).toEqual(circomlibPackedSignature)
+    })
 
     it("Should still pack an incorrect signature", async () => {
         const signature = signMessage(privateKey, message)
