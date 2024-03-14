@@ -2,6 +2,7 @@ import { Buffer } from "buffer"
 import {
     isArray,
     isBigInt,
+    isBigNumber,
     isBigNumberish,
     isBuffer,
     isFunction,
@@ -97,6 +98,14 @@ describe("# type-checks", () => {
         expect(isHexadecimal("12")).toBeFalsy()
     })
 
+    it("Should return true if the value is a bignumber", () => {
+        expect(isBigNumber(1)).toBeFalsy()
+        expect(isBigNumber("1")).toBeTruthy()
+        expect(isBigNumber(BigInt("1"))).toBeTruthy()
+        expect(isBigNumber("0x12")).toBeTruthy()
+        expect(isBigNumber(Buffer.from("0x12"))).toBeFalsy()
+    })
+
     it("Should return true if the value is a bignumber-ish", () => {
         expect(isBigNumberish(1)).toBeTruthy()
         expect(isBigNumberish("1")).toBeTruthy()
@@ -120,6 +129,9 @@ describe("# type-checks", () => {
         expect(isType(BigInt(1), "bigint")).toBeTruthy()
         expect(isType("1242342342342342", "stringified-bigint")).toBeTruthy()
         expect(isType("0x12", "hexadecimal")).toBeTruthy()
+        expect(isType(BigInt(1), "bignumber")).toBeTruthy()
+        expect(isType("123", "bignumber")).toBeTruthy()
+        expect(isType("0xa123", "bignumber")).toBeTruthy()
         expect(isType(1, "bignumberish")).toBeTruthy()
     })
 
@@ -134,6 +146,8 @@ describe("# type-checks", () => {
         expect(isType(1, "bigint")).toBeFalsy()
         expect(isType(1, "stringified-bigint")).toBeFalsy()
         expect(isType(1, "hexadecimal")).toBeFalsy()
+        expect(isType(1, "bignumber")).toBeFalsy()
+        expect(isType("string", "bignumber")).toBeFalsy()
         expect(isType("string", "bignumberish")).toBeFalsy()
         expect(isType(1, "type" as any)).toBeFalsy()
     })
