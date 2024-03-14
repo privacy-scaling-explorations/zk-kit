@@ -149,7 +149,14 @@ export function isHexadecimal(value: any, prefix = true): boolean {
  * @param value The value to check.
  */
 export function isBigNumberish(value: any): boolean {
-    return isNumber(value) || isBigInt(value) || isStringifiedBigInt(value) || isHexadecimal(value) || isBuffer(value)
+    return (
+        isNumber(value) ||
+        isBigInt(value) ||
+        isStringifiedBigInt(value) ||
+        isHexadecimal(value) ||
+        isBuffer(value) ||
+        isUint8Array(value)
+    )
 }
 
 /**

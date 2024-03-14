@@ -14,7 +14,7 @@
 
 import { Buffer } from "buffer"
 import { requireBigInt, requireBigNumberish, requireHexadecimal, requireTypes } from "./error-handlers"
-import { isBuffer, isHexadecimal } from "./type-checks"
+import { isBuffer, isHexadecimal, isUint8Array } from "./type-checks"
 import { BigNumber, BigNumberish } from "./types"
 
 /**
@@ -177,7 +177,7 @@ export function bigIntToBuffer(value: bigint): Buffer {
 export function bigNumberishToBigInt(value: BigNumberish): bigint {
     requireBigNumberish(value, "value")
 
-    if (isBuffer(value)) {
+    if (isBuffer(value) || isUint8Array(value)) {
         return bufferToBigInt(value as Buffer)
     }
 
@@ -194,8 +194,8 @@ export function bigNumberishToBigInt(value: BigNumberish): bigint {
 export function bigNumberishToBuffer(value: BigNumberish): Buffer {
     requireBigNumberish(value, "value")
 
-    if (isBuffer(value)) {
-        return value as Buffer
+    if (isBuffer(value) || isUint8Array(value)) {
+        return Buffer.from(value as Buffer)
     }
 
     return bigIntToBuffer(bigNumberishToBigInt(value))
