@@ -10,7 +10,7 @@ import {
     unpackPoint
 } from "@zk-kit/baby-jubjub"
 import type { BigNumberish } from "@zk-kit/utils"
-import { crypto } from "@zk-kit/utils"
+import { crypto, requireBuffer } from "@zk-kit/utils"
 import { bigNumberishToBigInt, leBigIntToBuffer, leBufferToBigInt } from "@zk-kit/utils/conversions"
 import { requireBigNumberish } from "@zk-kit/utils/error-handlers"
 import F1Field from "@zk-kit/utils/f1-field"
@@ -172,6 +172,60 @@ export function unpackPublicKey(publicKey: BigNumberish): Point<string> {
     }
 
     return [unpackedPublicKey[0].toString(), unpackedPublicKey[1].toString()]
+}
+
+/**
+ * Packs an EdDSA signature into a buffer of 64 bytes for efficient storage.
+ * Use {@link unpackSignature} to reverse the process without needing to know
+ * the details of the format.
+ *
+ * The buffer contains the R8 point packed int 32 bytes (via
+ * {@link packSignature}) followed by the S scalar.  All encodings are
+ * little-endian.
+ *
+ * @param signature the signature to pack
+ * @returns a 64 byte buffer containing the packed signature
+ */
+export function packSignature(signature: Signature): Buffer {
+    if (!isSignature(signature) || !inCurve(signature.R8) || BigInt(signature.S) >= subOrder) {
+        throw new Error("Invalid signature")
+    }
+
+    const numericSignature: Signature<bigint> = {
+        R8: signature.R8.map((c) => BigInt(c)) as Point<bigint>,
+        S: BigInt(signature.S)
+    }
+
+    const packedR8 = packPoint(numericSignature.R8)
+    const packedBytes = Buffer.alloc(64)
+    packedBytes.set(leBigIntToBuffer(packedR8, 32), 0)
+    packedBytes.set(leBigIntToBuffer(numericSignature.S, 32), 32)
+    return packedBytes
+}
+
+/**
+ * Unpacks a signature produced by {@link #packSignature}.  See that function
+ * for the details of the format.
+ *
+ * @param packedSignature the 64 byte buffer to unpack
+ * @returns a Signature with numbers in string form
+ */
+export function unpackSignature(packedSignature: Buffer): Signature<string> {
+    requireBuffer(packedSignature, "packedSignature")
+    if (packedSignature.length !== 64) {
+        throw new Error("Packed signature must be 64 bytes")
+    }
+
+    const sliceR8 = packedSignature.subarray(0, 32)
+    const sliceS = packedSignature.subarray(32, 64)
+    const unpackedR8 = unpackPoint(leBufferToBigInt(sliceR8))
+    if (unpackedR8 === null) {
+        throw new Error(`Invalid packed signature point ${sliceS.toString("hex")}.`)
+    }
+    return {
+        R8: [unpackedR8[0].toString(), unpackedR8[1].toString()],
+        S: leBufferToBigInt(sliceS).toString()
+    }
 }
 
 /**
