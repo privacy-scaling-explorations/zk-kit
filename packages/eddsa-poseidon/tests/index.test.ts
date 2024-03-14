@@ -2,9 +2,10 @@ import { babyjub, eddsa } from "circomlibjs"
 import { Buffer } from "buffer"
 import { crypto } from "@zk-kit/utils"
 import { utils } from "ffjavascript"
-import { r, packPoint } from "@zk-kit/baby-jubjub"
+import { r, packPoint, Point } from "@zk-kit/baby-jubjub"
 import {
     EdDSAPoseidon,
+    Signature,
     derivePublicKey,
     deriveSecretScalar,
     packPublicKey,
@@ -14,6 +15,18 @@ import {
     unpackSignature,
     verifySignature
 } from "../src"
+import { isPoint, isSignature } from "../src/utils"
+
+function numericPoint(publicKey: Point): Point<bigint> {
+    return [BigInt(publicKey[0]), BigInt(publicKey[1])]
+}
+
+function numericSignature(signature: Signature): Signature<bigint> {
+    return {
+        R8: [BigInt(signature.R8[0]), BigInt(signature.R8[1])],
+        S: BigInt(signature.S)
+    }
+}
 
 describe("EdDSAPoseidon", () => {
     const privateKey = "secret"
@@ -146,9 +159,16 @@ describe("EdDSAPoseidon", () => {
         expect(fun).toThrow(`Parameter 'message' is none of the following types: bignumberish, string`)
     })
 
-    it("Should verify a signature", async () => {
+    it("Should verify a signature (stringified)", async () => {
         const publicKey = derivePublicKey(privateKey)
         const signature = signMessage(privateKey, message)
+
+        expect(verifySignature(message, signature, publicKey)).toBeTruthy()
+    })
+
+    it("Should verify a signature (numeric)", async () => {
+        const publicKey = numericPoint(derivePublicKey(privateKey))
+        const signature = numericSignature(signMessage(privateKey, message))
 
         expect(verifySignature(message, signature, publicKey)).toBeTruthy()
     })
@@ -209,8 +229,18 @@ describe("EdDSAPoseidon", () => {
         }
     })
 
-    it("Should pack a public key", async () => {
+    it("Should pack a public key (stringified)", async () => {
         const publicKey = derivePublicKey(privateKey)
+
+        const packedPublicKey = packPublicKey(publicKey)
+
+        const expectedPackedPublicKey = babyjub.packPoint([BigInt(publicKey[0]), BigInt(publicKey[1])])
+
+        expect(packedPublicKey).toBe(utils.leBuff2int(expectedPackedPublicKey).toString())
+    })
+
+    it("Should pack a public key (numeric)", async () => {
+        const publicKey = numericPoint(derivePublicKey(privateKey))
 
         const packedPublicKey = packPublicKey(publicKey)
 
@@ -372,5 +402,29 @@ describe("EdDSAPoseidon", () => {
         expect(eddsa.secretScalar).toBe(deriveSecretScalar(eddsa.privateKey))
         expect(eddsa.packedPublicKey).toBe(packPublicKey(eddsa.publicKey))
         expect(eddsa.verifySignature(message, signature)).toBeTruthy()
+    })
+})
+
+describe("eddsa-poseidon.utils", () => {
+    it("Should identify points in different forms", async () => {
+        expect(isPoint(undefined as any as Point)).toBeFalsy()
+        expect(isPoint(123 as any as Point)).toBeFalsy()
+        expect(isPoint(["1", "2"])).toBeTruthy()
+        expect(isPoint(["0xa1", "0xb2"])).toBeTruthy()
+        expect(isPoint(["1", BigInt("2")])).toBeTruthy()
+        expect(isPoint([BigInt("1"), "2"])).toBeTruthy()
+        expect(isPoint([BigInt("1"), BigInt("2")])).toBeTruthy()
+        expect(isPoint(["1", "2", "3"] as any as Point)).toBeFalsy()
+        expect(isPoint({ x: "1", y: "2" } as any as Point)).toBeFalsy()
+    })
+
+    it("Should identify signatures in different forms", async () => {
+        expect(isSignature(undefined as any as Signature)).toBeFalsy()
+        expect(isSignature(123 as any as Signature)).toBeFalsy()
+        expect(isSignature({ R8: ["1", "2"], S: "3" })).toBeTruthy()
+        expect(isSignature({ R8: ["0xa1", "0xb2"], S: "0xc3" })).toBeTruthy()
+        expect(isSignature({ R8: [BigInt("1"), BigInt("2")], S: BigInt("3") })).toBeTruthy()
+        expect(isSignature({ R8: ["1", "2", "3"], S: "4" } as any as Signature)).toBeFalsy()
+        expect(isSignature({ R8: ["1", "2"], SS: "3" } as any as Signature)).toBeFalsy()
     })
 })

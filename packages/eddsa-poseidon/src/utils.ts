@@ -2,7 +2,7 @@ import { Point } from "@zk-kit/baby-jubjub"
 import type { BigNumberish } from "@zk-kit/utils"
 import { bigNumberishToBigInt, bigNumberishToBuffer, bufferToBigInt } from "@zk-kit/utils/conversions"
 import { requireTypes } from "@zk-kit/utils/error-handlers"
-import { isArray, isBigNumberish, isObject, isStringifiedBigInt } from "@zk-kit/utils/type-checks"
+import { isArray, isBigNumberish, isObject, isBigNumber } from "@zk-kit/utils/type-checks"
 import { Buffer } from "buffer"
 import { Blake512 } from "./blake"
 import { Signature } from "./types"
@@ -27,7 +27,7 @@ export function pruneBuffer(buff: Buffer): Buffer {
  * @returns True if the object is a valid point, false otherwise.
  */
 export function isPoint(point: Point): boolean {
-    return isArray(point) && point.length === 2 && isStringifiedBigInt(point[0]) && isStringifiedBigInt(point[1])
+    return isArray(point) && point.length === 2 && isBigNumber(point[0]) && isBigNumber(point[1])
 }
 
 /**
@@ -41,7 +41,7 @@ export function isSignature(signature: Signature): boolean {
         Object.prototype.hasOwnProperty.call(signature, "R8") &&
         Object.prototype.hasOwnProperty.call(signature, "S") &&
         isPoint(signature.R8) &&
-        isStringifiedBigInt(signature.S)
+        isBigNumber(signature.S)
     )
 }
 

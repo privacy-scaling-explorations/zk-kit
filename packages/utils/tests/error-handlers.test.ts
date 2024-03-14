@@ -1,6 +1,7 @@
 import {
     requireArray,
     requireBigInt,
+    requireBigNumber,
     requireBigNumberish,
     requireBuffer,
     requireDefined,
@@ -145,6 +146,12 @@ describe("# error-handlers", () => {
         const fun = () => requireStringifiedBigInt("0x12", "parameter")
 
         expect(fun).not.toThrow()
+    })
+
+    it("Should throw an error if the parameter is not a bignumber", () => {
+        const fun = () => requireBigNumber("string", "parameter")
+
+        expect(fun).toThrow("Parameter 'parameter' is not a bignumber")
     })
 
     it("Should throw an error if the parameter is not a bignumber-ish", () => {
