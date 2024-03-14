@@ -143,7 +143,7 @@ export function isHexadecimal(value: any, prefix = true) {
  * @param value The value to check.
  */
 export function isBigNumber(value: any): boolean {
-    return isBigInt(value) || isStringifiedBigInt(value);
+    return isBigInt(value) || isStringifiedBigInt(value)
 }
 
 /**
