@@ -46,8 +46,6 @@ export function beHexadecimalToBigInt(value: string): bigint {
         throw new TypeError(`Parameter 'value' is not a hexadecimal string`)
     }
 
-    console.log(isHexadecimal(value), isHexadecimal(value, false), value)
-
     // Ensure the hex string starts with '0x'.
     const formattedHexString = value.startsWith("0x") ? value : `0x${value}`
 
