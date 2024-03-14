@@ -178,20 +178,16 @@ export function unpackPublicKey(publicKey: BigNumberish): Point<string> {
  * Packs an EdDSA signature into a buffer of 64 bytes for efficient storage.
  * Use {@link unpackSignature} to reverse the process without needing to know
  * the details of the format.
- * 
+ *
  * The buffer contains the R8 point packed int 32 bytes (via
  * {@link packSignature}) followed by the S scalar.  All encodings are
  * little-endian.
- * 
+ *
  * @param signature the signature to pack
  * @returns a 64 byte buffer containing the packed signature
  */
 export function packSignature(signature: Signature): Buffer {
-    if (
-        !isSignature(signature) ||
-        !inCurve(signature.R8) ||
-        BigInt(signature.S) >= subOrder
-    ) {
+    if (!isSignature(signature) || !inCurve(signature.R8) || BigInt(signature.S) >= subOrder) {
         throw new Error("Invalid signature")
     }
 
@@ -206,12 +202,12 @@ export function packSignature(signature: Signature): Buffer {
     packedBytes.set(leBigIntToBuffer(numericSignature.S), 32)
     return packedBytes
 }
-  
+
 /**
  * Unpacks a signature produced by {@link #packSignature}.  See that function
  * for the details of the format.
- * 
- * @param packedSignature the 64 byte buffer to unpack 
+ *
+ * @param packedSignature the 64 byte buffer to unpack
  * @returns a Signature with numbers in string form
  */
 export function unpackSignature(packedSignature: Buffer): Signature<string> {
