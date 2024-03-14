@@ -137,6 +137,16 @@ export function isHexadecimal(value: any, prefix = true) {
 }
 
 /**
+ * Checks if the given value can be considered as BigNumber.
+ * A value is considered a BigNumber if it is a bigint or a string
+ * that can be converted to a bigint (via `Bigint(s)`).
+ * @param value The value to check.
+ */
+export function isBigNumber(value: any): boolean {
+    return isBigInt(value) || isStringifiedBigInt(value);
+}
+
+/**
  * Checks if the given value can be considered as BigNumberish.
  * A value is considered BigNumberish if it meets
  * any of the following conditions: it's a number, a bigint, a string

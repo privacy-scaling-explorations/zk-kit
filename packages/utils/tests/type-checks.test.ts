@@ -2,6 +2,7 @@ import { Buffer } from "buffer"
 import {
     isArray,
     isBigInt,
+    isBigNumber,
     isBigNumberish,
     isBuffer,
     isFunction,
@@ -95,6 +96,14 @@ describe("# type-checks", () => {
 
     it("Should return false if the value is not a hexadecimal", () => {
         expect(isHexadecimal("12")).toBeFalsy()
+    })
+
+    it("Should return true if the value is a bignumber", () => {
+        expect(isBigNumber(1)).toBeFalsy()
+        expect(isBigNumber("1")).toBeTruthy()
+        expect(isBigNumber(BigInt("1"))).toBeTruthy()
+        expect(isBigNumber("0x12")).toBeTruthy()
+        expect(isBigNumber(Buffer.from("0x12"))).toBeFalsy()
     })
 
     it("Should return true if the value is a bignumber-ish", () => {

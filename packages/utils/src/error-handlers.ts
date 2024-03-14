@@ -12,6 +12,7 @@ import {
     SupportedType,
     isArray,
     isBigInt,
+    isBigNumber,
     isBigNumberish,
     isBuffer,
     isDefined,
@@ -149,6 +150,17 @@ export function requireStringifiedBigInt(parameterValue: string, parameterName: 
 export function requireHexadecimal(parameterValue: string, parameterName: string, prefix = true) {
     if (!isHexadecimal(parameterValue, prefix)) {
         throw new TypeError(`Parameter '${parameterName}' is not a hexadecimal string`)
+    }
+}
+
+/**
+ * @throws Throws a type error if the parameter value is not a bignumber.
+ * @param parameterValue The parameter value.
+ * @param parameterName The parameter name.
+ */
+export function requireBigNumber(parameterValue: any, parameterName: string) {
+    if (!isBigNumber(parameterValue)) {
+        throw new TypeError(`Parameter '${parameterName}' is not a bignumber`)
     }
 }
 
