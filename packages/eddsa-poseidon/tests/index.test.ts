@@ -8,8 +8,10 @@ import {
     derivePublicKey,
     deriveSecretScalar,
     packPublicKey,
+    packSignature,
     signMessage,
     unpackPublicKey,
+    unpackSignature,
     verifySignature
 } from "../src"
 
@@ -249,6 +251,90 @@ describe("EdDSAPoseidon", () => {
         const fun = () => unpackPublicKey(invalidPublicKey)
 
         expect(fun).toThrow("Invalid public key")
+    })
+
+    it("Should pack a signature (stringified)", async () => {
+        const signature = signMessage(privateKey, message)
+
+        const packedSignature = packSignature(signature)
+        expect(packedSignature).toHaveLength(64)
+
+        const circomlibSignature = eddsa.signPoseidon(privateKey, message)
+        const circomlibPackedSignature = eddsa.packSignature(circomlibSignature)
+
+        expect(packedSignature).toEqual(circomlibPackedSignature)
+    })
+
+    // TODO(artwyman): Add test case for numericSignature after #200 lands
+
+    it("Should still pack an incorrect signature", async () => {
+        const signature = signMessage(privateKey, message)
+
+        signature.S = "3"
+
+        const packedSignature = packSignature(signature)
+        expect(packedSignature).toHaveLength(64)
+    })
+
+    it("Should not pack a signature if the signature is not on the curve", async () => {
+        const signature = signMessage(privateKey, message)
+
+        signature.R8[1] = BigInt(3).toString()
+
+        const fun = () => packSignature(signature)
+
+        expect(fun).toThrow("Invalid signature")
+    })
+
+    it("Should not pack a signature S value exceeds the predefined sub order", async () => {
+        const signature = signMessage(privateKey, message)
+
+        signature.S = "3421888242871839275222246405745257275088614511777268538073601725287587578984328"
+
+        const fun = () => packSignature(signature)
+
+        expect(fun).toThrow("Invalid signature")
+    })
+
+    it("Should unpack a packed signature", async () => {
+        const signature = signMessage(privateKey, message)
+
+        const packedSignature = packSignature(signature)
+
+        const unpackedSignature = unpackSignature(packedSignature)
+        expect(unpackedSignature).toEqual(signature)
+
+        const circomlibSignature = eddsa.signPoseidon(privateKey, message)
+        const circomlibUnpackedSignature = eddsa.unpackSignature(packedSignature)
+        expect(circomlibSignature).toEqual(circomlibUnpackedSignature)
+    })
+
+    it("Should not unpack a packed signature of the wrong length", async () => {
+        const signature = signMessage(privateKey, message)
+
+        const packedSignature = packSignature(signature)
+
+        const fun = () => unpackSignature(packedSignature.subarray(0, 63))
+        expect(fun).toThrow("Packed signature must be 64 bytes")
+    })
+
+    it("Should not unpack a packed signature with point malformed", async () => {
+        const signature = signMessage(privateKey, message)
+
+        const packedSignature = packSignature(signature)
+        packedSignature.set([1], 3)
+
+        const fun = () => unpackSignature(packedSignature)
+        expect(fun).toThrow("Invalid packed signature point")
+    })
+
+    it("Should still unpack a packed signature with scalar malformed", async () => {
+        const signature = signMessage(privateKey, message)
+
+        const packedSignature = packSignature(signature)
+        packedSignature.set([1], 35)
+
+        unpackSignature(packedSignature)
     })
 
     it("Should create an EdDSAPoseidon instance", async () => {
