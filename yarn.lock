@@ -3573,7 +3573,7 @@ __metadata:
   dependencies:
     "@types/mocha": "npm:^10.0.6"
     "@zk-kit/baby-jubjub": "npm:0.3.0"
-    "@zk-kit/eddsa-poseidon": "npm:0.9.0"
+    "@zk-kit/eddsa-poseidon": "npm:0.10.0"
     "@zk-kit/poseidon-cipher": "npm:0.3.0"
     "@zk-kit/smt": "npm:1.0.0"
     "@zk-kit/utils": "npm:0.8.1"
@@ -3593,7 +3593,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/eddsa-poseidon@npm:0.9.0, @zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon":
+"@zk-kit/eddsa-poseidon@npm:0.10.0, @zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon":
   version: 0.0.0-use.local
   resolution: "@zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon"
   dependencies:
@@ -3627,7 +3627,7 @@ __metadata:
     "@types/download": "npm:^8.0.5"
     "@types/snarkjs": "npm:^0"
     "@types/tmp": "npm:^0.2.6"
-    "@zk-kit/eddsa-poseidon": "npm:0.9.0"
+    "@zk-kit/eddsa-poseidon": "npm:0.10.0"
     "@zk-kit/utils": "npm:0.8.1"
     poseidon-lite: "npm:^0.2.0"
     rimraf: "npm:^5.0.5"
