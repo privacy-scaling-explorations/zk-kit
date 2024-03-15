@@ -234,7 +234,7 @@ describe("EdDSAPoseidon", () => {
 
         const packedPublicKey = packPublicKey(publicKey)
 
-        const expectedPackedPublicKey = babyjub.packPoint([publicKey[0], publicKey[1]])
+        const expectedPackedPublicKey = babyjub.packPoint(publicKey)
 
         expect(packedPublicKey).toBe(utils.leBuff2int(expectedPackedPublicKey))
     })

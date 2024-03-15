@@ -2,7 +2,7 @@ import { Circomkit } from "circomkit"
 import { readFileSync } from "fs"
 import path from "path"
 import { Point, mulPointEscalar } from "@zk-kit/baby-jubjub"
-import { derivePublicKey, deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
+import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
 import { LeanIMT } from "@zk-kit/imt"
 import { poseidon2 } from "poseidon-lite"
 
@@ -32,13 +32,6 @@ export const circomkit = new Circomkit({
     ...config,
     verbose: false
 })
-
-/**
- * Generate a public key from a private key
- * @param privateKey the private key to generate a public key from
- * @returns the public key
- */
-export const genPublicKey = (privateKey: bigint): [bigint, bigint] => derivePublicKey(privateKey)
 
 /**
  * Generates an Elliptic-Curve Diffie–Hellman (ECDH) shared key given a private

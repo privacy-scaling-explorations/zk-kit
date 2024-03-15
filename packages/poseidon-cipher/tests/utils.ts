@@ -1,13 +1,8 @@
 import { mulPointEscalar } from "@zk-kit/baby-jubjub"
-import { derivePublicKey, deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
+import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
 import { EncryptionKey } from "../src/types"
 
-/**
- * Generate a public key from a private key
- * @param privateKey the private key to generate a public key from
- * @returns the public key
- */
-export const genPublicKey = (privateKey: bigint): [bigint, bigint] => derivePublicKey(privateKey)
+/* eslint import/prefer-default-export: 0 */
 
 /**
  * Generates an Elliptic-Curve Diffie–Hellman (ECDH) shared key given a private

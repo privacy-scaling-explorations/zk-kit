@@ -1,7 +1,7 @@
 import { WitnessTester } from "circomkit"
-import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
+import { derivePublicKey, deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
 import { beBufferToBigInt, crypto } from "@zk-kit/utils"
-import { circomkit, genEcdhSharedKey, genPublicKey } from "./common"
+import { circomkit, genEcdhSharedKey } from "./common"
 
 describe("ECDH Shared Key derivation circuit", () => {
     let circuit: WitnessTester<["privateKey", "publicKey"], ["sharedKey"]>
@@ -19,7 +19,7 @@ describe("ECDH Shared Key derivation circuit", () => {
         const bgPrivateKey1 = beBufferToBigInt(Buffer.from(privateKey1))
         const bgPrivateKey2 = beBufferToBigInt(Buffer.from(privateKey2))
 
-        const publicKey2 = genPublicKey(bgPrivateKey2)
+        const publicKey2 = derivePublicKey(bgPrivateKey2)
 
         // generate a shared key between the first private key and the second public key
         const ecdhSharedKey = genEcdhSharedKey(bgPrivateKey1, publicKey2)
@@ -37,8 +37,8 @@ describe("ECDH Shared Key derivation circuit", () => {
         const privateKey2 = crypto.getRandomValues(32)
         const bgPrivateKey1 = beBufferToBigInt(Buffer.from(privateKey1))
         const bgPrivateKey2 = beBufferToBigInt(Buffer.from(privateKey2))
-        const publicKey1 = genPublicKey(bgPrivateKey1)
-        const publicKey2 = genPublicKey(bgPrivateKey2)
+        const publicKey1 = derivePublicKey(bgPrivateKey1)
+        const publicKey2 = derivePublicKey(bgPrivateKey2)
 
         // generate a shared key between the first private key and the second public key
         const ecdhSharedKey = genEcdhSharedKey(bgPrivateKey1, publicKey2)
@@ -67,7 +67,7 @@ describe("ECDH Shared Key derivation circuit", () => {
     it("should generate the same ECDH key consistently for the same inputs", async () => {
         const privateKey1 = deriveSecretScalar(Buffer.from(crypto.getRandomValues(32)))
         const privateKey2 = crypto.getRandomValues(32)
-        const publicKey2 = genPublicKey(beBufferToBigInt(Buffer.from(privateKey2)))
+        const publicKey2 = derivePublicKey(beBufferToBigInt(Buffer.from(privateKey2)))
 
         const circuitInputs = {
             privateKey: privateKey1,

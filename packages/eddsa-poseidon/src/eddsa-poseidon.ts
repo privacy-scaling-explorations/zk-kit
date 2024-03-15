@@ -58,7 +58,7 @@ export function derivePublicKey(privateKey: BigNumberish): Point<bigint> {
     const publicKey = mulPointEscalar(Base8, s)
 
     // Convert the public key values to strings so that it can easily be exported as a JSON.
-    return [publicKey[0], publicKey[1]]
+    return publicKey
 }
 
 /**
@@ -133,7 +133,7 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
     pRight = addPoint(_signature.R8, pRight)
 
     // Return true if the points match.
-    return Fr.eq(BigInt(pLeft[0]), pRight[0]) && Fr.eq(pLeft[1], pRight[1])
+    return Fr.eq(pLeft[0], pRight[0]) && Fr.eq(pLeft[1], pRight[1])
 }
 
 /**
@@ -168,7 +168,7 @@ export function unpackPublicKey(publicKey: BigNumberish): Point<bigint> {
         throw new Error("Invalid public key")
     }
 
-    return [unpackedPublicKey[0], unpackedPublicKey[1]]
+    return unpackedPublicKey
 }
 
 /**
@@ -220,7 +220,7 @@ export function unpackSignature(packedSignature: Buffer): Signature<bigint> {
         throw new Error(`Invalid packed signature point ${sliceS.toString("hex")}.`)
     }
     return {
-        R8: [unpackedR8[0], unpackedR8[1]],
+        R8: unpackedR8,
         S: leBufferToBigInt(sliceS)
     }
 }
