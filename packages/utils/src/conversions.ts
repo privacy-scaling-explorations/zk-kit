@@ -41,7 +41,7 @@ export function bigIntToHexadecimal(value: bigint): string {
  * @param value The hexadecimal string to convert.
  * @returns The bigint representation of the hexadecimal string.
  */
-export function beHexadecimalToBigInt(value: string): bigint {
+export function hexadecimalToBigInt(value: string): bigint {
     if (!isHexadecimal(value) && !isHexadecimal(value, false)) {
         throw new TypeError(`Parameter 'value' is not a hexadecimal string`)
     }
@@ -50,15 +50,6 @@ export function beHexadecimalToBigInt(value: string): bigint {
     const formattedHexString = value.startsWith("0x") ? value : `0x${value}`
 
     return BigInt(formattedHexString)
-}
-
-/**
- * Converts a hexadecimal string to a bigint. Alias for beHexadecimalToBigInt.
- * @param value The hexadecimal string to convert.
- * @returns The bigint representation of the hexadecimal string.
- */
-export function hexadecimalToBigInt(value: string): bigint {
-    return beHexadecimalToBigInt(value)
 }
 
 /**
