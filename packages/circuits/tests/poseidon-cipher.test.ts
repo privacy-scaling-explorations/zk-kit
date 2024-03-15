@@ -1,7 +1,8 @@
 import { WitnessTester } from "circomkit"
+import { derivePublicKey } from "@zk-kit/eddsa-poseidon"
 import { Nonce, PlainText, poseidonDecrypt, poseidonEncrypt, poseidonPerm } from "@zk-kit/poseidon-cipher"
 import { beBufferToBigInt, crypto } from "@zk-kit/utils"
-import { circomkit, genEcdhSharedKey, genPublicKey } from "./common"
+import { circomkit, genEcdhSharedKey } from "./common"
 
 describe("poseidon-cipher", () => {
     describe("poseidonDecrypt", () => {
@@ -9,7 +10,7 @@ describe("poseidon-cipher", () => {
 
         const privateKey = crypto.getRandomValues(32)
         const bgPrivateKey = beBufferToBigInt(Buffer.from(privateKey))
-        const publicKey = genPublicKey(bgPrivateKey)
+        const publicKey = derivePublicKey(bgPrivateKey)
         const encryptionKey = genEcdhSharedKey(bgPrivateKey, publicKey)
 
         const nonce: Nonce = BigInt(5)
@@ -99,7 +100,7 @@ describe("poseidon-cipher", () => {
 
         const privateKey = crypto.getRandomValues(32)
         const bgPrivateKey = beBufferToBigInt(Buffer.from(privateKey))
-        const publicKey = genPublicKey(bgPrivateKey)
+        const publicKey = derivePublicKey(bgPrivateKey)
         const encryptionKey = genEcdhSharedKey(bgPrivateKey, publicKey)
 
         const plainText: PlainText<bigint> = [BigInt(0), BigInt(1)]
@@ -157,7 +158,7 @@ describe("poseidon-cipher", () => {
 
         const privateKey = crypto.getRandomValues(32)
         const bgPrivateKey = beBufferToBigInt(Buffer.from(privateKey))
-        const publicKey = genPublicKey(bgPrivateKey)
+        const publicKey = derivePublicKey(bgPrivateKey)
         const encryptionKey = genEcdhSharedKey(bgPrivateKey, publicKey)
 
         const plainText: PlainText<bigint> = [BigInt(0), BigInt(1)]

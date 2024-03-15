@@ -17,14 +17,14 @@ import {
 } from "../src"
 import { isPoint, isSignature } from "../src/utils"
 
-function numericPoint(publicKey: Point): Point<bigint> {
-    return [BigInt(publicKey[0]), BigInt(publicKey[1])]
+function stringifyPoint(publicKey: Point): Point<string> {
+    return [publicKey[0].toString(), publicKey[1].toString()]
 }
 
-function numericSignature(signature: Signature): Signature<bigint> {
+function stringifySignature(signature: Signature): Signature<string> {
     return {
-        R8: [BigInt(signature.R8[0]), BigInt(signature.R8[1])],
-        S: BigInt(signature.S)
+        R8: [signature.R8[0].toString(), signature.R8[1].toString()],
+        S: signature.S.toString()
     }
 }
 
@@ -37,8 +37,8 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibPublicKey = eddsa.prv2pub(privateKey)
 
-        expect(publicKey[0]).toBe(circomlibPublicKey[0].toString())
-        expect(publicKey[1]).toBe(circomlibPublicKey[1].toString())
+        expect(publicKey[0]).toBe(circomlibPublicKey[0])
+        expect(publicKey[1]).toBe(circomlibPublicKey[1])
     })
 
     it("Should derive a public key from a private key (hexadecimal)", async () => {
@@ -48,8 +48,8 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibPublicKey = eddsa.prv2pub(Buffer.from(privateKey.slice(2), "hex"))
 
-        expect(publicKey[0]).toBe(circomlibPublicKey[0].toString())
-        expect(publicKey[1]).toBe(circomlibPublicKey[1].toString())
+        expect(publicKey[0]).toBe(circomlibPublicKey[0])
+        expect(publicKey[1]).toBe(circomlibPublicKey[1])
     })
 
     it("Should derive a public key from a private key (buffer)", async () => {
@@ -59,8 +59,8 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibPublicKey = eddsa.prv2pub(privateKey)
 
-        expect(publicKey[0]).toBe(circomlibPublicKey[0].toString())
-        expect(publicKey[1]).toBe(circomlibPublicKey[1].toString())
+        expect(publicKey[0]).toBe(circomlibPublicKey[0])
+        expect(publicKey[1]).toBe(circomlibPublicKey[1])
     })
 
     it("Should derive a public key from a private key (bigint)", async () => {
@@ -70,8 +70,8 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibPublicKey = eddsa.prv2pub(Buffer.from(privateKey.toString(16), "hex"))
 
-        expect(publicKey[0]).toBe(circomlibPublicKey[0].toString())
-        expect(publicKey[1]).toBe(circomlibPublicKey[1].toString())
+        expect(publicKey[0]).toBe(circomlibPublicKey[0])
+        expect(publicKey[1]).toBe(circomlibPublicKey[1])
     })
 
     it("Should derive a public key from a private key (number)", async () => {
@@ -81,8 +81,8 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibPublicKey = eddsa.prv2pub(Buffer.from(privateKey.toString(16), "hex"))
 
-        expect(publicKey[0]).toBe(circomlibPublicKey[0].toString())
-        expect(publicKey[1]).toBe(circomlibPublicKey[1].toString())
+        expect(publicKey[0]).toBe(circomlibPublicKey[0])
+        expect(publicKey[1]).toBe(circomlibPublicKey[1])
     })
 
     it("Should throw an error if the secret type is not supported", async () => {
@@ -98,9 +98,9 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibSignature = eddsa.signPoseidon(privateKey, message)
 
-        expect(signature.R8[0]).toBe(circomlibSignature.R8[0].toString())
-        expect(signature.R8[1]).toBe(circomlibSignature.R8[1].toString())
-        expect(signature.S).toBe(circomlibSignature.S.toString())
+        expect(signature.R8[0]).toBe(circomlibSignature.R8[0])
+        expect(signature.R8[1]).toBe(circomlibSignature.R8[1])
+        expect(signature.S).toBe(circomlibSignature.S)
     })
 
     it("Should sign a message (number)", async () => {
@@ -110,9 +110,9 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibSignature = eddsa.signPoseidon(privateKey, BigInt(message))
 
-        expect(signature.R8[0]).toBe(circomlibSignature.R8[0].toString())
-        expect(signature.R8[1]).toBe(circomlibSignature.R8[1].toString())
-        expect(signature.S).toBe(circomlibSignature.S.toString())
+        expect(signature.R8[0]).toBe(circomlibSignature.R8[0])
+        expect(signature.R8[1]).toBe(circomlibSignature.R8[1])
+        expect(signature.S).toBe(circomlibSignature.S)
     })
 
     it("Should sign a message (hexadecimal)", async () => {
@@ -122,9 +122,9 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibSignature = eddsa.signPoseidon(privateKey, BigInt(message))
 
-        expect(signature.R8[0]).toBe(circomlibSignature.R8[0].toString())
-        expect(signature.R8[1]).toBe(circomlibSignature.R8[1].toString())
-        expect(signature.S).toBe(circomlibSignature.S.toString())
+        expect(signature.R8[0]).toBe(circomlibSignature.R8[0])
+        expect(signature.R8[1]).toBe(circomlibSignature.R8[1])
+        expect(signature.S).toBe(circomlibSignature.S)
     })
 
     it("Should sign a message (buffer)", async () => {
@@ -134,9 +134,9 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibSignature = eddsa.signPoseidon(privateKey, BigInt(`0x${message.toString("hex")}`))
 
-        expect(signature.R8[0]).toBe(circomlibSignature.R8[0].toString())
-        expect(signature.R8[1]).toBe(circomlibSignature.R8[1].toString())
-        expect(signature.S).toBe(circomlibSignature.S.toString())
+        expect(signature.R8[0]).toBe(circomlibSignature.R8[0])
+        expect(signature.R8[1]).toBe(circomlibSignature.R8[1])
+        expect(signature.S).toBe(circomlibSignature.S)
     })
 
     it("Should sign a message (string)", async () => {
@@ -146,9 +146,9 @@ describe("EdDSAPoseidon", () => {
 
         const circomlibSignature = eddsa.signPoseidon(privateKey, BigInt(`0x${Buffer.from(message).toString("hex")}`))
 
-        expect(signature.R8[0]).toBe(circomlibSignature.R8[0].toString())
-        expect(signature.R8[1]).toBe(circomlibSignature.R8[1].toString())
-        expect(signature.S).toBe(circomlibSignature.S.toString())
+        expect(signature.R8[0]).toBe(circomlibSignature.R8[0])
+        expect(signature.R8[1]).toBe(circomlibSignature.R8[1])
+        expect(signature.S).toBe(circomlibSignature.S)
     })
 
     it("Should throw an error if the message type is not supported", async () => {
@@ -159,16 +159,16 @@ describe("EdDSAPoseidon", () => {
         expect(fun).toThrow(`Parameter 'message' is none of the following types: bignumberish, string`)
     })
 
-    it("Should verify a signature (stringified)", async () => {
+    it("Should verify a signature (numeric)", async () => {
         const publicKey = derivePublicKey(privateKey)
         const signature = signMessage(privateKey, message)
 
         expect(verifySignature(message, signature, publicKey)).toBeTruthy()
     })
 
-    it("Should verify a signature (numeric)", async () => {
-        const publicKey = numericPoint(derivePublicKey(privateKey))
-        const signature = numericSignature(signMessage(privateKey, message))
+    it("Should verify a signature (stringified)", async () => {
+        const publicKey = stringifyPoint(derivePublicKey(privateKey))
+        const signature = stringifySignature(signMessage(privateKey, message))
 
         expect(verifySignature(message, signature, publicKey)).toBeTruthy()
     })
@@ -195,7 +195,7 @@ describe("EdDSAPoseidon", () => {
         const publicKey = derivePublicKey(privateKey)
         const signature = signMessage(privateKey, message)
 
-        signature.R8[1] = BigInt(3).toString()
+        signature.R8[1] = BigInt(3)
 
         expect(verifySignature(message, signature, publicKey)).toBeFalsy()
     })
@@ -204,7 +204,7 @@ describe("EdDSAPoseidon", () => {
         const publicKey = derivePublicKey(privateKey)
         const signature = signMessage(privateKey, message)
 
-        publicKey[1] = BigInt(3).toString()
+        publicKey[1] = BigInt(3)
 
         expect(verifySignature(message, signature, publicKey)).toBeFalsy()
     })
@@ -213,7 +213,7 @@ describe("EdDSAPoseidon", () => {
         const publicKey = derivePublicKey(privateKey)
         const signature = signMessage(privateKey, message)
 
-        signature.S = "3421888242871839275222246405745257275088614511777268538073601725287587578984328"
+        signature.S = BigInt("3421888242871839275222246405745257275088614511777268538073601725287587578984328")
 
         expect(verifySignature(message, signature, publicKey)).toBeFalsy()
     })
@@ -224,35 +224,35 @@ describe("EdDSAPoseidon", () => {
             const publicKey = derivePublicKey(privateKey)
             const circomlibPublicKey = eddsa.prv2pub(privateKey)
 
-            expect(publicKey[0]).toBe(circomlibPublicKey[0].toString())
-            expect(publicKey[1]).toBe(circomlibPublicKey[1].toString())
+            expect(publicKey[0]).toBe(circomlibPublicKey[0])
+            expect(publicKey[1]).toBe(circomlibPublicKey[1])
         }
     })
 
-    it("Should pack a public key (stringified)", async () => {
+    it("Should pack a public key (numeric)", async () => {
         const publicKey = derivePublicKey(privateKey)
 
         const packedPublicKey = packPublicKey(publicKey)
 
-        const expectedPackedPublicKey = babyjub.packPoint([BigInt(publicKey[0]), BigInt(publicKey[1])])
+        const expectedPackedPublicKey = babyjub.packPoint(publicKey)
 
-        expect(packedPublicKey).toBe(utils.leBuff2int(expectedPackedPublicKey).toString())
+        expect(packedPublicKey).toBe(utils.leBuff2int(expectedPackedPublicKey))
     })
 
-    it("Should pack a public key (numeric)", async () => {
-        const publicKey = numericPoint(derivePublicKey(privateKey))
+    it("Should pack a public key (stringified)", async () => {
+        const publicKey = stringifyPoint(derivePublicKey(privateKey))
 
         const packedPublicKey = packPublicKey(publicKey)
 
         const expectedPackedPublicKey = babyjub.packPoint([BigInt(publicKey[0]), BigInt(publicKey[1])])
 
-        expect(packedPublicKey).toBe(utils.leBuff2int(expectedPackedPublicKey).toString())
+        expect(packedPublicKey).toBe(utils.leBuff2int(expectedPackedPublicKey))
     })
 
     it("Should not pack a public key if the public key is not on the curve", async () => {
         const publicKey = derivePublicKey(privateKey)
 
-        publicKey[1] = BigInt(3).toString()
+        publicKey[1] = BigInt(3)
 
         const fun = () => packPublicKey(publicKey)
 
@@ -283,7 +283,7 @@ describe("EdDSAPoseidon", () => {
         expect(fun).toThrow("Invalid public key")
     })
 
-    it("Should pack a signature (stringified)", async () => {
+    it("Should pack a signature (numeric)", async () => {
         const signature = signMessage(privateKey, message)
 
         const packedSignature = packSignature(signature)
@@ -295,10 +295,10 @@ describe("EdDSAPoseidon", () => {
         expect(packedSignature).toEqual(circomlibPackedSignature)
     })
 
-    it("Should pack a signature (numeric)", async () => {
+    it("Should pack a signature (stringified)", async () => {
         const signature = signMessage(privateKey, message)
 
-        const packedSignature = packSignature(numericSignature(signature))
+        const packedSignature = packSignature(stringifySignature(signature))
         expect(packedSignature).toHaveLength(64)
 
         const circomlibSignature = eddsa.signPoseidon(privateKey, message)
@@ -310,7 +310,7 @@ describe("EdDSAPoseidon", () => {
     it("Should still pack an incorrect signature", async () => {
         const signature = signMessage(privateKey, message)
 
-        signature.S = "3"
+        signature.S = BigInt(3)
 
         const packedSignature = packSignature(signature)
         expect(packedSignature).toHaveLength(64)
@@ -319,7 +319,7 @@ describe("EdDSAPoseidon", () => {
     it("Should not pack a signature if the signature is not on the curve", async () => {
         const signature = signMessage(privateKey, message)
 
-        signature.R8[1] = BigInt(3).toString()
+        signature.R8[1] = BigInt(3)
 
         const fun = () => packSignature(signature)
 
@@ -329,7 +329,7 @@ describe("EdDSAPoseidon", () => {
     it("Should not pack a signature S value exceeds the predefined sub order", async () => {
         const signature = signMessage(privateKey, message)
 
-        signature.S = "3421888242871839275222246405745257275088614511777268538073601725287587578984328"
+        signature.S = BigInt("3421888242871839275222246405745257275088614511777268538073601725287587578984328")
 
         const fun = () => packSignature(signature)
 
@@ -384,7 +384,7 @@ describe("EdDSAPoseidon", () => {
         // R8 has to be a point on the curve.
         // Note that overly-large values also ruled out by the inCurve check on
         // R8 and the subOrder check on S.
-        signature.S = "3"
+        signature.S = BigInt(3)
 
         const packedSignature = packSignature(signature)
 
