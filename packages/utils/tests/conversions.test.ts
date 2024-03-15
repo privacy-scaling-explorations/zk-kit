@@ -137,13 +137,13 @@ describe("Conversions", () => {
     })
 
     describe("# bufferToHexadecimal", () => {
-        it("Should convert a BE buffer to a hexadecimal string", async () => {
+        it("Should convert a buffer to a hexadecimal string", async () => {
             const result = bufferToHexadecimal(Buffer.from(testBytes1))
 
             expect(result).toBe(testHex1BE.slice(2))
         })
 
-        it("Should throw an error if the input is not a valid buffer (BE)", async () => {
+        it("Should throw an error if the input is not a valid buffer", async () => {
             const fun = () => bufferToHexadecimal(1 as any)
 
             expect(fun).toThrow("Parameter 'value' is none of the following types: Buffer, Uint8Array")
@@ -151,13 +151,13 @@ describe("Conversions", () => {
     })
 
     describe("# hexadecimalToBuffer", () => {
-        it("Should convert a BE hexadecimal string to a buffer", async () => {
+        it("Should convert a hexadecimal string to a buffer", async () => {
             const result = hexadecimalToBuffer(testHex1BE.slice(2))
 
             expect(result).toStrictEqual(Buffer.from(testBytes1))
         })
 
-        it("Should throw an error if the input is not a valid hexadecimal (BE)", async () => {
+        it("Should throw an error if the input is not a valid hexadecimal", async () => {
             const fun = () => hexadecimalToBuffer("0x12")
 
             expect(fun).toThrow("Parameter 'value' is not a hexadecimal string")
