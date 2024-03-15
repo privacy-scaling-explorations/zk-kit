@@ -23,7 +23,7 @@ describe("Conversions", () => {
     const testBigInt1BE = BigInt(testHex1BE)
 
     describe("# bigintToHexadecimal", () => {
-        it("Should convert a bigint to a BE hexadecimal", async () => {
+        it("Should convert a bigint to a hexadecimal", async () => {
             const result = bigIntToHexadecimal(testBigInt1BE)
 
             expect(result).toBe(testHex1BE.slice(4))
@@ -37,13 +37,13 @@ describe("Conversions", () => {
     })
 
     describe("# hexadecimalToBigInt", () => {
-        it("Should convert a bigint to a BE hexadecimal", async () => {
+        it("Should convert a bigint to a hexadecimal", async () => {
             const result = hexadecimalToBigInt(testHex1BE)
 
             expect(result).toBe(testBigInt1BE)
         })
 
-        it("Should convert a bigint to a BE hexadecimal adding the '0x' prefix if missing", async () => {
+        it("Should convert a bigint to a hexadecimal adding the '0x' prefix if missing", async () => {
             const result = hexadecimalToBigInt(testHex1BE.slice(2))
 
             expect(result).toBe(testBigInt1BE)
@@ -57,7 +57,7 @@ describe("Conversions", () => {
     })
 
     describe("# bigNumberishToBuffer", () => {
-        it("Should convert a big numberish (number) to a BE buffer", async () => {
+        it("Should convert a big numberish (number) to a buffer", async () => {
             const n = 1234
 
             const result = bigNumberishToBuffer(n)
@@ -65,25 +65,25 @@ describe("Conversions", () => {
             expect(result).toStrictEqual(Buffer.from([0x04, 0xd2]))
         })
 
-        it("Should convert a big numberish (bigint) to a BE buffer", async () => {
+        it("Should convert a big numberish (bigint) to a buffer", async () => {
             const result = bigNumberishToBuffer(testBigInt1BE)
 
             expect(result).toStrictEqual(Buffer.from(testBytes1.slice(1)))
         })
 
-        it("Should convert a big numberish (stringified bigint) to a BE buffer", async () => {
+        it("Should convert a big numberish (stringified bigint) to a buffer", async () => {
             const result = bigNumberishToBuffer(testBigInt1BE.toString())
 
             expect(result).toStrictEqual(Buffer.from(testBytes1.slice(1)))
         })
 
-        it("Should convert a big numberish (hexadecimal) to a BE buffer", async () => {
+        it("Should convert a big numberish (hexadecimal) to a buffer", async () => {
             const result = bigNumberishToBuffer(testHex1BE)
 
             expect(result).toStrictEqual(Buffer.from(testBytes1.slice(1)))
         })
 
-        it("Should convert a big numberish (buffer) to a BE buffer", async () => {
+        it("Should convert a big numberish (buffer) to a buffer", async () => {
             const result = bigNumberishToBuffer(Buffer.from(testHex1BE))
 
             expect(result).toStrictEqual(Buffer.from(testHex1BE))
@@ -97,7 +97,7 @@ describe("Conversions", () => {
     })
 
     describe("# bigNumberishToBigInt", () => {
-        it("Should convert a BE big numberish (number) to a bigint", async () => {
+        it("Should convert a big numberish (number) to a bigint", async () => {
             const n = 1234
 
             const result = bigNumberishToBigInt(n)
@@ -105,25 +105,25 @@ describe("Conversions", () => {
             expect(result).toBe(BigInt(n))
         })
 
-        it("Should convert a BE big numberish (bigint) to a bigint", async () => {
+        it("Should convert a big numberish (bigint) to a bigint", async () => {
             const result = bigNumberishToBigInt(testBigInt1BE)
 
             expect(result).toBe(testBigInt1BE)
         })
 
-        it("Should convert a BE big numberish (stringified bigint) to a bigint", async () => {
+        it("Should convert a big numberish (stringified bigint) to a bigint", async () => {
             const result = bigNumberishToBigInt(testBigInt1BE.toString())
 
             expect(result).toBe(testBigInt1BE)
         })
 
-        it("Should convert a BE big numberish (hexadecimal) to a bigint", async () => {
+        it("Should convert a big numberish (hexadecimal) to a bigint", async () => {
             const result = bigNumberishToBigInt(testHex1BE)
 
             expect(result).toBe(testBigInt1BE)
         })
 
-        it("Should convert a BE big numberish (buffer) to a bigint", async () => {
+        it("Should convert a big numberish (buffer) to a bigint", async () => {
             const result = bigNumberishToBigInt(Buffer.from(testBytes1))
 
             expect(result).toBe(testBigInt1BE)
@@ -137,13 +137,13 @@ describe("Conversions", () => {
     })
 
     describe("# bufferToHexadecimal", () => {
-        it("Should convert a BE buffer to a hexadecimal string", async () => {
+        it("Should convert a buffer to a hexadecimal string", async () => {
             const result = bufferToHexadecimal(Buffer.from(testBytes1))
 
             expect(result).toBe(testHex1BE.slice(2))
         })
 
-        it("Should throw an error if the input is not a valid buffer (BE)", async () => {
+        it("Should throw an error if the input is not a valid buffer", async () => {
             const fun = () => bufferToHexadecimal(1 as any)
 
             expect(fun).toThrow("Parameter 'value' is none of the following types: Buffer, Uint8Array")
@@ -151,13 +151,19 @@ describe("Conversions", () => {
     })
 
     describe("# hexadecimalToBuffer", () => {
-        it("Should convert a BE hexadecimal string to a buffer", async () => {
+        it("Should convert a hexadecimal string to a buffer", async () => {
             const result = hexadecimalToBuffer(testHex1BE.slice(2))
 
             expect(result).toStrictEqual(Buffer.from(testBytes1))
         })
 
-        it("Should throw an error if the input is not a valid hexadecimal (BE)", async () => {
+        it("Should convert a hexadecimal string with odd number of characters to a buffer", async () => {
+            const result = hexadecimalToBuffer("1")
+
+            expect(result).toStrictEqual(Buffer.from([1]))
+        })
+
+        it("Should throw an error if the input is not a valid hexadecimal", async () => {
             const fun = () => hexadecimalToBuffer("0x12")
 
             expect(fun).toThrow("Parameter 'value' is not a hexadecimal string")
