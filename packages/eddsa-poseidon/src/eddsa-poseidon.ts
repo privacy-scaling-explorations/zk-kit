@@ -31,7 +31,7 @@ import { hash as blake, checkMessage, checkPrivateKey, isPoint, isSignature, pru
  * @param privateKey The EdDSA private key for generating the associated public key.
  * @returns The derived secret scalar to be used to calculate public key and optimized for circuit calculations.
  */
-export function deriveSecretScalar(privateKey: BigNumberish): string {
+export function deriveSecretScalar(privateKey: BigNumberish): bigint {
     // Convert the private key to buffer.
     privateKey = checkPrivateKey(privateKey)
 
@@ -40,7 +40,7 @@ export function deriveSecretScalar(privateKey: BigNumberish): string {
     hash = hash.slice(0, 32)
     hash = pruneBuffer(hash)
 
-    return scalar.shiftRight(leBufferToBigInt(hash), BigInt(3)).toString()
+    return scalar.shiftRight(leBufferToBigInt(hash), BigInt(3))
 }
 
 /**
@@ -52,13 +52,13 @@ export function deriveSecretScalar(privateKey: BigNumberish): string {
  * @param privateKey The private key used for generating the public key.
  * @returns The derived public key.
  */
-export function derivePublicKey(privateKey: BigNumberish): Point<string> {
+export function derivePublicKey(privateKey: BigNumberish): Point<bigint> {
     const s = deriveSecretScalar(privateKey)
 
-    const publicKey = mulPointEscalar(Base8, BigInt(s))
+    const publicKey = mulPointEscalar(Base8, s)
 
     // Convert the public key values to strings so that it can easily be exported as a JSON.
-    return [publicKey[0].toString(), publicKey[1].toString()]
+    return [publicKey[0], publicKey[1]]
 }
 
 /**
@@ -68,7 +68,7 @@ export function derivePublicKey(privateKey: BigNumberish): Point<string> {
  * @param message The message to be signed.
  * @returns The signature object, containing properties relevant to EdDSA signatures, such as 'R8' and 'S' values.
  */
-export function signMessage(privateKey: BigNumberish, message: BigNumberish): Signature<string> {
+export function signMessage(privateKey: BigNumberish, message: BigNumberish): Signature<bigint> {
     // Convert the private key to buffer.
     privateKey = checkPrivateKey(privateKey)
 
@@ -93,10 +93,7 @@ export function signMessage(privateKey: BigNumberish, message: BigNumberish): Si
     const S = Fr.add(r, Fr.mul(hm, s))
 
     // Convert the signature values to strings so that it can easily be exported as a JSON.
-    return {
-        R8: [R8[0].toString(), R8[1].toString()],
-        S: S.toString()
-    }
+    return { R8, S }
 }
 
 /**
@@ -145,7 +142,7 @@ export function verifySignature(message: BigNumberish, signature: Signature, pub
  * @param publicKey The public key to be packed.
  * @returns A string representation of the packed public key.
  */
-export function packPublicKey(publicKey: Point): string {
+export function packPublicKey(publicKey: Point): bigint {
     if (!isPoint(publicKey) || !inCurve(publicKey)) {
         throw new Error("Invalid public key")
     }
@@ -153,7 +150,7 @@ export function packPublicKey(publicKey: Point): string {
     // Convert the public key values to big integers for calculations.
     const _publicKey: Point<bigint> = [BigInt(publicKey[0]), BigInt(publicKey[1])]
 
-    return packPoint(_publicKey).toString()
+    return packPoint(_publicKey)
 }
 
 /**
@@ -162,7 +159,7 @@ export function packPublicKey(publicKey: Point): string {
  * @param publicKey The packed public key as a bignumberish.
  * @returns The unpacked public key as a point.
  */
-export function unpackPublicKey(publicKey: BigNumberish): Point<string> {
+export function unpackPublicKey(publicKey: BigNumberish): Point<bigint> {
     requireBigNumberish(publicKey, "publicKey")
 
     const unpackedPublicKey = unpackPoint(bigNumberishToBigInt(publicKey))
@@ -171,7 +168,7 @@ export function unpackPublicKey(publicKey: BigNumberish): Point<string> {
         throw new Error("Invalid public key")
     }
 
-    return [unpackedPublicKey[0].toString(), unpackedPublicKey[1].toString()]
+    return [unpackedPublicKey[0], unpackedPublicKey[1]]
 }
 
 /**
@@ -210,7 +207,7 @@ export function packSignature(signature: Signature): Buffer {
  * @param packedSignature the 64 byte buffer to unpack
  * @returns a Signature with numbers in string form
  */
-export function unpackSignature(packedSignature: Buffer): Signature<string> {
+export function unpackSignature(packedSignature: Buffer): Signature<bigint> {
     requireBuffer(packedSignature, "packedSignature")
     if (packedSignature.length !== 64) {
         throw new Error("Packed signature must be 64 bytes")
@@ -223,8 +220,8 @@ export function unpackSignature(packedSignature: Buffer): Signature<string> {
         throw new Error(`Invalid packed signature point ${sliceS.toString("hex")}.`)
     }
     return {
-        R8: [unpackedR8[0].toString(), unpackedR8[1].toString()],
-        S: leBufferToBigInt(sliceS).toString()
+        R8: [unpackedR8[0], unpackedR8[1]],
+        S: leBufferToBigInt(sliceS)
     }
 }
 
@@ -236,11 +233,11 @@ export class EdDSAPoseidon {
     // Private key for signing, stored securely.
     privateKey: BigNumberish
     // The secret scalar derived from the private key to compute the public key.
-    secretScalar: string
+    secretScalar: bigint
     // The public key corresponding to the private key.
-    publicKey: Point
+    publicKey: Point<bigint>
     // A packed (compressed) representation of the public key for efficient operations.
-    packedPublicKey: string
+    packedPublicKey: bigint
 
     /**
      * Initializes a new instance, deriving necessary cryptographic parameters from the provided private key.
@@ -251,7 +248,7 @@ export class EdDSAPoseidon {
         this.privateKey = privateKey
         this.secretScalar = deriveSecretScalar(privateKey)
         this.publicKey = derivePublicKey(privateKey)
-        this.packedPublicKey = packPublicKey(this.publicKey) as string
+        this.packedPublicKey = packPublicKey(this.publicKey)
     }
 
     /**
@@ -259,7 +256,7 @@ export class EdDSAPoseidon {
      * @param message The message to be signed.
      * @returns The signature of the message.
      */
-    signMessage(message: BigNumberish): Signature<string> {
+    signMessage(message: BigNumberish): Signature<bigint> {
         return signMessage(this.privateKey, message)
     }
 

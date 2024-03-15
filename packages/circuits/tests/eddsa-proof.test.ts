@@ -13,7 +13,7 @@ describe("eddsa-proof", () => {
     const commitment = poseidon2(publicKey)
 
     const INPUT = {
-        secret: BigInt(deriveSecretScalar(secret)),
+        secret: deriveSecretScalar(secret),
         scope
     }
 

@@ -7,11 +7,7 @@ import { EncryptionKey } from "../src/types"
  * @param privateKey the private key to generate a public key from
  * @returns the public key
  */
-export const genPublicKey = (privateKey: bigint): [bigint, bigint] => {
-    const key = derivePublicKey(privateKey)
-
-    return key.map((x: string) => BigInt(x)) as [bigint, bigint]
-}
+export const genPublicKey = (privateKey: bigint): [bigint, bigint] => derivePublicKey(privateKey)
 
 /**
  * Generates an Elliptic-Curve Diffie–Hellman (ECDH) shared key given a private
@@ -23,5 +19,5 @@ export const genPublicKey = (privateKey: bigint): [bigint, bigint] => {
 export const genEcdhSharedKey = (privKey: bigint, pubKey: [bigint, bigint]): EncryptionKey<bigint> => {
     const secretScalar = deriveSecretScalar(privKey)
 
-    return mulPointEscalar(pubKey, BigInt(secretScalar)) as EncryptionKey<bigint>
+    return mulPointEscalar(pubKey, secretScalar) as EncryptionKey<bigint>
 }

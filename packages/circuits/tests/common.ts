@@ -38,11 +38,7 @@ export const circomkit = new Circomkit({
  * @param privateKey the private key to generate a public key from
  * @returns the public key
  */
-export const genPublicKey = (privateKey: bigint): [bigint, bigint] => {
-    const key = derivePublicKey(privateKey)
-
-    return key.map((x: string) => BigInt(x)) as [bigint, bigint]
-}
+export const genPublicKey = (privateKey: bigint): [bigint, bigint] => derivePublicKey(privateKey)
 
 /**
  * Generates an Elliptic-Curve Diffie–Hellman (ECDH) shared key given a private
@@ -54,7 +50,7 @@ export const genPublicKey = (privateKey: bigint): [bigint, bigint] => {
 export const genEcdhSharedKey = (privKey: bigint, pubKey: [bigint, bigint]): Point<bigint> => {
     const secretScalar = deriveSecretScalar(privKey)
 
-    return mulPointEscalar(pubKey, BigInt(secretScalar)) as Point<bigint>
+    return mulPointEscalar(pubKey, secretScalar) as Point<bigint>
 }
 
 /**

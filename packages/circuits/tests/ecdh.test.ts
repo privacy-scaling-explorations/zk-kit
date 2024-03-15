@@ -25,7 +25,7 @@ describe("ECDH Shared Key derivation circuit", () => {
         const ecdhSharedKey = genEcdhSharedKey(bgPrivateKey1, publicKey2)
 
         const circuitInputs = {
-            privateKey: BigInt(deriveSecretScalar(bgPrivateKey1)),
+            privateKey: deriveSecretScalar(bgPrivateKey1),
             publicKey: publicKey2
         }
 
@@ -45,12 +45,12 @@ describe("ECDH Shared Key derivation circuit", () => {
         const ecdhSharedKey2 = genEcdhSharedKey(bgPrivateKey2, publicKey1)
 
         const circuitInputs = {
-            privateKey: BigInt(deriveSecretScalar(bgPrivateKey1)),
+            privateKey: deriveSecretScalar(bgPrivateKey1),
             publicKey: publicKey2
         }
 
         const circuitInputs2 = {
-            privateKey: BigInt(deriveSecretScalar(bgPrivateKey2)),
+            privateKey: deriveSecretScalar(bgPrivateKey2),
             publicKey: publicKey1
         }
 
@@ -65,7 +65,7 @@ describe("ECDH Shared Key derivation circuit", () => {
     })
 
     it("should generate the same ECDH key consistently for the same inputs", async () => {
-        const privateKey1 = BigInt(deriveSecretScalar(Buffer.from(crypto.getRandomValues(32))))
+        const privateKey1 = deriveSecretScalar(Buffer.from(crypto.getRandomValues(32)))
         const privateKey2 = crypto.getRandomValues(32)
         const publicKey2 = genPublicKey(beBufferToBigInt(Buffer.from(privateKey2)))
 
