@@ -54,7 +54,7 @@
         "@ethersproject/bytes": "^5.7.0",
         "@ethersproject/keccak256": "^5.7.0",
         "@zk-kit/eddsa-poseidon": "0.9.0",
-        "@zk-kit/utils": "0.8.0",
+        "@zk-kit/utils": "0.8.1",
         "snarkjs": "^0.7.3"
     }
 }

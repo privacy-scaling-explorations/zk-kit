@@ -26,7 +26,7 @@
         "@zk-kit/eddsa-poseidon": "0.9.0",
         "@zk-kit/poseidon-cipher": "0.3.0",
         "@zk-kit/smt": "1.0.0",
-        "@zk-kit/utils": "0.8.0",
+        "@zk-kit/utils": "0.8.1",
         "circomkit": "0.0.24",
         "mocha": "^10.2.0",
         "poseidon-lite": "^0.2.0"
