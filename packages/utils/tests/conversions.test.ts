@@ -157,6 +157,12 @@ describe("Conversions", () => {
             expect(result).toStrictEqual(Buffer.from(testBytes1))
         })
 
+        it("Should convert a hexadecimal string with odd number of characters to a buffer", async () => {
+            const result = hexadecimalToBuffer("1")
+
+            expect(result).toStrictEqual(Buffer.from([1]))
+        })
+
         it("Should throw an error if the input is not a valid hexadecimal", async () => {
             const fun = () => hexadecimalToBuffer("0x12")
 

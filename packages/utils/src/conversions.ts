@@ -201,6 +201,11 @@ export function bigNumberishToBuffer(value: BigNumberish): Buffer {
 export function hexadecimalToBuffer(value: string): Buffer {
     requireHexadecimal(value, "value", false)
 
+    // Ensure even length before converting to buffer.
+    if (value.length % 2 !== 0) {
+        value = `0${value}`
+    }
+
     return Buffer.from(value, "hex")
 }
 
