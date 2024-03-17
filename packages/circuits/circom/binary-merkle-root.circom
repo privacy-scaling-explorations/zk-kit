@@ -13,6 +13,8 @@ include "comparators.circom";
 // receives a dynamic depth as an input, which is utilized in calculating the
 // true root of the Merkle tree. The actual depth of the Merkle tree
 // may be equal to or less than the static maximum depth.
+// NOTE: This circuit will successfully verify `out = 0` for `depth > MAX_DEPTH`.
+// Make sure to enforce `depth <= MAX_DEPTH` outside the circuit.
 template BinaryMerkleRoot(MAX_DEPTH) {
     signal input leaf, depth, indices[MAX_DEPTH], siblings[MAX_DEPTH];
 
