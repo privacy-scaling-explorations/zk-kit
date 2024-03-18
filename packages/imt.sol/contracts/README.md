@@ -9,7 +9,7 @@
     <a href="https://github.com/privacy-scaling-explorations/zk-kit">
         <img src="https://img.shields.io/badge/project-zk--kit-blue.svg?style=flat-square">
     </a>
-    <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/smt.sol/LICENSE">
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt.sol/LICENSE">
         <img alt="NPM license" src="https://img.shields.io/npm/l/%40zk-kit%2Fsmt.sol?style=flat-square">
     </a>
     <a href="https://www.npmjs.com/package/@zk-kit/imt.sol">
