@@ -15,7 +15,7 @@
         "test:library": "jest packages/${0}",
         "test:circuits": "yarn workspace @zk-kit/circuits test",
         "test:contracts": "yarn workspace imt.sol test:coverage",
-        "version:bump": "yarn workspace @zk-kit/${0} version ${1} && NO_HOOK=1 git commit -am \"chore(${0}): v${1}\" && git tag ${0}-v${1}",
+        "version:bump": "yarn workspace @zk-kit/${0} version ${1} && yarn remove:stable-version-field ${0} && NO_HOOK=1 git commit -am \"chore(${0}): v${1}\" && git tag ${0}-v${1}",
         "version:publish": "yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public",
         "version:release": "changelogithub",
         "lint": "eslint . --ext .js,.ts && yarn workspace imt.sol lint",
@@ -23,6 +23,7 @@
         "prettier:write": "prettier -w .",
         "benchmarks": "rimraf benchmarks/results && ts-node benchmarks/index.ts",
         "docs": "typedoc --cname zkkit.pse.dev --githubPages true",
+        "remove:stable-version-field": "ts-node scripts/remove-stable-version-field.ts ${0} && yarn prettier:write",
         "precommit": "lint-staged",
         "postinstall": "husky install"
     },
