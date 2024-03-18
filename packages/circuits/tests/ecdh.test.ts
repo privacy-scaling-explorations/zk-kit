@@ -66,7 +66,7 @@ describe("ECDH Shared Key derivation circuit", () => {
 
         const circuitInputs = {
             privateKey: secretScalar,
-            publicKey: publicKey
+            publicKey
         }
 
         // calculate first time witness and check contraints
