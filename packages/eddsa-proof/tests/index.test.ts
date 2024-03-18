@@ -6,7 +6,7 @@ import { EddsaProof } from "../src/types"
 import verify from "../src/verify"
 
 describe("EddsaProof", () => {
-    const privateKey = 2
+    const privateKey = Buffer.from("secret")
     const scope = 1
 
     let fullProof: EddsaProof

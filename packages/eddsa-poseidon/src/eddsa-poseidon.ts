@@ -11,7 +11,12 @@ import {
 } from "@zk-kit/baby-jubjub"
 import type { BigNumberish } from "@zk-kit/utils"
 import { crypto, requireBuffer } from "@zk-kit/utils"
-import { bigNumberishToBigInt, leBigIntToBuffer, leBufferToBigInt } from "@zk-kit/utils/conversions"
+import {
+    bigNumberishToBigInt,
+    leBigIntToBuffer,
+    leBufferToBigInt,
+    bufferToHexadecimal
+} from "@zk-kit/utils/conversions"
 import { requireBigNumberish } from "@zk-kit/utils/error-handlers"
 import F1Field from "@zk-kit/utils/f1-field"
 import * as scalar from "@zk-kit/utils/scalar"
@@ -26,12 +31,15 @@ import { hash as blake, checkMessage, checkPrivateKey, isPoint, isSignature, pru
  * and converting it into a little-endian integer. The use of the secret scalar streamlines the public key generation
  * process by omitting steps 1, 2, and 3 as outlined in RFC 8032 section 5.1.5, enhancing circuit efficiency and simplicity.
  * This method is crucial for fixed-base scalar multiplication operations within the correspondent cryptographic circuit.
+ * The private key must be an instance of Buffer, Uint8Array or a string. If you want to pass a bigint, a number or a
+ * hexadecimal, be sure to convert them to one of the supported types first. The 'conversions' module in @zk-kit/utils
+ * provides a set of functions that may be useful in case you need to convert types.
  * For detailed steps, see: {@link https://datatracker.ietf.org/doc/html/rfc8032#section-5.1.5}.
  * For example usage in a circuit, see: {@link https://github.com/semaphore-protocol/semaphore/blob/2c144fc9e55b30ad09474aeafa763c4115338409/packages/circuits/semaphore.circom#L21}
  * @param privateKey The EdDSA private key for generating the associated public key.
  * @returns The derived secret scalar to be used to calculate public key and optimized for circuit calculations.
  */
-export function deriveSecretScalar(privateKey: BigNumberish): bigint {
+export function deriveSecretScalar(privateKey: Buffer | Uint8Array | string): bigint {
     // Convert the private key to buffer.
     privateKey = checkPrivateKey(privateKey)
 
@@ -48,11 +56,14 @@ export function deriveSecretScalar(privateKey: BigNumberish): bigint {
  * {@link https://eips.ethereum.org/EIPS/eip-2494|Baby Jubjub} elliptic curve.
  * This function utilizes the Baby Jubjub elliptic curve for cryptographic operations.
  * The private key should be securely stored and managed, and it should never be exposed
+ * The private key must be an instance of Buffer, Uint8Array or a string. If you want to pass a bigint, a number or a
+ * hexadecimal, be sure to convert them to one of the supported types first. The 'conversions' module in @zk-kit/utils
+ * provides a set of functions that may be useful in case you need to convert types.
  * or transmitted in an unsecured manner.
  * @param privateKey The private key used for generating the public key.
  * @returns The derived public key.
  */
-export function derivePublicKey(privateKey: BigNumberish): Point<bigint> {
+export function derivePublicKey(privateKey: Buffer | Uint8Array | string): Point<bigint> {
     const s = deriveSecretScalar(privateKey)
 
     const publicKey = mulPointEscalar(Base8, s)
@@ -64,11 +75,14 @@ export function derivePublicKey(privateKey: BigNumberish): Point<bigint> {
 /**
  * Signs a message using the provided private key, employing Poseidon hashing and
  * EdDSA with the Baby Jubjub elliptic curve.
+ * The private key must be an instance of Buffer, Uint8Array or a string. If you want to pass a bigint, a number or a
+ * hexadecimal, be sure to convert them to one of the supported types first. The 'conversions' module in @zk-kit/utils
+ * provides a set of functions that may be useful in case you need to convert types.
  * @param privateKey The private key used to sign the message.
  * @param message The message to be signed.
  * @returns The signature object, containing properties relevant to EdDSA signatures, such as 'R8' and 'S' values.
  */
-export function signMessage(privateKey: BigNumberish, message: BigNumberish): Signature<bigint> {
+export function signMessage(privateKey: Buffer | Uint8Array | string, message: BigNumberish): Signature<bigint> {
     // Convert the private key to buffer.
     privateKey = checkPrivateKey(privateKey)
 
@@ -231,7 +245,7 @@ export function unpackSignature(packedSignature: Buffer): Signature<bigint> {
  */
 export class EdDSAPoseidon {
     // Private key for signing, stored securely.
-    privateKey: BigNumberish
+    privateKey: Buffer | Uint8Array | string
     // The secret scalar derived from the private key to compute the public key.
     secretScalar: bigint
     // The public key corresponding to the private key.
@@ -241,10 +255,13 @@ export class EdDSAPoseidon {
 
     /**
      * Initializes a new instance, deriving necessary cryptographic parameters from the provided private key.
-     * If the private key is not passed as a parameter, a random 32-byte key is generated.
+     * If the private key is not passed as a parameter, a random 32-byte hexadecimal key is generated.
+     * The private key must be an instance of Buffer, Uint8Array or a string. If you want to pass a bigint, a number or a
+     * hexadecimal, be sure to convert them to one of the supported types first. The 'conversions' module in @zk-kit/utils
+     * provides a set of functions that may be useful in case you need to convert types.
      * @param privateKey The private key used for signing and public key derivation.
      */
-    constructor(privateKey: BigNumberish = Buffer.from(crypto.getRandomValues(32))) {
+    constructor(privateKey: Buffer | Uint8Array | string = bufferToHexadecimal(crypto.getRandomValues(32))) {
         this.privateKey = privateKey
         this.secretScalar = deriveSecretScalar(privateKey)
         this.publicKey = derivePublicKey(privateKey)

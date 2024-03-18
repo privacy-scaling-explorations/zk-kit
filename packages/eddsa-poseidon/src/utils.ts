@@ -1,8 +1,8 @@
 import { Point } from "@zk-kit/baby-jubjub"
 import type { BigNumberish } from "@zk-kit/utils"
-import { bigNumberishToBigInt, bigNumberishToBuffer, bufferToBigInt } from "@zk-kit/utils/conversions"
+import { bigNumberishToBigInt, bufferToBigInt } from "@zk-kit/utils/conversions"
 import { requireTypes } from "@zk-kit/utils/error-handlers"
-import { isArray, isBigNumberish, isObject, isBigNumber } from "@zk-kit/utils/type-checks"
+import { isArray, isBigNumber, isBigNumberish, isObject } from "@zk-kit/utils/type-checks"
 import { Buffer } from "buffer"
 import { Blake512 } from "./blake"
 import { Signature } from "./types"
@@ -50,14 +50,10 @@ export function isSignature(signature: Signature): boolean {
  * @param privateKey The private key to check and convert.
  * @returns The private key as a Buffer.
  */
-export function checkPrivateKey(privateKey: BigNumberish): Buffer {
-    requireTypes(privateKey, "privateKey", ["bignumberish", "string"])
+export function checkPrivateKey(privateKey: Buffer | Uint8Array | string): Buffer {
+    requireTypes(privateKey, "privateKey", ["Buffer", "Uint8Array", "string"])
 
-    if (isBigNumberish(privateKey)) {
-        return bigNumberishToBuffer(privateKey)
-    }
-
-    return Buffer.from(privateKey as string)
+    return Buffer.from(privateKey)
 }
 
 /**
