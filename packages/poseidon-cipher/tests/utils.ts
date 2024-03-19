@@ -11,7 +11,10 @@ import { EncryptionKey } from "../src/types"
  * @param pubKey A public key generated using genPubKey()
  * @returns The ECDH shared key.
  */
-export const genEcdhSharedKey = (privKey: bigint, pubKey: [bigint, bigint]): EncryptionKey<bigint> => {
+export const genEcdhSharedKey = (
+    privKey: Buffer | Uint8Array | string,
+    pubKey: [bigint, bigint]
+): EncryptionKey<bigint> => {
     const secretScalar = deriveSecretScalar(privKey)
 
     return mulPointEscalar(pubKey, secretScalar) as EncryptionKey<bigint>

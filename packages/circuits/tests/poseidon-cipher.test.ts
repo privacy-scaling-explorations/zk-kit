@@ -1,7 +1,7 @@
-import { WitnessTester } from "circomkit"
 import { derivePublicKey } from "@zk-kit/eddsa-poseidon"
 import { Nonce, PlainText, poseidonDecrypt, poseidonEncrypt, poseidonPerm } from "@zk-kit/poseidon-cipher"
-import { beBufferToBigInt, crypto } from "@zk-kit/utils"
+import { crypto } from "@zk-kit/utils"
+import { WitnessTester } from "circomkit"
 import { circomkit, genEcdhSharedKey } from "./common"
 
 describe("poseidon-cipher", () => {
@@ -9,9 +9,8 @@ describe("poseidon-cipher", () => {
         let circuit: WitnessTester<["ciphertext", "nonce", "key"], ["decrypted"]>
 
         const privateKey = crypto.getRandomValues(32)
-        const bgPrivateKey = beBufferToBigInt(Buffer.from(privateKey))
-        const publicKey = derivePublicKey(bgPrivateKey)
-        const encryptionKey = genEcdhSharedKey(bgPrivateKey, publicKey)
+        const publicKey = derivePublicKey(privateKey)
+        const encryptionKey = genEcdhSharedKey(privateKey, publicKey)
 
         const nonce: Nonce = BigInt(5)
 
@@ -99,9 +98,8 @@ describe("poseidon-cipher", () => {
         let circuit: WitnessTester<["ciphertext", "nonce", "key"], ["decrypted"]>
 
         const privateKey = crypto.getRandomValues(32)
-        const bgPrivateKey = beBufferToBigInt(Buffer.from(privateKey))
-        const publicKey = derivePublicKey(bgPrivateKey)
-        const encryptionKey = genEcdhSharedKey(bgPrivateKey, publicKey)
+        const publicKey = derivePublicKey(privateKey)
+        const encryptionKey = genEcdhSharedKey(privateKey, publicKey)
 
         const plainText: PlainText<bigint> = [BigInt(0), BigInt(1)]
         const nonce: Nonce = BigInt(5)
@@ -157,9 +155,8 @@ describe("poseidon-cipher", () => {
         let circuit: WitnessTester<["ciphertext", "nonce", "key"], ["decrypted"]>
 
         const privateKey = crypto.getRandomValues(32)
-        const bgPrivateKey = beBufferToBigInt(Buffer.from(privateKey))
-        const publicKey = derivePublicKey(bgPrivateKey)
-        const encryptionKey = genEcdhSharedKey(bgPrivateKey, publicKey)
+        const publicKey = derivePublicKey(privateKey)
+        const encryptionKey = genEcdhSharedKey(privateKey, publicKey)
 
         const plainText: PlainText<bigint> = [BigInt(0), BigInt(1)]
         const nonce: Nonce = BigInt(5)

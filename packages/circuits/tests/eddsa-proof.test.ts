@@ -6,14 +6,14 @@ import { circomkit } from "./common"
 describe("eddsa-proof", () => {
     let circuit: WitnessTester<["secret", "scope"], ["commitment"]>
 
-    const secret = 3
+    const privateKey = Buffer.from("secret")
     const scope = 2
 
-    const publicKey = derivePublicKey(secret)
+    const publicKey = derivePublicKey(privateKey)
     const commitment = poseidon2(publicKey)
 
     const INPUT = {
-        secret: deriveSecretScalar(secret),
+        secret: deriveSecretScalar(privateKey),
         scope
     }
 

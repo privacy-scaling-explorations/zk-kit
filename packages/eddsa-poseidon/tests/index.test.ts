@@ -41,18 +41,7 @@ describe("EdDSAPoseidon", () => {
         expect(publicKey[1]).toBe(circomlibPublicKey[1])
     })
 
-    it("Should derive a public key from a private key (hexadecimal)", async () => {
-        const privateKey = "0x12"
-
-        const publicKey = derivePublicKey(privateKey)
-
-        const circomlibPublicKey = eddsa.prv2pub(Buffer.from(privateKey.slice(2), "hex"))
-
-        expect(publicKey[0]).toBe(circomlibPublicKey[0])
-        expect(publicKey[1]).toBe(circomlibPublicKey[1])
-    })
-
-    it("Should derive a public key from a private key (buffer)", async () => {
+    it("Should derive a public key from a private key (Buffer)", async () => {
         const privateKey = Buffer.from("secret")
 
         const publicKey = derivePublicKey(privateKey)
@@ -63,34 +52,23 @@ describe("EdDSAPoseidon", () => {
         expect(publicKey[1]).toBe(circomlibPublicKey[1])
     })
 
-    it("Should derive a public key from a private key (bigint)", async () => {
-        const privateKey = BigInt(22)
+    it("Should derive a public key from a private key (Uint8Array)", async () => {
+        const privateKey = new Uint8Array([3, 2])
 
         const publicKey = derivePublicKey(privateKey)
 
-        const circomlibPublicKey = eddsa.prv2pub(Buffer.from(privateKey.toString(16), "hex"))
-
-        expect(publicKey[0]).toBe(circomlibPublicKey[0])
-        expect(publicKey[1]).toBe(circomlibPublicKey[1])
-    })
-
-    it("Should derive a public key from a private key (number)", async () => {
-        const privateKey = 22
-
-        const publicKey = derivePublicKey(privateKey)
-
-        const circomlibPublicKey = eddsa.prv2pub(Buffer.from(privateKey.toString(16), "hex"))
+        const circomlibPublicKey = eddsa.prv2pub(Buffer.from(privateKey))
 
         expect(publicKey[0]).toBe(circomlibPublicKey[0])
         expect(publicKey[1]).toBe(circomlibPublicKey[1])
     })
 
     it("Should throw an error if the secret type is not supported", async () => {
-        const privateKey = true
+        const privateKey = BigInt(32)
 
         const fun = () => derivePublicKey(privateKey as any)
 
-        expect(fun).toThrow(`Parameter 'privateKey' is none of the following types: bignumberish, string`)
+        expect(fun).toThrow(`Parameter 'privateKey' is none of the following types: Buffer, Uint8Array, string`)
     })
 
     it("Should sign a message (bigint)", async () => {
@@ -407,8 +385,8 @@ describe("EdDSAPoseidon", () => {
 
         const signature = eddsa.signMessage(message)
 
-        expect(eddsa.privateKey).toBeInstanceOf(Buffer)
-        expect(eddsa.privateKey).toHaveLength(32)
+        expect(typeof eddsa.privateKey).toBe("string")
+        expect(eddsa.privateKey).toHaveLength(64)
         expect(eddsa.secretScalar).toBe(deriveSecretScalar(eddsa.privateKey))
         expect(eddsa.packedPublicKey).toBe(packPublicKey(eddsa.publicKey))
         expect(eddsa.verifySignature(message, signature)).toBeTruthy()

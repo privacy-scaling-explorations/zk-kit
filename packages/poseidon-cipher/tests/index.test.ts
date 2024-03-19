@@ -1,14 +1,13 @@
 import { derivePublicKey } from "@zk-kit/eddsa-poseidon"
-import { beBufferToBigInt, crypto } from "@zk-kit/utils"
+import { crypto } from "@zk-kit/utils"
 import { poseidonDecrypt, poseidonDecryptWithoutCheck, poseidonEncrypt } from "../src/poseidonCipher"
 import { Nonce, PlainText } from "../src/types"
 import { genEcdhSharedKey } from "./utils"
 
 describe("Poseidon Cipher", () => {
     const privateKey = crypto.getRandomValues(32)
-    const bgPrivateKey = beBufferToBigInt(Buffer.from(privateKey))
-    const publicKey = derivePublicKey(bgPrivateKey)
-    const encryptionKey = genEcdhSharedKey(bgPrivateKey, publicKey)
+    const publicKey = derivePublicKey(privateKey)
+    const encryptionKey = genEcdhSharedKey(privateKey, publicKey)
 
     const plainText: PlainText<bigint> = [BigInt(0), BigInt(1)]
     const nonce: Nonce = BigInt(5)
