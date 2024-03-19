@@ -27,15 +27,20 @@ import { hash as blake, checkMessage, checkPrivateKey, isPoint, isSignature, pru
 
 /**
  * Derives a secret scalar from a given EdDSA private key.
+ *
  * This process involves hashing the private key with Blake1, pruning the resulting hash to retain the lower 32 bytes,
  * and converting it into a little-endian integer. The use of the secret scalar streamlines the public key generation
  * process by omitting steps 1, 2, and 3 as outlined in RFC 8032 section 5.1.5, enhancing circuit efficiency and simplicity.
  * This method is crucial for fixed-base scalar multiplication operations within the correspondent cryptographic circuit.
- * The private key must be an instance of Buffer, Uint8Array or a string. If you want to pass a bigint, a number or a
- * hexadecimal, be sure to convert them to one of the supported types first. The 'conversions' module in @zk-kit/utils
- * provides a set of functions that may be useful in case you need to convert types.
  * For detailed steps, see: {@link https://datatracker.ietf.org/doc/html/rfc8032#section-5.1.5}.
  * For example usage in a circuit, see: {@link https://github.com/semaphore-protocol/semaphore/blob/2c144fc9e55b30ad09474aeafa763c4115338409/packages/circuits/semaphore.circom#L21}
+ *
+ * The private key must be an instance of Buffer, Uint8Array or a string. The input will be used to
+ * generate entropy and there is no limit in size.
+ * The string is used as a set of raw bytes (in UTF-8) and is typically used to pass passwords or secret messages.
+ * If you want to pass a bigint, a number or a hexadecimal, be sure to convert them to one of the supported types first.
+ * The 'conversions' module in @zk-kit/utils provides a set of functions that may be useful in case you need to convert types.
+ *
  * @param privateKey The EdDSA private key for generating the associated public key.
  * @returns The derived secret scalar to be used to calculate public key and optimized for circuit calculations.
  */
@@ -56,10 +61,14 @@ export function deriveSecretScalar(privateKey: Buffer | Uint8Array | string): bi
  * {@link https://eips.ethereum.org/EIPS/eip-2494|Baby Jubjub} elliptic curve.
  * This function utilizes the Baby Jubjub elliptic curve for cryptographic operations.
  * The private key should be securely stored and managed, and it should never be exposed
- * The private key must be an instance of Buffer, Uint8Array or a string. If you want to pass a bigint, a number or a
- * hexadecimal, be sure to convert them to one of the supported types first. The 'conversions' module in @zk-kit/utils
- * provides a set of functions that may be useful in case you need to convert types.
  * or transmitted in an unsecured manner.
+ *
+ * The private key must be an instance of Buffer, Uint8Array or a string. The input will be used to
+ * generate entropy and there is no limit in size.
+ * The string is used as a set of raw bytes (in UTF-8) and is typically used to pass passwords or secret messages.
+ * If you want to pass a bigint, a number or a hexadecimal, be sure to convert them to one of the supported types first.
+ * The 'conversions' module in @zk-kit/utils provides a set of functions that may be useful in case you need to convert types.
+ *
  * @param privateKey The private key used for generating the public key.
  * @returns The derived public key.
  */
@@ -75,9 +84,13 @@ export function derivePublicKey(privateKey: Buffer | Uint8Array | string): Point
 /**
  * Signs a message using the provided private key, employing Poseidon hashing and
  * EdDSA with the Baby Jubjub elliptic curve.
- * The private key must be an instance of Buffer, Uint8Array or a string. If you want to pass a bigint, a number or a
- * hexadecimal, be sure to convert them to one of the supported types first. The 'conversions' module in @zk-kit/utils
- * provides a set of functions that may be useful in case you need to convert types.
+ *
+ * The private key must be an instance of Buffer, Uint8Array or a string. The input will be used to
+ * generate entropy and there is no limit in size.
+ * The string is used as a set of raw bytes (in UTF-8) and is typically used to pass passwords or secret messages.
+ * If you want to pass a bigint, a number or a hexadecimal, be sure to convert them to one of the supported types first.
+ * The 'conversions' module in @zk-kit/utils provides a set of functions that may be useful in case you need to convert types.
+ *
  * @param privateKey The private key used to sign the message.
  * @param message The message to be signed.
  * @returns The signature object, containing properties relevant to EdDSA signatures, such as 'R8' and 'S' values.
@@ -256,9 +269,13 @@ export class EdDSAPoseidon {
     /**
      * Initializes a new instance, deriving necessary cryptographic parameters from the provided private key.
      * If the private key is not passed as a parameter, a random 32-byte hexadecimal key is generated.
-     * The private key must be an instance of Buffer, Uint8Array or a string. If you want to pass a bigint, a number or a
-     * hexadecimal, be sure to convert them to one of the supported types first. The 'conversions' module in @zk-kit/utils
-     * provides a set of functions that may be useful in case you need to convert types.
+     *
+     * The private key must be an instance of Buffer, Uint8Array or a string. The input will be used to
+     * generate entropy and there is no limit in size.
+     * The string is used as a set of raw bytes (in UTF-8) and is typically used to pass passwords or secret messages.
+     * If you want to pass a bigint, a number or a hexadecimal, be sure to convert them to one of the supported types first.
+     * The 'conversions' module in @zk-kit/utils provides a set of functions that may be useful in case you need to convert types.
+     *
      * @param privateKey The private key used for signing and public key derivation.
      */
     constructor(privateKey: Buffer | Uint8Array | string = bufferToHexadecimal(crypto.getRandomValues(32))) {
