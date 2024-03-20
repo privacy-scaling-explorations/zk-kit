@@ -46,11 +46,13 @@ library InternalLeanIMT {
             revert LeafAlreadyExists();
         }
 
-        while (2 ** self.depth < self.size + 1) {
+        uint256 treeSize = self.size;
+
+        while (2 ** self.depth < treeSize + 1) {
             self.depth += 1;
         }
 
-        uint256 index = self.size;
+        uint256 index = treeSize;
         uint256 node = leaf;
 
         for (uint256 level = 0; level < self.depth; ) {
@@ -80,6 +82,8 @@ library InternalLeanIMT {
     /// @param leaves: The values of the new leaves to be inserted into the tree.
     /// @return The root after the leaves have been inserted.
     function _insertMany(LeanIMTData storage self, uint256[] calldata leaves) internal returns (uint256) {
+        uint256 treeSize = self.size;
+
         // Check that all the new values are correct to be added.
         for (uint256 i = 0; i < leaves.length; ) {
             if (leaves[i] >= SNARK_SCALAR_FIELD) {
@@ -90,7 +94,7 @@ library InternalLeanIMT {
                 revert LeafAlreadyExists();
             }
 
-            self.leaves[leaves[i]] = self.size + 1 + i;
+            self.leaves[leaves[i]] = treeSize + 1 + i;
 
             unchecked {
                 ++i;
@@ -103,15 +107,15 @@ library InternalLeanIMT {
         currentLevel = leaves;
 
         // Calculate the depth of the tree after adding the new values.
-        while (2 ** self.depth < self.size + leaves.length) {
+        while (2 ** self.depth < treeSize + leaves.length) {
             self.depth += 1;
         }
 
         // First index to change in every level.
-        uint256 currentLevelStartIndex = self.size;
+        uint256 currentLevelStartIndex = treeSize;
 
         // Size of the level used to create the next level.
-        uint256 currentLevelSize = self.size + leaves.length;
+        uint256 currentLevelSize = treeSize + leaves.length;
 
         // The index where changes begin at the next level.
         uint256 nextLevelStartIndex = currentLevelStartIndex >> 1;
