@@ -118,7 +118,7 @@ library InternalLeanIMT {
         // Unlike the 'insert' function, we need a while here as
         // N insertions can increase the tree's depth more than once.
         while (2 ** self.depth < treeSize + leaves.length) {
-            self.depth += 1;
+            ++self.depth;
         }
 
         // First index to change in every level.
