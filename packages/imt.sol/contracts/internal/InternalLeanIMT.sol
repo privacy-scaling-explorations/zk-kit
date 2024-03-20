@@ -218,8 +218,6 @@ library InternalLeanIMT {
             revert LeafDoesNotExist();
         } else if (newLeaf != 0 && _has(self, newLeaf)) {
             revert LeafAlreadyExists();
-        } else if (siblingNodes.length == 0) {
-            revert WrongSiblingNodes();
         }
 
         uint256 index = _indexOf(self, oldLeaf);
