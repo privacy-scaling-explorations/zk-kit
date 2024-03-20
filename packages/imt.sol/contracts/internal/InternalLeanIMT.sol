@@ -46,12 +46,14 @@ library InternalLeanIMT {
             revert LeafAlreadyExists();
         }
 
+        // Cache tree size to optimize gas
         uint256 treeSize = self.size;
 
         while (2 ** self.depth < treeSize + 1) {
             self.depth += 1;
         }
 
+        // Cache tree depth to optimize gas
         uint256 treeDepth = self.depth;
 
         uint256 index = treeSize;
@@ -84,6 +86,7 @@ library InternalLeanIMT {
     /// @param leaves: The values of the new leaves to be inserted into the tree.
     /// @return The root after the leaves have been inserted.
     function _insertMany(LeanIMTData storage self, uint256[] calldata leaves) internal returns (uint256) {
+        // Cache tree size to optimize gas
         uint256 treeSize = self.size;
 
         // Check that all the new values are correct to be added.
@@ -235,6 +238,7 @@ library InternalLeanIMT {
         uint256 lastIndex = self.size - 1;
         uint256 i = 0;
 
+        // Cache tree depth to optimize gas
         uint256 treeDepth = self.depth;
 
         for (uint256 level = 0; level < treeDepth; ) {
