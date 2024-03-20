@@ -137,7 +137,7 @@ describe("LeanIMT", () => {
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafGreaterThanSnarkScalarField")
         })
 
-        it("Should not update a leaf if there are no sibling nodes", async () => {
+        it("Should update a leaf if that's the only leaf in the tree", async () => {
             await leanIMTTest.insert(1)
 
             jsLeanIMT.insert(BigInt(1))
@@ -145,12 +145,14 @@ describe("LeanIMT", () => {
 
             const { siblings } = jsLeanIMT.generateProof(0)
 
-            const transaction = leanIMTTest.update(1, 2, siblings)
+            await leanIMTTest.update(1, 2, siblings)
 
-            await expect(transaction).to.be.revertedWithCustomError(leanIMT, "WrongSiblingNodes")
+            const root = await leanIMTTest.root()
+
+            expect(root).to.equal(jsLeanIMT.root)
         })
 
-        it("Should update a leaf", async () => {
+        it("Should update a leaf if there's more than 1 leaf in the tree", async () => {
             await leanIMTTest.insert(1)
             await leanIMTTest.insert(2)
 
