@@ -46,7 +46,7 @@ library InternalLeanIMT {
             revert LeafAlreadyExists();
         }
 
-        while (2 ** self.depth < self.size + 1) {
+        if (2 ** self.depth < self.size + 1) {
             self.depth += 1;
         }
 
