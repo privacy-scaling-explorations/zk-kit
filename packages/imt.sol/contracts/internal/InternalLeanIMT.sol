@@ -205,7 +205,7 @@ library InternalLeanIMT {
         }
 
         // Update tree size
-        self.size += leaves.length;
+        self.size = treeSize + leaves.length;
 
         // Update tree root
         self.sideNodes[self.depth] = currentLevel[0];
