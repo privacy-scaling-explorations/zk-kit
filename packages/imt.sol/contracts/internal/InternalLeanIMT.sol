@@ -46,17 +46,17 @@ library InternalLeanIMT {
             revert LeafAlreadyExists();
         }
 
-        // Cache tree size to optimize gas
-        uint256 treeSize = self.size;
-
-        while (2 ** self.depth < treeSize + 1) {
-            self.depth += 1;
-        }
+        uint256 index = self.size;
 
         // Cache tree depth to optimize gas
         uint256 treeDepth = self.depth;
 
-        uint256 index = treeSize;
+        while (2 ** treeDepth < index + 1) {
+            ++treeDepth;
+        }
+
+        self.depth = treeDepth;
+
         uint256 node = leaf;
 
         for (uint256 level = 0; level < treeDepth; ) {
@@ -71,10 +71,10 @@ library InternalLeanIMT {
             }
         }
 
-        self.size += 1;
+        self.size = ++index;
 
         self.sideNodes[treeDepth] = node;
-        self.leaves[leaf] = self.size;
+        self.leaves[leaf] = index;
 
         return node;
     }
