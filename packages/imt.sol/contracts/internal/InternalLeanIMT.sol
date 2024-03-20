@@ -114,12 +114,17 @@ library InternalLeanIMT {
 
         currentLevel = leaves;
 
+        // Cache tree depth to optimize gas
+        uint256 treeDepth = self.depth;
+
         // Calculate the depth of the tree after adding the new values.
         // Unlike the 'insert' function, we need a while here as
         // N insertions can increase the tree's depth more than once.
-        while (2 ** self.depth < treeSize + leaves.length) {
-            ++self.depth;
+        while (2 ** treeDepth < treeSize + leaves.length) {
+            ++treeDepth;
         }
+
+        self.depth = treeDepth;
 
         // First index to change in every level.
         uint256 currentLevelStartIndex = treeSize;
@@ -133,25 +138,26 @@ library InternalLeanIMT {
         // The size of the next level.
         uint256 nextLevelSize = ((currentLevelSize - 1) >> 1) + 1;
 
-        for (uint256 level = 0; level < self.depth; ) {
+        for (uint256 level = 0; level < treeDepth; ) {
             // The number of nodes for the new level that will be created,
             // only the new values, not the entire level.
             uint256 numberOfNodes = nextLevelSize - nextLevelStartIndex;
             uint256[] memory nextLevel = new uint256[](numberOfNodes);
             for (uint256 i = 0; i < numberOfNodes; ) {
-                uint256 rightNode;
                 uint256 leftNode;
-
-                // Assign the right node if the value exists.
-                if ((i + nextLevelStartIndex) * 2 + 1 < currentLevelSize) {
-                    rightNode = currentLevel[(i + nextLevelStartIndex) * 2 + 1 - currentLevelStartIndex];
-                }
 
                 // Assign the left node using the saved path or the position in the array.
                 if ((i + nextLevelStartIndex) * 2 < currentLevelStartIndex) {
                     leftNode = self.sideNodes[level];
                 } else {
                     leftNode = currentLevel[(i + nextLevelStartIndex) * 2 - currentLevelStartIndex];
+                }
+
+                uint256 rightNode;
+
+                // Assign the right node if the value exists.
+                if ((i + nextLevelStartIndex) * 2 + 1 < currentLevelSize) {
+                    rightNode = currentLevel[(i + nextLevelStartIndex) * 2 + 1 - currentLevelStartIndex];
                 }
 
                 uint256 parentNode;
@@ -208,7 +214,7 @@ library InternalLeanIMT {
         self.size = treeSize + leaves.length;
 
         // Update tree root
-        self.sideNodes[self.depth] = currentLevel[0];
+        self.sideNodes[treeDepth] = currentLevel[0];
 
         return currentLevel[0];
     }
