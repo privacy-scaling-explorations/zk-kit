@@ -54,7 +54,7 @@ library InternalLeanIMT {
         // A new insertion can increase a tree's depth by at most 1,
         // and only if the number of leaves supported by the current
         // depth is less than the number of leaves to be supported after insertion.
-        if (2 ** self.depth < index + 1) {
+        if (2 ** treeDepth < index + 1) {
             ++treeDepth;
         }
 
