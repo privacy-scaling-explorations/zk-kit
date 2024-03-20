@@ -46,6 +46,9 @@ library InternalLeanIMT {
             revert LeafAlreadyExists();
         }
 
+        // A new insertion can increase a tree's depth by at most 1,
+        // and only if the number of leaves supported by the current
+        // depth is less than the number of leaves to be supported after insertion.
         if (2 ** self.depth < self.size + 1) {
             self.depth += 1;
         }
@@ -103,6 +106,8 @@ library InternalLeanIMT {
         currentLevel = leaves;
 
         // Calculate the depth of the tree after adding the new values.
+        // Unlike the 'insert' function, we need a while here as
+        // N insertions can increase the tree's depth more than once.
         while (2 ** self.depth < self.size + leaves.length) {
             self.depth += 1;
         }
