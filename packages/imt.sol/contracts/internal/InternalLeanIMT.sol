@@ -52,10 +52,12 @@ library InternalLeanIMT {
             self.depth += 1;
         }
 
+        uint256 treeDepth = self.depth;
+
         uint256 index = treeSize;
         uint256 node = leaf;
 
-        for (uint256 level = 0; level < self.depth; ) {
+        for (uint256 level = 0; level < treeDepth; ) {
             if ((index >> level) & 1 == 1) {
                 node = PoseidonT3.hash([self.sideNodes[level], node]);
             } else {
@@ -69,7 +71,7 @@ library InternalLeanIMT {
 
         self.size += 1;
 
-        self.sideNodes[self.depth] = node;
+        self.sideNodes[treeDepth] = node;
         self.leaves[leaf] = self.size;
 
         return node;
@@ -233,7 +235,9 @@ library InternalLeanIMT {
         uint256 lastIndex = self.size - 1;
         uint256 i = 0;
 
-        for (uint256 level = 0; level < self.depth; ) {
+        uint256 treeDepth = self.depth;
+
+        for (uint256 level = 0; level < treeDepth; ) {
             if ((index >> level) & 1 == 1) {
                 if (siblingNodes[i] >= SNARK_SCALAR_FIELD) {
                     revert LeafGreaterThanSnarkScalarField();
@@ -271,7 +275,7 @@ library InternalLeanIMT {
             revert WrongSiblingNodes();
         }
 
-        self.sideNodes[self.depth] = node;
+        self.sideNodes[treeDepth] = node;
         self.leaves[newLeaf] = self.leaves[oldLeaf];
         self.leaves[oldLeaf] = 0;
 
