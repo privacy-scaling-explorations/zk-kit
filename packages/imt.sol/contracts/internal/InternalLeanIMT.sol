@@ -46,17 +46,23 @@ library InternalLeanIMT {
             revert LeafAlreadyExists();
         }
 
+        uint256 index = self.size;
+
+        // Cache tree depth to optimize gas
+        uint256 treeDepth = self.depth;
+
         // A new insertion can increase a tree's depth by at most 1,
         // and only if the number of leaves supported by the current
         // depth is less than the number of leaves to be supported after insertion.
-        if (2 ** self.depth < self.size + 1) {
-            self.depth += 1;
+        if (2 ** treeDepth < index + 1) {
+            ++treeDepth;
         }
 
-        uint256 index = self.size;
+        self.depth = treeDepth;
+
         uint256 node = leaf;
 
-        for (uint256 level = 0; level < self.depth; ) {
+        for (uint256 level = 0; level < treeDepth; ) {
             if ((index >> level) & 1 == 1) {
                 node = PoseidonT3.hash([self.sideNodes[level], node]);
             } else {
@@ -68,10 +74,10 @@ library InternalLeanIMT {
             }
         }
 
-        self.size += 1;
+        self.size = ++index;
 
-        self.sideNodes[self.depth] = node;
-        self.leaves[leaf] = self.size;
+        self.sideNodes[treeDepth] = node;
+        self.leaves[leaf] = index;
 
         return node;
     }
@@ -83,6 +89,9 @@ library InternalLeanIMT {
     /// @param leaves: The values of the new leaves to be inserted into the tree.
     /// @return The root after the leaves have been inserted.
     function _insertMany(LeanIMTData storage self, uint256[] calldata leaves) internal returns (uint256) {
+        // Cache tree size to optimize gas
+        uint256 treeSize = self.size;
+
         // Check that all the new values are correct to be added.
         for (uint256 i = 0; i < leaves.length; ) {
             if (leaves[i] >= SNARK_SCALAR_FIELD) {
@@ -93,7 +102,7 @@ library InternalLeanIMT {
                 revert LeafAlreadyExists();
             }
 
-            self.leaves[leaves[i]] = self.size + 1 + i;
+            self.leaves[leaves[i]] = treeSize + 1 + i;
 
             unchecked {
                 ++i;
@@ -105,18 +114,23 @@ library InternalLeanIMT {
 
         currentLevel = leaves;
 
+        // Cache tree depth to optimize gas
+        uint256 treeDepth = self.depth;
+
         // Calculate the depth of the tree after adding the new values.
         // Unlike the 'insert' function, we need a while here as
         // N insertions can increase the tree's depth more than once.
-        while (2 ** self.depth < self.size + leaves.length) {
-            self.depth += 1;
+        while (2 ** treeDepth < treeSize + leaves.length) {
+            ++treeDepth;
         }
 
+        self.depth = treeDepth;
+
         // First index to change in every level.
-        uint256 currentLevelStartIndex = self.size;
+        uint256 currentLevelStartIndex = treeSize;
 
         // Size of the level used to create the next level.
-        uint256 currentLevelSize = self.size + leaves.length;
+        uint256 currentLevelSize = treeSize + leaves.length;
 
         // The index where changes begin at the next level.
         uint256 nextLevelStartIndex = currentLevelStartIndex >> 1;
@@ -124,25 +138,26 @@ library InternalLeanIMT {
         // The size of the next level.
         uint256 nextLevelSize = ((currentLevelSize - 1) >> 1) + 1;
 
-        for (uint256 level = 0; level < self.depth; ) {
+        for (uint256 level = 0; level < treeDepth; ) {
             // The number of nodes for the new level that will be created,
             // only the new values, not the entire level.
             uint256 numberOfNodes = nextLevelSize - nextLevelStartIndex;
             uint256[] memory nextLevel = new uint256[](numberOfNodes);
             for (uint256 i = 0; i < numberOfNodes; ) {
-                uint256 rightNode;
                 uint256 leftNode;
-
-                // Assign the right node if the value exists.
-                if ((i + nextLevelStartIndex) * 2 + 1 < currentLevelSize) {
-                    rightNode = currentLevel[(i + nextLevelStartIndex) * 2 + 1 - currentLevelStartIndex];
-                }
 
                 // Assign the left node using the saved path or the position in the array.
                 if ((i + nextLevelStartIndex) * 2 < currentLevelStartIndex) {
                     leftNode = self.sideNodes[level];
                 } else {
                     leftNode = currentLevel[(i + nextLevelStartIndex) * 2 - currentLevelStartIndex];
+                }
+
+                uint256 rightNode;
+
+                // Assign the right node if the value exists.
+                if ((i + nextLevelStartIndex) * 2 + 1 < currentLevelSize) {
+                    rightNode = currentLevel[(i + nextLevelStartIndex) * 2 + 1 - currentLevelStartIndex];
                 }
 
                 uint256 parentNode;
@@ -196,10 +211,10 @@ library InternalLeanIMT {
         }
 
         // Update tree size
-        self.size += leaves.length;
+        self.size = treeSize + leaves.length;
 
         // Update tree root
-        self.sideNodes[self.depth] = currentLevel[0];
+        self.sideNodes[treeDepth] = currentLevel[0];
 
         return currentLevel[0];
     }
@@ -232,7 +247,10 @@ library InternalLeanIMT {
         uint256 lastIndex = self.size - 1;
         uint256 i = 0;
 
-        for (uint256 level = 0; level < self.depth; ) {
+        // Cache tree depth to optimize gas
+        uint256 treeDepth = self.depth;
+
+        for (uint256 level = 0; level < treeDepth; ) {
             if ((index >> level) & 1 == 1) {
                 if (siblingNodes[i] >= SNARK_SCALAR_FIELD) {
                     revert LeafGreaterThanSnarkScalarField();
@@ -270,7 +288,7 @@ library InternalLeanIMT {
             revert WrongSiblingNodes();
         }
 
-        self.sideNodes[self.depth] = node;
+        self.sideNodes[treeDepth] = node;
         self.leaves[newLeaf] = self.leaves[oldLeaf];
         self.leaves[oldLeaf] = 0;
 
