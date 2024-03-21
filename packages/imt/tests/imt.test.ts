@@ -1,6 +1,6 @@
 import { poseidon2, poseidon3, poseidon5 } from "poseidon-lite"
 import { IncrementalQuinTree } from "incrementalquintree"
-import { IMT } from "../src"
+import { IMT, IMTNode } from "../src"
 
 describe("IMT", () => {
     const depth = 16
@@ -153,7 +153,7 @@ describe("IMT", () => {
                     expect(fun).toThrow("The leaf does not exist in this tree")
                 })
 
-                it("Should create a valid proof", () => {
+                it("Should create and verify valid proof", () => {
                     for (let i = 0; i < numberOfLeaves; i += 1) {
                         tree.insert(i + 1)
                     }
@@ -170,7 +170,20 @@ describe("IMT", () => {
                         }
 
                         expect(tree.verifyProof(proof)).toBeTruthy()
+                        expect(IMT.verifyProof(proof, poseidon)).toBeTruthy()
                     }
+                })
+
+                it("Should reject a proof with incorrect hash function", () => {
+                    for (let i = 0; i < numberOfLeaves; i += 1) {
+                        tree.insert(i + 1)
+                    }
+
+                    const proof = tree.createProof(numberOfLeaves - 1)
+                    function badHash(values: IMTNode[]): IMTNode {
+                        return values.reduce((a, b) => BigInt(a) + BigInt(b), BigInt(0))
+                    }
+                    expect(IMT.verifyProof(proof, badHash)).toBeFalsy()
                 })
             })
         })

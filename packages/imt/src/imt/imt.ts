@@ -292,11 +292,24 @@ export default class IMT {
 
     /**
      * It verifies a {@link IMTMerkleProof} to confirm that a leaf indeed
-     * belongs to the tree.
+     * belongs to a tree.  Does not verify that the node belongs to this
+     * tree in particular.  Equivalent to `IMT.verifyProof(proof, this._hash)`.
+     *
      * @param proof The Merkle tree proof.
      * @returns True if the leaf is part of the tree, and false otherwise.
      */
     public verifyProof(proof: IMTMerkleProof): boolean {
+        return IMT.verifyProof(proof, this._hash)
+    }
+
+    /**
+     * It verifies a {@link IMTMerkleProof} to confirm that a leaf indeed
+     * belongs to a tree.
+     * @param proof The Merkle tree proof.
+     * @param hash The hash function used to compute the tree nodes.
+     * @returns True if the leaf is part of the tree, and false otherwise.
+     */
+    public static verifyProof(proof: IMTMerkleProof, hash: IMTHashFunction): boolean {
         checkParameter(proof, "proof", "object")
         checkParameter(proof.root, "proof.root", "number", "string", "bigint")
         checkParameter(proof.leaf, "proof.leaf", "number", "string", "bigint")
@@ -310,7 +323,7 @@ export default class IMT {
 
             children.splice(proof.pathIndices[i], 0, node)
 
-            node = this._hash(children)
+            node = hash(children)
         }
 
         return proof.root === node

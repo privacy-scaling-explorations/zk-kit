@@ -268,11 +268,23 @@ export default class LeanIMT<N = bigint> {
 
     /**
      * It verifies a {@link LeanIMTMerkleProof} to confirm that a leaf indeed
-     * belongs to the tree.
+     * belongs to a tree.  Does not verify that the node belongs to this
+     * tree in particular.  Equivalent to
+     * `LeanIMT.verifyProof(proof, this._hash)`.
      * @param proof The Merkle tree proof.
      * @returns True if the leaf is part of the tree, and false otherwise.
      */
     public verifyProof(proof: LeanIMTMerkleProof<N>): boolean {
+        return LeanIMT.verifyProof(proof, this._hash)
+    }
+
+    /**
+     * It verifies a {@link LeanIMTMerkleProof} to confirm that a leaf indeed
+     * belongs to a tree.
+     * @param proof The Merkle tree proof.
+     * @returns True if the leaf is part of the tree, and false otherwise.
+     */
+    public static verifyProof<N>(proof: LeanIMTMerkleProof<N>, hash: LeanIMTHashFunction<N>): boolean {
         requireDefinedParameter(proof, "proof")
 
         const { root, leaf, siblings, index } = proof
@@ -289,9 +301,9 @@ export default class LeanIMT<N = bigint> {
 
         for (let i = 0; i < siblings.length; i += 1) {
             if ((index >> i) & 1) {
-                node = this._hash(siblings[i], node)
+                node = hash(siblings[i], node)
             } else {
-                node = this._hash(node, siblings[i])
+                node = hash(node, siblings[i])
             }
         }
 
