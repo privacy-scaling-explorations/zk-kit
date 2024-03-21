@@ -141,9 +141,9 @@ library InternalLeanIMT {
         for (uint256 level = 0; level < treeDepth; ) {
             // The number of nodes for the new level that will be created,
             // only the new values, not the entire level.
-            uint256 numberOfNodes = nextLevelSize - nextLevelStartIndex;
-            uint256[] memory nextLevel = new uint256[](numberOfNodes);
-            for (uint256 i = 0; i < numberOfNodes; ) {
+            uint256 numberOfNewNodes = nextLevelSize - nextLevelStartIndex;
+            uint256[] memory nextLevel = new uint256[](numberOfNewNodes);
+            for (uint256 i = 0; i < numberOfNewNodes; ) {
                 uint256 leftNode;
 
                 // Assign the left node using the saved path or the position in the array.
