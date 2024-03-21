@@ -9,8 +9,8 @@
     <a href="https://github.com/privacy-scaling-explorations/zk-kit">
         <img src="https://img.shields.io/badge/project-zk--kit-blue.svg?style=flat-square">
     </a>
-    <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt.sol/LICENSE">
-        <img alt="NPM license" src="https://img.shields.io/npm/l/%40zk-kit%2Fsmt.sol?style=flat-square">
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt.sol/contracts/LICENSE">
+        <img alt="NPM license" src="https://img.shields.io/npm/l/%40zk-kit%2Fimt.sol?style=flat-square">
     </a>
     <a href="https://www.npmjs.com/package/@zk-kit/imt.sol">
         <img alt="NPM version" src="https://img.shields.io/npm/v/@zk-kit/imt.sol?style=flat-square" />
@@ -37,14 +37,15 @@
 > [!WARNING]  
 > If you are looking for the first version of this package, please visit this [link](https://github.com/privacy-scaling-explorations/zk-kit/tree/imt-v1/packages/incremental-merkle-tree.sol).
 
----
+> [!WARNING]  
+> These libraries have **not** been audited.
 
 ## Libraries
 
-✔️ [BinaryIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/BinaryIMT.sol) (Poseidon)\
-✔️ [QuinaryIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/QuinaryIMT.sol) (Poseidon)\
-✔️ [LazyIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/LazyIMT.sol) (Poseidon)\
-✔️ [LeanIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/LeanIMT.sol) (Poseidon)
+✔️ [BinaryIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/internal/InternalBinaryIMT.sol) (Poseidon)\
+✔️ [QuinaryIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/internal/InternalQuinaryIMT.sol) (Poseidon)\
+✔️ [LazyIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/internal/InternalLazyIMT.sol) (Poseidon)\
+✔️ [LeanIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/internal/InternalLeanIMT.sol) (Poseidon)
 
 ## 🛠 Install
 

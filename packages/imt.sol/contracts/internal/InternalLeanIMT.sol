@@ -321,8 +321,13 @@ library InternalLeanIMT {
     /// @dev Retrieves the index of a given leaf in the tree.
     /// @param self: A storage reference to the 'LeanIMTData' struct.
     /// @param leaf: The value of the leaf whose index is to be found.
-    /// @return The index of the specified leaf within the tree. If the leaf is not present, the function returns 0.
+    /// @return The index of the specified leaf within the tree. If the leaf is not present, the function
+    /// reverts with a custom error.
     function _indexOf(LeanIMTData storage self, uint256 leaf) internal view returns (uint256) {
+        if (self.leaves[leaf] == 0) {
+            revert LeafDoesNotExist();
+        }
+
         return self.leaves[leaf] - 1;
     }
 
