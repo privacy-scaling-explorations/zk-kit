@@ -324,7 +324,7 @@ library InternalLeanIMT {
     /// @return The index of the specified leaf within the tree. If the leaf is not present, the function
     /// reverts with a custom error.
     function _indexOf(LeanIMTData storage self, uint256 leaf) internal view returns (uint256) {
-        if (self.leaves[leaf] == 0)  {
+        if (self.leaves[leaf] == 0) {
             revert LeafDoesNotExist();
         }
 
