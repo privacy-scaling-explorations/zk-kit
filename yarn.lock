@@ -3550,7 +3550,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/baby-jubjub@npm:0.3.0, @zk-kit/baby-jubjub@workspace:packages/baby-jubjub":
+"@zk-kit/baby-jubjub@npm:1.0.0-beta, @zk-kit/baby-jubjub@workspace:packages/baby-jubjub":
   version: 0.0.0-use.local
   resolution: "@zk-kit/baby-jubjub@workspace:packages/baby-jubjub"
   dependencies:
@@ -3572,7 +3572,7 @@ __metadata:
   resolution: "@zk-kit/circuits@workspace:packages/circuits"
   dependencies:
     "@types/mocha": "npm:^10.0.6"
-    "@zk-kit/baby-jubjub": "npm:0.3.0"
+    "@zk-kit/baby-jubjub": "npm:1.0.0-beta"
     "@zk-kit/eddsa-poseidon": "npm:0.11.0"
     "@zk-kit/poseidon-cipher": "npm:0.3.0"
     "@zk-kit/smt": "npm:1.0.0"
@@ -3601,7 +3601,7 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:^15.2.3"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@zk-kit/baby-jubjub": "npm:0.3.0"
+    "@zk-kit/baby-jubjub": "npm:1.0.0-beta"
     "@zk-kit/utils": "npm:1.0.0-beta"
     buffer: "npm:6.0.3"
     circomlibjs: "npm:0.0.8"
@@ -3714,7 +3714,7 @@ __metadata:
   resolution: "@zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher"
   dependencies:
     "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@zk-kit/baby-jubjub": "npm:0.3.0"
+    "@zk-kit/baby-jubjub": "npm:1.0.0-beta"
     "@zk-kit/eddsa-poseidon": "npm:0.1.0"
     "@zk-kit/utils": "npm:1.0.0-beta"
     circomlibjs: "npm:^0.0.8"
