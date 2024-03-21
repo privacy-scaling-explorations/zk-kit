@@ -316,8 +316,22 @@ describe("Lean IMT", () => {
             const proof = tree.generateProof(3)
 
             expect(tree.verifyProof(proof)).toBe(true)
+            expect(LeanIMT.verifyProof(proof, poseidon)).toBe(true)
         })
 
+        it("Should reject a proof with incorrect hash function", () => {
+            const tree = new LeanIMT(poseidon, leaves)
+
+            const proof = tree.generateProof(3)
+
+            function badHash(a: bigint, b: bigint): bigint {
+                return a + b
+            }
+            expect(LeanIMT.verifyProof(proof, badHash)).toBe(false)
+        })
+    })
+
+    describe("# import/export", () => {
         it("Should export a tree", () => {
             const tree = new LeanIMT(poseidon, leaves)
 
