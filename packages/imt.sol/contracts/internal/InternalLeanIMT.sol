@@ -110,9 +110,9 @@ library InternalLeanIMT {
         }
 
         // Array to save the nodes that will be used to create the next level of the tree.
-        uint256[] memory currentLevel;
+        uint256[] memory currentLevelNewNodes;
 
-        currentLevel = leaves;
+        currentLevelNewNodes = leaves;
 
         // Cache tree depth to optimize gas
         uint256 treeDepth = self.depth;
@@ -141,23 +141,23 @@ library InternalLeanIMT {
         for (uint256 level = 0; level < treeDepth; ) {
             // The number of nodes for the new level that will be created,
             // only the new values, not the entire level.
-            uint256 numberOfNodes = nextLevelSize - nextLevelStartIndex;
-            uint256[] memory nextLevel = new uint256[](numberOfNodes);
-            for (uint256 i = 0; i < numberOfNodes; ) {
+            uint256 numberOfNewNodes = nextLevelSize - nextLevelStartIndex;
+            uint256[] memory nextLevelNewNodes = new uint256[](numberOfNewNodes);
+            for (uint256 i = 0; i < numberOfNewNodes; ) {
                 uint256 leftNode;
 
                 // Assign the left node using the saved path or the position in the array.
                 if ((i + nextLevelStartIndex) * 2 < currentLevelStartIndex) {
                     leftNode = self.sideNodes[level];
                 } else {
-                    leftNode = currentLevel[(i + nextLevelStartIndex) * 2 - currentLevelStartIndex];
+                    leftNode = currentLevelNewNodes[(i + nextLevelStartIndex) * 2 - currentLevelStartIndex];
                 }
 
                 uint256 rightNode;
 
                 // Assign the right node if the value exists.
                 if ((i + nextLevelStartIndex) * 2 + 1 < currentLevelSize) {
-                    rightNode = currentLevel[(i + nextLevelStartIndex) * 2 + 1 - currentLevelStartIndex];
+                    rightNode = currentLevelNewNodes[(i + nextLevelStartIndex) * 2 + 1 - currentLevelStartIndex];
                 }
 
                 uint256 parentNode;
@@ -171,7 +171,7 @@ library InternalLeanIMT {
                     parentNode = leftNode;
                 }
 
-                nextLevel[i] = parentNode;
+                nextLevelNewNodes[i] = parentNode;
 
                 unchecked {
                     ++i;
@@ -180,14 +180,14 @@ library InternalLeanIMT {
 
             // Update the `sideNodes` variable.
             // If `currentLevelSize` is odd, the saved value will be the last value of the array
-            // if it is even and there are more than 1 element in `currentLevel`, the saved value
+            // if it is even and there are more than 1 element in `currentLevelNewNodes`, the saved value
             // will be the value before the last one.
             // If it is even and there is only one element, there is no need to save anything because
             // the correct value for this level was already saved before.
             if (currentLevelSize & 1 == 1) {
-                self.sideNodes[level] = currentLevel[currentLevel.length - 1];
-            } else if (currentLevel.length > 1) {
-                self.sideNodes[level] = currentLevel[currentLevel.length - 2];
+                self.sideNodes[level] = currentLevelNewNodes[currentLevelNewNodes.length - 1];
+            } else if (currentLevelNewNodes.length > 1) {
+                self.sideNodes[level] = currentLevelNewNodes[currentLevelNewNodes.length - 2];
             }
 
             currentLevelStartIndex = nextLevelStartIndex;
@@ -197,7 +197,7 @@ library InternalLeanIMT {
             nextLevelStartIndex >>= 1;
 
             // Update the next array that will be used to calculate the next level.
-            currentLevel = nextLevel;
+            currentLevelNewNodes = nextLevelNewNodes;
 
             currentLevelSize = nextLevelSize;
 
@@ -214,9 +214,9 @@ library InternalLeanIMT {
         self.size = treeSize + leaves.length;
 
         // Update tree root
-        self.sideNodes[treeDepth] = currentLevel[0];
+        self.sideNodes[treeDepth] = currentLevelNewNodes[0];
 
-        return currentLevel[0];
+        return currentLevelNewNodes[0];
     }
 
     /// @dev Updates the value of an existing leaf and recalculates hashes
