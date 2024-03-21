@@ -268,6 +268,7 @@ describe("LeanIMT", () => {
 
             expect(hasLeaf).to.equal(true)
         })
+
         it("Should return false because the node is not the tree", async () => {
             const hasLeaf = await leanIMTTest.has(2)
 
@@ -282,6 +283,7 @@ describe("LeanIMT", () => {
 
             expect(index).to.equal(0)
         })
+
         it("Should return the indices of the leaves", async () => {
             await leanIMTTest.insertMany([1, 2])
 
@@ -290,6 +292,14 @@ describe("LeanIMT", () => {
 
             expect(index1).to.equal(0)
             expect(index2).to.equal(1)
+        })
+
+        it("Should throw a custom error if the leaf does not exist", async () => {
+            await leanIMTTest.insertMany([1, 2])
+
+            const transaction = leanIMTTest.indexOf(3)
+
+            await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafDoesNotExist")
         })
     })
 
