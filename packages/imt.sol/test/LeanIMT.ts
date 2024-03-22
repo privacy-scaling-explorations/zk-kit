@@ -19,7 +19,7 @@ describe("LeanIMT", () => {
     })
 
     describe("# insert", () => {
-        it("Should not insert a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
+        it("Should not insert a leaf if its value is >= SNARK_SCALAR_FIELD", async () => {
             const transaction = leanIMTTest.insert(SNARK_SCALAR_FIELD)
 
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafGreaterThanSnarkScalarField")
@@ -65,7 +65,7 @@ describe("LeanIMT", () => {
     })
 
     describe("# insertMany", () => {
-        it("Should not insert a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
+        it("Should not insert a leaf if its value is >= SNARK_SCALAR_FIELD", async () => {
             const transaction = leanIMTTest.insertMany([SNARK_SCALAR_FIELD])
 
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafGreaterThanSnarkScalarField")
@@ -131,7 +131,7 @@ describe("LeanIMT", () => {
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafDoesNotExist")
         })
 
-        it("Should not update a leaf if its value is > SNARK_SCALAR_FIELD", async () => {
+        it("Should not update a leaf if its value is >= SNARK_SCALAR_FIELD", async () => {
             const transaction = leanIMTTest.update(2, SNARK_SCALAR_FIELD, [1, 2, 3, 4])
 
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafGreaterThanSnarkScalarField")
@@ -168,7 +168,7 @@ describe("LeanIMT", () => {
             expect(root).to.equal(jsLeanIMT.root)
         })
 
-        it("Should not update a leaf if the value of at least one sibling node is > SNARK_SCALAR_FIELD", async () => {
+        it("Should not update a leaf if its index is even and the value of at least one sibling node is >= SNARK_SCALAR_FIELD", async () => {
             await leanIMTTest.insert(1)
             await leanIMTTest.insert(2)
 
@@ -180,6 +180,22 @@ describe("LeanIMT", () => {
             siblings[0] = SNARK_SCALAR_FIELD
 
             const transaction = leanIMTTest.update(1, 3, siblings)
+
+            await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafGreaterThanSnarkScalarField")
+        })
+
+        it("Should not update a leaf if its index is odd and the value of at least one sibling node is >= SNARK_SCALAR_FIELD", async () => {
+            await leanIMTTest.insert(1)
+            await leanIMTTest.insert(2)
+
+            jsLeanIMT.insertMany([BigInt(1), BigInt(2)])
+            jsLeanIMT.update(1, BigInt(3))
+
+            const { siblings } = jsLeanIMT.generateProof(1)
+
+            siblings[0] = SNARK_SCALAR_FIELD
+
+            const transaction = leanIMTTest.update(2, 3, siblings)
 
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafGreaterThanSnarkScalarField")
         })
@@ -237,6 +253,19 @@ describe("LeanIMT", () => {
             const transaction = leanIMTTest.update(0, 3, newSiblings)
 
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafCannotBeZero")
+        })
+        it("Should not update a leaf if the new value already exists", async () => {
+            await leanIMTTest.insert(1)
+            await leanIMTTest.insert(2)
+
+            jsLeanIMT.insertMany([BigInt(1), BigInt(2)])
+            jsLeanIMT.update(0, BigInt(2))
+
+            const { siblings } = jsLeanIMT.generateProof(0)
+
+            const transaction = leanIMTTest.update(1, 2, siblings)
+
+            await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafAlreadyExists")
         })
     })
 
