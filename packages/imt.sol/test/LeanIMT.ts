@@ -219,6 +219,25 @@ describe("LeanIMT", () => {
                 expect(root).to.equal(jsLeanIMT.root)
             }
         })
+
+        it("Should not update a leaf that was removed", async () => {
+            await leanIMTTest.insertMany([1, 2])
+            jsLeanIMT.insertMany([BigInt(1), BigInt(2)])
+
+            jsLeanIMT.update(1, BigInt(0))
+
+            const { siblings } = jsLeanIMT.generateProof(1)
+
+            await leanIMTTest.remove(2, siblings)
+
+            jsLeanIMT.update(1, BigInt(3))
+
+            const { siblings: newSiblings } = jsLeanIMT.generateProof(1)
+
+            const transaction = leanIMTTest.update(0, 3, newSiblings)
+
+            await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafCannotBeZero")
+        })
     })
 
     describe("# remove", () => {

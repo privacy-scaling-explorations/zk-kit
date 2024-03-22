@@ -234,6 +234,8 @@ library InternalLeanIMT {
     ) internal returns (uint256) {
         if (newLeaf >= SNARK_SCALAR_FIELD) {
             revert LeafGreaterThanSnarkScalarField();
+        } else if (oldLeaf == 0) {
+            revert LeafCannotBeZero();
         } else if (!_has(self, oldLeaf)) {
             revert LeafDoesNotExist();
         } else if (newLeaf != 0 && _has(self, newLeaf)) {
