@@ -45,7 +45,7 @@
 ✔️ [BinaryIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/internal/InternalBinaryIMT.sol) (Poseidon)\
 ✔️ [QuinaryIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/internal/InternalQuinaryIMT.sol) (Poseidon)\
 ✔️ [LazyIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/internal/InternalLazyIMT.sol) (Poseidon)\
-✔️ [LeanIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/internal/InternalLeanIMT.sol) (Poseidon)
+✔️ [LeanIMT](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/imt.sol/contracts/internal/InternalLeanIMT.sol) (Poseidon) ([Visual explanation](https://hackmd.io/@vplasencia/S1whLBN16))
 
 ## 🛠 Install
 
