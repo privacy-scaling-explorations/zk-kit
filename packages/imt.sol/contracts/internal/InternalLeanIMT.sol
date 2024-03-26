@@ -236,7 +236,7 @@ library InternalLeanIMT {
             revert LeafGreaterThanSnarkScalarField();
         } else if (!_has(self, oldLeaf)) {
             revert LeafDoesNotExist();
-        } else if (newLeaf != 0 && _has(self, newLeaf)) {
+        } else if (_has(self, newLeaf)) {
             revert LeafAlreadyExists();
         }
 
