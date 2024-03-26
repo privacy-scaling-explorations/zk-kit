@@ -322,6 +322,21 @@ describe("LeanIMT", () => {
 
             expect(hasLeaf).to.equal(false)
         })
+
+        it("Should return false if the leaf is 0", async () => {
+            await leanIMTTest.insertMany([1, 2])
+            jsLeanIMT.insertMany([BigInt(1), BigInt(2)])
+
+            jsLeanIMT.update(1, BigInt(0))
+
+            const { siblings } = jsLeanIMT.generateProof(1)
+
+            await leanIMTTest.remove(2, siblings)
+
+            const hasLeaf = await leanIMTTest.has(0)
+
+            expect(hasLeaf).to.equal(false)
+        })
     })
     describe("# indexOf", () => {
         it("Should return the index of a leaf", async () => {
