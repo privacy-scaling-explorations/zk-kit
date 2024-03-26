@@ -252,7 +252,7 @@ describe("LeanIMT", () => {
 
             const transaction = leanIMTTest.update(0, 3, newSiblings)
 
-            await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafCannotBeZero")
+            await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafDoesNotExist")
         })
         it("Should not update a leaf if the new value already exists", async () => {
             await leanIMTTest.insert(1)

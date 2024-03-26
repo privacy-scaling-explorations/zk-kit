@@ -234,8 +234,6 @@ library InternalLeanIMT {
     ) internal returns (uint256) {
         if (newLeaf >= SNARK_SCALAR_FIELD) {
             revert LeafGreaterThanSnarkScalarField();
-        } else if (oldLeaf == 0) {
-            revert LeafCannotBeZero();
         } else if (!_has(self, oldLeaf)) {
             revert LeafDoesNotExist();
         } else if (newLeaf != 0 && _has(self, newLeaf)) {
@@ -291,7 +289,11 @@ library InternalLeanIMT {
         }
 
         self.sideNodes[treeDepth] = node;
-        self.leaves[newLeaf] = self.leaves[oldLeaf];
+
+        if (newLeaf != 0) {
+            self.leaves[newLeaf] = self.leaves[oldLeaf];
+        }
+
         self.leaves[oldLeaf] = 0;
 
         return node;
