@@ -10,18 +10,21 @@
             "inputs": [
                 "*.{js,ts,yml,json,md}",
                 "{.github,packages,scripts,types}/**/*.{js,ts,yml,json,md}",
-                "!packages/**/dist/**"
+                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
             ]
         },
         "//#format:prettier:write": {
             "inputs": [
                 "*.{js,ts,yml,json,md}",
                 "{.github,packages,scripts,types}/**/*.{js,ts,yml,json,md}",
-                "!packages/**/dist/**"
+                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
             ]
         },
         "//#lint:eslint": {
-            "inputs": ["{packages,scripts,types}/**/*.{js,ts}"]
+            "inputs": [
+                "{packages,scripts,types}/**/*.{js,ts}",
+                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
+            ]
         },
         "lint": {
             "inputs": ["**/*.sol"]
