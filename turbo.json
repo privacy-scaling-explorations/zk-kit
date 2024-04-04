@@ -35,7 +35,14 @@
             "inputs": ["packages/**/*.{js,ts}"]
         },
         "//#test:circuits": {
-            "dependsOn": ["^build"],
+            "dependsOn": [
+                "^build",
+                "@zk-kit/baby-jubjub#build",
+                "@zk-kit/eddsa-poseidon#build",
+                "@zk-kit/poseidon-cipher#build",
+                "@zk-kit/smt#build",
+                "@zk-kit/utils#build"
+            ],
             "inputs": ["packages/circuits/**/*.{circom,nr,ts}"]
         },
         "test:coverage": {
