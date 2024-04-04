@@ -26,7 +26,8 @@
         "docs": "typedoc --cname zkkit.pse.dev --githubPages true",
         "remove:stable-version-field": "ts-node scripts/remove-stable-version-field.ts ${0} && yarn prettier:write",
         "precommit": "lint-staged",
-        "postinstall": "husky install"
+        "postinstall": "husky install",
+        "style": "turbo build lint:eslint lint format:prettier"
     },
     "keywords": [
         "javascript",

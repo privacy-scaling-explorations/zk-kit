@@ -21,6 +21,7 @@
             ]
         },
         "//#lint:eslint": {
+            "dependsOn": ["^build"],
             "inputs": [
                 "{packages,scripts,types}/**/*.{js,ts}",
                 "!packages/**/{artifacts,cache,dist,typechain-types}/**"
@@ -34,9 +35,11 @@
             "inputs": ["packages/**/*.{js,ts}"]
         },
         "//#test:circuits": {
+            "dependsOn": ["^build"],
             "inputs": ["packages/circuits/**/*.{circom,nr,ts}"]
         },
         "test:coverage": {
+            "dependsOn": ["^build"],
             "inputs": ["**/*.sol"]
         }
     }
