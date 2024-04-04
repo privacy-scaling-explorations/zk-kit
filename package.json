@@ -7,9 +7,7 @@
     "bugs": "https://github.com/privacy-scaling-explorations/zk-kit/issues",
     "private": true,
     "scripts": {
-        "build": "yarn build:libraries && yarn compile:contracts",
-        "build:libraries": "yarn workspaces foreach -A -t --no-private run build",
-        "compile:contracts": "yarn workspaces foreach -A run compile",
+        "build": "turbo build",
         "test": "yarn test:libraries && yarn test:contracts && yarn test:circuits",
         "test:libraries": "jest --coverage",
         "test:library": "jest packages/${0}",

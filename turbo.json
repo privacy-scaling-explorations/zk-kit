@@ -1,6 +1,11 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "pipeline": {
+        "build": {
+            "dependsOn": ["^build"],
+            "inputs": ["packages/**/*.{js,ts,sol}"],
+            "outputs":["packages/**/{artifacts,dist,typechain-types}/**"]
+        },
         "//#format:prettier": {
             "inputs": [
                 "*.{js,ts,yml,json,md}",
