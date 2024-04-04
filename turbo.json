@@ -2,7 +2,7 @@
     "$schema": "https://turbo.build/schema.json",
     "pipeline": {
         "build": {
-            "dependsOn": ["^build"],
+            "dependsOn": ["^build", "typechain"],
             "inputs": ["packages/**/*.{js,ts,sol}"],
             "outputs": ["packages/**/{artifacts,dist,typechain-types}/**"]
         },
@@ -21,7 +21,7 @@
             ]
         },
         "//#lint:eslint": {
-            "dependsOn": ["^build"],
+            "dependsOn": ["imt.sol#typechain", "lazytower.sol#typechain"],
             "inputs": [
                 "{packages,scripts,types}/**/*.{js,ts}",
                 "!packages/**/{artifacts,cache,dist,typechain-types}/**"
@@ -41,6 +41,9 @@
         "test:coverage": {
             "dependsOn": ["^build"],
             "inputs": ["**/*.sol"]
+        },
+        "typechain": {
+            "inputs": ["packages/**/*.sol"]
         }
     }
 }
