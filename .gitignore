@@ -84,3 +84,6 @@ typechain-types
 
 # Other
 benchmarks/results
+
+# turbo cache
+.turbo

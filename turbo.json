@@ -1,0 +1,27 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "pipeline": {
+        "//#format:prettier": {
+            "inputs": [
+                "*.{js,ts,yml,json,md}",
+                "{.github,packages,scripts,types}/**/*.{js,ts,yml,json,md}",
+                "!packages/**/dist/**"
+            ]
+        },
+        "//#format:prettier:write": {
+            "inputs": [
+                "*.{js,ts,yml,json,md}",
+                "{.github,packages,scripts,types}/**/*.{js,ts,yml,json,md}",
+                "!packages/**/dist/**"
+            ]
+        },
+        "//#lint:eslint":{
+            "inputs":[
+                "{packages,scripts,types}/**/*.{js,ts}"
+            ]
+        },
+        "lint": {
+            "inputs": ["**/*.sol"]
+        }
+    }
+}
