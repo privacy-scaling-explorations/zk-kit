@@ -8,11 +8,11 @@
     "private": true,
     "scripts": {
         "build": "turbo build",
-        "test": "yarn test:libraries && yarn test:contracts && yarn test:circuits",
+        "test": "turbo test:libraries test:circuits test:coverage",
         "test:libraries": "jest --coverage",
         "test:library": "jest packages/${0}",
         "test:circuits": "yarn workspace @zk-kit/circuits test",
-        "test:contracts": "yarn workspace imt.sol test:coverage",
+        "test:contracts": "turbo test:coverage",
         "version:bump": "yarn workspace @zk-kit/${0} version ${1} && yarn remove:stable-version-field ${0} && NO_HOOK=1 git commit -am \"chore(${0}): v${1}\" && git tag ${0}-v${1}",
         "version:publish": "yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public",
         "version:release": "changelogithub",

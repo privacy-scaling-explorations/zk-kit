@@ -4,7 +4,7 @@
         "build": {
             "dependsOn": ["^build"],
             "inputs": ["packages/**/*.{js,ts,sol}"],
-            "outputs":["packages/**/{artifacts,dist,typechain-types}/**"]
+            "outputs": ["packages/**/{artifacts,dist,typechain-types}/**"]
         },
         "//#format:prettier": {
             "inputs": [
@@ -20,12 +20,20 @@
                 "!packages/**/dist/**"
             ]
         },
-        "//#lint:eslint":{
-            "inputs":[
-                "{packages,scripts,types}/**/*.{js,ts}"
-            ]
+        "//#lint:eslint": {
+            "inputs": ["{packages,scripts,types}/**/*.{js,ts}"]
         },
         "lint": {
+            "inputs": ["**/*.sol"]
+        },
+        "//#test:libraries": {
+            "dependsOn": ["^build"],
+            "inputs": ["packages/**/*.{js,ts}"]
+        },
+        "//#test:circuits": {
+            "inputs": ["packages/circuits/**/*.{circom,nr,ts}"]
+        },
+        "test:coverage": {
             "inputs": ["**/*.sol"]
         }
     }
