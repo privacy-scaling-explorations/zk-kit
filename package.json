@@ -8,6 +8,7 @@
     "private": true,
     "scripts": {
         "build": "turbo build",
+        "build:libraries": "yarn workspaces foreach -A -t --no-private run build",
         "test": "turbo test:libraries test:circuits test:coverage",
         "test:libraries": "jest --coverage",
         "test:library": "jest packages/${0}",

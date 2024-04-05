@@ -3,8 +3,11 @@
     "pipeline": {
         "build": {
             "dependsOn": ["^build", "typechain"],
-            "inputs": ["**/tsconfig.json", "packages/**/*.{js,ts,sol}"],
+            "inputs": ["**/tsconfig.json", "packages/**/*.{js,json,ts,sol}"],
             "outputs": ["packages/**/{artifacts,dist,typechain-types}/**"]
+        },
+        "//#build:libraries": {
+            "inputs": ["tsconfig.json","packages/**/*.{js,json,ts}"]
         },
         "//#format:prettier": {
             "inputs": [
@@ -37,12 +40,11 @@
             "inputs": ["**/*.sol"]
         },
         "//#test:libraries": {
-            "dependsOn": ["^build"],
+            "dependsOn": ["build:libraries"],
             "inputs": ["jest.config.ts", "packages/**/*.{js,ts}"]
         },
         "//#test:circuits": {
             "dependsOn": [
-                "^build",
                 "@zk-kit/baby-jubjub#build",
                 "@zk-kit/eddsa-poseidon#build",
                 "@zk-kit/imt#build",
