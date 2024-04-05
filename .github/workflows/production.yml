@@ -22,18 +22,8 @@ jobs:
             - name: Install dependencies
               run: yarn
 
-            - name: Compile contracts
-              run: yarn compile:contracts
-
-            - name: Build libraries
-              run: yarn build:libraries
-
-            - name: Run Prettier
-              run: yarn prettier
-
-            - name: Run Eslint
-              run: yarn lint
-
+            - name: Build | Lint | Format
+              run: yarn style
     test:
         runs-on: ubuntu-latest
         strategy:
@@ -66,11 +56,9 @@ jobs:
             - name: Install dependencies
               run: yarn
 
-            - name: Build libraries and contracts
-              run: yarn build
-
+              # test turbo task(s) dependsOn build tasks, no need to explicitly build before testing
             - name: Test libraries, contracts and circuits
-              run: yarn test:${{ matrix.type }}
+              run: yarn test
 
             - name: Coveralls
               if: matrix.type != 'circuits'
