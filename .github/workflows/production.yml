@@ -56,9 +56,11 @@ jobs:
             - name: Install dependencies
               run: yarn
 
-              # test turbo task(s) dependsOn build tasks, no need to explicitly build before testing
+            - name: Build libraries and contracts
+              run: yarn build
+
             - name: Test libraries, contracts and circuits
-              run: yarn test
+              run: yarn test:${{ matrix.type }}
 
             - name: Coveralls
               if: matrix.type != 'circuits'
