@@ -2,7 +2,7 @@
     "$schema": "https://turbo.build/schema.json",
     "pipeline": {
         "build": {
-            "dependsOn": ["^build", "typechain"],
+            "dependsOn": ["^build"],
             "inputs": [
                 "**/tsconfig.json",
                 "packages/**/*.{js,json,ts,sol}",
@@ -10,7 +10,7 @@
             ],
             "outputs": ["packages/**/{artifacts,dist,typechain-types}/**"]
         },
-        "//#build:libraries": {
+        "//#_build:libraries": {
             "inputs": [
                 "tsconfig.json",
                 "packages/**/*.{js,json,ts}",
@@ -36,7 +36,17 @@
             ]
         },
         "//#lint:eslint": {
-            "dependsOn": ["imt.sol#typechain", "lazytower.sol#typechain"],
+            "dependsOn": [
+                "@zk-kit/baby-jubjub#build",
+                "@zk-kit/eddsa-poseidon#build",
+                "@zk-kit/imt#build",
+                "imt.sol#typechain",
+                "lazytower.sol#typechain",
+                "@zk-kit/poseidon-cipher#build",
+                "@zk-kit/rollup-plugin-rust#build",
+                "@zk-kit/smt#build",
+                "@zk-kit/utils#build"
+            ],
             "inputs": [
                 ".eslintrc.json",
                 ".eslintignore",
@@ -47,15 +57,27 @@
         "lint": {
             "inputs": ["**/*.sol"]
         },
-        "//#test:libraries": {
-            "dependsOn": ["build:libraries"],
+        "//#_test:libraries": {
+            "dependsOn": [
+                "@zk-kit/imt#build",
+                "@zk-kit/baby-jubjub#build",
+                "@zk-kit/eddsa-poseidon#build",
+                "@zk-kit/eddsa-proof#build",
+                "@zk-kit/groth16#build",
+                "@zk-kit/lazytower#build",
+                "@zk-kit/poseidon-cipher#build",
+                "@zk-kit/poseidon-proof#build",
+                "@zk-kit/rollup-plugin-rust#build",
+                "@zk-kit/smt#build",
+                "@zk-kit/utils#build"
+            ],
             "inputs": [
                 "jest.config.ts",
                 "packages/**/*.{js,ts}",
                 "!packages/**/{artifacts,cache,dist,typechain-types}/**"
             ]
         },
-        "//#test:circuits": {
+        "//#_test:circuits": {
             "dependsOn": [
                 "@zk-kit/baby-jubjub#build",
                 "@zk-kit/eddsa-poseidon#build",
@@ -67,7 +89,7 @@
             "inputs": ["packages/circuits/**/*.{circom,nr,ts}"]
         },
         "test:coverage": {
-            "dependsOn": ["^build"],
+            "dependsOn": ["@zk-kit/imt#build", "^build"],
             "inputs": ["**/*.sol"]
         },
         "typechain": {
