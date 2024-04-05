@@ -7,7 +7,7 @@
             "outputs": ["packages/**/{artifacts,dist,typechain-types}/**"]
         },
         "//#build:libraries": {
-            "inputs": ["tsconfig.json","packages/**/*.{js,json,ts}"]
+            "inputs": ["tsconfig.json", "packages/**/*.{js,json,ts}"]
         },
         "//#format:prettier": {
             "inputs": [
