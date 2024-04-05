@@ -3,11 +3,19 @@
     "pipeline": {
         "build": {
             "dependsOn": ["^build", "typechain"],
-            "inputs": ["**/tsconfig.json", "packages/**/*.{js,json,ts,sol}"],
+            "inputs": [
+                "**/tsconfig.json",
+                "packages/**/*.{js,json,ts,sol}",
+                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
+            ],
             "outputs": ["packages/**/{artifacts,dist,typechain-types}/**"]
         },
         "//#build:libraries": {
-            "inputs": ["tsconfig.json", "packages/**/*.{js,json,ts}"]
+            "inputs": [
+                "tsconfig.json",
+                "packages/**/*.{js,json,ts}",
+                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
+            ]
         },
         "//#format:prettier": {
             "inputs": [
@@ -41,7 +49,11 @@
         },
         "//#test:libraries": {
             "dependsOn": ["build:libraries"],
-            "inputs": ["jest.config.ts", "packages/**/*.{js,ts}"]
+            "inputs": [
+                "jest.config.ts",
+                "packages/**/*.{js,ts}",
+                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
+            ]
         },
         "//#test:circuits": {
             "dependsOn": [
