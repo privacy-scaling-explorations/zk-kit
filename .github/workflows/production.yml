@@ -3,7 +3,7 @@ name: production
 on:
     push:
         branches:
-            - main
+            - chore/turbo-prod-action
 
 jobs:
     style:
