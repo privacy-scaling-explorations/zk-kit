@@ -3,11 +3,13 @@
     "pipeline": {
         "build": {
             "dependsOn": ["^build", "typechain"],
-            "inputs": ["packages/**/*.{js,ts,sol}"],
+            "inputs": ["**/tsconfig.json", "packages/**/*.{js,ts,sol}"],
             "outputs": ["packages/**/{artifacts,dist,typechain-types}/**"]
         },
         "//#format:prettier": {
             "inputs": [
+                ".prettierrc.json",
+                ".prettierignore",
                 "*.{js,ts,yml,json,md}",
                 "{.github,packages,scripts,types}/**/*.{js,ts,yml,json,md}",
                 "!packages/**/{artifacts,cache,dist,typechain-types}/**"
@@ -15,6 +17,8 @@
         },
         "//#format:prettier:write": {
             "inputs": [
+                ".prettierrc.json",
+                ".prettierignore",
                 "*.{js,ts,yml,json,md}",
                 "{.github,packages,scripts,types}/**/*.{js,ts,yml,json,md}",
                 "!packages/**/{artifacts,cache,dist,typechain-types}/**"
@@ -23,6 +27,8 @@
         "//#lint:eslint": {
             "dependsOn": ["imt.sol#typechain", "lazytower.sol#typechain"],
             "inputs": [
+                ".eslintrc.json",
+                ".eslintignore",
                 "{packages,scripts,types}/**/*.{js,ts}",
                 "!packages/**/{artifacts,cache,dist,typechain-types}/**"
             ]
@@ -32,13 +38,14 @@
         },
         "//#test:libraries": {
             "dependsOn": ["^build"],
-            "inputs": ["packages/**/*.{js,ts}"]
+            "inputs": ["jest.config.ts", "packages/**/*.{js,ts}"]
         },
         "//#test:circuits": {
             "dependsOn": [
                 "^build",
                 "@zk-kit/baby-jubjub#build",
                 "@zk-kit/eddsa-poseidon#build",
+                "@zk-kit/imt#build",
                 "@zk-kit/poseidon-cipher#build",
                 "@zk-kit/smt#build",
                 "@zk-kit/utils#build"
