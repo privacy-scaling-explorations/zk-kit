@@ -3,7 +3,7 @@
     "private": true,
     "scripts": {
         "start": "hardhat node",
-        "compile": "hardhat compile",
+        "build": "hardhat compile",
         "deploy:test-contracts": "hardhat deploy:tree-contracts",
         "test": "hardhat test",
         "test:report-gas": "REPORT_GAS=true hardhat test",
