@@ -15,3 +15,19 @@ export type PackedGroth16Proof = [
     NumericString,
     NumericString
 ]
+
+export enum ProofType {
+    POSEIDON = "poseidon",
+    EDDSA = "eddsa"
+}
+
+export type ArtifactConfig = {
+    baseUrl: string
+    wasmFileName: string
+    zkeyFileName: string
+}
+
+export type SnarkArtifacts = {
+    wasmFilePath: string
+    zkeyFilePath: string
+}
