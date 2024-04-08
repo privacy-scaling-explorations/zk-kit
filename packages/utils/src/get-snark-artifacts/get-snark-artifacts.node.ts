@@ -86,13 +86,12 @@ async function getSnarkArtifact(
 
 const GetSnarkArtifacts =
     (proofType: ProofType) =>
-    async (numberOfInputs?: number): Promise<SnarkArtifacts> => {
-        return Promise.all(
+    async (numberOfInputs?: number): Promise<SnarkArtifacts> =>
+        Promise.all(
             ARTIFACTS_TYPES.map(async (artifactType) => getSnarkArtifact(proofType, artifactType, numberOfInputs))
         ).then((artifacts) =>
             artifacts.reduce<SnarkArtifacts>((acc, artifact) => ({ ...acc, ...artifact }), {} as SnarkArtifacts)
         )
-    }
 
 export const getPoseidonSnarkArtifacts = GetSnarkArtifacts(ProofType.POSEIDON)
 export const getEddsaSnarkArtifacts = GetSnarkArtifacts(ProofType.EDDSA)
