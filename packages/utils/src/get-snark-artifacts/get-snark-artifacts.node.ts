@@ -23,23 +23,15 @@ async function download(url: string, outputPath: string) {
     if (!response.ok) {
         throw new Error(`Failed to fetch ${url}: ${response.statusText}`)
     }
+    if (!response.body) {
+        throw new Error("Failed to get response body")
+    }
 
     const dir = dirname(outputPath)
-    try {
-        await mkdir(dir, { recursive: true })
-    } catch (error) {
-        throw new Error(`Failed to create directory ${dir}: ${(error as Error).message}`)
-    }
+    await mkdir(dir, { recursive: true })
 
     const fileStream = createWriteStream(outputPath)
-    if (!fileStream) {
-        throw new Error(`Failed to create write stream for ${outputPath}`)
-    }
-
-    const reader = response.body?.getReader()
-    if (!reader) {
-        throw new Error("Failed to get response body reader")
-    }
+    const reader = response.body.getReader()
 
     try {
         const pump = async () => {
