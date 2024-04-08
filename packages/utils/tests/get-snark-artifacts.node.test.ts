@@ -1,6 +1,6 @@
 import { createWriteStream, existsSync } from "node:fs"
 import { mkdir } from "node:fs/promises"
-import { getEddsaSnarkArtifacts, getPoseidonSnarkArtifacts } from "../src/get-snark-artifacts.node"
+import { getEddsaSnarkArtifacts, getPoseidonSnarkArtifacts } from "../src/get-snark-artifacts/get-snark-artifacts.node"
 
 jest.mock("node:fs", () => ({
     ...jest.requireActual("node:fs"),
@@ -28,7 +28,7 @@ describe("getPoseidonSnarkArtifacts", () => {
             statusText: "TEST"
         })
         await expect(getPoseidonSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
-            `"Failed to fetch https://zkkit.cedoor.dev/poseidon-proof/artifacts/2/poseidon-proof/poseidon-proof.wasm: TEST"`
+            `"Failed to fetch https://zkkit.cedoor.dev/poseidon-proof/artifacts/2/poseidon-proof.wasm: TEST"`
         )
     })
 
@@ -60,8 +60,8 @@ describe("getPoseidonSnarkArtifacts", () => {
         })
         await expect(getPoseidonSnarkArtifacts(2)).resolves.toMatchInlineSnapshot(`
             {
-              "wasmPath": "/tmp/poseidon-proof-2/poseidon-proof.wasm",
-              "zkeyPath": "/tmp/poseidon-proof-2/poseidon-proof.zkey",
+              "wasmFilePath": "/tmp/poseidon-proof-2/poseidon-proof.wasm",
+              "zkeyFilePath": "/tmp/poseidon-proof-2/poseidon-proof.zkey",
             }
         `)
 
@@ -113,8 +113,8 @@ describe("getEddsaSnarkArtifacts", () => {
         })
         await expect(getEddsaSnarkArtifacts()).resolves.toMatchInlineSnapshot(`
             {
-              "wasmPath": "/tmp/eddsa-proof/eddsa-proof.wasm",
-              "zkeyPath": "/tmp/eddsa-proof/eddsa-proof.zkey",
+              "wasmFilePath": "/tmp/eddsa-proof/eddsa-proof.wasm",
+              "zkeyFilePath": "/tmp/eddsa-proof/eddsa-proof.zkey",
             }
         `)
 
