@@ -21,7 +21,7 @@ beforeEach(() => {
 })
 
 describe("getPoseidonSnarkArtifacts", () => {
-    it("should handle fetch errors", async () => {
+    it("should throw on fetch errors", async () => {
         ;(existsSync as jest.Mock).mockReturnValue(false)
         ;(global.fetch as jest.Mock).mockResolvedValueOnce({
             ok: false,
@@ -30,6 +30,43 @@ describe("getPoseidonSnarkArtifacts", () => {
         await expect(getPoseidonSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
             `"Failed to fetch https://zkkit.cedoor.dev/poseidon-proof/artifacts/2/poseidon-proof.wasm: TEST"`
         )
+    })
+
+    it("should throw on invalid numberOfInputs", async () => {
+        await expect(getPoseidonSnarkArtifacts(0)).rejects.toThrowErrorMatchingInlineSnapshot(
+            `"numberOfInputs must be greater than 0"`
+        )
+    })
+
+    it("should throw if missing body", async () => {
+        ;(existsSync as jest.Mock).mockReturnValue(false)
+        ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+            ok: true,
+            statusText: "OK"
+        })
+        await expect(getPoseidonSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
+            `"Failed to get response body"`
+        )
+    })
+
+    it("should throw on stream error", async () => {
+        ;(existsSync as jest.Mock).mockReturnValue(false)
+        const mockResponseStream = {
+            body: {
+                getReader: jest.fn(() => ({
+                    read: jest.fn().mockRejectedValueOnce(new Error("TEST STREAM ERROR"))
+                }))
+            },
+            ok: true,
+            statusText: "OK"
+        }
+        ;(global.fetch as jest.Mock).mockResolvedValue(mockResponseStream)
+        ;(createWriteStream as jest.Mock).mockReturnValue({
+            close: jest.fn(),
+            end: jest.fn(),
+            write: jest.fn()
+        })
+        await expect(getPoseidonSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(`"TEST STREAM ERROR"`)
     })
 
     it("should download files only if don't exist yet", async () => {
@@ -82,6 +119,17 @@ describe("getEddsaSnarkArtifacts", () => {
         })
         await expect(getEddsaSnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(
             `"Failed to fetch https://zkkit.cedoor.dev/eddsa-proof/eddsa-proof.wasm: TEST"`
+        )
+    })
+
+    it("should throw if missing body", async () => {
+        ;(existsSync as jest.Mock).mockReturnValue(false)
+        ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+            ok: true,
+            statusText: "OK"
+        })
+        await expect(getEddsaSnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(
+            `"Failed to get response body"`
         )
     })
 
