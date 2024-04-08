@@ -1,30 +1,17 @@
 import { createWriteStream, existsSync } from "node:fs"
 import { mkdir } from "node:fs/promises"
 import { dirname } from "node:path"
-import { Readable } from "node:stream"
-import { finished } from "node:stream/promises"
 import os from "node:os"
-import { ArtifactConfig, SnarkArtifacts, ProofType } from "./types"
+import { SnarkArtifacts, ProofType, ArtifactType } from "./types"
 
 const ARTIFACTS_BASE_URL = "https://zkkit.cedoor.dev"
-
-const PROOF_ARTIFACT_CONFIGS: Record<ProofType, ArtifactConfig> = {
-    [ProofType.POSEIDON]: {
-        baseUrl: `${ARTIFACTS_BASE_URL}/${ProofType.POSEIDON}-proof/artifacts`,
-        wasmFileName: `${ProofType.POSEIDON}-proof.wasm`,
-        zkeyFileName: `${ProofType.POSEIDON}-proof.zkey`
-    },
-    [ProofType.EDDSA]: {
-        baseUrl: `${ARTIFACTS_BASE_URL}/${ProofType.EDDSA}-proof`,
-        wasmFileName: `${ProofType.EDDSA}-proof.wasm`,
-        zkeyFileName: `${ProofType.EDDSA}-proof.zkey`
-    }
+const ARTIFACTS_TYPES = [ArtifactType.WASM, ArtifactType.ZKEY]
+const ARTIFACT_BASE_URLS: Record<ProofType, string> = {
+    [ProofType.POSEIDON]: `${ARTIFACTS_BASE_URL}/${ProofType.POSEIDON}-proof/artifacts`,
+    [ProofType.EDDSA]: `${ARTIFACTS_BASE_URL}/${ProofType.EDDSA}-proof`
 }
 
-const getArtifactConfig = (proofType: ProofType, numberOfInputs?: number): ArtifactConfig => {
-    const config = PROOF_ARTIFACT_CONFIGS[proofType]
-    let { baseUrl } = config
-
+const getArtifactBaseUrl = (proofType: ProofType, numberOfInputs?: number): string => {
     if (proofType === ProofType.POSEIDON) {
         if (numberOfInputs === undefined) {
             throw new Error("numberOfInputs is required for Poseidon proof")
@@ -32,40 +19,51 @@ const getArtifactConfig = (proofType: ProofType, numberOfInputs?: number): Artif
         if (numberOfInputs < 1) {
             throw new Error("numberOfInputs must be greater than 0")
         }
-        baseUrl += `/${numberOfInputs}/${proofType}-proof`
+        return `${ARTIFACT_BASE_URLS[proofType]}/${numberOfInputs}/${proofType}-proof`
     }
-
-    return {
-        ...config,
-        baseUrl
-    }
+    return ARTIFACT_BASE_URLS[proofType]
 }
 
 async function download(url: string, outputPath: string) {
     const response = await fetch(url)
-
     if (!response.ok) {
         throw new Error(`Failed to fetch ${url}: ${response.statusText}`)
     }
 
     const dir = dirname(outputPath)
-    await mkdir(dir, { recursive: true })
+    try {
+        await mkdir(dir, { recursive: true })
+    } catch (error) {
+        throw new Error(`Failed to create directory ${dir}: ${(error as Error).message}`)
+    }
 
     const fileStream = createWriteStream(outputPath)
-    const readableStream = Readable.fromWeb(response.body as any)
-    readableStream.pipe(fileStream)
+    if (!fileStream) {
+        throw new Error(`Failed to create write stream for ${outputPath}`)
+    }
 
-    readableStream.on("error", (err) => {
-        console.error(`Error reading from response stream: ${err.message}`)
-        throw err
-    })
+    const reader = response.body?.getReader()
+    if (!reader) {
+        throw new Error("Failed to get response body reader")
+    }
 
-    fileStream.on("error", (err) => {
-        console.error(`Error writing to file stream: ${err.message}`)
-        throw err
-    })
+    try {
+        const pump = async () => {
+            const { done, value } = await reader.read()
+            if (done) {
+                fileStream.end()
+                return
+            }
 
-    await finished(Readable.fromWeb(response.body as any).pipe(fileStream))
+            fileStream.write(Buffer.from(value))
+            await pump()
+        }
+
+        await pump()
+    } catch (error) {
+        fileStream.close()
+        throw error
+    }
 }
 
 async function maybeDownloadArtifact(url: string, outputPath: string) {
@@ -73,38 +71,34 @@ async function maybeDownloadArtifact(url: string, outputPath: string) {
         await download(url, outputPath)
     }
 
-    return {
-        [outputPath.endsWith(".wasm") ? "wasmFilePath" : "zkeyFilePath"]: outputPath
-    }
+    return outputPath
 }
 
-async function getSnarkArtifacts(proofType: ProofType, numberOfInputs?: number): Promise<Partial<SnarkArtifacts>> {
+async function getSnarkArtifact(
+    proofType: ProofType,
+    artifactType: string,
+    numberOfInputs?: number
+): Promise<Partial<SnarkArtifacts>> {
+    const url = `${getArtifactBaseUrl(proofType, numberOfInputs)}/${proofType}-proof.${artifactType}`
     let tmpPath = `${os.tmpdir()}/${proofType}-proof`
+
     if (proofType === ProofType.POSEIDON) {
         tmpPath += `-${numberOfInputs}`
     }
 
-    const { baseUrl, wasmFileName, zkeyFileName } = getArtifactConfig(proofType)
-    const downloadArgs = [wasmFileName, zkeyFileName].map((fileName) => ({
-        url: `${baseUrl}/${fileName}`,
-        outputPath: `${tmpPath}/${fileName}`
-    }))
-
-    return await Promise.allSettled(
-        downloadArgs.map(({ url, outputPath }) => maybeDownloadArtifact(url, outputPath))
-    ).then((results) =>
-        results.reduce<Partial<SnarkArtifacts>>((acc, result, index) => {
-            if (result.status === "fulfilled") {
-                acc = { ...acc, ...result.value }
-            } else {
-                console.error(`Failed to download ${downloadArgs[index].url}`, result.reason)
-            }
-            return acc
-        }, {})
-    )
+    const artifactUrl = await maybeDownloadArtifact(url, `${tmpPath}/${proofType}-proof.${artifactType}`)
+    return { [`${artifactType}Path`]: artifactUrl }
 }
 
-export const getPoseidonSnarkArtifacts = async (numberOfInputs: number) =>
-    getSnarkArtifacts(ProofType.POSEIDON, numberOfInputs)
+const GetSnarkArtifacts =
+    (proofType: ProofType) =>
+    async (numberOfInputs?: number): Promise<SnarkArtifacts> => {
+        return Promise.all(
+            ARTIFACTS_TYPES.map(async (artifactType) => getSnarkArtifact(proofType, artifactType, numberOfInputs))
+        ).then((artifacts) =>
+            artifacts.reduce<SnarkArtifacts>((acc, artifact) => ({ ...acc, ...artifact }), {} as SnarkArtifacts)
+        )
+    }
 
-export const getEddsaSnarkArtifacts = getSnarkArtifacts(ProofType.EDDSA)
+export const getPoseidonSnarkArtifacts = GetSnarkArtifacts(ProofType.POSEIDON)
+export const getEddsaSnarkArtifacts = GetSnarkArtifacts(ProofType.EDDSA)

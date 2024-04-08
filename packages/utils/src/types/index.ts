@@ -21,10 +21,9 @@ export enum ProofType {
     EDDSA = "eddsa"
 }
 
-export type ArtifactConfig = {
-    baseUrl: string
-    wasmFileName: string
-    zkeyFileName: string
+export enum ArtifactType {
+    WASM = "wasm",
+    ZKEY = "zkey"
 }
 
 export type SnarkArtifacts = {
