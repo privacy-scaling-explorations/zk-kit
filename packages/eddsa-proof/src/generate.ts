@@ -34,14 +34,7 @@ export default async function generate(
 
     const secretScalar = deriveSecretScalar(privateKey)
 
-    console.log(
-        {
-            secretScalar,
-            snarkArtifacts,
-            scope
-        }
-    )
-    const { proof, publicSignals } = await groth16.fullProve(
+   const { proof, publicSignals } = await groth16.fullProve(
         {
             secret: secretScalar,
             scope: hash(scope)
