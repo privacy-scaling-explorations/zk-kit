@@ -29,9 +29,7 @@
         "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
     },
     "scripts": {
-        "build": "rimraf dist && yarn build:browser && yarn build:node",
-        "build:browser": "rollup -c rollup.browser.config.ts --configPlugin typescript",
-        "build:node": "rollup -c rollup.node.config.ts --configPlugin typescript",
+        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
         "prepublishOnly": "yarn build"
     },
     "publishConfig": {

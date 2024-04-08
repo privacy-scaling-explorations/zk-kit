@@ -2,10 +2,9 @@ import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
 import { NumericString, groth16 } from "snarkjs"
-import { packGroth16Proof } from "@zk-kit/utils"
-import getSnarkArtifacts from "./get-snark-artifacts.node"
+import { packGroth16Proof, SnarkArtifacts, getEddsaSnarkArtifacts } from "@zk-kit/utils"
 import hash from "./hash"
-import { EddsaProof, SnarkArtifacts } from "./types"
+import { EddsaProof } from "./types"
 
 /**
  * Creates a zero-knowledge proof to prove that you have the pre-image of a Semaphore commitment,
@@ -30,11 +29,18 @@ export default async function generate(
     // If the Snark artifacts are not defined they will be automatically downloaded.
     /* istanbul ignore next */
     if (!snarkArtifacts) {
-        snarkArtifacts = await getSnarkArtifacts()
+        snarkArtifacts = await getEddsaSnarkArtifacts()
     }
 
     const secretScalar = deriveSecretScalar(privateKey)
 
+    console.log(
+        {
+            secretScalar,
+            snarkArtifacts,
+            scope
+        }
+    )
     const { proof, publicSignals } = await groth16.fullProve(
         {
             secret: secretScalar,

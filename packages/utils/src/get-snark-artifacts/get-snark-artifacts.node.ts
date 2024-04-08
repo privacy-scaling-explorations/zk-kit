@@ -2,14 +2,8 @@ import { createWriteStream, existsSync } from "node:fs"
 import { mkdir } from "node:fs/promises"
 import { dirname } from "node:path"
 import os from "node:os"
-import { SnarkArtifacts, ProofType, ArtifactType } from "./types"
-
-const ARTIFACTS_BASE_URL = "https://zkkit.cedoor.dev"
-const ARTIFACTS_TYPES = [ArtifactType.WASM, ArtifactType.ZKEY]
-const ARTIFACT_BASE_URLS: Record<ProofType, string> = {
-    [ProofType.POSEIDON]: `${ARTIFACTS_BASE_URL}/${ProofType.POSEIDON}-proof/artifacts`,
-    [ProofType.EDDSA]: `${ARTIFACTS_BASE_URL}/${ProofType.EDDSA}-proof`
-}
+import { SnarkArtifacts, ProofType } from "../types"
+import { ARTIFACT_BASE_URLS, ARTIFACTS_TYPES } from "./config"
 
 const getArtifactBaseUrl = (proofType: ProofType, numberOfInputs?: number): string => {
     if (proofType === ProofType.POSEIDON) {
@@ -19,7 +13,7 @@ const getArtifactBaseUrl = (proofType: ProofType, numberOfInputs?: number): stri
         if (numberOfInputs < 1) {
             throw new Error("numberOfInputs must be greater than 0")
         }
-        return `${ARTIFACT_BASE_URLS[proofType]}/${numberOfInputs}/${proofType}-proof`
+        return `${ARTIFACT_BASE_URLS[proofType]}/${numberOfInputs}`
     }
     return ARTIFACT_BASE_URLS[proofType]
 }
@@ -87,7 +81,7 @@ async function getSnarkArtifact(
     }
 
     const artifactUrl = await maybeDownloadArtifact(url, `${tmpPath}/${proofType}-proof.${artifactType}`)
-    return { [`${artifactType}Path`]: artifactUrl }
+    return { [`${artifactType}FilePath`]: artifactUrl }
 }
 
 const GetSnarkArtifacts =

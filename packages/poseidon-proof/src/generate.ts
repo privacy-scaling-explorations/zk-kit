@@ -1,10 +1,9 @@
 import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { NumericString, groth16 } from "snarkjs"
-import { packGroth16Proof } from "@zk-kit/utils"
-import getSnarkArtifacts from "./get-snark-artifacts.node"
+import { packGroth16Proof, getPoseidonSnarkArtifacts, SnarkArtifacts } from "@zk-kit/utils"
 import hash from "./hash"
-import { PoseidonProof, SnarkArtifacts } from "./types"
+import { PoseidonProof } from "./types"
 
 /**
  * Creates a zero-knowledge proof to prove that you have the preimages of a hash,
@@ -29,7 +28,7 @@ export default async function generate(
     // If the Snark artifacts are not defined they will be automatically downloaded.
     /* istanbul ignore next */
     if (!snarkArtifacts) {
-        snarkArtifacts = await getSnarkArtifacts(preimages.length)
+        snarkArtifacts = await getPoseidonSnarkArtifacts(preimages.length)
     }
 
     const { proof, publicSignals } = await groth16.fullProve(
