@@ -1,6 +1,6 @@
 import { createWriteStream, existsSync } from "node:fs"
 import { mkdir } from "node:fs/promises"
-import { getEddsaSnarkArtifacts, getPoseidonSnarkArtifacts } from "../src/get-snark-artifacts/get-snark-artifacts.node"
+import { getEdDSASnarkArtifacts, getPoseidonSnarkArtifacts } from "../src/get-snark-artifacts/get-snark-artifacts.node"
 
 jest.mock("node:fs", () => ({
     ...jest.requireActual("node:fs"),
@@ -110,14 +110,14 @@ describe("getPoseidonSnarkArtifacts", () => {
     })
 })
 
-describe("getEddsaSnarkArtifacts", () => {
+describe("getEdDSASnarkArtifacts", () => {
     it("should handle fetch errors", async () => {
         ;(existsSync as jest.Mock).mockReturnValue(false)
         ;(global.fetch as jest.Mock).mockResolvedValueOnce({
             ok: false,
             statusText: "TEST"
         })
-        await expect(getEddsaSnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(
+        await expect(getEdDSASnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(
             `"Failed to fetch https://zkkit.cedoor.dev/eddsa-proof/eddsa-proof.wasm: TEST"`
         )
     })
@@ -128,7 +128,7 @@ describe("getEddsaSnarkArtifacts", () => {
             ok: true,
             statusText: "OK"
         })
-        await expect(getEddsaSnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(
+        await expect(getEdDSASnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(
             `"Failed to get response body"`
         )
     })
@@ -159,7 +159,7 @@ describe("getEddsaSnarkArtifacts", () => {
             end: jest.fn(),
             write: jest.fn()
         })
-        await expect(getEddsaSnarkArtifacts()).resolves.toMatchInlineSnapshot(`
+        await expect(getEdDSASnarkArtifacts()).resolves.toMatchInlineSnapshot(`
             {
               "wasmFilePath": "/tmp/eddsa-proof/eddsa-proof.wasm",
               "zkeyFilePath": "/tmp/eddsa-proof/eddsa-proof.zkey",

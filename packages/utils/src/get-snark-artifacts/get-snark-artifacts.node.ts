@@ -86,4 +86,4 @@ const GetSnarkArtifacts =
         )
 
 export const getPoseidonSnarkArtifacts = GetSnarkArtifacts(ProofType.POSEIDON)
-export const getEddsaSnarkArtifacts = GetSnarkArtifacts(ProofType.EDDSA)
+export const getEdDSASnarkArtifacts = GetSnarkArtifacts(ProofType.EDDSA)

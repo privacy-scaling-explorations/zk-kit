@@ -8,7 +8,7 @@ export async function getPoseidonSnarkArtifacts(numberOfInputs: number): Promise
     }
 }
 
-export async function getEddsaSnarkArtifacts(): Promise<SnarkArtifacts> {
+export async function getEdDSASnarkArtifacts(): Promise<SnarkArtifacts> {
     return {
         wasmFilePath: `${ARTIFACTS_BASE_URL}/${ProofType.EDDSA}-proof/${ProofType.EDDSA}-proof.wasm`,
         zkeyFilePath: `${ARTIFACTS_BASE_URL}/${ProofType.EDDSA}-proof/${ProofType.EDDSA}-proof.zkey`

@@ -2,7 +2,7 @@ import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
 import { NumericString, groth16 } from "snarkjs"
-import { packGroth16Proof, SnarkArtifacts, getEddsaSnarkArtifacts } from "@zk-kit/utils"
+import { packGroth16Proof, SnarkArtifacts, getEdDSASnarkArtifacts } from "@zk-kit/utils"
 import hash from "./hash"
 import { EddsaProof } from "./types"
 
@@ -29,7 +29,7 @@ export default async function generate(
     // If the Snark artifacts are not defined they will be automatically downloaded.
     /* istanbul ignore next */
     if (!snarkArtifacts) {
-        snarkArtifacts = await getEddsaSnarkArtifacts()
+        snarkArtifacts = await getEdDSASnarkArtifacts()
     }
 
     const secretScalar = deriveSecretScalar(privateKey)
