@@ -3,15 +3,13 @@ import { ArtifactType, ProofType } from "../types"
 const ZKKIT_ARTIFACTS_BASE_URL = "https://zkkit.cedoor.dev"
 export const ARTIFACTS_TYPES = [ArtifactType.WASM, ArtifactType.ZKEY]
 
-// function overloading to allow nicer type checking while still being able to encapsulate
-type GetArtifactUrlFn = {
-    (proofType: ProofType.POSEIDON, artifactType: ArtifactType, numberOfInputs: number): string
-    (proofType: ProofType.EDDSA, artifactType: ArtifactType): string
-}
-
-export function GetSnarkArtifactUrl(artifactsHostUrl: string): GetArtifactUrlFn {
-    return (proofType: ProofType, artifactType: ArtifactType, numberOfInputs?: number): string => {
+export function GetSnarkArtifactUrl(artifactsHostUrl: string) {
+    // function overloading to have better type checking while still being able to encapsulate
+    function getUrl(proofType: ProofType.EDDSA, artifactType: ArtifactType): string
+    function getUrl(proofType: ProofType.POSEIDON, artifactType: ArtifactType, numberOfInputs: number): string
+    function getUrl(proofType: ProofType, artifactType: ArtifactType, numberOfInputs?: number): string {
         if (proofType === ProofType.POSEIDON) {
+            // just to make compiler happy
             if (numberOfInputs === undefined) {
                 throw new Error("numberOfInputs is required for Poseidon proof")
             }
@@ -23,6 +21,7 @@ export function GetSnarkArtifactUrl(artifactsHostUrl: string): GetArtifactUrlFn 
 
         return `${artifactsHostUrl}/${proofType}/artifacts/${proofType}-proof.${artifactType}`
     }
+    return getUrl
 }
 
 export const getZkkitArtifactUrl = GetSnarkArtifactUrl(ZKKIT_ARTIFACTS_BASE_URL)

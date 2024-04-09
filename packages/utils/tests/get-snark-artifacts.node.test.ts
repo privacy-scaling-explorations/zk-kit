@@ -118,7 +118,7 @@ describe("getEdDSASnarkArtifacts", () => {
             statusText: "TEST"
         })
         await expect(getEdDSASnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(
-            `"Failed to fetch https://zkkit.cedoor.dev/eddsa-proof/eddsa-proof.wasm: TEST"`
+            `"Failed to fetch https://zkkit.cedoor.dev/eddsa/artifacts/eddsa-proof.wasm: TEST"`
         )
     })
 
