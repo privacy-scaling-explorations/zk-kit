@@ -1,4 +1,4 @@
-import { getZkkitArtifactUrl, GetArtifactUrl } from "../src/get-snark-artifacts/config"
+import { getZkkitArtifactUrl, GetSnarkArtifactUrl } from "../src/get-snark-artifacts/config"
 import { ArtifactType, ProofType } from "../src/types"
 
 describe("getZkkitArtifactUrl", () => {
@@ -12,14 +12,17 @@ describe("getZkkitArtifactUrl", () => {
     })
 })
 
-describe("GetArtifactUrl", () => {
+describe("GetSnarkArtifactUrl", () => {
     it("should return the correct artifact urls for a given host url", () => {
-        const getSemaphoreArtifactUrl = GetArtifactUrl("https://semaphore.cedoor.dev")
+        const getSemaphoreArtifactUrl = GetSnarkArtifactUrl("https://semaphore.cedoor.dev")
         expect(getSemaphoreArtifactUrl(ProofType.POSEIDON, ArtifactType.WASM, 2)).toMatchInlineSnapshot(
             `"https://semaphore.cedoor.dev/poseidon-proof/artifacts/2/poseidon-proof.wasm"`
         )
         expect(getSemaphoreArtifactUrl(ProofType.POSEIDON, ArtifactType.ZKEY, 4)).toMatchInlineSnapshot(
             `"https://semaphore.cedoor.dev/poseidon-proof/artifacts/4/poseidon-proof.zkey"`
+        )
+        expect(getSemaphoreArtifactUrl(ProofType.EDDSA, ArtifactType.WASM)).toMatchInlineSnapshot(
+            `"https://semaphore.cedoor.dev/eddsa/eddsa-proof.wasm"`
         )
     })
 })

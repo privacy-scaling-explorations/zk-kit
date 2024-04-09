@@ -30,5 +30,3 @@ export type SnarkArtifacts = {
     wasmFilePath: string
     zkeyFilePath: string
 }
-
-export type RequiredInputs<T> = T extends ProofType.POSEIDON ? number : never
