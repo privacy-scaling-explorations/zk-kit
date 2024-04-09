@@ -1,0 +1,59 @@
+{
+    "name": "@zk-kit/poseidon",
+    "version": "1.0.0-alpha",
+    "description": "A Poseidon implementation over alt_bn128 (aka BN254).",
+    "type": "module",
+    "license": "MIT",
+    "iife": "dist/index.iife.js",
+    "unpkg": "dist/index.iife.min.js",
+    "jsdelivr": "dist/index.iife.min.js",
+    "main": "dist/index.js",
+    "types": "dist/types/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/types/index.d.ts",
+            "require": "./dist/index.cjs",
+            "default": "./dist/index.js"
+        },
+        "./1": {
+            "types": "./dist/types/1/index.d.ts",
+            "require": "./dist/lib.commonjs/1/index.cjs",
+            "default": "./dist/lib.esm/1/index.js"
+        },
+        "./2": {
+            "types": "./dist/types/2/index.d.ts",
+            "require": "./dist/lib.commonjs/2/index.cjs",
+            "default": "./dist/lib.esm/2/index.js"
+        }
+    },
+    "files": [
+        "dist/",
+        "src/",
+        "LICENSE",
+        "README.md"
+    ],
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon",
+    "bugs": {
+        "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
+    },
+    "scripts": {
+        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
+        "prepublishOnly": "yarn build"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^11.1.6",
+        "circomlibjs": "0.0.8",
+        "rimraf": "^5.0.5",
+        "rollup": "^4.12.0",
+        "rollup-plugin-cleanup": "^3.2.1"
+    },
+    "dependencies": {
+        "@noble/curves": "^1.4.0"
+    }
+}

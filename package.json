@@ -13,7 +13,7 @@
         "test": "turbo _test:libraries _test:circuits test:coverage",
         "_test:libraries": "jest --coverage",
         "test:libraries": "turbo _test:libraries",
-        "test:library": "jest packages/${0}",
+        "test:library": "jest packages/${0} ",
         "_test:circuits": "yarn workspace @zk-kit/circuits test",
         "test:circuits": "turbo _test:circuits",
         "test:contracts": "turbo test:coverage",
