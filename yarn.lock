@@ -80,9 +80,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aztec/bb.js@npm:^0.32.0":
-  version: 0.32.0
-  resolution: "@aztec/bb.js@npm:0.32.0"
+"@aztec/bb.js@npm:^0.33.0":
+  version: 0.33.0
+  resolution: "@aztec/bb.js@npm:0.33.0"
   dependencies:
     comlink: "npm:^4.4.1"
     commander: "npm:^10.0.1"
@@ -90,7 +90,7 @@ __metadata:
     tslib: "npm:^2.4.0"
   bin:
     bb.js: dest/node/main.js
-  checksum: 10/92258f8dbee1534263f5ab3b89ba9b40a888f309c34250675fe04c239e51b6f5620dcce55c2566172b448ecc2c11d9b009ea2abab719934eb12f3e6898517bd7
+  checksum: 10/ecdf801a0d863da1f5ca8ab3fc2f5610866fe7f0c82c77f051046db98e5fc2dac31bb7bd559069782287e0ce32739a46229d4f6dab0dabf03e740e79789c12b5
   languageName: node
   linkType: hard
 
@@ -18811,7 +18811,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "zk-kit@workspace:."
   dependencies:
-    "@aztec/bb.js": "npm:^0.32.0"
+    "@aztec/bb.js": "npm:^0.33.0"
     "@commitlint/cli": "npm:^18.6.1"
     "@commitlint/config-conventional": "npm:^18.6.2"
     "@types/glob": "npm:^7.2.0"
