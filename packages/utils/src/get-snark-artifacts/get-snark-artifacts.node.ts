@@ -2,21 +2,8 @@ import { createWriteStream, existsSync } from "node:fs"
 import { mkdir } from "node:fs/promises"
 import { dirname } from "node:path"
 import os from "node:os"
-import { SnarkArtifacts, ProofType } from "../types"
-import { ARTIFACT_BASE_URLS, ARTIFACTS_TYPES } from "./config"
-
-const getArtifactBaseUrl = (proofType: ProofType, numberOfInputs?: number): string => {
-    if (proofType === ProofType.POSEIDON) {
-        if (numberOfInputs === undefined) {
-            throw new Error("numberOfInputs is required for Poseidon proof")
-        }
-        if (numberOfInputs < 1) {
-            throw new Error("numberOfInputs must be greater than 0")
-        }
-        return `${ARTIFACT_BASE_URLS[proofType]}/${numberOfInputs}`
-    }
-    return ARTIFACT_BASE_URLS[proofType]
-}
+import { SnarkArtifacts, ProofType, ArtifactType, RequiredInputs } from "../types"
+import { ARTIFACTS_TYPES, getZkkitArtifactUrl } from "./config"
 
 async function download(url: string, outputPath: string) {
     const response = await fetch(url)
@@ -62,10 +49,15 @@ async function maybeDownloadArtifact(url: string, outputPath: string) {
 
 async function getSnarkArtifact(
     proofType: ProofType,
-    artifactType: string,
+    artifactType: ArtifactType,
     numberOfInputs?: number
 ): Promise<Partial<SnarkArtifacts>> {
-    const url = `${getArtifactBaseUrl(proofType, numberOfInputs)}/${proofType}-proof.${artifactType}`
+    // safe to use non null assertion for numberOfInputs, see GetSnarkArtiFacts RequiredInputs
+    if (proofType === ProofType.POSEIDON && numberOfInputs! < 1) {
+        throw new Error("numberOfInputs must be greater than 0")
+    }
+
+    const url = getZkkitArtifactUrl(proofType, artifactType, numberOfInputs)
     let tmpPath = `${os.tmpdir()}/${proofType}-proof`
 
     if (proofType === ProofType.POSEIDON) {
@@ -76,14 +68,19 @@ async function getSnarkArtifact(
     return { [`${artifactType}FilePath`]: artifactUrl }
 }
 
-const GetSnarkArtifacts =
-    (proofType: ProofType) =>
-    async (numberOfInputs?: number): Promise<SnarkArtifacts> =>
+// function overloading to have better type checking while still being able to encapsulate
+function GetSnarkArtifacts(proofType: ProofType.POSEIDON): (numberOfInputs: number) => Promise<SnarkArtifacts>
+function GetSnarkArtifacts(proofType: ProofType.EDDSA): () => Promise<SnarkArtifacts>
+function GetSnarkArtifacts(
+    proofType: ProofType
+): (numberOfInputs: RequiredInputs<typeof proofType>) => Promise<SnarkArtifacts> {
+    return async (numberOfInputs?: number): Promise<SnarkArtifacts> =>
         Promise.all(
             ARTIFACTS_TYPES.map(async (artifactType) => getSnarkArtifact(proofType, artifactType, numberOfInputs))
         ).then((artifacts) =>
             artifacts.reduce<SnarkArtifacts>((acc, artifact) => ({ ...acc, ...artifact }), {} as SnarkArtifacts)
         )
+}
 
 export const getPoseidonSnarkArtifacts = GetSnarkArtifacts(ProofType.POSEIDON)
 export const getEdDSASnarkArtifacts = GetSnarkArtifacts(ProofType.EDDSA)

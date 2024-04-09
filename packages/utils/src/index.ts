@@ -7,7 +7,7 @@ import * as errorHandlers from "./error-handlers"
 import * as crypto from "./crypto/crypto.node"
 
 export { F1Field, scalar, conversions, packing, typeChecks, errorHandlers, crypto }
-export * from "./types"
+export { ArtifactType, BigNumber, ProofType, BigNumberish, PackedGroth16Proof, SnarkArtifacts } from "./types"
 export * from "./conversions"
 export * from "./proof-packing"
 export * from "./type-checks"

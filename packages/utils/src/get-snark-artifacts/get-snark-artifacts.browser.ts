@@ -1,16 +1,21 @@
-import { ProofType, SnarkArtifacts } from "../types"
-import { ARTIFACTS_BASE_URL } from "./config"
+import { getZkkitArtifactUrl } from "./config"
+import { ArtifactType, ProofType, RequiredInputs, SnarkArtifacts } from "../types"
 
-export async function getPoseidonSnarkArtifacts(numberOfInputs: number): Promise<SnarkArtifacts> {
-    return {
-        wasmFilePath: `${ARTIFACTS_BASE_URL}/${ProofType.POSEIDON}-proof/artifacts/${numberOfInputs}/${ProofType.POSEIDON}-proof.wasm`,
-        zkeyFilePath: `${ARTIFACTS_BASE_URL}/${ProofType.POSEIDON}-proof/artifacts/${numberOfInputs}/${ProofType.POSEIDON}-proof.zkey`
+// function overloading to have better type checking while still being able to encapsulate
+function GetSnarkArtifacts(proofType: ProofType.POSEIDON): (numberOfInputs: number) => Promise<SnarkArtifacts>
+function GetSnarkArtifacts(proofType: ProofType.EDDSA): () => Promise<SnarkArtifacts>
+function GetSnarkArtifacts(
+    proofType: ProofType
+): (numberOfInputs?: RequiredInputs<typeof proofType>) => Promise<SnarkArtifacts> {
+    return async (numberOfInputs?: number) => {
+        if (proofType === ProofType.POSEIDON && numberOfInputs === undefined) {
+            throw new Error("numberOfInputs is required for Poseidon proof")
+        }
+        return {
+            wasmFilePath: getZkkitArtifactUrl(proofType, ArtifactType.WASM, numberOfInputs),
+            zkeyFilePath: getZkkitArtifactUrl(proofType, ArtifactType.ZKEY, numberOfInputs)
+        }
     }
 }
-
-export async function getEdDSASnarkArtifacts(): Promise<SnarkArtifacts> {
-    return {
-        wasmFilePath: `${ARTIFACTS_BASE_URL}/${ProofType.EDDSA}-proof/${ProofType.EDDSA}-proof.wasm`,
-        zkeyFilePath: `${ARTIFACTS_BASE_URL}/${ProofType.EDDSA}-proof/${ProofType.EDDSA}-proof.zkey`
-    }
-}
+export const getPoseidonSnarkArtifacts = GetSnarkArtifacts(ProofType.POSEIDON)
+export const getEdDSASnarkArtifacts = GetSnarkArtifacts(ProofType.EDDSA)
