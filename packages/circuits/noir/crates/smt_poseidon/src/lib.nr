@@ -14,21 +14,21 @@ global TREE_DEPTH: u32 = 256;
  * @param root The expected root of the tree
  */
 pub fn verify(entry: [Field; 2], matching_entry: [Option<Field>; 2], siblings: [Field; TREE_DEPTH], root: Field) {
-    let mut calculcated_root: Field = 0;
+    let mut calculated_root: Field = 0;
     let path = utils::key_to_path(entry[0]);
     // if there is no matching_entry it is a membership proof
     // if there is a matching_entry it is a non_membership proof
     if matching_entry[0].is_none() | matching_entry[1].is_none() {
         // membership proof: the root is calculated based on the entry, the siblings,
         // and the path determined by the key of entry through consecutive hashing
-        calculcated_root = utils::calculcate_root(entry, siblings, path);
+        calculated_root = utils::calculcate_root(entry, siblings, path);
     } else {
         // non-membership proof: the root is calculated based on the matching_entry, the siblings
         // and the path that is determined by the key of entry. This makes sure that matching_entry is in fact
         // a matching entry for entry meaning that it shares the same first bits as path
-        calculcated_root = utils::calculcate_root([matching_entry[0].unwrap(), matching_entry[1].unwrap()], siblings, path);
+        calculated_root = utils::calculcate_root([matching_entry[0].unwrap(), matching_entry[1].unwrap()], siblings, path);
     }
-    assert(calculcated_root == root);
+    assert(calculated_root == root);
 }
 
 /**
