@@ -60,7 +60,7 @@ pub fn add(new_entry: [Field; 2], old_root: Field, siblings: [Field; TREE_DEPTH]
  * of that existing entry and then calculates the new root (without the entry).
  * @param entry Contains key and value of the to-be-deleted entry: [key, value]
  * @param old_root The root of the tree if the entry is still included
- * @param sigbils Contains array of siblings of entry
+ * @param siblings Contains array of siblings of entry
  * @returns The new root after the deletion
  */
 pub fn delete(entry: [Field; 2], old_root: Field, siblings: [Field; TREE_DEPTH]) -> Field {
