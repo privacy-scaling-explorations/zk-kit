@@ -13,9 +13,30 @@
  */
 
 import { Buffer } from "buffer"
-import { requireBigInt, requireBigNumberish, requireHexadecimal, requireTypes } from "./error-handlers"
+import { requireBigInt, requireBigNumberish, requireHexadecimal, requireString, requireTypes } from "./error-handlers"
 import { isBuffer, isHexadecimal, isUint8Array } from "./type-checks"
 import { BigNumber, BigNumberish } from "./types"
+
+/**
+ * Converts a base64 string to a bigint.
+ * @param value The base64 value to convert.
+ * @returns The bigint representation of the string.
+ */
+export function base64ToBigInt(value: string): bigint {
+    requireString(value, "value")
+
+    // Decode the Base64 string to a binary string.
+    const b = atob(value)
+
+    // Convert the binary string to a bigint.
+    let n = 0n
+
+    for (let i = 0; i < b.length; i += 1) {
+        n = (n << 8n) | BigInt(b.charCodeAt(i))
+    }
+
+    return n
+}
 
 /**
  * Converts a bigint to a hexadecimal string.
