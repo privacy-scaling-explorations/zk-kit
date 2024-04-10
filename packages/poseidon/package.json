@@ -16,14 +16,84 @@
             "default": "./dist/index.js"
         },
         "./1": {
-            "types": "./dist/types/1/index.d.ts",
-            "require": "./dist/lib.commonjs/1/index.cjs",
-            "default": "./dist/lib.esm/1/index.js"
+            "types": "./dist/types/poseidon-1/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-1/index.cjs",
+            "default": "./dist/lib.esm/poseidon-1/index.js"
         },
         "./2": {
-            "types": "./dist/types/2/index.d.ts",
-            "require": "./dist/lib.commonjs/2/index.cjs",
-            "default": "./dist/lib.esm/2/index.js"
+            "types": "./dist/types/poseidon-2/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-2/index.cjs",
+            "default": "./dist/lib.esm/poseidon-2/index.js"
+        },
+        "./3": {
+            "types": "./dist/types/poseidon-3/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-3/index.cjs",
+            "default": "./dist/lib.esm/poseidon-3/index.js"
+        },
+        "./4": {
+            "types": "./dist/types/poseidon-4/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-4/index.cjs",
+            "default": "./dist/lib.esm/poseidon-4/index.js"
+        },
+        "./5": {
+            "types": "./dist/types/poseidon-5/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-5/index.cjs",
+            "default": "./dist/lib.esm/poseidon-5/index.js"
+        },
+        "./6": {
+            "types": "./dist/types/poseidon-6/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-6/index.cjs",
+            "default": "./dist/lib.esm/poseidon-6/index.js"
+        },
+        "./7": {
+            "types": "./dist/types/poseidon-7/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-7/index.cjs",
+            "default": "./dist/lib.esm/poseidon-7/index.js"
+        },
+        "./8": {
+            "types": "./dist/types/poseidon-8/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-8/index.cjs",
+            "default": "./dist/lib.esm/poseidon-8/index.js"
+        },
+        "./9": {
+            "types": "./dist/types/poseidon-9/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-9/index.cjs",
+            "default": "./dist/lib.esm/poseidon-9/index.js"
+        },
+        "./10": {
+            "types": "./dist/types/poseidon-10/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-10/index.cjs",
+            "default": "./dist/lib.esm/poseidon-10/index.js"
+        },
+        "./11": {
+            "types": "./dist/types/poseidon-11/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-11/index.cjs",
+            "default": "./dist/lib.esm/poseidon-11/index.js"
+        },
+        "./12": {
+            "types": "./dist/types/poseidon-12/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-12/index.cjs",
+            "default": "./dist/lib.esm/poseidon-12/index.js"
+        },
+        "./13": {
+            "types": "./dist/types/poseidon-13/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-13/index.cjs",
+            "default": "./dist/lib.esm/poseidon-13/index.js"
+        },
+        "./14": {
+            "types": "./dist/types/poseidon-14/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-14/index.cjs",
+            "default": "./dist/lib.esm/poseidon-14/index.js"
+        },
+        "./15": {
+            "types": "./dist/types/poseidon-15/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-15/index.cjs",
+            "default": "./dist/lib.esm/poseidon-15/index.js"
+        },
+        "./16": {
+            "types": "./dist/types/poseidon-16/index.d.ts",
+            "require": "./dist/lib.commonjs/poseidon-16/index.cjs",
+            "default": "./dist/lib.esm/poseidon-16/index.js"
         }
     },
     "files": [
@@ -54,6 +124,7 @@
         "rollup-plugin-cleanup": "^3.2.1"
     },
     "dependencies": {
-        "@noble/curves": "^1.4.0"
+        "@noble/curves": "1.4.0",
+        "@zk-kit/utils": "1.0.0-beta"
     }
 }
