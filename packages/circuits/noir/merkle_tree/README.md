@@ -25,9 +25,13 @@ fn main(leaf: Field, indices: Field, hash_path: [Field; 3], root: pub Field) {
     merkle_tree_membership(
         leaf,
         indices,
-        hash_path,
+        hash_path.as_slice(),
         root,
         hasher
     );
 }
 ```
+
+## Tests
+
+This repository provides tests using pedersen, poseidon and poseidon2 hashes. To test them, `cd` into the folder and run `nargo test`.

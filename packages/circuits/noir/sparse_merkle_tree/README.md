@@ -14,14 +14,23 @@ smt = { git = "https://github.com/privacy-scaling-explorations/zk-kit", tag = "m
 And import it in your file. You need to provide a hasher, which is a function that accepts a slice of Fields and returns a Field. Check the tests folder for some suggestions.
 
 ```rust
-use dep::smt::add;
+use dep::smt::verify;
 use dep::std::hash::pedersen_hash_slice;
 
 fn hasher(leaves: [Field]) -> Field {
     pedersen_hash_slice(leaves)
 }
 
-fn main(key: Field, value: Field, old_root: pub Field, siblings: [Field; 256]) {
-    add([key, value], old_root, siblings, hasher)
+fn main(
+    entry: [Field; 2], 
+    matching_entry: [Option<Field>; 2], 
+    siblings: [Field; 256], 
+    root: Field)
+{
+    verify(entry, matching_entry, siblings.as_slice(), root, hasher);
 }
 ```
+
+## Tests
+
+This repository provides tests using pedersen, poseidon and poseidon2 hashes. To test them, `cd` into the folder and run `nargo test`.
