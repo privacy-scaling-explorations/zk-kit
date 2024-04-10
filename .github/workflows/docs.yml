@@ -28,6 +28,12 @@ jobs:
             - name: Generate doc website
               run: yarn docs
 
+            - name: Download artifacts
+              run: bash <(curl -sSL "https://raw.githubusercontent.com/privacy-scaling-explorations/snark-artifacts/main/dowload-artifacts")
+
+            - name: Move artifacts to build directory
+              run: mkdir -p docs/assets/artifacts && mv *.{wasm,zkey} docs/assets/artifacts
+
             - name: Publish on Github Pages
               uses: crazy-max/ghaction-github-pages@v2.5.0
               with:
