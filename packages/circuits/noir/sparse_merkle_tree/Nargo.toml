@@ -1,0 +1,5 @@
+[package]
+name = "sparse_merkle_tree"
+authors = ["fabianschu", "signorecello"]
+type = "lib"
+compiler_version = ">=0.19.3"

@@ -1,7 +1,2 @@
 [workspace]
-members = [
-    "sparse_mt_pedersen",
-    "sparse_mt_poseidon",
-    "sparse_mt_poseidon2",
-    "merkle_tree",
-]
+members = ["merkle_tree", "sparse_merkle_tree"]

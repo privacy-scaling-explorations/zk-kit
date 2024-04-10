@@ -1,5 +1,4 @@
-use dep::std::hash::poseidon;
-use crate::TREE_DEPTH;
+use dep::std::hash::pedersen_hash_slice;
 
 /*
  * Transforms the key into into a big endian array of bits so that when determining the position
@@ -7,26 +6,9 @@ use crate::TREE_DEPTH;
  * @param key The key of a tree entry
  * @returns The path that determines the position of a key in the tree
  */
-pub fn key_to_path(key: Field) -> [u1] {
-    key.to_be_bits(TREE_DEPTH)
+pub fn key_to_path(key: Field, length: u32) -> [u1] {
+    key.to_be_bits(length)
 }
-
-/*
- * Calculates the poseidon bn254 hash. If a leaf node is created, the number 1 is appended to 
- * the hashed values as follows: H(k,v,1).
- * @param left The left element of the hashing pair
- * @param right The right element of the hashing pair
- * @param is_leaf Whether what is created is a leaf node or not
- * @returns The poseidon hash
- */
-pub fn hash(left: Field, right: Field, is_leaf: bool) -> Field {
-    if (is_leaf) {
-        poseidon::bn254::hash_3([left, right, 1])
-    } else {
-        poseidon::bn254::hash_2([left, right])
-    }
-}
-
 
 /*
  * Calculates the root for a given tree entry based on the passed array of siblings and the passed path.
@@ -35,15 +17,20 @@ pub fn hash(left: Field, right: Field, is_leaf: bool) -> Field {
  * @param path The position of the entry in the tree as represented by bits from bottom to top
  * @returns The calculated root node
  */
-pub fn calculcate_root(entry: [Field; 2], siblings: [Field; TREE_DEPTH], path: [u1]) -> Field {
+pub fn calculcate_root(
+    entry: [Field; 2],
+    siblings: [Field],
+    path: [u1],
+    hasher: fn([Field]) -> Field
+) -> Field {
     // serves as container for hashes and is initialized to be the leaf node
-    let mut node = hash(entry[0], entry[1], true);
+    let mut node = hasher(&[entry[0], entry[1], 1]);
     // iterates over the list of siblings until the first sibling is found
     // arbitrarily assigns the sibling to be the left and the node to be the 
     // right element of the hashing pair unless the path indicates the opposite
     // order in which case the order is changed. The new hash is stored in the container
     // until the root node is reached and returned.
-    for i in 0..TREE_DEPTH {
+    for i in 0..siblings.len() {
         let sibling = siblings[i];
         if sibling != 0 {
             let mut left = sibling;
@@ -52,7 +39,7 @@ pub fn calculcate_root(entry: [Field; 2], siblings: [Field; TREE_DEPTH], path: [
                 left = node;
                 right = sibling;
             }
-            node = hash(left, right, false);
+            node = hasher(&[left, right]);
         }
     }
     node
@@ -67,16 +54,20 @@ pub fn calculcate_root(entry: [Field; 2], siblings: [Field; TREE_DEPTH], path: [
  * @param siblings Contains the siblings from bottom to top
  * @returns Two root nodes: the first one doesn't include entry, the second does
  */
-pub fn calculate_two_roots(entry: [Field; 2], siblings: [Field; TREE_DEPTH]) -> (Field, Field) {
-    let path = key_to_path(entry[0]);
+pub fn calculate_two_roots(
+    entry: [Field; 2],
+    siblings: [Field],
+    hasher: fn([Field]) -> Field
+) -> (Field, Field) {
+    let path = key_to_path(entry[0], siblings.len() as u32);
     // long_path_node is a container for hashes to derive the root node for the tree that
     // includes the entry
-    let mut long_path_node = hash(entry[0], entry[1], true);
+    let mut long_path_node = hasher(&[entry[0], entry[1], 1]);
     // long_path_node is a container for hashes to derive the root node for the tree that
     // doesn't include the entry
     let mut short_path_node: Field = 0;
     // iterate over the levels of the tree from bottom to top
-    for i in 0..TREE_DEPTH {
+    for i in 0..siblings.len() {
         let sibling = siblings[i];
         // After the first sibling is found, the processes are started to calculate the two root nodes.
         // The calulcation of the root node that includes the entry is comparable to `calculate_root`. 
@@ -88,14 +79,14 @@ pub fn calculate_two_roots(entry: [Field; 2], siblings: [Field; TREE_DEPTH]) -> 
                 short_path_node = siblings[i];
             }
             if path[i] == 0 {
-                long_path_node = hash(long_path_node, sibling, false);
-                if(short_path_node != sibling) {
-                    short_path_node = hash(short_path_node, sibling, false);
+                long_path_node = hasher(&[long_path_node, sibling]);
+                if (short_path_node != sibling) {
+                    short_path_node = hasher(&[short_path_node, sibling]);
                 }
             } else {
-                long_path_node = hash(sibling, long_path_node, false);
-                if(short_path_node != sibling) {
-                    short_path_node = hash(sibling, short_path_node, false);
+                long_path_node = hasher(&[sibling, long_path_node]);
+                if (short_path_node != sibling) {
+                    short_path_node = hasher(&[sibling, short_path_node]);
                 }
             }
         }
@@ -107,12 +98,18 @@ pub fn calculate_two_roots(entry: [Field; 2], siblings: [Field; TREE_DEPTH]) -> 
 fn test_hash_leaf_node() {
     let key = 20438969296305830531522370305156029982566273432331621236661483041446048135547;
     let value = 17150136040889237739751319962368206600863150289695545292530539263327413090784;
-    assert(hash(key, value, true) == 7842913321420301106140788486336995496832503825951977327575501561489697540557);
+    assert(
+        pedersen_hash_slice(&[key, value, 1])
+        == 0x055b34560562b842e236f919e9a74ee345d7523d70f711e0ccdb22466c767c20
+    );
 }
 
 #[test]
 fn test_hash_node() {
-    let left = 7901139023013500965671892970738327280683439536483910503527659926438417204955;
-    let right = 7842913321420301106140788486336995496832503825951977327575501561489697540557;
-    assert(hash(left, right, false) == 4657474665007910823901096287220097081233671466281873230928277896829046731272);
+    let left = 7374494214024125590767526270082639043919066776944047470878693145844636921798;
+    let right = 3315292394704439116482935361251007857050519763420264982454883186141315324846;
+    assert(
+        pedersen_hash_slice(&[left, right])
+        == 0x05f8a24a037ad8567c042c14c5a8299649e0fe13df1cec40d381a3671bae9245
+    );
 }
