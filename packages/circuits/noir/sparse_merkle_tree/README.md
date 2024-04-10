@@ -22,9 +22,9 @@ fn hasher(leaves: [Field]) -> Field {
 }
 
 fn main(
-    entry: [Field; 2], 
-    matching_entry: [Option<Field>; 2], 
-    siblings: [Field; 256], 
+    entry: [Field; 2],
+    matching_entry: [Option<Field>; 2],
+    siblings: [Field; 256],
     root: Field)
 {
     verify(entry, matching_entry, siblings.as_slice(), root, hasher);
