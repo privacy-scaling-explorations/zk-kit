@@ -1,28 +1,28 @@
 import { GetSnarkArtifactUrl, URLS } from "./config"
 import { Artifact, Proof, SnarkArtifacts } from "../types"
 
-export function GetSnarkArtifacts({
+function GetSnarkArtifacts({
     artifactsHostUrl,
     proof
 }: {
     artifactsHostUrl: string
     proof: Proof.EDDSA
 }): () => Promise<SnarkArtifacts>
-export function GetSnarkArtifacts({
+function GetSnarkArtifacts({
     artifactsHostUrl,
     proof
 }: {
     artifactsHostUrl: string
     proof: Proof.POSEIDON
 }): (numberOfInputs: number) => Promise<SnarkArtifacts>
-export function GetSnarkArtifacts({
+function GetSnarkArtifacts({
     artifactsHostUrl,
     proof
 }: {
     artifactsHostUrl: string
     proof: Proof.SEMAPHORE
 }): (treeDepth: number) => Promise<SnarkArtifacts>
-export function GetSnarkArtifacts({ artifactsHostUrl, proof }: { artifactsHostUrl: string; proof: Proof }) {
+function GetSnarkArtifacts({ artifactsHostUrl, proof }: { artifactsHostUrl: string; proof: Proof }) {
     if (proof === Proof.POSEIDON) {
         return async (numberOfInputs: number) => ({
             wasmFilePath: GetSnarkArtifactUrl({ artifact: Artifact.WASM, artifactsHostUrl, proof, numberOfInputs }),
