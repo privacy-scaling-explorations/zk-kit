@@ -8,6 +8,7 @@ export function GetSnarkArtifactUrl(artifactsHostUrl: string) {
     function getUrl(proofType: ProofType.EDDSA, artifactType: ArtifactType): string
     function getUrl(proofType: ProofType.POSEIDON, artifactType: ArtifactType, numberOfInputs: number): string
     function getUrl(proofType: ProofType, artifactType: ArtifactType, numberOfInputs?: number): string {
+        let path = `${proofType}-proof`
         if (proofType === ProofType.POSEIDON) {
             // just to make compiler happy
             if (numberOfInputs === undefined) {
@@ -16,10 +17,10 @@ export function GetSnarkArtifactUrl(artifactsHostUrl: string) {
             if (numberOfInputs < 1) {
                 throw new Error("numberOfInputs must be greater than 0")
             }
-            return `${artifactsHostUrl}/${proofType}-proof/artifacts/${numberOfInputs}/${proofType}-proof.${artifactType}`
+            path += `/artifacts/${numberOfInputs}`
         }
 
-        return `${artifactsHostUrl}/${proofType}/artifacts/${proofType}-proof.${artifactType}`
+        return `${artifactsHostUrl}/${path}/${proofType}-proof.${artifactType}`
     }
     return getUrl
 }

@@ -32,7 +32,7 @@ describe("GetSnarkArtifactUrl", () => {
             `"https://semaphore.cedoor.dev/poseidon-proof/artifacts/4/poseidon-proof.zkey"`
         )
         expect(getSemaphoreArtifactUrl(ProofType.EDDSA, ArtifactType.WASM)).toMatchInlineSnapshot(
-            `"https://semaphore.cedoor.dev/eddsa/artifacts/eddsa-proof.wasm"`
+            `"https://semaphore.cedoor.dev/eddsa-proof/eddsa-proof.wasm"`
         )
     })
 })
