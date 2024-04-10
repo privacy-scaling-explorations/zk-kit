@@ -1,6 +1,6 @@
 mod tests;
 
-fn merkle_tree_membership(
+pub fn merkle_tree_membership(
     leaf: Field,
     indices: Field,
     hash_path: [Field],

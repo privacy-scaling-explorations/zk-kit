@@ -2,5 +2,3 @@
 name = "merkle_tree"
 type = "lib"
 authors = ["signorecello"]
-
-[dependencies]
