@@ -1,6 +1,10 @@
 import { createWriteStream, existsSync } from "node:fs"
 import { mkdir } from "node:fs/promises"
-import { getEdDSASnarkArtifacts, getPoseidonSnarkArtifacts } from "../src/get-snark-artifacts/get-snark-artifacts.node"
+import {
+    getEdDSASnarkArtifacts,
+    getPoseidonSnarkArtifacts,
+    getSemaphoreSnarkArtifacts
+} from "../src/get-snark-artifacts/get-snark-artifacts.node"
 
 jest.mock("node:fs", () => ({
     ...jest.requireActual("node:fs"),
@@ -97,8 +101,8 @@ describe("getPoseidonSnarkArtifacts", () => {
         })
         await expect(getPoseidonSnarkArtifacts(2)).resolves.toMatchInlineSnapshot(`
             {
-              "wasmFilePath": "/tmp/poseidon-proof-2/poseidon-proof.wasm",
-              "zkeyFilePath": "/tmp/poseidon-proof-2/poseidon-proof.zkey",
+              "wasmFilePath": "/tmp/poseidon-proof-2",
+              "zkeyFilePath": "/tmp/poseidon-proof-2",
             }
         `)
 
@@ -161,8 +165,98 @@ describe("getEdDSASnarkArtifacts", () => {
         })
         await expect(getEdDSASnarkArtifacts()).resolves.toMatchInlineSnapshot(`
             {
-              "wasmFilePath": "/tmp/eddsa-proof/eddsa-proof.wasm",
-              "zkeyFilePath": "/tmp/eddsa-proof/eddsa-proof.zkey",
+              "wasmFilePath": "/tmp/eddsa-proof",
+              "zkeyFilePath": "/tmp/eddsa-proof",
+            }
+        `)
+
+        expect(existsSync).toHaveBeenCalledTimes(2)
+        expect(mkdir).toHaveBeenCalledTimes(2)
+        expect(global.fetch).toHaveBeenCalledTimes(2)
+        expect(mockResponseStream.body.getReader).toHaveBeenCalledTimes(2)
+        expect(createWriteStream).toHaveBeenCalledTimes(2)
+    })
+})
+
+describe("getSemaphoreSnarkArtifacts", () => {
+    it("should throw on fetch errors", async () => {
+        ;(existsSync as jest.Mock).mockReturnValue(false)
+        ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+            ok: false,
+            statusText: "TEST"
+        })
+        await expect(getSemaphoreSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
+            `"Failed to fetch https://semaphore.cedoor.dev/artifacts/2/semaphore.wasm: TEST"`
+        )
+    })
+
+    it("should throw on invalid treeDepth", async () => {
+        await expect(getSemaphoreSnarkArtifacts(0)).rejects.toThrowErrorMatchingInlineSnapshot(
+            `"treeDepth must be greater than 0"`
+        )
+    })
+
+    it("should throw if missing body", async () => {
+        ;(existsSync as jest.Mock).mockReturnValue(false)
+        ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+            ok: true,
+            statusText: "OK"
+        })
+        await expect(getSemaphoreSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
+            `"Failed to get response body"`
+        )
+    })
+
+    it("should throw on stream error", async () => {
+        ;(existsSync as jest.Mock).mockReturnValue(false)
+        const mockResponseStream = {
+            body: {
+                getReader: jest.fn(() => ({
+                    read: jest.fn().mockRejectedValueOnce(new Error("TEST STREAM ERROR"))
+                }))
+            },
+            ok: true,
+            statusText: "OK"
+        }
+        ;(global.fetch as jest.Mock).mockResolvedValue(mockResponseStream)
+        ;(createWriteStream as jest.Mock).mockReturnValue({
+            close: jest.fn(),
+            end: jest.fn(),
+            write: jest.fn()
+        })
+        await expect(getSemaphoreSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(`"TEST STREAM ERROR"`)
+    })
+
+    it("should download files only if don't exist yet", async () => {
+        ;(existsSync as jest.Mock).mockReturnValue(true)
+        await getSemaphoreSnarkArtifacts(2)
+        expect(global.fetch).not.toHaveBeenCalled()
+    })
+
+    it("should return artifact filePaths", async () => {
+        ;(existsSync as jest.Mock).mockReturnValue(false)
+        const mockResponseStream = {
+            body: {
+                getReader: jest.fn(() => ({
+                    read: jest
+                        .fn()
+                        .mockResolvedValueOnce({ done: false, value: "test data" })
+                        .mockResolvedValueOnce({ done: true })
+                }))
+            },
+            ok: true,
+            statusText: "OK"
+        }
+        ;(global.fetch as jest.Mock).mockResolvedValue(mockResponseStream)
+        ;(createWriteStream as jest.Mock).mockReturnValue({
+            close: jest.fn(),
+            end: jest.fn(),
+            write: jest.fn()
+        })
+        await expect(getSemaphoreSnarkArtifacts(2)).resolves.toMatchInlineSnapshot(`
+            {
+              "wasmFilePath": "/tmp/semaphore-proof-2",
+              "zkeyFilePath": "/tmp/semaphore-proof-2",
             }
         `)
 

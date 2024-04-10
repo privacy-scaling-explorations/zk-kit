@@ -2,8 +2,8 @@ import { createWriteStream, existsSync } from "node:fs"
 import { mkdir } from "node:fs/promises"
 import { dirname } from "node:path"
 import os from "node:os"
-import { SnarkArtifacts, ProofType, ArtifactType } from "../types"
-import { ARTIFACTS_TYPES, getZkkitArtifactUrl } from "./config"
+import { SnarkArtifacts, Proof, Artifact } from "../types"
+import { ARTIFACTS, GetSnarkArtifactUrl, URLS } from "./config"
 
 async function download(url: string, outputPath: string) {
     const response = await fetch(url)
@@ -39,52 +39,90 @@ async function download(url: string, outputPath: string) {
     }
 }
 
-async function maybeDownloadArtifact(url: string, outputPath: string) {
+async function maybeDownload(url: string, outputPath: string) {
     if (!existsSync(outputPath)) {
         await download(url, outputPath)
     }
-
     return outputPath
 }
 
-async function getSnarkArtifact(
-    proofType: ProofType,
-    artifactType: ArtifactType,
-    numberOfInputs?: number
-): Promise<Partial<SnarkArtifacts>> {
-    const url =
-        proofType === ProofType.POSEIDON
-            ? getZkkitArtifactUrl(proofType, artifactType, numberOfInputs as number)
-            : getZkkitArtifactUrl(proofType, artifactType)
-    let tmpPath = `${os.tmpdir()}/${proofType}-proof`
+async function getSnarkArtifact({
+    artifact,
+    outputPath,
+    url
+}: {
+    artifact: Artifact
+    outputPath: string
+    url: string
+}): Promise<Partial<SnarkArtifacts>> {
+    await maybeDownload(url, outputPath)
+    return { [`${artifact}FilePath`]: outputPath }
+}
 
-    if (proofType === ProofType.POSEIDON) {
-        tmpPath += `-${numberOfInputs}`
+function GetSnarkArtifacts({
+    artifactsHostUrl,
+    proof
+}: {
+    artifactsHostUrl: string
+    proof: Proof.EDDSA
+}): () => Promise<SnarkArtifacts>
+function GetSnarkArtifacts({
+    artifactsHostUrl,
+    proof
+}: {
+    artifactsHostUrl: string
+    proof: Proof.POSEIDON
+}): (numberOfInputs: number) => Promise<SnarkArtifacts>
+function GetSnarkArtifacts({
+    artifactsHostUrl,
+    proof
+}: {
+    artifactsHostUrl: string
+    proof: Proof.SEMAPHORE
+}): (treeDepth: number) => Promise<SnarkArtifacts>
+function GetSnarkArtifacts({ artifactsHostUrl, proof }: { artifactsHostUrl: string; proof: Proof }) {
+    const _GetSnarkArtifacts = async (args: Array<{ artifact: Artifact; outputPath: string; url: string }>) =>
+        Promise.all(args.map(getSnarkArtifact)).then((artifacts) =>
+            artifacts.reduce<SnarkArtifacts>((acc, artifact) => ({ ...acc, ...artifact }), {} as SnarkArtifacts)
+        )
+
+    const tmpDir = os.tmpdir()
+
+    if (proof === Proof.POSEIDON) {
+        return async (numberOfInputs: number) => {
+            const args = ARTIFACTS.map((artifact) => ({
+                artifact,
+                outputPath: `${tmpDir}/${proof}-proof-${numberOfInputs}`,
+                url: GetSnarkArtifactUrl({ artifact, artifactsHostUrl, proof, numberOfInputs })
+            }))
+            return _GetSnarkArtifacts(args)
+        }
     }
 
-    const artifactUrl = await maybeDownloadArtifact(url, `${tmpPath}/${proofType}-proof.${artifactType}`)
-    return { [`${artifactType}FilePath`]: artifactUrl }
+    if (proof === Proof.SEMAPHORE) {
+        return async (treeDepth: number) => {
+            const args = ARTIFACTS.map((artifact) => ({
+                artifact,
+                outputPath: `${tmpDir}/${proof}-proof-${treeDepth}`,
+                url: GetSnarkArtifactUrl({ artifact, artifactsHostUrl, proof, treeDepth })
+            }))
+            return _GetSnarkArtifacts(args)
+        }
+    }
+
+    return async () => {
+        const args = ARTIFACTS.map((artifact) => ({
+            artifact,
+            outputPath: `${tmpDir}/${proof}-proof`,
+            url: GetSnarkArtifactUrl({ artifact, artifactsHostUrl, proof })
+        }))
+        return _GetSnarkArtifacts(args)
+    }
 }
 
-function GetSnarkArtifacts(proofType: ProofType.EDDSA): () => Promise<SnarkArtifacts>
-function GetSnarkArtifacts(proofType: ProofType.POSEIDON): (numberOfInputs: number) => Promise<SnarkArtifacts>
-function GetSnarkArtifacts(proofType: ProofType) {
-    return proofType === ProofType.POSEIDON
-        ? async (numberOfInputs: number) =>
-              Promise.all(
-                  ARTIFACTS_TYPES.map(async (artifactType) => getSnarkArtifact(proofType, artifactType, numberOfInputs))
-              ).then((artifacts) =>
-                  artifacts.reduce<SnarkArtifacts>((acc, artifact) => ({ ...acc, ...artifact }), {} as SnarkArtifacts)
-              )
-        : async () =>
-              Promise.all(ARTIFACTS_TYPES.map(async (artifactType) => getSnarkArtifact(proofType, artifactType))).then(
-                  (artifacts) =>
-                      artifacts.reduce<SnarkArtifacts>(
-                          (acc, artifact) => ({ ...acc, ...artifact }),
-                          {} as SnarkArtifacts
-                      )
-              )
-}
-
-export const getPoseidonSnarkArtifacts = GetSnarkArtifacts(ProofType.POSEIDON)
-export const getEdDSASnarkArtifacts = GetSnarkArtifacts(ProofType.EDDSA)
+export const getPoseidonSnarkArtifacts = GetSnarkArtifacts({ artifactsHostUrl: URLS.zkkit, proof: Proof.POSEIDON })
+export const getEdDSASnarkArtifacts = GetSnarkArtifacts({ artifactsHostUrl: URLS.zkkit, proof: Proof.EDDSA })
+export const getSemaphoreSnarkArtifacts = GetSnarkArtifacts({
+    artifactsHostUrl: URLS.semaphore,
+    proof: Proof.SEMAPHORE
+})

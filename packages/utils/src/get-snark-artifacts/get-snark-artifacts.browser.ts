@@ -1,21 +1,47 @@
-import { getZkkitArtifactUrl } from "./config"
-import { ArtifactType, ProofType, SnarkArtifacts } from "../types"
+import { GetSnarkArtifactUrl, URLS } from "./config"
+import { Artifact, Proof, SnarkArtifacts } from "../types"
 
-function GetSnarkArtifacts(proofType: ProofType.POSEIDON): (numberOfInputs: number) => Promise<SnarkArtifacts>
-function GetSnarkArtifacts(proofType: ProofType.EDDSA): () => Promise<SnarkArtifacts>
-function GetSnarkArtifacts(proofType: ProofType) {
-    if (proofType === ProofType.POSEIDON) {
-        return async (numberOfInputs: number) => ({
-            wasmFilePath: getZkkitArtifactUrl(proofType, ArtifactType.WASM, numberOfInputs),
-            zkeyFilePath: getZkkitArtifactUrl(proofType, ArtifactType.ZKEY, numberOfInputs)
-        })
-    }
-
-    return async () => ({
-        wasmFilePath: getZkkitArtifactUrl(proofType, ArtifactType.WASM),
-        zkeyFilePath: getZkkitArtifactUrl(proofType, ArtifactType.ZKEY)
-    })
+export function GetSnarkArtifacts({
+    artifactsHostUrl,
+    proof
+}: {
+    artifactsHostUrl: string
+    proof: Proof.EDDSA
+}): () => Promise<SnarkArtifacts>
+export function GetSnarkArtifacts({
+    artifactsHostUrl,
+    proof
+}: {
+    artifactsHostUrl: string
+    proof: Proof.POSEIDON
+}): (numberOfInputs: number) => Promise<SnarkArtifacts>
+export function GetSnarkArtifacts({
+    artifactsHostUrl,
+    proof
+}: {
+    artifactsHostUrl: string
+    proof: Proof.SEMAPHORE
+}): (treeDepth: number) => Promise<SnarkArtifacts>
+export function GetSnarkArtifacts({ artifactsHostUrl, proof }: { artifactsHostUrl: string; proof: Proof }) {
+    return proof === Proof.POSEIDON
+        ? async (numberOfInputs: number) => ({
+              wasmFilePath: GetSnarkArtifactUrl({ artifact: Artifact.WASM, artifactsHostUrl, proof, numberOfInputs }),
+              zkeyFilePath: GetSnarkArtifactUrl({ artifact: Artifact.ZKEY, artifactsHostUrl, proof, numberOfInputs })
+          })
+        : proof === Proof.SEMAPHORE
+          ? async (treeDepth: number) => ({
+                wasmFilePath: GetSnarkArtifactUrl({ artifact: Artifact.WASM, artifactsHostUrl, proof, treeDepth }),
+                zkeyFilePath: GetSnarkArtifactUrl({ artifact: Artifact.ZKEY, artifactsHostUrl, proof, treeDepth })
+            })
+          : async () => ({
+                wasmFilePath: GetSnarkArtifactUrl({ artifact: Artifact.WASM, artifactsHostUrl, proof }),
+                zkeyFilePath: GetSnarkArtifactUrl({ artifact: Artifact.ZKEY, artifactsHostUrl, proof })
+            })
 }
 
-export const getPoseidonSnarkArtifacts = GetSnarkArtifacts(ProofType.POSEIDON)
-export const getEdDSASnarkArtifacts = GetSnarkArtifacts(ProofType.EDDSA)
+export const getPoseidonSnarkArtifacts = GetSnarkArtifacts({ artifactsHostUrl: URLS.zkkit, proof: Proof.POSEIDON })
+export const getEdDSASnarkArtifacts = GetSnarkArtifacts({ artifactsHostUrl: URLS.zkkit, proof: Proof.EDDSA })
+export const getSemaphoreSnarkArtifacts = GetSnarkArtifacts({
+    artifactsHostUrl: URLS.semaphore,
+    proof: Proof.SEMAPHORE
+})

@@ -16,12 +16,13 @@ export type PackedGroth16Proof = [
     NumericString
 ]
 
-export enum ProofType {
+export enum Proof {
+    EDDSA = "eddsa",
     POSEIDON = "poseidon",
-    EDDSA = "eddsa"
+    SEMAPHORE = "semaphore"
 }
 
-export enum ArtifactType {
+export enum Artifact {
     WASM = "wasm",
     ZKEY = "zkey"
 }
