@@ -1,4 +1,10 @@
 use dep::std::hash::pedersen_hash_slice;
+use crate::SMT;
+
+trait Calculator {
+    fn calculate_root(self, entry: [Field; 2], siblings: [Field], path: [u1]) -> Field;
+    fn calculate_two_roots(self, entry: [Field; 2], siblings: [Field]) -> (Field, Field);
+}
 
 /*
  * Transforms the key into into a big endian array of bits so that when determining the position
@@ -10,88 +16,90 @@ pub fn key_to_path(key: Field, length: u32) -> [u1] {
     key.to_be_bits(length)
 }
 
-/*
- * Calculates the root for a given tree entry based on the passed array of siblings and the passed path.
- * @param entry The key and value of an entry [k, v]
- * @param siblings Contains the siblings from bottom to top
- * @param path The position of the entry in the tree as represented by bits from bottom to top
- * @returns The calculated root node
- */
-pub fn calculcate_root(
-    entry: [Field; 2],
-    siblings: [Field],
-    path: [u1],
-    hasher: fn([Field]) -> Field
-) -> Field {
-    // serves as container for hashes and is initialized to be the leaf node
-    let mut node = hasher(&[entry[0], entry[1], 1]);
-    // iterates over the list of siblings until the first sibling is found
-    // arbitrarily assigns the sibling to be the left and the node to be the 
-    // right element of the hashing pair unless the path indicates the opposite
-    // order in which case the order is changed. The new hash is stored in the container
-    // until the root node is reached and returned.
-    for i in 0..siblings.len() {
-        let sibling = siblings[i];
-        if sibling != 0 {
-            let mut left = sibling;
-            let mut right = node;
-            if path[i] == 0 {
-                left = node;
-                right = sibling;
+impl Calculator for SMT {
+    /*
+    * Calculates the root for a given tree entry based on the passed array of siblings and the passed path.
+    * @param entry The key and value of an entry [k, v]
+    * @param siblings Contains the siblings from bottom to top
+    * @param path The position of the entry in the tree as represented by bits from bottom to top
+    * @returns The calculated root node
+    */
+    fn calculate_root(
+        self,
+        entry: [Field; 2],
+        siblings: [Field],
+        path: [u1],
+    ) -> Field {
+        // serves as container for hashes and is initialized to be the leaf node
+        let mut node = (self.hasher)(&[entry[0], entry[1], 1]);
+        // iterates over the list of siblings until the first sibling is found
+        // arbitrarily assigns the sibling to be the left and the node to be the 
+        // right element of the hashing pair unless the path indicates the opposite
+        // order in which case the order is changed. The new hash is stored in the container
+        // until the root node is reached and returned.
+        for i in 0..siblings.len() {
+            let sibling = siblings[i];
+            if sibling != 0 {
+                let mut left = sibling;
+                let mut right = node;
+                if path[i] == 0 {
+                    left = node;
+                    right = sibling;
+                }
+                node = (self.hasher)(&[left, right]);
             }
-            node = hasher(&[left, right]);
         }
+        node
     }
-    node
-}
 
-/*
- * Calculates two roots for a given leaf entry based on the passed array of siblings: one root 
- * for if the leaf entry was included in the tree and one for if the leaf entry was not included
- * in the tree. This is useful for efficiently proving the membership of leaf entries for a
- * tree while simultaneously modifying the tree.
- * @param entry The key and value of an entry [k, v]
- * @param siblings Contains the siblings from bottom to top
- * @returns Two root nodes: the first one doesn't include entry, the second does
- */
-pub fn calculate_two_roots(
-    entry: [Field; 2],
-    siblings: [Field],
-    hasher: fn([Field]) -> Field
-) -> (Field, Field) {
-    let path = key_to_path(entry[0], siblings.len() as u32);
-    // long_path_node is a container for hashes to derive the root node for the tree that
-    // includes the entry
-    let mut long_path_node = hasher(&[entry[0], entry[1], 1]);
-    // long_path_node is a container for hashes to derive the root node for the tree that
-    // doesn't include the entry
-    let mut short_path_node: Field = 0;
-    // iterate over the levels of the tree from bottom to top
-    for i in 0..siblings.len() {
-        let sibling = siblings[i];
-        // After the first sibling is found, the processes are started to calculate the two root nodes.
-        // The calulcation of the root node that includes the entry is comparable to `calculate_root`. 
-        // To calc the root node that doesn't include entry, the first sibling is put into the container
-        // and starting from each SUBSEQUENT iteration it is hashed with its sibling and the resulting hash
-        // again stored in the container until the root is reached
-        if sibling != 0 {
-            if siblings[i - 1] == 0 {
-                short_path_node = siblings[i];
-            }
-            if path[i] == 0 {
-                long_path_node = hasher(&[long_path_node, sibling]);
-                if (short_path_node != sibling) {
-                    short_path_node = hasher(&[short_path_node, sibling]);
+    /*
+    * Calculates two roots for a given leaf entry based on the passed array of siblings: one root 
+    * for if the leaf entry was included in the tree and one for if the leaf entry was not included
+    * in the tree. This is useful for efficiently proving the membership of leaf entries for a
+    * tree while simultaneously modifying the tree.
+    * @param entry The key and value of an entry [k, v]
+    * @param siblings Contains the siblings from bottom to top
+    * @returns Two root nodes: the first one doesn't include entry, the second does
+    */
+    fn calculate_two_roots(
+        self,
+        entry: [Field; 2],
+        siblings: [Field],
+    ) -> (Field, Field) {
+        let path = key_to_path(entry[0], siblings.len() as u32);
+        // long_path_node is a container for hashes to derive the root node for the tree that
+        // includes the entry
+        let mut long_path_node = (self.hasher)(&[entry[0], entry[1], 1]);
+        // long_path_node is a container for hashes to derive the root node for the tree that
+        // doesn't include the entry
+        let mut short_path_node: Field = 0;
+        // iterate over the levels of the tree from bottom to top
+        for i in 0..siblings.len() {
+            let sibling = siblings[i];
+            // After the first sibling is found, the processes are started to calculate the two root nodes.
+            // The calulcation of the root node that includes the entry is comparable to `calculate_root`. 
+            // To calc the root node that doesn't include entry, the first sibling is put into the container
+            // and starting from each SUBSEQUENT iteration it is hashed with its sibling and the resulting hash
+            // again stored in the container until the root is reached
+            if sibling != 0 {
+                if siblings[i - 1] == 0 {
+                    short_path_node = siblings[i];
                 }
-            } else {
-                long_path_node = hasher(&[sibling, long_path_node]);
-                if (short_path_node != sibling) {
-                    short_path_node = hasher(&[sibling, short_path_node]);
+                if path[i] == 0 {
+                    long_path_node = (self.hasher)(&[long_path_node, sibling]);
+                    if (short_path_node != sibling) {
+                        short_path_node = (self.hasher)(&[short_path_node, sibling]);
+                    }
+                } else {
+                    long_path_node = (self.hasher)(&[sibling, long_path_node]);
+                    if (short_path_node != sibling) {
+                        short_path_node = (self.hasher)(&[sibling, short_path_node]);
+                    }
                 }
             }
         }
+        (short_path_node, long_path_node)
     }
-    (short_path_node, long_path_node)
 }
 
 #[test]

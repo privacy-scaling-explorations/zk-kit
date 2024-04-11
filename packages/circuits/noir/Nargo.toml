@@ -1,2 +1,2 @@
 [workspace]
-members = ["merkle_tree", "sparse_merkle_tree"]
+members = ["sparse_merkle_tree"]
