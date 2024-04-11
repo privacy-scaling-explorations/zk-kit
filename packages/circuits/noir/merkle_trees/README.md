@@ -1,6 +1,8 @@
 # Merkle Trees Library
 
-This Noir library provides a Merkle Tree (MT) and a Sparse Merkle Tree (SMT) implementation. A Sparse Merkle Tree is basically a Merkle Tree, but the index of each leaf is determined by its key value. This makes the SMT quite useful, for example, for nullifier trees, as it allows for easy non-membership proofs.
+This Noir library provides a Merkle Tree (MT) and a Sparse Merkle Tree (SMT) implementation.
+
+A Sparse Merkle Tree is not too different from a Merkle Tree, but the index of each leaf is determined by its key value. This makes the SMT quite useful, for example, for nullifier trees, as it allows for easy non-membership proofs.
 
 ## Usage
 
@@ -8,17 +10,18 @@ To use these trees in your project, add the lib to its `Nargo.toml` file. For ex
 
 ```toml
 [dependencies]
-merkle = { git = "https://github.com/privacy-scaling-explorations/zk-kit", tag = "main", directory = "packages/circuits/noir/merkle_trees" }
+trees = { git = "https://github.com/privacy-scaling-explorations/zk-kit", tag = "main", directory = "packages/circuits/noir/merkle_trees" }
 ```
 
-And import it in your file. You need to provide a hasher, which is a function that accepts a slice of Fields and returns a Field. Check the tests folder for some suggestions.
+And import it in your file. You need to provide a hasher, which is a function that accepts a slice of Fields and returns a Field.
+For merkle trees you also need to make `siblings` into a tuple `(Field, [Field])`, for the indexes and hash_path, respectively.
 
 ### Examples
 
 A Merkle Tree:
 
 ```rust
-use dep::merkle::MerkleTree;
+use dep::trees::merkle::MerkleTree;
 use dep::std::hash::pedersen_hash_slice;
 
 fn hasher(leaves: [Field]) -> Field {
@@ -26,20 +29,22 @@ fn hasher(leaves: [Field]) -> Field {
 }
 
 fn main(
-    entry: [Field; 2],
-    siblings: [Field; 256],
-    root: Field)
+    entry: Field,
+    indices: Field,
+    hash_path: [Field; 1])
 {
-    let smt = MerkleTree::new(hasher);
+    let mut mt = MerkleTree::new(hasher);
 
-    smt.add(entry, siblings.as_slice());
+    let siblings = (indices, hash_path.as_slice());
+    mt.add(entry, siblings);
+    mt.membership(entry, siblings);
 }
 ```
 
 A Sparse Merkle Tree:
 
 ```rust
-use dep::merkle::SparseMerkleTree;
+use dep::trees::sparse_merkle::SparseMerkleTree;
 use dep::std::hash::pedersen_hash_slice;
 
 fn hasher(leaves: [Field]) -> Field {
@@ -47,9 +52,8 @@ fn hasher(leaves: [Field]) -> Field {
 }
 
 fn main(
-    entry: [Field; 2],
-    siblings: [Field; 256],
-    root: Field)
+    entry: (Field, Field),
+    siblings: [Field; 256])
 {
     let smt = SparseMerkleTree::new(hasher);
 

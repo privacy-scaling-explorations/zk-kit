@@ -1,5 +1,4 @@
 use crate::{Creator, MembershipProver, NonMembershipProver, Modifier};
-use crate::merkle::tree::HashPath;
 
 mod tree;
 mod tests;
@@ -10,45 +9,41 @@ struct MerkleTree {
 }
 
 impl Creator for MerkleTree {
-    fn from(root: Field, hasher: fn([Field]) -> Field) -> Self {
+    fn default(root: Field, hasher: fn([Field]) -> Field) -> Self {
         Self { root, hasher }
     }
 }
 
 impl MembershipProver<Field, HashPath> for MerkleTree {
-    fn membership(self, leaf: Field, path: HashPath) {
-        let root = self.calculate_root(leaf, path.indices, path.siblings);
+    fn membership(self, leaf: Field, siblings: (Field, [Field])) {
+        let root = self.calculate_root(leaf, siblings);
         assert(self.root == root);
     }
 
 }
 
 impl Modifier<Field, HashPath> for MerkleTree {
-    fn add(&mut self, leaf: Field, path: HashPath) {
-        if (self.root == 0) {
-            self.root = leaf;
-        } else {
-            let (old, new) = self.calculate_two_roots(leaf, path);
+    fn add(&mut self, leaf: Field, siblings: (Field, [Field])) {
+        let (old, new) = self.calculate_two_roots(leaf, siblings);
 
-            assert(old == self.root);
-            self.root = new;
-        }
-    }
-
-    fn delete(&mut self, leaf: Field, paths: HashPath) {
-        let (new, old) = self.calculate_two_roots(leaf, paths);
         assert(old == self.root);
         self.root = new;
     }
 
-    fn update(&mut self, leaf: Field, old_leaf: Field, paths: HashPath) {
-        let index_bits = paths.indices.to_le_bits(paths.siblings.len() as u32);
+    fn delete(&mut self, leaf: Field, siblings: (Field, [Field])) {
+        let (new, old) = self.calculate_two_roots(leaf, siblings);
+        assert(old == self.root);
+        self.root = new;
+    }
+
+    fn update(&mut self, leaf: Field, old_leaf: Field, siblings: (Field, [Field])) {
+        let index_bits = siblings.0.to_le_bits(siblings.1.len() as u32);
 
         let mut old_parent: Field = old_leaf;
         let mut new_parent: Field = leaf;
 
-        for i in 0..paths.siblings.len() {
-            let sibling = paths.siblings[i];
+        for i in 0..siblings.1.len() {
+            let sibling = siblings.1[i];
             if sibling != 0 {
                 if index_bits[i] == 0 {
                     new_parent = (self.hasher)(&[new_parent, sibling]);

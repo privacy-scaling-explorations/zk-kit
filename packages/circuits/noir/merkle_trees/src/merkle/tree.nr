@@ -1,30 +1,33 @@
 use crate::merkle::MerkleTree;
+use crate::Calculator;
 
-trait Calculator {
-    fn calculate_root(self, leaf: Field, indices: Field, hash_path: [Field]) -> Field;
-    fn calculate_two_roots(self, leaf: Field, paths: HashPath) -> (Field, Field);
+/*
+ * Transforms the key into into a big endian array of bits so that when determining the position
+ * of a tree entry starting from the root node, the first array element to look at is the last.
+ * @param key The key of a tree entry
+ * @returns The path that determines the position of a key in the tree
+ */
+pub fn key_to_path(key: Field, length: u32) -> [u1] {
+    key.to_be_bits(length)
 }
 
-struct HashPath {
-    indices: Field,
-    siblings: [Field],
-}
-
-impl Calculator for MerkleTree {
-    fn calculate_root(self, leaf: Field, indices: Field, hash_path: [Field]) -> Field {
-        let index_bits = indices.to_le_bits(hash_path.len() as u32);
-        let mut current = leaf;
-        for i in 0..hash_path.len() {
-            let pair = if (index_bits[i] == 0) {
-                &[current, hash_path[i]]
-            } else {
-                &[hash_path[i], current]
-            };
-            if (hash_path[i] != 0) {
-                current = (self.hasher)(pair);
+impl Calculator<Field> for MerkleTree {
+    fn calculate_root(self, leaf: Field, siblings: (Field, [Field])) -> Field {
+        let index_bits = siblings.0.to_le_bits(siblings.1.len() as u32);
+        let mut node = leaf;
+        for i in 0..siblings.1.len() {
+            let sibling = siblings.1[i];
+            if sibling != 0 {
+                let mut left = sibling;
+                let mut right = node;
+                if index_bits[i] == 0 {
+                    left = node;
+                    right = sibling;
+                }
+                node = (self.hasher)(&[left, right]);
             }
         }
-        current
+        node
     }
 
     /*
@@ -39,19 +42,19 @@ impl Calculator for MerkleTree {
     fn calculate_two_roots(
         self,
         leaf: Field,
-        paths: HashPath,
+        siblings: (Field, [Field]),
     ) -> (Field, Field) {
-        let index_bits = paths.indices.to_le_bits(paths.siblings.len() as u32);
+        let index_bits = siblings.0.to_le_bits(siblings.1.len() as u32);
 
         let mut root_with_leaf = leaf;
         let mut root_without_leaf = 0;
         
-        for i in 0..paths.siblings.len() {
-            let sibling = paths.siblings[i];
+        for i in 0..siblings.1.len() {
+            let sibling = siblings.1[i];
 
             if (sibling != 0) {
-                if i == paths.siblings.len() - 1 {
-                    root_without_leaf = paths.siblings[i];
+                if i == siblings.1.len() - 1 {
+                    root_without_leaf = siblings.1[i];
                 }
 
                 if (index_bits[i] == 0) {

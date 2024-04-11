@@ -1,22 +1,8 @@
 use dep::std::hash::pedersen_hash_slice;
 use crate::sparse_merkle::SparseMerkleTree;
+use crate::Calculator;
 
-trait Calculator {
-    fn calculate_root(self, entry: [Field; 2], siblings: [Field], path: [u1]) -> Field;
-    fn calculate_two_roots(self, entry: [Field; 2], siblings: [Field]) -> (Field, Field);
-}
-
-/*
- * Transforms the key into into a big endian array of bits so that when determining the position
- * of a tree entry starting from the root node, the first array element to look at is the last.
- * @param key The key of a tree entry
- * @returns The path that determines the position of a key in the tree
- */
-pub fn key_to_path(key: Field, length: u32) -> [u1] {
-    key.to_be_bits(length)
-}
-
-impl Calculator for SparseMerkleTree {
+impl Calculator<(Field, Field)> for SparseMerkleTree {
     /*
     * Calculates the root for a given tree entry based on the passed array of siblings and the passed path.
     * @param entry The key and value of an entry [k, v]
@@ -26,23 +12,24 @@ impl Calculator for SparseMerkleTree {
     */
     fn calculate_root(
         self,
-        entry: [Field; 2],
-        siblings: [Field],
-        path: [u1],
+        entry: (Field, Field),
+        siblings: (Field, [Field]),
     ) -> Field {
+        let index_bits = siblings.0.to_be_bits(siblings.1.len() as u32);
+
         // serves as container for hashes and is initialized to be the leaf node
-        let mut node = (self.hasher)(&[entry[0], entry[1], 1]);
+        let mut node = (self.hasher)(&[entry.0, entry.1, 1]);
         // iterates over the list of siblings until the first sibling is found
         // arbitrarily assigns the sibling to be the left and the node to be the 
         // right element of the hashing pair unless the path indicates the opposite
         // order in which case the order is changed. The new hash is stored in the container
         // until the root node is reached and returned.
-        for i in 0..siblings.len() {
-            let sibling = siblings[i];
+        for i in 0..siblings.1.len() {
+            let sibling = siblings.1[i];
             if sibling != 0 {
                 let mut left = sibling;
                 let mut right = node;
-                if path[i] == 0 {
+                if index_bits[i] == 0 {
                     left = node;
                     right = sibling;
                 }
@@ -63,29 +50,30 @@ impl Calculator for SparseMerkleTree {
     */
     fn calculate_two_roots(
         self,
-        entry: [Field; 2],
-        siblings: [Field],
+        entry: (Field, Field),
+        siblings: (Field, [Field])
     ) -> (Field, Field) {
-        let path = key_to_path(entry[0], siblings.len() as u32);
+        let index_bits = siblings.0.to_be_bits(siblings.1.len() as u32);
+
         // root_with_leaf is a container for hashes to derive the root node for the tree that
         // includes the entry
-        let mut root_with_leaf = (self.hasher)(&[entry[0], entry[1], 1]);
+        let mut root_with_leaf = (self.hasher)(&[entry.0, entry.1, 1]);
         // root_without_leaf is a container for hashes to derive the root node for the tree that
         // doesn't include the entry
         let mut root_without_leaf: Field = 0;
         // iterate over the levels of the tree from bottom to top
-        for i in 0..siblings.len() {
-            let sibling = siblings[i];
+        for i in 0..siblings.1.len() {
+            let sibling = siblings.1[i];
             // After the first sibling is found, the processes are started to calculate the two root nodes.
             // The calulcation of the root node that includes the entry is comparable to `calculate_root`. 
             // To calc the root node that doesn't include entry, the first sibling is put into the container
             // and starting from each SUBSEQUENT iteration it is hashed with its sibling and the resulting hash
             // again stored in the container until the root is reached
             if sibling != 0 {
-                if siblings[i - 1] == 0 {
-                    root_without_leaf = siblings[i];
+                if siblings.1[i - 1] == 0 {
+                    root_without_leaf = siblings.1[i];
                 }
-                if path[i] == 0 {
+                if index_bits[i] == 0 {
                     root_with_leaf = (self.hasher)(&[root_with_leaf, sibling]);
                     if (root_without_leaf != sibling) {
                         root_without_leaf = (self.hasher)(&[root_without_leaf, sibling]);
