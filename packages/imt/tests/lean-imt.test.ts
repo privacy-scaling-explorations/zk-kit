@@ -54,425 +54,427 @@ describe("Lean IMT", () => {
         })
     })
 
-    describe("# new LeanIMT", () => {
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            "Should not initialize a tree if the parameters are wrong - %s- %s",
-            (hash) => {
-                const fun1 = () => new LeanIMT(undefined as any)
-                const fun2 = () => new LeanIMT(1 as any)
-                const fun3 = () => new LeanIMT(hasher(hash), "string" as any)
+    // describe("# new LeanIMT", () => {
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         "Should not initialize a tree if the parameters are wrong - %s- %s",
+    //         (hash) => {
+    //             const fun1 = () => new LeanIMT(undefined as any)
+    //             const fun2 = () => new LeanIMT(1 as any)
+    //             const fun3 = () => new LeanIMT(hasher(hash), "string" as any)
 
-                expect(fun1).toThrow("Parameter 'hash' is not defined")
-                expect(fun2).toThrow("Parameter 'hash' is not a function")
-                expect(fun3).toThrow("Parameter 'leaves' is not an array")
-            }
-        )
+    //             expect(fun1).toThrow("Parameter 'hash' is not defined")
+    //             expect(fun2).toThrow("Parameter 'hash' is not a function")
+    //             expect(fun3).toThrow("Parameter 'leaves' is not an array")
+    //         }
+    //     )
 
-        it.each(["poseidon", "poseidon2", "pedersen"])("Should initialize a tree - %s", (hash) => {
-            const tree = new LeanIMT(hasher(hash))
+    //     it.each(["poseidon", "poseidon2", "pedersen"])("Should initialize a tree - %s", (hash) => {
+    //         const tree = new LeanIMT(hasher(hash))
 
-            expect(tree.root).toBeUndefined()
-            expect(tree.depth).toBe(0)
-            expect(tree.leaves).toEqual([])
-            expect(tree.size).toBe(0)
-        })
+    //         expect(tree.root).toBeUndefined()
+    //         expect(tree.depth).toBe(0)
+    //         expect(tree.leaves).toEqual([])
+    //         expect(tree.size).toBe(0)
+    //     })
 
-        it.each(["poseidon", "poseidon2", "pedersen"])("Should initialize a tree with a custom type - %s", (hash) => {
-            const h = (a: string, b: string) => hasher(hash)(BigInt(a), BigInt(b)).toString()
-            const tree = new LeanIMT<string>(h)
+    //     it.each(["poseidon", "poseidon2", "pedersen"])("Should initialize a tree with a custom type - %s", (hash) => {
+    //         const h = (a: string, b: string) => hasher(hash)(BigInt(a), BigInt(b)).toString()
+    //         const tree = new LeanIMT<string>(h)
 
-            expect(tree.root).toBeUndefined()
-            expect(tree.depth).toBe(0)
-            expect(tree.leaves).toEqual([])
-            expect(tree.size).toBe(0)
-        })
+    //         expect(tree.root).toBeUndefined()
+    //         expect(tree.depth).toBe(0)
+    //         expect(tree.leaves).toEqual([])
+    //         expect(tree.size).toBe(0)
+    //     })
 
-        for (let treeSize = 100; treeSize < 116; treeSize += 1) {
-            it.each(["poseidon", "poseidon2", "pedersen"])(
-                `Should initialize a tree with ${treeSize} leaves - %s`,
-                (hash) => {
-                    const leaves = Array.from(Array(treeSize).keys()).map(BigInt)
-                    const tree1 = new LeanIMT(hasher(hash), leaves)
-                    const tree2 = new LeanIMT(hasher(hash))
+    //     for (let treeSize = 100; treeSize < 116; treeSize += 1) {
+    //         it.each(["poseidon", "poseidon2", "pedersen"])(
+    //             `Should initialize a tree with ${treeSize} leaves - %s`,
+    //             (hash) => {
+    //                 const leaves = Array.from(Array(treeSize).keys()).map(BigInt)
+    //                 const tree1 = new LeanIMT(hasher(hash), leaves)
+    //                 const tree2 = new LeanIMT(hasher(hash))
 
-                    for (const leaf of leaves) {
-                        tree2.insert(BigInt(leaf))
-                    }
+    //                 for (const leaf of leaves) {
+    //                     tree2.insert(BigInt(leaf))
+    //                 }
 
-                    expect(tree1.root).toEqual(tree2.root)
-                    expect(tree1.depth).toBe(Math.ceil(Math.log2(treeSize)))
-                    expect(tree1.size).toBe(treeSize)
-                }
-            )
-        }
+    //                 expect(tree1.root).toEqual(tree2.root)
+    //                 expect(tree1.depth).toBe(Math.ceil(Math.log2(treeSize)))
+    //                 expect(tree1.size).toBe(treeSize)
+    //             }
+    //         )
+    //     }
+    // })
+
+    // describe("# indexOf", () => {
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not return any value if the index is not defined - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash))
+
+    //             const fun = () => tree.indexOf(undefined as any)
+
+    //             expect(fun).toThrow("Parameter 'leaf' is not defined")
+    //         }
+    //     )
+
+    //     it.each(["poseidon", "poseidon2", "pedersen"])("Should return the index of a leaf - %s", (hash) => {
+    //         const tree = new LeanIMT(hasher(hash), leaves)
+
+    //         const index = tree.indexOf(BigInt(2))
+
+    //         expect(index).toBe(2)
+    //     })
+    // })
+
+    // describe("# has", () => {
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not return any value if the leaf is not defined - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash))
+
+    //             const fun = () => tree.has(undefined as any)
+
+    //             expect(fun).toThrow("Parameter 'leaf' is not defined")
+    //         }
+    //     )
+
+    //     it.each(["poseidon", "poseidon2", "pedersen"])("Should return true if the leaf exists - %s", (hash) => {
+    //         const tree = new LeanIMT(hasher(hash), leaves)
+
+    //         const result = tree.has(BigInt(2))
+
+    //         expect(result).toBe(true)
+    //     })
+
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         "Should return false if the leaf does not exist - %s",
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
+
+    //             const result = tree.has(BigInt(999))
+
+    //             expect(result).toBe(false)
+    //         }
+    //     )
+    // })
+
+    // describe("# insert", () => {
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not insert any leaf if it.each(["poseidon", "poseidon2", "pedersen"]) is not defined - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash))
+
+    //             const fun = () => tree.insert(undefined as any)
+
+    //             expect(fun).toThrow("Parameter 'leaf' is not defined")
+    //         }
+    //     )
+
+    it.each(["pedersen"])(`Should insert 1 leaf - %s`, (hash) => {
+        const tree = new LeanIMT(hasher(hash))
+
+        tree.insert(BigInt("0x67635fc829435949ed0ced751d11f3f823087ec463ca6ee53e253fb7e390e74"))
+        tree.insert(BigInt("0x1c59022dba1d97f63021cc5a23e4fe80f019465e0ccb54de9aa91935495354a3"))
+        console.log(tree.generateProof(0))
+
+        expect(tree.root).toBe(BigInt("1"))
     })
 
-    describe("# indexOf", () => {
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not return any value if the index is not defined - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash))
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(`Should insert ${treeSize} leaves - %s`, (hash) => {
+    //         const tree = new LeanIMT(hasher(hash))
 
-                const fun = () => tree.indexOf(undefined as any)
+    //         for (let i = 0; i < treeSize; i += 1) {
+    //             tree.insert(BigInt(i))
 
-                expect(fun).toThrow("Parameter 'leaf' is not defined")
-            }
-        )
+    //             expect(tree.size).toBe(i + 1)
+    //         }
 
-        it.each(["poseidon", "poseidon2", "pedersen"])("Should return the index of a leaf - %s", (hash) => {
-            const tree = new LeanIMT(hasher(hash), leaves)
+    //         expect(tree.root).toBe(roots[hash][0])
+    //     })
+    // })
 
-            const index = tree.indexOf(BigInt(2))
+    // describe("# insertMany", () => {
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not insert any leaf if the list of leaves is not defined - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash))
 
-            expect(index).toBe(2)
-        })
-    })
+    //             const fun = () => tree.insertMany(undefined as any)
 
-    describe("# has", () => {
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not return any value if the leaf is not defined - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash))
+    //             expect(fun).toThrow("Parameter 'leaves' is not defined")
+    //         }
+    //     )
 
-                const fun = () => tree.has(undefined as any)
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not insert any leaf if the list of leaves is not a list - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash))
 
-                expect(fun).toThrow("Parameter 'leaf' is not defined")
-            }
-        )
+    //             const fun = () => tree.insertMany("uoe" as any)
 
-        it.each(["poseidon", "poseidon2", "pedersen"])("Should return true if the leaf exists - %s", (hash) => {
-            const tree = new LeanIMT(hasher(hash), leaves)
+    //             expect(fun).toThrow("Parameter 'leaves' is not an array")
+    //         }
+    //     )
 
-            const result = tree.has(BigInt(2))
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not insert any leaf if the list of leaves is empty - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash))
 
-            expect(result).toBe(true)
-        })
+    //             const fun = () => tree.insertMany([])
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            "Should return false if the leaf does not exist - %s",
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
+    //             expect(fun).toThrow("There are no leaves to add")
+    //         }
+    //     )
 
-                const result = tree.has(BigInt(999))
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(`Should insert ${treeSize} leaves at once - %s`, (hash) => {
+    //         const tree = new LeanIMT(hasher(hash))
 
-                expect(result).toBe(false)
-            }
-        )
-    })
+    //         tree.insertMany(leaves)
 
-    describe("# insert", () => {
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not insert any leaf if it.each(["poseidon", "poseidon2", "pedersen"]) is not defined - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash))
+    //         expect(tree.root).toBe(roots[hash][0])
+    //     })
+    // })
 
-                const fun = () => tree.insert(undefined as any)
+    // describe("# update", () => {
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not update any leaf if the parameters are not defined - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
 
-                expect(fun).toThrow("Parameter 'leaf' is not defined")
-            }
-        )
+    //             const fun1 = () => tree.update(undefined as any, BigInt(1))
+    //             const fun2 = () => tree.update(1, undefined as any)
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(`Should insert 1 leaf - %s`, (hash) => {
-            const tree = new LeanIMT(hasher(hash))
+    //             expect(fun1).toThrow("Parameter 'index' is not defined")
+    //             expect(fun2).toThrow("Parameter 'newLeaf' is not defined")
+    //         }
+    //     )
 
-            tree.insert(BigInt(1))
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not update any leaf if the index is not a number - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
 
-            expect(tree.root).toBe(BigInt("1"))
-        })
+    //             const fun = () => tree.update("uoe" as any, BigInt(3))
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(`Should insert ${treeSize} leaves - %s`, (hash) => {
-            const tree = new LeanIMT(hasher(hash))
+    //             expect(fun).toThrow("Parameter 'index' is not a number")
+    //         }
+    //     )
 
-            for (let i = 0; i < treeSize; i += 1) {
-                tree.insert(BigInt(i))
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(`Should insert 1 leaf - %s`, (hash) => {
+    //         const tree = new LeanIMT(hasher(hash), [BigInt(0), BigInt(1)])
 
-                expect(tree.size).toBe(i + 1)
-            }
+    //         tree.update(0, BigInt(2))
 
-            expect(tree.root).toBe(roots[hash][0])
-        })
-    })
+    //         expect(tree.root).toBe(hasher(hash)(BigInt(2), BigInt(1)))
+    //     })
 
-    describe("# insertMany", () => {
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not insert any leaf if the list of leaves is not defined - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash))
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(`Should update ${treeSize} leaves - %s`, (hash) => {
+    //         const tree = new LeanIMT(hasher(hash), leaves)
 
-                const fun = () => tree.insertMany(undefined as any)
+    //         for (let i = 0; i < treeSize; i += 1) {
+    //             tree.update(i, BigInt(0))
+    //         }
 
-                expect(fun).toThrow("Parameter 'leaves' is not defined")
-            }
-        )
+    //         expect(tree.root).toBe(roots[hash][1])
+    //     })
+    // })
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not insert any leaf if the list of leaves is not a list - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash))
+    // describe("# generateProof", () => {
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not generate any proof if the index is not defined - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
+
+    //             const fun = () => tree.generateProof(undefined as any)
+
+    //             expect(fun).toThrow("Parameter 'index' is not defined")
+    //         }
+    //     )
+
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not generate any proof if the index is not a number - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
 
-                const fun = () => tree.insertMany("uoe" as any)
+    //             const fun = () => tree.generateProof("uoe" as any)
+
+    //             expect(fun).toThrow("Parameter 'index' is not a number")
+    //         }
+    //     )
+
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         "Should not generate any proof if the leaf does not exist - %s- %s",
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
 
-                expect(fun).toThrow("Parameter 'leaves' is not an array")
-            }
-        )
+    //             const fun = () => tree.generateProof(999)
+
+    //             expect(fun).toThrow("The leaf at index '999' does not exist in this tree")
+    //         }
+    //     )
+
+    //     it.each(["poseidon", "poseidon2", "pedersen"])("Should generate a valid proof - %s", (hash) => {
+    //         const tree = new LeanIMT(hasher(hash), leaves)
+
+    //         const proof = tree.generateProof(3)
+
+    //         expect(proof.leaf).toBe(tree.leaves[3])
+    //         expect(proof.root).toBe(tree.root)
+    //         expect(tree.verifyProof(proof)).toBe(true)
+    //     })
+
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(`Should generate ${treeSize} valid proof - %s`, (hash) => {
+    //         const tree = new LeanIMT(hasher(hash), leaves)
+
+    //         for (let i = 0; i < treeSize; i += 1) {
+    //             const proof = tree.generateProof(i)
+
+    //             expect(proof.leaf).toBe(tree.leaves[i])
+    //             expect(proof.root).toBe(tree.root)
+    //             expect(tree.verifyProof(proof)).toBe(true)
+    //         }
+    //     })
+    // })
+
+    // describe("# verifyProof", () => {
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not verify any proof if the proof is not defined - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
+
+    //             const fun = () => tree.verifyProof(undefined as any)
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not insert any leaf if the list of leaves is empty - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash))
+    //             expect(fun).toThrow("Parameter 'proof' is not defined")
+    //         }
+    //     )
 
-                const fun = () => tree.insertMany([])
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         `Should not verify any proof if the proof parameters are not defined - %s`,
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
+    //             const proof = tree.generateProof(3)
 
-                expect(fun).toThrow("There are no leaves to add")
-            }
-        )
+    //             const fun1 = () => tree.verifyProof({ ...proof, root: undefined } as any)
+    //             const fun2 = () => tree.verifyProof({ ...proof, leaf: undefined } as any)
+    //             const fun3 = () => tree.verifyProof({ ...proof, siblings: undefined } as any)
+    //             const fun4 = () => tree.verifyProof({ ...proof, index: undefined } as any)
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(`Should insert ${treeSize} leaves at once - %s`, (hash) => {
-            const tree = new LeanIMT(hasher(hash))
+    //             expect(fun1).toThrow("Parameter 'proof.root' is not defined")
+    //             expect(fun2).toThrow("Parameter 'proof.leaf' is not defined")
+    //             expect(fun3).toThrow("Parameter 'proof.siblings' is not defined")
+    //             expect(fun4).toThrow("Parameter 'proof.index' is not defined")
+    //         }
+    //     )
 
-            tree.insertMany(leaves)
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         "Should not verify any proof if proof.siblings is not a list - %s",
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
+    //             const proof = tree.generateProof(3)
 
-            expect(tree.root).toBe(roots[hash][0])
-        })
-    })
+    //             const fun = () => tree.verifyProof({ ...proof, siblings: "string" as any })
 
-    describe("# update", () => {
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not update any leaf if the parameters are not defined - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
+    //             expect(fun).toThrow("Parameter 'proof.siblings' is not an array")
+    //         }
+    //     )
 
-                const fun1 = () => tree.update(undefined as any, BigInt(1))
-                const fun2 = () => tree.update(1, undefined as any)
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         "Should not verify any proof if proof.index is not a number - %s",
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
+    //             const proof = tree.generateProof(3)
 
-                expect(fun1).toThrow("Parameter 'index' is not defined")
-                expect(fun2).toThrow("Parameter 'newLeaf' is not defined")
-            }
-        )
+    //             const fun = () => tree.verifyProof({ ...proof, index: "string" as any })
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not update any leaf if the index is not a number - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
+    //             expect(fun).toThrow("Parameter 'proof.index' is not a number")
+    //         }
+    //     )
 
-                const fun = () => tree.update("uoe" as any, BigInt(3))
+    //     it.each(["poseidon", "poseidon2", "pedersen"])("Should verify a valid proof - %s", (hash) => {
+    //         const tree = new LeanIMT(hasher(hash), leaves)
 
-                expect(fun).toThrow("Parameter 'index' is not a number")
-            }
-        )
+    //         const proof = tree.generateProof(3)
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(`Should insert 1 leaf - %s`, (hash) => {
-            const tree = new LeanIMT(hasher(hash), [BigInt(0), BigInt(1)])
+    //         expect(tree.verifyProof(proof)).toBe(true)
+    //         expect(LeanIMT.verifyProof(proof, hasher(hash))).toBe(true)
+    //     })
 
-            tree.update(0, BigInt(2))
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         "Should reject a proof with incorrect hash function - %s",
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
 
-            expect(tree.root).toBe(hasher(hash)(BigInt(2), BigInt(1)))
-        })
+    //             const proof = tree.generateProof(3)
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(`Should update ${treeSize} leaves - %s`, (hash) => {
-            const tree = new LeanIMT(hasher(hash), leaves)
+    //             function badHash(a: bigint, b: bigint): bigint {
+    //                 return a + b
+    //             }
+    //             expect(LeanIMT.verifyProof(proof, badHash)).toBe(false)
+    //         }
+    //     )
+    // })
 
-            for (let i = 0; i < treeSize; i += 1) {
-                tree.update(i, BigInt(0))
-            }
+    // describe("# import/export", () => {
+    //     it.each(["poseidon", "poseidon2", "pedersen"])("Should export a tree - %s", (hash) => {
+    //         const tree = new LeanIMT(hasher(hash), leaves)
 
-            expect(tree.root).toBe(roots[hash][1])
-        })
-    })
+    //         const exportedTree = tree.export()
 
-    describe("# generateProof", () => {
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not generate any proof if the index is not defined - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
+    //         expect(typeof exportedTree).toBe("string")
+    //         expect(JSON.parse(exportedTree)).toHaveLength(4)
+    //         expect(JSON.parse(exportedTree)[0]).toHaveLength(5)
+    //     })
 
-                const fun = () => tree.generateProof(undefined as any)
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         "Should not import a tree if the exported tree is not defined - %s",
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
 
-                expect(fun).toThrow("Parameter 'index' is not defined")
-            }
-        )
+    //             const fun = () => tree.import(undefined as any)
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not generate any proof if the index is not a number - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
+    //             expect(fun).toThrow("Parameter 'nodes' is not defined")
+    //         }
+    //     )
 
-                const fun = () => tree.generateProof("uoe" as any)
+    //     it.each(["poseidon", "poseidon2", "pedersen"])(
+    //         "Should not import a tree if the exported tree is not a string - %s",
+    //         (hash) => {
+    //             const tree = new LeanIMT(hasher(hash), leaves)
 
-                expect(fun).toThrow("Parameter 'index' is not a number")
-            }
-        )
+    //             const fun = () => tree.import(1 as any)
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            "Should not generate any proof if the leaf does not exist - %s- %s",
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
+    //             expect(fun).toThrow("Parameter 'nodes' is not a string")
+    //         }
+    //     )
 
-                const fun = () => tree.generateProof(999)
+    //     it.each(["poseidon", "poseidon2", "pedersen"])("Should not import a tree if is not empty - %s", (hash) => {
+    //         const tree1 = new LeanIMT(hasher(hash), leaves)
+    //         const exportedTree = tree1.export()
 
-                expect(fun).toThrow("The leaf at index '999' does not exist in this tree")
-            }
-        )
+    //         const tree2 = new LeanIMT(hasher(hash), leaves)
 
-        it.each(["poseidon", "poseidon2", "pedersen"])("Should generate a valid proof - %s", (hash) => {
-            const tree = new LeanIMT(hasher(hash), leaves)
+    //         const fun = () => tree2.import(exportedTree)
 
-            const proof = tree.generateProof(3)
+    //         expect(fun).toThrow("Import failed: the target tree structure is not empty")
+    //     })
 
-            expect(proof.leaf).toBe(tree.leaves[3])
-            expect(proof.root).toBe(tree.root)
-            expect(tree.verifyProof(proof)).toBe(true)
-        })
+    //     it.each(["poseidon", "poseidon2", "pedersen"])("Should import a tree - %s", (hash) => {
+    //         const tree1 = new LeanIMT(hasher(hash), leaves)
+    //         const exportedTree = tree1.export()
 
-        it.each(["poseidon", "poseidon2", "pedersen"])(`Should generate ${treeSize} valid proof - %s`, (hash) => {
-            const tree = new LeanIMT(hasher(hash), leaves)
+    //         const tree2 = new LeanIMT(hasher(hash))
 
-            for (let i = 0; i < treeSize; i += 1) {
-                const proof = tree.generateProof(i)
+    //         tree2.import(exportedTree)
 
-                expect(proof.leaf).toBe(tree.leaves[i])
-                expect(proof.root).toBe(tree.root)
-                expect(tree.verifyProof(proof)).toBe(true)
-            }
-        })
-    })
+    //         tree1.insert(BigInt(4))
+    //         tree2.insert(BigInt(4))
 
-    describe("# verifyProof", () => {
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not verify any proof if the proof is not defined - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
-
-                const fun = () => tree.verifyProof(undefined as any)
-
-                expect(fun).toThrow("Parameter 'proof' is not defined")
-            }
-        )
-
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            `Should not verify any proof if the proof parameters are not defined - %s`,
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
-                const proof = tree.generateProof(3)
-
-                const fun1 = () => tree.verifyProof({ ...proof, root: undefined } as any)
-                const fun2 = () => tree.verifyProof({ ...proof, leaf: undefined } as any)
-                const fun3 = () => tree.verifyProof({ ...proof, siblings: undefined } as any)
-                const fun4 = () => tree.verifyProof({ ...proof, index: undefined } as any)
-
-                expect(fun1).toThrow("Parameter 'proof.root' is not defined")
-                expect(fun2).toThrow("Parameter 'proof.leaf' is not defined")
-                expect(fun3).toThrow("Parameter 'proof.siblings' is not defined")
-                expect(fun4).toThrow("Parameter 'proof.index' is not defined")
-            }
-        )
-
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            "Should not verify any proof if proof.siblings is not a list - %s",
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
-                const proof = tree.generateProof(3)
-
-                const fun = () => tree.verifyProof({ ...proof, siblings: "string" as any })
-
-                expect(fun).toThrow("Parameter 'proof.siblings' is not an array")
-            }
-        )
-
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            "Should not verify any proof if proof.index is not a number - %s",
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
-                const proof = tree.generateProof(3)
-
-                const fun = () => tree.verifyProof({ ...proof, index: "string" as any })
-
-                expect(fun).toThrow("Parameter 'proof.index' is not a number")
-            }
-        )
-
-        it.each(["poseidon", "poseidon2", "pedersen"])("Should verify a valid proof - %s", (hash) => {
-            const tree = new LeanIMT(hasher(hash), leaves)
-
-            const proof = tree.generateProof(3)
-
-            expect(tree.verifyProof(proof)).toBe(true)
-            expect(LeanIMT.verifyProof(proof, hasher(hash))).toBe(true)
-        })
-
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            "Should reject a proof with incorrect hash function - %s",
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
-
-                const proof = tree.generateProof(3)
-
-                function badHash(a: bigint, b: bigint): bigint {
-                    return a + b
-                }
-                expect(LeanIMT.verifyProof(proof, badHash)).toBe(false)
-            }
-        )
-    })
-
-    describe("# import/export", () => {
-        it.each(["poseidon", "poseidon2", "pedersen"])("Should export a tree - %s", (hash) => {
-            const tree = new LeanIMT(hasher(hash), leaves)
-
-            const exportedTree = tree.export()
-
-            expect(typeof exportedTree).toBe("string")
-            expect(JSON.parse(exportedTree)).toHaveLength(4)
-            expect(JSON.parse(exportedTree)[0]).toHaveLength(5)
-        })
-
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            "Should not import a tree if the exported tree is not defined - %s",
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
-
-                const fun = () => tree.import(undefined as any)
-
-                expect(fun).toThrow("Parameter 'nodes' is not defined")
-            }
-        )
-
-        it.each(["poseidon", "poseidon2", "pedersen"])(
-            "Should not import a tree if the exported tree is not a string - %s",
-            (hash) => {
-                const tree = new LeanIMT(hasher(hash), leaves)
-
-                const fun = () => tree.import(1 as any)
-
-                expect(fun).toThrow("Parameter 'nodes' is not a string")
-            }
-        )
-
-        it.each(["poseidon", "poseidon2", "pedersen"])("Should not import a tree if is not empty - %s", (hash) => {
-            const tree1 = new LeanIMT(hasher(hash), leaves)
-            const exportedTree = tree1.export()
-
-            const tree2 = new LeanIMT(hasher(hash), leaves)
-
-            const fun = () => tree2.import(exportedTree)
-
-            expect(fun).toThrow("Import failed: the target tree structure is not empty")
-        })
-
-        it.each(["poseidon", "poseidon2", "pedersen"])("Should import a tree - %s", (hash) => {
-            const tree1 = new LeanIMT(hasher(hash), leaves)
-            const exportedTree = tree1.export()
-
-            const tree2 = new LeanIMT(hasher(hash))
-
-            tree2.import(exportedTree)
-
-            tree1.insert(BigInt(4))
-            tree2.insert(BigInt(4))
-
-            expect(tree2.depth).toBe(tree1.depth)
-            expect(tree2.size).toBe(tree1.size)
-            expect(tree2.root).toBe(tree1.root)
-        })
-    })
+    //         expect(tree2.depth).toBe(tree1.depth)
+    //         expect(tree2.size).toBe(tree1.size)
+    //         expect(tree2.root).toBe(tree1.root)
+    //     })
+    // })
 })

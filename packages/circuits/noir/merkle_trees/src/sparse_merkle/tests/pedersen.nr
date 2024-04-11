@@ -1,5 +1,5 @@
 use dep::std::hash::pedersen_hash_slice;
-use crate::SMT;
+use crate::sparse_merkle::SparseMerkleTree;
 
 fn pedersen_hasher(leaves: [Field]) -> Field {
     pedersen_hash_slice(leaves)
@@ -10,7 +10,7 @@ global TREE_DEPTH = 256;
 #[test]
 fn test_verify_membership_proof() {
     let root = 10163036226218365628416274178218539053881692695713984759452839539868301499377;
-    let smt = SMT::from(root, pedersen_hasher);
+    let smt = SparseMerkleTree::from(root, pedersen_hasher);
 
     let key = 20438969296305830531522370305156029982566273432331621236661483041446048135547;
     let value = 17150136040889237739751319962368206600863150289695545292530539263327413090784;
@@ -26,7 +26,7 @@ fn test_verify_membership_proof() {
 #[test]
 fn test_verify_non_membership_proof() {
     let root = 10163036226218365628416274178218539053881692695713984759452839539868301499377;
-    let smt = SMT::from(root, pedersen_hasher);
+    let smt = SparseMerkleTree::from(root, pedersen_hasher);
 
     let key = 20438969296305830531522380305156029982566273432331621236661483041446048135547;
     let value = 17150136040889237739751319962368206600863250289695545292530539263327413090784;
@@ -45,7 +45,7 @@ fn test_verify_non_membership_proof() {
 
 #[test]
 fn test_add_first_element() {
-    let mut smt = SMT::new(pedersen_hasher);
+    let mut smt = SparseMerkleTree::new(pedersen_hasher);
 
     let key = 20438969296305830531522370305156029982566273432331621236661483041446048135547;
     let value = 17150136040889237739751319962368206600863150289695545292530539263327413090784;
@@ -59,7 +59,7 @@ fn test_add_first_element() {
 #[test]
 fn test_add_element_to_one_element_tree() {
     let root = 2422708535743783816563452741494007579003622904961533867614614610167375232032;
-    let mut smt = SMT::from(root, pedersen_hasher);
+    let mut smt = SparseMerkleTree::from(root, pedersen_hasher);
 
     let key = 7374494214024125590767526270082639043919066776944047470878693145844636921798;
     let value = 3315292394704439116482935361251007857050519763420264982454883186141315324846;
@@ -74,7 +74,7 @@ fn test_add_element_to_one_element_tree() {
 #[test]
 fn test_add_element_to_existing_tree() {
     let root = 13995819305603022633355680906127521476353407789113491617487780281225566393218;
-    let mut smt = SMT::from(root, pedersen_hasher);
+    let mut smt = SparseMerkleTree::from(root, pedersen_hasher);
 
     let key = 12467743582502009806452203915647380852106587605639139696405928234368558796420;
     let value = 7661601117049907361128926075270530269257730340678343102988736234309528818274;
@@ -91,7 +91,7 @@ fn test_add_element_to_existing_tree() {
 #[test]
 fn test_delete() {
     let root = 8307334591379324778417663235463648615723981385559143500721691536202573318888;
-    let mut smt = SMT::from(root, pedersen_hasher);
+    let mut smt = SparseMerkleTree::from(root, pedersen_hasher);
 
     let key = 12467743582502009806452203915647380852106587605639139696405928234368558796420;
     let value = 7661601117049907361128926075270530269257730340678343102988736234309528818274;
@@ -108,7 +108,7 @@ fn test_delete() {
 #[test]
 fn test_update() {
     let root = 8307334591379324778417663235463648615723981385559143500721691536202573318888;
-    let mut smt = SMT::from(root, pedersen_hasher);
+    let mut smt = SparseMerkleTree::from(root, pedersen_hasher);
 
     let key = 12467743582502009806452203915647380852106587605639139696405928234368558796420;
     let old_value = 7661601117049907361128926075270530269257730340678343102988736234309528818274;

@@ -1,5 +1,5 @@
 use dep::std::hash::poseidon::bn254::{hash_2, hash_3};
-use crate::SMT;
+use crate::sparse_merkle::SparseMerkleTree;
 
 global TREE_DEPTH = 256;
 
@@ -14,7 +14,7 @@ fn poseidon_hasher(leaves: [Field]) -> Field {
 #[test]
 fn test_verify_membership_proof() {
     let root = 3532809757480436997969526334543526996242857122876262144596246439822675654128;
-    let smt = SMT::from(root, poseidon_hasher);
+    let smt = SparseMerkleTree::from(root, poseidon_hasher);
 
     let key = 18746990989203767017840856832962652635369613415011636432610873672704085238844;
     let value = 10223238458026721676606706894638558676629446348345239719814856822628482567791;
@@ -29,7 +29,7 @@ fn test_verify_membership_proof() {
 #[test]
 fn test_verify_non_membership_proof() {
     let root = 3532809757480436997969526334543526996242857122876262144596246439822675654128;
-    let smt = SMT::from(root, poseidon_hasher);
+    let smt = SparseMerkleTree::from(root, poseidon_hasher);
 
     let key = 8459688297517826598613412977307486050019239051864711035321718508109192087854;
     let value = 8510347201346963732943571140849185725417245763047403804445415726302354045170;
@@ -47,7 +47,7 @@ fn test_verify_non_membership_proof() {
 
 #[test]
 fn test_add_first_element() {
-    let mut smt = SMT::new(poseidon_hasher);
+    let mut smt = SparseMerkleTree::new(poseidon_hasher);
 
     let key = 20438969296305830531522370305156029982566273432331621236661483041446048135547;
     let value = 17150136040889237739751319962368206600863150289695545292530539263327413090784;
@@ -61,7 +61,7 @@ fn test_add_first_element() {
 #[test]
 fn test_add_element_to_one_element_tree() {
     let root = 7842913321420301106140788486336995496832503825951977327575501561489697540557;
-    let mut smt = SMT::from(root, poseidon_hasher);
+    let mut smt = SparseMerkleTree::from(root, poseidon_hasher);
 
     let key = 8459688297517826598613412977307486050019239051864711035321718508109192087854;
     let value = 8510347201346963732943571140849185725417245763047403804445415726302354045170;
@@ -76,7 +76,7 @@ fn test_add_element_to_one_element_tree() {
 #[test]
 fn test_add_element_to_existing_tree() {
     let root = 3532809757480436997969526334543526996242857122876262144596246439822675654128;
-    let mut smt = SMT::from(root, poseidon_hasher);
+    let mut smt = SparseMerkleTree::from(root, poseidon_hasher);
 
     let key = 8459688297517826598613412977307486050019239051864711035321718508109192087854;
     let value = 8510347201346963732943571140849185725417245763047403804445415726302354045170;
@@ -94,7 +94,7 @@ fn test_add_element_to_existing_tree() {
 #[test]
 fn test_delete() {
     let root = 4657474665007910823901096287220097081233671466281873230928277896829046731272;
-    let mut smt = SMT::from(root, poseidon_hasher);
+    let mut smt = SparseMerkleTree::from(root, poseidon_hasher);
 
     let key = 8459688297517826598613412977307486050019239051864711035321718508109192087854;
     let value = 8510347201346963732943571140849185725417245763047403804445415726302354045170;
@@ -112,7 +112,7 @@ fn test_delete() {
 #[test]
 fn test_update() {
     let root = 4202917944688591919039016743999516589372052081571553696755434379850460220435;
-    let mut smt = SMT::from(root, poseidon_hasher);
+    let mut smt = SparseMerkleTree::from(root, poseidon_hasher);
 
     let key = 8459688297517826598613412977307486050019239051864711035321718508109192087854;
     let old_value = 8510347201346963732943571140849185725417245763047403804445415726302354045169;

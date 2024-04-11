@@ -1,5 +1,5 @@
 use dep::std::hash::pedersen_hash_slice;
-use crate::SMT;
+use crate::sparse_merkle::SparseMerkleTree;
 
 trait Calculator {
     fn calculate_root(self, entry: [Field; 2], siblings: [Field], path: [u1]) -> Field;
@@ -16,7 +16,7 @@ pub fn key_to_path(key: Field, length: u32) -> [u1] {
     key.to_be_bits(length)
 }
 
-impl Calculator for SMT {
+impl Calculator for SparseMerkleTree {
     /*
     * Calculates the root for a given tree entry based on the passed array of siblings and the passed path.
     * @param entry The key and value of an entry [k, v]
@@ -67,12 +67,12 @@ impl Calculator for SMT {
         siblings: [Field],
     ) -> (Field, Field) {
         let path = key_to_path(entry[0], siblings.len() as u32);
-        // long_path_node is a container for hashes to derive the root node for the tree that
+        // root_with_leaf is a container for hashes to derive the root node for the tree that
         // includes the entry
-        let mut long_path_node = (self.hasher)(&[entry[0], entry[1], 1]);
-        // long_path_node is a container for hashes to derive the root node for the tree that
+        let mut root_with_leaf = (self.hasher)(&[entry[0], entry[1], 1]);
+        // root_without_leaf is a container for hashes to derive the root node for the tree that
         // doesn't include the entry
-        let mut short_path_node: Field = 0;
+        let mut root_without_leaf: Field = 0;
         // iterate over the levels of the tree from bottom to top
         for i in 0..siblings.len() {
             let sibling = siblings[i];
@@ -83,22 +83,22 @@ impl Calculator for SMT {
             // again stored in the container until the root is reached
             if sibling != 0 {
                 if siblings[i - 1] == 0 {
-                    short_path_node = siblings[i];
+                    root_without_leaf = siblings[i];
                 }
                 if path[i] == 0 {
-                    long_path_node = (self.hasher)(&[long_path_node, sibling]);
-                    if (short_path_node != sibling) {
-                        short_path_node = (self.hasher)(&[short_path_node, sibling]);
+                    root_with_leaf = (self.hasher)(&[root_with_leaf, sibling]);
+                    if (root_without_leaf != sibling) {
+                        root_without_leaf = (self.hasher)(&[root_without_leaf, sibling]);
                     }
                 } else {
-                    long_path_node = (self.hasher)(&[sibling, long_path_node]);
-                    if (short_path_node != sibling) {
-                        short_path_node = (self.hasher)(&[sibling, short_path_node]);
+                    root_with_leaf = (self.hasher)(&[sibling, root_with_leaf]);
+                    if (root_without_leaf != sibling) {
+                        root_without_leaf = (self.hasher)(&[sibling, root_without_leaf]);
                     }
                 }
             }
         }
-        (short_path_node, long_path_node)
+        (root_without_leaf, root_with_leaf)
     }
 }
 
