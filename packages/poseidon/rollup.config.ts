@@ -3,6 +3,7 @@ import terser from "@rollup/plugin-terser"
 import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
+import nodePolyfills from "rollup-plugin-polyfill-node"
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
 const banner = `/**
@@ -25,6 +26,7 @@ export default [
         ],
         external: [
             ...Object.keys(pkg.dependencies),
+            "@zk-kit/utils/conversions",
             "@noble/curves/abstract/modular",
             "@noble/curves/abstract/poseidon"
         ],
@@ -52,6 +54,7 @@ export default [
                 tsconfig: "./build.tsconfig.json"
             }),
             nodeResolve({ preferBuiltins: false, browser: true }),
+            nodePolyfills(),
             cleanup({ comments: "jsdoc" })
         ]
     },
@@ -69,6 +72,7 @@ export default [
         ],
         external: [
             ...Object.keys(pkg.dependencies),
+            "@zk-kit/utils/conversions",
             "@noble/curves/abstract/modular",
             "@noble/curves/abstract/poseidon"
         ],
