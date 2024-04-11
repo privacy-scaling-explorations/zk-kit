@@ -40,20 +40,15 @@ The SMT crate "stores" the root and the hasher and exposes modifier methods, mak
 use dep::smt::SMT;
 use dep::std::hash::pedersen_hash_slice;
 
-fn main(
-    entry: [Field; 2],
-    matching_entry: [Field; 2],
-    siblings: [[Field; 256]; 2],
-    roots: [Field; 2])
-{
-    let tree1 = SMT::from(roots[0], pedersen_hash_slice);
-    let tree2 = SMT::from(roots[1], pedersen_hash_slice);
+fn main(entry: [Field; 2], siblings: [Field; 256], roots: [Field; 2]) {
+    let mut tree1 = SMT::from(roots[0], pedersen_hash_slice);
+    let mut tree2 = SMT::from(roots[1], pedersen_hash_slice);
 
-    tree1.membership(entry, siblings[0].as_slice());
-    tree2.non_membership(entry, matching_entry, siblings[1].as_slice());
+    tree1.membership(entry, siblings.as_slice());
+    tree2.non_membership(entry, [0, 0], [0; 256].as_slice());
 
-    tree1.delete(entry, siblings[0].as_slice());
-    tree2.add(entry, siblings[1].as_slice());
+    tree1.delete(entry, siblings.as_slice());
+    tree2.add(entry, [0; 256].as_slice());
 }
 ```
 

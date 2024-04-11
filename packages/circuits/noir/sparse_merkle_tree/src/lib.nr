@@ -75,13 +75,15 @@ impl Prover for SMT {
     * @param root The expected root of the tree
     */
     fn non_membership(self, entry: [Field; 2], matching_entry: [Field; 2], siblings: [Field]) {
-        let path = key_to_path(entry[0], siblings.len() as u32);
+        if (self.root != 0) {
+            let path = key_to_path(entry[0], siblings.len() as u32);
 
-        // non-membership proof: the root is calculated based on the matching_entry, the siblings
-        // and the path that is determined by the key of entry. This makes sure that matching_entry is in fact
-        // a matching entry for entry meaning that it shares the same first bits as path
-        let mut calculated_root = self.calculate_root([matching_entry[0], matching_entry[1]], siblings, path);
-        assert(calculated_root == self.root);
+            // non-membership proof: the root is calculated based on the matching_entry, the siblings
+            // and the path that is determined by the key of entry. This makes sure that matching_entry is in fact
+            // a matching entry for entry meaning that it shares the same first bits as path
+            let mut calculated_root = self.calculate_root([matching_entry[0], matching_entry[1]], siblings, path);
+            assert(calculated_root == self.root);
+        }
     }
 }
 
