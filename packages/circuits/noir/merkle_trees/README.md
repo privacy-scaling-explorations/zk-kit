@@ -30,12 +30,11 @@ fn hasher(leaves: [Field]) -> Field {
 
 fn main(
     entry: Field,
-    indices: Field,
-    hash_path: [Field; 1])
+    paths: (Field, [Field; 1]))
 {
     let mut mt = MerkleTree::new(hasher);
 
-    let siblings = (indices, hash_path.as_slice());
+    let siblings = (paths.0, paths.1.as_slice());
     mt.add(entry, siblings);
     mt.membership(entry, siblings);
 }
@@ -51,13 +50,13 @@ fn hasher(leaves: [Field]) -> Field {
     pedersen_hash_slice(leaves)
 }
 
-fn main(
-    entry: (Field, Field),
-    siblings: [Field; 256])
-{
-    let smt = SparseMerkleTree::new(hasher);
+fn main(entry: (Field, Field), siblings: [Field; 256]) {
+    let mut tree2 = SparseMerkleTree::new(pedersen_hash_slice);
 
-    smt.membership(entry, siblings.as_slice());
+    tree2.non_membership(entry, (0, 0), [0; 256].as_slice());
+
+    tree2.add(entry, siblings.as_slice());
+    tree2.membership(entry, siblings.as_slice());
 }
 ```
 
