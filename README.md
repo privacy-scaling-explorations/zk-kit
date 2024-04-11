@@ -91,34 +91,6 @@
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon">
-                    @zk-kit/poseidon
-                </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon.html">
-                    (docs)
-                </a>
-            </td>
-            <td>
-                <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/poseidon">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/poseidon.svg?style=flat-square" alt="NPM version" />
-                </a>
-            </td>
-            <td>
-                <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/poseidon">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/poseidon.svg?style=flat-square" alt="Downloads" />
-                </a>
-            </td>
-            <td>
-                <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zk-kit/poseidon">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon" alt="npm bundle size (scoped)" />
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/eddsa-poseidon">
                     @zk-kit/eddsa-poseidon
                 </a>
