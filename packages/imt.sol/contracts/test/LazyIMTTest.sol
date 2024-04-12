@@ -40,4 +40,8 @@ contract LazyIMTTest {
     function staticRoot(uint8 depth) public view returns (uint256) {
         return LazyIMT.root(data, depth);
     }
+
+    function merkleProofElements(uint40 index, uint8 depth) public view returns (uint256[] memory) {
+        return LazyIMT.merkleProofElements(data, index, depth);
+    }
 }
