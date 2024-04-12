@@ -1,5 +1,6 @@
 import { Buffer } from "buffer"
 import {
+    base64ToBigInt,
     beBigIntToBuffer,
     beBufferToBigInt,
     bigIntToHexadecimal,
@@ -21,6 +22,20 @@ describe("Conversions", () => {
     const testHex1BE = "0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
     const testBigInt1LE = BigInt(testHex1LE)
     const testBigInt1BE = BigInt(testHex1BE)
+
+    describe("# base64ToBigInt", () => {
+        it("Should convert a base64 string to a bigint", async () => {
+            const result = base64ToBigInt("CcRunsaOm9T+H6q6KUy6OKcaoXdTTN0bbH3A29Cr16c=")
+
+            expect(result).toBe(4417881134626180770308697923359573201005643519861877412381846989312604493735n)
+        })
+
+        it("Should throw an error if the parameter is not a string", async () => {
+            const fun = () => base64ToBigInt(32 as any)
+
+            expect(fun).toThrow("Parameter 'value' is not a string, received type: number")
+        })
+    })
 
     describe("# bigintToHexadecimal", () => {
         it("Should convert a bigint to a hexadecimal", async () => {

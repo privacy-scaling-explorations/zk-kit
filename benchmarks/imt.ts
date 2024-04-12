@@ -1,6 +1,6 @@
 import b from "benny"
 import { poseidon2 } from "poseidon-lite"
-import { IMT, LeanIMT } from "../packages/imt/src"
+import { IMT, LeanIMT } from "@zk-kit/imt"
 
 const name = "incremental-merkle-trees"
 
