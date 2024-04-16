@@ -1,4 +1,4 @@
-import checkParameter from "./checkParameter"
+import { requireArray, requireFunction, requireNumber, requireObject, requireTypes } from "@zk-kit/utils/error-handlers"
 import { IMTHashFunction, IMTMerkleProof, IMTNode } from "./types"
 
 /**
@@ -53,11 +53,11 @@ export default class IMT {
      * @param leaves The list of initial leaves.
      */
     constructor(hash: IMTHashFunction, depth: number, zeroValue: IMTNode, arity = 2, leaves: IMTNode[] = []) {
-        checkParameter(hash, "hash", "function")
-        checkParameter(depth, "depth", "number")
-        checkParameter(zeroValue, "zeroValue", "number", "string", "bigint")
-        checkParameter(arity, "arity", "number")
-        checkParameter(leaves, "leaves", "object")
+        requireFunction(hash, "hash")
+        requireNumber(depth, "depth")
+        requireTypes(zeroValue, "zeroValue", ["number", "string", "bigint"])
+        requireNumber(arity, "arity")
+        requireObject(leaves, "leaves")
 
         if (leaves.length > arity ** depth) {
             throw new Error(`The tree cannot contain more than ${arity ** depth} leaves`)
@@ -155,7 +155,7 @@ export default class IMT {
      * @returns The index of the leaf.
      */
     public indexOf(leaf: IMTNode): number {
-        checkParameter(leaf, "leaf", "number", "string", "bigint")
+        requireTypes(leaf, "leaf", ["number", "string", "bigint"])
 
         return this._nodes[0].indexOf(leaf)
     }
@@ -171,7 +171,7 @@ export default class IMT {
      * @param leaf The new leaf to be inserted in the tree.
      */
     public insert(leaf: IMTNode) {
-        checkParameter(leaf, "leaf", "number", "string", "bigint")
+        requireTypes(leaf, "leaf", ["number", "string", "bigint"])
 
         if (this._nodes[0].length >= this.arity ** this.depth) {
             throw new Error("The tree is full")
@@ -218,7 +218,7 @@ export default class IMT {
      * @param newLeaf The new leaf to be inserted.
      */
     public update(index: number, newLeaf: IMTNode) {
-        checkParameter(index, "index", "number")
+        requireNumber(index, "index")
 
         if (index < 0 || index >= this._nodes[0].length) {
             throw new Error("The leaf does not exist in this tree")
@@ -256,7 +256,7 @@ export default class IMT {
      * @returns The Merkle proof of the leaf.
      */
     public createProof(index: number): IMTMerkleProof {
-        checkParameter(index, "index", "number")
+        requireNumber(index, "index")
 
         if (index < 0 || index >= this._nodes[0].length) {
             throw new Error("The leaf does not exist in this tree")
@@ -310,11 +310,11 @@ export default class IMT {
      * @returns True if the leaf is part of the tree, and false otherwise.
      */
     public static verifyProof(proof: IMTMerkleProof, hash: IMTHashFunction): boolean {
-        checkParameter(proof, "proof", "object")
-        checkParameter(proof.root, "proof.root", "number", "string", "bigint")
-        checkParameter(proof.leaf, "proof.leaf", "number", "string", "bigint")
-        checkParameter(proof.siblings, "proof.siblings", "object")
-        checkParameter(proof.pathIndices, "proof.pathElements", "object")
+        requireObject(proof, "proof")
+        requireTypes(proof.root, "proof.root", ["number", "string", "bigint"])
+        requireTypes(proof.leaf, "proof.leaf", ["number", "string", "bigint"])
+        requireArray(proof.siblings, "proof.siblings")
+        requireArray(proof.pathIndices, "proof.pathIndices")
 
         let node = proof.leaf
 

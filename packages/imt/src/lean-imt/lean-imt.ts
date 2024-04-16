@@ -1,5 +1,11 @@
+import {
+    requireArray,
+    requireFunction,
+    requireDefined,
+    requireNumber,
+    requireString
+} from "@zk-kit/utils/error-handlers"
 import { LeanIMTHashFunction, LeanIMTMerkleProof } from "./types"
-import { requireArray, requireDefinedParameter, requireFunction, requireNumber, requireString } from "./utils"
 
 /**
  * The {@link LeanIMT} is an optimized binary version of the {@link IMT}.
@@ -31,7 +37,7 @@ export default class LeanIMT<N = bigint> {
      * @param leaves The list of leaves.
      */
     constructor(hash: LeanIMTHashFunction<N>, leaves: N[] = []) {
-        requireDefinedParameter(hash, "hash")
+        requireDefined(hash, "hash")
         requireFunction(hash, "hash")
         requireArray(leaves, "leaves")
 
@@ -88,7 +94,7 @@ export default class LeanIMT<N = bigint> {
      * @returns The index of the leaf.
      */
     public indexOf(leaf: N): number {
-        requireDefinedParameter(leaf, "leaf")
+        requireDefined(leaf, "leaf")
 
         return this._nodes[0].indexOf(leaf)
     }
@@ -99,7 +105,7 @@ export default class LeanIMT<N = bigint> {
      * @returns True if the tree has the leaf, and false otherwise.
      */
     public has(leaf: N): boolean {
-        requireDefinedParameter(leaf, "leaf")
+        requireDefined(leaf, "leaf")
 
         return this._nodes[0].includes(leaf)
     }
@@ -114,7 +120,7 @@ export default class LeanIMT<N = bigint> {
      * @param leaf The new leaf to be inserted in the tree.
      */
     public insert(leaf: N) {
-        requireDefinedParameter(leaf, "leaf")
+        requireDefined(leaf, "leaf")
 
         // If the next depth is greater, a new tree level will be added.
         if (this.depth < Math.ceil(Math.log2(this.size + 1))) {
@@ -154,7 +160,7 @@ export default class LeanIMT<N = bigint> {
      * @param leaves The list of leaves to be inserted.
      */
     public insertMany(leaves: N[]) {
-        requireDefinedParameter(leaves, "leaves")
+        requireDefined(leaves, "leaves")
         requireArray(leaves, "leaves")
 
         if (leaves.length === 0) {
@@ -197,8 +203,8 @@ export default class LeanIMT<N = bigint> {
      * @param newLeaf The new leaf to be inserted.
      */
     public update(index: number, newLeaf: N) {
-        requireDefinedParameter(index, "index")
-        requireDefinedParameter(newLeaf, "newLeaf")
+        requireDefined(index, "index")
+        requireDefined(newLeaf, "newLeaf")
         requireNumber(index, "index")
 
         let node = newLeaf
@@ -234,7 +240,7 @@ export default class LeanIMT<N = bigint> {
      * @returns The Merkle proof of the leaf.
      */
     public generateProof(index: number): LeanIMTMerkleProof<N> {
-        requireDefinedParameter(index, "index")
+        requireDefined(index, "index")
         requireNumber(index, "index")
 
         if (index < 0 || index >= this.size) {
@@ -285,14 +291,14 @@ export default class LeanIMT<N = bigint> {
      * @returns True if the leaf is part of the tree, and false otherwise.
      */
     public static verifyProof<N>(proof: LeanIMTMerkleProof<N>, hash: LeanIMTHashFunction<N>): boolean {
-        requireDefinedParameter(proof, "proof")
+        requireDefined(proof, "proof")
 
         const { root, leaf, siblings, index } = proof
 
-        requireDefinedParameter(proof.root, "proof.root")
-        requireDefinedParameter(proof.leaf, "proof.leaf")
-        requireDefinedParameter(proof.siblings, "proof.siblings")
-        requireDefinedParameter(proof.index, "proof.index")
+        requireDefined(proof.root, "proof.root")
+        requireDefined(proof.leaf, "proof.leaf")
+        requireDefined(proof.siblings, "proof.siblings")
+        requireDefined(proof.index, "proof.index")
 
         requireArray(proof.siblings, "proof.siblings")
         requireNumber(proof.index, "proof.index")
@@ -328,7 +334,7 @@ export default class LeanIMT<N = bigint> {
      * @param nodes The stringified JSON of the tree.
      */
     public import(nodes: string) {
-        requireDefinedParameter(nodes, "nodes")
+        requireDefined(nodes, "nodes")
         requireString(nodes, "nodes")
 
         if (this.size !== 0) {

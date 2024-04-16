@@ -35,7 +35,7 @@ describe("Lean IMT", () => {
 
             expect(fun1).toThrow("Parameter 'hash' is not defined")
             expect(fun2).toThrow("Parameter 'hash' is not a function")
-            expect(fun3).toThrow("Parameter 'leaves' is not an array")
+            expect(fun3).toThrow("Parameter 'leaves' is not an Array instance")
         })
 
         it("Should initialize a tree", () => {
@@ -162,7 +162,7 @@ describe("Lean IMT", () => {
 
             const fun = () => tree.insertMany("uoe" as any)
 
-            expect(fun).toThrow("Parameter 'leaves' is not an array")
+            expect(fun).toThrow("Parameter 'leaves' is not an Array instance")
         })
 
         it(`Should not insert any leaf if the list of leaves is empty`, () => {
@@ -298,7 +298,7 @@ describe("Lean IMT", () => {
 
             const fun = () => tree.verifyProof({ ...proof, siblings: "string" as any })
 
-            expect(fun).toThrow("Parameter 'proof.siblings' is not an array")
+            expect(fun).toThrow("Parameter 'proof.siblings' is not an Array instance")
         })
 
         it("Should not verify any proof if proof.index is not a number", () => {

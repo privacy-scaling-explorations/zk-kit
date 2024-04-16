@@ -28,7 +28,7 @@
         "format:write": "turbo format:prettier:write",
         "benchmarks": "rimraf benchmarks/results && ts-node benchmarks/index.ts",
         "docs": "typedoc --cname zkkit.pse.dev --githubPages true",
-        "remove:stable-version-field": "ts-node scripts/remove-stable-version-field.ts ${0} && yarn prettier:write",
+        "remove:stable-version-field": "ts-node scripts/remove-stable-version-field.ts ${0} && yarn format:prettier:write",
         "precommit": "lint-staged",
         "postinstall": "husky install",
         "style": "turbo lint:eslint lint format:prettier"

@@ -49,7 +49,7 @@
     },
     "dependencies": {
         "@zk-kit/baby-jubjub": "1.0.0-beta",
-        "@zk-kit/utils": "1.0.0-beta",
+        "@zk-kit/utils": "1.0.0-beta.1",
         "buffer": "6.0.3"
     }
 }
