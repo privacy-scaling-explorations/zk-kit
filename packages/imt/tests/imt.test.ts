@@ -24,9 +24,9 @@ describe("IMT", () => {
                     const fun2 = () => new IMT(1 as any, 33, 0, arity)
                     const fun3 = () => new IMT(poseidon, depth, 0, arity, 2 as any)
 
-                    expect(fun1).toThrow("Parameter 'hash' is not defined")
-                    expect(fun2).toThrow("Parameter 'hash' is none of these types: function")
-                    expect(fun3).toThrow("Parameter 'leaves' is none of these types: object")
+                    expect(fun1).toThrow("Parameter 'hash' is not a function, received type: undefined")
+                    expect(fun2).toThrow("Parameter 'hash' is not a function, received type: number")
+                    expect(fun3).toThrow("Parameter 'leaves' is not an object, received type: number")
                 })
 
                 it("Should not initialize a tree with a number of leaves > arity ** depth", () => {
