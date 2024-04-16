@@ -1,112 +1,110 @@
-import { GetSnarkArtifactUrl, URLS } from "../src/get-snark-artifacts/config"
+import { GetSnarkArtifactUrls } from "../src/get-snark-artifacts/config"
 import { Artifact, Proof } from "../src/types"
 
-describe("GetSnarkArtifactUrl", () => {
-    const cases = [
-        {
-            artifactsHostUrl: URLS.semaphore,
-            proof: Proof.SEMAPHORE,
-            treeDepth: 2,
-            artifact: Artifact.WASM
-        },
-        {
-            artifactsHostUrl: URLS.semaphore,
-            proof: Proof.SEMAPHORE,
-            treeDepth: 2,
-            artifact: Artifact.ZKEY
-        },
-        { artifactsHostUrl: URLS.zkkit, proof: Proof.EDDSA, artifact: Artifact.WASM },
-        { artifactsHostUrl: URLS.zkkit, proof: Proof.EDDSA, artifact: Artifact.ZKEY },
-        { artifactsHostUrl: URLS.zkkit, proof: Proof.POSEIDON, numberOfInputs: 3, artifact: Artifact.WASM },
-        { artifactsHostUrl: URLS.zkkit, proof: Proof.POSEIDON, numberOfInputs: 3, artifact: Artifact.ZKEY }
-    ]
-
-    const getTestText = ({ artifact, numberOfInputs, treeDepth, proof }: any) => {
-        if (numberOfInputs) {
-            return `should return the correct ${artifact} artifact URL for a ${proof} proof (${numberOfInputs} inputs)`
-        }
-        if (treeDepth) {
-            return `should return the correct ${artifact} artifact URL for a ${proof} proof (${treeDepth} tree depth)`
-        }
-        return `should return the correct ${artifact} artifact URL for a ${proof} proof`
-    }
-
-    /* eslint-disable jest/valid-title */
-    it(getTestText(cases[0]), () => {
-        // @ts-expect-error abusing function overloading to test all cases in one test
-        expect(GetSnarkArtifactUrl(cases[0])).toMatchInlineSnapshot(
-            `"https://semaphore.cedoor.dev/artifacts/2/semaphore.wasm"`
-        )
-    })
-
-    it(getTestText(cases[1]), () => {
-        // @ts-expect-error abusing function overloading to test all cases in one test
-        expect(GetSnarkArtifactUrl(cases[1])).toMatchInlineSnapshot(
-            `"https://semaphore.cedoor.dev/artifacts/2/semaphore.zkey"`
-        )
-    })
-
-    it(getTestText(cases[2]), () => {
-        // @ts-expect-error abusing function overloading to test all cases in one test
-        expect(GetSnarkArtifactUrl(cases[2])).toMatchInlineSnapshot(
-            `"https://zkkit.cedoor.dev/eddsa-proof/eddsa-proof.wasm"`
-        )
-    })
-
-    it(getTestText(cases[3]), () => {
-        // @ts-expect-error abusing function overloading to test all cases in one test
-        expect(GetSnarkArtifactUrl(cases[3])).toMatchInlineSnapshot(
-            `"https://zkkit.cedoor.dev/eddsa-proof/eddsa-proof.zkey"`
-        )
-    })
-
-    it(getTestText(cases[4]), () => {
-        // @ts-expect-error abusing function overloading to test all cases in one test
-        expect(GetSnarkArtifactUrl(cases[4])).toMatchInlineSnapshot(
-            `"https://zkkit.cedoor.dev/poseidon-proof/artifacts/3/poseidon-proof.wasm"`
-        )
-    })
-
-    it(getTestText(cases[5]), () => {
-        // @ts-expect-error abusing function overloading to test all cases in one test
-        expect(GetSnarkArtifactUrl(cases[5])).toMatchInlineSnapshot(
-            `"https://zkkit.cedoor.dev/poseidon-proof/artifacts/3/poseidon-proof.zkey"`
-        )
-    })
-
-    it("should throw if numberOfInputs is not provided for Poseidon proof", () => {
-        expect(() =>
-            // @ts-expect-error function overloading prevents this, bypassing for extra explicit testing
-            GetSnarkArtifactUrl({ artifact: Artifact.WASM, artifactsHostUrl: URLS.zkkit, proof: Proof.POSEIDON })
-        ).toThrowErrorMatchingInlineSnapshot(`"numberOfInputs is required for Poseidon proof"`)
-    })
-
-    it("should throw if numberOfInputs is less than 1 for Poseidon proof", () => {
-        expect(() =>
-            GetSnarkArtifactUrl({
-                artifact: Artifact.WASM,
-                artifactsHostUrl: URLS.zkkit,
-                proof: Proof.POSEIDON,
-                numberOfInputs: 0
+describe("GetSnarkArtifactUrls", () => {
+    it("should throw if proof type is unknown", async () => {
+        await expect(
+            GetSnarkArtifactUrls({
+                // @ts-expect-error type checking prevents this, bypassing for explicit testing
+                proof: "unknown" as Proof
             })
-        ).toThrowErrorMatchingInlineSnapshot(`"numberOfInputs must be greater than 0"`)
+        ).rejects.toThrowErrorMatchingInlineSnapshot(`"Unknown proof type"`)
     })
 
-    it("should throw if treeDepth is not provided for Semaphore proof", () => {
-        expect(() =>
-            // @ts-expect-error function overloading prevents this, bypassing for extra explicit testing
-            GetSnarkArtifactUrl({ artifact: Artifact.WASM, artifactsHostUrl: URLS.semaphore, proof: Proof.SEMAPHORE })
-        ).toThrowErrorMatchingInlineSnapshot(`"treeDepth is required for Semaphore proof"`)
+    it("should default to latest version", async () => {
+        const urls = await GetSnarkArtifactUrls({ proof: Proof.EDDSA })
+
+        expect(urls.get(Artifact.WASM)).toMatchInlineSnapshot(
+            `"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.wasm"`
+        )
+        expect(urls.get(Artifact.ZKEY)).toMatchInlineSnapshot(
+            `"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"`
+        )
     })
 
-    it("should throw if treeDepth is less than 1 for Semaphore proof", () => {
-        expect(() =>
-            GetSnarkArtifactUrl({
-                artifact: Artifact.WASM,
-                artifactsHostUrl: URLS.semaphore,
-                proof: Proof.SEMAPHORE,
-                treeDepth: 0
-            })
-        ).toThrowErrorMatchingInlineSnapshot(`"treeDepth must be greater than 0"`)
+    it("should throw if version is not available", async () => {
+        global.fetch = jest.fn()
+        ;(fetch as jest.Mock).mockResolvedValueOnce({
+            ok: true,
+            json: jest.fn().mockResolvedValueOnce({ versions: { "0.0.1": {} } })
+        })
+
+        await expect(
+            GetSnarkArtifactUrls({ proof: Proof.EDDSA, version: "0.1.0" })
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+            `"Version 0.1.0 is not available for eddsa proofs, available versions are: 0.0.1"`
+        )
+        expect(fetch).toHaveBeenCalledTimes(1)
+        expect(fetch).toHaveBeenCalledWith("https://unpkg.com/@zk-kit/eddsa-artifacts")
+    })
+
+    describe("EdDSA artifacts", () => {
+        it("should return the correct artifact URLs for an EdDSA proof", async () => {
+            const urls = await GetSnarkArtifactUrls({ proof: Proof.EDDSA })
+
+            expect(urls.get(Artifact.WASM)).toMatchInlineSnapshot(
+                `"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.wasm"`
+            )
+            expect(urls.get(Artifact.ZKEY)).toMatchInlineSnapshot(
+                `"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"`
+            )
+        })
+    })
+
+    describe("Semaphore artifacts", () => {
+        it("should return the correct artifact URLs for a Semaphore proof", async () => {
+            const urls = await GetSnarkArtifactUrls({ proof: Proof.SEMAPHORE, treeDepth: 2 })
+
+            expect(urls.get(Artifact.WASM)).toMatchInlineSnapshot(
+                `"https://unpkg.com/@zk-kit/semaphore-artifacts@latest/semaphore-2.wasm"`
+            )
+            expect(urls.get(Artifact.ZKEY)).toMatchInlineSnapshot(
+                `"https://unpkg.com/@zk-kit/semaphore-artifacts@latest/semaphore-2.zkey"`
+            )
+        })
+
+        it("should throw if treeDepth is not provided for a Semaphore proof", async () => {
+            await expect(
+                // @ts-expect-error expect-error function overloading prevents this, bypassing for extra explicit testing
+                GetSnarkArtifactUrls({ artifact: Artifact.WASM, proof: Proof.SEMAPHORE })
+            ).rejects.toThrowErrorMatchingInlineSnapshot(`"treeDepth is required for Semaphore proof"`)
+        })
+
+        it("should throw if treeDepth is less than 1 for Semaphore proof", async () => {
+            await expect(
+                GetSnarkArtifactUrls({
+                    proof: Proof.SEMAPHORE,
+                    treeDepth: 0
+                })
+            ).rejects.toThrowErrorMatchingInlineSnapshot(`"treeDepth must be greater than 0"`)
+        })
+    })
+
+    describe("Poseidon artifacts", () => {
+        it("should return the correct artifact URLs for a Poseidon proof", async () => {
+            const urls = await GetSnarkArtifactUrls({ proof: Proof.POSEIDON, numberOfInputs: 3 })
+
+            expect(urls.get(Artifact.WASM)).toMatchInlineSnapshot(
+                `"https://unpkg.com/@zk-kit/poseidon-artifacts@latest/poseidon-3.wasm"`
+            )
+            expect(urls.get(Artifact.ZKEY)).toMatchInlineSnapshot(
+                `"https://unpkg.com/@zk-kit/poseidon-artifacts@latest/poseidon-3.zkey"`
+            )
+        })
+        it("should throw if numberOfInputs is not provided for Poseidon proof", async () => {
+            await expect(
+                // @ts-expect-error expect-error type checking prevents this, bypassing for extra explicit testing
+                GetSnarkArtifactUrls({ proof: Proof.POSEIDON })
+            ).rejects.toThrowErrorMatchingInlineSnapshot(`"numberOfInputs is required for Poseidon proof"`)
+        })
+
+        it("should throw if numberOfInputs is less than 1 for Poseidon proof", async () => {
+            await expect(
+                GetSnarkArtifactUrls({
+                    proof: Proof.POSEIDON,
+                    numberOfInputs: 0
+                })
+            ).rejects.toThrowErrorMatchingInlineSnapshot(`"numberOfInputs must be greater than 0"`)
+        })
     })
 })

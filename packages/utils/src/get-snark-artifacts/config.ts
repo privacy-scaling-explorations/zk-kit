@@ -1,75 +1,87 @@
-import { Artifact, Proof } from "../types"
+import { Artifact, Proof, SnarkArtifacts, Version } from "../types"
 
-export const URLS = {
-    zkkit: "https://zkkit.cedoor.dev",
-    semaphore: "https://semaphore.cedoor.dev"
-}
+const ARTIFACTS_BASE_URL = "https://unpkg.com/@zk-kit"
 
-export const ARTIFACTS = Object.values(Artifact)
+const getPackageVersions = async (proof: Proof) =>
+    fetch(`${ARTIFACTS_BASE_URL}/${proof}-artifacts`)
+        .then((res) => res.json())
+        .then((data) => Object.keys(data.versions))
 
-export function GetSnarkArtifactUrl({
-    artifact,
-    artifactsHostUrl,
-    proof
+export async function GetSnarkArtifactUrls({
+    proof,
+    version
 }: {
-    artifact: Artifact
-    artifactsHostUrl: string
     proof: Proof.EDDSA
-}): string
-export function GetSnarkArtifactUrl({
-    artifact,
-    artifactsHostUrl,
+    version?: Version
+}): Promise<SnarkArtifacts>
+export async function GetSnarkArtifactUrls({
+    proof,
     numberOfInputs,
-    proof
+    version
 }: {
-    artifact: Artifact
-    artifactsHostUrl: string
     proof: Proof.POSEIDON
     numberOfInputs: number
-}): string
-export function GetSnarkArtifactUrl({
-    artifact,
-    artifactsHostUrl,
+    version?: Version
+}): Promise<SnarkArtifacts>
+export async function GetSnarkArtifactUrls({
     proof,
-    treeDepth
+    treeDepth,
+    version
 }: {
-    artifact: Artifact
-    artifactsHostUrl: string
     proof: Proof.SEMAPHORE
     treeDepth: number
-}): string
-export function GetSnarkArtifactUrl({
-    artifact,
-    artifactsHostUrl,
+    version?: Version
+}): Promise<SnarkArtifacts>
+export async function GetSnarkArtifactUrls({
     proof,
     numberOfInputs,
-    treeDepth
+    treeDepth,
+    version
 }: {
-    artifact: Artifact
-    artifactsHostUrl: string
     proof: Proof
     numberOfInputs?: number
     treeDepth?: number
+    version?: Version
 }) {
-    if (proof === Proof.POSEIDON) {
-        if (numberOfInputs === undefined) {
-            throw new Error("numberOfInputs is required for Poseidon proof")
+    if (version !== undefined) {
+        const availableVersions = await getPackageVersions(proof)
+        if (!availableVersions.includes(version)) {
+            throw new Error(
+                `Version ${version} is not available for ${proof} proofs, available versions are: ${availableVersions}`
+            )
         }
-        if (numberOfInputs < 1) {
-            throw new Error("numberOfInputs must be greater than 0")
-        }
-        return `${artifactsHostUrl}/${proof}-proof/artifacts/${numberOfInputs}/${proof}-proof.${artifact}`
+    } else {
+        version ??= "latest"
     }
 
-    if (proof === Proof.SEMAPHORE) {
-        if (treeDepth === undefined) {
-            throw new Error("treeDepth is required for Semaphore proof")
-        }
-        if (treeDepth < 1) {
-            throw new Error("treeDepth must be greater than 0")
-        }
-        return `${artifactsHostUrl}/artifacts/${treeDepth}/${proof}.${artifact}`
-    }
+    const BASE_URL = `https://unpkg.com/@zk-kit/${proof}-artifacts@${version}`
 
-    return `${artifactsHostUrl}/${proof}-proof/${proof}-proof.${artifact}`
+    switch (proof) {
+        case Proof.EDDSA:
+            return new Map([
+                [Artifact.WASM, `${BASE_URL}/${proof}.${Artifact.WASM}`],
+                [Artifact.ZKEY, `${BASE_URL}/${proof}.${Artifact.ZKEY}`]
+            ])
+
+        case Proof.POSEIDON:
+            if (numberOfInputs === undefined) throw new Error("numberOfInputs is required for Poseidon proof")
+            if (numberOfInputs < 1) throw new Error("numberOfInputs must be greater than 0")
+
+            return new Map([
+                [Artifact.WASM, `${BASE_URL}/${proof}-${numberOfInputs}.${Artifact.WASM}`],
+                [Artifact.ZKEY, `${BASE_URL}/${proof}-${numberOfInputs}.${Artifact.ZKEY}`]
+            ])
+
+        case Proof.SEMAPHORE:
+            if (treeDepth === undefined) throw new Error("treeDepth is required for Semaphore proof")
+            if (treeDepth < 1) throw new Error("treeDepth must be greater than 0")
+
+            return new Map([
+                [Artifact.WASM, `${BASE_URL}/${proof}-${treeDepth}.${Artifact.WASM}`],
+                [Artifact.ZKEY, `${BASE_URL}/${proof}-${treeDepth}.${Artifact.ZKEY}`]
+            ])
+
+        default:
+            throw new Error("Unknown proof type")
+    }
 }

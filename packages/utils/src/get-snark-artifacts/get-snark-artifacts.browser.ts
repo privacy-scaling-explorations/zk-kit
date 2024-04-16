@@ -1,49 +1,28 @@
-import { GetSnarkArtifactUrl, URLS } from "./config"
-import { Artifact, Proof, SnarkArtifacts } from "../types"
+import { GetSnarkArtifactUrls } from "./config"
+import { Proof, SnarkArtifacts, Version } from "../types"
 
-function GetSnarkArtifacts({
-    artifactsHostUrl,
-    proof
-}: {
-    artifactsHostUrl: string
-    proof: Proof.EDDSA
-}): () => Promise<SnarkArtifacts>
-function GetSnarkArtifacts({
-    artifactsHostUrl,
-    proof
-}: {
-    artifactsHostUrl: string
-    proof: Proof.POSEIDON
-}): (numberOfInputs: number) => Promise<SnarkArtifacts>
-function GetSnarkArtifacts({
-    artifactsHostUrl,
-    proof
-}: {
-    artifactsHostUrl: string
-    proof: Proof.SEMAPHORE
-}): (treeDepth: number) => Promise<SnarkArtifacts>
-function GetSnarkArtifacts({ artifactsHostUrl, proof }: { artifactsHostUrl: string; proof: Proof }) {
-    if (proof === Proof.POSEIDON) {
-        return async (numberOfInputs: number) => ({
-            wasmFilePath: GetSnarkArtifactUrl({ artifact: Artifact.WASM, artifactsHostUrl, proof, numberOfInputs }),
-            zkeyFilePath: GetSnarkArtifactUrl({ artifact: Artifact.ZKEY, artifactsHostUrl, proof, numberOfInputs })
-        })
+function GetSnarkArtifacts(proof: Proof.EDDSA, version?: Version): () => Promise<SnarkArtifacts>
+function GetSnarkArtifacts(
+    proof: Proof.POSEIDON,
+    version?: Version
+): (numberOfInputs: number) => Promise<SnarkArtifacts>
+function GetSnarkArtifacts(proof: Proof.SEMAPHORE, version?: Version): (treeDepth: number) => Promise<SnarkArtifacts>
+function GetSnarkArtifacts(proof: Proof, version?: Version) {
+    switch (proof) {
+        case Proof.POSEIDON:
+            return async (numberOfInputs: number) => GetSnarkArtifactUrls({ proof, numberOfInputs, version })
+
+        case Proof.SEMAPHORE:
+            return async (treeDepth: number) => GetSnarkArtifactUrls({ proof, treeDepth, version })
+
+        case Proof.EDDSA:
+            return async () => GetSnarkArtifactUrls({ proof, version })
+
+        default:
+            throw new Error("Unknown proof type")
     }
-    if (proof === Proof.SEMAPHORE) {
-        return async (treeDepth: number) => ({
-            wasmFilePath: GetSnarkArtifactUrl({ artifact: Artifact.WASM, artifactsHostUrl, proof, treeDepth }),
-            zkeyFilePath: GetSnarkArtifactUrl({ artifact: Artifact.ZKEY, artifactsHostUrl, proof, treeDepth })
-        })
-    }
-    return async () => ({
-        wasmFilePath: GetSnarkArtifactUrl({ artifact: Artifact.WASM, artifactsHostUrl, proof }),
-        zkeyFilePath: GetSnarkArtifactUrl({ artifact: Artifact.ZKEY, artifactsHostUrl, proof })
-    })
 }
 
-export const getPoseidonSnarkArtifacts = GetSnarkArtifacts({ artifactsHostUrl: URLS.zkkit, proof: Proof.POSEIDON })
-export const getEdDSASnarkArtifacts = GetSnarkArtifacts({ artifactsHostUrl: URLS.zkkit, proof: Proof.EDDSA })
-export const getSemaphoreSnarkArtifacts = GetSnarkArtifacts({
-    artifactsHostUrl: URLS.semaphore,
-    proof: Proof.SEMAPHORE
-})
+export const getPoseidonSnarkArtifacts = GetSnarkArtifacts(Proof.POSEIDON)
+export const getEdDSASnarkArtifacts = GetSnarkArtifacts(Proof.EDDSA)
+export const getSemaphoreSnarkArtifacts = GetSnarkArtifacts(Proof.SEMAPHORE)

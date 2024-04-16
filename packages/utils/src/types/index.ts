@@ -27,7 +27,7 @@ export enum Artifact {
     ZKEY = "zkey"
 }
 
-export type SnarkArtifacts = {
-    wasmFilePath: string
-    zkeyFilePath: string
-}
+export type SnarkArtifacts = Map<Artifact, string>
+
+type Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+export type Version = `${Digit}.${Digit}.${Digit}` | "latest"
