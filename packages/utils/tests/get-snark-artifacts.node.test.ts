@@ -123,6 +123,27 @@ describe("getEdDSASnarkArtifacts", () => {
         )
     })
 
+    it("should throw on stream error", async () => {
+        existsSyncSpy.mockReturnValue(false)
+        const mockResponseStream = {
+            body: {
+                getReader: jest.fn(() => ({
+                    read: jest.fn().mockRejectedValueOnce(new Error("TEST STREAM ERROR"))
+                }))
+            },
+            ok: true,
+            statusText: "OK"
+        }
+        fetchSpy.mockResolvedValue(mockResponseStream)
+        createWriteStreamSpy.mockReturnValue({
+            close: jest.fn(),
+            end: jest.fn(),
+            write: jest.fn()
+        })
+
+        await expect(getEdDSASnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(`"TEST STREAM ERROR"`)
+    })
+
     it("should download files only if don't exist yet", async () => {
         existsSyncSpy.mockReturnValue(true)
 
