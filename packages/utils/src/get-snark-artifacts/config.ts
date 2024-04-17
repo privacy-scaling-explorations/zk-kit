@@ -45,11 +45,11 @@ export async function GetSnarkArtifactUrls({
 }) {
     if (version !== undefined) {
         const availableVersions = await getPackageVersions(proof)
-        if (!availableVersions.includes(version)) {
+
+        if (!availableVersions.includes(version))
             throw new Error(
                 `Version ${version} is not available for ${proof} proofs, available versions are: ${availableVersions}`
             )
-        }
     } else {
         version ??= "latest"
     }

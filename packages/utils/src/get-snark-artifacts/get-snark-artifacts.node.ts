@@ -7,12 +7,9 @@ import { GetSnarkArtifactUrls } from "./config"
 
 async function download(url: string, outputPath: string) {
     const response = await fetch(url)
-    if (!response.ok) {
-        throw new Error(`Failed to fetch ${url}: ${response.statusText}`)
-    }
-    if (!response.body) {
-        throw new Error("Failed to get response body")
-    }
+
+    if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.statusText}`)
+    if (!response.body) throw new Error("Failed to get response body")
 
     const dir = dirname(outputPath)
     await mkdir(dir, { recursive: true })
