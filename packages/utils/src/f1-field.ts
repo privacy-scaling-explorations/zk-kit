@@ -7,6 +7,8 @@ import * as scalar from "./scalar"
  * and inversion, all performed modulo the field's order. It's designed to work with bigints,
  * supporting large numbers for cryptographic purposes and other applications requiring
  * modular arithmetic.
+ * Note that even if the outputs of the functions are always within the field,
+ * the inputs must be checked externally. Functions always expect input values within the field.
  *
  * @property one Represents the scalar value 1 in the field.
  * @property zero Represents the scalar value 0 in the field.
@@ -15,8 +17,8 @@ import * as scalar from "./scalar"
  * @property _negone The scalar value -1 in the field, represented positively.
  */
 export default class F1Field {
-    one = BigInt(1)
-    zero = BigInt(0)
+    one = 1n
+    zero = 0n
 
     _order: bigint
     _half: bigint
@@ -36,6 +38,7 @@ export default class F1Field {
      */
     e(res: bigint): bigint {
         res %= this._order
+
         return res < 0 ? res + this._order : res
     }
 
