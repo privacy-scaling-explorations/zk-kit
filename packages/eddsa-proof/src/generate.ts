@@ -17,6 +17,8 @@ import { EddsaProof } from "./types"
  * @param privateKey The private key of the commitment.
  * @param scope A public value used to contextualize the cryptographic proof
  * and calculate the nullifier.
+ * @param snarkArtifacts The Snark artifacts (wasm and zkey files) generated in
+ * a trusted setup of the circuit are necessary to generate valid proofs
  * @returns The Poseidon zero-knowledge proof.
  */
 export default async function generate(
