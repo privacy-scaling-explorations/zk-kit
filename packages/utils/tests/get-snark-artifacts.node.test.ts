@@ -84,7 +84,6 @@ describe("maybeGetPoseidonSnarkArtifacts", () => {
     })
 
     it("should return artifact filePaths", async () => {
-        jest.setTimeout(10000)
         mkdirSpy.mockRestore()
         existsSyncSpy.mockReturnValue(false)
 
@@ -93,7 +92,7 @@ describe("maybeGetPoseidonSnarkArtifacts", () => {
         expect(wasm).toMatchInlineSnapshot(`"/tmp/@zk-kit/poseidon-artifacts@latest/poseidon-2.wasm"`)
         expect(zkey).toMatchInlineSnapshot(`"/tmp/@zk-kit/poseidon-artifacts@latest/poseidon-2.zkey"`)
         expect(fetchSpy).toHaveBeenCalledTimes(2)
-    })
+    }, 10000)
 })
 
 describe("maybeGetEdDSASnarkArtifacts", () => {
@@ -151,7 +150,6 @@ describe("maybeGetEdDSASnarkArtifacts", () => {
     })
 
     it("should return artifact filePaths", async () => {
-        jest.setTimeout(10000)
         mkdirSpy.mockRestore()
         existsSyncSpy.mockReturnValue(false)
 
@@ -160,7 +158,7 @@ describe("maybeGetEdDSASnarkArtifacts", () => {
         expect(wasm).toMatchInlineSnapshot(`"/tmp/@zk-kit/eddsa-artifacts@latest/eddsa.wasm"`)
         expect(zkey).toMatchInlineSnapshot(`"/tmp/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"`)
         expect(fetchSpy).toHaveBeenCalledTimes(2)
-    })
+    }, 10000)
 })
 
 describe("maybeGetSemaphoreSnarkArtifacts", () => {
@@ -226,7 +224,6 @@ describe("maybeGetSemaphoreSnarkArtifacts", () => {
     })
 
     it("should return artifact filePaths", async () => {
-        jest.setTimeout(10000)
         mkdirSpy.mockRestore()
         existsSyncSpy.mockReturnValue(false)
 
@@ -235,5 +232,5 @@ describe("maybeGetSemaphoreSnarkArtifacts", () => {
         expect(wasm).toMatchInlineSnapshot(`"/tmp/@zk-kit/semaphore-artifacts@latest/semaphore-2.wasm"`)
         expect(zkey).toMatchInlineSnapshot(`"/tmp/@zk-kit/semaphore-artifacts@latest/semaphore-2.zkey"`)
         expect(fetchSpy).toHaveBeenCalledTimes(2)
-    })
+    }, 10000)
 })
