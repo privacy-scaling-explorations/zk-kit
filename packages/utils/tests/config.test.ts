@@ -12,14 +12,10 @@ describe("GetSnarkArtifactUrls", () => {
     })
 
     it("should default to latest version", async () => {
-        const urls = await GetSnarkArtifactUrls({ proof: Proof.EDDSA })
+        const { wasm, zkey } = await GetSnarkArtifactUrls({ proof: Proof.EDDSA })
 
-        expect(urls.get(Artifact.WASM)).toMatchInlineSnapshot(
-            `"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.wasm"`
-        )
-        expect(urls.get(Artifact.ZKEY)).toMatchInlineSnapshot(
-            `"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"`
-        )
+        expect(wasm).toMatchInlineSnapshot(`"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.wasm"`)
+        expect(zkey).toMatchInlineSnapshot(`"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"`)
     })
 
     it("should throw if version is not available", async () => {
@@ -40,25 +36,21 @@ describe("GetSnarkArtifactUrls", () => {
 
     describe("EdDSA artifacts", () => {
         it("should return the correct artifact URLs for an EdDSA proof", async () => {
-            const urls = await GetSnarkArtifactUrls({ proof: Proof.EDDSA })
+            const { wasm, zkey } = await GetSnarkArtifactUrls({ proof: Proof.EDDSA })
 
-            expect(urls.get(Artifact.WASM)).toMatchInlineSnapshot(
-                `"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.wasm"`
-            )
-            expect(urls.get(Artifact.ZKEY)).toMatchInlineSnapshot(
-                `"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"`
-            )
+            expect(wasm).toMatchInlineSnapshot(`"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.wasm"`)
+            expect(zkey).toMatchInlineSnapshot(`"https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"`)
         })
     })
 
     describe("Semaphore artifacts", () => {
         it("should return the correct artifact URLs for a Semaphore proof", async () => {
-            const urls = await GetSnarkArtifactUrls({ proof: Proof.SEMAPHORE, treeDepth: 2 })
+            const { wasm, zkey } = await GetSnarkArtifactUrls({ proof: Proof.SEMAPHORE, treeDepth: 2 })
 
-            expect(urls.get(Artifact.WASM)).toMatchInlineSnapshot(
+            expect(wasm).toMatchInlineSnapshot(
                 `"https://unpkg.com/@zk-kit/semaphore-artifacts@latest/semaphore-2.wasm"`
             )
-            expect(urls.get(Artifact.ZKEY)).toMatchInlineSnapshot(
+            expect(zkey).toMatchInlineSnapshot(
                 `"https://unpkg.com/@zk-kit/semaphore-artifacts@latest/semaphore-2.zkey"`
             )
         })
@@ -82,14 +74,10 @@ describe("GetSnarkArtifactUrls", () => {
 
     describe("Poseidon artifacts", () => {
         it("should return the correct artifact URLs for a Poseidon proof", async () => {
-            const urls = await GetSnarkArtifactUrls({ proof: Proof.POSEIDON, numberOfInputs: 3 })
+            const { wasm, zkey } = await GetSnarkArtifactUrls({ proof: Proof.POSEIDON, numberOfInputs: 3 })
 
-            expect(urls.get(Artifact.WASM)).toMatchInlineSnapshot(
-                `"https://unpkg.com/@zk-kit/poseidon-artifacts@latest/poseidon-3.wasm"`
-            )
-            expect(urls.get(Artifact.ZKEY)).toMatchInlineSnapshot(
-                `"https://unpkg.com/@zk-kit/poseidon-artifacts@latest/poseidon-3.zkey"`
-            )
+            expect(wasm).toMatchInlineSnapshot(`"https://unpkg.com/@zk-kit/poseidon-artifacts@latest/poseidon-3.wasm"`)
+            expect(zkey).toMatchInlineSnapshot(`"https://unpkg.com/@zk-kit/poseidon-artifacts@latest/poseidon-3.zkey"`)
         })
         it("should throw if numberOfInputs is not provided for Poseidon proof", async () => {
             await expect(

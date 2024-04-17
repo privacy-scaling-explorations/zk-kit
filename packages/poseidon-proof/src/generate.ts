@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { NumericString, groth16 } from "snarkjs"
-import { packGroth16Proof, getPoseidonSnarkArtifacts, SnarkArtifacts } from "@zk-kit/utils"
+import { Artifact, packGroth16Proof, maybeGetPoseidonSnarkArtifacts } from "@zk-kit/utils"
 import hash from "./hash"
 import { PoseidonProof } from "./types"
 
@@ -16,28 +16,21 @@ import { PoseidonProof } from "./types"
  * @param preimages The preimages of the hash.
  * @param scope A public value used to contextualize the cryptographic proof
  * and calculate the nullifier.
- * @param snarkArtifacts The Snark artifacts (wasm and zkey files) generated in
- * a trusted setup of the circuit are necessary to generate valid proofs
  * @returns The Poseidon zero-knowledge proof.
  */
 export default async function generate(
     preimages: Array<BytesLike | Hexable | number | bigint>,
-    scope: BytesLike | Hexable | number | bigint,
-    snarkArtifacts?: SnarkArtifacts
+    scope: BytesLike | Hexable | number | bigint
 ): Promise<PoseidonProof> {
-    // If the Snark artifacts are not defined they will be automatically downloaded.
-    /* istanbul ignore next */
-    if (!snarkArtifacts) {
-        snarkArtifacts = await getPoseidonSnarkArtifacts(preimages.length)
-    }
+    const { wasm, zkey } = await maybeGetPoseidonSnarkArtifacts(preimages.length)
 
     const { proof, publicSignals } = await groth16.fullProve(
         {
             preimages: preimages.map((preimage) => hash(preimage)),
             scope: hash(scope)
         },
-        snarkArtifacts.wasmFilePath,
-        snarkArtifacts.zkeyFilePath
+        wasm,
+        zkey
     )
 
     return {

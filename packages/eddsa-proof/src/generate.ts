@@ -2,7 +2,7 @@ import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
 import { NumericString, groth16 } from "snarkjs"
-import { packGroth16Proof, SnarkArtifacts, getEdDSASnarkArtifacts } from "@zk-kit/utils"
+import { packGroth16Proof, maybeGetEdDSASnarkArtifacts, Artifact } from "@zk-kit/utils"
 import hash from "./hash"
 import { EddsaProof } from "./types"
 
@@ -17,21 +17,13 @@ import { EddsaProof } from "./types"
  * @param privateKey The private key of the commitment.
  * @param scope A public value used to contextualize the cryptographic proof
  * and calculate the nullifier.
- * @param snarkArtifacts The Snark artifacts (wasm and zkey files) generated in
- * a trusted setup of the circuit are necessary to generate valid proofs
  * @returns The Poseidon zero-knowledge proof.
  */
 export default async function generate(
     privateKey: Buffer | Uint8Array | string,
-    scope: BytesLike | Hexable | number | bigint,
-    snarkArtifacts?: SnarkArtifacts
+    scope: BytesLike | Hexable | number | bigint
 ): Promise<EddsaProof> {
-    // If the Snark artifacts are not defined they will be automatically downloaded.
-    /* istanbul ignore next */
-    if (!snarkArtifacts) {
-        snarkArtifacts = await getEdDSASnarkArtifacts()
-    }
-
+    const { wasm, zkey } = await maybeGetEdDSASnarkArtifacts()
     const secretScalar = deriveSecretScalar(privateKey)
 
     const { proof, publicSignals } = await groth16.fullProve(
@@ -39,8 +31,8 @@ export default async function generate(
             secret: secretScalar,
             scope: hash(scope)
         },
-        snarkArtifacts.wasmFilePath,
-        snarkArtifacts.zkeyFilePath
+        wasm,
+        zkey
     )
 
     return {

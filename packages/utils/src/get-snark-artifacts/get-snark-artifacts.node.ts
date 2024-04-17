@@ -50,42 +50,47 @@ async function maybeDownload(url: string) {
     return outputPath
 }
 
-async function getSnarkArtifact({ artifact, url }: { artifact: Artifact; url: string }) {
+async function maybeGetSnarkArtifact({
+    artifact,
+    url
+}: {
+    artifact: Artifact
+    url: string
+}): Promise<Partial<SnarkArtifacts>> {
     const outputPath = await maybeDownload(url)
-    return new Map([[artifact, outputPath]])
+    return { [artifact]: outputPath }
 }
 
-const getSnarkArtifacts = async (urls: SnarkArtifacts) =>
-    Promise.all(Array.from(urls).map(([artifact, url]) => getSnarkArtifact({ artifact, url }))).then((artifacts) =>
-        artifacts.reduce<SnarkArtifacts>((acc, artifact) => {
-            acc.set(...Array.from(artifact)[0])
-            return acc
-        }, new Map() as SnarkArtifacts)
+const maybeGetSnarkArtifacts = async (urls: SnarkArtifacts) =>
+    Promise.all(
+        Object.entries(urls).map(([artifact, url]) => maybeGetSnarkArtifact({ artifact: artifact as Artifact, url }))
+    ).then((artifacts) =>
+        artifacts.reduce<SnarkArtifacts>((acc, artifact) => ({ ...acc, ...artifact }), {} as SnarkArtifacts)
     )
 
-function GetSnarkArtifacts(proof: Proof.EDDSA, version?: Version): () => Promise<SnarkArtifacts>
-function GetSnarkArtifacts(
+function MaybeGetSnarkArtifacts(proof: Proof.EDDSA, version?: Version): () => Promise<SnarkArtifacts>
+function MaybeGetSnarkArtifacts(
     proof: Proof.POSEIDON,
     version?: Version
 ): (numberOfInputs: number) => Promise<SnarkArtifacts>
-function GetSnarkArtifacts(proof: Proof.SEMAPHORE): (treeDepth: number) => Promise<SnarkArtifacts>
-function GetSnarkArtifacts(proof: Proof, version?: Version) {
+function MaybeGetSnarkArtifacts(proof: Proof.SEMAPHORE): (treeDepth: number) => Promise<SnarkArtifacts>
+function MaybeGetSnarkArtifacts(proof: Proof, version?: Version) {
     switch (proof) {
         case Proof.POSEIDON:
             return async (numberOfInputs: number) =>
-                GetSnarkArtifactUrls({ proof, numberOfInputs, version }).then(getSnarkArtifacts)
+                GetSnarkArtifactUrls({ proof, numberOfInputs, version }).then(maybeGetSnarkArtifacts)
         case Proof.SEMAPHORE:
             return async (treeDepth: number) =>
-                GetSnarkArtifactUrls({ proof, treeDepth, version }).then(getSnarkArtifacts)
+                GetSnarkArtifactUrls({ proof, treeDepth, version }).then(maybeGetSnarkArtifacts)
 
         case Proof.EDDSA:
-            return async () => GetSnarkArtifactUrls({ proof, version }).then(getSnarkArtifacts)
+            return async () => GetSnarkArtifactUrls({ proof, version }).then(maybeGetSnarkArtifacts)
 
         default:
             throw new Error("Unknown proof type")
     }
 }
 
-export const getPoseidonSnarkArtifacts = GetSnarkArtifacts(Proof.POSEIDON)
-export const getEdDSASnarkArtifacts = GetSnarkArtifacts(Proof.EDDSA)
-export const getSemaphoreSnarkArtifacts = GetSnarkArtifacts(Proof.SEMAPHORE)
+export const maybeGetPoseidonSnarkArtifacts = MaybeGetSnarkArtifacts(Proof.POSEIDON)
+export const maybeGetEdDSASnarkArtifacts = MaybeGetSnarkArtifacts(Proof.EDDSA)
+export const maybeGetSemaphoreSnarkArtifacts = MaybeGetSnarkArtifacts(Proof.SEMAPHORE)

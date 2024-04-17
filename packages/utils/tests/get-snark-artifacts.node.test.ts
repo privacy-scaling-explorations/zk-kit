@@ -1,9 +1,9 @@
 import fs from "node:fs"
 import fsPromises from "node:fs/promises"
 import {
-    getEdDSASnarkArtifacts,
-    getPoseidonSnarkArtifacts,
-    getSemaphoreSnarkArtifacts
+    maybeGetEdDSASnarkArtifacts,
+    maybeGetPoseidonSnarkArtifacts,
+    maybeGetSemaphoreSnarkArtifacts
 } from "../src/get-snark-artifacts/get-snark-artifacts.node"
 import { Artifact } from "../src/types"
 
@@ -21,7 +21,7 @@ beforeEach(() => {
     mkdirSpy.mockResolvedValue(undefined)
 })
 
-describe("getPoseidonSnarkArtifacts", () => {
+describe("maybeGetPoseidonSnarkArtifacts", () => {
     it("should throw on fetch errors", async () => {
         existsSyncSpy.mockReturnValue(false)
         fetchSpy.mockResolvedValueOnce({
@@ -29,13 +29,13 @@ describe("getPoseidonSnarkArtifacts", () => {
             statusText: "TEST"
         })
 
-        await expect(getPoseidonSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
+        await expect(maybeGetPoseidonSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
             `"Failed to fetch https://unpkg.com/@zk-kit/poseidon-artifacts@latest/poseidon-2.wasm: TEST"`
         )
     })
 
     it("should throw on invalid numberOfInputs", async () => {
-        await expect(getPoseidonSnarkArtifacts(0)).rejects.toThrowErrorMatchingInlineSnapshot(
+        await expect(maybeGetPoseidonSnarkArtifacts(0)).rejects.toThrowErrorMatchingInlineSnapshot(
             `"numberOfInputs must be greater than 0"`
         )
     })
@@ -47,7 +47,7 @@ describe("getPoseidonSnarkArtifacts", () => {
             statusText: "OK"
         })
 
-        await expect(getPoseidonSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
+        await expect(maybeGetPoseidonSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
             `"Failed to get response body"`
         )
     })
@@ -70,13 +70,15 @@ describe("getPoseidonSnarkArtifacts", () => {
             write: jest.fn()
         })
 
-        await expect(getPoseidonSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(`"TEST STREAM ERROR"`)
+        await expect(maybeGetPoseidonSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
+            `"TEST STREAM ERROR"`
+        )
     })
 
     it("should download files only if don't exist yet", async () => {
         existsSyncSpy.mockReturnValue(true)
 
-        await getPoseidonSnarkArtifacts(2)
+        await maybeGetPoseidonSnarkArtifacts(2)
 
         expect(global.fetch).not.toHaveBeenCalled()
     })
@@ -86,19 +88,15 @@ describe("getPoseidonSnarkArtifacts", () => {
         mkdirSpy.mockRestore()
         existsSyncSpy.mockReturnValue(false)
 
-        const artifacts = await getPoseidonSnarkArtifacts(2)
+        const { wasm, zkey } = await maybeGetPoseidonSnarkArtifacts(2)
 
-        expect(artifacts.get(Artifact.WASM)).toMatchInlineSnapshot(
-            `"/tmp/@zk-kit/poseidon-artifacts@latest/poseidon-2.wasm"`
-        )
-        expect(artifacts.get(Artifact.ZKEY)).toMatchInlineSnapshot(
-            `"/tmp/@zk-kit/poseidon-artifacts@latest/poseidon-2.zkey"`
-        )
+        expect(wasm).toMatchInlineSnapshot(`"/tmp/@zk-kit/poseidon-artifacts@latest/poseidon-2.wasm"`)
+        expect(zkey).toMatchInlineSnapshot(`"/tmp/@zk-kit/poseidon-artifacts@latest/poseidon-2.zkey"`)
         expect(fetchSpy).toHaveBeenCalledTimes(2)
     })
 })
 
-describe("getEdDSASnarkArtifacts", () => {
+describe("maybeGetEdDSASnarkArtifacts", () => {
     it("should handle fetch errors", async () => {
         existsSyncSpy.mockReturnValue(false)
         fetchSpy.mockResolvedValueOnce({
@@ -106,7 +104,7 @@ describe("getEdDSASnarkArtifacts", () => {
             statusText: "test error message"
         })
 
-        await expect(getEdDSASnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(
+        await expect(maybeGetEdDSASnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(
             `"Failed to fetch https://unpkg.com/@zk-kit/eddsa-artifacts@latest/eddsa.wasm: test error message"`
         )
     })
@@ -118,7 +116,7 @@ describe("getEdDSASnarkArtifacts", () => {
             statusText: "OK"
         })
 
-        await expect(getEdDSASnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(
+        await expect(maybeGetEdDSASnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(
             `"Failed to get response body"`
         )
     })
@@ -141,13 +139,13 @@ describe("getEdDSASnarkArtifacts", () => {
             write: jest.fn()
         })
 
-        await expect(getEdDSASnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(`"TEST STREAM ERROR"`)
+        await expect(maybeGetEdDSASnarkArtifacts()).rejects.toThrowErrorMatchingInlineSnapshot(`"TEST STREAM ERROR"`)
     })
 
     it("should download files only if don't exist yet", async () => {
         existsSyncSpy.mockReturnValue(true)
 
-        await getPoseidonSnarkArtifacts(2)
+        await maybeGetPoseidonSnarkArtifacts(2)
 
         expect(global.fetch).not.toHaveBeenCalled()
     })
@@ -157,15 +155,15 @@ describe("getEdDSASnarkArtifacts", () => {
         mkdirSpy.mockRestore()
         existsSyncSpy.mockReturnValue(false)
 
-        const artifacts = await getEdDSASnarkArtifacts()
+        const { wasm, zkey } = await maybeGetEdDSASnarkArtifacts()
 
-        expect(artifacts.get(Artifact.WASM)).toMatchInlineSnapshot(`"/tmp/@zk-kit/eddsa-artifacts@latest/eddsa.wasm"`)
-        expect(artifacts.get(Artifact.ZKEY)).toMatchInlineSnapshot(`"/tmp/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"`)
+        expect(wasm).toMatchInlineSnapshot(`"/tmp/@zk-kit/eddsa-artifacts@latest/eddsa.wasm"`)
+        expect(zkey).toMatchInlineSnapshot(`"/tmp/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"`)
         expect(fetchSpy).toHaveBeenCalledTimes(2)
     })
 })
 
-describe("getSemaphoreSnarkArtifacts", () => {
+describe("maybeGetSemaphoreSnarkArtifacts", () => {
     it("should throw on fetch errors", async () => {
         existsSyncSpy.mockReturnValue(false)
         fetchSpy.mockResolvedValueOnce({
@@ -173,13 +171,13 @@ describe("getSemaphoreSnarkArtifacts", () => {
             statusText: "TEST"
         })
 
-        await expect(getSemaphoreSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
+        await expect(maybeGetSemaphoreSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
             `"Failed to fetch https://unpkg.com/@zk-kit/semaphore-artifacts@latest/semaphore-2.wasm: TEST"`
         )
     })
 
     it("should throw on invalid treeDepth", async () => {
-        await expect(getSemaphoreSnarkArtifacts(0)).rejects.toThrowErrorMatchingInlineSnapshot(
+        await expect(maybeGetSemaphoreSnarkArtifacts(0)).rejects.toThrowErrorMatchingInlineSnapshot(
             `"treeDepth must be greater than 0"`
         )
     })
@@ -191,7 +189,7 @@ describe("getSemaphoreSnarkArtifacts", () => {
             statusText: "OK"
         })
 
-        await expect(getSemaphoreSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
+        await expect(maybeGetSemaphoreSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
             `"Failed to get response body"`
         )
     })
@@ -214,13 +212,15 @@ describe("getSemaphoreSnarkArtifacts", () => {
             write: jest.fn()
         })
 
-        await expect(getSemaphoreSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(`"TEST STREAM ERROR"`)
+        await expect(maybeGetSemaphoreSnarkArtifacts(2)).rejects.toThrowErrorMatchingInlineSnapshot(
+            `"TEST STREAM ERROR"`
+        )
     })
 
     it("should download files only if don't exist yet", async () => {
         existsSyncSpy.mockReturnValue(true)
 
-        await getSemaphoreSnarkArtifacts(2)
+        await maybeGetSemaphoreSnarkArtifacts(2)
 
         expect(global.fetch).not.toHaveBeenCalled()
     })
@@ -230,14 +230,10 @@ describe("getSemaphoreSnarkArtifacts", () => {
         mkdirSpy.mockRestore()
         existsSyncSpy.mockReturnValue(false)
 
-        const artifacts = await getSemaphoreSnarkArtifacts(2)
+        const { wasm, zkey } = await maybeGetSemaphoreSnarkArtifacts(2)
 
-        expect(artifacts.get(Artifact.WASM)).toMatchInlineSnapshot(
-            `"/tmp/@zk-kit/semaphore-artifacts@latest/semaphore-2.wasm"`
-        )
-        expect(artifacts.get(Artifact.ZKEY)).toMatchInlineSnapshot(
-            `"/tmp/@zk-kit/semaphore-artifacts@latest/semaphore-2.zkey"`
-        )
+        expect(wasm).toMatchInlineSnapshot(`"/tmp/@zk-kit/semaphore-artifacts@latest/semaphore-2.wasm"`)
+        expect(zkey).toMatchInlineSnapshot(`"/tmp/@zk-kit/semaphore-artifacts@latest/semaphore-2.zkey"`)
         expect(fetchSpy).toHaveBeenCalledTimes(2)
     })
 })
