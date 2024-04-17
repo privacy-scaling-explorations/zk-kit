@@ -5,7 +5,6 @@ import {
     maybeGetPoseidonSnarkArtifacts,
     maybeGetSemaphoreSnarkArtifacts
 } from "../src/get-snark-artifacts/get-snark-artifacts.node"
-import { Artifact } from "../src/types"
 
 let fetchSpy: jest.SpyInstance
 let mkdirSpy: jest.SpyInstance

@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { NumericString, groth16 } from "snarkjs"
-import {  packGroth16Proof, maybeGetPoseidonSnarkArtifacts, SnarkArtifacts } from "@zk-kit/utils"
+import { packGroth16Proof, maybeGetPoseidonSnarkArtifacts, SnarkArtifacts } from "@zk-kit/utils"
 import hash from "./hash"
 import { PoseidonProof } from "./types"
 
