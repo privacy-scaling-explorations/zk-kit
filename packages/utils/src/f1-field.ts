@@ -7,6 +7,8 @@ import * as scalar from "./scalar"
  * and inversion, all performed modulo the field's order. It's designed to work with bigints,
  * supporting large numbers for cryptographic purposes and other applications requiring
  * modular arithmetic.
+ * Note that the outputs of the functions will always be within the field if and only if
+ * the input values are within the field. Devs need to make sure of that.
  *
  * @property one Represents the scalar value 1 in the field.
  * @property zero Represents the scalar value 0 in the field.
@@ -15,8 +17,8 @@ import * as scalar from "./scalar"
  * @property _negone The scalar value -1 in the field, represented positively.
  */
 export default class F1Field {
-    one = BigInt(1)
-    zero = BigInt(0)
+    one = 1n
+    zero = 0n
 
     _order: bigint
     _half: bigint
@@ -36,6 +38,7 @@ export default class F1Field {
      */
     e(res: bigint): bigint {
         res %= this._order
+
         return res < 0 ? res + this._order : res
     }
 
@@ -50,7 +53,8 @@ export default class F1Field {
     }
 
     /**
-     * Subtracts one bigint from another under modulus, ensuring the result is within the field.
+     * Subtracts one bigint from another under modulus.
+     * It ensures the result is within the field if and only if the input values are within the field.
      * @param a The value from which to subtract.
      * @param b The value to be subtracted.
      * @returns The difference of 'a' and 'b' modulo the field's order.
@@ -60,7 +64,8 @@ export default class F1Field {
     }
 
     /**
-     * Adds two bigint values together under modulus, ensuring the result is within the field.
+     * Adds two bigint values together under modulus.
+     * It ensures the result is within the field if and only if the input values are within the field.
      * @param a The first value.
      * @param b The second value.
      * @returns The sum of 'a' and 'b' modulo the field's order.
@@ -112,6 +117,7 @@ export default class F1Field {
 
     /**
      * Checks if two bigint values are equal within the context of the field.
+     * It ensures the result is within the field if and only if the input values are within the field.
      * @param a The first value to compare.
      * @param b The second value to compare.
      * @returns True if 'a' equals 'b', false otherwise.
@@ -124,6 +130,7 @@ export default class F1Field {
      * Squares a bigint value within the field.
      * This is a specific case of multiplication where the value is multiplied by itself,
      * optimized for performance where applicable.
+     * It ensures the result is within the field if and only if the input values are within the field.
      * @param a The value to square.
      * @returns The square of 'a' modulo the field's order.
      */
@@ -134,6 +141,7 @@ export default class F1Field {
     /**
      * Compares two bigint values to determine if the first is less than the second,
      * taking into account the field's order for modular comparison.
+     * It ensures the result is within the field if and only if the input values are within the field.
      * @param a The first value to compare.
      * @param b The second value to compare.
      * @returns True if 'a' is less than 'b', false otherwise.
@@ -148,6 +156,7 @@ export default class F1Field {
     /**
      * Compares two bigint values to determine if the first is greater than or equal to the second,
      * considering the field's modular context.
+     * It ensures the result is within the field if and only if the input values are within the field.
      * @param a The first value to compare.
      * @param b The second value to compare.
      * @returns True if 'a' is greater than or equal to 'b', false otherwise.
@@ -163,6 +172,7 @@ export default class F1Field {
      * Computes the negation of a bigint value within the field.
      * The result is the modular additive inverse that, when added to the original value,
      * yields zero in the field's modulus.
+     * It ensures the result is within the field if and only if the input values are within the field.
      * @param a The value to negate.
      * @returns The negation of 'a' modulo the field's order.
      */
