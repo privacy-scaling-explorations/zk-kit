@@ -110,7 +110,7 @@ describe("F1Field", () => {
         expect(field.isZero(b)).toBeFalsy()
     })
 
-    it("Should pow into the finite field", () => {
+    it("Should pow into the finite field", async () => {
         const a = field.e(0n)
         const b = field.e(1n)
         const c = field.e(2n)
@@ -120,6 +120,8 @@ describe("F1Field", () => {
         expect(field.pow(b, c)).toBe(1n)
         expect(field.pow(a, b)).toBe(0n)
         expect(field.pow(a, d)).toBe(0n)
-        expect(field.pow(d, a)).toBe(1n)
+        expect(field.pow(0n, -1n)).toBe(0n)
+        expect(field.pow(2n, -1n)).toBe(field.inv(2n))
+        expect(field.pow(5n, -30n)).toBe(1n)
     })
 })

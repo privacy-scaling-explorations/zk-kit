@@ -202,6 +202,11 @@ export default class F1Field {
             return this.one
         }
 
+        if (e < 0n) {
+            base = this.inv(base)
+            e = -e
+        }
+
         const n = scalar.bits(e)
 
         if (n.length === 0) {
