@@ -26,7 +26,7 @@ export default async function generate(
     snarkArtifacts?: SnarkArtifacts
 ): Promise<PoseidonProof> {
     // allow user to override our artifacts
-    // if not explicitly provided: download them from unpkg if not already in local tmp folder
+    // otherwise they'll be downloaded if not already in local tmp folder
     snarkArtifacts ??= await maybeGetPoseidonSnarkArtifacts(preimages.length)
     const { wasm, zkey } = snarkArtifacts
 

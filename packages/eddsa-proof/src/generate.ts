@@ -27,7 +27,7 @@ export default async function generate(
     snarkArtifacts?: SnarkArtifacts
 ): Promise<EddsaProof> {
     // allow user to override our artifacts
-    // if not explicitly provided: download them from unpkg if not already in local tmp folder
+    // otherwise they'll be downloaded if not already in local tmp folder
     snarkArtifacts ??= await maybeGetEdDSASnarkArtifacts()
     const { wasm, zkey } = snarkArtifacts
     const secretScalar = deriveSecretScalar(privateKey)
