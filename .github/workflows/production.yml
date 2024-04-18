@@ -52,6 +52,8 @@ jobs:
 
             - name: Install Nargo
               uses: noir-lang/noirup@v0.1.3
+              with:
+                  toolchain: nightly
 
             - name: Install dependencies
               run: yarn

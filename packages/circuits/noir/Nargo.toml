@@ -1,2 +1,2 @@
 [workspace]
-members = ["crates/smt_pedersen", "crates/smt_poseidon", "crates/smt_poseidon2"]
+members = ["merkle_trees"]

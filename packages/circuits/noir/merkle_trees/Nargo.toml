@@ -1,0 +1,4 @@
+[package]
+name = "noir_merkle_trees"
+type = "lib"
+authors = ["fabianschu", "signorecello"]
