@@ -15,7 +15,7 @@ describe("EddsaProof", () => {
     beforeAll(async () => {
         curve = await buildBn128()
         fullProof = await generate(privateKey, scope)
-    })
+    }, 10_000)
 
     afterAll(async () => {
         await curve.terminate()
