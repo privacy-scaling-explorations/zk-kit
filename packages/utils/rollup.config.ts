@@ -47,8 +47,8 @@ export default [
                 entries: [
                     { find: "./crypto/crypto.node", replacement: "./crypto/crypto.browser" },
                     {
-                        find: "./get-snark-artifacts/get-snark-artifacts.node",
-                        replacement: "./get-snark-artifacts/get-snark-artifacts.browser"
+                        find: "./snark-artifacts/snark-artifacts.node",
+                        replacement: "./snark-artifacts/snark-artifacts.browser"
                     }
                 ]
             }),
@@ -80,8 +80,8 @@ export default [
                 entries: [
                     { find: "./crypto/crypto.node", replacement: "./crypto/crypto.browser" },
                     {
-                        find: "./get-snark-artifacts/get-snark-artifacts.node",
-                        replacement: "./get-snark-artifacts/get-snark-artifacts.browser"
+                        find: "./snark-artifacts/snark-artifacts.node",
+                        replacement: "./snark-artifacts/snark-artifacts.browser"
                     }
                 ]
             }),
