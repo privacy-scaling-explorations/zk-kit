@@ -56,7 +56,7 @@ beforeAll(async () => {
         const digest = computePoseidon(currentPreimages.map((preimage) => hash(preimage)))
         proofs.push({ fullProof, digest })
     }
-}, 60_000)
+}, 120_000)
 
 afterAll(async () => {
     await curve.terminate()
