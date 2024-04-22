@@ -86,7 +86,7 @@ export default class F1Field {
      * @throws if 'a' is zero.
      */
     inv(a: bigint): bigint {
-        if (a === 0n) {
+        if (a === this.zero) {
             throw new Error("Zero has no inverse")
         }
 
