@@ -80,8 +80,10 @@ describe("F1Field", () => {
 
         expect(field.inv(a)).toBe(7n)
         expect(field.inv(b)).toBe(6n)
+    })
 
-        expect(field.inv(0n)).toBe(0n)
+    it("Should throw an error if inv input is 0", () => {
+        expect(() => field.inv(0n)).toThrow("Zero has no inverse")
     })
 
     it("Should lt into the finite field", () => {

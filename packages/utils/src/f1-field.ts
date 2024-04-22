@@ -86,6 +86,10 @@ export default class F1Field {
      * @throws if 'a' is zero.
      */
     inv(a: bigint): bigint {
+        if (a === this.zero) {
+            throw new Error("Zero has no inverse")
+        }
+
         let t = this.zero
         let r = this._order
         let newt = this.one
