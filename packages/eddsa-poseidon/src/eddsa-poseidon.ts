@@ -53,7 +53,7 @@ export function deriveSecretScalar(privateKey: Buffer | Uint8Array | string): bi
     hash = hash.slice(0, 32)
     hash = pruneBuffer(hash)
 
-    return scalar.shiftRight(leBufferToBigInt(hash), BigInt(3))
+    return scalar.shiftRight(leBufferToBigInt(hash), BigInt(3)) % subOrder
 }
 
 /**
