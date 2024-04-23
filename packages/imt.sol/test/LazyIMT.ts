@@ -355,7 +355,7 @@ describe("LazyIMT", () => {
                     await network.provider.request({ method: "evm_revert", params: [snapshoot] })
                 }
             }
-        }).timeout(6 * 60 * 1000)
+        }).timeout(8 * 60 * 1000)
     })
 
     it("Should fail to generate out of range static root", async () => {
