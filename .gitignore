@@ -87,3 +87,7 @@ benchmarks/results
 
 # turbo cache
 .turbo
+
+.envrc
+.tool-versions
+
