@@ -228,7 +228,7 @@ export function packSignature(signature: Signature): Buffer {
 }
 
 /**
- * Unpacks a signature produced by {@link #packSignature}.  See that function
+ * Unpacks a signature produced by {@link packSignature}.  See that function
  * for the details of the format.
  *
  * @param packedSignature the 64 byte buffer to unpack
