@@ -1,10 +1,9 @@
 import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { NumericString, groth16 } from "snarkjs"
-import { packGroth16Proof } from "@zk-kit/utils"
-import getSnarkArtifacts from "./get-snark-artifacts.node"
+import { packGroth16Proof, maybeGetPoseidonSnarkArtifacts, SnarkArtifacts } from "@zk-kit/utils"
 import hash from "./hash"
-import { PoseidonProof, SnarkArtifacts } from "./types"
+import { PoseidonProof } from "./types"
 
 /**
  * Creates a zero-knowledge proof to prove that you have the preimages of a hash,
@@ -26,19 +25,18 @@ export default async function generate(
     scope: BytesLike | Hexable | number | bigint,
     snarkArtifacts?: SnarkArtifacts
 ): Promise<PoseidonProof> {
-    // If the Snark artifacts are not defined they will be automatically downloaded.
-    /* istanbul ignore next */
-    if (!snarkArtifacts) {
-        snarkArtifacts = await getSnarkArtifacts(preimages.length)
-    }
+    // allow user to override our artifacts
+    // otherwise they'll be downloaded if not already in local tmp folder
+    snarkArtifacts ??= await maybeGetPoseidonSnarkArtifacts(preimages.length)
+    const { wasm, zkey } = snarkArtifacts
 
     const { proof, publicSignals } = await groth16.fullProve(
         {
             preimages: preimages.map((preimage) => hash(preimage)),
             scope: hash(scope)
         },
-        snarkArtifacts.wasmFilePath,
-        snarkArtifacts.zkeyFilePath
+        wasm,
+        zkey
     )
 
     return {

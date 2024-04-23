@@ -24,7 +24,7 @@ export default [
             { file: pkg.exports["."].node.require, format: "cjs", banner, exports: "auto" },
             { file: pkg.exports["."].node.default, format: "es", banner }
         ],
-        external: [...Object.keys(pkg.dependencies), "crypto"],
+        external: [...Object.keys(pkg.dependencies), "crypto", "node:fs", "node:fs/promises", "node:path", "node:os"],
         plugins: [
             typescript({
                 tsconfig: "./build.tsconfig.json"
@@ -44,7 +44,13 @@ export default [
         external: Object.keys(pkg.dependencies),
         plugins: [
             alias({
-                entries: [{ find: "./crypto/crypto.node", replacement: "./crypto/crypto.browser" }]
+                entries: [
+                    { find: "./crypto/crypto.node", replacement: "./crypto/crypto.browser" },
+                    {
+                        find: "./snark-artifacts/snark-artifacts.node",
+                        replacement: "./snark-artifacts/snark-artifacts.browser"
+                    }
+                ]
             }),
             typescript({
                 tsconfig: "./build.tsconfig.json"
@@ -71,7 +77,13 @@ export default [
         external: [],
         plugins: [
             alias({
-                entries: [{ find: "./crypto/crypto.node", replacement: "./crypto/crypto.browser" }]
+                entries: [
+                    { find: "./crypto/crypto.node", replacement: "./crypto/crypto.browser" },
+                    {
+                        find: "./snark-artifacts/snark-artifacts.node",
+                        replacement: "./snark-artifacts/snark-artifacts.browser"
+                    }
+                ]
             }),
             typescript({
                 tsconfig: "./build.tsconfig.json"
@@ -92,7 +104,7 @@ export default [
             },
             { dir: "./dist/lib.esm", format: "es", banner, preserveModules: true }
         ],
-        external: [...Object.keys(pkg.dependencies), "crypto"],
+        external: [...Object.keys(pkg.dependencies), "crypto", "node:fs", "node:fs/promises", "node:path", "node:os"],
         plugins: [
             typescript({ tsconfig: "./build.tsconfig.json", declaration: false, declarationDir: undefined }),
             cleanup({ comments: "jsdoc" })

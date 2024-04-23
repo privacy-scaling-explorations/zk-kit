@@ -14,7 +14,8 @@ describe("EddsaProof", () => {
 
     beforeAll(async () => {
         curve = await buildBn128()
-    })
+        fullProof = await generate(privateKey, scope)
+    }, 10_000)
 
     afterAll(async () => {
         await curve.terminate()
@@ -22,8 +23,6 @@ describe("EddsaProof", () => {
 
     describe("# generate", () => {
         it("Should generate an Eddsa proof", async () => {
-            fullProof = await generate(privateKey, scope)
-
             const publicKey = derivePublicKey(privateKey)
 
             const commitment = poseidon2(publicKey)

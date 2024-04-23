@@ -2,10 +2,9 @@ import { BigNumber } from "@ethersproject/bignumber"
 import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
 import { NumericString, groth16 } from "snarkjs"
-import { packGroth16Proof } from "@zk-kit/utils"
-import getSnarkArtifacts from "./get-snark-artifacts.node"
+import { packGroth16Proof, maybeGetEdDSASnarkArtifacts, SnarkArtifacts } from "@zk-kit/utils"
 import hash from "./hash"
-import { EddsaProof, SnarkArtifacts } from "./types"
+import { EddsaProof } from "./types"
 
 /**
  * Creates a zero-knowledge proof to prove that you have the pre-image of a Semaphore commitment,
@@ -27,12 +26,10 @@ export default async function generate(
     scope: BytesLike | Hexable | number | bigint,
     snarkArtifacts?: SnarkArtifacts
 ): Promise<EddsaProof> {
-    // If the Snark artifacts are not defined they will be automatically downloaded.
-    /* istanbul ignore next */
-    if (!snarkArtifacts) {
-        snarkArtifacts = await getSnarkArtifacts()
-    }
-
+    // allow user to override our artifacts
+    // otherwise they'll be downloaded if not already in local tmp folder
+    snarkArtifacts ??= await maybeGetEdDSASnarkArtifacts()
+    const { wasm, zkey } = snarkArtifacts
     const secretScalar = deriveSecretScalar(privateKey)
 
     const { proof, publicSignals } = await groth16.fullProve(
@@ -40,8 +37,8 @@ export default async function generate(
             secret: secretScalar,
             scope: hash(scope)
         },
-        snarkArtifacts.wasmFilePath,
-        snarkArtifacts.zkeyFilePath
+        wasm,
+        zkey
     )
 
     return {

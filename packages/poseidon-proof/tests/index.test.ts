@@ -43,48 +43,46 @@ const poseidonFunctions = [
 
 const computePoseidon = (preimages: string[]) => poseidonFunctions[preimages.length - 1](preimages)
 
+const preimages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+const scope = 1
+let curve: any
+const proofs: Array<{ fullProof: PoseidonProof; digest: bigint }> = []
+
+beforeAll(async () => {
+    curve = await buildBn128()
+    for (const preimage of preimages) {
+        const currentPreimages = preimages.slice(0, preimage)
+        const fullProof = await generate(currentPreimages, scope)
+        const digest = computePoseidon(currentPreimages.map((preimage) => hash(preimage)))
+        proofs.push({ fullProof, digest })
+    }
+}, 180_000)
+
+afterAll(async () => {
+    await curve.terminate()
+})
+
 describe("PoseidonProof", () => {
-    const preimages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-    const scope = 1
-
-    let fullProof: PoseidonProof
-    let curve: any
-
-    beforeAll(async () => {
-        curve = await buildBn128()
+    it("should generate a Poseidon proof from 1 to 16 preimages", async () => {
+        for (const { fullProof, digest } of proofs) {
+            expect(fullProof.proof).toHaveLength(8)
+            expect(fullProof.scope).toBe(scope.toString())
+            expect(fullProof.digest).toBe(digest.toString())
+        }
     })
 
-    afterAll(async () => {
-        await curve.terminate()
-    })
-
-    describe("# generate/verify", () => {
-        it("Should generate and verify a Poseidon proof from 1 to 16 preimages", async () => {
-            for (let i = 0; i < preimages.length; i += 1) {
-                const currentPreimages = preimages.slice(0, i + 1)
-
-                // Generate.
-                fullProof = await generate(currentPreimages, scope)
-
-                const digest = computePoseidon(currentPreimages.map((preimage) => hash(preimage)))
-
-                expect(fullProof.proof).toHaveLength(8)
-                expect(fullProof.scope).toBe(scope.toString())
-                expect(fullProof.digest).toBe(digest.toString())
-
-                // Verify.
-                const response = await verify(currentPreimages.length, fullProof)
-
-                expect(response).toBe(true)
-            }
-        }, 60000)
-
-        it("Should verify an invalid Poseidon proof", async () => {
-            fullProof.digest = "3"
-
-            const response = await verify(preimages.length, fullProof)
-
-            expect(response).toBe(false)
+    it("Should verify a Poseidon proof from 1 to 16 preimage(s)", async () => {
+        proofs.forEach(async ({ fullProof }, i) => {
+            await expect(verify(i + 1, fullProof)).resolves.toBe(true)
         })
+    })
+
+    it("Should verify an invalid Poseidon proof", async () => {
+        const { fullProof } = proofs[0]
+        fullProof.digest = "3"
+
+        const response = await verify(preimages.length, fullProof)
+
+        expect(response).toBe(false)
     })
 })
