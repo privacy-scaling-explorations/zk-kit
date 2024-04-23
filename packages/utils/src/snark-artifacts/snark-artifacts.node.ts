@@ -91,10 +91,12 @@ function MaybeGetSnarkArtifacts(proof: Proof, version?: Version) {
 /**
  * Downloads {@link @zk-kit/eddsa-proof!generate | EdDSA} snark artifacts (`wasm` and `zkey`) files if not already present in OS tmp folder.
  * @example
+ * ```
  * {
-     wasm: "/tmm/@zk-kit/eddsa-artifacts@latest/eddsa.wasm",
-     zkey: "/tmp/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"
-   }
+ *   wasm: "/tmm/@zk-kit/eddsa-artifacts@latest/eddsa.wasm",
+ *   zkey: "/tmp/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"
+ * }
+ * ```
  * @returns {@link SnarkArtifacts}
  */
 export const maybeGetEdDSASnarkArtifacts = MaybeGetSnarkArtifacts(Proof.EDDSA)
@@ -103,10 +105,12 @@ export const maybeGetEdDSASnarkArtifacts = MaybeGetSnarkArtifacts(Proof.EDDSA)
  * Downloads {@link @zk-kit/poseidon-proof!generate | Poseidon} snark artifacts (`wasm` and `zkey`) files if not already present in OS tmp folder.
  * @param numberOfInputs - The number of inputs to hash
  * @example
+ * ```ts
  * {
-     wasm: "/tmm/@zk-kit/poseidon-artifacts@latest/poseidon-2.wasm",
-     zkey: "/tmp/@zk-kit/poseidon-artifacts@latest/poseidon-2.zkey"
-   }
+ *   wasm: "/tmm/@zk-kit/poseidon-artifacts@latest/poseidon-2.wasm",
+ *   zkey: "/tmp/@zk-kit/poseidon-artifacts@latest/poseidon-2.zkey"
+ * }
+ * ```
  * @returns {@link SnarkArtifacts}
  */
 export const maybeGetPoseidonSnarkArtifacts = MaybeGetSnarkArtifacts(Proof.POSEIDON)
@@ -115,10 +119,12 @@ export const maybeGetPoseidonSnarkArtifacts = MaybeGetSnarkArtifacts(Proof.POSEI
  * Downloads {@link https://github.com/semaphore-protocol/semaphore/tree/main/packages/proof | Semaphore} snark artifacts (`wasm` and `zkey`) files if not already present in OS tmp folder.
  * @param treeDepth - The depth of the tree
  * @example
+ * ```ts
  * {
-     wasm: "/tmm/@zk-kit/semaphore-artifacts@latest/semaphore-3.wasm",
-     zkey: "/tmp/@zk-kit/semaphore-artifacts@latest/semaphore-3.zkey"
-   }
+ *   wasm: "/tmm/@zk-kit/semaphore-artifacts@latest/semaphore-3.wasm",
+ *   zkey: "/tmp/@zk-kit/semaphore-artifacts@latest/semaphore-3.zkey"
+ * }
+ * ```
  * @returns {@link SnarkArtifacts}
  */
 export const maybeGetSemaphoreSnarkArtifacts = MaybeGetSnarkArtifacts(Proof.SEMAPHORE)
