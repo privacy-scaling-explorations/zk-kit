@@ -194,7 +194,7 @@ describe("MaybeGetSnarkArtifacts", () => {
             expect(wasm).toMatchInlineSnapshot(`"/tmp/@zk-kit/poseidon-artifacts@latest/poseidon-2.wasm"`)
             expect(zkey).toMatchInlineSnapshot(`"/tmp/@zk-kit/poseidon-artifacts@latest/poseidon-2.zkey"`)
             expect(fetchSpy).toHaveBeenCalledTimes(2)
-        }, 15000)
+        }, 20_000)
     })
 
     describe("maybeGetEdDSASnarkArtifacts", () => {
