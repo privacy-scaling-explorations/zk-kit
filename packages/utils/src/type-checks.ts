@@ -9,8 +9,8 @@
 
 import { Buffer } from "buffer"
 
-// The list of types supported by this utility functions.
-const supportedTypes = [
+/** @internal */
+export const supportedTypes = [
     "number",
     "string",
     "function",
@@ -25,7 +25,6 @@ const supportedTypes = [
     "bignumberish"
 ] as const
 
-// Type extracted from the list above.
 export type SupportedType = (typeof supportedTypes)[number]
 
 /**
@@ -173,6 +172,7 @@ export function isBigNumberish(value: any): boolean {
 /**
  * Returns true if the value type is the same as the type passed
  * as the second parameter, false otherwise.
+ * @param value
  * @param type The expected type.
  */
 export function isType(value: any, type: SupportedType): boolean {

@@ -6,7 +6,8 @@ import verificationKeys from "./verification-keys.json"
 
 /**
  * Verifies that a Poseidon proof is valid.
- * @param poseidonProof The Poseidon zero-knowledge proof.
+ * @param numberOfInputs The number of inputs supported by the Poseidon hash function.
+ * @param proof PoseidonProof
  * @returns True if the proof is valid, false otherwise.
  */
 export default function verify(numberOfInputs: number, { scope, digest, proof }: PoseidonProof): Promise<boolean> {
