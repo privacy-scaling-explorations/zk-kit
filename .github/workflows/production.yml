@@ -61,7 +61,7 @@ jobs:
             - name: Build libraries and contracts
               run: yarn build
 
-            - name: Test libraries, contracts and circuits
+            - name: Test ${{ matrix.type }}
               run: yarn test:${{ matrix.type }}
 
             - name: Coveralls
