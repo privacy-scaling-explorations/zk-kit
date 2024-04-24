@@ -60,15 +60,16 @@ export const genEcdhSharedKey = (privKey: Buffer | Uint8Array | string, pubKey: 
  */
 export const generateBinaryMerkleRoot = (maxDepth = 5, nodes = 32, leafIndex = 0): BinaryMerkleTreeProof => {
     const tree = new LeanIMT((a, b) => poseidon2([a, b]))
-    const leaf = BigInt(0)
 
-    tree.insert(leaf)
-
-    for (let i = 1; i < nodes; i += 1) {
+    for (let i = 0; i < nodes; i += 1) {
         tree.insert(BigInt(i))
     }
 
+    const leaf = tree.leaves[leafIndex]
+
     const { siblings, index } = tree.generateProof(leafIndex)
+
+    const depth = siblings.length
 
     // The index must be converted to a list of indices, 1 for each tree level.
     // The circuit tree depth is 20, so the number of siblings must be 20, even if
@@ -86,7 +87,7 @@ export const generateBinaryMerkleRoot = (maxDepth = 5, nodes = 32, leafIndex = 0
 
     return {
         leaf,
-        depth: tree.depth,
+        depth,
         indices,
         siblings,
         root: tree.root
