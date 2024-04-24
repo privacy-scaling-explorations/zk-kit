@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/poseidon-proof",
-    "version": "0.5.0",
+    "version": "1.0.0-beta",
     "description": "A library to generate and verify Poseidon proofs.",
     "type": "module",
     "license": "MIT",
