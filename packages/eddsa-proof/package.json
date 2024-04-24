@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/eddsa-proof",
-    "version": "0.1.0",
+    "version": "1.0.0-beta",
     "description": "A library to generate and verify EdDSA proofs.",
     "type": "module",
     "license": "MIT",
