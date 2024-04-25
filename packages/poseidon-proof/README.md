@@ -129,7 +129,7 @@ Benchmarks were run on an Intel Core i7-1165G7, 16 GB RAM machine (with two inpu
 
 | Generate proof | Verify proof | Constraints |
 | -------------- | ------------ | ----------- |
-| `170ms`         | `12ms`       | `214`       |
+| `170ms`        | `12ms`       | `214`       |
 
 ```js
 import { generate, verify } from "@zk-kit/poseidon-proof"
