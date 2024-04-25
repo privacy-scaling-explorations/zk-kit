@@ -262,7 +262,7 @@ describe("MaybeGetSnarkArtifacts", () => {
             expect(wasm).toMatchInlineSnapshot(`"/tmp/@zk-kit/eddsa-artifacts@latest/eddsa.wasm"`)
             expect(zkey).toMatchInlineSnapshot(`"/tmp/@zk-kit/eddsa-artifacts@latest/eddsa.zkey"`)
             expect(fetchSpy).toHaveBeenCalledTimes(2)
-        }, 15000)
+        }, 20_000)
     })
 
     describe("maybeGetSemaphoreSnarkArtifacts", () => {
@@ -336,6 +336,6 @@ describe("MaybeGetSnarkArtifacts", () => {
             expect(wasm).toMatchInlineSnapshot(`"/tmp/@zk-kit/semaphore-artifacts@latest/semaphore-2.wasm"`)
             expect(zkey).toMatchInlineSnapshot(`"/tmp/@zk-kit/semaphore-artifacts@latest/semaphore-2.zkey"`)
             expect(fetchSpy).toHaveBeenCalledTimes(2)
-        }, 15000)
+        }, 20_000)
     })
 })
