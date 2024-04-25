@@ -126,7 +126,7 @@ template IncludeInPrefix(N) { // complexity 5N
     out <== IsNonZero()(goodCount);
 }
 
-// Compuates a Merkle root at rootLv made from childrens[0 .. rootLv - 1][] and leaf.
+// Computes a Merkle root at rootLv made from childrens[0 .. rootLv - 1][] and leaf.
 //
 // Each childrens[i] must include the digest of childrens[i - 1] for i = 1 ... rootLv - 1
 // childrens[0] must include leaf.
