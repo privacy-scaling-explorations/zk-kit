@@ -333,31 +333,6 @@
                 </a>
             </td>
         </tr>
-        <tr>
-            <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/rollup-plugin-rust">
-                    @zk-kit/rollup-plugin-rust
-                </a>
-            </td>
-            <td>
-                <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/rollup-plugin-rust">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/rollup-plugin-rust.svg?style=flat-square" alt="NPM version" />
-                </a>
-            </td>
-            <td>
-                <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/rollup-plugin-rust">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/rollup-plugin-rust.svg?style=flat-square" alt="Downloads" />
-                </a>
-            </td>
-            <td>
-                <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zk-kit/rollup-plugin-rust">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/rollup-plugin-rust" alt="npm bundle size (scoped)" />
-                </a>
-            </td>
-        </tr>
     <tbody>
 </table>
 
