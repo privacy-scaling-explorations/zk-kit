@@ -1,13 +1,14 @@
-import { buildBn128 } from "@zk-kit/groth16"
-import { poseidon2 } from "poseidon-lite"
 import { derivePublicKey } from "@zk-kit/eddsa-poseidon"
+import { buildBn128 } from "@zk-kit/groth16"
+import { decodeBytes32String, toBeHex } from "ethers"
+import { poseidon2 } from "poseidon-lite"
 import generate from "../src/generate"
 import { EddsaProof } from "../src/types"
 import verify from "../src/verify"
 
 describe("EddsaProof", () => {
     const privateKey = Buffer.from("secret")
-    const scope = 1
+    const scope = "scope"
 
     let fullProof: EddsaProof
     let curve: any
@@ -28,7 +29,7 @@ describe("EddsaProof", () => {
             const commitment = poseidon2(publicKey)
 
             expect(fullProof.proof).toHaveLength(8)
-            expect(fullProof.scope).toBe(scope.toString())
+            expect(decodeBytes32String(toBeHex(fullProof.scope, 32))).toBe(scope.toString())
             expect(fullProof.commitment).toBe(commitment.toString())
         })
     })

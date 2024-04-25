@@ -1,8 +1,9 @@
 import { BigNumber } from "@ethersproject/bignumber"
-import { BytesLike, Hexable } from "@ethersproject/bytes"
+import { SnarkArtifacts, maybeGetPoseidonSnarkArtifacts, packGroth16Proof } from "@zk-kit/utils"
+import { BigNumberish } from "ethers"
 import { NumericString, groth16 } from "snarkjs"
-import { packGroth16Proof, maybeGetPoseidonSnarkArtifacts, SnarkArtifacts } from "@zk-kit/utils"
 import hash from "./hash"
+import toBigInt from "./to-bigint"
 import { PoseidonProof } from "./types"
 
 /**
@@ -21,10 +22,12 @@ import { PoseidonProof } from "./types"
  * @returns The Poseidon zero-knowledge proof.
  */
 export default async function generate(
-    preimages: Array<BytesLike | Hexable | number | bigint>,
-    scope: BytesLike | Hexable | number | bigint,
+    preimages: Array<BigNumberish>,
+    scope: BigNumberish | Uint8Array | string,
     snarkArtifacts?: SnarkArtifacts
 ): Promise<PoseidonProof> {
+    scope = toBigInt(scope)
+
     // allow user to override our artifacts
     // otherwise they'll be downloaded if not already in local tmp folder
     snarkArtifacts ??= await maybeGetPoseidonSnarkArtifacts(preimages.length)
@@ -40,6 +43,7 @@ export default async function generate(
     )
 
     return {
+        numberOfInputs: preimages.length,
         scope: BigNumber.from(scope).toString() as NumericString,
         digest: publicSignals[0],
         proof: packGroth16Proof(proof)

@@ -1,9 +1,9 @@
-import { BigNumber } from "@ethersproject/bignumber"
-import { BytesLike, Hexable } from "@ethersproject/bytes"
 import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
+import { SnarkArtifacts, maybeGetEdDSASnarkArtifacts, packGroth16Proof } from "@zk-kit/utils"
+import type { BigNumberish } from "ethers"
 import { NumericString, groth16 } from "snarkjs"
-import { packGroth16Proof, maybeGetEdDSASnarkArtifacts, SnarkArtifacts } from "@zk-kit/utils"
 import hash from "./hash"
+import toBigInt from "./to-bigint"
 import { EddsaProof } from "./types"
 
 /**
@@ -23,9 +23,11 @@ import { EddsaProof } from "./types"
  */
 export default async function generate(
     privateKey: Buffer | Uint8Array | string,
-    scope: BytesLike | Hexable | number | bigint,
+    scope: BigNumberish | Uint8Array | string,
     snarkArtifacts?: SnarkArtifacts
 ): Promise<EddsaProof> {
+    scope = toBigInt(scope)
+
     // allow user to override our artifacts
     // otherwise they'll be downloaded if not already in local tmp folder
     snarkArtifacts ??= await maybeGetEdDSASnarkArtifacts()
@@ -43,7 +45,7 @@ export default async function generate(
 
     return {
         commitment: publicSignals[0],
-        scope: BigNumber.from(scope).toString() as NumericString,
+        scope: scope.toString() as NumericString,
         proof: packGroth16Proof(proof)
     }
 }

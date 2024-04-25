@@ -79,12 +79,12 @@ yarn add @zk-kit/poseidon-proof
 import { generate, verify } from "@zk-kit/poseidon-proof"
 
 // A public value used to contextualize the cryptographic proof and calculate the nullifier.
-const scope = 1
+const scope = "scope"
 // The message (preimage) to prove (secret).
-const message = 2
+const messages = [1, 2]
 
 // Generate the proof.
-const fullProof = await generate(message, scope)
+const fullProof = await generate(messages, scope)
 
 /*
     nb. scope, digest and nullifier are always the same - proof is variable.
@@ -110,8 +110,8 @@ console.log(fullProof)
 // You can specify them as follows.
 
 // const fullProof = await generate(message, scope, {
-//     wasmFilePath: "<your-path>/poseidon-proof.wasm",
-//     zkeyFilePath: "<your-path>/poseidon-proof.zkey"
+//     wasm: "<your-path>/poseidon-proof.wasm",
+//     zkey: "<your-path>/poseidon-proof.zkey"
 // })
 
 // Verify the proof.
@@ -125,21 +125,18 @@ console.log(response)
 
 ## 📈 Benchmarks
 
-Benchmarks were run on an Intel Core i7-1165G7, 16 GB RAM machine, after initializing the BN128 curve with [`@zk-kit/groth16`](https://github.com/privacy-scaling-explorations/zk-kit/edit/main/packages/groth16)-`buildBn128` (~230ms).
+Benchmarks were run on an Intel Core i7-1165G7, 16 GB RAM machine (with two inputs).
 
 | Generate proof | Verify proof | Constraints |
 | -------------- | ------------ | ----------- |
-| `80ms`         | `10ms`       | `141`       |
+| `170ms`         | `12ms`       | `214`       |
 
 ```js
 import { generate, verify } from "@zk-kit/poseidon-proof"
-import { buildBn128 } from "@zk-kit/groth16"
-
-await buildBn128()
 
 console.time("generate")
 
-const proof = await generate(1, 2)
+const proof = await generate([1, 2], "scope")
 
 console.timeEnd("generate")
 
