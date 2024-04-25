@@ -6,11 +6,10 @@ import verificationKeys from "./verification-keys.json"
 
 /**
  * Verifies that a Poseidon proof is valid.
- * @param numberOfInputs The number of inputs supported by the Poseidon hash function.
  * @param proof PoseidonProof
  * @returns True if the proof is valid, false otherwise.
  */
-export default function verify(numberOfInputs: number, { scope, digest, proof }: PoseidonProof): Promise<boolean> {
+export default function verify({ numberOfInputs, scope, digest, proof }: PoseidonProof): Promise<boolean> {
     const verificationKey = {
         ...verificationKeys,
         vk_delta_2: verificationKeys.vk_delta_2[numberOfInputs - 1],
