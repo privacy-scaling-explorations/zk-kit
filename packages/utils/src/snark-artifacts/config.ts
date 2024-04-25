@@ -1,6 +1,6 @@
 import { Artifact, Proof, SnarkArtifacts, Version } from "../types"
 
-const ARTIFACTS_BASE_URL = "https://unpkg.com/@zk-kit"
+const ARTIFACTS_BASE_URL = "https://cdn.jsdelivr.net/@zk-kit"
 
 const getPackageVersions = async (proof: Proof) =>
     fetch(`${ARTIFACTS_BASE_URL}/${proof}-artifacts`)
