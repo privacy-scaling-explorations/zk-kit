@@ -12,7 +12,7 @@ const projects: any = fs
         rootDir: `packages/${name}`,
         displayName: name,
         moduleNameMapper: {
-            "@zk-kit/(.*)/(.*)": "<rootDir>/../$1/src/$2.ts",
+            "@zk-kit/(.*)/(.*)": ["<rootDir>/../$1/src/$2.ts", "<rootDir>/../$1/src/$2/$2.node.ts"],
             "@zk-kit/(.*)": "<rootDir>/../$1/src/index.ts"
         }
     }))

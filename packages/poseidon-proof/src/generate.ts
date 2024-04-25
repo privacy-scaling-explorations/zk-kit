@@ -1,5 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber"
-import { SnarkArtifacts, maybeGetPoseidonSnarkArtifacts, packGroth16Proof } from "@zk-kit/utils"
+import type { SnarkArtifacts } from "@zk-kit/utils"
+import { packGroth16Proof } from "@zk-kit/utils/proof-packing"
+import maybeGetSnarkArtifacts from "@zk-kit/utils/snark-artifacts"
 import { BigNumberish } from "ethers"
 import { NumericString, groth16 } from "snarkjs"
 import hash from "./hash"
@@ -30,7 +32,7 @@ export default async function generate(
 
     // allow user to override our artifacts
     // otherwise they'll be downloaded if not already in local tmp folder
-    snarkArtifacts ??= await maybeGetPoseidonSnarkArtifacts(preimages.length)
+    snarkArtifacts ??= await maybeGetSnarkArtifacts("poseidon", { parameters: [preimages.length] })
     const { wasm, zkey } = snarkArtifacts
 
     const { proof, publicSignals } = await groth16.fullProve(

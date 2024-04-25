@@ -1,31 +1,21 @@
-import { GetSnarkArtifactUrls } from "./config"
-import { Proof, SnarkArtifacts, Version } from "../types"
+import { BigNumber, SnarkArtifacts, Version } from "../types"
 
-function MaybeGetSnarkArtifacts(proof: Proof.EDDSA, version?: Version): () => Promise<SnarkArtifacts>
-function MaybeGetSnarkArtifacts(
-    proof: Proof.POSEIDON,
-    version?: Version
-): (numberOfInputs: number) => Promise<SnarkArtifacts>
-function MaybeGetSnarkArtifacts(
-    proof: Proof.SEMAPHORE,
-    version?: Version
-): (treeDepth: number) => Promise<SnarkArtifacts>
-function MaybeGetSnarkArtifacts(proof: Proof, version?: Version) {
-    switch (proof) {
-        case Proof.POSEIDON:
-            return async (numberOfInputs: number) => GetSnarkArtifactUrls({ proof, numberOfInputs, version })
+export default async function maybeGetSnarkArtifacts(
+    projectName: string,
+    options: {
+        parameters?: (BigNumber | number)[]
+        version?: Version
+        cdnUrl?: string
+    } = {}
+): Promise<SnarkArtifacts> {
+    options.version ??= "latest"
+    options.cdnUrl ??= "https://unpkg.com"
 
-        case Proof.SEMAPHORE:
-            return async (treeDepth: number) => GetSnarkArtifactUrls({ proof, treeDepth, version })
+    const BASE_URL = `${options.cdnUrl}/@zk-kit/${projectName}-artifacts@${options.version}`
+    const parameters = options.parameters ? `-${options.parameters.join("-")}` : ""
 
-        case Proof.EDDSA:
-            return async () => GetSnarkArtifactUrls({ proof, version })
-
-        default:
-            throw new Error("Unknown proof type")
+    return {
+        wasm: `${BASE_URL}/${projectName}${parameters}.wasm`,
+        zkey: `${BASE_URL}/${projectName}${parameters}.zkey`
     }
 }
-
-export const maybeGetPoseidonSnarkArtifacts = MaybeGetSnarkArtifacts(Proof.POSEIDON)
-export const maybeGetEdDSASnarkArtifacts = MaybeGetSnarkArtifacts(Proof.EDDSA)
-export const maybeGetSemaphoreSnarkArtifacts = MaybeGetSnarkArtifacts(Proof.SEMAPHORE)
