@@ -61,10 +61,11 @@ async function maybeDownload(url: string) {
 export default async function maybeGetSnarkArtifacts(
     ...pars: Parameters<typeof _maybeGetSnarkArtifacts>
 ): Promise<SnarkArtifacts> {
-    const { wasm, zkey } = await _maybeGetSnarkArtifacts(...pars)
+    const { wasm: wasmUrl, zkey: zkeyUrl } = await _maybeGetSnarkArtifacts(...pars)
+    const [wasm, zkey] = await Promise.all([maybeDownload(wasmUrl), maybeDownload(zkeyUrl)])
 
     return {
-        wasm: await maybeDownload(wasm),
-        zkey: await maybeDownload(zkey)
+        wasm,
+        zkey
     }
 }
