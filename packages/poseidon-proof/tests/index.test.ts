@@ -1,63 +1,33 @@
 import { buildBn128 } from "@zk-kit/groth16"
 import { decodeBytes32String, toBeHex } from "ethers"
-import {
-    poseidon1,
-    poseidon10,
-    poseidon11,
-    poseidon12,
-    poseidon13,
-    poseidon14,
-    poseidon15,
-    poseidon16,
-    poseidon2,
-    poseidon3,
-    poseidon4,
-    poseidon5,
-    poseidon6,
-    poseidon7,
-    poseidon8,
-    poseidon9
-} from "poseidon-lite"
 import generate from "../src/generate"
 import hash from "../src/hash"
 import { PoseidonProof } from "../src/types"
 import verify from "../src/verify"
 
-const poseidonFunctions = [
-    poseidon1,
-    poseidon2,
-    poseidon3,
-    poseidon4,
-    poseidon5,
-    poseidon6,
-    poseidon7,
-    poseidon8,
-    poseidon9,
-    poseidon10,
-    poseidon11,
-    poseidon12,
-    poseidon13,
-    poseidon14,
-    poseidon15,
-    poseidon16
-]
-
-const computePoseidon = (preimages: string[]) => poseidonFunctions[preimages.length - 1](preimages)
-
-const preimages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 const scope = "scope"
-let curve: any
 const proofs: Array<{ fullProof: PoseidonProof; digest: bigint }> = []
+let curve: any
 
 beforeAll(async () => {
     curve = await buildBn128()
-    for (const preimage of preimages) {
-        const currentPreimages = preimages.slice(0, preimage)
-        const fullProof = await generate(currentPreimages, scope)
-        const digest = computePoseidon(currentPreimages.map((preimage) => hash(preimage)))
-        proofs.push({ fullProof, digest })
-    }
-}, 180_000)
+    await Promise.all(
+        [...Array(16).keys()].map(async (i) => {
+            i += 1
+            const preimages = [...Array(i).keys()].map((j) => j + 1)
+            const fullProofPromise = generate(preimages, scope)
+            await new Promise((resolve) => {
+                setTimeout(resolve, 500)
+            })
+            const poseidonModulePromise = import("poseidon-lite")
+            const [poseidonModule, fullProof] = await Promise.all([poseidonModulePromise, fullProofPromise])
+            // @ts-ignore
+            const poseidon = poseidonModule[`poseidon${i}`]
+            const digest = poseidon(preimages.map((preimage) => hash(preimage)))
+            proofs.push({ fullProof, digest })
+        })
+    )
+}, 30_000)
 
 afterAll(async () => {
     await curve.terminate()
