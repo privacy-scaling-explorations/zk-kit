@@ -1,9 +1,10 @@
 import { Artifact, Proof, Version } from "../types"
 
-const CDNS = ["https://cdn.jsdelivr.net/npm", "https://unpkg.com"]
-const shuffleCdns = () => CDNS.sort(() => Math.random() - 0.5)
-const shuffleUrls = (proof: Proof, version: Version) =>
-    shuffleCdns().map((cdn) => `${cdn}/@zk-kit/${proof}-artifacts@${version}/${proof}`)
+const getBaseUrls = (proof: Proof, version: Version) => [
+    `https://unpkg.com/@zk-kit/${proof}-artifacts@${version}/${proof}`,
+    `https://github.com/privacy-scaling-explorations/snark-artifacts/raw/@zk-kit/${proof}-artifacts@${version}/packages/${proof}/${proof}`,
+    `https://cdn.jsdelivr.net/npm/@zk-kit/${proof}-artifacts@${version}/${proof}`
+]
 
 const getPackageVersions = async (proof: Proof) =>
     fetch(`https://registry.npmjs.org/@zk-kit/${proof}-artifacts`)
@@ -60,16 +61,16 @@ export async function GetSnarkArtifactUrls({
     switch (proof) {
         case Proof.EDDSA:
             return {
-                [Artifact.WASM]: shuffleUrls(proof, version).map((cdn) => `${cdn}.${Artifact.WASM}`),
-                [Artifact.ZKEY]: shuffleUrls(proof, version).map((cdn) => `${cdn}.${Artifact.ZKEY}`)
+                [Artifact.WASM]: getBaseUrls(proof, version).map((cdn) => `${cdn}.${Artifact.WASM}`),
+                [Artifact.ZKEY]: getBaseUrls(proof, version).map((cdn) => `${cdn}.${Artifact.ZKEY}`)
             }
         case Proof.POSEIDON:
             if (numberOfInputs === undefined) throw new Error("numberOfInputs is required for Poseidon proof")
             if (numberOfInputs < 1) throw new Error("numberOfInputs must be greater than 0")
 
             return {
-                [Artifact.WASM]: shuffleUrls(proof, version).map((cdn) => `${cdn}-${numberOfInputs}.${Artifact.WASM}`),
-                [Artifact.ZKEY]: shuffleUrls(proof, version).map((cdn) => `${cdn}-${numberOfInputs}.${Artifact.ZKEY}`)
+                [Artifact.WASM]: getBaseUrls(proof, version).map((cdn) => `${cdn}-${numberOfInputs}.${Artifact.WASM}`),
+                [Artifact.ZKEY]: getBaseUrls(proof, version).map((cdn) => `${cdn}-${numberOfInputs}.${Artifact.ZKEY}`)
             }
 
         case Proof.SEMAPHORE:
@@ -77,8 +78,8 @@ export async function GetSnarkArtifactUrls({
             if (treeDepth < 1) throw new Error("treeDepth must be greater than 0")
 
             return {
-                [Artifact.WASM]: shuffleUrls(proof, version).map((cdn) => `${cdn}-${treeDepth}.${Artifact.WASM}`),
-                [Artifact.ZKEY]: shuffleUrls(proof, version).map((cdn) => `${cdn}-${treeDepth}.${Artifact.ZKEY}`)
+                [Artifact.WASM]: getBaseUrls(proof, version).map((cdn) => `${cdn}-${treeDepth}.${Artifact.WASM}`),
+                [Artifact.ZKEY]: getBaseUrls(proof, version).map((cdn) => `${cdn}-${treeDepth}.${Artifact.ZKEY}`)
             }
 
         default:

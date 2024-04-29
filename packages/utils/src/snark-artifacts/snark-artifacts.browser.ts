@@ -1,15 +1,15 @@
 import { GetSnarkArtifactUrls } from "./config"
 import { Artifact, Proof, Version } from "../types"
 
-function MaybeGetSnarkArtifacts(proof: Proof.EDDSA, version?: Version): () => Promise<Record<Artifact,string[]>>
+function MaybeGetSnarkArtifacts(proof: Proof.EDDSA, version?: Version): () => Promise<Record<Artifact, string[]>>
 function MaybeGetSnarkArtifacts(
     proof: Proof.POSEIDON,
     version?: Version
-): (numberOfInputs: number) => Promise<Record<Artifact,string[]>>
+): (numberOfInputs: number) => Promise<Record<Artifact, string[]>>
 function MaybeGetSnarkArtifacts(
     proof: Proof.SEMAPHORE,
     version?: Version
-): (treeDepth: number) => Promise<Record<Artifact,string[]>>
+): (treeDepth: number) => Promise<Record<Artifact, string[]>>
 function MaybeGetSnarkArtifacts(proof: Proof, version?: Version) {
     switch (proof) {
         case Proof.POSEIDON:
