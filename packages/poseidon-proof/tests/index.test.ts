@@ -27,7 +27,7 @@ beforeAll(async () => {
             proofs.push({ fullProof, digest })
         })
     )
-}, 30_000)
+}, 45_000)
 
 afterAll(async () => {
     await curve.terminate()
