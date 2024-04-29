@@ -1,5 +1,8 @@
 import { Artifact, Proof, Version } from "../types"
 
+// order matters
+// keep it unless a different download speed ranking is observed
+// https://github.com/privacy-scaling-explorations/snark-artifacts/pull/23
 const getBaseUrls = (proof: Proof, version: Version) => [
     `https://unpkg.com/@zk-kit/${proof}-artifacts@${version}/${proof}`,
     `https://github.com/privacy-scaling-explorations/snark-artifacts/raw/@zk-kit/${proof}-artifacts@${version}/packages/${proof}/${proof}`,
