@@ -5,17 +5,19 @@ import os from "node:os"
 import { SnarkArtifacts, Proof, Artifact, Version } from "../types"
 import { GetSnarkArtifactUrls } from "./config"
 
-async function download(url: string, outputPath: string) {
-    const response = await fetch(url)
+const fetchRetry = async (urls: string[]): Promise<ReturnType<typeof fetch>> =>
+    fetch(urls[0]).catch(() => fetchRetry(urls.slice(1)))
 
-    if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.statusText}`)
-    if (!response.body) throw new Error("Failed to get response body")
+async function download(urls: string[], outputPath: string) {
+    const { body, ok, statusText, url } = await fetchRetry(urls)
+    if (!ok) throw new Error(`Failed to fetch ${url}: ${statusText}`)
+    if (!body) throw new Error("Failed to get response body")
 
     const dir = dirname(outputPath)
     await mkdir(dir, { recursive: true })
 
     const fileStream = createWriteStream(outputPath)
-    const reader = response.body.getReader()
+    const reader = body.getReader()
 
     try {
         const pump = async () => {
@@ -39,28 +41,28 @@ async function download(url: string, outputPath: string) {
 // https://unpkg.com/@zk-kit/poseidon-artifacts@latest/poseidon.wasm -> @zk/poseidon-artifacts@latest/poseidon.wasm
 const extractEndPath = (url: string) => url.substring(url.indexOf("@zk"))
 
-async function maybeDownload(url: string) {
-    const outputPath = `${os.tmpdir()}/${extractEndPath(url)}`
+async function maybeDownload(urls: string[]) {
+    const outputPath = `${os.tmpdir()}/${extractEndPath(urls[0])}`
 
-    if (!existsSync(outputPath)) await download(url, outputPath)
+    if (!existsSync(outputPath)) await download(urls, outputPath)
 
     return outputPath
 }
 
 async function maybeGetSnarkArtifact({
     artifact,
-    url
+    urls
 }: {
     artifact: Artifact
-    url: string
+    urls: string[]
 }): Promise<Partial<SnarkArtifacts>> {
-    const outputPath = await maybeDownload(url)
+    const outputPath = await maybeDownload(urls)
     return { [artifact]: outputPath }
 }
 
-const maybeGetSnarkArtifacts = async (urls: SnarkArtifacts) =>
+const maybeGetSnarkArtifacts = async (urls: Record<Artifact, string[]>) =>
     Promise.all(
-        Object.entries(urls).map(([artifact, url]) => maybeGetSnarkArtifact({ artifact: artifact as Artifact, url }))
+        Object.entries(urls).map(([artifact, urls]) => maybeGetSnarkArtifact({ artifact: artifact as Artifact, urls }))
     ).then((artifacts) =>
         artifacts.reduce<SnarkArtifacts>((acc, artifact) => ({ ...acc, ...artifact }), {} as SnarkArtifacts)
     )
