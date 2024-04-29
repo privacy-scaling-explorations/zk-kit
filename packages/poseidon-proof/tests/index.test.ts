@@ -16,9 +16,6 @@ beforeAll(async () => {
             i += 1
             const preimages = [...Array(i).keys()].map((j) => j + 1)
             const fullProofPromise = generate(preimages, scope)
-            await new Promise((resolve) => {
-                setTimeout(resolve, 500)
-            })
             const poseidonModulePromise = import("poseidon-lite")
             const [poseidonModule, fullProof] = await Promise.all([poseidonModulePromise, fullProofPromise])
             // @ts-ignore
