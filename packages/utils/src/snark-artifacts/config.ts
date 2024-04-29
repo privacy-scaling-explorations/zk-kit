@@ -1,6 +1,6 @@
 import { Artifact, Proof, Version } from "../types"
 
-const CDNS = ["https://cdn.jsdelivr.net", "https://unpkg.com"]
+const CDNS = ["https://cdn.jsdelivr.net/npm", "https://unpkg.com"]
 const shuffleCdns = () => CDNS.sort(() => Math.random() - 0.5)
 const shuffleUrls = (proof: Proof, version: Version) =>
     shuffleCdns().map((cdn) => `${cdn}/@zk-kit/${proof}-artifacts@${version}/${proof}`)
