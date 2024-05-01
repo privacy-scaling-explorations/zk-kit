@@ -30,7 +30,7 @@
         "docs": "typedoc --cname zkkit.pse.dev --githubPages true",
         "remove:stable-version-field": "ts-node scripts/remove-stable-version-field.ts ${0} && yarn format:prettier:write",
         "precommit": "lint-staged",
-        "postinstall": "husky install",
+        "postinstall": "husky && git config --local core.editor cat",
         "style": "turbo lint:eslint lint format:prettier"
     },
     "keywords": [
