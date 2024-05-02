@@ -30,7 +30,7 @@
         "docs": "typedoc --cname zkkit.pse.dev --githubPages true",
         "remove:stable-version-field": "ts-node scripts/remove-stable-version-field.ts ${0} && yarn format:prettier:write",
         "precommit": "lint-staged",
-        "postinstall": "husky install",
+        "postinstall": "husky && git config --local core.editor cat",
         "style": "turbo lint:eslint lint format:prettier"
     },
     "keywords": [
@@ -57,8 +57,7 @@
         "@typescript-eslint/parser": "^7.0.2",
         "benny": "^3.7.1",
         "changelogithub": "patch:changelogithub@npm%3A0.13.3#~/.yarn/patches/changelogithub-npm-0.13.3-1783949906.patch",
-        "commitizen": "^4.3.0",
-        "cz-git": "^1.9.0",
+        "czg": "^1.9.1",
         "eslint": "^8.56.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-config-airbnb-typescript": "^17.1.0",
@@ -77,10 +76,5 @@
         "turbo": "^1.13.2",
         "typedoc": "^0.25.8",
         "typescript": "^5.3.3"
-    },
-    "config": {
-        "commitizen": {
-            "path": "./node_modules/cz-git"
-        }
     }
 }
