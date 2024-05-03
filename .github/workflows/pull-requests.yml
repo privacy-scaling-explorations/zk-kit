@@ -41,6 +41,13 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
+            - name: Get changed files
+              id: changed-files-contracts
+              uses: tj-actions/changed-files@v44
+              with:
+                  files: |
+                      packages/**.sol/**
+
             - name: Setup Node
               uses: actions/setup-node@v4
               with:
@@ -70,4 +77,6 @@ jobs:
               run: yarn build
 
             - name: Test ${{ matrix.type }}
+              # this condition is to skip contract tests when PR changes are unrelated
+              if: matrix.type != 'contracts' || steps.changed-files-contracts.outputs.any_changed == 'true'
               run: yarn test:${{ matrix.type }}
