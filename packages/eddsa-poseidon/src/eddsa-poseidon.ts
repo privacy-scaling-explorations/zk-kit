@@ -75,10 +75,7 @@ export function deriveSecretScalar(privateKey: Buffer | Uint8Array | string): bi
 export function derivePublicKey(privateKey: Buffer | Uint8Array | string): Point<bigint> {
     const s = deriveSecretScalar(privateKey)
 
-    const publicKey = mulPointEscalar(Base8, s)
-
-    // Convert the public key values to strings so that it can easily be exported as a JSON.
-    return publicKey
+    return mulPointEscalar(Base8, s)
 }
 
 /**
@@ -119,7 +116,6 @@ export function signMessage(privateKey: Buffer | Uint8Array | string, message: B
     const hm = poseidon5([R8[0], R8[1], A[0], A[1], message])
     const S = Fr.add(r, Fr.mul(hm, s))
 
-    // Convert the signature values to strings so that it can easily be exported as a JSON.
     return { R8, S }
 }
 
