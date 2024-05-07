@@ -26,7 +26,7 @@ describe("MaybeGetSnarkArtifacts", () => {
             })
 
             await expect(
-                maybeGetSnarkArtifacts("poseidon", { parameters: ["2"] })
+                maybeGetSnarkArtifacts("poseidon", { parameters: ["2"], version: "latest" })
             ).rejects.toThrowErrorMatchingInlineSnapshot(
                 `"Failed to fetch https://unpkg.com/@zk-kit/poseidon-artifacts@latest/poseidon-2.wasm: TEST"`
             )
@@ -40,7 +40,7 @@ describe("MaybeGetSnarkArtifacts", () => {
             })
 
             await expect(
-                maybeGetSnarkArtifacts("poseidon", { parameters: ["2"] })
+                maybeGetSnarkArtifacts("poseidon", { parameters: ["2"], version: "0.1.0-beta" })
             ).rejects.toThrowErrorMatchingInlineSnapshot(`"Failed to get response body"`)
         })
 
@@ -63,7 +63,7 @@ describe("MaybeGetSnarkArtifacts", () => {
             })
 
             await expect(
-                maybeGetSnarkArtifacts("poseidon", { parameters: ["2"] })
+                maybeGetSnarkArtifacts("poseidon", { parameters: ["2"], version: "0.1.0-beta.1" })
             ).rejects.toThrowErrorMatchingInlineSnapshot(`"TEST STREAM ERROR"`)
         })
 

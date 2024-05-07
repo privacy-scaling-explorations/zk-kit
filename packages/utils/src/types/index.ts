@@ -23,6 +23,9 @@ export type PackedGroth16Proof = [
  */
 export type SnarkArtifacts = Record<"wasm" | "zkey", string>
 
+type Digit = `${number}`
+type PreRelease = "alpha" | "beta"
+
 /**
  * Semantic version.
  * @example
@@ -31,4 +34,8 @@ export type SnarkArtifacts = Record<"wasm" | "zkey", string>
  * @example
  * "latest"
  */
-export type Version = string | "latest"
+export type Version =
+    | `${Digit}.${Digit}.${Digit}`
+    | `${Digit}.${Digit}.${Digit}-${PreRelease}`
+    | `${Digit}.${Digit}.${Digit}-${PreRelease}.${Digit}`
+    | "latest"
