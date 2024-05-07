@@ -24,3 +24,5 @@ export default async function maybeGetSnarkArtifacts(
         zkey: `${BASE_URL}/${project}${parameters}.zkey`
     }
 }
+
+export { Project, projects }

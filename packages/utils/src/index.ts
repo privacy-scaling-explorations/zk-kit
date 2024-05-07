@@ -8,7 +8,6 @@ import maybeGetSnarkArtifacts from "./snark-artifacts/snark-artifacts.node"
 import * as typeChecks from "./type-checks"
 
 export * from "./conversions"
-export * from "./snark-artifacts/projects"
 export * from "./error-handlers"
 export * from "./proof-packing"
 export * from "./type-checks"

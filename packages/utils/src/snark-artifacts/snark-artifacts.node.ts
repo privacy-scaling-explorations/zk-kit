@@ -3,7 +3,7 @@ import { mkdir } from "node:fs/promises"
 import os from "node:os"
 import { dirname } from "node:path"
 import { SnarkArtifacts } from "../types"
-import _maybeGetSnarkArtifacts from "./snark-artifacts.browser"
+import _maybeGetSnarkArtifacts, { Project, projects } from "./snark-artifacts.browser"
 
 async function download(url: string, outputPath: string) {
     const response = await fetch(url)
@@ -69,3 +69,5 @@ export default async function maybeGetSnarkArtifacts(
         zkey
     }
 }
+
+export { Project, projects }
