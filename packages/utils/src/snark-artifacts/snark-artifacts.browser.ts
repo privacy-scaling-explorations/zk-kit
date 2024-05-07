@@ -1,21 +1,26 @@
 import { BigNumber, SnarkArtifacts, Version } from "../types"
+import Project, { projects } from "./projects"
 
 export default async function maybeGetSnarkArtifacts(
-    projectName: string,
+    project: Project,
     options: {
         parameters?: (BigNumber | number)[]
         version?: Version
         cdnUrl?: string
     } = {}
 ): Promise<SnarkArtifacts> {
+    if (!projects.includes(project)) {
+        throw new Error(`Project '${project}' is not supported`)
+    }
+
     options.version ??= "latest"
     options.cdnUrl ??= "https://unpkg.com"
 
-    const BASE_URL = `${options.cdnUrl}/@zk-kit/${projectName}-artifacts@${options.version}`
+    const BASE_URL = `${options.cdnUrl}/@zk-kit/${project}-artifacts@${options.version}`
     const parameters = options.parameters ? `-${options.parameters.join("-")}` : ""
 
     return {
-        wasm: `${BASE_URL}/${projectName}${parameters}.wasm`,
-        zkey: `${BASE_URL}/${projectName}${parameters}.zkey`
+        wasm: `${BASE_URL}/${project}${parameters}.wasm`,
+        zkey: `${BASE_URL}/${project}${parameters}.zkey`
     }
 }
