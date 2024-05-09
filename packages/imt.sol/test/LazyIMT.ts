@@ -291,7 +291,7 @@ describe("LazyIMT", () => {
     })
 
     describe("# merkleProof", () => {
-        // Given a a merkle proof (elements and indices) and a leaf, calculates the root
+        // Given a merkle proof (elements and indices) and a leaf, calculates the root
         function calculateRoot(leafIndex: number, leaf: BigNumber, proofElements: BigNumber[]) {
             let hash = leaf
             const proofIndices = []
