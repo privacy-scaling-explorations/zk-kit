@@ -2,7 +2,7 @@ use crate::merkle::MerkleTree;
 use crate::Calculator;
 
 /*
- * Transforms the key into into a big endian array of bits so that when determining the position
+ * Transforms the key into a big endian array of bits so that when determining the position
  * of a tree entry starting from the root node, the first array element to look at is the last.
  * @param key The key of a tree entry
  * @returns The path that determines the position of a key in the tree

@@ -4,7 +4,7 @@ pragma circom 2.1.5;
 include "./bitify.circom";
 include "./escalarmulany.circom";
 
-// ECDH Is a a template which allows to generate a shared secret
+// ECDH Is a template which allows to generate a shared secret
 // from a private key and a public key
 // on the baby jubjub curve
 // It is important that the private key is hashed and pruned first
