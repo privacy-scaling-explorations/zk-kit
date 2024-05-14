@@ -41,8 +41,8 @@
     </h4>
 </div>
 
-| This zero-knowledge library facilitates the demonstration of having a Poseidon hash pre-image while keeping the pre-image value confidential. Additionally, it offers a mechanism to prevent the same proof from being reused. The circuit that forms the foundation of this library is accessible via this [link](https://github.com/privacy-scaling-explorations/zk-kit/blob/main/packages/circuits/templates/poseidon-proof.circom). |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| This zero-knowledge library facilitates the demonstration of having a Poseidon hash pre-image while keeping the pre-image value confidential. Additionally, it offers a mechanism to prevent the same proof from being reused. The circuit that forms the foundation of this library is accessible via this [link](https://github.com/privacy-scaling-explorations/zk-kit.circom/blob/main/packages/poseidon-proof/src/poseidon-proof.circom). |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 Originally developed for integration with [Semaphore V4](https://github.com/semaphore-protocol/semaphore), this library also functions effectively as a standalone tool. Notable use cases in connection with Semaphore can be:
 
