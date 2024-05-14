@@ -41,8 +41,8 @@
     </h4>
 </div>
 
-> [!WARNING]  
-> This library has **not** been audited.
+> [!NOTE]  
+> This library has been audited as part of the Semaphore V4 PSE audit: https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf.
 
 BabyJubJub is an elliptic curve optimized for secure, efficient cryptographic operations in constrained environments like blockchain and zero-knowledge proofs. It's designed for fast, privacy-preserving transactions, balancing cryptographic strength with performance, making it ideal for modern cryptographic solutions.
 
