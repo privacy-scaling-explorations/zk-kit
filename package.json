@@ -10,12 +10,10 @@
         "build": "turbo build",
         "_build:libraries": "yarn workspaces foreach -A -t --no-private run build",
         "build:libraries": "turbo _build:libraries",
-        "test": "turbo _test:libraries _test:circuits test:coverage",
+        "test": "turbo _test:libraries test:coverage",
         "_test:libraries": "jest --coverage",
         "test:libraries": "turbo _test:libraries",
         "test:library": "jest packages/${0}",
-        "_test:circuits": "yarn workspace @zk-kit/circuits test",
-        "test:circuits": "turbo _test:circuits",
         "test:contracts": "turbo test:coverage",
         "version:bump": "yarn workspace @zk-kit/${0} version ${1} && yarn remove:stable-version-field ${0} && NO_HOOK=1 git commit -am \"chore(${0}): v${1}\" && git tag ${0}-v${1}",
         "version:publish": "yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public",
@@ -38,8 +36,7 @@
         "typescript",
         "monorepo",
         "zero-knowledge",
-        "zk-snarks",
-        "circom"
+        "zk-snarks"
     ],
     "workspaces": [
         "packages/*",
