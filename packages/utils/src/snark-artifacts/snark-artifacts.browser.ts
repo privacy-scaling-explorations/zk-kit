@@ -1,31 +1,28 @@
-import { GetSnarkArtifactUrls } from "./config"
-import { Proof, SnarkArtifacts, Version } from "../types"
+import { BigNumber, SnarkArtifacts, Version } from "../types"
+import Project, { projects } from "./projects"
 
-function MaybeGetSnarkArtifacts(proof: Proof.EDDSA, version?: Version): () => Promise<SnarkArtifacts>
-function MaybeGetSnarkArtifacts(
-    proof: Proof.POSEIDON,
-    version?: Version
-): (numberOfInputs: number) => Promise<SnarkArtifacts>
-function MaybeGetSnarkArtifacts(
-    proof: Proof.SEMAPHORE,
-    version?: Version
-): (treeDepth: number) => Promise<SnarkArtifacts>
-function MaybeGetSnarkArtifacts(proof: Proof, version?: Version) {
-    switch (proof) {
-        case Proof.POSEIDON:
-            return async (numberOfInputs: number) => GetSnarkArtifactUrls({ proof, numberOfInputs, version })
+export default async function maybeGetSnarkArtifacts(
+    project: Project,
+    options: {
+        parameters?: (BigNumber | number)[]
+        version?: Version
+        cdnUrl?: string
+    } = {}
+): Promise<SnarkArtifacts> {
+    if (!projects.includes(project)) {
+        throw new Error(`Project '${project}' is not supported`)
+    }
 
-        case Proof.SEMAPHORE:
-            return async (treeDepth: number) => GetSnarkArtifactUrls({ proof, treeDepth, version })
+    options.version ??= "latest"
+    options.cdnUrl ??= "https://unpkg.com"
 
-        case Proof.EDDSA:
-            return async () => GetSnarkArtifactUrls({ proof, version })
+    const BASE_URL = `${options.cdnUrl}/@zk-kit/${project}-artifacts@${options.version}`
+    const parameters = options.parameters ? `-${options.parameters.join("-")}` : ""
 
-        default:
-            throw new Error("Unknown proof type")
+    return {
+        wasm: `${BASE_URL}/${project}${parameters}.wasm`,
+        zkey: `${BASE_URL}/${project}${parameters}.zkey`
     }
 }
 
-export const maybeGetPoseidonSnarkArtifacts = MaybeGetSnarkArtifacts(Proof.POSEIDON)
-export const maybeGetEdDSASnarkArtifacts = MaybeGetSnarkArtifacts(Proof.EDDSA)
-export const maybeGetSemaphoreSnarkArtifacts = MaybeGetSnarkArtifacts(Proof.SEMAPHORE)
+export { Project, projects }

@@ -1,5 +1,5 @@
 import { groth16 } from "snarkjs"
-import { unpackGroth16Proof } from "@zk-kit/utils"
+import { unpackGroth16Proof } from "@zk-kit/utils/proof-packing"
 import hash from "./hash"
 import { PoseidonProof } from "./types"
 import verificationKeys from "./verification-keys.json"

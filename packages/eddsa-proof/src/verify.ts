@@ -1,5 +1,5 @@
+import { unpackGroth16Proof } from "@zk-kit/utils/proof-packing"
 import { groth16 } from "snarkjs"
-import { unpackGroth16Proof } from "@zk-kit/utils"
 import hash from "./hash"
 import { EddsaProof } from "./types"
 import verificationKey from "./verification-key.json"

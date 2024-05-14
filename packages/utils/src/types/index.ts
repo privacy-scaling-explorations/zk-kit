@@ -17,41 +17,25 @@ export type PackedGroth16Proof = [
 ]
 
 /**
- * Supported proof types:
- * {@link @zk-kit/eddsa-proof!generate | EdDSA}
- * {@link @zk-kit/poseidon-proof!generate | Poseidon}
- * {@link https://github.com/semaphore-protocol/semaphore/tree/main/packages/proof | Semaphore}.
- * @enum
- */
-export enum Proof {
-    EDDSA = "eddsa",
-    POSEIDON = "poseidon",
-    SEMAPHORE = "semaphore"
-}
-
-/**
- * Circom Snark Artifact file extensions.
- * @enum
- */
-export enum Artifact {
-    WASM = "wasm",
-    ZKEY = "zkey"
-}
-
-/**
- * @prop Artifact.WASM
- * @prop Artifact.ZKEY
+ * @prop SnarkArtifacts.wasm
+ * @prop SnarkArtifacts.zkey
  * @interface
  */
-export type SnarkArtifacts = Record<Artifact, string>
+export type SnarkArtifacts = Record<"wasm" | "zkey", string>
 
-type Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+type Digit = `${number}`
+type PreRelease = "alpha" | "beta"
 
 /**
  * Semantic version.
  * @example
- * 1.0.0
+ * 1.0.0-beta
+ * 2.0.0
  * @example
  * "latest"
  */
-export type Version = `${Digit}.${Digit}.${Digit}` | "latest"
+export type Version =
+    | `${Digit}.${Digit}.${Digit}`
+    | `${Digit}.${Digit}.${Digit}-${PreRelease}`
+    | `${Digit}.${Digit}.${Digit}-${PreRelease}.${Digit}`
+    | "latest"
