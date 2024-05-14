@@ -53,17 +53,23 @@
     </h4>
 </div>
 
-| ZK-kit is a set of libraries (plugins, algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access user-friendly, tested, and documented libraries for common tasks. |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ZK-Kit is a set of libraries (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access user-friendly, tested, and documented code for common tasks. ZK-Kit provides different repositories for each language - this one contains JavaScript and Solidity code only. |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 
 ♚ [Yarn workspaces](https://yarnpkg.com/features/workspaces): minimal monorepo package management (`yarn`, `yarn build`, `yarn docs`)\
 ♛ [Conventional Commits](https://www.conventionalcommits.org): human and machine readable meaning to commit messages (`yarn commit`)\
 ♜ [Jest](https://jestjs.io/): tests and test coverage for all libraries (`yarn test:libraries`)\
-♜ [Mocha](https://mochajs.org/): tests for circuits and contracts (`yarn test:circuits`, `yarn test:contracts`)\
+♜ [Mocha](https://mochajs.org/): tests for contracts (`yarn test:contracts`)\
 ♞ [ESLint](https://eslint.org/), [Prettier](https://prettier.io/): code quality and formatting (`yarn prettier` & `yarn lint`)\
 ♝ [Typedocs](https://typedoc.org/): documentation generator for TypeScript (`yarn docs`)\
 ♟ [Benny](https://github.com/caderek/benny): simple benchmarking framework for JavaScript/TypeScript (`yarn benchmarks`)\
 ♟ [Github actions](https://github.com/features/actions): software workflows for automatic testing, documentation deploy and code quality checks
+
+## 🗂️ Repositories
+
+-   Javascript & Solidity: https://github.com/privacy-scaling-explorations/zk-kit
+-   Circom: https://github.com/privacy-scaling-explorations/zk-kit.circom
+-   Noir: https://github.com/privacy-scaling-explorations/zk-kit.noir
 
 ## 📦 Packages
 
@@ -73,26 +79,6 @@
     <th>Downloads</th>
     <th>Size</th>
     <tbody>
-        <tr>
-            <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/circuits">
-                    @zk-kit/circuits
-                </a>
-            </td>
-            <td>
-                <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/circuits">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/circuits.svg?style=flat-square" alt="NPM version" />
-                </a>
-            </td>
-            <td>
-                <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/circuits">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/circuits.svg?style=flat-square" alt="Downloads" />
-                </a>
-            </td>
-            <td></td>
-        </tr>
         <tr>
             <td>
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/eddsa-poseidon">
@@ -306,34 +292,6 @@
                 <!-- Size -->
                 <a href="https://bundlephobia.com/package/@zk-kit/poseidon-proof">
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon-proof" alt="npm bundle size (scoped)" />
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/eddsa-proof">
-                    @zk-kit/eddsa-proof
-                </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_eddsa_proof.html">
-                    (docs)
-                </a>
-            </td>
-            <td>
-                <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/eddsa-proof">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/eddsa-proof.svg?style=flat-square" alt="NPM version" />
-                </a>
-            </td>
-            <td>
-                <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/eddsa-proof">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/eddsa-proof.svg?style=flat-square" alt="Downloads" />
-                </a>
-            </td>
-            <td>
-                <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zk-kit/eddsa-proof">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/eddsa-proof" alt="npm bundle size (scoped)" />
                 </a>
             </td>
         </tr>

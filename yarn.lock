@@ -3454,23 +3454,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/circuits@workspace:packages/circuits":
-  version: 0.0.0-use.local
-  resolution: "@zk-kit/circuits@workspace:packages/circuits"
-  dependencies:
-    "@types/mocha": "npm:^10.0.6"
-    "@zk-kit/baby-jubjub": "npm:1.0.0"
-    "@zk-kit/eddsa-poseidon": "npm:1.0.0"
-    "@zk-kit/poseidon-cipher": "npm:0.3.0"
-    "@zk-kit/smt": "npm:1.0.0"
-    "@zk-kit/utils": "npm:1.0.0-beta.4"
-    circomkit: "npm:0.0.24"
-    circomlib: "npm:^2.0.5"
-    mocha: "npm:^10.2.0"
-    poseidon-lite: "npm:^0.2.0"
-  languageName: unknown
-  linkType: soft
-
 "@zk-kit/eddsa-poseidon@npm:0.1.0":
   version: 0.1.0
   resolution: "@zk-kit/eddsa-poseidon@npm:0.1.0"
@@ -3480,7 +3463,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/eddsa-poseidon@npm:1.0.0, @zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon":
+"@zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon":
   version: 0.0.0-use.local
   resolution: "@zk-kit/eddsa-poseidon@workspace:packages/eddsa-poseidon"
   dependencies:
@@ -3498,27 +3481,6 @@ __metadata:
     rollup: "npm:^4.12.0"
     rollup-plugin-cleanup: "npm:^3.2.1"
     rollup-plugin-polyfill-node: "npm:^0.13.0"
-  languageName: unknown
-  linkType: soft
-
-"@zk-kit/eddsa-proof@workspace:packages/eddsa-proof":
-  version: 0.0.0-use.local
-  resolution: "@zk-kit/eddsa-proof@workspace:packages/eddsa-proof"
-  dependencies:
-    "@rollup/plugin-alias": "npm:^5.1.0"
-    "@rollup/plugin-json": "npm:^6.1.0"
-    "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@types/download": "npm:^8.0.5"
-    "@types/snarkjs": "npm:^0"
-    "@types/tmp": "npm:^0.2.6"
-    "@zk-kit/eddsa-poseidon": "npm:1.0.0"
-    "@zk-kit/utils": "npm:1.0.0-beta.4"
-    ethers: "npm:^6.12.0"
-    poseidon-lite: "npm:^0.2.0"
-    rimraf: "npm:^5.0.5"
-    rollup: "npm:^4.12.0"
-    rollup-plugin-cleanup: "npm:^3.2.1"
-    snarkjs: "npm:^0.7.3"
   languageName: unknown
   linkType: soft
 
@@ -3565,17 +3527,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/lazytower.circom@workspace:packages/lazytower.circom":
-  version: 0.0.0-use.local
-  resolution: "@zk-kit/lazytower.circom@workspace:packages/lazytower.circom"
-  dependencies:
-    circom_tester: "npm:^0.0.19"
-    circomlib: "npm:^2.0.5"
-    poseidon-lite: "npm:^0.2.0"
-    tmp-promise: "npm:^3.0.3"
-  languageName: unknown
-  linkType: soft
-
 "@zk-kit/lazytower.sol@workspace:packages/lazytower.sol/contracts":
   version: 0.0.0-use.local
   resolution: "@zk-kit/lazytower.sol@workspace:packages/lazytower.sol/contracts"
@@ -3597,7 +3548,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/poseidon-cipher@npm:0.3.0, @zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher":
+"@zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher":
   version: 0.0.0-use.local
   resolution: "@zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher"
   dependencies:
@@ -3647,7 +3598,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/smt@npm:1.0.0, @zk-kit/smt@workspace:packages/smt":
+"@zk-kit/smt@workspace:packages/smt":
   version: 0.0.0-use.local
   resolution: "@zk-kit/smt@workspace:packages/smt"
   dependencies:
@@ -5147,7 +5098,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chai@npm:^4.2.0, chai@npm:^4.3.6, chai@npm:^4.3.7":
+"chai@npm:^4.2.0":
   version: 4.4.1
   resolution: "chai@npm:4.4.1"
   dependencies:
@@ -5278,13 +5229,6 @@ __metadata:
   version: 11.2.3
   resolution: "check-types@npm:11.2.3"
   checksum: 10/557e119fa018d7de4e873ada0a6c8917a0f6e0955dc19293396405f5292cfcfe190457557f4cc422e6845d715ef6bbb1d0ab9198ff6735dd96ac50e3ef1e2424
-  languageName: node
-  linkType: hard
-
-"child_process@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "child_process@npm:1.0.2"
-  checksum: 10/bd814d82bc8c6e85ed6fb157878978121cd03b5296c09f6135fa3d081fd9a6a617a6d509c50397711df713af403331241a9c0397a7fad30672051485e156c2a1
   languageName: node
   linkType: hard
 
@@ -5506,17 +5450,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"circom_runtime@npm:0.1.21":
-  version: 0.1.21
-  resolution: "circom_runtime@npm:0.1.21"
-  dependencies:
-    ffjavascript: "npm:0.2.56"
-  bin:
-    calcwit: calcwit.js
-  checksum: 10/7290a832fcdfc0f5840351ebdcb5fafb030121f122b27e17b06c241e83bf93f57ddf555e03e21e2dd726758537701dd3dcb4b09dd5825cb36d816137f8161e58
-  languageName: node
-  linkType: hard
-
 "circom_runtime@npm:0.1.24":
   version: 0.1.24
   resolution: "circom_runtime@npm:0.1.24"
@@ -5537,36 +5470,6 @@ __metadata:
   bin:
     calcwit: calcwit.js
   checksum: 10/81fee6e39607189eb35802046c6e18ba6e7dae7a041b931313321158a6134dc0ce10441730e5ba708192bfc7d6183ed9278130231f6bd139eb5db3dbdb8d254d
-  languageName: node
-  linkType: hard
-
-"circom_tester@npm:^0.0.19":
-  version: 0.0.19
-  resolution: "circom_tester@npm:0.0.19"
-  dependencies:
-    chai: "npm:^4.3.6"
-    child_process: "npm:^1.0.2"
-    ffjavascript: "npm:^0.2.56"
-    fnv-plus: "npm:^1.3.1"
-    r1csfile: "npm:^0.0.41"
-    snarkjs: "npm:0.5.0"
-    tmp-promise: "npm:^3.0.3"
-    util: "npm:^0.12.4"
-  checksum: 10/af2415a09ca7ca2692c798d7070a01c4145ec79767043e2c964c28447d7a50dfe4bd15da319e31140864148c840488424030a02bf24c340fbb1c2ffdae5748de
-  languageName: node
-  linkType: hard
-
-"circomkit@npm:0.0.24":
-  version: 0.0.24
-  resolution: "circomkit@npm:0.0.24"
-  dependencies:
-    chai: "npm:^4.3.7"
-    circom_tester: "npm:^0.0.19"
-    loglevel: "npm:^1.8.1"
-    snarkjs: "npm:^0.7.0"
-  bin:
-    circomkit: dist/bin/index.js
-  checksum: 10/25ea42a1a90cfe09474af254db1171c6518bfe67aa3b06bacfaf944ddf892f1893bc6e5aa1fb0d0c32676712a0474f89fffaf8da07de7c38e227febbcd62bc57
   languageName: node
   linkType: hard
 
@@ -5593,13 +5496,6 @@ __metadata:
     ffjavascript: "npm:0.2.38"
     web3-utils: "npm:^1.3.0"
   checksum: 10/2962c68faa67360d8b06d7b78c5b535be1a5788896016ab6cc20388d81e8cf24c309345c35a51196779a09c6b6a8d0d89328158a378c562a7a221d6b33fa3109
-  languageName: node
-  linkType: hard
-
-"circomlib@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "circomlib@npm:2.0.5"
-  checksum: 10/eb9413d2deb5664345c5a74b293d18ffd89c92262d403bdb568a2294f80fc6b0d300f54252607d57c2fc7f6732c62d017ed417eea385fa0d36a82a9937a1a790
   languageName: node
   linkType: hard
 
@@ -8233,17 +8129,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ffjavascript@npm:0.2.56":
-  version: 0.2.56
-  resolution: "ffjavascript@npm:0.2.56"
-  dependencies:
-    wasmbuilder: "npm:0.0.16"
-    wasmcurves: "npm:0.2.0"
-    web-worker: "npm:^1.2.0"
-  checksum: 10/d6ce417158cb4cad94ec21b75c3e083ef2daaddc30f168e731abaa017600e8447e17c21249b9bb7186710144a62af7c06f5f0f0351d025525f0c186b2c8ab4b0
-  languageName: node
-  linkType: hard
-
 "ffjavascript@npm:0.2.60":
   version: 0.2.60
   resolution: "ffjavascript@npm:0.2.60"
@@ -8266,7 +8151,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ffjavascript@npm:0.2.63, ffjavascript@npm:^0.2.30, ffjavascript@npm:^0.2.35, ffjavascript@npm:^0.2.38, ffjavascript@npm:^0.2.48, ffjavascript@npm:^0.2.56":
+"ffjavascript@npm:0.2.63, ffjavascript@npm:^0.2.30, ffjavascript@npm:^0.2.35, ffjavascript@npm:^0.2.38, ffjavascript@npm:^0.2.48":
   version: 0.2.63
   resolution: "ffjavascript@npm:0.2.63"
   dependencies:
@@ -12215,13 +12100,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loglevel@npm:^1.8.1":
-  version: 1.9.1
-  resolution: "loglevel@npm:1.9.1"
-  checksum: 10/863cbbcddf850a937482c604e2d11586574a5110b746bb49c7cc04739e01f6035f6db841d25377106dd330bca7142d74995f15a97c5f3ea0af86d9472d4a99f4
-  languageName: node
-  linkType: hard
-
 "logplease@npm:^1.2.15":
   version: 1.2.15
   resolution: "logplease@npm:1.2.15"
@@ -14247,18 +14125,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"r1csfile@npm:0.0.41, r1csfile@npm:^0.0.41":
-  version: 0.0.41
-  resolution: "r1csfile@npm:0.0.41"
-  dependencies:
-    "@iden3/bigarray": "npm:0.0.2"
-    "@iden3/binfileutils": "npm:0.0.11"
-    fastfile: "npm:0.0.20"
-    ffjavascript: "npm:0.2.56"
-  checksum: 10/a1cf69502ec7cbbaa934684a2fc0f67d1279312edb7dc45e9fff6c1368277d60f110c9b0c976f8ba33264d27cb9be4d6a21b7961b20cfb9b7ddb3494b6fe1936
-  languageName: node
-  linkType: hard
-
 "r1csfile@npm:0.0.47":
   version: 0.0.47
   resolution: "r1csfile@npm:0.0.47"
@@ -15454,27 +15320,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"snarkjs@npm:0.5.0":
-  version: 0.5.0
-  resolution: "snarkjs@npm:0.5.0"
-  dependencies:
-    "@iden3/binfileutils": "npm:0.0.11"
-    bfj: "npm:^7.0.2"
-    blake2b-wasm: "npm:^2.4.0"
-    circom_runtime: "npm:0.1.21"
-    ejs: "npm:^3.1.6"
-    fastfile: "npm:0.0.20"
-    ffjavascript: "npm:0.2.56"
-    js-sha3: "npm:^0.8.0"
-    logplease: "npm:^1.2.15"
-    r1csfile: "npm:0.0.41"
-  bin:
-    snarkjs: build/cli.cjs
-  checksum: 10/6f8100e4817e127cbd89d66f11d560c1e8d0d2cb1595c9cc9dc4769a54b29da72d1ac6c6d75f8472620703d31491f33924b77052f7772e5b6b79dd63f12fd518
-  languageName: node
-  linkType: hard
-
-"snarkjs@npm:^0.7.0, snarkjs@npm:^0.7.3":
+"snarkjs@npm:^0.7.3":
   version: 0.7.3
   resolution: "snarkjs@npm:0.7.3"
   dependencies:
@@ -16334,15 +16180,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tmp-promise@npm:^3.0.3":
-  version: 3.0.3
-  resolution: "tmp-promise@npm:3.0.3"
-  dependencies:
-    tmp: "npm:^0.2.0"
-  checksum: 10/0ca65b4f233b1d2b01e17a7a62961d32923e4b27383a370bf4d8d52f1062d79c3250e6b6b706ec390e73c9c58c13dc130b3855eedc89c86c7d90beb28b8382e5
-  languageName: node
-  linkType: hard
-
 "tmp@npm:0.0.33":
   version: 0.0.33
   resolution: "tmp@npm:0.0.33"
@@ -16358,13 +16195,6 @@ __metadata:
   dependencies:
     rimraf: "npm:^2.6.3"
   checksum: 10/d98440fd50813a8b63f85c4717069dd4ffc5c4b5290e388fe86644d6f107a9f9f0eb87b27a491cc18846c9685550a284b809ec18fc736282cc53e34f2cc64251
-  languageName: node
-  linkType: hard
-
-"tmp@npm:^0.2.0":
-  version: 0.2.3
-  resolution: "tmp@npm:0.2.3"
-  checksum: 10/7b13696787f159c9754793a83aa79a24f1522d47b87462ddb57c18ee93ff26c74cbb2b8d9138f571d2e0e765c728fb2739863a672b280528512c6d83d511c6fa
   languageName: node
   linkType: hard
 
@@ -17228,7 +17058,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"util@npm:^0.12.4, util@npm:^0.12.5":
+"util@npm:^0.12.5":
   version: 0.12.5
   resolution: "util@npm:0.12.5"
   dependencies:
@@ -17445,15 +17275,6 @@ __metadata:
     big-integer: "npm:^1.6.42"
     blakejs: "npm:^1.1.0"
   checksum: 10/74c70de23cfb8947785f43454a4edbd74ca6fff821e5da2d3c9424869008f3c0c2c66316ffd9fe4be44cf573a56fa381a551d0b0abcdbdcf191adfb3538a99b5
-  languageName: node
-  linkType: hard
-
-"wasmcurves@npm:0.2.0":
-  version: 0.2.0
-  resolution: "wasmcurves@npm:0.2.0"
-  dependencies:
-    wasmbuilder: "npm:0.0.16"
-  checksum: 10/38a8e500ba4faa6fc928bc28eb01e65936648ebcf07fb32acb3effe551bfa006ff853eb77280eeeb7093983ce0eb6870c40bbefb42a30768b825f69f12925fe3
   languageName: node
   linkType: hard
 

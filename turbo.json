@@ -62,7 +62,6 @@
                 "@zk-kit/imt#build",
                 "@zk-kit/baby-jubjub#build",
                 "@zk-kit/eddsa-poseidon#build",
-                "@zk-kit/eddsa-proof#build",
                 "@zk-kit/groth16#build",
                 "@zk-kit/lazytower#build",
                 "@zk-kit/poseidon-cipher#build",
@@ -76,17 +75,6 @@
                 "packages/**/*.{js,ts}",
                 "!packages/**/{artifacts,cache,dist,typechain-types}/**"
             ]
-        },
-        "//#_test:circuits": {
-            "dependsOn": [
-                "@zk-kit/baby-jubjub#build",
-                "@zk-kit/eddsa-poseidon#build",
-                "@zk-kit/imt#build",
-                "@zk-kit/poseidon-cipher#build",
-                "@zk-kit/smt#build",
-                "@zk-kit/utils#build"
-            ],
-            "inputs": ["packages/circuits/**/*.{circom,nr,ts}"]
         },
         "test:coverage": {
             "dependsOn": ["@zk-kit/imt#build", "^build"],
