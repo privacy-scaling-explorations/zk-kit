@@ -1,8 +1,12 @@
 <p align="center">
     <h1 align="center">
-        🧰 ZK-kit
+      <picture>
+        <source media="(prefers-color-scheme: light)" srcset="https://github.com/privacy-scaling-explorations/zk-kit/assets/11427903/f691c48c-021f-485d-89ef-9ddc8ba74787">
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/privacy-scaling-explorations/zk-kit/assets/11427903/f43f4403-846a-48b4-a1fa-0ab234c225e5">
+        <img width="250" alt="ZK-Kit logo" src="https://github.com/privacy-scaling-explorations/zk-kit/assets/11427903/f691c48c-021f-485d-89ef-9ddc8ba74787">
+      </picture>
+      <sub>JS & Solidity</sub>
     </h1>
-    <p align="center">A monorepo of reusable libraries for zero-knowledge technologies.</p>
 </p>
 
 <p align="center">
