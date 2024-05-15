@@ -1,4 +1,4 @@
-import { LeanIMT as JSLeanIMT } from "@zk-kit/imt"
+import { LeanIMT as JSLeanIMT } from "@zk-kit/lean-imt"
 import { expect } from "chai"
 import { run } from "hardhat"
 import { poseidon2 } from "poseidon-lite"

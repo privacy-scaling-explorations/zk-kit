@@ -1,7 +1,7 @@
 {
-    "name": "@zk-kit/imt",
+    "name": "@zk-kit/lean-imt",
     "version": "2.0.0-beta.4",
-    "description": "Incremental Merkle tree implementation in TypeScript.",
+    "description": "Lean Incremental Merkle tree implementation in TypeScript.",
     "type": "module",
     "license": "MIT",
     "iife": "dist/index.iife.js",
@@ -23,7 +23,7 @@
         "README.md"
     ],
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
-    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lean-imt",
     "bugs": {
         "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
     },

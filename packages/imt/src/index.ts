@@ -1,2 +1,4 @@
-export * from "./imt"
-export * from "./lean-imt"
+import IMT from "./imt"
+
+export { IMT }
+export * from "./types"
