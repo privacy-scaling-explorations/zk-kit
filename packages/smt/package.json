@@ -42,6 +42,7 @@
         "access": "public"
     },
     "devDependencies": {
+        "@aztec/bb.js": "^0.40.1",
         "@rollup/plugin-terser": "^0.4.4",
         "@rollup/plugin-typescript": "^11.1.6",
         "@types/crypto-js": "^4.1.1",

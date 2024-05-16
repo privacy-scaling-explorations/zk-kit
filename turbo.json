@@ -1,10 +1,22 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "pipeline": {
+        "build": {
+            "dependsOn": ["^build"],
+            "inputs": [
+                "tsconfig.json",
+                "**/build.tsconfig.json",
+                "**/rollup.config.ts",
+                "packages/**/*.{js,json,ts}",
+                "!packages/**/{dist}/**"
+            ],
+            "outputs": ["packages/**/{dist}/**"]
+        },
         "//#_build": {
             "inputs": [
-                "build.tsconfig.json",
-                "rollup.config.ts",
+                "tsconfig.json",
+                "**/build.tsconfig.json",
+                "**/rollup.config.ts",
                 "packages/**/*.{js,json,ts}",
                 "!packages/**/{dist}/**"
             ]

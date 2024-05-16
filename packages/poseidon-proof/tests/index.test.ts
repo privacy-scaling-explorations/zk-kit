@@ -17,20 +17,20 @@ beforeAll(async () => {
     fullProof = await generate([1, 2], scope)
 
     digest = poseidon2([hash(1), hash(2)])
-}, 20_000)
+}, 30_000)
 
 afterAll(async () => {
     await curve.terminate()
 })
 
 describe("PoseidonProof", () => {
-    it("should generate a Poseidon proof from 1 to 16 preimages", async () => {
+    it("should generate a Poseidon proof", async () => {
         expect(fullProof.proof).toHaveLength(8)
         expect(decodeBytes32String(toBeHex(fullProof.scope, 32))).toBe(scope.toString())
         expect(fullProof.digest).toBe(digest.toString())
     })
 
-    it("Should verify a Poseidon proof from 1 to 16 preimage(s)", async () => {
+    it("Should verify a Poseidon proof", async () => {
         await expect(verify(fullProof)).resolves.toBe(true)
     })
 

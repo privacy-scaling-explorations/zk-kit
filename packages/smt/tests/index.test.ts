@@ -18,7 +18,7 @@ describe("SMT", () => {
         hashes.sha256 = (childNodes: ChildNodes) => sha256(childNodes.join("")).toString()
         hashes.poseidon2 = (childNodes: ChildNodes) =>
             bb
-                .poseidonHash([Fr.fromString(childNodes.join(""))])
+                .poseidon2Hash([Fr.fromString(childNodes.join(""))])
                 .toString()
                 .slice(2)
         hashes.pedersen = (childNodes: ChildNodes) =>
