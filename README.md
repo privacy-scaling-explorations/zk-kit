@@ -221,6 +221,34 @@
         </tr>
         <tr>
             <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lean-imt">
+                    @zk-kit/lean-imt
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_lean_imt.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/lean-imt">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/lean-imt.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/lean-imt">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/lean-imt.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/lean-imt">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/lean-imt" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt.sol">
                     @zk-kit/imt.sol
                 </a>
