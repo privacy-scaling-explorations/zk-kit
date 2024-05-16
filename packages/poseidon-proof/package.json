@@ -38,6 +38,7 @@
         "@types/download": "^8.0.5",
         "@types/snarkjs": "^0",
         "@types/tmp": "^0.2.6",
+        "ffjavascript": "^0.3.0",
         "poseidon-lite": "^0.2.0",
         "rimraf": "^5.0.5",
         "rollup": "^4.12.0",

@@ -2089,18 +2089,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-virtual@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@rollup/plugin-virtual@npm:3.0.2"
-  peerDependencies:
-    rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
-  peerDependenciesMeta:
-    rollup:
-      optional: true
-  checksum: 10/962bc9efece57a07c328a3d093bd1a62b9b4396a88640ac79cfc04181e06b31c4b37726ca27ded71178ace27db9b0085b43c4de823378773bb44cb233ea1340e
-  languageName: node
-  linkType: hard
-
 "@rollup/pluginutils@npm:^5.0.1, @rollup/pluginutils@npm:^5.1.0":
   version: 5.1.0
   resolution: "@rollup/pluginutils@npm:5.1.0"
@@ -3079,24 +3067,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/groth16@workspace:packages/groth16":
-  version: 0.0.0-use.local
-  resolution: "@zk-kit/groth16@workspace:packages/groth16"
-  dependencies:
-    "@iden3/binfileutils": "npm:0.0.11"
-    "@rollup/plugin-commonjs": "npm:^25.0.7"
-    "@rollup/plugin-node-resolve": "npm:^15.2.3"
-    "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@rollup/plugin-virtual": "npm:^3.0.2"
-    circom_runtime: "npm:0.1.24"
-    fastfile: "npm:0.0.20"
-    ffjavascript: "npm:0.2.62"
-    rimraf: "npm:^5.0.5"
-    rollup: "npm:^4.12.0"
-    rollup-plugin-cleanup: "npm:^3.2.1"
-  languageName: unknown
-  linkType: soft
-
 "@zk-kit/imt@workspace:packages/imt":
   version: 0.0.0-use.local
   resolution: "@zk-kit/imt@workspace:packages/imt"
@@ -3171,26 +3141,12 @@ __metadata:
     "@types/tmp": "npm:^0.2.6"
     "@zk-kit/utils": "npm:1.0.0-beta.4"
     ethers: "npm:^6.12.0"
+    ffjavascript: "npm:^0.3.0"
     poseidon-lite: "npm:^0.2.0"
     rimraf: "npm:^5.0.5"
     rollup: "npm:^4.12.0"
     rollup-plugin-cleanup: "npm:^3.2.1"
     snarkjs: "npm:^0.7.3"
-  languageName: unknown
-  linkType: soft
-
-"@zk-kit/rollup-plugin-rust@workspace:packages/rollup-plugin-rust":
-  version: 0.0.0-use.local
-  resolution: "@zk-kit/rollup-plugin-rust@workspace:packages/rollup-plugin-rust"
-  dependencies:
-    "@rollup/plugin-typescript": "npm:^11.1.6"
-    glob: "npm:^7.1.6"
-    rimraf: "npm:^5.0.5"
-    rollup: "npm:^4.12.0"
-    rollup-plugin-cleanup: "npm:^3.2.1"
-    rollup-pluginutils: "npm:^2.8.2"
-    toml: "npm:^3.0.0"
-    wasm-pack: "npm:^0.10.2"
   languageName: unknown
   linkType: soft
 
@@ -4016,17 +3972,6 @@ __metadata:
   version: 2.3.0
   resolution: "binary-extensions@npm:2.3.0"
   checksum: 10/bcad01494e8a9283abf18c1b967af65ee79b0c6a9e6fcfafebfe91dbe6e0fc7272bafb73389e198b310516ae04f7ad17d79aacf6cb4c0d5d5202a7e2e52c7d98
-  languageName: node
-  linkType: hard
-
-"binary-install@npm:^0.1.0":
-  version: 0.1.1
-  resolution: "binary-install@npm:0.1.1"
-  dependencies:
-    axios: "npm:^0.21.1"
-    rimraf: "npm:^3.0.2"
-    tar: "npm:^6.1.0"
-  checksum: 10/a3df9c07a3ab81533cff610527263181c4c34a44efb115555be910b6011ac047bf875ad57469cc2259dfaba58e971c7ba2958038e9d222c546eef7b58b826ecc
   languageName: node
   linkType: hard
 
@@ -7398,17 +7343,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ffjavascript@npm:0.2.62":
-  version: 0.2.62
-  resolution: "ffjavascript@npm:0.2.62"
-  dependencies:
-    wasmbuilder: "npm:0.0.16"
-    wasmcurves: "npm:0.2.2"
-    web-worker: "npm:^1.2.0"
-  checksum: 10/e99e1c26bd79a630536f6775dd062ed42f7f2d6fb4ed7a42af2641323d3b96cc950f072c180906a821422d9b14199c95190c3c9d623c2dccd3364d8e117bd663
-  languageName: node
-  linkType: hard
-
 "ffjavascript@npm:0.2.63, ffjavascript@npm:^0.2.30, ffjavascript@npm:^0.2.35, ffjavascript@npm:^0.2.38, ffjavascript@npm:^0.2.48":
   version: 0.2.63
   resolution: "ffjavascript@npm:0.2.63"
@@ -7417,6 +7351,17 @@ __metadata:
     wasmcurves: "npm:0.2.2"
     web-worker: "npm:1.2.0"
   checksum: 10/2886a8737eb200dcb3f592a168d525bbde270e362589b5cb7dfa1cc86b78a3c455858664be994dae5c7acbf7eb831250afdf4270fc900d90b02ac6023a74c302
+  languageName: node
+  linkType: hard
+
+"ffjavascript@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "ffjavascript@npm:0.3.0"
+  dependencies:
+    wasmbuilder: "npm:0.0.16"
+    wasmcurves: "npm:0.2.2"
+    web-worker: "npm:1.2.0"
+  checksum: 10/8478f3f3380b6195cf4994f9998e40a05780caa10b31bf67ba87ed294811ada6cb376deb58ce63d7fa124a828350a4c3530a6550545231872d7bd4e5e9f09f2f
   languageName: node
   linkType: hard
 
@@ -8013,7 +7958,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^7.0.0, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6":
+"glob@npm:^7.0.0, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4":
   version: 7.2.3
   resolution: "glob@npm:7.2.3"
   dependencies:
@@ -14628,7 +14573,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:^6.1.0, tar@npm:^6.1.11, tar@npm:^6.1.2, tar@npm:^6.2.0":
+"tar@npm:^6.1.11, tar@npm:^6.1.2, tar@npm:^6.2.0":
   version: 6.2.1
   resolution: "tar@npm:6.2.1"
   dependencies:
@@ -14813,13 +14758,6 @@ __metadata:
   version: 1.0.1
   resolution: "toidentifier@npm:1.0.1"
   checksum: 10/952c29e2a85d7123239b5cfdd889a0dde47ab0497f0913d70588f19c53f7e0b5327c95f4651e413c74b785147f9637b17410ac8c846d5d4a20a5a33eb6dc3a45
-  languageName: node
-  linkType: hard
-
-"toml@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "toml@npm:3.0.0"
-  checksum: 10/cfef0966868d552bd02e741f30945a611f70841b7cddb07ea2b17441fe32543985bc0a7c0dcf7971af26fcaf8a17712a485d911f46bfe28644536e9a71a2bd09
   languageName: node
   linkType: hard
 
@@ -15700,17 +15638,6 @@ __metadata:
   dependencies:
     makeerror: "npm:1.0.12"
   checksum: 10/ad7a257ea1e662e57ef2e018f97b3c02a7240ad5093c392186ce0bcf1f1a60bbadd520d073b9beb921ed99f64f065efb63dfc8eec689a80e569f93c1c5d5e16c
-  languageName: node
-  linkType: hard
-
-"wasm-pack@npm:^0.10.2":
-  version: 0.10.3
-  resolution: "wasm-pack@npm:0.10.3"
-  dependencies:
-    binary-install: "npm:^0.1.0"
-  bin:
-    wasm-pack: run.js
-  checksum: 10/5274e16344018252698a39c51db3f32f1f986737abe1ab5cc811192eaaab837267d38476cb81a214cfc00c599b679bdafcdcaceea5e61fef0f06a72cc53d0ea6
   languageName: node
   linkType: hard
 

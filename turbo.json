@@ -27,11 +27,9 @@
                 "@zk-kit/lean-imt#build",
                 "@zk-kit/baby-jubjub#build",
                 "@zk-kit/eddsa-poseidon#build",
-                "@zk-kit/groth16#build",
                 "@zk-kit/lazytower#build",
                 "@zk-kit/poseidon-cipher#build",
                 "@zk-kit/poseidon-proof#build",
-                "@zk-kit/rollup-plugin-rust#build",
                 "@zk-kit/smt#build",
                 "@zk-kit/utils#build"
             ],

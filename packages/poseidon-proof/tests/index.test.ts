@@ -1,4 +1,4 @@
-import { buildBn128 } from "@zk-kit/groth16"
+import { getCurveFromName } from "ffjavascript"
 import { decodeBytes32String, toBeHex } from "ethers"
 import { poseidon2 } from "poseidon-lite"
 import generate from "../src/generate"
@@ -12,7 +12,7 @@ let digest: bigint
 let fullProof: PoseidonProof
 
 beforeAll(async () => {
-    curve = await buildBn128()
+    curve = await getCurveFromName("bn128")
 
     fullProof = await generate([1, 2], scope)
 
