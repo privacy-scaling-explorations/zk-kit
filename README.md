@@ -16,8 +16,8 @@
     <a href="https://github.com/privacy-scaling-explorations/zk-kit/blob/main/LICENSE">
         <img alt="Github license" src="https://img.shields.io/github/license/privacy-scaling-explorations/zk-kit.svg?style=flat-square">
     </a>
-    <a href="https://github.com/privacy-scaling-explorations/zk-kit/actions?query=workflow%3Aproduction">
-        <img alt="GitHub Workflow test" src="https://img.shields.io/github/actions/workflow/status/privacy-scaling-explorations/zk-kit/production.yml?branch=main&label=test&style=flat-square&logo=github">
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit/actions?query=workflow%3Amain">
+        <img alt="GitHub Workflow Tests" src="https://img.shields.io/github/actions/workflow/status/privacy-scaling-explorations/zk-kit/main.yml?branch=main&label=tests&style=flat-square&logo=github">
     </a>
     <a href="https://coveralls.io/github/privacy-scaling-explorations/zk-kit">
         <img alt="Coveralls" src="https://img.shields.io/coveralls/github/privacy-scaling-explorations/zk-kit?label=coverage (ts)&style=flat-square&logo=coveralls">
