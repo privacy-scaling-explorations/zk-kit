@@ -62,7 +62,7 @@ jobs:
               run: yarn test
 
             - if: steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-            - name: Coveralls
+              name: Coveralls
               uses: coverallsapp/github-action@master
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
