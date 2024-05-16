@@ -1,25 +1,22 @@
 {
     "name": "zk-kit",
-    "description": "A monorepo of reusable libraries for zero-knowledge technologies.",
+    "description": "A monorepo of reusable JS libraries for zero-knowledge technologies.",
     "license": "MIT",
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
     "homepage": "https://github.com/privacy-scaling-explorations/zk-kit",
     "bugs": "https://github.com/privacy-scaling-explorations/zk-kit/issues",
     "private": true,
     "scripts": {
-        "build": "turbo build",
-        "_build:libraries": "yarn workspaces foreach -A -t --no-private run build",
-        "build:libraries": "turbo _build:libraries",
-        "test": "turbo _test:libraries test:coverage",
-        "_test:libraries": "jest --coverage",
-        "test:libraries": "turbo _test:libraries",
+        "_build": "yarn workspaces foreach -A -t --no-private run build",
+        "build": "turbo _build",
+        "_test": "jest --coverage",
+        "test": "turbo _test:libraries",
         "test:library": "jest packages/${0}",
-        "test:contracts": "turbo test:coverage",
         "version:bump": "yarn workspace @zk-kit/${0} version ${1} && yarn remove:stable-version-field ${0} && NO_HOOK=1 git commit -am \"chore(${0}): v${1}\" && git tag ${0}-v${1}",
         "version:publish": "yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public",
         "version:release": "changelogithub",
         "lint:eslint": "eslint . --ext .js,.ts",
-        "lint": "turbo lint:eslint lint",
+        "lint": "turbo lint:eslint",
         "format:prettier": "prettier -c .",
         "format:prettier:write": "prettier -w .",
         "format": "turbo format:prettier",
@@ -29,7 +26,7 @@
         "remove:stable-version-field": "ts-node scripts/remove-stable-version-field.ts ${0} && yarn format:prettier:write",
         "precommit": "lint-staged",
         "postinstall": "husky && git config --local core.editor cat",
-        "style": "turbo lint:eslint lint format:prettier"
+        "style": "turbo lint:eslint format:prettier"
     },
     "keywords": [
         "javascript",
@@ -39,12 +36,10 @@
         "zk-snarks"
     ],
     "workspaces": [
-        "packages/*",
-        "packages/*/contracts"
+        "packages/*"
     ],
     "packageManager": "yarn@4.1.0",
     "devDependencies": {
-        "@aztec/bb.js": "^0.33.0",
         "@commitlint/cli": "^18.6.1",
         "@commitlint/config-conventional": "^18.6.2",
         "@types/glob": "^7.2.0",

@@ -1,65 +1,18 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "pipeline": {
-        "build": {
-            "dependsOn": ["^build"],
+        "//#_build": {
             "inputs": [
-                "**/tsconfig.json",
-                "packages/**/*.{js,json,ts,sol}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
-            ],
-            "outputs": ["packages/**/{artifacts,dist,typechain-types}/**"]
-        },
-        "//#_build:libraries": {
-            "inputs": [
-                "tsconfig.json",
+                "build.tsconfig.json",
+                "rollup.config.ts",
                 "packages/**/*.{js,json,ts}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
+                "!packages/**/{dist}/**"
             ]
         },
-        "//#format:prettier": {
-            "inputs": [
-                ".prettierrc.json",
-                ".prettierignore",
-                "*.{js,ts,yml,json,md}",
-                "{.github,packages,scripts,types}/**/*.{js,ts,yml,json,md}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
-            ]
-        },
-        "//#format:prettier:write": {
-            "inputs": [
-                ".prettierrc.json",
-                ".prettierignore",
-                "*.{js,ts,yml,json,md}",
-                "{.github,packages,scripts,types}/**/*.{js,ts,yml,json,md}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
-            ]
-        },
-        "//#lint:eslint": {
-            "dependsOn": [
-                "@zk-kit/baby-jubjub#build",
-                "@zk-kit/eddsa-poseidon#build",
-                "@zk-kit/imt#build",
-                "imt.sol#typechain",
-                "lazytower.sol#typechain",
-                "@zk-kit/poseidon-cipher#build",
-                "@zk-kit/rollup-plugin-rust#build",
-                "@zk-kit/smt#build",
-                "@zk-kit/utils#build"
-            ],
-            "inputs": [
-                ".eslintrc.json",
-                ".eslintignore",
-                "{packages,scripts,types}/**/*.{js,ts}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
-            ]
-        },
-        "lint": {
-            "inputs": ["**/*.sol"]
-        },
-        "//#_test:libraries": {
+        "//#_test": {
             "dependsOn": [
                 "@zk-kit/imt#build",
+                "@zk-kit/lean-imt#build",
                 "@zk-kit/baby-jubjub#build",
                 "@zk-kit/eddsa-poseidon#build",
                 "@zk-kit/groth16#build",
@@ -70,18 +23,43 @@
                 "@zk-kit/smt#build",
                 "@zk-kit/utils#build"
             ],
+            "inputs": ["jest.config.ts", "packages/**/*.{js,ts}", "!packages/**/{dist}/**"]
+        },
+        "//#format:prettier": {
             "inputs": [
-                "jest.config.ts",
-                "packages/**/*.{js,ts}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
+                ".prettierrc.json",
+                ".prettierignore",
+                "*.{js,ts,yml,yaml,json,md}",
+                "{.github,packages,scripts,types}/**/*.{js,ts,yml,yaml,json,md}",
+                "!packages/**/{dist,node_modules}/**"
             ]
         },
-        "test:coverage": {
-            "dependsOn": ["@zk-kit/imt#build", "^build"],
-            "inputs": ["**/*.sol"]
+        "//#format:prettier:write": {
+            "inputs": [
+                ".prettierrc.json",
+                ".prettierignore",
+                "*.{js,ts,yml,yaml,json,md}",
+                "{.github,packages,scripts,types}/**/*.{js,ts,yml,yaml,json,md}",
+                "!packages/**/{dist}/**"
+            ]
         },
-        "typechain": {
-            "inputs": ["packages/**/*.sol"]
+        "//#lint:eslint": {
+            "dependsOn": [
+                "@zk-kit/baby-jubjub#build",
+                "@zk-kit/eddsa-poseidon#build",
+                "@zk-kit/imt#build",
+                "@zk-kit/lean-imt#build",
+                "@zk-kit/poseidon-cipher#build",
+                "@zk-kit/poseidon-proof#build",
+                "@zk-kit/smt#build",
+                "@zk-kit/utils#build"
+            ],
+            "inputs": [
+                ".eslintrc.json",
+                ".eslintignore",
+                "{packages,scripts,types}/**/*.{js,ts}",
+                "!packages/**/{dist}/**"
+            ]
         }
     }
 }

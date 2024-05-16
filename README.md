@@ -5,7 +5,7 @@
         <source media="(prefers-color-scheme: dark)" srcset="https://github.com/privacy-scaling-explorations/zk-kit/assets/11427903/f43f4403-846a-48b4-a1fa-0ab234c225e5">
         <img width="250" alt="ZK-Kit logo" src="https://github.com/privacy-scaling-explorations/zk-kit/assets/11427903/f691c48c-021f-485d-89ef-9ddc8ba74787">
       </picture>
-      <sub>JS & Solidity</sub>
+      <sub>JS</sub>
     </h1>
 </p>
 
@@ -59,7 +59,6 @@
 ♚ [Yarn workspaces](https://yarnpkg.com/features/workspaces): minimal monorepo package management (`yarn`, `yarn build`, `yarn docs`)\
 ♛ [Conventional Commits](https://www.conventionalcommits.org): human and machine readable meaning to commit messages (`yarn commit`)\
 ♜ [Jest](https://jestjs.io/): tests and test coverage for all libraries (`yarn test:libraries`)\
-♜ [Mocha](https://mochajs.org/): tests for contracts (`yarn test:contracts`)\
 ♞ [ESLint](https://eslint.org/), [Prettier](https://prettier.io/): code quality and formatting (`yarn prettier` & `yarn lint`)\
 ♝ [Typedocs](https://typedoc.org/): documentation generator for TypeScript (`yarn docs`)\
 ♟ [Benny](https://github.com/caderek/benny): simple benchmarking framework for JavaScript/TypeScript (`yarn benchmarks`)\
@@ -249,26 +248,6 @@
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt.sol">
-                    @zk-kit/imt.sol
-                </a>
-            </td>
-            <td>
-                <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/imt.sol">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/imt.sol.svg?style=flat-square" alt="NPM version" />
-                </a>
-            </td>
-            <td>
-                <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/imt.sol">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/imt.sol.svg?style=flat-square" alt="Downloads" />
-                </a>
-            </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/smt">
                     @zk-kit/smt
                 </a>
@@ -360,13 +339,13 @@ yarn lint
 Run [Prettier](https://prettier.io/) to check formatting rules:
 
 ```bash
-yarn prettier
+yarn format
 ```
 
 or to automatically format the code:
 
 ```bash
-yarn prettier:write
+yarn format:write
 ```
 
 ### Conventional commits
@@ -389,7 +368,7 @@ yarn test
 
 ### Build
 
-Build all the packages and compile contracts:
+Build all the packages:
 
 ```bash
 yarn build
