@@ -22,6 +22,7 @@
         "@types/mocha": "^10.0.6",
         "@types/node": "^20.10.7",
         "@zk-kit/imt": "workspace:packages/imt",
+        "@zk-kit/lean-imt": "workspace:packages/lean-imt",
         "chai": "^4.2.0",
         "ethers": "^6.4.0",
         "hardhat": "^2.19.4",
