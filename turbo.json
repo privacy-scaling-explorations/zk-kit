@@ -68,7 +68,7 @@
                 ".eslintrc.json",
                 ".eslintignore",
                 "{packages,scripts,types}/**/*.{js,ts}",
-                "!packages/**/{dist}/**"
+                "!packages/**/dist/**"
             ]
         }
     }
