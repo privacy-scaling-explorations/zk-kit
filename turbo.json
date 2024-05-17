@@ -33,7 +33,7 @@
                 "@zk-kit/smt#build",
                 "@zk-kit/utils#build"
             ],
-            "inputs": ["jest.config.ts", "packages/**/*.{js,ts}", "!packages/**/{dist}/**"]
+            "inputs": ["jest.config.ts", "packages/**/*.{js,ts}", "!packages/**/dist/**"]
         },
         "//#format:prettier": {
             "inputs": [
