@@ -10,7 +10,7 @@
                 "packages/**/*.{js,json,ts}",
                 "!packages/**/dist/**"
             ],
-            "outputs": ["packages/**/{dist}/**"]
+            "outputs": ["packages/**/dist/**"]
         },
         "//#_build": {
             "inputs": [
