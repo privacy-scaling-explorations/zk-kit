@@ -8,7 +8,7 @@
                 "**/build.tsconfig.json",
                 "**/rollup.config.ts",
                 "packages/**/*.{js,json,ts}",
-                "!packages/**/{dist}/**"
+                "!packages/**/dist/**"
             ],
             "outputs": ["packages/**/{dist}/**"]
         },
