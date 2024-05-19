@@ -1,7 +1,6 @@
 import { BigNumber } from "@ethersproject/bignumber"
-import type { SnarkArtifacts } from "@zk-kit/utils"
+import { maybeGetSnarkArtifacts, Project, type SnarkArtifacts } from "@zk-kit/artifacts"
 import { packGroth16Proof } from "@zk-kit/utils/proof-packing"
-import maybeGetSnarkArtifacts, { Project } from "@zk-kit/utils/snark-artifacts"
 import { BigNumberish } from "ethers"
 import { NumericString, groth16 } from "snarkjs"
 import hash from "./hash"
