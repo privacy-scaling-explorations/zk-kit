@@ -3,45 +3,22 @@
     "pipeline": {
         "build": {
             "dependsOn": ["^build"],
-            "inputs": [
-                "tsconfig.json",
-                "**/build.tsconfig.json",
-                "**/rollup.config.ts",
-                "packages/**/*.{js,json,ts}",
-                "!packages/**/dist/**"
-            ],
+            "inputs": ["tsconfig.json", "**/build.tsconfig.json", "**/rollup.config.ts", "packages/**/*.{js,json,ts}"],
             "outputs": ["packages/**/dist/**"]
         },
         "//#_build": {
-            "inputs": [
-                "tsconfig.json",
-                "**/build.tsconfig.json",
-                "**/rollup.config.ts",
-                "packages/**/*.{js,json,ts}",
-                "!packages/**/dist/**"
-            ]
+            "inputs": ["tsconfig.json", "**/build.tsconfig.json", "**/rollup.config.ts", "packages/**/*.{js,json,ts}"]
         },
         "//#_test": {
-            "dependsOn": [
-                "@zk-kit/imt#build",
-                "@zk-kit/lean-imt#build",
-                "@zk-kit/baby-jubjub#build",
-                "@zk-kit/eddsa-poseidon#build",
-                "@zk-kit/lazytower#build",
-                "@zk-kit/poseidon-cipher#build",
-                "@zk-kit/poseidon-proof#build",
-                "@zk-kit/smt#build",
-                "@zk-kit/utils#build"
-            ],
-            "inputs": ["jest.config.ts", "packages/**/*.{js,ts}", "!packages/**/dist/**"]
+            "dependsOn": ["_build"],
+            "inputs": ["jest.config.ts", "packages/**/*.{js,ts}"]
         },
         "//#format:prettier": {
             "inputs": [
                 ".prettierrc.json",
                 ".prettierignore",
                 "*.{js,ts,yml,yaml,json,md}",
-                "{.github,packages,scripts,types}/**/*.{js,ts,yml,yaml,json,md}",
-                "!packages/**/{dist,node_modules}/**"
+                "{.github,packages,scripts,types}/**/*.{js,ts,yml,yaml,json,md}"
             ]
         },
         "//#format:prettier:write": {
@@ -49,27 +26,12 @@
                 ".prettierrc.json",
                 ".prettierignore",
                 "*.{js,ts,yml,yaml,json,md}",
-                "{.github,packages,scripts,types}/**/*.{js,ts,yml,yaml,json,md}",
-                "!packages/**/{dist}/**"
+                "{.github,packages,scripts,types}/**/*.{js,ts,yml,yaml,json,md}"
             ]
         },
         "//#lint:eslint": {
-            "dependsOn": [
-                "@zk-kit/baby-jubjub#build",
-                "@zk-kit/eddsa-poseidon#build",
-                "@zk-kit/imt#build",
-                "@zk-kit/lean-imt#build",
-                "@zk-kit/poseidon-cipher#build",
-                "@zk-kit/poseidon-proof#build",
-                "@zk-kit/smt#build",
-                "@zk-kit/utils#build"
-            ],
-            "inputs": [
-                ".eslintrc.json",
-                ".eslintignore",
-                "{packages,scripts,types}/**/*.{js,ts}",
-                "!packages/**/dist/**"
-            ]
+            "dependsOn": ["_build"],
+            "inputs": [".eslintrc.json", ".eslintignore", "{packages,scripts,types}/**/*.{js,ts}"]
         }
     }
 }
