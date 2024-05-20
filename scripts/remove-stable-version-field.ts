@@ -1,13 +1,9 @@
-import { existsSync, readFileSync, writeFileSync } from "node:fs"
+import { readFileSync, writeFileSync } from "node:fs"
 
 async function main() {
     const projectDirectory = `packages/${process.argv[2]}`
 
-    let filePath = `${projectDirectory}/package.json`
-
-    if (existsSync(`${projectDirectory}/contracts/package.json`)) {
-        filePath = `${projectDirectory}/contracts/package.json`
-    }
+    const filePath = `${projectDirectory}/package.json`
 
     const content = JSON.parse(readFileSync(filePath, "utf8"))
 

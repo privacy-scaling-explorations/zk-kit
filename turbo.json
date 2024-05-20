@@ -3,85 +3,35 @@
     "pipeline": {
         "build": {
             "dependsOn": ["^build"],
-            "inputs": [
-                "**/tsconfig.json",
-                "packages/**/*.{js,json,ts,sol}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
-            ],
-            "outputs": ["packages/**/{artifacts,dist,typechain-types}/**"]
+            "inputs": ["tsconfig.json", "**/build.tsconfig.json", "**/rollup.config.ts", "packages/**/*.{js,json,ts}"],
+            "outputs": ["packages/**/dist/**"]
         },
-        "//#_build:libraries": {
-            "inputs": [
-                "tsconfig.json",
-                "packages/**/*.{js,json,ts}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
-            ]
+        "//#_build": {
+            "inputs": ["tsconfig.json", "**/build.tsconfig.json", "**/rollup.config.ts", "packages/**/*.{js,json,ts}"]
+        },
+        "//#_test": {
+            "dependsOn": ["_build"],
+            "inputs": ["jest.config.ts", "packages/**/*.{js,ts}"]
         },
         "//#format:prettier": {
             "inputs": [
                 ".prettierrc.json",
                 ".prettierignore",
-                "*.{js,ts,yml,json,md}",
-                "{.github,packages,scripts,types}/**/*.{js,ts,yml,json,md}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
+                "*.{js,ts,yml,yaml,json,md}",
+                "{.github,packages,scripts,types}/**/*.{js,ts,yml,yaml,json,md}"
             ]
         },
         "//#format:prettier:write": {
             "inputs": [
                 ".prettierrc.json",
                 ".prettierignore",
-                "*.{js,ts,yml,json,md}",
-                "{.github,packages,scripts,types}/**/*.{js,ts,yml,json,md}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
+                "*.{js,ts,yml,yaml,json,md}",
+                "{.github,packages,scripts,types}/**/*.{js,ts,yml,yaml,json,md}"
             ]
         },
         "//#lint:eslint": {
-            "dependsOn": [
-                "@zk-kit/baby-jubjub#build",
-                "@zk-kit/eddsa-poseidon#build",
-                "@zk-kit/imt#build",
-                "imt.sol#typechain",
-                "lazytower.sol#typechain",
-                "@zk-kit/poseidon-cipher#build",
-                "@zk-kit/rollup-plugin-rust#build",
-                "@zk-kit/smt#build",
-                "@zk-kit/utils#build"
-            ],
-            "inputs": [
-                ".eslintrc.json",
-                ".eslintignore",
-                "{packages,scripts,types}/**/*.{js,ts}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
-            ]
-        },
-        "lint": {
-            "inputs": ["**/*.sol"]
-        },
-        "//#_test:libraries": {
-            "dependsOn": [
-                "@zk-kit/imt#build",
-                "@zk-kit/baby-jubjub#build",
-                "@zk-kit/eddsa-poseidon#build",
-                "@zk-kit/groth16#build",
-                "@zk-kit/lazytower#build",
-                "@zk-kit/poseidon-cipher#build",
-                "@zk-kit/poseidon-proof#build",
-                "@zk-kit/rollup-plugin-rust#build",
-                "@zk-kit/smt#build",
-                "@zk-kit/utils#build"
-            ],
-            "inputs": [
-                "jest.config.ts",
-                "packages/**/*.{js,ts}",
-                "!packages/**/{artifacts,cache,dist,typechain-types}/**"
-            ]
-        },
-        "test:coverage": {
-            "dependsOn": ["@zk-kit/imt#build", "^build"],
-            "inputs": ["**/*.sol"]
-        },
-        "typechain": {
-            "inputs": ["packages/**/*.sol"]
+            "dependsOn": ["_build"],
+            "inputs": [".eslintrc.json", ".eslintignore", "{packages,scripts,types}/**/*.{js,ts}"]
         }
     }
 }
