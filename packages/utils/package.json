@@ -48,15 +48,6 @@
             "types": "./dist/types/f1-field.d.ts",
             "require": "./dist/lib.commonjs/f1-field.cjs",
             "default": "./dist/lib.esm/f1-field.js"
-        },
-        "./snark-artifacts": {
-            "types": "./dist/types/snark-artifacts/snark-artifacts.browser.d.ts",
-            "node": {
-                "require": "./dist/lib.commonjs/snark-artifacts/snark-artifacts.node.cjs",
-                "default": "./dist/lib.esm/snark-artifacts/snark-artifacts.node.js"
-            },
-            "browser": "./dist/lib.esm/snark-artifacts/snark-artifacts.browser.js",
-            "default": "./dist/lib.esm/snark-artifacts/snark-artifacts.browser.js"
         }
     },
     "files": [
