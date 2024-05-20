@@ -44,13 +44,7 @@ export default [
         external: Object.keys(pkg.dependencies),
         plugins: [
             alias({
-                entries: [
-                    { find: "./crypto/crypto.node", replacement: "./crypto/crypto.browser" },
-                    {
-                        find: "./snark-artifacts/snark-artifacts.node",
-                        replacement: "./snark-artifacts/snark-artifacts.browser"
-                    }
-                ]
+                entries: [{ find: "./crypto/crypto.node", replacement: "./crypto/crypto.browser" }]
             }),
             typescript({
                 tsconfig: "./build.tsconfig.json"
@@ -77,13 +71,7 @@ export default [
         external: [],
         plugins: [
             alias({
-                entries: [
-                    { find: "./crypto/crypto.node", replacement: "./crypto/crypto.browser" },
-                    {
-                        find: "./snark-artifacts/snark-artifacts.node",
-                        replacement: "./snark-artifacts/snark-artifacts.browser"
-                    }
-                ]
+                entries: [{ find: "./crypto/crypto.node", replacement: "./crypto/crypto.browser" }]
             }),
             typescript({
                 tsconfig: "./build.tsconfig.json"
