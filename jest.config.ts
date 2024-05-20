@@ -21,7 +21,7 @@ const projects: any = fs
 export default async (): Promise<Config.InitialOptions> => ({
     projects,
     verbose: true,
-    coverageDirectory: "./coverage/libraries",
+    coverageDirectory: "./coverage",
     coverageThreshold: {
         global: {
             branches: 90,
