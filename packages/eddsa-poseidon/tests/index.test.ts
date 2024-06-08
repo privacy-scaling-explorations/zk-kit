@@ -376,6 +376,7 @@ describe("EdDSAPoseidon", () => {
         const signature = eddsa.signMessage(message)
 
         expect(typeof eddsa.privateKey).toBe("string")
+        expect(eddsa.privateKey).toBe(privateKey)
         expect(eddsa.secretScalar).toBe(deriveSecretScalar(privateKey))
         expect(eddsa.packedPublicKey).toBe(packPublicKey(eddsa.publicKey))
         expect(eddsa.verifySignature(message, signature)).toBeTruthy()
