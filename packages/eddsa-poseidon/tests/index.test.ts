@@ -375,6 +375,8 @@ describe("EdDSAPoseidon", () => {
 
         const signature = eddsa.signMessage(message)
 
+        expect(typeof eddsa.privateKey).toBe("string")
+        expect(eddsa.privateKey).toBe(privateKey)
         expect(eddsa.secretScalar).toBe(deriveSecretScalar(privateKey))
         expect(eddsa.packedPublicKey).toBe(packPublicKey(eddsa.publicKey))
         expect(eddsa.verifySignature(message, signature)).toBeTruthy()
@@ -385,8 +387,8 @@ describe("EdDSAPoseidon", () => {
 
         const signature = eddsa.signMessage(message)
 
-        expect(typeof eddsa.privateKey).toBe("string")
-        expect(eddsa.privateKey).toHaveLength(64)
+        expect(typeof eddsa.privateKey).toBe("object")
+        expect(eddsa.privateKey).toHaveLength(32)
         expect(eddsa.secretScalar).toBe(deriveSecretScalar(eddsa.privateKey))
         expect(eddsa.packedPublicKey).toBe(packPublicKey(eddsa.publicKey))
         expect(eddsa.verifySignature(message, signature)).toBeTruthy()
