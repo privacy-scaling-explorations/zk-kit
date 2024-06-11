@@ -1,15 +1,19 @@
 import { Buffer } from "buffer"
 import {
+    base64ToBuffer,
+    base64ToText,
     beBigIntToBuffer,
     beBufferToBigInt,
     bigIntToHexadecimal,
     bigNumberishToBigInt,
     bigNumberishToBuffer,
+    bufferToBase64,
     bufferToHexadecimal,
     hexadecimalToBigInt,
     hexadecimalToBuffer,
     leBigIntToBuffer,
-    leBufferToBigInt
+    leBufferToBigInt,
+    textToBase64
 } from "../src/conversions"
 
 describe("Conversions", () => {
@@ -167,6 +171,40 @@ describe("Conversions", () => {
             const fun = () => hexadecimalToBuffer("0x12")
 
             expect(fun).toThrow("Parameter 'value' is not a hexadecimal string")
+        })
+    })
+
+    describe("# base64ToBuffer / bufferToBase64", () => {
+        const testBase64 = "SGVsbG8sIFdvcmxkIQ=="
+        const testText = "Hello, World!"
+
+        it("Should convert a base64 string to a buffer", async () => {
+            const result = base64ToBuffer(testBase64)
+
+            expect(result.toString("utf8")).toBe(testText)
+        })
+
+        it("Should convert a buffer to a base64 string", async () => {
+            const result = bufferToBase64(Buffer.from(testText))
+
+            expect(result).toBe(testBase64)
+        })
+    })
+
+    describe("# base64ToText / textToBase64", () => {
+        const testBase64 = "SGVsbG8sIFdvcmxkIQ=="
+        const testText = "Hello, World!"
+
+        it("Should convert a base64 string to a text", async () => {
+            const result = base64ToText(testBase64)
+
+            expect(result).toBe(testText)
+        })
+
+        it("Should convert a text to a base64 string", async () => {
+            const result = textToBase64(testText)
+
+            expect(result).toBe(testBase64)
         })
     })
 
