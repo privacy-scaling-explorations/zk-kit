@@ -222,8 +222,8 @@ export function bufferToHexadecimal(value: Buffer | Uint8Array): string {
 }
 
 /**
- * Converts a buffer to a base64 string. It accepts 'Buffer' or 'Uint8Array'.
- * @param value The buffer to convert.
+ * Converts bytes to a base64 string. It accepts 'Buffer' or 'Uint8Array'.
+ * @param value The bytes to convert.
  * @returns The converted base64 string.
  */
 export function bufferToBase64(value: Buffer | Uint8Array): string {
@@ -233,7 +233,7 @@ export function bufferToBase64(value: Buffer | Uint8Array): string {
 }
 
 /**
- * Converts a base64 string to a buffer. This function does not check
+ * Converts a base64 string to bytes (i.e. a buffer). This function does not check
  * if the input value is a valid base64 string.
  * @param value The base64 string to convert.
  * @returns The converted buffer.
