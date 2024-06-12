@@ -189,6 +189,12 @@ describe("Conversions", () => {
 
             expect(result).toBe(testBase64)
         })
+
+        it("Should ignore unsupported characters in the base64 string", async () => {
+            const result = base64ToBuffer("#@. Unsupported characters .@#")
+
+            expect(bufferToBase64(result)).toBe("Unsupportedcharacter")
+        })
     })
 
     describe("# base64ToText / textToBase64", () => {
@@ -205,6 +211,13 @@ describe("Conversions", () => {
             const result = textToBase64(testText)
 
             expect(result).toBe(testBase64)
+        })
+
+        it("Should not correctly convert a base64 string with invalid characters", async () => {
+            const result = base64ToText("#@. Unsupported characters .@#")
+
+            expect(textToBase64(result)).not.toBe("Unsupportedcharacter")
+            expect(textToBase64(result)).not.toBe("#@. Unsupported characters .@#")
         })
     })
 

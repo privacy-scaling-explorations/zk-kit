@@ -234,7 +234,8 @@ export function bufferToBase64(value: Buffer | Uint8Array): string {
 
 /**
  * Converts a base64 string to bytes (i.e. a buffer). This function does not check
- * if the input value is a valid base64 string.
+ * if the input value is a valid base64 string. If there are unsupported characters
+ * they will be ignored.
  * @param value The base64 string to convert.
  * @returns The converted buffer.
  */
@@ -257,7 +258,8 @@ export function textToBase64(value: string): string {
 
 /**
  * Converts a base64 string to text (utf8). This function does not check
- * if the input value is a valid base64 string.
+ * if the input value is a valid base64 string. If there are unsupported characters
+ * they could be ignored and the result may be unexpected.
  * @param value The base64 string to convert.
  * @returns The converted text.
  */
