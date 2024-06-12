@@ -219,6 +219,14 @@ describe("Conversions", () => {
             expect(textToBase64(result)).not.toBe("Unsupportedcharacter")
             expect(textToBase64(result)).not.toBe("#@. Unsupported characters .@#")
         })
+
+        it("Should support and correctly convert text with non-ASCII characters", async () => {
+            const nonASCII = "🔥 БД Ω 好 ت 本"
+
+            const result = textToBase64(nonASCII)
+
+            expect(base64ToText(result)).toBe(nonASCII)
+        })
     })
 
     describe("BigInt to/from Buffer Conversions", () => {
