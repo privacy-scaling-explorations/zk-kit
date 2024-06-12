@@ -195,6 +195,22 @@ describe("Conversions", () => {
 
             expect(bufferToBase64(result)).toBe("Unsupportedcharacter")
         })
+
+        it("Should convert other base64 representations to a buffer", async () => {
+            const empty = ""
+            // Binary Data with Null and Escape Characters.
+            const random = "QUJDREVGR0hJSktMTU5PUFBbU09aW15gYQ=="
+            // Image data (PNG).
+            const image =
+                "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAEklEQVR42mP8/5/hP4P8P4//fwYAAAD//wAHOVjsXAAAAABJRU5ErkJggg=="
+            // Audio data (WAV).
+            const audio = "UklGRjgAAABXQVZFZm10IBAAAAABAAEARKwAABCxAgAEABAAZGF0YQAAAAA="
+
+            expect(bufferToBase64(base64ToBuffer(empty))).toBe(empty)
+            expect(bufferToBase64(base64ToBuffer(random))).toBe(random)
+            expect(bufferToBase64(base64ToBuffer(image))).toBe(image)
+            expect(bufferToBase64(base64ToBuffer(audio))).toBe(audio)
+        })
     })
 
     describe("# base64ToText / textToBase64", () => {
