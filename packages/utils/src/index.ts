@@ -1,3 +1,4 @@
+import { Buffer } from "buffer"
 import * as conversions from "./conversions"
 import * as crypto from "./crypto/crypto.node"
 import * as errorHandlers from "./error-handlers"
@@ -11,4 +12,4 @@ export * from "./error-handlers"
 export * from "./proof-packing"
 export * from "./type-checks"
 export * from "./types"
-export { F1Field, conversions, crypto, errorHandlers, packing, scalar, typeChecks }
+export { Buffer, F1Field, conversions, crypto, errorHandlers, packing, scalar, typeChecks }
