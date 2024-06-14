@@ -78,6 +78,7 @@
     <th>Version</th>
     <th>Downloads</th>
     <th>Size</th>
+    <th>Audited</th>
     <tbody>
         <tr>
             <td>
@@ -104,6 +105,11 @@
                 <!-- Size -->
                 <a href="https://bundlephobia.com/package/@zk-kit/eddsa-poseidon">
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/eddsa-poseidon" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
                 </a>
             </td>
         </tr>
@@ -134,6 +140,9 @@
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon-cipher" alt="npm bundle size (scoped)" />
                 </a>
             </td>
+            <td>
+                ❌
+            </td>
         </tr>
         <tr>
             <td>
@@ -160,6 +169,11 @@
                 <!-- Size -->
                 <a href="https://bundlephobia.com/package/@zk-kit/baby-jubjub">
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/baby-jubjub" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
                 </a>
             </td>
         </tr>
@@ -190,6 +204,11 @@
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/utils" alt="npm bundle size (scoped)" />
                 </a>
             </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
+                </a>
+            </td>
         </tr>
         <tr>
             <td>
@@ -218,6 +237,9 @@
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/imt" alt="npm bundle size (scoped)" />
                 </a>
             </td>
+            <td>
+                ❌
+            </td>
         </tr>
         <tr>
             <td>
@@ -244,6 +266,11 @@
                 <!-- Size -->
                 <a href="https://bundlephobia.com/package/@zk-kit/lean-imt">
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/lean-imt" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
                 </a>
             </td>
         </tr>
@@ -274,6 +301,9 @@
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/smt" alt="npm bundle size (scoped)" />
                 </a>
             </td>
+            <td>
+                ❌
+            </td>
         </tr>
         <tr>
             <td>
@@ -301,6 +331,9 @@
                 <a href="https://bundlephobia.com/package/@zk-kit/poseidon-proof">
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon-proof" alt="npm bundle size (scoped)" />
                 </a>
+            </td>
+            <td>
+                ❌
             </td>
         </tr>
     <tbody>
