@@ -30,6 +30,9 @@ Pull requests are great if you want to add a feature or fix a bug. Here's a quic
 
 7. Push to your fork and submit a pull request on our `main` branch. Please provide us with some explanation of why you made the changes you made. For new features make sure to explain a standard use case to us.
 
+> [!NOTE]  
+> When a new package is created or a new feature is added to the repository, the contributor will be added to the `.github/CODEOWNERS` file to review and approve any future changes to their code.
+
 ## CI (Github Actions) Tests
 
 We use GitHub Actions to test each PR before it is merged.
@@ -46,7 +49,7 @@ We always use ESLint and Prettier. To check that your code follows the rules, si
 
 For commits it is recommended to use [Conventional Commits](https://www.conventionalcommits.org).
 
-Don't worry if it looks complicated, in our repositories, `git commit` opens an interactive app to create your conventional commit.
+Don't worry if it looks complicated. In our repositories, `git commit` opens an interactive app to create your conventional commit.
 
 Each commit message consists of a **header**, a **body** and a **footer**. The **header** has a special format that includes a **type**, a **scope** and a **subject**:
 
