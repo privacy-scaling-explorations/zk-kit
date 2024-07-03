@@ -87,7 +87,7 @@ or [JSDelivr](https://www.jsdelivr.com/):
 ```typescript
 import { ChildNodes, SMT } from "@zk-kit/smt"
 import sha256 from "crypto-js/sha256"
-import { poseidon2 } from "poseidon-lite"
+import { poseidon2, poseidon3 } from "poseidon-lite"
 
 // Hexadecimal hashes.
 const hash = (childNodes: ChildNodes) => sha256(childNodes.join("")).toString()
@@ -99,7 +99,7 @@ const tree = new SMT(hash)
 console.log(tree.root)
 
 // Big number hashes.
-const hash2 = (childNodes: ChildNodes) => poseidon2(childNodes)
+const hash2 = (childNodes) => (childNodes.length === 2 ? poseidon2(childNodes) : poseidon3(childNodes))
 
 // Create the SMT with a BigNumber (Poseidon) hash.
 const tree2 = new SMT(hash2, true)
