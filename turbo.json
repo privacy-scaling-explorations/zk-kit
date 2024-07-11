@@ -1,0 +1,37 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "pipeline": {
+        "build": {
+            "dependsOn": ["^build"],
+            "inputs": ["tsconfig.json", "**/build.tsconfig.json", "**/rollup.config.ts", "packages/**/*.{js,json,ts}"],
+            "outputs": ["packages/**/dist/**"]
+        },
+        "//#_build": {
+            "inputs": ["tsconfig.json", "**/build.tsconfig.json", "**/rollup.config.ts", "packages/**/*.{js,json,ts}"]
+        },
+        "//#_test": {
+            "dependsOn": ["_build"],
+            "inputs": ["jest.config.ts", "packages/**/*.{js,ts}"]
+        },
+        "//#format:prettier": {
+            "inputs": [
+                ".prettierrc.json",
+                ".prettierignore",
+                "*.{js,ts,yml,yaml,json,md}",
+                "{.github,packages,scripts,types}/**/*.{js,ts,yml,yaml,json,md}"
+            ]
+        },
+        "//#format:prettier:write": {
+            "inputs": [
+                ".prettierrc.json",
+                ".prettierignore",
+                "*.{js,ts,yml,yaml,json,md}",
+                "{.github,packages,scripts,types}/**/*.{js,ts,yml,yaml,json,md}"
+            ]
+        },
+        "//#lint:eslint": {
+            "dependsOn": ["_build"],
+            "inputs": [".eslintrc.json", ".eslintignore", "{packages,scripts,types}/**/*.{js,ts}"]
+        }
+    }
+}

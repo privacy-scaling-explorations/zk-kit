@@ -1,8 +1,12 @@
 <p align="center">
     <h1 align="center">
-        🧰 ZK-kit
+      <picture>
+        <source media="(prefers-color-scheme: light)" srcset="https://github.com/privacy-scaling-explorations/zk-kit/assets/11427903/f691c48c-021f-485d-89ef-9ddc8ba74787">
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/privacy-scaling-explorations/zk-kit/assets/11427903/f43f4403-846a-48b4-a1fa-0ab234c225e5">
+        <img width="250" alt="ZK-Kit logo" src="https://github.com/privacy-scaling-explorations/zk-kit/assets/11427903/f691c48c-021f-485d-89ef-9ddc8ba74787">
+      </picture>
+      <sub>JS</sub>
     </h1>
-    <p align="center">A monorepo of reusable libraries for zero-knowledge technologies.</p>
 </p>
 
 <p align="center">
@@ -12,8 +16,8 @@
     <a href="https://github.com/privacy-scaling-explorations/zk-kit/blob/main/LICENSE">
         <img alt="Github license" src="https://img.shields.io/github/license/privacy-scaling-explorations/zk-kit.svg?style=flat-square">
     </a>
-    <a href="https://github.com/privacy-scaling-explorations/zk-kit/actions?query=workflow%3Aproduction">
-        <img alt="GitHub Workflow test" src="https://img.shields.io/github/actions/workflow/status/privacy-scaling-explorations/zk-kit/production.yml?branch=main&label=test&style=flat-square&logo=github">
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit/actions?query=workflow%3Amain">
+        <img alt="GitHub Workflow Tests" src="https://img.shields.io/github/actions/workflow/status/privacy-scaling-explorations/zk-kit/main.yml?branch=main&label=tests&style=flat-square&logo=github">
     </a>
     <a href="https://coveralls.io/github/privacy-scaling-explorations/zk-kit">
         <img alt="Coveralls" src="https://img.shields.io/coveralls/github/privacy-scaling-explorations/zk-kit?label=coverage (ts)&style=flat-square&logo=coveralls">
@@ -23,6 +27,9 @@
     </a>
     <a href="https://prettier.io/">
         <img alt="Code style prettier" src="https://img.shields.io/badge/code%20style-prettier-f8bc45?style=flat-square&logo=prettier">
+    </a>
+    <a href="http://commitizen.github.io/cz-cli/">
+        <img alt="Commitizen friendly" src="https://img.shields.io/badge/commitizen-friendly-586D76?style=flat-square">
     </a>
 </p>
 
@@ -46,17 +53,23 @@
     </h4>
 </div>
 
-| ZK-kit is a set of libraries (plugins, algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access user-friendly, tested, and documented libraries for common tasks. |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ZK-Kit is a set of libraries (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access user-friendly, tested, and documented code for common tasks. ZK-Kit provides different repositories for each language - this one contains JavaScript code only. |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 ♚ [Yarn workspaces](https://yarnpkg.com/features/workspaces): minimal monorepo package management (`yarn`, `yarn build`, `yarn docs`)\
 ♛ [Conventional Commits](https://www.conventionalcommits.org): human and machine readable meaning to commit messages (`yarn commit`)\
 ♜ [Jest](https://jestjs.io/): tests and test coverage for all libraries (`yarn test:libraries`)\
-♜ [Mocha](https://mochajs.org/): tests for circuits and contracts (`yarn test:circuits`, `yarn test:contracts`)\
 ♞ [ESLint](https://eslint.org/), [Prettier](https://prettier.io/): code quality and formatting (`yarn prettier` & `yarn lint`)\
 ♝ [Typedocs](https://typedoc.org/): documentation generator for TypeScript (`yarn docs`)\
 ♟ [Benny](https://github.com/caderek/benny): simple benchmarking framework for JavaScript/TypeScript (`yarn benchmarks`)\
 ♟ [Github actions](https://github.com/features/actions): software workflows for automatic testing, documentation deploy and code quality checks
+
+## 🗂️ Repositories
+
+-   Javascript: https://github.com/privacy-scaling-explorations/zk-kit
+-   Solidity: https://github.com/privacy-scaling-explorations/zk-kit.solidity
+-   Circom: https://github.com/privacy-scaling-explorations/zk-kit.circom
+-   Noir: https://github.com/privacy-scaling-explorations/zk-kit.noir
 
 ## 📦 Packages
 
@@ -65,27 +78,8 @@
     <th>Version</th>
     <th>Downloads</th>
     <th>Size</th>
+    <th>Audited</th>
     <tbody>
-        <tr>
-            <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/circuits">
-                    @zk-kit/circuits
-                </a>
-            </td>
-            <td>
-                <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/circuits">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/circuits.svg?style=flat-square" alt="NPM version" />
-                </a>
-            </td>
-            <td>
-                <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/circuits">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/circuits.svg?style=flat-square" alt="Downloads" />
-                </a>
-            </td>
-            <td></td>
-        </tr>
         <tr>
             <td>
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/eddsa-poseidon">
@@ -111,6 +105,11 @@
                 <!-- Size -->
                 <a href="https://bundlephobia.com/package/@zk-kit/eddsa-poseidon">
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/eddsa-poseidon" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
                 </a>
             </td>
         </tr>
@@ -141,6 +140,9 @@
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon-cipher" alt="npm bundle size (scoped)" />
                 </a>
             </td>
+            <td>
+                ❌
+            </td>
         </tr>
         <tr>
             <td>
@@ -167,6 +169,11 @@
                 <!-- Size -->
                 <a href="https://bundlephobia.com/package/@zk-kit/baby-jubjub">
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/baby-jubjub" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
                 </a>
             </td>
         </tr>
@@ -197,6 +204,11 @@
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/utils" alt="npm bundle size (scoped)" />
                 </a>
             </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
+                </a>
+            </td>
         </tr>
         <tr>
             <td>
@@ -225,26 +237,42 @@
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/imt" alt="npm bundle size (scoped)" />
                 </a>
             </td>
+            <td>
+                ❌
+            </td>
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt.sol">
-                    @zk-kit/imt.sol
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lean-imt">
+                    @zk-kit/lean-imt
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_lean_imt.html">
+                    (docs)
                 </a>
             </td>
             <td>
                 <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/imt.sol">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/imt.sol.svg?style=flat-square" alt="NPM version" />
+                <a href="https://npmjs.org/package/@zk-kit/lean-imt">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/lean-imt.svg?style=flat-square" alt="NPM version" />
                 </a>
             </td>
             <td>
                 <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/imt.sol">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/imt.sol.svg?style=flat-square" alt="Downloads" />
+                <a href="https://npmjs.org/package/@zk-kit/lean-imt">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/lean-imt.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
-            <td></td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/lean-imt">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/lean-imt" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
+                </a>
+            </td>
         </tr>
         <tr>
             <td>
@@ -272,6 +300,9 @@
                 <a href="https://bundlephobia.com/package/@zk-kit/smt">
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/smt" alt="npm bundle size (scoped)" />
                 </a>
+            </td>
+            <td>
+                ❌
             </td>
         </tr>
         <tr>
@@ -301,55 +332,8 @@
                     <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon-proof" alt="npm bundle size (scoped)" />
                 </a>
             </td>
-        </tr>
-        <tr>
             <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/groth16">
-                    @zk-kit/groth16
-                </a>
-            </td>
-            <td>
-                <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/groth16">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/groth16.svg?style=flat-square" alt="NPM version" />
-                </a>
-            </td>
-            <td>
-                <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/groth16">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/groth16.svg?style=flat-square" alt="Downloads" />
-                </a>
-            </td>
-            <td>
-                <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zk-kit/groth16">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/groth16" alt="npm bundle size (scoped)" />
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/rollup-plugin-rust">
-                    @zk-kit/rollup-plugin-rust
-                </a>
-            </td>
-            <td>
-                <!-- NPM version -->
-                <a href="https://npmjs.org/package/@zk-kit/rollup-plugin-rust">
-                    <img src="https://img.shields.io/npm/v/@zk-kit/rollup-plugin-rust.svg?style=flat-square" alt="NPM version" />
-                </a>
-            </td>
-            <td>
-                <!-- Downloads -->
-                <a href="https://npmjs.org/package/@zk-kit/rollup-plugin-rust">
-                    <img src="https://img.shields.io/npm/dm/@zk-kit/rollup-plugin-rust.svg?style=flat-square" alt="Downloads" />
-                </a>
-            </td>
-            <td>
-                <!-- Size -->
-                <a href="https://bundlephobia.com/package/@zk-kit/rollup-plugin-rust">
-                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/rollup-plugin-rust" alt="npm bundle size (scoped)" />
-                </a>
+                ❌
             </td>
         </tr>
     <tbody>
@@ -389,13 +373,13 @@ yarn lint
 Run [Prettier](https://prettier.io/) to check formatting rules:
 
 ```bash
-yarn prettier
+yarn format
 ```
 
 or to automatically format the code:
 
 ```bash
-yarn prettier:write
+yarn format:write
 ```
 
 ### Conventional commits
@@ -418,7 +402,7 @@ yarn test
 
 ### Build
 
-Build all the packages and compile contracts:
+Build all the packages:
 
 ```bash
 yarn build
@@ -435,6 +419,32 @@ yarn docs
 ```
 
 The output will be placed on the `docs` folder.
+
+### Releases
+
+1. Bump a new version of the package with:
+
+```bash
+yarn version:bump <package-name> <version>
+# e.g. yarn version:bump utils 2.0.0
+```
+
+This step creates a commit and a git tag.
+
+2. Push the changes to main:
+
+```bash
+git push origin main
+```
+
+3. Push the new git tag:
+
+```bash
+git push origin <package-name>-<version>
+# e.g. git push origin utils-v2.0.0
+```
+
+After pushing the new git tag, a workflow will be triggered and will publish the package on [npm](https://www.npmjs.com/) and release a new version on Github with its changelogs automatically.
 
 ## ❓ FAQ
 

@@ -58,6 +58,7 @@ build
 docs
 
 # Hardhat
+artifacts
 cache
 typechain-types
 
@@ -83,3 +84,10 @@ typechain-types
 
 # Other
 benchmarks/results
+
+# turbo cache
+.turbo
+
+.envrc
+.tool-versions
+

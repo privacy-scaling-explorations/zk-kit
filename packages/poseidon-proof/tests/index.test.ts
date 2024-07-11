@@ -1,103 +1,44 @@
-import { buildBn128 } from "@zk-kit/groth16"
-import {
-    poseidon1,
-    poseidon2,
-    poseidon3,
-    poseidon4,
-    poseidon5,
-    poseidon6,
-    poseidon7,
-    poseidon8,
-    poseidon9,
-    poseidon10,
-    poseidon11,
-    poseidon12,
-    poseidon13,
-    poseidon14,
-    poseidon15,
-    poseidon16
-} from "poseidon-lite"
+import { getCurveFromName } from "ffjavascript"
+import { decodeBytes32String, toBeHex } from "ethers"
+import { poseidon2 } from "poseidon-lite"
 import generate from "../src/generate"
-import packProof from "../src/pack-proof"
-import { PoseidonProof } from "../src/types"
-import unpackProof from "../src/unpack-proof"
-import verify from "../src/verify"
 import hash from "../src/hash"
+import { PoseidonProof } from "../src/types"
+import verify from "../src/verify"
 
-const poseidonFunctions = [
-    poseidon1,
-    poseidon2,
-    poseidon3,
-    poseidon4,
-    poseidon5,
-    poseidon6,
-    poseidon7,
-    poseidon8,
-    poseidon9,
-    poseidon10,
-    poseidon11,
-    poseidon12,
-    poseidon13,
-    poseidon14,
-    poseidon15,
-    poseidon16
-]
+const scope = "scope"
+let curve: any
+let digest: bigint
+let fullProof: PoseidonProof
 
-const computePoseidon = (preimages: string[]) => poseidonFunctions[preimages.length - 1](preimages)
+beforeAll(async () => {
+    curve = await getCurveFromName("bn128")
+
+    fullProof = await generate([1, 2], scope)
+
+    digest = poseidon2([hash(1), hash(2)])
+}, 30_000)
+
+afterAll(async () => {
+    await curve.terminate()
+})
 
 describe("PoseidonProof", () => {
-    const preimages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-    const scope = 1
-
-    let fullProof: PoseidonProof
-    let curve: any
-
-    beforeAll(async () => {
-        curve = await buildBn128()
+    it("should generate a Poseidon proof", async () => {
+        expect(fullProof.proof).toHaveLength(8)
+        expect(decodeBytes32String(toBeHex(fullProof.scope, 32))).toBe(scope.toString())
+        expect(fullProof.digest).toBe(digest.toString())
     })
 
-    afterAll(async () => {
-        await curve.terminate()
+    it("Should verify a Poseidon proof", async () => {
+        await expect(verify(fullProof)).resolves.toBe(true)
     })
 
-    describe("# generate/verify", () => {
-        it("Should generate and verify a Poseidon proof from 1 to 16 preimages", async () => {
-            for (let i = 0; i < preimages.length; i += 1) {
-                const currentPreimages = preimages.slice(0, i + 1)
+    it("Should verify an invalid Poseidon proof", async () => {
+        fullProof.digest = "3"
 
-                // Generate.
-                fullProof = await generate(currentPreimages, scope)
+        const response = await verify(fullProof)
 
-                const digest = computePoseidon(currentPreimages.map((preimage) => hash(preimage)))
-                const nullifier = poseidon2([hash(scope), digest])
-
-                expect(fullProof.proof).toHaveLength(8)
-                expect(fullProof.scope).toBe(scope.toString())
-                expect(fullProof.digest).toBe(digest.toString())
-                expect(fullProof.nullifier).toBe(nullifier.toString())
-
-                // Verify.
-                const response = await verify(currentPreimages.length, fullProof)
-
-                expect(response).toBe(true)
-            }
-        }, 60000)
-
-        it("Should verify an invalid Poseidon proof", async () => {
-            fullProof.digest = "3"
-
-            const response = await verify(preimages.length, fullProof)
-
-            expect(response).toBe(false)
-        })
-    })
-
-    describe("# packProof/unpackProof", () => {
-        it("Should return a packed proof", async () => {
-            const originalProof = unpackProof(fullProof.proof)
-            const proof = packProof(originalProof)
-
-            expect(proof).toStrictEqual(fullProof.proof)
-        })
+        expect(response).toBe(false)
     })
 })

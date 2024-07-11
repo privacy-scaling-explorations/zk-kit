@@ -2,7 +2,7 @@
     <h1 align="center">
         EdDSA Poseidon
     </h1>
-    <p align="center">A JavaScript EdDSA library for secure signing and verification using  <a href="https://www.poseidon-hash.info">Poseidon</a> and the <a href="https://eips.ethereum.org/EIPS/eip-2494">Baby Jubjub</a> elliptic curve.</p>
+    <p align="center">A JavaScript EdDSA library for secure signing and verification using Poseidon and the Baby Jubjub elliptic curve.</p>
 </p>
 
 <p align="center">
@@ -44,6 +44,9 @@
 | This package offers a simplified JavaScript codebase essential for creating and validating digital signatures using EdDSA and Poseidon. It's built upon the Baby Jubjub elliptic curve, ensuring seamless integration with [Circom](https://github.com/iden3/circom) and enhancing the developer experience. |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 
+> [!NOTE]  
+> This library has been audited as part of the Semaphore V4 PSE audit: https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf.
+
 -   Super lightweight: [**~33kB**](https://bundlephobia.com/package/@zk-kit/eddsa-poseidon) (minified)
 -   Compatible with browsers and NodeJS
 -   TS type support
@@ -52,8 +55,10 @@
 
 👾 Would you like to try it now? Explore it now on [Ceditor](https://ceditor.cedoor.dev/52787e4ad57d2f2076648d509efc3448)!
 
-> [!WARNING]  
-> This library has **not** been audited.
+## References
+
+1. Barry WhiteHat, Marta Bellés, Jordi Baylina. _ERC-2494: Baby Jubjub Elliptic Curve_. 2020-01-29. https://eips.ethereum.org/EIPS/eip-2494.
+2. Lorenzo Grassi, Dmitry Khovratovich, Christian Rechberger, Arnab Roy, and Markus Schofnegger. _POSEIDON: A New Hash Function for Zero-Knowledge Proof Systems_. 2019. https://eprint.iacr.org/2019/458.pdf.
 
 ## 🛠 Install
 
@@ -87,131 +92,79 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
-\# **new EdDSAPoseidon**(privateKey: _BigNumberish_): _EdDSAPoseidon_
-
 ```typescript
-import { EdDSAPoseidon } from "@zk-kit/eddsa-poseidon"
+import {
+    derivePublicKey,
+    signMessage,
+    verifySignature,
+    deriveSecretScalar,
+    packPublicKey,
+    unpackPublicKey
+} from "@zk-kit/eddsa-poseidon"
 
+// Your private key (secret).
 const privateKey = "secret"
+// The message you want to sign.
 const message = "message"
 
-const eddsa = new EdDSAPoseidon(privateKey)
-const signature = eddsa.signMessage(message)
-
-eddsa.verifySignature(message, signature)
-
-// This class implements its methods based on external functions.
-// See below for more details on them.
-
-console.log(eddsa)
-/*
-EdDSAPoseidon {
-    _privateKey: 'secret',
-    _secretScalar: '6544992227624943856419766050818315045047569225455760139072025985369615672473',
-    _publicKey: [
-        17191193026255111087474416516591393721975640005415762645730433950079177536248n,
-        13751717961795090314625781035919035073474308127816403910435238282697898234143n
-    ],
-    _packedPublicKey: '14277921624107172450683599157880963081763136590946434672207840996093731170206'
-}
-*/
-```
-
-\# **derivePublicKey**(privateKey: _BigNumberish_): _Point\<string>_
-
-```typescript
-import { derivePublicKey } from "@zk-kit/eddsa-poseidon"
-
-const privateKey = "secret"
+// Derive a public key from the private key.
 const publicKey = derivePublicKey(privateKey)
 
-console.log(publicKey)
 /*
 [
-    '17191193026255111087474416516591393721975640005415762645730433950079177536248',
-    '13751717961795090314625781035919035073474308127816403910435238282697898234143'
+    17191193026255111087474416516591393721975640005415762645730433950079177536248n,
+    13751717961795090314625781035919035073474308127816403910435238282697898234143n
 ]
 */
-```
+console.log(publicKey)
 
-\# **signMessage**(privateKey: _BigNumberish_, message: _BigNumberish_): _Signature\<string>_
-
-```typescript
-import { derivePublicKey, signMessage } from "@zk-kit/eddsa-poseidon"
-
-const privateKey = "secret"
-const publicKey = derivePublicKey(privateKey)
-
-const message = "message"
+// Sign the message.
 const signature = signMessage(privateKey, message)
 
-console.log(signature)
 /*
 {    
     R8: [
-        '12949573675545142400102669657964360005184873166024880859462384824349649539693',
-        '18253636630408169174294927826710424418689461166073329946402765380454102840608'
+        12949573675545142400102669657964360005184873166024880859462384824349649539693n,
+        18253636630408169174294927826710424418689461166073329946402765380454102840608n
     ],
-    S: '701803947557694254685424075312408605924670918868054593580245088593184746870'
+    S: 701803947557694254685424075312408605924670918868054593580245088593184746870n
 }
 */
-```
-
-\# **verifySignature**(message: _BigNumberish_, signature: _Signature_, publicKey: _Point_): _boolean_
-
-```typescript
-import { derivePublicKey, signMessage, verifySignature } from "@zk-kit/eddsa-poseidon"
-
-const privateKey = "secret"
-const publicKey = derivePublicKey(privateKey)
-
-const message = "message"
-const signature = signMessage(privateKey, message)
+console.log(signature)
 
 const response = verifySignature(message, signature, publicKey)
 
-console.log(response) // true
-```
+// true.
+console.log(response)
 
-\# **deriveSecretScalar**(privateKey: _BigNumberish_): _string_
-
-```typescript
-import { deriveSecretScalar } from "@zk-kit/eddsa-poseidon"
-
-const privateKey = "secret"
 // Use this value as the input for your Circom circuit.
 const secretScalar = deriveSecretScalar(privateKey)
 
+/* 
+6544992227624943856419766050818315045047569225455760139072025985369615672473
+14277921624107172450683599157880963081763136590946434672207840996093731170206
+*/
 console.log(secretScalar)
-// 52359937820999550851358128406546520360380553803646081112576207882956925379784n
-```
 
-\# **packPublicKey**(publicKey: _Point_): _string_
-
-```typescript
-import { derivePublicKey, packPublicKey } from "@zk-kit/eddsa-poseidon"
-
-const privateKey = "secret"
-const publicKey = derivePublicKey(privateKey)
-
+// Pack the public key into a compressed format.
 const packedPublicKey = packPublicKey(publicKey)
 
+// 52359937820999550851358128406546520360380553803646081112576207882956925379784n
 console.log(packedPublicKey)
-// 52359937820999550851358128406546520360380553803646081112576207882956925379784n
-```
 
-\# **unpackPublicKey**(publicKey: _BigNumber_): _Point\<string>_
-
-```typescript
-import { derivePublicKey, packPublicKey, unpackPublicKey } from "@zk-kit/eddsa-poseidon"
-
-const privateKey = "secret"
-const publicKey = derivePublicKey(privateKey)
-
-const packedPublicKey = packPublicKey(publicKey)
-
+// Unpack the compressed public key back into its original form.
 const unpackedPublicKey = unpackPublicKey(packedPublicKey)
 
-console.log(publicKey[0] === unpackedPublicKey[0]) // true
-console.log(publicKey[1] === unpackedPublicKey[1]) // true
+/*
+[
+    17191193026255111087474416516591393721975640005415762645730433950079177536248n,
+    13751717961795090314625781035919035073474308127816403910435238282697898234143n
+]
+*/
+console.log(unpackedPublicKey)
+
+if (unpackedPublicKey) {
+    console.log(publicKey[0] === unpackedPublicKey[0]) // true
+    console.log(publicKey[1] === unpackedPublicKey[1]) // true
+}
 ```

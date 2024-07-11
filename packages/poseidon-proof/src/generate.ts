@@ -1,15 +1,16 @@
 import { BigNumber } from "@ethersproject/bignumber"
-import { BytesLike, Hexable } from "@ethersproject/bytes"
-import { NumericString, prove } from "@zk-kit/groth16"
-import getSnarkArtifacts from "./get-snark-artifacts.node"
+import { maybeGetSnarkArtifacts, Project, type SnarkArtifacts } from "@zk-kit/artifacts"
+import { packGroth16Proof } from "@zk-kit/utils/proof-packing"
+import { BigNumberish } from "ethers"
+import { NumericString, groth16 } from "snarkjs"
 import hash from "./hash"
-import packProof from "./pack-proof"
-import { PoseidonProof, SnarkArtifacts } from "./types"
+import toBigInt from "./to-bigint"
+import { PoseidonProof } from "./types"
 
 /**
  * Creates a zero-knowledge proof to prove that you have the preimages of a hash,
  * without disclosing the actual preimages themselves.
- * The use of a scope parameter along with a nullifier helps ensure the uniqueness
+ * The use of a scope parameter helps ensure the uniqueness
  * and non-reusability of the proofs, enhancing security in applications like
  * blockchain transactions or private data verification.
  * If, for example, this package were used with Semaphore to demonstrate possession
@@ -22,29 +23,30 @@ import { PoseidonProof, SnarkArtifacts } from "./types"
  * @returns The Poseidon zero-knowledge proof.
  */
 export default async function generate(
-    preimages: Array<BytesLike | Hexable | number | bigint>,
-    scope: BytesLike | Hexable | number | bigint,
+    preimages: Array<BigNumberish>,
+    scope: BigNumberish | Uint8Array | string,
     snarkArtifacts?: SnarkArtifacts
 ): Promise<PoseidonProof> {
-    // If the Snark artifacts are not defined they will be automatically downloaded.
-    /* istanbul ignore next */
-    if (!snarkArtifacts) {
-        snarkArtifacts = await getSnarkArtifacts(preimages.length)
-    }
+    scope = toBigInt(scope)
 
-    const { proof, publicSignals } = await prove(
+    // allow user to override our artifacts
+    // otherwise they'll be downloaded if not already in local tmp folder
+    snarkArtifacts ??= await maybeGetSnarkArtifacts(Project.POSEIDON, { parameters: [preimages.length] })
+    const { wasm, zkey } = snarkArtifacts
+
+    const { proof, publicSignals } = await groth16.fullProve(
         {
             preimages: preimages.map((preimage) => hash(preimage)),
             scope: hash(scope)
         },
-        snarkArtifacts.wasmFilePath,
-        snarkArtifacts.zkeyFilePath
+        wasm,
+        zkey
     )
 
     return {
+        numberOfInputs: preimages.length,
         scope: BigNumber.from(scope).toString() as NumericString,
         digest: publicSignals[0],
-        nullifier: publicSignals[1],
-        proof: packProof(proof)
+        proof: packGroth16Proof(proof)
     }
 }

@@ -1,8 +1,8 @@
 <p align="center">
     <h1 align="center">
-        Incremental Merkle Trees
+        Incremental Merkle Tree
     </h1>
-    <p align="center">Incremental Merkle tree implementations in TypeScript.</p>
+    <p align="center">Incremental Merkle tree implementation in TypeScript.</p>
 </p>
 
 <p align="center">
@@ -44,6 +44,8 @@
 > [!WARNING]  
 > If you are looking for the first version of this package, please visit this [link](https://github.com/privacy-scaling-explorations/zk-kit/tree/imt-v1/packages/incremental-merkle-tree).
 
+In this implementation, the tree is built with a predetermined depth, utilizing a list of zeros (one for each level) to hash nodes lacking fully defined children. The tree's branching factor, or the number of children per node, can be customized via the arity parameter. For detailed insights into the implementation specifics, please refer to the [technical documentation](https://zkkit.pse.dev/classes/_zk_kit_imt.IMT.html).
+
 ---
 
 ## 🛠 Install
@@ -78,77 +80,86 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
-This package currently provides two implementations of incremental Merkle trees: `IMT` and `LeanIMT`. The former supports several degrees (i.e. arity), while the latter is a binary tree optimization. More information on their properties can be found in the [ZK-Kit documentation](https://zkkit.pse.dev/modules/_zk_kit_imt.html).
-
-### IMT ([doc](https://zkkit.pse.dev/classes/_zk_kit_imt.IMT.html))
-
 ```typescript
 import { IMT } from "@zk-kit/imt"
 import { poseidon2 } from "poseidon-lite"
 
+/**
+ * depth: number of nodes from the leaf to the tree's root node.
+ * zeroValue: default zero, can vary based on the specific use-case.
+ * arity: number of children per node (2 = Binary IMT, 5 = Quinary IMT).
+ */
+
 const depth = 16
 const zeroValue = 0
-const arity = 2 // Binary tree.
+const arity = 2
 
+/**
+ * To create an instance of an IMT, you need to provide the hash function
+ * used to compute the tree nodes, as well as the depth, zeroValue, and arity of the tree.
+ */
 const tree = new IMT(poseidon2, depth, zeroValue, arity)
 
+// You can also initialize a tree with a given list of leaves.
+// const leaves = [1, 2, 3]
+// new IMT(poseidon2, depth, zeroValue, arity, leaves)
+
+// Insert (incrementally) a leaf with a value of 1.
 tree.insert(1)
+
+// Insert (incrementally) a leaf with a value of 3.
 tree.insert(3)
 
-tree.root
-tree.zeroes
-tree.arity // 2
-tree.depth // 1
-tree.leaves // [1, 3]
+// 6176938709541216276071057251289703345736952331798983957780950682673395007393n.
+console.log(tree.root)
+/*
+[
+  0,
+  14744269619966411208579211824598458697587494354926760081771325075741142829156n,
+  7423237065226347324353380772367382631490014989348495481811164164159255474657n,
+  11286972368698509976183087595462810875513684078608517520839298933882497716792n,
+  3607627140608796879659380071776844901612302623152076817094415224584923813162n,
+  19712377064642672829441595136074946683621277828620209496774504837737984048981n,
+  20775607673010627194014556968476266066927294572720319469184847051418138353016n,
+  3396914609616007258851405644437304192397291162432396347162513310381425243293n,
+  21551820661461729022865262380882070649935529853313286572328683688269863701601n,
+  6573136701248752079028194407151022595060682063033565181951145966236778420039n,
+  12413880268183407374852357075976609371175688755676981206018884971008854919922n,
+  14271763308400718165336499097156975241954733520325982997864342600795471836726n,
+  20066985985293572387227381049700832219069292839614107140851619262827735677018n,
+  9394776414966240069580838672673694685292165040808226440647796406499139370960n,
+  11331146992410411304059858900317123658895005918277453009197229807340014528524n,
+  15819538789928229930262697811477882737253464456578333862691129291651619515538n
+]
+*/
+console.log(tree.zeroes)
+// 2
+console.log(tree.arity)
+// 16
+console.log(tree.depth)
+// [1, 3]
+console.log(tree.leaves)
 
-tree.indexOf(3) // 1
+// Get the index of the leaf with value 3.
+const idx = tree.indexOf(3)
+// 1
+console.log(idx)
 
-tree.update(1, 2) // tree1.leaves -> [1, 2]
+// Update the value of the leaf at position 1 to 2.
+tree.update(1, 2)
+// [1, 2]
+console.log(tree.leaves)
 
-tree.delete(1) // tree1.leaves -> [1, 0]
+// Delete leaf at position 1.
+tree.delete(1)
+// [1, 0]
+console.log(tree.leaves)
 
+/**
+ * Compute a Merkle Inclusion Proof (proof of membership) for the leaf with index 1.
+ * The proof is only valid if the value 1 is found in a leaf of the tree.
+ */
 const proof = tree.createProof(1)
-
-tree.verifyProof(proof) // true
-
-// You can also initialize a tree with a list of leaves.
-new IMT(poseidon2, depth, zeroValue, arity, [1, 2, 3])
-```
-
-### LeanIMT ([doc](https://zkkit.pse.dev/classes/_zk_kit_imt.LeanIMT.html))
-
-```typescript
-import { LeanIMT } from "@zk-kit/imt"
-import { poseidon2 } from "poseidon-lite"
-
-const hash = (a, b) => poseidon2([a, b])
-
-const tree = new LeanIMT(hash)
-
-tree.insert(1n)
-tree.insert(3n)
-
-tree.root
-tree.depth // 1
-tree.size // 2
-tree.leaves // [1n, 3n]
-
-tree.indexOf(3n) // 1
-tree.has(4n) // false
-
-tree.update(1, 2n) // tree1.leaves -> [1n, 2n]
-
-// If you want to delete a leaf with LeanIMT you can use the update function with an
-// arbitrary value to be used for the removed leaves.
-
-const proof = tree.generateProof(1)
-
-tree.verifyProof(proof) // true
-
-// You can initialize a tree with a list of leaves.
-new LeanIMT(hash, [1n, 2n, 3n])
-
-// LeanIMT is strictly typed. Default type for nodes is 'bigint',
-// but you can set your own type.
-new LeanIMT<number>((a, b) => a + b)
+// true
+console.log(tree.verifyProof(proof))
 ```

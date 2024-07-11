@@ -1,24 +1,9 @@
-import { NumericString } from "@zk-kit/groth16"
-
-export type SnarkArtifacts = {
-    wasmFilePath: string
-    zkeyFilePath: string
-}
+import { NumericString } from "snarkjs"
+import { PackedGroth16Proof } from "@zk-kit/utils"
 
 export type PoseidonProof = {
+    numberOfInputs: number
     scope: NumericString
     digest: NumericString
-    nullifier: NumericString
-    proof: PackedProof
+    proof: PackedGroth16Proof
 }
-
-export type PackedProof = [
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString,
-    NumericString
-]

@@ -1,5 +1,7 @@
 import { babyjub } from "circomlibjs"
-import { Base8, Point, addPoint, inCurve, mulPointEscalar, packPoint, unpackPoint } from "../src"
+import { utils } from "ffjavascript"
+import { Base8, Point, addPoint, inCurve, mulPointEscalar, packPoint, r, unpackPoint } from "../src"
+import { tonelliShanks } from "../src/sqrt"
 
 describe("BabyJubjub", () => {
     const secretScalar = BigInt(324)
@@ -31,10 +33,15 @@ describe("BabyJubjub", () => {
 
     it("Should pack a point", async () => {
         const packedPoint = packPoint(publicKey)
+        // As a bigint, we expect the packed point to be identical to the Y coordinate,
+        // except for the 1 bit added to represent whether the X coordinate is negative or positive.
+        // We strip off that extra bit and check this expectation below.
+        const strippedPackedPoint = packedPoint & ~(BigInt(1) << BigInt(255))
 
         const expectedPackedPoint = babyjub.packPoint(publicKey)
 
-        expect(packedPoint).toBe(BigInt(`0x${Buffer.from(expectedPackedPoint).toString("hex")}`))
+        expect(strippedPackedPoint).toBe(publicKey[1])
+        expect(packedPoint).toBe(utils.leBuff2int(expectedPackedPoint))
     })
 
     it("Should unpack a packed public key", async () => {
@@ -59,5 +66,30 @@ describe("BabyJubjub", () => {
         expect(unpackedPoint).not.toBeNull()
         expect(unpackedPoint[0]).toBe(publicKey[0])
         expect(unpackedPoint[1]).toBe(publicKey[1])
+    })
+
+    it("Should not unpack a packed public key if the coordinate y of the public key is not in the curve", async () => {
+        const publicKey: Point<bigint> = [
+            BigInt("10207164244839265210731148792003399330071235260758262804307337735329782473514"),
+            BigInt(r + BigInt(1))
+        ]
+
+        const packedPoint = packPoint(publicKey)
+
+        expect(unpackPoint(packedPoint)).toBeNull()
+    })
+
+    it("Should compute the sqrt when the input 'n' is zero", async () => {
+        expect(tonelliShanks(BigInt(0), BigInt(1))).toBe(BigInt(0))
+    })
+
+    it("Should not compute the sqrt when involves a range error", async () => {
+        const fun = () => tonelliShanks(BigInt(1), BigInt(0))
+
+        expect(fun).toThrow("Division by zero")
+    })
+
+    it("Should not compute the sqrt when the input 'n' does not have a square root in the field", async () => {
+        expect(tonelliShanks(BigInt(-1), BigInt(1))).toBeNull()
     })
 })

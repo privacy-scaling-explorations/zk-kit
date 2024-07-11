@@ -41,8 +41,8 @@
     </h4>
 </div>
 
-> [!WARNING]  
-> This library has **not** been audited.
+> [!NOTE]  
+> This library has been audited as part of the Semaphore V4 PSE audit: https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf.
 
 ## 🛠 Install
 
@@ -75,5 +75,14 @@ or [JSDelivr](https://www.jsdelivr.com/):
 ```
 
 ## 📜 Usage
+
+```typescript
+// You can import modules from the main bundle.
+import { errorHandlers, typeChecks } from "@zk-kit/utils"
+
+// Or by using conditional exports.
+import { requireNumber } from "@zk-kit/utils/error-handlers"
+import { isNumber } from "@zk-kit/utils/type-checks"
+```
 
 For more information on the functions provided by `@zk-kit/utils`, please refer to the [documentation](https://zkkit.pse.dev/modules/_zk_kit_utils.html).

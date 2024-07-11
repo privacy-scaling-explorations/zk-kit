@@ -1,25 +1,27 @@
 import fs from "fs"
 import type { Config } from "@jest/types"
 
-const exclude = ["circuits", "imt.sol", "rollup-plugin-rust", "lazytower.sol", "lazytower.circom", "utils"]
+const exclude = ["circuits", "imt.sol", "rollup-plugin-rust", "lazytower.sol", "lazytower.circom"]
 
 const projects: any = fs
     .readdirSync("./packages", { withFileTypes: true })
     .filter((directory) => directory.isDirectory())
     .filter((directory) => !exclude.includes(directory.name))
     .map(({ name }) => ({
+        preset: "ts-jest",
         rootDir: `packages/${name}`,
         displayName: name,
         moduleNameMapper: {
-            "@zk-kit/(.*)": "<rootDir>/../$1/src/index.ts" // Interdependency packages.
+            "@zk-kit/artifacts": ["<rootDir>/../../node_modules/@zk-kit/artifacts/dist/index.node.cjs"],
+            "@zk-kit/(.*)/(.*)": ["<rootDir>/../$1/src/$2.ts", "<rootDir>/../$1/src/$2/$2.node.ts"],
+            "@zk-kit/(.*)": "<rootDir>/../$1/src/index.ts"
         }
     }))
 
 export default async (): Promise<Config.InitialOptions> => ({
     projects,
     verbose: true,
-    coverageDirectory: "./coverage/libraries",
-    collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts", "!<rootDir>/src/**/*.d.ts"],
+    coverageDirectory: "./coverage",
     coverageThreshold: {
         global: {
             branches: 90,

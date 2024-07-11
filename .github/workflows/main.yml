@@ -1,0 +1,68 @@
+name: main
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+    cancel-in-progress: true
+
+jobs:
+    style:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: yarn
+
+            - name: Install dependencies
+              run: yarn
+
+            - name: Build | Lint | Format
+              run: yarn style
+    tests:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: yarn
+
+            - name: Install dependencies
+              run: yarn
+
+            - name: Get changed files
+              id: changed-files
+              uses: tj-actions/changed-files@v44
+              with:
+                  files: |
+                      packages/**/src/*.{ts,js}
+                      packages/**/tests/*.{ts,js}
+
+            - if: steps.changed-files.outputs.any_changed == 'true'
+              name: Build libraries
+              run: yarn build
+
+            - if: steps.changed-files.outputs.any_changed == 'true'
+              name: Test libraries
+              run: yarn test
+
+            - if: steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+              name: Coveralls
+              uses: coverallsapp/github-action@master
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -2,7 +2,7 @@
     <h1 align="center">
         Baby Jubjub
     </h1>
-    <p align="center">A JavaScript library for adding points to the <a href="https://eips.ethereum.org/EIPS/eip-2494">Baby Jubjub</a> curve.</p>
+    <p align="center">A JavaScript library for adding points to the Baby Jubjub curve.</p>
 </p>
 
 <p align="center">
@@ -41,8 +41,17 @@
     </h4>
 </div>
 
-> [!WARNING]  
-> This library has **not** been audited.
+> [!NOTE]  
+> This library has been audited as part of the Semaphore V4 PSE audit: https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf.
+
+BabyJubJub is an elliptic curve optimized for secure, efficient cryptographic operations in constrained environments like blockchain and zero-knowledge proofs. It's designed for fast, privacy-preserving transactions, balancing cryptographic strength with performance, making it ideal for modern cryptographic solutions.
+
+## References
+
+1. Barry WhiteHat, Marta Bellés, Jordi Baylina. _ERC-2494: Baby Jubjub Elliptic Curve_. 2020-01-29. https://eips.ethereum.org/EIPS/eip-2494.
+2. Barry WhiteHat, Marta Bellés, Jordi Baylina. _Baby Jubjub Elliptic Curve_. https://docs.iden3.io/publications/pdfs/Baby-Jubjub.pdf
+
+---
 
 ## 🛠 Install
 
@@ -76,63 +85,30 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
-\# **addPoint**(p1: _Point\<bigint>_, p2: _Point\<bigint>_): _bigint_
-
 ```typescript
-import { addPoint } from "@zk-kit/baby-jubjub"
+import { packPoint, unpackPoint, Base8, mulPointEscalar, Point, addPoint } from "@zk-kit/baby-jubjub"
 
-const p1: Point<bigint> = [BigInt(0), BigInt(1)]
+// Define two points on the BabyJubJub curve.
+const p1: Point<bigint> = [BigInt(0), BigInt(1)] // Point at infinity (neutral element).
+const p2: Point<bigint> = [BigInt(1), BigInt(0)] // Example point.
 
-const newPoint = addPoint(p1, Base8)
-```
+// Add the two points on the curve.
+const p3 = addPoint(p1, p2)
 
-\# **mulPointEscalar**(base: _Point\<bigint>_, e: _bigint_): _Point\<bigint>_
+// Add the result with Base8, another point on the curve, to get a new point.
+const secretScalar = addPoint(Base8, p3)
 
-```typescript
-import { Base8, mulPointEscalar } from "@zk-kit/baby-jubjub"
+// Multiply the base point by the x-coordinate of the secret scalar to get the public key.
+const publicKey = mulPointEscalar(Base8, secretScalar[0])
 
-const secretScalar = BigInt(324)
-
-const publicKey = mulPointEscalar(Base8, secretScalar)
-```
-
-\# **mulPointEscalar**(base: _Point\<bigint>_, e: _bigint_): _Point\<bigint>_
-
-```typescript
-import { inCurve, Base8, mulPointEscalar } from "@zk-kit/baby-jubjub"
-
-const secretScalar = BigInt(324)
-
-const publicKey = mulPointEscalar(Base8, secretScalar)
-
-const isInCurve = inCurve(publicKey)
-```
-
-\# **packPoint**(unpackedPoint: _Point\<bigint>_): _bigint_
-
-```typescript
-import { packPoint, Base8, mulPointEscalar } from "@zk-kit/baby-jubjub"
-
-const secretScalar = BigInt(324)
-
-const publicKey = mulPointEscalar(Base8, secretScalar)
-
-const packedPoint = packPoint(publicKey)
-```
-
-\# **unpackPoint**(packedPoint: _bigint_): _Point\<bigint>_ | _null_
-
-```typescript
-import { packPoint, unpackPoint, Base8, mulPointEscalar } from "@zk-kit/baby-jubjub"
-
-const secretScalar = BigInt(324)
-
-const publicKey = mulPointEscalar(Base8, secretScalar)
-
+// Pack the public key into a compressed format.
 const packedPoint = packPoint(publicKey)
 
+// Unpack the compressed public key back into its original form.
 const unpackedPoint = unpackPoint(packedPoint)
 
-console.log(publicKey[0] === unpackedPoint[0]) // true
-console.log(publicKey[1] === unpackedPoint[1]) // true
+if (unpackedPoint) {
+    console.log(publicKey[0] === unpackedPoint[0]) // true, checks if x-coordinates match
+    console.log(publicKey[1] === unpackedPoint[1]) // true, checks if y-coordinates match
+}
 ```

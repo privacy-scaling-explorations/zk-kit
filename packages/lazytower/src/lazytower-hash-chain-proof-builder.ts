@@ -94,7 +94,7 @@ export function LazyTowerHashChainProofBuilder(H: number, W: number, hash = defa
     }
     /**
      * Builds a proof of membership.
-     * @param index Index of the proof's item.
+     * @param idx Index of the proof's item.
      * @returns Proof object.
      */
     function build(idx: number): LazyTowerHashChainProof {
