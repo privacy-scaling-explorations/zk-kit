@@ -2,6 +2,7 @@
     "name": "imt-rs",
     "version": "1.0.0",
     "scripts": {
+        "build": "cargo build --release",
         "test": "cargo test"
     }
 }
