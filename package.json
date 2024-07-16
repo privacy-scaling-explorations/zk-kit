@@ -12,7 +12,6 @@
         "_test": "jest --coverage",
         "test": "turbo _test",
         "test:library": "jest packages/${0}",
-        "test:rust": "cd packages/imt-rs && yarn test",
         "version:bump": "yarn workspace @zk-kit/${0} version ${1} && yarn remove:stable-version-field ${0} && NO_HOOK=1 git commit -am \"chore(${0}): v${1}\" && git tag ${0}-v${1}",
         "version:publish": "yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public",
         "version:release": "changelogithub",
