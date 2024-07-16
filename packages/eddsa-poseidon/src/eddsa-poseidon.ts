@@ -11,12 +11,7 @@ import {
 } from "@zk-kit/baby-jubjub"
 import type { BigNumberish } from "@zk-kit/utils"
 import { crypto, requireBuffer } from "@zk-kit/utils"
-import {
-    bigNumberishToBigInt,
-    leBigIntToBuffer,
-    leBufferToBigInt,
-    bufferToHexadecimal
-} from "@zk-kit/utils/conversions"
+import { bigNumberishToBigInt, leBigIntToBuffer, leBufferToBigInt } from "@zk-kit/utils/conversions"
 import { requireBigNumberish } from "@zk-kit/utils/error-handlers"
 import F1Field from "@zk-kit/utils/f1-field"
 import * as scalar from "@zk-kit/utils/scalar"
@@ -53,7 +48,7 @@ export function deriveSecretScalar(privateKey: Buffer | Uint8Array | string): bi
     hash = hash.slice(0, 32)
     hash = pruneBuffer(hash)
 
-    return scalar.shiftRight(leBufferToBigInt(hash), BigInt(3))
+    return scalar.shiftRight(leBufferToBigInt(hash), BigInt(3)) % subOrder
 }
 
 /**
@@ -75,10 +70,7 @@ export function deriveSecretScalar(privateKey: Buffer | Uint8Array | string): bi
 export function derivePublicKey(privateKey: Buffer | Uint8Array | string): Point<bigint> {
     const s = deriveSecretScalar(privateKey)
 
-    const publicKey = mulPointEscalar(Base8, s)
-
-    // Convert the public key values to strings so that it can easily be exported as a JSON.
-    return publicKey
+    return mulPointEscalar(Base8, s)
 }
 
 /**
@@ -119,7 +111,6 @@ export function signMessage(privateKey: Buffer | Uint8Array | string, message: B
     const hm = poseidon5([R8[0], R8[1], A[0], A[1], message])
     const S = Fr.add(r, Fr.mul(hm, s))
 
-    // Convert the signature values to strings so that it can easily be exported as a JSON.
     return { R8, S }
 }
 
@@ -228,7 +219,7 @@ export function packSignature(signature: Signature): Buffer {
 }
 
 /**
- * Unpacks a signature produced by {@link #packSignature}.  See that function
+ * Unpacks a signature produced by {@link packSignature}.  See that function
  * for the details of the format.
  *
  * @param packedSignature the 64 byte buffer to unpack
@@ -278,7 +269,7 @@ export class EdDSAPoseidon {
      *
      * @param privateKey The private key used for signing and public key derivation.
      */
-    constructor(privateKey: Buffer | Uint8Array | string = bufferToHexadecimal(crypto.getRandomValues(32))) {
+    constructor(privateKey: Buffer | Uint8Array | string = crypto.getRandomValues(32)) {
         this.privateKey = privateKey
         this.secretScalar = deriveSecretScalar(privateKey)
         this.publicKey = derivePublicKey(privateKey)

@@ -12,7 +12,8 @@ const projects: any = fs
         rootDir: `packages/${name}`,
         displayName: name,
         moduleNameMapper: {
-            "@zk-kit/(.*)/(.*)": "<rootDir>/../$1/src/$2.ts",
+            "@zk-kit/artifacts": ["<rootDir>/../../node_modules/@zk-kit/artifacts/dist/index.node.cjs"],
+            "@zk-kit/(.*)/(.*)": ["<rootDir>/../$1/src/$2.ts", "<rootDir>/../$1/src/$2/$2.node.ts"],
             "@zk-kit/(.*)": "<rootDir>/../$1/src/index.ts"
         }
     }))
@@ -20,7 +21,7 @@ const projects: any = fs
 export default async (): Promise<Config.InitialOptions> => ({
     projects,
     verbose: true,
-    coverageDirectory: "./coverage/libraries",
+    coverageDirectory: "./coverage",
     coverageThreshold: {
         global: {
             branches: 90,

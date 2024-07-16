@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/eddsa-poseidon",
-    "version": "0.11.0",
+    "version": "1.0.2",
     "description": "A JavaScript EdDSA library for secure signing and verification using Poseidon the Baby Jubjub elliptic curve.",
     "type": "module",
     "license": "MIT",
@@ -48,8 +48,8 @@
         "rollup-plugin-polyfill-node": "^0.13.0"
     },
     "dependencies": {
-        "@zk-kit/baby-jubjub": "1.0.0-beta",
-        "@zk-kit/utils": "1.0.0-beta",
+        "@zk-kit/baby-jubjub": "1.0.1",
+        "@zk-kit/utils": "1.2.0",
         "buffer": "6.0.3"
     }
 }

@@ -1,8 +1,8 @@
 <p align="center">
     <h1 align="center">
-        Incremental Merkle Trees
+        Incremental Merkle Tree
     </h1>
-    <p align="center">Incremental Merkle tree implementations in TypeScript.</p>
+    <p align="center">Incremental Merkle tree implementation in TypeScript.</p>
 </p>
 
 <p align="center">
@@ -41,10 +41,10 @@
     </h4>
 </div>
 
-An Incremental Merkle Tree is a dynamic data structure optimized for verifying data integrity in growing datasets. The updates are efficient since they modify only relevant nodes, avoiding the need to rebuild the entire tree with each change. This makes it ideal for real-time data verification contexts. You can learn more about the differences between MT and IMT [here](https://zokyo-auditing-tutorials.gitbook.io/zokyo-tutorials/tutorial-16-zero-knowledge-zk/definitions-and-essentials/incremental-merkle-tree).
-
 > [!WARNING]  
 > If you are looking for the first version of this package, please visit this [link](https://github.com/privacy-scaling-explorations/zk-kit/tree/imt-v1/packages/incremental-merkle-tree).
+
+In this implementation, the tree is built with a predetermined depth, utilizing a list of zeros (one for each level) to hash nodes lacking fully defined children. The tree's branching factor, or the number of children per node, can be customized via the arity parameter. For detailed insights into the implementation specifics, please refer to the [technical documentation](https://zkkit.pse.dev/classes/_zk_kit_imt.IMT.html).
 
 ---
 
@@ -79,10 +79,6 @@ or [JSDelivr](https://www.jsdelivr.com/):
 ```
 
 ## 📜 Usage
-
-### IMT
-
-In this implementation, the tree is built with a predetermined depth, utilizing a list of zeros (one for each level) to hash nodes lacking fully defined children. The tree's branching factor, or the number of children per node, can be customized via the arity parameter. For detailed insights into the implementation specifics, please refer to the [technical documentation](https://zkkit.pse.dev/classes/_zk_kit_imt.IMT.html).
 
 ```typescript
 import { IMT } from "@zk-kit/imt"
@@ -164,81 +160,6 @@ console.log(tree.leaves)
  * The proof is only valid if the value 1 is found in a leaf of the tree.
  */
 const proof = tree.createProof(1)
-// true
-console.log(tree.verifyProof(proof))
-```
-
-### Lean IMT
-
-The LeanIMT is an optimized binary version of the IMT into binary-focused model, eliminating the need for zero values and allowing dynamic depth adjustment. Unlike the IMT, which uses a zero hash for incomplete nodes, the LeanIMT directly adopts the left child's value when a node lacks a right counterpart. The tree's depth dynamically adjusts to the count of leaves, enhancing efficiency by reducing the number of required hash calculations. To understand more about the LeanIMT, take a look at this [visual explanation](https://hackmd.io/@vplasencia/S1whLBN16). For detailed insights into the implementation specifics, please refer to the [technical documentation](https://zkkit.pse.dev/classes/_zk_kit_imt.LeanIMT.html).
-
-```typescript
-import { LeanIMT } from "@zk-kit/imt"
-import { poseidon2 } from "poseidon-lite"
-
-/**
- * Hash function used to compute the tree nodes.
- */
-const hash = (a, b) => poseidon2([a, b])
-
-// To create an instance of a LeanIMT, you must provide the hash function.
-const tree = new LeanIMT(hash)
-
-// You can also initialize a tree with a given list of leaves.
-// const leaves = [1n, 2n, 3n]
-// new LeanIMT(hash, leaves)
-
-// LeanIMT is strictly typed. Default type for nodes is 'bigint',
-// but you can set your own type.
-// new LeanIMT<number>((a, b) => a + b)
-
-// Insert (incrementally) a leaf with a value of 1.
-tree.insert(1n)
-// [1n]
-console.log(tree.leaves)
-
-// Insert (incrementally) a leaf with a value of 3.
-tree.insert(3n)
-
-// 21106761926285267690763443010820487107972411248208546226053195422384279971821n
-console.log(tree.root)
-// 1
-console.log(tree.depth)
-// 2
-console.log(tree.size)
-// [1n, 3n]
-console.log(tree.leaves)
-
-// Get the index of the leaf with value 3n.
-const idx = tree.indexOf(3n)
-// 1
-console.log(idx)
-
-// Check if the tree contains a leaf with value 4n.
-const has = tree.has(4n)
-// false
-console.log(tree.has(4n))
-
-// Update the value of the leaf at position 1 to 2n.
-tree.update(1, 2n)
-// [1n, 2n]
-console.log(tree.leaves)
-
-/**
- * If you want to delete a leaf with LeanIMT you can use the update function with an
- * arbitrary value to be used for the removed leaves.
- */
-
-// Update the value of the leaf at position 1 to 0n (deletion).
-tree.update(1, 0n)
-// [1n, 0n]
-console.log(tree.leaves)
-
-/**
- * Compute a Merkle Inclusion Proof (proof of membership) for the leaf with index 1.
- * The proof is only valid if the value 1 is found in a leaf of the tree.
- */
-const proof = tree.generateProof(1)
 // true
 console.log(tree.verifyProof(proof))
 ```

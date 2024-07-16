@@ -241,3 +241,51 @@ export function bufferToHexadecimal(value: Buffer | Uint8Array): string {
 
     return Buffer.from(value).toString("hex")
 }
+
+/**
+ * Converts bytes to a base64 string. It accepts 'Buffer' or 'Uint8Array'.
+ * @param value The bytes to convert.
+ * @returns The converted base64 string.
+ */
+export function bufferToBase64(value: Buffer | Uint8Array): string {
+    requireTypes(value, "value", ["Buffer", "Uint8Array"])
+
+    return Buffer.from(value).toString("base64")
+}
+
+/**
+ * Converts a base64 string to bytes (i.e. a buffer). This function does not check
+ * if the input value is a valid base64 string. If there are unsupported characters
+ * they will be ignored.
+ * @param value The base64 string to convert.
+ * @returns The converted buffer.
+ */
+export function base64ToBuffer(value: string): Buffer {
+    requireString(value, "value")
+
+    return Buffer.from(value, "base64")
+}
+
+/**
+ * Converts text (utf8) to a base64 string.
+ * @param value The text to convert.
+ * @returns The converted base64 string.
+ */
+export function textToBase64(value: string): string {
+    requireString(value, "value")
+
+    return Buffer.from(value, "utf8").toString("base64")
+}
+
+/**
+ * Converts a base64 string to text (utf8). This function does not check
+ * if the input value is a valid base64 string. If there are unsupported characters
+ * they could be ignored and the result may be unexpected.
+ * @param value The base64 string to convert.
+ * @returns The converted text.
+ */
+export function base64ToText(value: string): string {
+    requireString(value, "value")
+
+    return Buffer.from(value, "base64").toString("utf8")
+}

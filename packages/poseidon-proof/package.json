@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/poseidon-proof",
-    "version": "0.5.0",
+    "version": "1.0.0-beta.4",
     "description": "A library to generate and verify Poseidon proofs.",
     "type": "module",
     "license": "MIT",
@@ -9,12 +9,8 @@
     "exports": {
         ".": {
             "types": "./dist/types/index.d.ts",
-            "node": {
-                "require": "./dist/index.node.cjs",
-                "default": "./dist/index.node.js"
-            },
-            "browser": "./dist/index.browser.js",
-            "default": "./dist/index.browser.js"
+            "require": "./dist/index.cjs",
+            "default": "./dist/index.js"
         }
     },
     "files": [
@@ -29,9 +25,7 @@
         "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
     },
     "scripts": {
-        "build": "rimraf dist && yarn build:browser && yarn build:node",
-        "build:browser": "rollup -c rollup.browser.config.ts --configPlugin typescript",
-        "build:node": "rollup -c rollup.node.config.ts --configPlugin typescript",
+        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
         "prepublishOnly": "yarn build"
     },
     "publishConfig": {
@@ -44,15 +38,16 @@
         "@types/download": "^8.0.5",
         "@types/snarkjs": "^0",
         "@types/tmp": "^0.2.6",
+        "ffjavascript": "^0.3.0",
         "poseidon-lite": "^0.2.0",
         "rimraf": "^5.0.5",
         "rollup": "^4.12.0",
         "rollup-plugin-cleanup": "^3.2.1"
     },
     "dependencies": {
-        "@ethersproject/bignumber": "^5.7.0",
-        "@ethersproject/bytes": "^5.7.0",
-        "@ethersproject/keccak256": "^5.7.0",
+        "@zk-kit/artifacts": "1.8.0",
+        "@zk-kit/utils": "1.2.0",
+        "ethers": "^6.12.0",
         "snarkjs": "^0.7.3"
     }
 }

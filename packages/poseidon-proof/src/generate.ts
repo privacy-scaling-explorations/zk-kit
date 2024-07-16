@@ -1,10 +1,11 @@
 import { BigNumber } from "@ethersproject/bignumber"
-import { BytesLike, Hexable } from "@ethersproject/bytes"
+import { maybeGetSnarkArtifacts, Project, type SnarkArtifacts } from "@zk-kit/artifacts"
+import { packGroth16Proof } from "@zk-kit/utils/proof-packing"
+import { BigNumberish } from "ethers"
 import { NumericString, groth16 } from "snarkjs"
-import { packGroth16Proof } from "@zk-kit/utils"
-import getSnarkArtifacts from "./get-snark-artifacts.node"
 import hash from "./hash"
-import { PoseidonProof, SnarkArtifacts } from "./types"
+import toBigInt from "./to-bigint"
+import { PoseidonProof } from "./types"
 
 /**
  * Creates a zero-knowledge proof to prove that you have the preimages of a hash,
@@ -22,26 +23,28 @@ import { PoseidonProof, SnarkArtifacts } from "./types"
  * @returns The Poseidon zero-knowledge proof.
  */
 export default async function generate(
-    preimages: Array<BytesLike | Hexable | number | bigint>,
-    scope: BytesLike | Hexable | number | bigint,
+    preimages: Array<BigNumberish>,
+    scope: BigNumberish | Uint8Array | string,
     snarkArtifacts?: SnarkArtifacts
 ): Promise<PoseidonProof> {
-    // If the Snark artifacts are not defined they will be automatically downloaded.
-    /* istanbul ignore next */
-    if (!snarkArtifacts) {
-        snarkArtifacts = await getSnarkArtifacts(preimages.length)
-    }
+    scope = toBigInt(scope)
+
+    // allow user to override our artifacts
+    // otherwise they'll be downloaded if not already in local tmp folder
+    snarkArtifacts ??= await maybeGetSnarkArtifacts(Project.POSEIDON, { parameters: [preimages.length] })
+    const { wasm, zkey } = snarkArtifacts
 
     const { proof, publicSignals } = await groth16.fullProve(
         {
             preimages: preimages.map((preimage) => hash(preimage)),
             scope: hash(scope)
         },
-        snarkArtifacts.wasmFilePath,
-        snarkArtifacts.zkeyFilePath
+        wasm,
+        zkey
     )
 
     return {
+        numberOfInputs: preimages.length,
         scope: BigNumber.from(scope).toString() as NumericString,
         digest: publicSignals[0],
         proof: packGroth16Proof(proof)

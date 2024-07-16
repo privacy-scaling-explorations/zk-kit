@@ -24,7 +24,7 @@ export default [
             { file: pkg.exports["."].node.require, format: "cjs", banner, exports: "auto" },
             { file: pkg.exports["."].node.default, format: "es", banner }
         ],
-        external: [...Object.keys(pkg.dependencies), "crypto"],
+        external: [...Object.keys(pkg.dependencies), "crypto", "node:fs", "node:fs/promises", "node:path", "node:os"],
         plugins: [
             typescript({
                 tsconfig: "./build.tsconfig.json"
@@ -92,7 +92,7 @@ export default [
             },
             { dir: "./dist/lib.esm", format: "es", banner, preserveModules: true }
         ],
-        external: [...Object.keys(pkg.dependencies), "crypto"],
+        external: [...Object.keys(pkg.dependencies), "crypto", "node:fs", "node:fs/promises", "node:path", "node:os"],
         plugins: [
             typescript({ tsconfig: "./build.tsconfig.json", declaration: false, declarationDir: undefined }),
             cleanup({ comments: "jsdoc" })

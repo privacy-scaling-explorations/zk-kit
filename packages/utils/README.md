@@ -41,8 +41,8 @@
     </h4>
 </div>
 
-> [!WARNING]  
-> This library has **not** been audited.
+> [!NOTE]  
+> This library has been audited as part of the Semaphore V4 PSE audit: https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf.
 
 ## 🛠 Install
 

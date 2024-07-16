@@ -357,7 +357,6 @@ export default class SMT {
      * @param node The node to start from.
      * @param path The path of the key.
      * @param siblings The siblings of the path.
-     * @param i The index to start from.
      */
     private deleteOldNodes(node: Node, path: number[], siblings: Siblings) {
         for (let i = siblings.length - 1; i >= 0; i -= 1) {

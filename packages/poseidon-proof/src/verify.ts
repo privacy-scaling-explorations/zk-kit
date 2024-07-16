@@ -1,15 +1,15 @@
 import { groth16 } from "snarkjs"
-import { unpackGroth16Proof } from "@zk-kit/utils"
+import { unpackGroth16Proof } from "@zk-kit/utils/proof-packing"
 import hash from "./hash"
 import { PoseidonProof } from "./types"
 import verificationKeys from "./verification-keys.json"
 
 /**
  * Verifies that a Poseidon proof is valid.
- * @param poseidonProof The Poseidon zero-knowledge proof.
+ * @param proof PoseidonProof
  * @returns True if the proof is valid, false otherwise.
  */
-export default function verify(numberOfInputs: number, { scope, digest, proof }: PoseidonProof): Promise<boolean> {
+export default function verify({ numberOfInputs, scope, digest, proof }: PoseidonProof): Promise<boolean> {
     const verificationKey = {
         ...verificationKeys,
         vk_delta_2: verificationKeys.vk_delta_2[numberOfInputs - 1],

@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/baby-jubjub",
-    "version": "1.0.0-beta",
+    "version": "1.0.1",
     "description": "A JavaScript library for adding points to the curve.",
     "type": "module",
     "license": "MIT",
@@ -46,6 +46,6 @@
         "rollup-plugin-polyfill-node": "^0.13.0"
     },
     "dependencies": {
-        "@zk-kit/utils": "1.0.0-beta"
+        "@zk-kit/utils": "1.2.0"
     }
 }
