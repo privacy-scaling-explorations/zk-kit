@@ -8952,12 +8952,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"imt-rs@workspace:packages/imt-rs":
-  version: 0.0.0-use.local
-  resolution: "imt-rs@workspace:packages/imt-rs"
-  languageName: unknown
-  linkType: soft
-
 "imurmurhash@npm:^0.1.4":
   version: 0.1.4
   resolution: "imurmurhash@npm:0.1.4"
