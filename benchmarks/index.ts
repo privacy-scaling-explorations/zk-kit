@@ -1,4 +1,5 @@
 import runIMT from "./imt"
+import runPoseidon from "./poseidon"
 
 const [benchmark] = process.argv.slice(2)
 
@@ -7,6 +8,9 @@ const [benchmark] = process.argv.slice(2)
 switch (benchmark) {
     case "imt":
         runIMT()
+        break
+    case "poseidon":
+        runPoseidon()
         break
     default:
         runIMT()
