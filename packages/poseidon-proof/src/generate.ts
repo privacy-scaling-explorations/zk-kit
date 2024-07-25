@@ -31,7 +31,10 @@ export default async function generate(
 
     // allow user to override our artifacts
     // otherwise they'll be downloaded if not already in local tmp folder
-    snarkArtifacts ??= await maybeGetSnarkArtifacts(Project.POSEIDON, { parameters: [preimages.length] })
+    snarkArtifacts ??= await maybeGetSnarkArtifacts(Project.POSEIDON, {
+        parameters: [preimages.length],
+        version: "1.0.0-beta.1"
+    })
     const { wasm, zkey } = snarkArtifacts
 
     const { proof, publicSignals } = await groth16.fullProve(
