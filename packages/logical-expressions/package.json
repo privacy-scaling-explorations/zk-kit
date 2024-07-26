@@ -1,0 +1,40 @@
+{
+    "name": "@zk-kit/logical-expressions",
+    "version": "1.0.0",
+    "description": "A library to evaluate logical expressions.",
+    "type": "module",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "types": "dist/types/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/types/index.d.ts",
+            "require": "./dist/index.cjs",
+            "default": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist/",
+        "src/",
+        "LICENSE",
+        "README.md"
+    ],
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/logical-expressions",
+    "bugs": {
+        "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
+    },
+    "scripts": {
+        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
+        "prepublishOnly": "yarn build"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "@rollup/plugin-typescript": "^11.1.6",
+        "rimraf": "^5.0.5",
+        "rollup": "^4.12.0",
+        "rollup-plugin-cleanup": "^3.2.1"
+    }
+}
