@@ -14,22 +14,48 @@ function precedence(op: string): number {
 }
 
 /**
- * Function to apply the operator to one or two boolean values.
- * @param op Operator to apply.
+ * Function to apply unary or binary operators to boolean values.
+ * Logical operators supported: `and`, `or`, `not`, `xor`.
+ * @param operator Operator to apply.
  * @param a First boolean value.
- * @param b Second boolean value.
+ * @param b Second boolean value (optional, only used for binary operators).
  * @returns The boolean value after applying the operator.
+ *
+ * @example
+ * import { applyOperator } from "@zk-kit/logical-expressions"
+ *
+ * // Unary operator
+ * const result1 = applyOperator("not", true);
+ * console.log(result1); // Output: false
+ *
+ * // Binary operator
+ * const result2 = applyOperator("and", true, false);
+ * console.log(result2); // Output: false
  */
-function applyOp(op: string, a: boolean, b?: boolean): boolean {
-    switch (op) {
+export function applyOperator(operator: string, a: boolean, b?: boolean): boolean {
+    switch (operator) {
         case "and":
-            return a && b!
+            if (b === undefined) {
+                throw new Error(`The operator '${operator}' requires two values`)
+            }
+            return a && b
         case "or":
-            return a || b!
+            if (b === undefined) {
+                throw new Error(`The operator '${operator}' requires two values`)
+            }
+            return a || b
         case "not":
+            if (b !== undefined) {
+                throw new Error(`The operator '${operator}' requires only one value`)
+            }
             return !a
-        default: // Case XOR
-            return a !== b! // XOR returns true if only one of the operands is true
+        case "xor":
+            if (b === undefined) {
+                throw new Error(`The operator '${operator}' requires two values`)
+            }
+            return a !== b // XOR returns true if only one of the operands is true
+        default:
+            throw new Error(`Unknown operator: '${operator}'`)
     }
 }
 
@@ -58,7 +84,7 @@ function applyOp(op: string, a: boolean, b?: boolean): boolean {
  * console.log(result)
  * // Output: false
  */
-export default function evaluate(tokens: string[]): boolean {
+export function evaluate(tokens: string[]): boolean {
     const values: boolean[] = [] // Stack to store boolean values
     const ops: string[] = [] // Stack to store operators
 
@@ -80,14 +106,14 @@ export default function evaluate(tokens: string[]): boolean {
                     if (val === undefined) {
                         throw new Error(`The operator '${op}' requires one value`)
                     }
-                    values.push(applyOp(op, val))
+                    values.push(applyOperator(op, val))
                 } else {
                     const b = values.pop()
                     const a = values.pop()
                     if (b === undefined || a === undefined) {
                         throw new Error(`The operator '${op}' requires two values`)
                     }
-                    values.push(applyOp(op, a, b))
+                    values.push(applyOperator(op, a, b))
                 }
             }
             ops.pop() // Remove '(' from stack
@@ -100,14 +126,14 @@ export default function evaluate(tokens: string[]): boolean {
                     if (val === undefined) {
                         throw new Error(`The operator '${op}' requires one value`)
                     }
-                    values.push(applyOp(op, val))
+                    values.push(applyOperator(op, val))
                 } else {
                     const b = values.pop()
                     const a = values.pop()
                     if (b === undefined || a === undefined) {
                         throw new Error(`The operator '${op}' requires two values`)
                     }
-                    values.push(applyOp(op, a, b))
+                    values.push(applyOperator(op, a, b))
                 }
             }
             ops.push(token)
@@ -125,14 +151,14 @@ export default function evaluate(tokens: string[]): boolean {
             if (val === undefined) {
                 throw new Error(`The operator '${op}' requires one value`)
             }
-            values.push(applyOp(op, val))
+            values.push(applyOperator(op, val))
         } else {
             const b = values.pop()
             const a = values.pop()
             if (b === undefined || a === undefined) {
                 throw new Error(`The operator '${op}' requires two values`)
             }
-            values.push(applyOp(op, a, b))
+            values.push(applyOperator(op, a, b))
         }
     }
 

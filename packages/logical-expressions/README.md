@@ -98,6 +98,26 @@ console.log(tokens)
 // Output: ["true", "and", "false", "or", "(", "true", "and", "true", ")"]
 ```
 
+## Apply Operator
+
+\# **applyOperator**(): _boolean_
+
+Applies unary or binary operators to boolean values.
+
+Logical operators supported: `and`, `or`, `not`, `xor`.
+
+```ts
+import { applyOperator } from "@zk-kit/logical-expressions"
+
+// Unary operator
+const result1 = applyOperator("not", true)
+console.log(result1) // Output: false
+
+// Binary operator
+const result2 = applyOperator("and", true, false)
+console.log(result2) // Output: false
+```
+
 ## Evaluate a tokenized logical expression
 
 \# **evaluate**(): _boolean_

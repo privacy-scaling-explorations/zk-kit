@@ -1,9 +1,9 @@
 import tokenize from "../src/tokenize"
-import evaluate from "../src/evaluate"
+import { applyOperator, evaluate } from "../src/evaluate"
 
 describe("Logical Expressions", () => {
     describe("# tokenize", () => {
-        it("Should sucessfully tokenize a logical expression", () => {
+        it("Should successfully tokenize a logical expression", () => {
             const expression = "true and false or ( true and true )"
 
             const tokens = tokenize(expression)
@@ -13,33 +13,126 @@ describe("Logical Expressions", () => {
             expect(tokens).toStrictEqual(result)
         })
     })
+    describe("# applyOperator", () => {
+        it("Should successfully apply the operator and", () => {
+            const operator = "and"
+
+            const a = true
+
+            const b = false
+
+            const result = applyOperator(operator, a, b)
+
+            expect(result).toBeFalsy()
+        })
+        it("Should successfully apply the operator or", () => {
+            const operator = "or"
+
+            const a = true
+
+            const b = false
+
+            const result = applyOperator(operator, a, b)
+
+            expect(result).toBeTruthy()
+        })
+        it("Should successfully apply the operator not", () => {
+            const operator = "not"
+
+            const a = true
+
+            const result = applyOperator(operator, a)
+
+            expect(result).toBeFalsy()
+        })
+        it("Should successfully apply the operator xor", () => {
+            const operator = "xor"
+
+            const a = true
+
+            const b = true
+
+            const result = applyOperator(operator, a, b)
+
+            expect(result).toBeFalsy()
+        })
+        it("Should throw an error if the operator is not supported", () => {
+            const operator = "op"
+
+            const a = true
+
+            const b = false
+
+            const fun = () => applyOperator(operator, a, b)
+
+            expect(fun).toThrow("Unknown operator: 'op'")
+        })
+        it("Should throw an error there is one missing argument when using the and operator", () => {
+            const operator = "and"
+
+            const a = true
+
+            const fun = () => applyOperator(operator, a)
+
+            expect(fun).toThrow("The operator 'and' requires two values")
+        })
+        it("Should throw an error there is one missing argument when using the or operator", () => {
+            const operator = "or"
+
+            const a = true
+
+            const fun = () => applyOperator(operator, a)
+
+            expect(fun).toThrow("The operator 'or' requires two values")
+        })
+        it("Should throw an error there is one missing argument when using the xor operator", () => {
+            const operator = "xor"
+
+            const a = true
+
+            const fun = () => applyOperator(operator, a)
+
+            expect(fun).toThrow("The operator 'xor' requires two values")
+        })
+        it("Should throw an error there is one additional argument when using the not operator", () => {
+            const operator = "not"
+
+            const a = true
+
+            const b = true
+
+            const fun = () => applyOperator(operator, a, b)
+
+            expect(fun).toThrow("The operator 'not' requires only one value")
+        })
+    })
     describe("# evaluate", () => {
-        it("Should sucessfully evaluate a logical expression with the and operator", () => {
+        it("Should successfully evaluate a logical expression with the and operator", () => {
             const expression = ["true", "and", "false"]
             const result = evaluate(expression)
             expect(result).toBeFalsy()
         })
-        it("Should sucessfully evaluate a logical expression with the or operator", () => {
+        it("Should successfully evaluate a logical expression with the or operator", () => {
             const expression = ["true", "or", "false"]
             const result = evaluate(expression)
             expect(result).toBeTruthy()
         })
-        it("Should sucessfully evaluate a logical expression with the not operator", () => {
+        it("Should successfully evaluate a logical expression with the not operator", () => {
             const expression = ["not", "false"]
             const result = evaluate(expression)
             expect(result).toBeTruthy()
         })
-        it("Should sucessfully evaluate a logical expression with the xor operator", () => {
+        it("Should successfully evaluate a logical expression with the xor operator", () => {
             const expression = ["false", "xor", "true"]
             const result = evaluate(expression)
             expect(result).toBeTruthy()
         })
-        it("Should sucessfully evaluate a logical expression with the and or not and xor operators", () => {
+        it("Should successfully evaluate a logical expression with the and or not and xor operators", () => {
             const expression = ["true", "and", "false", "or", "not", "false", "xor", "true"]
             const result = evaluate(expression)
             expect(result).toBeFalsy()
         })
-        it("Should sucessfully evaluate a logical expression with parentheses", () => {
+        it("Should successfully evaluate a logical expression with parentheses", () => {
             const expression = [
                 "true",
                 "and",
