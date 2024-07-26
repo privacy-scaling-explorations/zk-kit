@@ -40,9 +40,23 @@ function applyOp(op: string, a: boolean, b?: boolean): boolean {
  * algorithm to evaluate expressions with logical operators.
  * If the logical expression is incorrect, an error will be thrown automatically,
  * eliminating the need for previous validation.
+ *
+ * Logical operators supported: `and`, `or`, `not`, `xor`.
+ * All other existing logical operators (`nand`, `nor`, `xnor`)
+ * can be generated using the supported logical operators.
  * @param tokens Tokens of the expression.
- * The tokens can be boolean values, operators or parentheses.
+ * The tokens can be boolean values, logical operators or parentheses.
  * @returns The boolean value after evaluating the expression.
+ *
+ * @example
+ * // Example usage:
+ * import { evaluate } from "@zk-kit/logical-expressions"
+ *
+ * const expression = ["true", "and", "false"]
+ * const result = evaluate(expression)
+ *
+ * console.log(result)
+ * // Output: false
  */
 export default function evaluate(tokens: string[]): boolean {
     const values: boolean[] = [] // Stack to store boolean values

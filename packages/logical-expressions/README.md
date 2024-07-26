@@ -41,8 +41,8 @@
     </h4>
 </div>
 
-| This library facilitates the work with logical expressions. It allows you to tokenize and evaluate logical expressions. |
-| ----------------------------------------------------------------------------------------------------------------------- |
+| This library facilitates the work with logical (boolean) expressions. It allows you to tokenize and evaluate any logical expression. It supports the use of parentheses. |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 
 ## 🛠 Install
 
@@ -76,6 +76,10 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
+Logical operators supported: `and`, `or`, `not`, `xor`.
+
+All other existing logical operators (`nand`, `nor`, `xnor`) can be generated using the supported logical operators.
+
 ## Tokenize a logical expression
 
 \# **tokenize**(): _string[]_
@@ -88,7 +92,10 @@ import { tokenize } from "@zk-kit/logical-expressions"
 
 const expression = "true and false or ( true and true )"
 
-const tokens = tokenize(expression) // ["true", "and", "false", "or", "(", "true", "and", "true", ")"]
+const tokens = tokenize(expression)
+
+console.log(tokens)
+// Output: ["true", "and", "false", "or", "(", "true", "and", "true", ")"]
 ```
 
 ## Evaluate a tokenized logical expression
@@ -102,5 +109,8 @@ import { evaluate } from "@zk-kit/logical-expressions"
 
 const expression = ["true", "and", "false"]
 
-const result = evaluate(expression) // false
+const result = evaluate(expression)
+
+console.log(result)
+// Output: false
 ```
