@@ -43,3 +43,64 @@
 
 | This library facilitates the work with logical expressions. It allows you to tokenize and evaluate logical expressions. |
 | ----------------------------------------------------------------------------------------------------------------------- |
+
+## 🛠 Install
+
+### npm or yarn
+
+Install the `@zk-kit/logical-expressions` package with npm:
+
+```bash
+npm i @zk-kit/logical-expressions
+```
+
+or yarn:
+
+```bash
+yarn add @zk-kit/logical-expressions
+```
+
+### CDN
+
+You can also load it using a `script` tag using [unpkg](https://unpkg.com/):
+
+```html
+<script src="https://unpkg.com/@zk-kit/logical-expressions"></script>
+```
+
+or [JSDelivr](https://www.jsdelivr.com/):
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@zk-kit/logical-expressions"></script>
+```
+
+## 📜 Usage
+
+## Tokenize a logical expression
+
+\# **tokenize**(): _string[]_
+
+Tokenizes a logical (boolean) expression.
+Splits the expression into meaningful tokens.
+
+```ts
+import { tokenize } from "@zk-kit/logical-expressions"
+
+const expression = "true and false or ( true and true )"
+
+const tokens = tokenize(expression) // ["true", "and", "false", "or", "(", "true", "and", "true", ")"]
+```
+
+## Evaluate a tokenized logical expression
+
+\# **evaluate**(): _boolean_
+
+Evaluates a tokenized logical (boolean) expression. If the logical expression is incorrect, an error will be thrown automatically, eliminating the need for previous validation.
+
+```ts
+import { evaluate } from "@zk-kit/logical-expressions"
+
+const expression = ["true", "and", "false"]
+
+const result = evaluate(expression) // false
+```
