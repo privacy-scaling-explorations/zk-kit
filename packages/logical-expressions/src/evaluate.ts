@@ -34,13 +34,14 @@ function applyOp(op: string, a: boolean, b?: boolean): boolean {
 }
 
 /**
- * Function to evaluate the tokenized expression.
+ * Function to evaluate a tokenized expression.
  * This algorithm is an adaptation of the
  * {@link https://en.wikipedia.org/wiki/Shunting_yard_algorithm | Shunting Yard}
  * algorithm to evaluate expressions with logical operators.
+ * If the logical expression is incorrect, an error will be thrown automatically,
+ * eliminating the need for previous validation.
  * @param tokens Tokens of the expression.
  * The tokens can be boolean values, operators or parentheses.
- * They represent a valid expression.
  * @returns The boolean value after evaluating the expression.
  */
 export default function evaluate(tokens: string[]): boolean {
@@ -61,11 +62,17 @@ export default function evaluate(tokens: string[]): boolean {
             while (ops.length > 0 && ops[ops.length - 1] !== "(") {
                 const op = ops.pop()!
                 if (op === "not") {
-                    const val = values.pop()!
+                    const val = values.pop()
+                    if (val === undefined) {
+                        throw new Error(`The operator '${op}' requires one value`)
+                    }
                     values.push(applyOp(op, val))
                 } else {
-                    const b = values.pop()!
-                    const a = values.pop()!
+                    const b = values.pop()
+                    const a = values.pop()
+                    if (b === undefined || a === undefined) {
+                        throw new Error(`The operator '${op}' requires two values`)
+                    }
                     values.push(applyOp(op, a, b))
                 }
             }
@@ -75,18 +82,24 @@ export default function evaluate(tokens: string[]): boolean {
             while (ops.length > 0 && precedence(ops[ops.length - 1]) >= precedence(token)) {
                 const op = ops.pop()!
                 if (op === "not") {
-                    const val = values.pop()!
+                    const val = values.pop()
+                    if (val === undefined) {
+                        throw new Error(`The operator '${op}' requires one value`)
+                    }
                     values.push(applyOp(op, val))
                 } else {
-                    const b = values.pop()!
-                    const a = values.pop()!
+                    const b = values.pop()
+                    const a = values.pop()
+                    if (b === undefined || a === undefined) {
+                        throw new Error(`The operator '${op}' requires two values`)
+                    }
                     values.push(applyOp(op, a, b))
                 }
             }
             ops.push(token)
         } else {
             // Will throw and error if there is an unknown token in the expression
-            throw new Error(`Unknown token: ${token}`)
+            throw new Error(`Unknown token: '${token}'`)
         }
     }
 
@@ -94,13 +107,23 @@ export default function evaluate(tokens: string[]): boolean {
     while (ops.length > 0) {
         const op = ops.pop()!
         if (op === "not") {
-            const val = values.pop()!
+            const val = values.pop()
+            if (val === undefined) {
+                throw new Error(`The operator '${op}' requires one value`)
+            }
             values.push(applyOp(op, val))
         } else {
-            const b = values.pop()!
-            const a = values.pop()!
+            const b = values.pop()
+            const a = values.pop()
+            if (b === undefined || a === undefined) {
+                throw new Error(`The operator '${op}' requires two values`)
+            }
             values.push(applyOp(op, a, b))
         }
+    }
+
+    if (values.length > 1) {
+        throw new Error("Invalid logical expression")
     }
 
     return values.pop()!
