@@ -76,7 +76,7 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
-Logical operators supported: `and`, `or`, `not`, `xor`.
+Supported logical operators: `and`, `or`, `not`, `xor`.
 
 All other existing logical operators (`nand`, `nor`, `xnor`) can be generated using the supported logical operators.
 
@@ -98,24 +98,39 @@ console.log(tokens)
 // Output: ["true", "and", "false", "or", "(", "true", "and", "true", ")"]
 ```
 
+## Precedence of a logical operator
+
+\# **precedence**(): _number_
+
+Returns the precedence of a logical operator. If the operator is not supported, the precedence will be 0.
+
+```ts
+import { precedence } from "@zk-kit/logical-expressions"
+
+const result = precedence("and")
+
+console.log(result)
+// Output: 1
+```
+
 ## Apply Operator
 
 \# **applyOperator**(): _boolean_
 
 Applies unary or binary operators to boolean values.
 
-Logical operators supported: `and`, `or`, `not`, `xor`.
-
 ```ts
 import { applyOperator } from "@zk-kit/logical-expressions"
 
 // Unary operator
 const result1 = applyOperator("not", true)
-console.log(result1) // Output: false
+console.log(result1)
+// Output: false
 
 // Binary operator
 const result2 = applyOperator("and", true, false)
-console.log(result2) // Output: false
+console.log(result2)
+// Output: false
 ```
 
 ## Evaluate a tokenized logical expression

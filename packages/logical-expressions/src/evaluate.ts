@@ -2,14 +2,21 @@
  * Function to determine the precedence of operators.
  * Unary operators have higher precedence.
  * Binary operators have the same precedence.
- * @param op Operator to check the precedence.
- * @returns The precedence of the operator.
+ * @param operator Operator to check the precedence.
+ * @returns The precedence of the operator or 0 if
+ * the operator is not supported
+ *
+ * @example
+ * import { precedence } from "@zk-kit/logical-expressions"
+ *
+ * const result = precedence("and");
+ * console.log(result); // Output: 1
  */
-function precedence(op: string): number {
-    if (op === "not") return 2 // Highest precedence
-    if (op === "and") return 1
-    if (op === "xor") return 1
-    if (op === "or") return 1 // Lowest precedence
+export function precedence(operator: string): number {
+    if (operator === "not") return 2 // Highest precedence
+    if (operator === "and") return 1
+    if (operator === "xor") return 1
+    if (operator === "or") return 1 // Lowest precedence
     return 0
 }
 

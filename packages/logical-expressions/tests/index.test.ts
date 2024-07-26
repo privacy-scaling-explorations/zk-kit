@@ -1,5 +1,5 @@
 import tokenize from "../src/tokenize"
-import { applyOperator, evaluate } from "../src/evaluate"
+import { precedence, applyOperator, evaluate } from "../src/evaluate"
 
 describe("Logical Expressions", () => {
     describe("# tokenize", () => {
@@ -11,6 +11,33 @@ describe("Logical Expressions", () => {
             const result = ["true", "and", "false", "or", "(", "true", "and", "true", ")"]
 
             expect(tokens).toStrictEqual(result)
+        })
+    })
+    describe("# precedence", () => {
+        it("Should successfully return the precedence of the and operator", () => {
+            const result = precedence("and")
+
+            expect(result).toBe(1)
+        })
+        it("Should successfully return the precedence of the or operator", () => {
+            const result = precedence("or")
+
+            expect(result).toBe(1)
+        })
+        it("Should successfully return the precedence of the xor operator", () => {
+            const result = precedence("xor")
+
+            expect(result).toBe(1)
+        })
+        it("Should successfully return the precedence of the not operator", () => {
+            const result = precedence("not")
+
+            expect(result).toBe(2)
+        })
+        it("Should return 0 if the operator is not supported", () => {
+            const result = precedence("op")
+
+            expect(result).toBe(0)
         })
     })
     describe("# applyOperator", () => {

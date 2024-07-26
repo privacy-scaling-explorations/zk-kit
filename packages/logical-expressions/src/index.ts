@@ -1,4 +1,4 @@
 import tokenize from "./tokenize"
-import { applyOperator, evaluate } from "./evaluate"
+import { precedence, applyOperator, evaluate } from "./evaluate"
 
-export { tokenize, applyOperator, evaluate }
+export { tokenize, precedence, applyOperator, evaluate }
