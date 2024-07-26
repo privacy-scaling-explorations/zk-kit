@@ -71,8 +71,14 @@ export function applyOperator(operator: string, a: boolean, b?: boolean): boolea
  * This algorithm is an adaptation of the
  * {@link https://en.wikipedia.org/wiki/Shunting_yard_algorithm | Shunting Yard}
  * algorithm to evaluate expressions with logical operators.
- * If the logical expression is incorrect, an error will be thrown automatically,
- * eliminating the need for previous validation.
+ *
+ * There is no need to verify the correctness of the logical expression
+ * before calling the evaluate function, as this will be checked during
+ * the evaluation. If the expression is incorrect, an error will be thrown automatically.
+ *
+ * Example of correct logical expression: `"true and false"`.
+ *
+ * Example of incorrect logical expression: `"true true and false"`.
  *
  * Logical operators supported: `and`, `or`, `not`, `xor`.
  * All other existing logical operators (`nand`, `nor`, `xnor`)

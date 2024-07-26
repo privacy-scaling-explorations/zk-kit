@@ -137,7 +137,13 @@ console.log(result2)
 
 \# **evaluate**(): _boolean_
 
-Evaluates a tokenized logical (boolean) expression. If the logical expression is incorrect, an error will be thrown automatically, eliminating the need for previous validation.
+Evaluates a tokenized logical (boolean) expression.
+
+There is no need to verify the correctness of the logical expression before calling the evaluate function, as this will be checked during the evaluation. If the expression is incorrect, an error will be thrown automatically.
+
+Example of correct logical expression: `"true and false"`.
+
+Example of incorrect logical expression: `"true true and false"`.
 
 ```ts
 import { evaluate } from "@zk-kit/logical-expressions"
