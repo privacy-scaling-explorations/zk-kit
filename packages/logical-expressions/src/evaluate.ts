@@ -122,7 +122,7 @@ export default function evaluate(tokens: string[]): boolean {
         }
     }
 
-    if (values.length > 1) {
+    if (values.length !== 1) {
         throw new Error("Invalid logical expression")
     }
 
