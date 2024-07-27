@@ -109,8 +109,7 @@ import { precedence } from "@zk-kit/logical-expressions"
 
 const result = precedence("and")
 
-console.log(result)
-// Output: 1
+console.log(result) // Output: 1
 ```
 
 ## Apply Operator
@@ -124,13 +123,11 @@ import { applyOperator } from "@zk-kit/logical-expressions"
 
 // Unary operator
 const result1 = applyOperator("not", true)
-console.log(result1)
-// Output: false
+console.log(result1) // Output: false
 
 // Binary operator
 const result2 = applyOperator("and", true, false)
-console.log(result2)
-// Output: false
+console.log(result2) // Output: false
 ```
 
 ## Evaluate a tokenized logical expression
@@ -152,6 +149,5 @@ const expression = ["true", "and", "false"]
 
 const result = evaluate(expression)
 
-console.log(result)
-// Output: false
+console.log(result) // Output: false
 ```

@@ -7,10 +7,12 @@
  * the operator is not supported
  *
  * @example
+ * // Example usage:
  * import { precedence } from "@zk-kit/logical-expressions"
  *
- * const result = precedence("and");
- * console.log(result); // Output: 1
+ * const result = precedence("and")
+ *
+ * console.log(result) // Output: 1
  */
 export function precedence(operator: string): number {
     if (operator === "not") return 2 // Highest precedence
@@ -29,15 +31,16 @@ export function precedence(operator: string): number {
  * @returns The boolean value after applying the operator.
  *
  * @example
+ * // Example usage:
  * import { applyOperator } from "@zk-kit/logical-expressions"
  *
  * // Unary operator
- * const result1 = applyOperator("not", true);
- * console.log(result1); // Output: false
+ * const result1 = applyOperator("not", true)
+ * console.log(result1) // Output: false
  *
  * // Binary operator
- * const result2 = applyOperator("and", true, false);
- * console.log(result2); // Output: false
+ * const result2 = applyOperator("and", true, false)
+ * console.log(result2) // Output: false
  */
 export function applyOperator(operator: string, a: boolean, b?: boolean): boolean {
     switch (operator) {
@@ -92,10 +95,10 @@ export function applyOperator(operator: string, a: boolean, b?: boolean): boolea
  * import { evaluate } from "@zk-kit/logical-expressions"
  *
  * const expression = ["true", "and", "false"]
+ *
  * const result = evaluate(expression)
  *
- * console.log(result)
- * // Output: false
+ * console.log(result) // Output: false
  */
 export function evaluate(tokens: string[]): boolean {
     const values: boolean[] = [] // Stack to store boolean values

@@ -8,6 +8,7 @@
  * import { tokenize } from "@zk-kit/logical-expressions"
  *
  * const expression = "true and false or ( true and true )"
+ *
  * const tokens = tokenize(expression)
  *
  * console.log(tokens)
