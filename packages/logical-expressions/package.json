@@ -15,14 +15,17 @@
     },
     "files": [
         "dist/",
-        "src/",
-        "LICENSE",
-        "README.md"
+        "src/"
     ],
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
     "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/logical-expressions",
     "bugs": {
         "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
+    },
+    "author": {
+        "name": "Vivian Plasencia",
+        "email": "v.pcalana@gmail.com",
+        "url": "https://github.com/vplasencia"
     },
     "scripts": {
         "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
