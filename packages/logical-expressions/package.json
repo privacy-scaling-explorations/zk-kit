@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/logical-expressions",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "description": "A library to evaluate logical expressions.",
     "type": "module",
     "license": "MIT",
