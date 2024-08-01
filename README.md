@@ -336,6 +336,37 @@
                 ❌
             </td>
         </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/logical-expressions">
+                    @zk-kit/logical-expressions
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_proof.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/logical-expressions">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/logical-expressions.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/logical-expressions">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/logical-expressions.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/logical-expressions">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/logical-expressions" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                ❌
+            </td>
+        </tr>
     <tbody>
 </table>
 

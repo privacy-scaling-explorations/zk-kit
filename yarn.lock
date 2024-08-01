@@ -3093,6 +3093,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@zk-kit/logical-expressions@workspace:packages/logical-expressions":
+  version: 0.0.0-use.local
+  resolution: "@zk-kit/logical-expressions@workspace:packages/logical-expressions"
+  dependencies:
+    "@rollup/plugin-typescript": "npm:^11.1.6"
+    rimraf: "npm:^5.0.5"
+    rollup: "npm:^4.12.0"
+    rollup-plugin-cleanup: "npm:^3.2.1"
+  languageName: unknown
+  linkType: soft
+
 "@zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher":
   version: 0.0.0-use.local
   resolution: "@zk-kit/poseidon-cipher@workspace:packages/poseidon-cipher"
