@@ -330,17 +330,31 @@ export default class LeanIMT<N = bigint> {
      * It imports an entire tree by initializing the nodes without calculating
      * any hashes. Note that it is crucial to ensure the integrity of the tree
      * before or after importing it.
-     * The tree must be empty before importing.
+     * @param hash The hash function used to create nodes.
      * @param nodes The stringified JSON of the tree.
+     * @param reviver A function that transforms the results. This function is called for each node of the tree and can
+     * be used to convert the node types.
+     * @returns A LeanIMT instance.
      */
-    public import(nodes: string) {
+    static import<N = string>(
+        hash: LeanIMTHashFunction<N>,
+        nodes: string,
+        reviver?: (this: any, key: string, value: any) => any
+    ): LeanIMT<N> {
+        requireDefined(hash, "hash")
         requireDefined(nodes, "nodes")
+        requireFunction(hash, "hash")
         requireString(nodes, "nodes")
 
-        if (this.size !== 0) {
-            throw new Error("Import failed: the target tree structure is not empty")
+        if (reviver) {
+            requireDefined(reviver, "reviver")
+            requireFunction(reviver, "reviver")
         }
 
-        this._nodes = JSON.parse(nodes)
+        const tree = new LeanIMT<N>(hash)
+
+        tree._nodes = JSON.parse(nodes, reviver)
+
+        return tree
     }
 }

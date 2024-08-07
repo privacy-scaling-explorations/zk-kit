@@ -335,47 +335,35 @@ describe("Lean IMT", () => {
         it("Should export a tree", () => {
             const tree = new LeanIMT(poseidon, leaves)
 
-            const exportedTree = tree.export()
+            const nodes = tree.export()
 
-            expect(typeof exportedTree).toBe("string")
-            expect(JSON.parse(exportedTree)).toHaveLength(4)
-            expect(JSON.parse(exportedTree)[0]).toHaveLength(5)
+            expect(typeof nodes).toBe("string")
+            expect(JSON.parse(nodes)).toHaveLength(4)
+            expect(JSON.parse(nodes)[0]).toHaveLength(5)
         })
 
-        it("Should not import a tree if it the exported tree is not defined", () => {
+        it("Should not import a tree if the required parameters are not valid", () => {
             const tree = new LeanIMT(poseidon, leaves)
+            const nodes = tree.export()
 
-            const fun = () => tree.import(undefined as any)
+            const fun1 = () => LeanIMT.import(undefined as any, nodes)
+            const fun2 = () => LeanIMT.import(poseidon, undefined as any)
+            const fun3 = () => LeanIMT.import("string" as any, nodes)
+            const fun4 = () => LeanIMT.import(poseidon, 1 as any)
+            const fun5 = () => LeanIMT.import(poseidon, nodes, "string" as any)
 
-            expect(fun).toThrow("Parameter 'nodes' is not defined")
-        })
-
-        it("Should not import a tree if it the exported tree is not a string", () => {
-            const tree = new LeanIMT(poseidon, leaves)
-
-            const fun = () => tree.import(1 as any)
-
-            expect(fun).toThrow("Parameter 'nodes' is not a string")
-        })
-
-        it("Should not import a tree if it is not empty", () => {
-            const tree1 = new LeanIMT(poseidon, leaves)
-            const exportedTree = tree1.export()
-
-            const tree2 = new LeanIMT(poseidon, leaves)
-
-            const fun = () => tree2.import(exportedTree)
-
-            expect(fun).toThrow("Import failed: the target tree structure is not empty")
+            expect(fun1).toThrow("Parameter 'hash' is not defined")
+            expect(fun2).toThrow("Parameter 'nodes' is not defined")
+            expect(fun3).toThrow("Parameter 'hash' is not a function")
+            expect(fun4).toThrow("Parameter 'nodes' is not a string")
+            expect(fun5).toThrow("Parameter 'reviver' is not a function")
         })
 
         it("Should import a tree", () => {
             const tree1 = new LeanIMT(poseidon, leaves)
-            const exportedTree = tree1.export()
+            const nodes = tree1.export()
 
-            const tree2 = new LeanIMT(poseidon)
-
-            tree2.import(exportedTree)
+            const tree2 = LeanIMT.import(poseidon, nodes, (_, v) => (typeof v === "string" ? BigInt(v) : v))
 
             tree1.insert(BigInt(4))
             tree2.insert(BigInt(4))
@@ -383,6 +371,7 @@ describe("Lean IMT", () => {
             expect(tree2.depth).toBe(tree1.depth)
             expect(tree2.size).toBe(tree1.size)
             expect(tree2.root).toBe(tree1.root)
+            expect(tree2.indexOf(2n)).toBe(tree1.indexOf(2n))
         })
     })
 })
