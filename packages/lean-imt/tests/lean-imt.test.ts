@@ -375,6 +375,22 @@ describe("Lean IMT", () => {
             expect(tree2.indexOf(2)).toBe(tree1.indexOf(2))
         })
 
+        it("Should import a tree converting node types to booleans", () => {
+            const hash = (a: boolean, b: boolean) => a && b
+            const tree1 = new LeanIMT<boolean>(hash, [true, false, true])
+            const nodes = tree1.export()
+
+            const tree2 = LeanIMT.import<boolean>(hash, nodes, Boolean)
+
+            tree1.insert(true)
+            tree2.insert(true)
+
+            expect(tree2.depth).toBe(tree1.depth)
+            expect(tree2.size).toBe(tree1.size)
+            expect(tree2.root).toBe(tree1.root)
+            expect(tree2.indexOf(false)).toBe(tree1.indexOf(false))
+        })
+
         it("Should import a tree", () => {
             const tree1 = new LeanIMT(poseidon, leaves)
             const nodes = tree1.export()
