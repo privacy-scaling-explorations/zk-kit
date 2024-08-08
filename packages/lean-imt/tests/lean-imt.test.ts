@@ -356,7 +356,23 @@ describe("Lean IMT", () => {
             expect(fun2).toThrow("Parameter 'nodes' is not defined")
             expect(fun3).toThrow("Parameter 'hash' is not a function")
             expect(fun4).toThrow("Parameter 'nodes' is not a string")
-            expect(fun5).toThrow("Parameter 'reviver' is not a function")
+            expect(fun5).toThrow("Parameter 'map' is not a function")
+        })
+
+        it("Should import a tree converting node types to number", () => {
+            const hash = (a: number, b: number) => a + b
+            const tree1 = new LeanIMT<number>(hash, [1, 2, 3])
+            const nodes = tree1.export()
+
+            const tree2 = LeanIMT.import<number>(hash, nodes, Number)
+
+            tree1.insert(4)
+            tree2.insert(4)
+
+            expect(tree2.depth).toBe(tree1.depth)
+            expect(tree2.size).toBe(tree1.size)
+            expect(tree2.root).toBe(tree1.root)
+            expect(tree2.indexOf(2)).toBe(tree1.indexOf(2))
         })
 
         it("Should import a tree", () => {

@@ -329,31 +329,33 @@ export default class LeanIMT<N = bigint> {
     /**
      * It imports an entire tree by initializing the nodes without calculating
      * any hashes. Note that it is crucial to ensure the integrity of the tree
-     * before or after importing it.
+     * before or after importing it. If the reviver function is not defined, node
+     * values will be converted from strings to bigints by default.
      * @param hash The hash function used to create nodes.
      * @param nodes The stringified JSON of the tree.
-     * @param reviver A function that transforms the results. This function is called for each node of the tree and can
-     * be used to convert the node types.
+     * @param map A function to map each node of the tree and convert their types.
      * @returns A LeanIMT instance.
      */
-    static import<N = bigint>(
-        hash: LeanIMTHashFunction<N>,
-        nodes: string,
-        reviver?: (this: any, key: string, value: any) => any
-    ): LeanIMT<N> {
+    static import<N = bigint>(hash: LeanIMTHashFunction<N>, nodes: string, map?: (value: string) => N): LeanIMT<N> {
         requireDefined(hash, "hash")
         requireDefined(nodes, "nodes")
         requireFunction(hash, "hash")
         requireString(nodes, "nodes")
 
-        if (reviver) {
-            requireDefined(reviver, "reviver")
-            requireFunction(reviver, "reviver")
+        if (map) {
+            requireDefined(map, "map")
+            requireFunction(map, "map")
         }
 
         const tree = new LeanIMT<N>(hash)
 
-        tree._nodes = JSON.parse(nodes, reviver ?? ((_, v) => (typeof v === "string" ? BigInt(v) : v)))
+        tree._nodes = JSON.parse(nodes, (_, value) => {
+            if (typeof value === "string") {
+                return map ? map(value) : BigInt(value)
+            }
+
+            return value
+        })
 
         return tree
     }

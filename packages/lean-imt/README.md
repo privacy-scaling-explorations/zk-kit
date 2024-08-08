@@ -149,6 +149,9 @@ const nodes = tree.export()
 // Import the nodes.
 const tree2 = LeanIMT.import(hash, nodes)
 
-// Import the nodes converting their types to numbers (just an example).
-const tree3 = LeanIMT.import<number>(hash, nodes, (_, v) => (typeof v === "string" ? Number(v) : v))
+// Node types are converted from strings to bigints by default.
+// The third parameter can be used to convert strings to other types.
+
+// Import the nodes converting their types to numbers.
+const tree3 = LeanIMT.import<number>(hash, nodes, Number)
 ```
