@@ -336,7 +336,7 @@ export default class LeanIMT<N = bigint> {
      * be used to convert the node types.
      * @returns A LeanIMT instance.
      */
-    static import<N = string>(
+    static import<N = bigint>(
         hash: LeanIMTHashFunction<N>,
         nodes: string,
         reviver?: (this: any, key: string, value: any) => any
@@ -353,7 +353,7 @@ export default class LeanIMT<N = bigint> {
 
         const tree = new LeanIMT<N>(hash)
 
-        tree._nodes = JSON.parse(nodes, reviver)
+        tree._nodes = JSON.parse(nodes, reviver ?? ((_, v) => (typeof v === "string" ? BigInt(v) : v)))
 
         return tree
     }

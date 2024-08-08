@@ -149,6 +149,6 @@ const nodes = tree.export()
 // Import the nodes.
 const tree2 = LeanIMT.import(hash, nodes)
 
-// Import the nodes converting their types to bigints.
-const tree3 = LeanIMT.import(poseidon, nodes, (_, v) => (typeof v === "string" ? BigInt(v) : v))
+// Import the nodes converting their types to numbers (just an example).
+const tree3 = LeanIMT.import<number>(hash, nodes, (_, v) => (typeof v === "string" ? Number(v) : v))
 ```

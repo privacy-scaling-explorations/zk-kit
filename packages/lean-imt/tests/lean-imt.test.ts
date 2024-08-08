@@ -363,7 +363,7 @@ describe("Lean IMT", () => {
             const tree1 = new LeanIMT(poseidon, leaves)
             const nodes = tree1.export()
 
-            const tree2 = LeanIMT.import(poseidon, nodes, (_, v) => (typeof v === "string" ? BigInt(v) : v))
+            const tree2 = LeanIMT.import(poseidon, nodes)
 
             tree1.insert(BigInt(4))
             tree2.insert(BigInt(4))
