@@ -335,47 +335,67 @@ describe("Lean IMT", () => {
         it("Should export a tree", () => {
             const tree = new LeanIMT(poseidon, leaves)
 
-            const exportedTree = tree.export()
+            const nodes = tree.export()
 
-            expect(typeof exportedTree).toBe("string")
-            expect(JSON.parse(exportedTree)).toHaveLength(4)
-            expect(JSON.parse(exportedTree)[0]).toHaveLength(5)
+            expect(typeof nodes).toBe("string")
+            expect(JSON.parse(nodes)).toHaveLength(4)
+            expect(JSON.parse(nodes)[0]).toHaveLength(5)
         })
 
-        it("Should not import a tree if it the exported tree is not defined", () => {
+        it("Should not import a tree if the required parameters are not valid", () => {
             const tree = new LeanIMT(poseidon, leaves)
+            const nodes = tree.export()
 
-            const fun = () => tree.import(undefined as any)
+            const fun1 = () => LeanIMT.import(undefined as any, nodes)
+            const fun2 = () => LeanIMT.import(poseidon, undefined as any)
+            const fun3 = () => LeanIMT.import("string" as any, nodes)
+            const fun4 = () => LeanIMT.import(poseidon, 1 as any)
+            const fun5 = () => LeanIMT.import(poseidon, nodes, "string" as any)
 
-            expect(fun).toThrow("Parameter 'nodes' is not defined")
+            expect(fun1).toThrow("Parameter 'hash' is not defined")
+            expect(fun2).toThrow("Parameter 'nodes' is not defined")
+            expect(fun3).toThrow("Parameter 'hash' is not a function")
+            expect(fun4).toThrow("Parameter 'nodes' is not a string")
+            expect(fun5).toThrow("Parameter 'map' is not a function")
         })
 
-        it("Should not import a tree if it the exported tree is not a string", () => {
-            const tree = new LeanIMT(poseidon, leaves)
+        it("Should import a tree converting node types to number", () => {
+            const hash = (a: number, b: number) => a + b
+            const tree1 = new LeanIMT<number>(hash, [1, 2, 3])
+            const nodes = tree1.export()
 
-            const fun = () => tree.import(1 as any)
+            const tree2 = LeanIMT.import<number>(hash, nodes, Number)
 
-            expect(fun).toThrow("Parameter 'nodes' is not a string")
+            tree1.insert(4)
+            tree2.insert(4)
+
+            expect(tree2.depth).toBe(tree1.depth)
+            expect(tree2.size).toBe(tree1.size)
+            expect(tree2.root).toBe(tree1.root)
+            expect(tree2.indexOf(2)).toBe(tree1.indexOf(2))
         })
 
-        it("Should not import a tree if it is not empty", () => {
-            const tree1 = new LeanIMT(poseidon, leaves)
-            const exportedTree = tree1.export()
+        it("Should import a tree converting node types to booleans", () => {
+            const hash = (a: boolean, b: boolean) => a && b
+            const tree1 = new LeanIMT<boolean>(hash, [true, false, true])
+            const nodes = tree1.export()
 
-            const tree2 = new LeanIMT(poseidon, leaves)
+            const tree2 = LeanIMT.import<boolean>(hash, nodes, Boolean)
 
-            const fun = () => tree2.import(exportedTree)
+            tree1.insert(true)
+            tree2.insert(true)
 
-            expect(fun).toThrow("Import failed: the target tree structure is not empty")
+            expect(tree2.depth).toBe(tree1.depth)
+            expect(tree2.size).toBe(tree1.size)
+            expect(tree2.root).toBe(tree1.root)
+            expect(tree2.indexOf(false)).toBe(tree1.indexOf(false))
         })
 
         it("Should import a tree", () => {
             const tree1 = new LeanIMT(poseidon, leaves)
-            const exportedTree = tree1.export()
+            const nodes = tree1.export()
 
-            const tree2 = new LeanIMT(poseidon)
-
-            tree2.import(exportedTree)
+            const tree2 = LeanIMT.import(poseidon, nodes)
 
             tree1.insert(BigInt(4))
             tree2.insert(BigInt(4))
@@ -383,6 +403,7 @@ describe("Lean IMT", () => {
             expect(tree2.depth).toBe(tree1.depth)
             expect(tree2.size).toBe(tree1.size)
             expect(tree2.root).toBe(tree1.root)
+            expect(tree2.indexOf(2n)).toBe(tree1.indexOf(2n))
         })
     })
 })

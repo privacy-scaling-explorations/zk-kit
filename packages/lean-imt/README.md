@@ -84,9 +84,7 @@ or [JSDelivr](https://www.jsdelivr.com/):
 import { LeanIMT } from "@zk-kit/lean-imt"
 import { poseidon2 } from "poseidon-lite"
 
-/**
- * Hash function used to compute the tree nodes.
- */
+// Hash function used to compute the tree nodes.
 const hash = (a, b) => poseidon2([a, b])
 
 // To create an instance of a LeanIMT, you must provide the hash function.
@@ -132,21 +130,28 @@ tree.update(1, 2n)
 // [1n, 2n]
 console.log(tree.leaves)
 
-/**
- * If you want to delete a leaf with LeanIMT you can use the update function with an
- * arbitrary value to be used for the removed leaves.
- */
-
+// If you want to delete a leaf with LeanIMT you can use the update function with an
+// arbitrary value to be used for the removed leaves.
 // Update the value of the leaf at position 1 to 0n (deletion).
 tree.update(1, 0n)
 // [1n, 0n]
 console.log(tree.leaves)
 
-/**
- * Compute a Merkle Inclusion Proof (proof of membership) for the leaf with index 1.
- * The proof is only valid if the value 1 is found in a leaf of the tree.
- */
+// Compute a Merkle Inclusion Proof (proof of membership) for the leaf with index 1.
+// The proof is only valid if the value 1 is found in a leaf of the tree.
 const proof = tree.generateProof(1)
 // true
 console.log(tree.verifyProof(proof))
+
+// Export all the tree nodes.
+const nodes = tree.export()
+
+// Import the nodes.
+const tree2 = LeanIMT.import(hash, nodes)
+
+// Node types are converted from strings to bigints by default.
+// The third parameter can be used to convert strings to other types.
+
+// Import the nodes converting their types to numbers.
+const tree3 = LeanIMT.import<number>(hash, nodes, Number)
 ```
