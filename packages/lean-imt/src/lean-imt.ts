@@ -329,8 +329,8 @@ export default class LeanIMT<N = bigint> {
     /**
      * It imports an entire tree by initializing the nodes without calculating
      * any hashes. Note that it is crucial to ensure the integrity of the tree
-     * before or after importing it. If the reviver function is not defined, node
-     * values will be converted from strings to bigints by default.
+     * before or after importing it. If the map function is not defined, node
+     * values will be converted to bigints by default.
      * @param hash The hash function used to create nodes.
      * @param nodes The stringified JSON of the tree.
      * @param map A function to map each node of the tree and convert their types.
