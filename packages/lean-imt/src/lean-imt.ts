@@ -238,25 +238,21 @@ export default class LeanIMT<N = bigint> {
      * It is more efficient than using the {@link LeanIMT#update} method N times because it
      * prevents updating middle nodes several times. This would happen when updating leaves
      * with common ancestors.
-     * @param leaves The list of leaves to be updated.
      * @param indices The list of indices of the respective leaves.
+     * @param leaves The list of leaves to be updated.
      */
-    public updateMany(leaves: N[], indices: number[]) {
+    public updateMany(indices: number[], leaves: N[]) {
         requireDefined(leaves, "leaves")
         requireDefined(indices, "indices")
         requireArray(leaves, "leaves")
         requireArray(indices, "indices")
 
-        if (leaves.length === 0) {
-            throw new Error("There are no leaves to modify")
-        }
         if (leaves.length !== indices.length) {
             throw new Error("There is no correspondence between indices and leaves")
         }
         for (let leaf = 0; leaf < indices.length; leaf += 1) {
             if (indices[leaf] < 0 || indices[leaf] >= this.size) {
                 throw new Error(`Index ${leaf} is out of range`)
-                // throw new Error("Index " + leaf.toString() + " is out of range")
             }
         }
 

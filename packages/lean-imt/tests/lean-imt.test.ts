@@ -220,6 +220,59 @@ describe("Lean IMT", () => {
         })
     })
 
+    describe("# updateMany", () => {
+        it(`Should not update any leaf if one of the parameters is not defined`, () => {
+            const tree = new LeanIMT(poseidon, leaves)
+
+            const fun1 = () => tree.updateMany([1], undefined as any)
+            const fun2 = () => tree.updateMany(undefined as any, [BigInt(1)])
+
+            expect(fun1).toThrow("Parameter 'leaves' is not defined")
+            expect(fun2).toThrow("Parameter 'indices' is not defined")
+        })
+
+        it(`Should not update any leaf if the parameters are not arrays`, () => {
+            const tree = new LeanIMT(poseidon, leaves)
+
+            const fun1 = () => tree.updateMany([3], BigInt(1) as any)
+            const fun2 = () => tree.updateMany(3 as any, [BigInt(1)])
+
+            expect(fun1).toThrow("Parameter 'leaves' is not an Array instance")
+            expect(fun2).toThrow("Parameter 'indices' is not an Array instance")
+        })
+
+        it(`Should not update any leaf if the parameters are of different size`, () => {
+            const tree = new LeanIMT(poseidon, leaves)
+
+            const fun = () => tree.updateMany([1, 2, 3], [BigInt(1), BigInt(2)])
+
+            expect(fun).toThrow("There is no correspondence between indices and leaves")
+        })
+
+        it(`Should not update any leaf if some index is out of range`, () => {
+            const tree = new LeanIMT(poseidon, leaves)
+
+            const fun1 = () => tree.updateMany([-1, 2, 3], [BigInt(1), BigInt(2), BigInt(3)])
+            const fun2 = () => tree.updateMany([1, 200000, 3], [BigInt(1), BigInt(2), BigInt(3)])
+            const fun3 = () => tree.updateMany([1, 2, 345], [BigInt(1), BigInt(2), BigInt(3)])
+
+            expect(fun1).toThrow("Index 0 is out of range")
+            expect(fun2).toThrow("Index 1 is out of range")
+            expect(fun3).toThrow("Index 2 is out of range")
+        })
+
+        it(`Should not update any leaf when passing an empty list`, () => {
+            const tree = new LeanIMT(poseidon, leaves)
+            const previousRoot = tree.root
+
+            tree.updateMany([], [])
+
+            expect(tree.root).toBe(previousRoot)
+        })
+
+        it(`Should update leafs correctly`, () => {})
+    })
+
     describe("# generateProof", () => {
         it(`Should not generate any proof if the index is not defined`, () => {
             const tree = new LeanIMT(poseidon, leaves)
