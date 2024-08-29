@@ -282,7 +282,32 @@ describe("Lean IMT", () => {
             expect(tree.root).toBe(previousRoot)
         })
 
-        it(`Should update leafs correctly`, () => {})
+        it(`Should updateMany with 1 change be the same as update`, () => {
+            const tree1 = new LeanIMT(poseidon, leaves)
+            const tree2 = new LeanIMT(poseidon, leaves)
+
+            tree1.update(4, BigInt(-100))
+            tree2.updateMany([4], [BigInt(-100)])
+            expect(tree1.root).toBe(tree2.root)
+
+            tree1.update(0, BigInt(24))
+            tree2.updateMany([0], [BigInt(24)])
+            expect(tree1.root).toBe(tree2.root)
+        })
+
+        it(`Should update leaves correctly`, () => {
+            const tree = new LeanIMT(poseidon, leaves)
+
+            const updateLeaves = [BigInt(24), BigInt(-10), BigInt(100000)]
+            tree.updateMany([0, 1, 4], updateLeaves)
+
+            const h1_0 = poseidon(updateLeaves[0], updateLeaves[1])
+            const h1_1 = poseidon(leaves[2], leaves[3])
+            const h2_0 = poseidon(h1_0, h1_1)
+            const updatedRoot = poseidon(h2_0, updateLeaves[2])
+
+            expect(tree.root).toBe(updatedRoot)
+        })
     })
 
     describe("# generateProof", () => {
