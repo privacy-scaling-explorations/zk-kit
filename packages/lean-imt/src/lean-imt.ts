@@ -237,7 +237,7 @@ export default class LeanIMT<N = bigint> {
      * Updates N leaves all at once.
      * It is more efficient than using the {@link LeanIMT#update} method N times because it
      * prevents updating middle nodes several times. This would happen when updating leaves
-     * with common ancestors.
+     * with common ancestors. However, it doesn't offer a better worst-case time complexity.
      * @param indices The list of indices of the respective leaves.
      * @param leaves The list of leaves to be updated.
      */
@@ -251,6 +251,7 @@ export default class LeanIMT<N = bigint> {
             throw new Error("There is no correspondence between indices and leaves")
         }
         for (let leaf = 0; leaf < indices.length; leaf += 1) {
+            requireNumber(indices[leaf], `index ${leaf}`)
             if (indices[leaf] < 0 || indices[leaf] >= this.size) {
                 throw new Error(`Index ${leaf} is out of range`)
             }

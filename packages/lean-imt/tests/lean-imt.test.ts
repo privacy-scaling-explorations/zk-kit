@@ -244,9 +244,21 @@ describe("Lean IMT", () => {
         it(`Should not update any leaf if the parameters are of different size`, () => {
             const tree = new LeanIMT(poseidon, leaves)
 
-            const fun = () => tree.updateMany([1, 2, 3], [BigInt(1), BigInt(2)])
+            const fun1 = () => tree.updateMany([1, 2, 3], [BigInt(1), BigInt(2)])
+            const fun2 = () => tree.updateMany([1], [])
 
-            expect(fun).toThrow("There is no correspondence between indices and leaves")
+            expect(fun1).toThrow("There is no correspondence between indices and leaves")
+            expect(fun2).toThrow("There is no correspondence between indices and leaves")
+        })
+
+        it(`Should not update any leaf if some index is not a number`, () => {
+            const tree = new LeanIMT(poseidon, leaves)
+
+            const fun1 = () => tree.updateMany([1, "hello" as any, 3], [BigInt(1), BigInt(2), BigInt(3)])
+            const fun2 = () => tree.updateMany([1, 2, undefined as any], [BigInt(1), BigInt(2), BigInt(3)])
+
+            expect(fun1).toThrow("Parameter 'index 1' is not a number")
+            expect(fun2).toThrow("Parameter 'index 2' is not a number")
         })
 
         it(`Should not update any leaf if some index is out of range`, () => {
@@ -254,7 +266,7 @@ describe("Lean IMT", () => {
 
             const fun1 = () => tree.updateMany([-1, 2, 3], [BigInt(1), BigInt(2), BigInt(3)])
             const fun2 = () => tree.updateMany([1, 200000, 3], [BigInt(1), BigInt(2), BigInt(3)])
-            const fun3 = () => tree.updateMany([1, 2, 345], [BigInt(1), BigInt(2), BigInt(3)])
+            const fun3 = () => tree.updateMany([1, 2, tree.size], [BigInt(1), BigInt(2), BigInt(3)])
 
             expect(fun1).toThrow("Index 0 is out of range")
             expect(fun2).toThrow("Index 1 is out of range")
