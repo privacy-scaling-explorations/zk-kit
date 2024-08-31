@@ -274,7 +274,6 @@ export default class LeanIMT<N = bigint> {
                 this._nodes[level][index] = rightChild ? this._hash(leftChild, rightChild) : leftChild
                 newModifiedIndices.push(index >> 1)
             }
-            modifiedIndices.clear()
             modifiedIndices = new Set<number>(newModifiedIndices)
         }
     }
