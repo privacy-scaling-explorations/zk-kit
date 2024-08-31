@@ -504,12 +504,12 @@ You can see some examples in the `benchmarks` folder. All you have to do is crea
 
 **Incremental:** Ideal for applications where you frequently add new elements and need to update the tree efficiently.
 
-**\*Lean Incremental:** A more memory-efficient version of the incremental Merkle tree, suitable for use cases with memory constraints.
+**Lean Incremental:** A more memory-efficient version of the incremental Merkle tree, suitable for use cases with memory constraints.
 
 **Sparse:** Best suited for scenarios where you need to manage a large, mostly empty set of possible elements.
 
-| Type                 | Library Name     | Main Feature                           | Recommended for                          | Not Recommended for                               | Used by                 | Proof Gen Speed                  |
-| -------------------- | ---------------- | -------------------------------------- | ---------------------------------------- | ------------------------------------------------- | ----------------------- | -------------------------------- |
-| **Incremental**      | @zk-kit/imt      | Fastest for incremental updates        | Applications requiring frequent updates  | Scenarios with very large datasets                | Semaphore, Tornado Cash | Fast                             |
-| **Lean incremental** | @zk-kit/lean-imt | Optimized for lightweight environments | Mobile and browser-based ZK applications | High-frequency update requirements                | zkSync, Loopring        | Moderate                         |
-| **Sparse**           | @zk-kit/smt      | Handles very large sets efficiently    | Applications with large static datasets  | Frequent updates due to higher computational cost | Aztec, Zcash            | Slow (due to large set handling) |
+| Type                 | Library Name     | Main Feature                           | Recommended for                          | Not Recommended for                               | Used by                                                                                                                   | Proof Gen Speed                  |
+| -------------------- | ---------------- | -------------------------------------- | ---------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| **Incremental**      | @zk-kit/imt      | Fastest for incremental updates        | Applications requiring frequent updates  | Scenarios with very large datasets                | [Semaphore](https://github.com/semaphore-protocol/semaphore), [Tornado Cash](https://github.com/tornadocash/tornado-core) | Fast                             |
+| **Lean incremental** | @zk-kit/lean-imt | Optimized for lightweight environments | Mobile and browser-based ZK applications | High-frequency update requirements                | [zkSync](https://github.com/matter-labs/zksync), [Loopring](https://github.com/Loopring)                                  | Moderate                         |
+| **Sparse**           | @zk-kit/smt      | Handles very large sets efficiently    | Applications with large static datasets  | Frequent updates due to higher computational cost | [Aztec](https://github.com/AztecProtocol), [Zcash](https://github.com/zcash)                                              | Slow (due to large set handling) |
