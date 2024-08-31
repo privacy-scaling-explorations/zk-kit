@@ -234,10 +234,26 @@ export default class LeanIMT<N = bigint> {
     }
 
     /**
-     * Updates N leaves all at once.
-     * It is more efficient than using the {@link LeanIMT#update} method N times because it
-     * prevents updating middle nodes several times. This would happen when updating leaves
-     * with common ancestors. However, it doesn't offer a better worst-case time complexity.
+     * Updates m leaves all at once.
+     * It is more efficient than using the {@link LeanIMT#update} method m times because
+     * it prevents updating middle nodes several times, which would happen when
+     * updating leaves with common ancestors. The worst-case time complexity
+     * of the naive approach of calling 'update' m times is O(m*log(n)) where n is the size
+     * of the tree, while this algorithm offers a complexity of O(m*(log(n)-log(m)) + m).
+     * This is a slight improvement, mostly when m ~ n. This makes sense because
+     * if we update a lot of leaves, most of them will have common ancestors.
+     * The proof for this would be as follows: If we have a list of m updates in
+     * a tree of depth d ~ log(n), let k be the smallest integer such that m <= 2^k.
+     * In the worst case, the paths of the m updates will pass through m different nodes
+     * of the level k of the tree. In other words, the m leaves to update have
+     * all different ancestors up to the level k (which has 2^k nodes). In this scenario,
+     * the number of nodes of level k or higher that need to be updated is exactly m*(d-k),
+     * and the number of nodes of level k-1 or lower to update is at least m/2 (because
+     * there are at least m/2 different ancestors of a set of m nodes) and at most
+     * 2*m (because there are not even 2^k of nodes among all those levels, and 2^k < 2m).
+     * Therefore, the number of nodes to update is at least m*(d-k) + m/2 and at most
+     * m*(d-k) + 2m. This gives us that the number of nodes to update, which is the most
+     * expensive operation of the method, is O(m*(log(n)-log(m)) + m) since k ~ log(m).
      * @param indices The list of indices of the respective leaves.
      * @param leaves The list of leaves to be updated.
      */
