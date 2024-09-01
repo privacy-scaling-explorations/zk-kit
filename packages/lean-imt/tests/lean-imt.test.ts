@@ -316,7 +316,7 @@ describe("Lean IMT", () => {
 
             const fun = () => tree.updateMany([4, 1, 4], [BigInt(-100), BigInt(-17), BigInt(1)])
 
-            expect(fun).toThrow("Index 4 is repeated")
+            expect(fun).toThrow("Leaf 4 is repeated")
         })
 
         it(`Should update leaves correctly`, () => {

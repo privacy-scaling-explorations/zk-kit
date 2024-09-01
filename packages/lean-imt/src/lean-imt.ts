@@ -274,7 +274,7 @@ export default class LeanIMT<N = bigint> {
                 throw new Error(`Index ${i} is out of range`)
             }
             if (modifiedIndices.has(indices[i])) {
-                throw new Error(`Index ${indices[i]} is repeated`)
+                throw new Error(`Leaf ${indices[i]} is repeated`)
             }
             modifiedIndices.add(indices[i])
         }
