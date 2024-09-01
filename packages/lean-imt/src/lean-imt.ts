@@ -266,10 +266,10 @@ export default class LeanIMT<N = bigint> {
         if (leaves.length !== indices.length) {
             throw new Error("There is no correspondence between indices and leaves")
         }
-        for (let leaf = 0; leaf < indices.length; leaf += 1) {
-            requireNumber(indices[leaf], `index ${leaf}`)
-            if (indices[leaf] < 0 || indices[leaf] >= this.size) {
-                throw new Error(`Index ${leaf} is out of range`)
+        for (let i = 0; i < indices.length; i += 1) {
+            requireNumber(indices[i], `index ${i}`)
+            if (indices[i] < 0 || indices[i] >= this.size) {
+                throw new Error(`Index ${i} is out of range`)
             }
         }
 

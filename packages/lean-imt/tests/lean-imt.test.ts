@@ -295,6 +295,22 @@ describe("Lean IMT", () => {
             expect(tree1.root).toBe(tree2.root)
         })
 
+        it(`'updateMany' should be the same as executing the 'update' function multiple times`, () => {
+            const tree1 = new LeanIMT(poseidon, leaves)
+            const tree2 = new LeanIMT(poseidon, leaves)
+
+            const indices = [0, 2, 4]
+
+            const nodes = [BigInt(10), BigInt(11), BigInt(12)]
+
+            for (let i = 0; i < indices.length; i += 1) {
+                tree1.update(indices[i], nodes[i])
+            }
+            tree2.updateMany(indices, nodes)
+
+            expect(tree1.root).toBe(tree2.root)
+        })
+
         it(`'updateMany' with repeated indices should overwrite the last update`, () => {
             const tree = new LeanIMT(poseidon, leaves)
 
