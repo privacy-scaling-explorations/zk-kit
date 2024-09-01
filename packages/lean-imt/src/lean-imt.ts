@@ -266,15 +266,20 @@ export default class LeanIMT<N = bigint> {
         if (leaves.length !== indices.length) {
             throw new Error("There is no correspondence between indices and leaves")
         }
+        // This will keep track of the outdated nodes of each level.
+        let modifiedIndices = new Set<number>()
         for (let i = 0; i < indices.length; i += 1) {
             requireNumber(indices[i], `index ${i}`)
             if (indices[i] < 0 || indices[i] >= this.size) {
                 throw new Error(`Index ${i} is out of range`)
             }
+            if (modifiedIndices.has(indices[i])) {
+                throw new Error(`Index ${indices[i]} is repeated`)
+            }
+            modifiedIndices.add(indices[i])
         }
 
-        // This will keep track of the outdated nodes of each level.
-        let modifiedIndices = new Set<number>()
+        modifiedIndices.clear()
         // First, modify the first level, which consists only of raw, un-hashed values
         for (let leaf = 0; leaf < indices.length; leaf += 1) {
             this._nodes[0][indices[leaf]] = leaves[leaf]
