@@ -254,6 +254,9 @@ export default class LeanIMT<N = bigint> {
      * Therefore, the number of nodes to update is at least m*(d-k) + m/2 and at most
      * m*(d-k) + 2m. This gives us that the number of nodes to update, which is the most
      * expensive operation of the method, is O(m*(log(n)-log(m)) + m) since k ~ log(m).
+     * If we consider the worst case of m, which is m = n, the complexity is O(n).
+     * This is mainly because each node will be modified at most once, and the total
+     * number of nodes of the tree is <= 2*n.
      * @param indices The list of indices of the respective leaves.
      * @param leaves The list of leaves to be updated.
      */
