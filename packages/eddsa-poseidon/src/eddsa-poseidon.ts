@@ -9,7 +9,7 @@ import {
     subOrder,
     unpackPoint
 } from "@zk-kit/baby-jubjub"
-import type { BigNumberish } from "@zk-kit/utils"
+import type { BigNumber, BigNumberish } from "@zk-kit/utils"
 import { crypto, requireBuffer } from "@zk-kit/utils"
 import { bigNumberishToBigInt, leBigIntToBuffer, leBufferToBigInt } from "@zk-kit/utils/conversions"
 import { requireBigNumberish } from "@zk-kit/utils/error-handlers"
@@ -87,7 +87,7 @@ export function derivePublicKey(privateKey: Buffer | Uint8Array | string): Point
  * @param message The message to be signed.
  * @returns The signature object, containing properties relevant to EdDSA signatures, such as 'R8' and 'S' values.
  */
-export function signMessage(privateKey: Buffer | Uint8Array | string, message: BigNumberish): Signature<bigint> {
+export function signMessage(privateKey: Buffer | Uint8Array | string, message: BigNumber): Signature<bigint> {
     // Convert the private key to buffer.
     privateKey = checkPrivateKey(privateKey)
 
@@ -121,7 +121,7 @@ export function signMessage(privateKey: Buffer | Uint8Array | string, message: B
  * @param publicKey The public key associated with the private key used to sign the message.
  * @returns Returns true if the signature is valid and corresponds to the message and public key, false otherwise.
  */
-export function verifySignature(message: BigNumberish, signature: Signature, publicKey: Point): boolean {
+export function verifySignature(message: BigNumber, signature: Signature, publicKey: Point): boolean {
     if (
         !isPoint(publicKey) ||
         !isSignature(signature) ||
@@ -281,7 +281,7 @@ export class EdDSAPoseidon {
      * @param message The message to be signed.
      * @returns The signature of the message.
      */
-    signMessage(message: BigNumberish): Signature<bigint> {
+    signMessage(message: BigNumber): Signature<bigint> {
         return signMessage(this.privateKey, message)
     }
 
@@ -291,7 +291,7 @@ export class EdDSAPoseidon {
      * @param signature The signature to be verified.
      * @returns True if the signature is valid for the message and public key, false otherwise.
      */
-    verifySignature(message: BigNumberish, signature: Signature): boolean {
+    verifySignature(message: BigNumber, signature: Signature): boolean {
         return verifySignature(message, signature, this.publicKey)
     }
 }

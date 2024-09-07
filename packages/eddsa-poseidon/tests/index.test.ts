@@ -1,6 +1,6 @@
 import { babyjub, eddsa } from "circomlibjs"
 import { Buffer } from "buffer"
-import { crypto } from "@zk-kit/utils"
+import { bufferToBigInt, crypto } from "@zk-kit/utils"
 import { utils } from "ffjavascript"
 import { r, packPoint, Point } from "@zk-kit/baby-jubjub"
 import {
@@ -84,7 +84,7 @@ describe("EdDSAPoseidon", () => {
     it("Should sign a message (number)", async () => {
         const message = 22
 
-        const signature = signMessage(privateKey, message)
+        const signature = signMessage(privateKey, BigInt(message))
 
         const circomlibSignature = eddsa.signPoseidon(privateKey, BigInt(message))
 
@@ -96,7 +96,7 @@ describe("EdDSAPoseidon", () => {
     it("Should sign a message (hexadecimal)", async () => {
         const message = "0x12"
 
-        const signature = signMessage(privateKey, message)
+        const signature = signMessage(privateKey, BigInt(message))
 
         const circomlibSignature = eddsa.signPoseidon(privateKey, BigInt(message))
 
@@ -108,7 +108,7 @@ describe("EdDSAPoseidon", () => {
     it("Should sign a message (buffer)", async () => {
         const message = Buffer.from("message")
 
-        const signature = signMessage(privateKey, message)
+        const signature = signMessage(privateKey, bufferToBigInt(message))
 
         const circomlibSignature = eddsa.signPoseidon(privateKey, BigInt(`0x${message.toString("hex")}`))
 
@@ -117,7 +117,7 @@ describe("EdDSAPoseidon", () => {
         expect(signature.S).toBe(circomlibSignature.S)
     })
 
-    it("Should sign a message (string)", async () => {
+    it("Should sign a message if less than 32 bytes (string)", async () => {
         const message = "message"
 
         const signature = signMessage(privateKey, message)
@@ -127,6 +127,13 @@ describe("EdDSAPoseidon", () => {
         expect(signature.R8[0]).toBe(circomlibSignature.R8[0])
         expect(signature.R8[1]).toBe(circomlibSignature.R8[1])
         expect(signature.S).toBe(circomlibSignature.S)
+    })
+
+    it("Should fail if message is larger than 32 bytes (string)", async () => {
+        const message = bufferToBigInt(Buffer.from(crypto.getRandomValues(34)))
+
+        const fun = () => signMessage(privateKey, message)
+        expect(fun).toThrow("Size 32 is too small, need at least 33 bytes")
     })
 
     it("Should throw an error if the message type is not supported", async () => {
