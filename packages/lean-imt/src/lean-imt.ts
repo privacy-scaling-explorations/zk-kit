@@ -240,7 +240,7 @@ export default class LeanIMT<N = bigint> {
      * with common ancestors. The naive approach of calling 'update' m times has complexity
      * O(m*log(n)) (where n is the number of leaves of the tree), which ends up in
      * O(n*log(n)) when m ~ n. With this new approach, this ends up being O(n) because every
-     * node is updated at most once and there are < 2*n nodes in the tree.
+     * node is updated at most once and there are around 2*n nodes in the tree.
      * @param indices The list of indices of the respective leaves.
      * @param leaves The list of leaves to be updated.
      */
