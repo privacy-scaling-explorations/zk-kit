@@ -70,20 +70,31 @@ export function addPoint(p1: Point<bigint>, p2: Point<bigint>): Point<bigint> {
  * @returns The resulting point representing the public key.
  */
 export function mulPointEscalar(base: Point<bigint>, e: bigint): Point<bigint> {
-    let res: Point<bigint> = [Fr.e(BigInt(0)), Fr.e(BigInt(1))]
-    let rem: bigint = e
-    let exp: Point<bigint> = base
-
-    while (!scalar.isZero(rem)) {
-        if (scalar.isOdd(rem)) {
-            res = addPoint(res, exp)
+    console.log(e)
+    const eBits: Array<boolean> = []
+    while (!scalar.isZero(e)) {
+        if (scalar.isOdd(e)) {
+            eBits.push(true)
+        } else {
+            eBits.push(false)
         }
-
-        exp = addPoint(exp, exp)
-        rem = scalar.shiftRight(rem, BigInt(1))
+        e = scalar.shiftRight(e, BigInt(1))
     }
 
-    return res
+    let R0: Point<bigint> = base
+    let R1: Point<bigint> = addPoint(base, base)
+
+    for (const bit of eBits.slice(0, -1).reverse()) {
+        if (bit) {
+            R0 = addPoint(R0, R1)
+            R1 = addPoint(R1, R1)
+        } else {
+            R1 = addPoint(R0, R1)
+            R0 = addPoint(R0, R0)
+        }
+    }
+
+    return R0
 }
 
 /**
