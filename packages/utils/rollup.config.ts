@@ -1,5 +1,6 @@
 import alias from "@rollup/plugin-alias"
 import terser from "@rollup/plugin-terser"
+import { dts } from "rollup-plugin-dts"
 import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
@@ -93,9 +94,41 @@ export default [
             { dir: "./dist/lib.esm", format: "es", banner, preserveModules: true }
         ],
         external: [...Object.keys(pkg.dependencies), "crypto", "node:fs", "node:fs/promises", "node:path", "node:os"],
-        plugins: [
-            typescript({ tsconfig: "./build.tsconfig.json", declaration: false, declarationDir: undefined }),
-            cleanup({ comments: "jsdoc" })
-        ]
+        plugins: [typescript({ tsconfig: "./build.tsconfig.json" }), cleanup({ comments: "jsdoc" })]
+    },
+    {
+        input: "src/index.ts",
+        output: [{ file: "dist/index.d.ts", format: "es" }],
+        plugins: [dts()]
+    },
+    {
+        input: "src/error-handlers.ts",
+        output: [{ file: "dist/error-handlers.d.ts", format: "es" }],
+        plugins: [dts()]
+    },
+    {
+        input: "src/type-checks.ts",
+        output: [{ file: "dist/type-checks.d.ts", format: "es" }],
+        plugins: [dts()]
+    },
+    {
+        input: "src/conversions.ts",
+        output: [{ file: "dist/conversions.d.ts", format: "es" }],
+        plugins: [dts()]
+    },
+    {
+        input: "src/proof-packing.ts",
+        output: [{ file: "dist/proof-packing.d.ts", format: "es" }],
+        plugins: [dts()]
+    },
+    {
+        input: "src/scalar.ts",
+        output: [{ file: "dist/scalar.d.ts", format: "es" }],
+        plugins: [dts()]
+    },
+    {
+        input: "src/f1-field.ts",
+        output: [{ file: "dist/f1-field.d.ts", format: "es" }],
+        plugins: [dts()]
     }
 ]
