@@ -70,7 +70,9 @@ export function addPoint(p1: Point<bigint>, p2: Point<bigint>): Point<bigint> {
  * @returns The resulting point representing the public key.
  */
 export function mulPointEscalar(base: Point<bigint>, e: bigint): Point<bigint> {
-    console.log(e)
+    if (scalar.isZero(e)) {
+        return [BigInt(0), BigInt(1)]
+    }
     const eBits: Array<boolean> = []
     while (!scalar.isZero(e)) {
         if (scalar.isOdd(e)) {
