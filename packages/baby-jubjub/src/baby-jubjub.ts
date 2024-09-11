@@ -65,6 +65,11 @@ export function addPoint(p1: Point<bigint>, p2: Point<bigint>): Point<bigint> {
 /**
  * Performs a scalar multiplication by starting from the 'base' point and 'adding'
  * it to itself 'e' times.
+ * This works given the following invariant: At each step, R0 will be r_0*base where r_0 is the prefix of e
+ * written in binary and R1 will be (r_0+1)*base. In other words: at iteration i of the loop, r_0's binary
+ * representation will be the first i+1 bits of e. If the upcoming bit is a 0, we just have to double R0
+ * and add R0 to R1 to maintain the invariant. If it is a 1, we have to double R0 and add 1*base
+ * (or add R1, which is the same as (r_0+1)*base), and double R1 to maintain the invariant.
  * @param base The base point used as a starting point.
  * @param e A secret number representing the private key.
  * @returns The resulting point representing the public key.
