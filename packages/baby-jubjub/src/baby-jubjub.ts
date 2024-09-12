@@ -76,24 +76,14 @@ export function addPoint(p1: Point<bigint>, p2: Point<bigint>): Point<bigint> {
  * @returns The resulting point representing the public key.
  */
 export function mulPointEscalar(base: Point<bigint>, e: bigint): Point<bigint> {
-    if (scalar.isZero(e)) {
-        return [BigInt(0), BigInt(1)]
-    }
-    const eBits: Array<boolean> = []
-    while (!scalar.isZero(e)) {
-        if (scalar.isOdd(e)) {
-            eBits.push(true)
-        } else {
-            eBits.push(false)
-        }
-        e = scalar.shiftRight(e, BigInt(1))
-    }
+    e %= order
 
-    let R0: Point<bigint> = base
-    let R1: Point<bigint> = addPoint(base, base)
+    let R0: Point<bigint> = [0n, 1n]
+    let R1: Point<bigint> = base
 
-    for (const bit of eBits.slice(0, -1).reverse()) {
-        if (bit) {
+    // 'order' is a number of 254 bits, such as 1n<<253n. Therefore, we initialize the mask as 1<<253
+    for (let mask = 1n << 253n; mask > 0; mask >>= 1n) {
+        if (e & mask) {
             R0 = addPoint(R0, R1)
             R1 = addPoint(R1, R1)
         } else {
