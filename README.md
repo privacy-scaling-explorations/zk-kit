@@ -508,8 +508,8 @@ You can see some examples in the `benchmarks` folder. All you have to do is crea
 
 **Sparse:** Particularly useful when you need proof of non-membership.
 
-| Type                 | Library Name     | Main Feature                            | Used by                                                                                                                   |
-| -------------------- | ---------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| **Incremental**      | @zk-kit/imt      | Fastest for incremental updates.        | [Semaphore V3](https://github.com/semaphore-protocol/semaphore/tree/v3.15.2), [Worldcoin](https://github.com/worldcoin)   |
-| **Lean Incremental** | @zk-kit/lean-imt | Optimized for lightweight environments. | [Semaphore V4](https://github.com/semaphore-protocol/semaphore), [Zupass](https://github.com/proofcarryingdata/zupass)    |
-| **Sparse**           | @zk-kit/smt      | Handles very large sets efficiently.    | [Iden3](https://github.com/iden3)                                                                                         |
+| Type                 | Library Name     | Main Feature                            | Used by                                                                                                                 |
+| -------------------- | ---------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Incremental**      | @zk-kit/imt      | Fastest for incremental updates.        | [Semaphore V3](https://github.com/semaphore-protocol/semaphore/tree/v3.15.2), [Worldcoin](https://github.com/worldcoin) |
+| **Lean Incremental** | @zk-kit/lean-imt | Optimized for lightweight environments. | [Semaphore V4](https://github.com/semaphore-protocol/semaphore), [Zupass](https://github.com/proofcarryingdata/zupass)  |
+| **Sparse**           | @zk-kit/smt      | Handles very large sets efficiently.    | [Iden3](https://github.com/iden3)                                                                                       |
