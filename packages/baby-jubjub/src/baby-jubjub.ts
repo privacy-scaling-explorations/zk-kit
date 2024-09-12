@@ -65,6 +65,7 @@ export function addPoint(p1: Point<bigint>, p2: Point<bigint>): Point<bigint> {
 /**
  * Performs a scalar multiplication by starting from the 'base' point and 'adding'
  * it to itself 'e' times.
+ * This algorithm is called 'Montgomery Ladder'. See {@link https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication#Montgomery_ladder}
  * This works given the following invariant: At each step, R0 will be r_0*base where r_0 is the prefix of e
  * written in binary and R1 will be (r_0+1)*base. In other words: at iteration i of the loop, r_0's binary
  * representation will be the first i+1 most significant bits of e. If the upcoming bit is a 0, we just have to
