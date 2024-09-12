@@ -498,18 +498,18 @@ grep -r -l "smt" . | xargs sed -i 's/smt/my-package/'
 
 #### How can I create benchmarks for my library?
 
-You can see some examples in the `benchmarks` folder. All you have to do is create a file that exports a function to run your benchmark in that folder, and add that function to the `index.ts` file. The `yarn benchmarks` command can be run with no parameters (it will run all the benchmarks), or you can specify the name of your benchmark file to run just that. When you run the command it will create a `benchmarks/results` folder with your results.
+You can see some examples in the `benchmarks` folder. All you have to do is create a file that exports a function to run your benchmark in that folder and add that function to the `index.ts` file. The `yarn benchmarks` command can be run with no parameters (it will run all the benchmarks), or you can specify the name of your benchmark file to run just that. When you run the command it will create a `benchmarks/results` folder with your results.
 
 #### I need to use a Merkle Tree to prove the inclusion or exclusion of data elements within a set. Which type of Merkle Tree should I use?
 
 **Incremental:** Ideal for applications where you frequently add new elements and need to update the tree efficiently.
 
-**Lean Incremental:** A more memory-efficient version of the incremental Merkle tree, suitable for use cases with memory constraints.
+**Lean Incremental:** A more memory-efficient version of the incremental Merkle tree.
 
-**Sparse:** Best suited for scenarios where you need to manage a large, mostly empty set of possible elements.
+**Sparse:** Particularly useful when you need proof of non-membership.
 
-| Type                 | Library Name     | Main Feature                           | Recommended for                          | Not Recommended for                               | Used by                                                                                                                   | Proof Gen Speed                  |
-| -------------------- | ---------------- | -------------------------------------- | ---------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
-| **Incremental**      | @zk-kit/imt      | Fastest for incremental updates        | Applications requiring frequent updates  | Scenarios with very large datasets                | [Semaphore](https://github.com/semaphore-protocol/semaphore), [Tornado Cash](https://github.com/tornadocash/tornado-core) | Fast                             |
-| **Lean incremental** | @zk-kit/lean-imt | Optimized for lightweight environments | Mobile and browser-based ZK applications | High-frequency update requirements                | [zkSync](https://github.com/matter-labs/zksync), [Loopring](https://github.com/Loopring)                                  | Moderate                         |
-| **Sparse**           | @zk-kit/smt      | Handles very large sets efficiently    | Applications with large static datasets  | Frequent updates due to higher computational cost | [Aztec](https://github.com/AztecProtocol), [Zcash](https://github.com/zcash)                                              | Slow (due to large set handling) |
+| Type                 | Library Name     | Main Feature                            | Used by                                                                                                                   |
+| -------------------- | ---------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| **Incremental**      | @zk-kit/imt      | Fastest for incremental updates.        | [Semaphore V3](https://github.com/semaphore-protocol/semaphore/tree/v3.15.2), [Worldcoin](https://github.com/worldcoin)   |
+| **Lean Incremental** | @zk-kit/lean-imt | Optimized for lightweight environments. | [Semaphore V4](https://github.com/semaphore-protocol/semaphore), [Zupass](https://github.com/proofcarryingdata/zupass)    |
+| **Sparse**           | @zk-kit/smt      | Handles very large sets efficiently.    | [Iden3](https://github.com/iden3)                                                                                         |
