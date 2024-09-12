@@ -26,6 +26,8 @@ export const Base8: Point<bigint> = [
 const a = Fr.e(BigInt("168700"))
 const d = Fr.e(BigInt("168696"))
 
+export const id: Point<bigint> = [0n, 1n]
+
 // The Baby JubJub curve 'E(F_r)' is equal to the subgroup of 'F_r'-rational points of 'E'.
 export const order = BigInt("21888242871839275222246405745257275088614511777268538073601725287587578984328")
 export const subOrder = scalar.shiftRight(order, BigInt(3))
@@ -78,7 +80,7 @@ export function addPoint(p1: Point<bigint>, p2: Point<bigint>): Point<bigint> {
 export function mulPointEscalar(base: Point<bigint>, e: bigint): Point<bigint> {
     e %= order
 
-    let R0: Point<bigint> = [0n, 1n]
+    let R0: Point<bigint> = id
     let R1: Point<bigint> = base
 
     // 'order' is a number of 254 bits, such as 1n<<253n. Therefore, we initialize the mask as 1<<253

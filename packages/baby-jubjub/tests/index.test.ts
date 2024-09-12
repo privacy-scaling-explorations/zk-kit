@@ -1,12 +1,23 @@
 import { babyjub } from "circomlibjs"
 import { utils } from "ffjavascript"
 import * as scalar from "@zk-kit/utils/scalar"
-import { Base8, Point, addPoint, inCurve, mulPointEscalar, packPoint, r, unpackPoint, order, subOrder } from "../src"
+import {
+    Base8,
+    Point,
+    addPoint,
+    inCurve,
+    mulPointEscalar,
+    packPoint,
+    r,
+    unpackPoint,
+    order,
+    subOrder,
+    id
+} from "../src"
 import { tonelliShanks } from "../src/sqrt"
 
 describe("BabyJubjub", () => {
     const secretScalar = BigInt(324)
-    const id: Point<bigint> = [BigInt(0), BigInt(1)]
 
     let publicKey: Point<bigint>
 
