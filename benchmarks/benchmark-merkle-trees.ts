@@ -5,7 +5,6 @@ The results are saved as .html files (charts and tables) for analysis. */
 import b from "benny"
 import { poseidon2 } from "poseidon-lite"
 import sha256 from "crypto-js/sha256"
-import toHex from "to-hex"
 import winston from "winston"
 import path from "path"
 
@@ -55,7 +54,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
     for (let i = 0; i < numberOfLeaves; i += 1) {
         incrementalMerkleTree.insert(i)
         leanIncrementalMerkleTree.insert(BigInt(i))
-        sparseMerkleTree.add(toHex(i), toHex(Math.floor(Math.random() * 10)))
+        sparseMerkleTree.add(i.toString(16), Math.floor(Math.random() * 10).toString(16))
     }
 
     const incrementalMerkleTree2 = new IMT(poseidon2, treeDepth, 0, 2)
@@ -103,7 +102,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
         }),
         b.add(`SparseMT - Add ${numberOfLeaves} leaves`, () => {
             try {
-                sparseMerkleTree2.add(toHex(leafSMT), toHex(Math.floor(Math.random() * 10)))
+                sparseMerkleTree2.add(leafSMT.toString(16), Math.floor(Math.random() * 10).toString())
             } catch (error) {
                 logger.error(name)
                 logger.error(error)
@@ -157,7 +156,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
         b.add(`SparseMT - Generated ${samples} proofs`, () => {
             try {
                 if (leafSMT < samples) {
-                    sparseMerkleTree.createProof(toHex(sample[leafSMT]))
+                    sparseMerkleTree.createProof(sample[leafSMT].toString(16))
                 } else {
                     leafSMT = 0
                 }
@@ -186,7 +185,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
         try {
             proofsIMT.push(incrementalMerkleTree.createProof(sample[i]))
             proofsLeanIMT.push(leanIncrementalMerkleTree.generateProof(sample[i]))
-            proofsSMT.push(sparseMerkleTree.createProof(toHex(sample[i])))
+            proofsSMT.push(sparseMerkleTree.createProof(sample[i].toString(16)))
         } catch (error) {
             logger.error("Proof sample generation")
             logger.error(error)
@@ -279,7 +278,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
         b.add(`SparseMT - Updated ${samples} leaves`, () => {
             try {
                 if (leafSMT < samples) {
-                    sparseMerkleTree.update(toHex(sample[leafSMT]), toHex(Math.trunc(Math.random())))
+                    sparseMerkleTree.update(sample[leafSMT].toString(16), Math.trunc(Math.random()).toString())
                 } else {
                     leafSMT = 0
                 }
@@ -320,7 +319,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
         b.add(`SparseMT - Deleted ${samples} leaves`, () => {
             try {
                 if (leafSMT < samples) {
-                    sparseMerkleTree.delete(toHex(sample[leafSMT]))
+                    sparseMerkleTree.delete(sample[leafSMT].toString())
                 }
             } catch (error) {
                 logger.error(name)

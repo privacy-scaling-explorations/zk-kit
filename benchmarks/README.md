@@ -26,6 +26,8 @@ Before running the benchmark, ensure that you have Node.js version 20 installed 
     ```bash
     git clone https://github.com/privacy-scaling-explorations/zk-kit.git
     cd zk-kit
+    yarn
+    yarn winston
     ```
 
 ## Usage
