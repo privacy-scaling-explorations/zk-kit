@@ -115,6 +115,15 @@ export default class Blake2b {
     private c: number
     private outlen: number
 
+    /**
+     * Constructor of the Blake2b engine
+     * times to incrementally add data to the hash computation.
+     * @param outlen The fixed output length of the generated hash
+     * @param key Optional key parameter if keyed hashes are required
+     * @param salt Optional salt for additional randomness
+     * @param personal Personalisation parameter
+     * @returns This instance, to allow method chaining.
+     */
     constructor(outlen = 64, key?: Uint8Array, salt?: Uint8Array | string, personal?: Uint8Array | string) {
         if (outlen <= 0 || outlen > 64) throw new Error("Illegal output length, expected 0 < length <= 64")
         if (key && key.length > 64) throw new Error("Illegal key, expected Uint8Array with 0 < length <= 64")
@@ -156,7 +165,7 @@ export default class Blake2b {
     /**
      * Updates the hash with new data. This method can be called multiple
      * times to incrementally add data to the hash computation.
-     * @param data The data to add to the hash.
+     * @param input The data to add to the hash.
      * @returns This instance, to allow method chaining.
      */
     update(input: Uint8Array | string) {

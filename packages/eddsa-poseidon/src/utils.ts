@@ -102,13 +102,11 @@ export function hexToBytes(hex: string) {
     return ret
 }
 
-// TODO: Remove?
 /**
- * Computes the Blake512 hash of the input message.
- * Blake512 is a cryptographic hash function that produces a hash value of 512 bits,
- * commonly used for data integrity checks and other cryptographic applications.
+ * Computes a hash of an input, given a specified hashing algorithm.
  * @param message The input data to hash, provided as a Buffer.
- * @returns A Buffer containing the 512-bit hash result.
+ * @param algorithm The selected algorithm
+ * @returns A Buffer containing the result
  */
 export function hashInput(message: Buffer | Uint8Array, algorithm?: SupportedHashingAlgorithms) {
     let engine
