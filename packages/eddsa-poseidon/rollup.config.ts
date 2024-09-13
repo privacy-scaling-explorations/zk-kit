@@ -77,7 +77,8 @@ export default [
             {
                 dir: "./dist/lib.commonjs",
                 format: "cjs",
-                banner
+                banner,
+                entryFileNames: "[name].cjs"
             },
             { dir: "./dist/lib.esm", format: "es", banner }
         ],
@@ -97,7 +98,8 @@ export default [
             {
                 dir: "./dist/lib.commonjs",
                 format: "cjs",
-                banner
+                banner,
+                entryFileNames: "[name].cjs"
             },
             { dir: "./dist/lib.esm", format: "es", banner }
         ],
