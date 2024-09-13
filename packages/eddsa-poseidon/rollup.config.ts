@@ -70,5 +70,45 @@ export default [
         input: "src/index.ts",
         output: [{ file: "dist/index.d.ts", format: "es" }],
         plugins: [dts()]
+    },
+    {
+        input: "src/eddsa-poseidon-blake-1.ts",
+        output: [
+            {
+                dir: "./dist/lib.commonjs",
+                format: "cjs",
+                banner
+            },
+            { dir: "./dist/lib.esm", format: "es", banner }
+        ],
+        external: [
+            ...Object.keys(pkg.dependencies),
+            "@zk-kit/utils/conversions",
+            "@zk-kit/utils/f1-field",
+            "@zk-kit/utils/scalar",
+            "@zk-kit/utils/error-handlers",
+            "@zk-kit/utils/type-checks"
+        ],
+        plugins: [typescript({ tsconfig: "./build.tsconfig.json", declaration: false, declarationDir: undefined })]
+    },
+    {
+        input: "src/eddsa-poseidon-blake-2b.ts",
+        output: [
+            {
+                dir: "./dist/lib.commonjs",
+                format: "cjs",
+                banner
+            },
+            { dir: "./dist/lib.esm", format: "es", banner }
+        ],
+        external: [
+            ...Object.keys(pkg.dependencies),
+            "@zk-kit/utils/conversions",
+            "@zk-kit/utils/f1-field",
+            "@zk-kit/utils/scalar",
+            "@zk-kit/utils/error-handlers",
+            "@zk-kit/utils/type-checks"
+        ],
+        plugins: [typescript({ tsconfig: "./build.tsconfig.json", declaration: false, declarationDir: undefined })]
     }
 ]

@@ -14,6 +14,11 @@
             "types": "./dist/index.d.ts",
             "require": "./dist/index.cjs",
             "default": "./dist/index.js"
+        },
+        "./blake-1": {
+            "types": "./dist/types/blake1.d.ts",
+            "require": "./dist/lib.commonjs/blake1.cjs",
+            "default": "./dist/esm/blake1.js"
         }
     },
     "files": [
