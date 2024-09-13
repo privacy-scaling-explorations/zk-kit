@@ -79,6 +79,10 @@ export function addPoint(p1: Point<bigint>, p2: Point<bigint>): Point<bigint> {
  */
 export function mulPointEscalar(base: Point<bigint>, e: bigint): Point<bigint> {
     e %= order
+    // set a bit above the maximum value so that the exponent
+    // variable will always be 254 bits for subsequent operations
+    // the 254th bit should be ignored in any operations below
+    e += 1n << 254n
 
     let R0: Point<bigint> = id
     let R1: Point<bigint> = base
