@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/baby-jubjub",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A JavaScript library for adding points to the curve.",
     "type": "module",
     "license": "MIT",
