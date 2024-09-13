@@ -7,7 +7,7 @@ import { Buffer } from "buffer"
 import { Blake512 } from "./blake"
 import { Signature } from "./types"
 import Blake2b from "./blake2b"
-
+import { SupportedHashingAlgorithms } from "./eddsa-poseidon-factory"
 /**
  * Prunes a buffer to meet the specific requirements for using it as a private key
  * or part of a signature.
@@ -110,16 +110,11 @@ export function hexToBytes(hex: string) {
  * @param message The input data to hash, provided as a Buffer.
  * @returns A Buffer containing the 512-bit hash result.
  */
-export function hash(message: Buffer | Uint8Array): Buffer {
-    const engine = new Blake512()
+export function hashInput(message: Buffer | Uint8Array, algorithm?: SupportedHashingAlgorithms) {
+    let engine
+    if (!algorithm || algorithm === SupportedHashingAlgorithms.BLAKE1) engine = new Blake512()
+    else engine = new Blake2b()
 
-    engine.update(Buffer.from(message))
-
-    return engine.digest()
-}
-
-export function hashBlake2(message: Uint8Array): Buffer {
-    const engine = new Blake2b()
     engine.update(Buffer.from(message))
 
     return engine.digest()

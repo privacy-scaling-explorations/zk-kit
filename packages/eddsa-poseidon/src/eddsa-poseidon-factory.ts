@@ -18,21 +18,14 @@ import * as scalar from "@zk-kit/utils/scalar"
 import { Buffer } from "buffer"
 import { poseidon5 } from "poseidon-lite/poseidon5"
 import { Signature } from "./types"
-import { hash as blake, checkMessage, checkPrivateKey, hashBlake2, isPoint, isSignature, pruneBuffer } from "./utils"
+import { checkMessage, checkPrivateKey, hashInput, isPoint, isSignature, pruneBuffer } from "./utils"
 
 export enum SupportedHashingAlgorithms {
     BLAKE1 = "blake-1",
     BLAKE2b = "blake-2b"
 }
 
-const fetchHashingFunction = (algorithm: SupportedHashingAlgorithms) => {
-    if (!algorithm || algorithm === SupportedHashingAlgorithms.BLAKE1) return blake
-    return hashBlake2
-}
-
 export const EdDSAPoseidonFactory = (algorithm: SupportedHashingAlgorithms) => {
-    const hashingAlgorithm = fetchHashingFunction(algorithm)
-
     /**
      * Derives a public key from a given private key using the
      * {@link https://eips.ethereum.org/EIPS/eip-2494|Baby Jubjub} elliptic curve.
@@ -53,7 +46,7 @@ export const EdDSAPoseidonFactory = (algorithm: SupportedHashingAlgorithms) => {
         // Convert the private key to buffer.
         privateKey = checkPrivateKey(privateKey)
 
-        let hash = hashingAlgorithm(privateKey)
+        let hash = hashInput(privateKey, algorithm)
 
         hash = hash.slice(0, 32)
         hash = pruneBuffer(hash)
@@ -104,7 +97,7 @@ export const EdDSAPoseidonFactory = (algorithm: SupportedHashingAlgorithms) => {
         // Convert the message to big integer.
         message = checkMessage(message)
 
-        const hash = hashingAlgorithm(privateKey)
+        const hash = hashInput(privateKey, algorithm)
 
         const sBuff = pruneBuffer(hash.slice(0, 32))
         const s = leBufferToBigInt(sBuff)
@@ -112,7 +105,7 @@ export const EdDSAPoseidonFactory = (algorithm: SupportedHashingAlgorithms) => {
 
         const msgBuff = leBigIntToBuffer(message, 32)
 
-        const rBuff = hashingAlgorithm(Buffer.concat([hash.slice(32, 64), msgBuff]))
+        const rBuff = hashInput(Buffer.concat([hash.slice(32, 64), msgBuff]), algorithm)
 
         const Fr = new F1Field(subOrder)
         const r = Fr.e(leBufferToBigInt(rBuff))

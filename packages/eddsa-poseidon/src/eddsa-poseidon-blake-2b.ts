@@ -11,3 +11,5 @@ export const {
     unpackSignature,
     verifySignature
 } = EdDSAPoseidonFactory(SupportedHashingAlgorithms.BLAKE2b)
+
+export * from "./types"
