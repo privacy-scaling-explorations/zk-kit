@@ -1,6 +1,6 @@
 {
     "name": "@zk-kit/smt",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Sparse Merkle tree implementation in TypeScript.",
     "type": "module",
     "license": "MIT",
