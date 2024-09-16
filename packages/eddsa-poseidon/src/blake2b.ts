@@ -4,6 +4,7 @@
  * Which was adapted from the reference implementation in RFC7693
  */
 
+import { HashFunction } from "./HashFunction"
 import { toHex, normalizeInput } from "./utils"
 
 /**
@@ -108,7 +109,7 @@ const SIGMA82 = new Uint8Array(SIGMA8.map((x) => x * 2))
 const v = new Uint32Array(32)
 const m = new Uint32Array(32)
 
-export default class Blake2b {
+export default class Blake2b implements HashFunction {
     private b: Uint8Array
     private h: Uint32Array
     private t: number

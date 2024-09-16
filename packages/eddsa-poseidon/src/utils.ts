@@ -8,6 +8,7 @@ import { Blake512 } from "./blake"
 import { Signature } from "./types"
 import Blake2b from "./blake2b"
 import { SupportedHashingAlgorithms } from "./eddsa-poseidon-factory"
+import { HashFunction } from "./HashFunction"
 /**
  * Prunes a buffer to meet the specific requirements for using it as a private key
  * or part of a signature.
@@ -109,7 +110,7 @@ export function hexToBytes(hex: string) {
  * @returns A Buffer containing the result
  */
 export function hashInput(message: Buffer | Uint8Array, algorithm?: SupportedHashingAlgorithms) {
-    let engine
+    let engine: HashFunction
     if (!algorithm || algorithm === SupportedHashingAlgorithms.BLAKE1) engine = new Blake512()
     else engine = new Blake2b()
 
