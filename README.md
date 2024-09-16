@@ -513,3 +513,25 @@ You can see some examples in the `benchmarks` folder. All you have to do is crea
 | **Incremental**      | @zk-kit/imt      | Fastest for incremental updates        | Applications requiring frequent updates  | Scenarios with very large datasets                | [Semaphore](https://github.com/semaphore-protocol/semaphore), [Tornado Cash](https://github.com/tornadocash/tornado-core) | Fast                             |
 | **Lean incremental** | @zk-kit/lean-imt | Optimized for lightweight environments | Mobile and browser-based ZK applications | High-frequency update requirements                | [zkSync](https://github.com/matter-labs/zksync), [Loopring](https://github.com/Loopring)                                  | Moderate                         |
 | **Sparse**           | @zk-kit/smt      | Handles very large sets efficiently    | Applications with large static datasets  | Frequent updates due to higher computational cost | [Aztec](https://github.com/AztecProtocol), [Zcash](https://github.com/zcash)                                              | Slow (due to large set handling) |
+
+Following benchmarks data of zk-kit Merkle Trees implementations:
+|8 leafs|insert|delete|update|generate proof|verify proof|
+|--|:--:|:--:|:--:|:--:|:--:|
+|fastest|IMT|IMT ~ SparseMT|LeanIMT|LeanIMT|IMT|
+|slowest|LeanIMT|IMT ~ SparseMT|IMT|SparseMT|SparseMT|
+
+| 128 leafs | insert  |  delete  | update  | generate proof | verify proof |
+| --------- | :-----: | :------: | :-----: | :------------: | :----------: |
+| fastest   |   IMT   | SparseMT | LeanIMT |    LeanIMT     |   SparseMT   |
+| slowest   | LeanIMT |   IMT    |   IMT   |      IMT       |     IMT      |
+
+| 1024 leafs |  insert  |  delete  | update  | generate proof | verify proof |
+| ---------- | :------: | :------: | :-----: | :------------: | :----------: |
+| fastest    | SparseMT | SparseMT | LeanIMT |    LeanIMT     |   SparseMT   |
+| slowest    | LeanIMT  |   IMT    |   IMT   |      IMT       |     IMT      |
+
+From the benchmark data we can take another criteria to evaluate which Merkle tree should be used:
+
+-   IMT have the best performance for medium and small size insert related operations.
+-   LeanIMT have the best performance for all the merkle tree sizes for update and generate proof related operations.
+-   Sparse is good for larger data insert, delete and verify proof.
