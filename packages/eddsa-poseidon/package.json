@@ -61,6 +61,7 @@
     "dependencies": {
         "@zk-kit/baby-jubjub": "1.0.3",
         "@zk-kit/utils": "1.2.1",
+        "blakejs": "^1.2.1",
         "buffer": "6.0.3"
     }
 }

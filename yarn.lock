@@ -3072,6 +3072,7 @@ __metadata:
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@zk-kit/baby-jubjub": "npm:1.0.3"
     "@zk-kit/utils": "npm:1.2.1"
+    blakejs: "npm:^1.2.1"
     buffer: "npm:6.0.3"
     circomlibjs: "npm:0.0.8"
     ffjavascript: "npm:0.2.38"
@@ -4074,7 +4075,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"blakejs@npm:^1.1.0":
+"blakejs@npm:^1.1.0, blakejs@npm:^1.2.1":
   version: 1.2.1
   resolution: "blakejs@npm:1.2.1"
   checksum: 10/0638b1bd058b21892633929c43005aa6a4cc4b2ac5b338a146c3c076622f1b360795bd7a4d1f077c9b01863ed2df0c1504a81c5b520d164179120434847e6cd7

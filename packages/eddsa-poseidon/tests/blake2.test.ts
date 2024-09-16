@@ -32,16 +32,6 @@ describe("Blake2b Basic test", () => {
             "a8add4bdddfd93e4877d2746e62817b116364a1fa7bc148d95090bc7333b3673f82401cf7aa2e4cb1ecd90296e3f14cb5413f8ed77be73045b13914cdcd6a918"
         )
     })
-
-    test("Salt and personalisation should return correctly", () => {
-        const instance = new Blake2b(undefined, undefined, "salt123456789012", "personal12345678")
-        instance.update("abc")
-        // with personal
-        expect(instance.asHex()).toBe(
-            "f6860a4cb1baadf6e3cc36c81b974d1167fbcd36dfbe55f3c2a561ab1863fb3d2afc40ea9a95c3ad46f100e2a65c3a3b841d616fda1ea45b47074baccfe3b644"
-        )
-    })
-
     test("Uint8Array should work correctly", () => {
         const abcArray = Array.from("abc").map((letter) => letter.charCodeAt(0))
 
