@@ -16,7 +16,6 @@ export default class Blake2b implements HashFunction {
     context: Blake2bCTX
     /**
      * Constructor of the Blake2b engine
-     * times to incrementally add data to the hash computation.
      * @param outlen The fixed output length of the generated hash
      * @param key Optional key parameter if keyed hashes are required
      * @returns This instance, to allow method chaining.
@@ -33,7 +32,7 @@ export default class Blake2b implements HashFunction {
      * Updates the hash with new data. This method can be called multiple
      * times to incrementally add data to the hash computation.
      * @param input The data to add to the hash.
-     * @returns This instance, to allow method chaining.
+     * @returns The instance, to allow method chaining.
      */
     update(input: Buffer) {
         blake2bUpdate(this.context, input)
@@ -43,7 +42,7 @@ export default class Blake2b implements HashFunction {
     /**
      * Completes the hash computation and returns the final hash value.
      * This method applies the necessary padding, performs the final compression,
-     * and returns the hash output.
+     * and returns the output.
      * @returns The Blake2b hash of the input data.
      */
     digest() {
