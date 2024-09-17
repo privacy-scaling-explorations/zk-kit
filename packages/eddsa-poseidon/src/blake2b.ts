@@ -1,6 +1,5 @@
 import { blake2bInit, blake2bUpdate, blake2bFinal, Blake2bCTX } from "blakejs"
 import { HashFunction } from "./HashFunction"
-import { toHex, normalizeInput } from "./utils"
 
 /**
  * @module Blake2b
@@ -36,14 +35,9 @@ export default class Blake2b implements HashFunction {
      * @param input The data to add to the hash.
      * @returns This instance, to allow method chaining.
      */
-    update(input: Uint8Array | string) {
-        input = normalizeInput(input)
+    update(input: Buffer) {
         blake2bUpdate(this.context, input)
         return this
-    }
-
-    asHex() {
-        return toHex(this.digest())
     }
 
     /**

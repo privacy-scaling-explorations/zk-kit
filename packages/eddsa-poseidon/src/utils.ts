@@ -73,36 +73,6 @@ export function checkMessage(message: BigNumberish): bigint {
     return bufferToBigInt(Buffer.from(message as string))
 }
 
-const ERROR_MSG_INPUT = "Input must be an string, Buffer or Uint8Array"
-
-// For convenience, let people hash a string, not just a Uint8Array
-export function normalizeInput(input: string | Uint8Array) {
-    let ret
-    if (input instanceof Uint8Array) {
-        ret = input
-    } else if (typeof input === "string") {
-        const encoder = new TextEncoder()
-        ret = encoder.encode(input)
-    } else {
-        throw new Error(ERROR_MSG_INPUT)
-    }
-    return ret
-}
-
-// Converts a Uint8Array to a hexadecimal string
-// For example, toHex([255, 0, 255]) returns "ff00ff"
-export function toHex(bytes: Uint8Array) {
-    return Array.prototype.map.call(bytes, (n) => (n < 16 ? "0" : "") + n.toString(16)).join("")
-}
-
-export function hexToBytes(hex: string) {
-    const ret = new Uint8Array(hex.length / 2)
-    for (let i = 0; i < ret.length; i += 1) {
-        ret[i] = parseInt(hex.substring(i * 2, i * 2 + 2), 16)
-    }
-    return ret
-}
-
 /**
  * Computes a hash of an input, given a specified hashing algorithm.
  * @param message The input data to hash, provided as a Buffer.
