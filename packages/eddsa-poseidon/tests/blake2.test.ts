@@ -1,13 +1,7 @@
 import fs from "fs"
 import path from "path"
-import { hexadecimalToBuffer } from "@zk-kit/utils"
+import { bufferToHexadecimal, hexadecimalToBuffer } from "@zk-kit/utils"
 import Blake2b from "../src/blake2b"
-
-// Converts a Uint8Array to a hexadecimal string
-// For example, toHex([255, 0, 255]) returns "ff00ff"
-function toHex(bytes: Uint8Array) {
-    return Array.prototype.map.call(bytes, (n) => (n < 16 ? "0" : "") + n.toString(16)).join("")
-}
 
 describe("Blake2b Basic test", () => {
     test("Basic case should return correctly", () => {
@@ -15,7 +9,7 @@ describe("Blake2b Basic test", () => {
         const instance = new Blake2b()
         instance.update(Buffer.from("abc"))
 
-        expect(toHex(instance.digest())).toBe(
+        expect(bufferToHexadecimal(instance.digest())).toBe(
             "ba80a53f981c4d0d6a2797b69f12f6e94c212f14685ac4b74b12bb6fdbffa2d17d87c5392aab792dc252d5de4533cc9518d38aa8dbf1925ab92386edd4009923"
         )
     })
@@ -25,7 +19,7 @@ describe("Blake2b Basic test", () => {
         const instance = new Blake2b()
         instance.update(Buffer.from(""))
 
-        expect(toHex(instance.digest())).toBe(
+        expect(bufferToHexadecimal(instance.digest())).toBe(
             "786a02f742015903c6c6fd852552d272912f4740e15847618a86e217f71f5419d25e1031afee585313896444934eb04b903a685b1448b755d56f701afe9be2ce"
         )
     })
@@ -34,7 +28,7 @@ describe("Blake2b Basic test", () => {
         const instance = new Blake2b()
         instance.update(Buffer.from("The quick brown fox jumps over the lazy dog"))
 
-        expect(toHex(instance.digest())).toBe(
+        expect(bufferToHexadecimal(instance.digest())).toBe(
             "a8add4bdddfd93e4877d2746e62817b116364a1fa7bc148d95090bc7333b3673f82401cf7aa2e4cb1ecd90296e3f14cb5413f8ed77be73045b13914cdcd6a918"
         )
     })
@@ -62,6 +56,6 @@ test("BLAKE2b generated test vectors2", () => {
 
         const instance = new Blake2b(outLen, hexadecimalToBuffer(keyHex))
         instance.update(hexadecimalToBuffer(inputHex))
-        expect(toHex(instance.digest())).toBe(outHex)
+        expect(bufferToHexadecimal(instance.digest())).toBe(outHex)
     })
 })
