@@ -50,7 +50,7 @@ The benchmark includes the following tests for each Merkle Tree implementation:
 
 ## Benchmark Structure.
 
--   The benchmarks are defined using the benny library.
+-   The benchmarks are defined using the [benny](https://caderek.github.io/benny/) library.
 -   Results are saved to .html files in the benchmarks/results directory for visualization and further analysis.
 
 ## Results
