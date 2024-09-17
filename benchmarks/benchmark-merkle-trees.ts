@@ -103,11 +103,11 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
         b.add(`SparseMT - Add ${numberOfLeaves} leaves`, () => {
             try {
                 sparseMerkleTree2.add(leafSMT.toString(16), Math.floor(Math.random() * 10).toString())
+                 leafSMT += 1
             } catch (error) {
                 logger.error(name)
                 logger.error(error)
             }
-            leafSMT += 1
         }),
         b.cycle(),
         b.complete(),
