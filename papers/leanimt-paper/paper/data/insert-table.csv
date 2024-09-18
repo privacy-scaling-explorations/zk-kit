@@ -1,0 +1,3 @@
+Function,ops/sec,Average Time (ms),Relative to IMT
+IMT,814,1.22803,
+LeanIMT,1453,0.68790,1.79 x faster

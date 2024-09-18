@@ -1,0 +1,3 @@
+Function,ops/sec,Average Time (ms),Relative to Insert
+Insert in Loop,47,20.97820,
+InsertMany,136,7.31698,2.87 x faster

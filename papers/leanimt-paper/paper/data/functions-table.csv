@@ -1,0 +1,13 @@
+Function,ops/sec,Average Time (ms),Relative to IMT
+IMT - Insert,1287,0.77687,
+LeanIMT - Insert,2358,0.42391,1.83 x faster
+IMT - InsertMany,12,77.98467,
+LeanIMT - InsertMany,144,6.94025,11.24 x faster
+IMT - Update,1283,0.77933,
+LeanIMT - Update,1223,0.81708,1.05 x slower
+IMT - Remove,1306,0.76554,
+LeanIMT - Remove,1301,0.76838,1.00 x slower
+IMT - GenerateProof,300868,0.00332,
+LeanIMT - GenerateProof,321586,0.00311,1.07 x faster
+IMT - VerifyProof,1331,0.75121,
+LeanIMT - VerifyProof,1336,0.74810,1.00 x faster
