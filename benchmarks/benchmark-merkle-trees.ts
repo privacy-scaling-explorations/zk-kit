@@ -197,7 +197,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
     leafIMT = 0
     leafLeanIMT = 0
     leafSMT = 0
-    name = `proof-verfication-merkle-trees-${numberOfLeaves}`
+    name = `proof-verification-merkle-trees-${numberOfLeaves}`
     b.suite(
         name,
         b.add(`IMT - Verified ${samples} proofs`, () => {
