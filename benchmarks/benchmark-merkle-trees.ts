@@ -103,7 +103,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
         b.add(`SparseMT - Add ${numberOfLeaves} leaves`, () => {
             try {
                 sparseMerkleTree2.add(leafSMT.toString(16), Math.floor(Math.random() * 10).toString())
-                 leafSMT += 1
+                leafSMT += 1
             } catch (error) {
                 logger.error(name)
                 logger.error(error)
@@ -132,7 +132,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 if (leafIMT < samples) {
                     incrementalMerkleTree.createProof(sample[leafIMT])
                 } else {
-                    leafIMT = 0
+                    leafIMT = -1
                 }
                 leafIMT += 1
             } catch (error) {
@@ -145,7 +145,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 if (leafLeanIMT < samples) {
                     leanIncrementalMerkleTree.generateProof(sample[leafLeanIMT])
                 } else {
-                    leafLeanIMT = 0
+                    leafLeanIMT = -1
                 }
                 leafLeanIMT += 1
             } catch (error) {
@@ -158,7 +158,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 if (leafSMT < samples) {
                     sparseMerkleTree.createProof(sample[leafSMT].toString(16))
                 } else {
-                    leafSMT = 0
+                    leafSMT = -1
                 }
                 leafSMT += 1
             } catch (error) {
