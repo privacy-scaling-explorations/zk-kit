@@ -94,11 +94,11 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
         b.add(`LeanIMT - Add ${numberOfLeaves} leaves`, () => {
             try {
                 leanIncrementalMerkleTree2.insert(BigInt(leafLeanIMT))
+                leafLeanIMT +=1
             } catch (error) {
                 logger.error(name)
                 logger.error(error)
             }
-            leafLeanIMT += 1
         }),
         b.add(`SparseMT - Add ${numberOfLeaves} leaves`, () => {
             try {
