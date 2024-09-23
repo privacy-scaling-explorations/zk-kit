@@ -157,7 +157,7 @@ function lengthCarry(arr: number[]) {
  * hashing, allowing data to be added in chunks.
  */
 /* eslint-disable import/prefer-default-export */
-export class Blake512 implements HashFunction {
+export default class Blake512 implements HashFunction {
     private _h: number[]
     private _s: number[]
     private _block: Buffer
