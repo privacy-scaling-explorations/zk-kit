@@ -31,10 +31,10 @@ Before running the benchmark, ensure that you have Node.js version 20 installed 
 
 ## Usage
 
-To run the benchmark, use the following command:
+To run the benchmark, use the following script:
 
 ```bash
-npx ts-node benchmarks/index.ts
+yarn run benchmarks
 ```
 
 ## Benchmark
