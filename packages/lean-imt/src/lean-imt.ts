@@ -234,6 +234,59 @@ export default class LeanIMT<N = bigint> {
     }
 
     /**
+     * Updates m leaves all at once.
+     * It is more efficient than using the {@link LeanIMT#update} method m times because it
+     * prevents updating middle nodes several times. This would happen when updating leaves
+     * with common ancestors. The naive approach of calling 'update' m times has complexity
+     * O(m*log(n)) (where n is the number of leaves of the tree), which ends up in
+     * O(n*log(n)) when m ~ n. With this new approach, this ends up being O(n) because every
+     * node is updated at most once and there are around 2*n nodes in the tree.
+     * @param indices The list of indices of the respective leaves.
+     * @param leaves The list of leaves to be updated.
+     */
+    public updateMany(indices: number[], leaves: N[]) {
+        requireDefined(leaves, "leaves")
+        requireDefined(indices, "indices")
+        requireArray(leaves, "leaves")
+        requireArray(indices, "indices")
+
+        if (leaves.length !== indices.length) {
+            throw new Error("There is no correspondence between indices and leaves")
+        }
+        // This will keep track of the outdated nodes of each level.
+        let modifiedIndices = new Set<number>()
+        for (let i = 0; i < indices.length; i += 1) {
+            requireNumber(indices[i], `index ${i}`)
+            if (indices[i] < 0 || indices[i] >= this.size) {
+                throw new Error(`Index ${i} is out of range`)
+            }
+            if (modifiedIndices.has(indices[i])) {
+                throw new Error(`Leaf ${indices[i]} is repeated`)
+            }
+            modifiedIndices.add(indices[i])
+        }
+
+        modifiedIndices.clear()
+        // First, modify the first level, which consists only of raw, un-hashed values
+        for (let leaf = 0; leaf < indices.length; leaf += 1) {
+            this._nodes[0][indices[leaf]] = leaves[leaf]
+            modifiedIndices.add(indices[leaf] >> 1)
+        }
+
+        // Now update each node of the corresponding levels
+        for (let level = 1; level <= this.depth; level += 1) {
+            const newModifiedIndices: number[] = []
+            for (const index of modifiedIndices) {
+                const leftChild = this._nodes[level - 1][2 * index]
+                const rightChild = this._nodes[level - 1][2 * index + 1]
+                this._nodes[level][index] = rightChild ? this._hash(leftChild, rightChild) : leftChild
+                newModifiedIndices.push(index >> 1)
+            }
+            modifiedIndices = new Set<number>(newModifiedIndices)
+        }
+    }
+
+    /**
      * It generates a {@link LeanIMTMerkleProof} for a leaf of the tree.
      * That proof can be verified by this tree using the same hash function.
      * @param index The index of the leaf for which a Merkle proof will be generated.

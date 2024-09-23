@@ -2,6 +2,7 @@ import terser from "@rollup/plugin-terser"
 import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
+import { dts } from "rollup-plugin-dts"
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
 const banner = `/**
@@ -14,23 +15,30 @@ const banner = `/**
 */`
 const name = pkg.name.substr(1).replace(/[-/]./g, (x: string) => x.toUpperCase()[1])
 
-export default {
-    input: "src/index.ts",
-    output: [
-        {
-            file: pkg.iife,
-            name,
-            format: "iife",
-            banner
-        },
-        {
-            file: pkg.unpkg,
-            name,
-            format: "iife",
-            plugins: [terser({ output: { preamble: banner } })]
-        },
-        { file: pkg.exports["."].require, format: "cjs", banner },
-        { file: pkg.exports["."].default, format: "es", banner }
-    ],
-    plugins: [typescript({ tsconfig: "./build.tsconfig.json" }), cleanup({ comments: "jsdoc" })]
-}
+export default [
+    {
+        input: "src/index.ts",
+        output: [
+            {
+                file: pkg.iife,
+                name,
+                format: "iife",
+                banner
+            },
+            {
+                file: pkg.unpkg,
+                name,
+                format: "iife",
+                plugins: [terser({ output: { preamble: banner } })]
+            },
+            { file: pkg.exports["."].require, format: "cjs", banner },
+            { file: pkg.exports["."].default, format: "es", banner }
+        ],
+        plugins: [typescript({ tsconfig: "./build.tsconfig.json" }), cleanup({ comments: "jsdoc" })]
+    },
+    {
+        input: "src/index.ts",
+        output: [{ file: "dist/index.d.ts", format: "es" }],
+        plugins: [dts()]
+    }
+]

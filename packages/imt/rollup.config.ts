@@ -1,5 +1,6 @@
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import terser from "@rollup/plugin-terser"
+import { dts } from "rollup-plugin-dts"
 import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
@@ -52,5 +53,10 @@ export default [
             nodePolyfills(),
             cleanup({ comments: "jsdoc" })
         ]
+    },
+    {
+        input: "src/index.ts",
+        output: [{ file: "dist/index.d.ts", format: "es" }],
+        plugins: [dts()]
     }
 ]

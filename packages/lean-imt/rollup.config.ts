@@ -3,6 +3,7 @@ import terser from "@rollup/plugin-terser"
 import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
+import { dts } from "rollup-plugin-dts"
 import nodePolyfills from "rollup-plugin-polyfill-node"
 
 const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"))
@@ -52,5 +53,10 @@ export default [
             nodePolyfills(),
             cleanup({ comments: "jsdoc" })
         ]
+    },
+    {
+        input: "src/index.ts",
+        output: [{ file: "dist/index.d.ts", format: "es" }],
+        plugins: [dts()]
     }
 ]
