@@ -9,9 +9,7 @@
         "preserveConstEnums": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
-        "declaration": true,
         "allowSyntheticDefaultImports": true,
-        "declarationDir": "types",
         "typeRoots": ["node_modules/@types", "types"],
         "paths": {
             "@zk-kit/*": ["packages/*/src"]
