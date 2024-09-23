@@ -1,0 +1,7 @@
+Function,Node.js,Browser
+Insert,0.42391,0.386
+InsertMany,6.94025,6.302
+Update,0.81708,0.68
+Remove,0.76838,0.679
+GenerateProof,0.00311,0.001
+VerifyProof,0.7481,0.663

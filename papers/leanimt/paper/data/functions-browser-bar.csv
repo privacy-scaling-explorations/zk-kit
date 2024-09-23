@@ -1,0 +1,7 @@
+Function,IMT,LeanIMT
+Insert,0.90300,0.38600
+InsertMany,68.53200,6.30200
+Update,0.68700,0.68000
+Remove,0.69500,0.67900
+GenerateProof,0.00100,0.00100
+VerifyProof,0.67900,0.66300
