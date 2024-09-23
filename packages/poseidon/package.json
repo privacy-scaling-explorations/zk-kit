@@ -1,0 +1,131 @@
+{
+    "name": "@zk-kit/poseidon",
+    "version": "1.0.0-alpha",
+    "description": "A Poseidon implementation over alt_bn128 (aka BN254).",
+    "type": "module",
+    "license": "MIT",
+    "iife": "dist/index.iife.js",
+    "unpkg": "dist/index.iife.min.js",
+    "jsdelivr": "dist/index.iife.min.js",
+    "main": "dist/index.js",
+    "types": "dist/types/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/types/index.d.ts",
+            "require": "./dist/index.cjs",
+            "default": "./dist/index.js"
+        },
+        "./1": {
+            "types": "./dist/types/1/index.d.ts",
+            "require": "./dist/lib.commonjs/1/index.cjs",
+            "default": "./dist/lib.esm/1/index.js"
+        },
+        "./2": {
+            "types": "./dist/types/2/index.d.ts",
+            "require": "./dist/lib.commonjs/2/index.cjs",
+            "default": "./dist/lib.esm/2/index.js"
+        },
+        "./3": {
+            "types": "./dist/types/3/index.d.ts",
+            "require": "./dist/lib.commonjs/3/index.cjs",
+            "default": "./dist/lib.esm/3/index.js"
+        },
+        "./4": {
+            "types": "./dist/types/4/index.d.ts",
+            "require": "./dist/lib.commonjs/4/index.cjs",
+            "default": "./dist/lib.esm/4/index.js"
+        },
+        "./5": {
+            "types": "./dist/types/5/index.d.ts",
+            "require": "./dist/lib.commonjs/5/index.cjs",
+            "default": "./dist/lib.esm/5/index.js"
+        },
+        "./6": {
+            "types": "./dist/types/6/index.d.ts",
+            "require": "./dist/lib.commonjs/6/index.cjs",
+            "default": "./dist/lib.esm/6/index.js"
+        },
+        "./7": {
+            "types": "./dist/types/7/index.d.ts",
+            "require": "./dist/lib.commonjs/7/index.cjs",
+            "default": "./dist/lib.esm/7/index.js"
+        },
+        "./8": {
+            "types": "./dist/types/8/index.d.ts",
+            "require": "./dist/lib.commonjs/8/index.cjs",
+            "default": "./dist/lib.esm/8/index.js"
+        },
+        "./9": {
+            "types": "./dist/types/9/index.d.ts",
+            "require": "./dist/lib.commonjs/9/index.cjs",
+            "default": "./dist/lib.esm/9/index.js"
+        },
+        "./10": {
+            "types": "./dist/types/10/index.d.ts",
+            "require": "./dist/lib.commonjs/10/index.cjs",
+            "default": "./dist/lib.esm/10/index.js"
+        },
+        "./11": {
+            "types": "./dist/types/11/index.d.ts",
+            "require": "./dist/lib.commonjs/11/index.cjs",
+            "default": "./dist/lib.esm/11/index.js"
+        },
+        "./12": {
+            "types": "./dist/types/12/index.d.ts",
+            "require": "./dist/lib.commonjs/12/index.cjs",
+            "default": "./dist/lib.esm/12/index.js"
+        },
+        "./13": {
+            "types": "./dist/types/13/index.d.ts",
+            "require": "./dist/lib.commonjs/13/index.cjs",
+            "default": "./dist/lib.esm/13/index.js"
+        },
+        "./14": {
+            "types": "./dist/types/14/index.d.ts",
+            "require": "./dist/lib.commonjs/14/index.cjs",
+            "default": "./dist/lib.esm/14/index.js"
+        },
+        "./15": {
+            "types": "./dist/types/15/index.d.ts",
+            "require": "./dist/lib.commonjs/15/index.cjs",
+            "default": "./dist/lib.esm/15/index.js"
+        },
+        "./16": {
+            "types": "./dist/types/16/index.d.ts",
+            "require": "./dist/lib.commonjs/16/index.cjs",
+            "default": "./dist/lib.esm/16/index.js"
+        }
+    },
+    "files": [
+        "dist/",
+        "src/",
+        "LICENSE",
+        "README.md"
+    ],
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon",
+    "bugs": {
+        "url": "https://github.com/privacy-scaling-explorations/zk-kit.git/issues"
+    },
+    "scripts": {
+        "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
+        "prepublishOnly": "yarn build"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^11.1.6",
+        "circomlibjs": "0.0.8",
+        "rimraf": "^5.0.5",
+        "rollup": "^4.12.0",
+        "rollup-plugin-cleanup": "^3.2.1",
+        "rollup-plugin-polyfill-node": "^0.13.0"
+    },
+    "dependencies": {
+        "@noble/curves": "1.4.0",
+        "@zk-kit/utils": "1.2.0"
+    }
+}
