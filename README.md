@@ -70,7 +70,7 @@
 -   Javascript: [privacy-scaling-explorations/zk-kit](https://github.com/privacy-scaling-explorations/zk-kit)
 -   Noir: [privacy-scaling-explorations/zk-kit.noir](https://github.com/privacy-scaling-explorations/zk-kit.noir)
 -   Rust: [privacy-scaling-explorations/zk-kit.rust](https://github.com/privacy-scaling-explorations/zk-kit.rust)
--   Solidity:[privacy-scaling-explorations/zk-kit.solidity](https://github.com/privacy-scaling-explorations/zk-kit.solidity)
+-   Solidity: [privacy-scaling-explorations/zk-kit.solidity](https://github.com/privacy-scaling-explorations/zk-kit.solidity)
 
 ## 📦 Packages
 
