@@ -66,10 +66,11 @@
 
 ## 🗂️ Repositories
 
--   Javascript: https://github.com/privacy-scaling-explorations/zk-kit
--   Solidity: https://github.com/privacy-scaling-explorations/zk-kit.solidity
--   Circom: https://github.com/privacy-scaling-explorations/zk-kit.circom
--   Noir: https://github.com/privacy-scaling-explorations/zk-kit.noir
+-   Circom: [privacy-scaling-explorations/zk-kit.circom](https://github.com/privacy-scaling-explorations/zk-kit.circom)
+-   Javascript: [privacy-scaling-explorations/zk-kit](https://github.com/privacy-scaling-explorations/zk-kit)
+-   Noir: [privacy-scaling-explorations/zk-kit.noir](https://github.com/privacy-scaling-explorations/zk-kit.noir)
+-   Rust: [privacy-scaling-explorations/zk-kit.rust](https://github.io/privacy-scaling-explorations/zk-kit.rust)
+-   Solidity:[privacy-scaling-explorations/zk-kit.solidity](https://github.com/privacy-scaling-explorations/zk-kit.solidity)
 
 ## 📦 Packages
 
