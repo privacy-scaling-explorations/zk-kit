@@ -1,16 +1,19 @@
 name: docs
 
 on:
+    workflow_dispatch:
     push:
         branches:
             - main
         paths:
             - packages/**/src/*.{ts,js}
             - "**/README.md"
+            - .github/workflows/docs.yml
     pull_request:
         paths:
             - packages/**/src/*.{ts,js}
             - "**/README.md"
+            - .github/workflows/docs.yml
 
 jobs:
     gh-pages:
