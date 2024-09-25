@@ -6,9 +6,11 @@ on:
             - main
         paths:
             - packages/**/src/*.{ts,js}
+            - "**/README.md"
     pull_request:
         paths:
             - packages/**/src/*.{ts,js}
+            - "**/README.md"
 
 jobs:
     gh-pages:
