@@ -68,6 +68,7 @@
         "tslib": "^2.6.2",
         "turbo": "^1.13.2",
         "typedoc": "^0.25.8",
-        "typescript": "^5.3.3"
+        "typescript": "^5.3.3",
+        "winston": "^3.14.2"
     }
 }
