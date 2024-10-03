@@ -4,9 +4,11 @@ import { bigNumberishToBigInt, bufferToBigInt } from "@zk-kit/utils/conversions"
 import { requireTypes } from "@zk-kit/utils/error-handlers"
 import { isArray, isBigNumber, isBigNumberish, isObject } from "@zk-kit/utils/type-checks"
 import { Buffer } from "buffer"
-import { Blake512 } from "./blake"
+import Blake512 from "./blake"
+import Blake2b from "./blake2b"
 import { Signature } from "./types"
-
+import { SupportedHashingAlgorithms } from "./eddsa-poseidon-factory"
+import { HashFunction } from "./HashFunction"
 /**
  * Prunes a buffer to meet the specific requirements for using it as a private key
  * or part of a signature.
@@ -72,16 +74,27 @@ export function checkMessage(message: BigNumberish): bigint {
 }
 
 /**
- * Computes the Blake512 hash of the input message.
- * Blake512 is a cryptographic hash function that produces a hash value of 512 bits,
- * commonly used for data integrity checks and other cryptographic applications.
+ * Computes a hash of an input, given a specified hashing algorithm.
  * @param message The input data to hash, provided as a Buffer.
- * @returns A Buffer containing the 512-bit hash result.
+ * @param algorithm The selected algorithm
+ * @returns A Buffer containing the result
  */
-export function hash(message: Buffer | Uint8Array): Buffer {
-    const engine = new Blake512()
+export function hashInput(message: Buffer | Uint8Array, algorithm?: SupportedHashingAlgorithms) {
+    let engine: HashFunction
 
+    switch (algorithm) {
+        case SupportedHashingAlgorithms.BLAKE1: {
+            engine = new Blake512()
+            break
+        }
+        case SupportedHashingAlgorithms.BLAKE2b: {
+            engine = new Blake2b()
+            break
+        }
+        default: {
+            throw new Error("Unsupported algorithm. Cannot hash input.")
+        }
+    }
     engine.update(Buffer.from(message))
-
     return engine.digest()
 }
