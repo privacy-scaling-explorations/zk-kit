@@ -1,5 +1,5 @@
 import { Point } from "@zk-kit/baby-jubjub"
-import type { BigNumberish } from "@zk-kit/utils"
+import { type BigNumberish } from "@zk-kit/utils"
 import { bigNumberishToBigInt, bufferToBigInt } from "@zk-kit/utils/conversions"
 import { requireTypes } from "@zk-kit/utils/error-handlers"
 import { isArray, isBigNumber, isBigNumberish, isObject } from "@zk-kit/utils/type-checks"
