@@ -81,10 +81,20 @@ export function checkMessage(message: BigNumberish): bigint {
  */
 export function hashInput(message: Buffer | Uint8Array, algorithm?: SupportedHashingAlgorithms) {
     let engine: HashFunction
-    if (!algorithm || algorithm === SupportedHashingAlgorithms.BLAKE1) engine = new Blake512()
-    else engine = new Blake2b()
 
+    switch (algorithm) {
+        case SupportedHashingAlgorithms.BLAKE1: {
+            engine = new Blake512()
+            break
+        }
+        case SupportedHashingAlgorithms.BLAKE2b: {
+            engine = new Blake2b()
+            break
+        }
+        default: {
+            throw new Error("Unsupported algorithm. Cannot hash input.")
+        }
+    }
     engine.update(Buffer.from(message))
-
     return engine.digest()
 }
