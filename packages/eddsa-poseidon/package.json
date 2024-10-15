@@ -41,7 +41,6 @@
         "@rollup/plugin-typescript": "^11.1.6",
         "circomlibjs": "0.0.8",
         "ffjavascript": "0.2.38",
-        "poseidon-lite": "0.2.0",
         "rimraf": "^5.0.5",
         "rollup": "^4.12.0",
         "rollup-plugin-cleanup": "^3.2.1",
@@ -51,6 +50,7 @@
     "dependencies": {
         "@zk-kit/baby-jubjub": "1.0.3",
         "@zk-kit/utils": "1.2.1",
-        "buffer": "6.0.3"
+        "buffer": "6.0.3",
+        "poseidon-lite": "0.3.0"
     }
 }

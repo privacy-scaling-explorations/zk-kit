@@ -32,14 +32,10 @@ export default [
             "@zk-kit/utils/f1-field",
             "@zk-kit/utils/scalar",
             "@zk-kit/utils/error-handlers",
-            "@zk-kit/utils/type-checks"
+            "@zk-kit/utils/type-checks",
+            "poseidon-lite/poseidon5"
         ],
-        plugins: [
-            typescript({ tsconfig: "./build.tsconfig.json" }),
-            nodeResolve(),
-            commonjs(),
-            cleanup({ comments: "jsdoc" })
-        ]
+        plugins: [typescript({ tsconfig: "./build.tsconfig.json" }), cleanup({ comments: "jsdoc" })]
     },
     {
         input: "src/index.ts",
