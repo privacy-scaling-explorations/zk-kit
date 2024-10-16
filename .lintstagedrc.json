@@ -1,4 +1,4 @@
 {
-    "**/*.{js,ts,jsx,tsx,md,json,yml,yaml}": "prettier --write",
+    "**/*.{js,ts,jsx,tsx,md,json,yml,yaml}": "yarn prettier --write",
     "**/*.{js,ts,jsx,tsx}": "eslint"
 }
