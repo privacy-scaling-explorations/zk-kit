@@ -1,6 +1,6 @@
 # LeanIMT Paper
 
-This folder contains the LeanIMT Paper.
+This folder contains the LeanIMT Paper ([Download PDF](https://github.com/privacy-scaling-explorations/zk-kit/raw/main/papers/leanimt/paper/leanimt-paper.pdf)).
 
 ## Related work
 

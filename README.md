@@ -72,6 +72,10 @@
 -   Rust: [privacy-scaling-explorations/zk-kit.rust](https://github.com/privacy-scaling-explorations/zk-kit.rust)
 -   Solidity: [privacy-scaling-explorations/zk-kit.solidity](https://github.com/privacy-scaling-explorations/zk-kit.solidity)
 
+## 📄 Papers
+
+-   LeanIMT ([Download PDF](https://github.com/privacy-scaling-explorations/zk-kit/raw/main/papers/leanimt/paper/leanimt-paper.pdf))
+
 ## 📦 Packages
 
 <table>
