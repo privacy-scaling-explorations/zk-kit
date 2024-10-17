@@ -1,0 +1,557 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>zk-kit</title><meta name="description" content="Documentation for zk-kit"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">zk-kit</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h2>zk-kit</h2></div><div class="tsd-panel tsd-typography"><p align="center">
+    <h1 align="center">
+      <picture>
+        <source media="(prefers-color-scheme: light)" srcset="https://github.com/privacy-scaling-explorations/zk-kit/assets/11427903/f691c48c-021f-485d-89ef-9ddc8ba74787">
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/privacy-scaling-explorations/zk-kit/assets/11427903/f43f4403-846a-48b4-a1fa-0ab234c225e5">
+        <img width="250" alt="ZK-Kit logo" src="https://github.com/privacy-scaling-explorations/zk-kit/assets/11427903/f691c48c-021f-485d-89ef-9ddc8ba74787">
+      </picture>
+      <sub>JS</sub>
+    </h1>
+</p>
+
+<p align="center">
+    <a href="https://github.com/privacy-scaling-explorations" target="_blank">
+        <img src="https://img.shields.io/badge/project-PSE-blue.svg?style=flat-square">
+    </a>
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit/blob/main/LICENSE">
+        <img alt="Github license" src="https://img.shields.io/github/license/privacy-scaling-explorations/zk-kit.svg?style=flat-square">
+    </a>
+    <a href="https://github.com/privacy-scaling-explorations/zk-kit/actions?query=workflow%3Amain">
+        <img alt="GitHub Workflow Tests" src="https://img.shields.io/github/actions/workflow/status/privacy-scaling-explorations/zk-kit/main.yml?branch=main&label=tests&style=flat-square&logo=github">
+    </a>
+    <a href="https://coveralls.io/github/privacy-scaling-explorations/zk-kit">
+        <img alt="Coveralls" src="https://img.shields.io/coveralls/github/privacy-scaling-explorations/zk-kit?label=coverage (ts)&style=flat-square&logo=coveralls">
+    </a>
+    <a href="https://eslint.org/">
+        <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint">
+    </a>
+    <a href="https://prettier.io/">
+        <img alt="Code style prettier" src="https://img.shields.io/badge/code%20style-prettier-f8bc45?style=flat-square&logo=prettier">
+    </a>
+    <a href="http://commitizen.github.io/cz-cli/">
+        <img alt="Commitizen friendly" src="https://img.shields.io/badge/commitizen-friendly-586D76?style=flat-square">
+    </a>
+</p>
+
+<div align="center">
+    <h4>
+        <a href="/CONTRIBUTING.md">
+            👥 Contributing
+        </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="/CODE_OF_CONDUCT.md">
+            🤝 Code of conduct
+        </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="https://github.com/privacy-scaling-explorations/zk-kit/issues/new/choose">
+            🔎 Issues
+        </a>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="https://appliedzkp.org/discord">
+            🗣️ Chat &amp; Support
+        </a>
+    </h4>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>ZK-Kit is a set of libraries (algorithms or utility functions) that can be reused in different projects and zero-knowledge protocols, making it easier for developers to access user-friendly, tested, and documented code for common tasks. ZK-Kit provides different repositories for each language - this one contains JavaScript code only.</th>
+</tr>
+</thead>
+</table>
+<p>♚ <a href="https://yarnpkg.com/features/workspaces">Yarn workspaces</a>: minimal monorepo package management (<code>yarn</code>, <code>yarn build</code>, <code>yarn docs</code>)<br>♛ <a href="https://www.conventionalcommits.org">Conventional Commits</a>: human and machine readable meaning to commit messages (<code>yarn commit</code>)<br>♜ <a href="https://jestjs.io/">Jest</a>: tests and test coverage for all libraries (<code>yarn test:libraries</code>)<br>♞ <a href="https://eslint.org/">ESLint</a>, <a href="https://prettier.io/">Prettier</a>: code quality and formatting (<code>yarn prettier</code> &amp; <code>yarn lint</code>)<br>♝ <a href="https://typedoc.org/">Typedocs</a>: documentation generator for TypeScript (<code>yarn docs</code>)<br>♟ <a href="https://github.com/caderek/benny">Benny</a>: simple benchmarking framework for JavaScript/TypeScript (<code>yarn benchmarks</code>)<br>♟ <a href="https://github.com/features/actions">Github actions</a>: software workflows for automatic testing, documentation deploy and code quality checks</p>
+<a id="md:🗂️-repositories" class="tsd-anchor"></a><h2><a href="#md:🗂️-repositories">🗂️ Repositories</a></h2><ul>
+<li>Circom: <a href="https://github.com/privacy-scaling-explorations/zk-kit.circom">privacy-scaling-explorations/zk-kit.circom</a></li>
+<li>Javascript: <a href="https://github.com/privacy-scaling-explorations/zk-kit">privacy-scaling-explorations/zk-kit</a></li>
+<li>Noir: <a href="https://github.com/privacy-scaling-explorations/zk-kit.noir">privacy-scaling-explorations/zk-kit.noir</a></li>
+<li>Rust: <a href="https://github.com/privacy-scaling-explorations/zk-kit.rust">privacy-scaling-explorations/zk-kit.rust</a></li>
+<li>Solidity: <a href="https://github.com/privacy-scaling-explorations/zk-kit.solidity">privacy-scaling-explorations/zk-kit.solidity</a></li>
+</ul>
+<a id="md:📄-papers" class="tsd-anchor"></a><h2><a href="#md:📄-papers">📄 Papers</a></h2><ul>
+<li>LeanIMT (<a href="https://github.com/privacy-scaling-explorations/zk-kit/raw/main/papers/leanimt/paper/leanimt-paper.pdf">Download PDF</a>)</li>
+</ul>
+<a id="md:📦-packages" class="tsd-anchor"></a><h2><a href="#md:📦-packages">📦 Packages</a></h2><table>
+    <th>Package</th>
+    <th>Version</th>
+    <th>Downloads</th>
+    <th>Size</th>
+    <th>Audited</th>
+    <tbody>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/eddsa-poseidon">
+                    @zk-kit/eddsa-poseidon
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_eddsa_poseidon.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/eddsa-poseidon">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/eddsa-poseidon.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/eddsa-poseidon">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/eddsa-poseidon.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/eddsa-poseidon">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/eddsa-poseidon" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-cipher">
+                    @zk-kit/poseidon-cipher
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_chiper.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/poseidon-cipher">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/poseidon-cipher.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/poseidon-cipher">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/poseidon-cipher.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/poseidon-cipher">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon-cipher" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                ❌
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/baby-jubjub">
+                    @zk-kit/baby-jubjub
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_baby_jubjub.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/baby-jubjub">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/baby-jubjub.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/baby-jubjub">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/baby-jubjub.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/baby-jubjub">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/baby-jubjub" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/utils">
+                    @zk-kit/utils
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_utils.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/utils">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/utils.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/utils">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/utils.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/utils">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/utils" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt">
+                    @zk-kit/imt
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_imt.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/imt">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/imt.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/imt">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/imt.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/imt">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/imt" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                ❌
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lean-imt">
+                    @zk-kit/lean-imt
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_lean_imt.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/lean-imt">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/lean-imt.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/lean-imt">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/lean-imt.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/lean-imt">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/lean-imt" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/smt">
+                    @zk-kit/smt
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_smt.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/smt">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/smt.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/smt">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/smt.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/smt">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/smt" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                ❌
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-proof">
+                    @zk-kit/poseidon-proof
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_proof.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/poseidon-proof">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/poseidon-proof.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/poseidon-proof">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/poseidon-proof.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/poseidon-proof">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/poseidon-proof" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                ❌
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/logical-expressions">
+                    @zk-kit/logical-expressions
+                </a>
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_proof.html">
+                    (docs)
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/logical-expressions">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/logical-expressions.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/logical-expressions">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/logical-expressions.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                <!-- Size -->
+                <a href="https://bundlephobia.com/package/@zk-kit/logical-expressions">
+                    <img src="https://img.shields.io/bundlephobia/minzip/@zk-kit/logical-expressions" alt="npm bundle size (scoped)" />
+                </a>
+            </td>
+            <td>
+                ❌
+            </td>
+        </tr>
+    <tbody>
+</table>
+
+<a id="md:👥-ways-to-contribute" class="tsd-anchor"></a><h2><a href="#md:👥-ways-to-contribute">👥 Ways to contribute</a></h2><ul>
+<li>🔧 Work on <a href="https://github.com/privacy-scaling-explorations/zk-kit/contribute">open issues</a></li>
+<li>📦 Suggest new <a href="https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---package.md&title=">packages</a></li>
+<li>🚀 Share ideas for new <a href="https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---feature.md&title=">features</a></li>
+<li>🐛 Create a report if you find any <a href="https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=bug+%F0%9F%90%9B&template=---bug.md&title=">bugs</a> in the code</li>
+</ul>
+<a id="md:🛠-install" class="tsd-anchor"></a><h2><a href="#md:🛠-install">🛠 Install</a></h2><p>Clone this repository:</p>
+<pre><code class="language-bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">clone</span><span class="hl-1"> </span><span class="hl-2">https://github.com/privacy-scaling-explorations/zk-kit.git</span>
+</code><button>Copy</button></pre>
+<p>and install the dependencies:</p>
+<pre><code class="language-bash"><span class="hl-0">cd</span><span class="hl-1"> </span><span class="hl-2">zk-kit</span><span class="hl-1"> &amp;&amp; </span><span class="hl-0">yarn</span>
+</code><button>Copy</button></pre>
+<a id="md:📜-usage" class="tsd-anchor"></a><h2><a href="#md:📜-usage">📜 Usage</a></h2><a id="md:code-quality-and-formatting" class="tsd-anchor"></a><h3><a href="#md:code-quality-and-formatting">Code quality and formatting</a></h3><p>Run <a href="https://eslint.org/">ESLint</a> to analyze the code and catch bugs:</p>
+<pre><code class="language-bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">lint</span>
+</code><button>Copy</button></pre>
+<p>Run <a href="https://prettier.io/">Prettier</a> to check formatting rules:</p>
+<pre><code class="language-bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">format</span>
+</code><button>Copy</button></pre>
+<p>or to automatically format the code:</p>
+<pre><code class="language-bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">format:write</span>
+</code><button>Copy</button></pre>
+<a id="md:conventional-commits" class="tsd-anchor"></a><h3><a href="#md:conventional-commits">Conventional commits</a></h3><p>ZK-Kit uses <a href="https://www.conventionalcommits.org/en/v1.0.0/">conventional commits</a>. A <a href="https://github.com/commitizen/cz-cli">command line utility</a> to commit using the correct syntax can be used by running:</p>
+<pre><code class="language-bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">commit</span>
+</code><button>Copy</button></pre>
+<p>It will also automatically check that the modified files comply with ESLint and Prettier rules.</p>
+<a id="md:testing" class="tsd-anchor"></a><h3><a href="#md:testing">Testing</a></h3><p>Test the code:</p>
+<pre><code class="language-bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">test</span>
+</code><button>Copy</button></pre>
+<a id="md:build" class="tsd-anchor"></a><h3><a href="#md:build">Build</a></h3><p>Build all the packages:</p>
+<pre><code class="language-bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">build</span>
+</code><button>Copy</button></pre>
+<p>A <code>dist</code> folder will be created inside each JavaScript package.</p>
+<a id="md:documentation" class="tsd-anchor"></a><h3><a href="#md:documentation">Documentation</a></h3><p>Generate a documentation website for each package:</p>
+<pre><code class="language-bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">docs</span>
+</code><button>Copy</button></pre>
+<p>The output will be placed on the <code>docs</code> folder.</p>
+<a id="md:releases" class="tsd-anchor"></a><h3><a href="#md:releases">Releases</a></h3><ol>
+<li>Bump a new version of the package with:</li>
+</ol>
+<pre><code class="language-bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">version:bump</span><span class="hl-1"> &lt;</span><span class="hl-2">package-nam</span><span class="hl-1">e&gt; &lt;</span><span class="hl-2">versio</span><span class="hl-1">n&gt;</span><br/><span class="hl-3"># e.g. yarn version:bump utils 2.0.0</span>
+</code><button>Copy</button></pre>
+<p>This step creates a commit and a git tag.</p>
+<ol start="2">
+<li>Push the changes to main:</li>
+</ol>
+<pre><code class="language-bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">push</span><span class="hl-1"> </span><span class="hl-2">origin</span><span class="hl-1"> </span><span class="hl-2">main</span>
+</code><button>Copy</button></pre>
+<ol start="3">
+<li>Push the new git tag:</li>
+</ol>
+<pre><code class="language-bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">push</span><span class="hl-1"> </span><span class="hl-2">origin</span><span class="hl-1"> &lt;</span><span class="hl-2">package-nam</span><span class="hl-1">e&gt;</span><span class="hl-2">-</span><span class="hl-1">&lt;</span><span class="hl-2">versio</span><span class="hl-1">n&gt;</span><br/><span class="hl-3"># e.g. git push origin utils-v2.0.0</span>
+</code><button>Copy</button></pre>
+<p>After pushing the new git tag, a workflow will be triggered and will publish the package on <a href="https://www.npmjs.com/">npm</a> and release a new version on Github with its changelogs automatically.</p>
+<a id="md:❓-faq" class="tsd-anchor"></a><h2><a href="#md:❓-faq">❓ FAQ</a></h2><a id="md:i-have-a-library-that-could-be-reused-in-other-projects-how-can-i-integrate-it-on-zk-kit" class="tsd-anchor"></a><h4><a href="#md:i-have-a-library-that-could-be-reused-in-other-projects-how-can-i-integrate-it-on-zk-kit">I have a library that could be reused in other projects. How can I integrate it on ZK-kit?</a></h4><p>ZK-kit provides a set of pre-configured development tools. All you have to deal with is your own code, testing and documentation. To create a package follow these steps:</p>
+<ol>
+<li>Fork this repository and clone it (or simply clone it directly if you are a collaborator),</li>
+<li>Copy one of our current libraries and update the <code>README.md</code> and <code>package.json</code> files with your package name:</li>
+</ol>
+<pre><code class="language-bash"><span class="hl-0">cd</span><span class="hl-1"> </span><span class="hl-2">zk-kit</span><br/><span class="hl-0">cp</span><span class="hl-1"> </span><span class="hl-4">-r</span><span class="hl-1"> </span><span class="hl-2">packages/smt</span><span class="hl-1"> </span><span class="hl-2">packages/my-package</span><br/><span class="hl-0">cd</span><span class="hl-1"> </span><span class="hl-2">packages/my-package</span><span class="hl-1"> &amp;&amp; </span><span class="hl-0">rm</span><span class="hl-1"> </span><span class="hl-4">-fr</span><span class="hl-1"> </span><span class="hl-2">node_modules</span><span class="hl-1"> </span><span class="hl-2">dist</span><br/><span class="hl-0">grep</span><span class="hl-1"> </span><span class="hl-4">-r</span><span class="hl-1"> </span><span class="hl-4">-l</span><span class="hl-1"> </span><span class="hl-2">&quot;smt&quot;</span><span class="hl-1"> </span><span class="hl-2">.</span><span class="hl-1"> | </span><span class="hl-0">xargs</span><span class="hl-1"> </span><span class="hl-2">sed</span><span class="hl-1"> </span><span class="hl-4">-i</span><span class="hl-1"> </span><span class="hl-2">&#39;s/smt/my-package/&#39;</span><br/><span class="hl-3"># Update the remaining description/usage sections, and write your code in the src &amp; tests folders!</span>
+</code><button>Copy</button></pre>
+<ol start="3">
+<li>Create an <a href="https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---package.md&title=">issue</a> for your package and open a PR.</li>
+</ol>
+<a id="md:how-can-i-create-benchmarks-for-my-library" class="tsd-anchor"></a><h4><a href="#md:how-can-i-create-benchmarks-for-my-library">How can I create benchmarks for my library?</a></h4><p>You can see some examples in the <code>benchmarks</code> folder. All you have to do is create a file that exports a function to run your benchmark in that folder and add that function to the <code>index.ts</code> file. The <code>yarn benchmarks</code> command can be run with no parameters (it will run all the benchmarks), or you can specify the name of your benchmark file to run just that. When you run the command it will create a <code>benchmarks/results</code> folder with your results.</p>
+<a id="md:i-need-to-use-a-merkle-tree-to-prove-the-inclusion-or-exclusion-of-data-elements-within-a-set-which-type-of-merkle-tree-should-i-use" class="tsd-anchor"></a><h4><a href="#md:i-need-to-use-a-merkle-tree-to-prove-the-inclusion-or-exclusion-of-data-elements-within-a-set-which-type-of-merkle-tree-should-i-use">I need to use a Merkle Tree to prove the inclusion or exclusion of data elements within a set. Which type of Merkle Tree should I use?</a></h4><p><strong>Incremental:</strong> Ideal for applications where you frequently add new elements and need to update the tree efficiently.</p>
+<p><strong>Lean Incremental:</strong> A more memory-efficient version of the incremental Merkle tree.</p>
+<p><strong>Sparse:</strong> Particularly useful when you need proof of non-membership.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Library Name</th>
+<th>Main Feature</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Incremental</strong></td>
+<td><a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt">@zk-kit/imt</a></td>
+<td>Fastest for incremental updates.</td>
+<td><a href="https://github.com/semaphore-protocol/semaphore/tree/v3.15.2">Semaphore V3</a>, <a href="https://github.com/worldcoin">Worldcoin</a></td>
+</tr>
+<tr>
+<td><strong>Lean Incremental</strong></td>
+<td><a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lean-imt">@zk-kit/lean-imt</a></td>
+<td>Optimized for lightweight environments.</td>
+<td><a href="https://github.com/semaphore-protocol/semaphore">Semaphore V4</a>, <a href="https://github.com/proofcarryingdata/zupass">Zupass</a></td>
+</tr>
+<tr>
+<td><strong>Sparse</strong></td>
+<td><a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/smt">@zk-kit/smt</a></td>
+<td>Handles very large sets efficiently.</td>
+<td><a href="https://github.com/iden3">Iden3</a></td>
+</tr>
+</tbody></table>
+<p>Following benchmarks data of zk-kit Merkle Trees implementations:</p>
+<table>
+<thead>
+<tr>
+<th>8 leafs</th>
+<th align="center">insert</th>
+<th align="center">delete</th>
+<th align="center">update</th>
+<th align="center">generate proof</th>
+<th align="center">verify proof</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fastest</td>
+<td align="center">IMT</td>
+<td align="center">IMT ~ SparseMT</td>
+<td align="center">LeanIMT</td>
+<td align="center">LeanIMT</td>
+<td align="center">IMT</td>
+</tr>
+<tr>
+<td>slowest</td>
+<td align="center">LeanIMT</td>
+<td align="center">IMT ~ SparseMT</td>
+<td align="center">IMT</td>
+<td align="center">SparseMT</td>
+<td align="center">SparseMT</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>128 leafs</th>
+<th align="center">insert</th>
+<th align="center">delete</th>
+<th align="center">update</th>
+<th align="center">generate proof</th>
+<th align="center">verify proof</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fastest</td>
+<td align="center">IMT</td>
+<td align="center">SparseMT</td>
+<td align="center">LeanIMT</td>
+<td align="center">LeanIMT</td>
+<td align="center">SparseMT</td>
+</tr>
+<tr>
+<td>slowest</td>
+<td align="center">LeanIMT</td>
+<td align="center">IMT</td>
+<td align="center">IMT</td>
+<td align="center">IMT</td>
+<td align="center">IMT</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>1024 leafs</th>
+<th align="center">insert</th>
+<th align="center">delete</th>
+<th align="center">update</th>
+<th align="center">generate proof</th>
+<th align="center">verify proof</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fastest</td>
+<td align="center">SparseMT</td>
+<td align="center">SparseMT</td>
+<td align="center">LeanIMT</td>
+<td align="center">LeanIMT</td>
+<td align="center">SparseMT</td>
+</tr>
+<tr>
+<td>slowest</td>
+<td align="center">LeanIMT</td>
+<td align="center">IMT</td>
+<td align="center">IMT</td>
+<td align="center">IMT</td>
+<td align="center">IMT</td>
+</tr>
+</tbody></table>
+<p>From the benchmark data we can take another criteria to evaluate which Merkle tree should be used:</p>
+<ul>
+<li>IMT have the best performance for medium and small size insert related operations.</li>
+<li>LeanIMT have the best performance for all the merkle tree sizes for update and generate proof related operations.</li>
+<li>Sparse is good for larger data insert, delete and verify proof.</li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-index-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><h4 class="uppercase">Member Visibility</h4><form><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-private" name="private"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Private</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div><div class="tsd-theme-toggle"><h4 class="uppercase">Theme</h4><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-index-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#md:🗂️-repositories"><span>🗂️ <wbr/>Repositories</span></a><a href="#md:📄-papers"><span>📄 <wbr/>Papers</span></a><a href="#md:📦-packages"><span>📦 <wbr/>Packages</span></a><a href="#md:👥-ways-to-contribute"><span>👥 <wbr/>Ways to contribute</span></a><a href="#md:🛠-install"><span>🛠 <wbr/>Install</span></a><a href="#md:📜-usage"><span>📜 <wbr/>Usage</span></a><ul><li><a href="#md:code-quality-and-formatting"><span>Code quality and formatting</span></a></li><li><a href="#md:conventional-commits"><span>Conventional commits</span></a></li><li><a href="#md:testing"><span>Testing</span></a></li><li><a href="#md:build"><span>Build</span></a></li><li><a href="#md:documentation"><span>Documentation</span></a></li><li><a href="#md:releases"><span>Releases</span></a></li></ul><a href="#md:❓-faq"><span>❓ FAQ</span></a><ul><li><a href="#md:i-have-a-library-that-could-be-reused-in-other-projects-how-can-i-integrate-it-on-zk-kit"><span>I have a library that could be reused in other projects. <wbr/>How can <wbr/>I integrate it on ZK-<wbr/>kit?</span></a></li><li><a href="#md:how-can-i-create-benchmarks-for-my-library"><span>How can <wbr/>I create benchmarks for my library?</span></a></li><li><a href="#md:i-need-to-use-a-merkle-tree-to-prove-the-inclusion-or-exclusion-of-data-elements-within-a-set-which-type-of-merkle-tree-should-i-use"><span>I need to use a <wbr/>Merkle <wbr/>Tree to prove the inclusion or exclusion of data elements within a set. <wbr/>Which type of <wbr/>Merkle <wbr/>Tree should <wbr/>I use?</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="index.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-1"></use></svg><span>zk-kit</span></a><ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="."><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
