@@ -92,6 +92,8 @@ or [JSDelivr](https://www.jsdelivr.com/):
 
 ## 📜 Usage
 
+The public key is generated using [BLAKE](<https://en.wikipedia.org/wiki/BLAKE_(hash_function)>) by default and BLAKE2 if specified in the import as follows: `import { ... } from "@zk-kit/eddsa-poseidon/blake-2b"`.
+
 ```typescript
 import {
     derivePublicKey,
