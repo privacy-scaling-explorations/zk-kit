@@ -1,13 +1,8 @@
-import runIMT from "./imt"
+import run from "./benchmark-merkle-trees"
 
-const [benchmark] = process.argv.slice(2)
-
-// If there is an argument with a specific benchmark to run, it will run only that
-// benchmark, otherwise it will run all the benchmarks.
-switch (benchmark) {
-    case "imt":
-        runIMT()
-        break
-    default:
-        runIMT()
-}
+const treeDepthSamples: number[] = [3, 7, 10]
+let numberOfLeaves: number
+treeDepthSamples.forEach((treeDepth) => {
+    numberOfLeaves = 2 ** treeDepth
+    run(treeDepth, numberOfLeaves)
+})

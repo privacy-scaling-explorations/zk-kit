@@ -66,10 +66,15 @@
 
 ## 🗂️ Repositories
 
--   Javascript: https://github.com/privacy-scaling-explorations/zk-kit
--   Solidity: https://github.com/privacy-scaling-explorations/zk-kit.solidity
--   Circom: https://github.com/privacy-scaling-explorations/zk-kit.circom
--   Noir: https://github.com/privacy-scaling-explorations/zk-kit.noir
+-   Circom: [privacy-scaling-explorations/zk-kit.circom](https://github.com/privacy-scaling-explorations/zk-kit.circom)
+-   Javascript: [privacy-scaling-explorations/zk-kit](https://github.com/privacy-scaling-explorations/zk-kit)
+-   Noir: [privacy-scaling-explorations/zk-kit.noir](https://github.com/privacy-scaling-explorations/zk-kit.noir)
+-   Rust: [privacy-scaling-explorations/zk-kit.rust](https://github.com/privacy-scaling-explorations/zk-kit.rust)
+-   Solidity: [privacy-scaling-explorations/zk-kit.solidity](https://github.com/privacy-scaling-explorations/zk-kit.solidity)
+
+## 📄 Papers
+
+-   LeanIMT ([Download PDF](https://github.com/privacy-scaling-explorations/zk-kit/raw/main/papers/leanimt/paper/leanimt-paper.pdf))
 
 ## 📦 Packages
 
@@ -513,3 +518,25 @@ You can see some examples in the `benchmarks` folder. All you have to do is crea
 | **Incremental**      | [@zk-kit/imt](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt)           | Fastest for incremental updates.        | [Semaphore V3](https://github.com/semaphore-protocol/semaphore/tree/v3.15.2), [Worldcoin](https://github.com/worldcoin) |
 | **Lean Incremental** | [@zk-kit/lean-imt](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lean-imt) | Optimized for lightweight environments. | [Semaphore V4](https://github.com/semaphore-protocol/semaphore), [Zupass](https://github.com/proofcarryingdata/zupass)  |
 | **Sparse**           | [@zk-kit/smt](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/smt)           | Handles very large sets efficiently.    | [Iden3](https://github.com/iden3)                                                                                       |
+
+Following benchmarks data of zk-kit Merkle Trees implementations:
+|8 leafs|insert|delete|update|generate proof|verify proof|
+|--|:--:|:--:|:--:|:--:|:--:|
+|fastest|IMT|IMT ~ SparseMT|LeanIMT|LeanIMT|IMT|
+|slowest|LeanIMT|IMT ~ SparseMT|IMT|SparseMT|SparseMT|
+
+| 128 leafs | insert  |  delete  | update  | generate proof | verify proof |
+| --------- | :-----: | :------: | :-----: | :------------: | :----------: |
+| fastest   |   IMT   | SparseMT | LeanIMT |    LeanIMT     |   SparseMT   |
+| slowest   | LeanIMT |   IMT    |   IMT   |      IMT       |     IMT      |
+
+| 1024 leafs |  insert  |  delete  | update  | generate proof | verify proof |
+| ---------- | :------: | :------: | :-----: | :------------: | :----------: |
+| fastest    | SparseMT | SparseMT | LeanIMT |    LeanIMT     |   SparseMT   |
+| slowest    | LeanIMT  |   IMT    |   IMT   |      IMT       |     IMT      |
+
+From the benchmark data we can take another criteria to evaluate which Merkle tree should be used:
+
+-   IMT have the best performance for medium and small size insert related operations.
+-   LeanIMT have the best performance for all the merkle tree sizes for update and generate proof related operations.
+-   Sparse is good for larger data insert, delete and verify proof.
