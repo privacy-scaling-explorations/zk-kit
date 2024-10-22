@@ -1,2 +1,1 @@
-export * from "./eddsa-poseidon"
-export * from "./types"
+export * from "./eddsa-poseidon-blake-1"

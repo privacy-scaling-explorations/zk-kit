@@ -5,7 +5,6 @@ import { utils } from "ffjavascript"
 import { r, packPoint, Point } from "@zk-kit/baby-jubjub"
 import {
     EdDSAPoseidon,
-    Signature,
     derivePublicKey,
     deriveSecretScalar,
     packPublicKey,
@@ -14,7 +13,9 @@ import {
     unpackPublicKey,
     unpackSignature,
     verifySignature
-} from "../src"
+} from "../src/eddsa-poseidon-blake-1"
+
+import { Signature } from "../src/types"
 import { isPoint, isSignature } from "../src/utils"
 
 function stringifyPoint(publicKey: Point): Point<string> {
@@ -352,7 +353,7 @@ describe("EdDSAPoseidon", () => {
         const packedSignature = packSignature(signature)
         packedSignature.set([1], 35)
 
-        unpackSignature(packedSignature)
+        expect(() => unpackSignature(packedSignature)).not.toThrow()
     })
 
     it("Should handle a signature with values smaller than 32 bytes", async () => {
