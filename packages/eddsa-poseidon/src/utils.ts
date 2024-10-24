@@ -66,10 +66,9 @@ export function checkPrivateKey(privateKey: Buffer | Uint8Array | string): Buffe
 export function checkMessage(message: BigNumberish): bigint {
     requireTypes(message, "message", ["bignumberish", "string"])
 
-    const bigIntMessage =
-        isBigNumberish(message) && message
-            ? bigNumberishToBigInt(message)
-            : bufferToBigInt(Buffer.from(message as string))
+    const bigIntMessage = isBigNumberish(message)
+        ? bigNumberishToBigInt(message)
+        : bufferToBigInt(Buffer.from(message as string))
 
     const maxLength = 2n ** 256n / 2n - 1n
     if (bigIntMessage > maxLength) throw new Error(`Message length is larger than 32 bytes`)
