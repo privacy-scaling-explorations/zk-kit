@@ -70,8 +70,9 @@ export function checkMessage(message: BigNumberish): bigint {
         ? bigNumberishToBigInt(message)
         : bufferToBigInt(Buffer.from(message as string))
 
-    const maxLength = 2n ** 256n / 2n - 1n
-    if (bigIntMessage > maxLength) throw new Error(`Message length is larger than 32 bytes`)
+    const maxLength = 2n ** 256n / 2n
+    if (bigIntMessage < maxLength * -1n || bigIntMessage >= maxLength)
+        throw new Error(`Message length is larger than 32 bytes`)
     return bigIntMessage
 }
 

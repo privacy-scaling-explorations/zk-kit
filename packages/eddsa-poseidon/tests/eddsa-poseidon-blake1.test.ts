@@ -147,7 +147,15 @@ describe("EdDSAPoseidon", () => {
     })
 
     it("Should throw an error if the message is larger than 32 Bytes [number]", async () => {
-        const message = 2 ** 256 / 2
+        const message = 2 ** 255
+
+        const fun = () => signMessage(privateKey, message)
+
+        expect(fun).toThrow(`Message length is larger than 32 bytes`)
+    })
+
+    it("Should throw an error if the message is larger than 32 Bytes [-number]", async () => {
+        const message = -(2n ** 255n + 1n)
 
         const fun = () => signMessage(privateKey, message)
 
