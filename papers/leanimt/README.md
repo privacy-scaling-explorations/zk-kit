@@ -23,7 +23,7 @@ This folder contains the LeanIMT Paper ([Download PDF](https://github.com/privac
 3. Add the path by running:
 
 ```bash
-echo -n 'export PATH=$HOME/bin:$PATH' >> ~/.zshrc
+echo 'export PATH=$HOME/bin:$PATH' >> ~/.zshrc
 ```
 
 Read more about it [here](https://stackoverflow.com/questions/11530090/adding-a-new-entry-to-the-path-variable-in-zsh/47795375#47795375).
