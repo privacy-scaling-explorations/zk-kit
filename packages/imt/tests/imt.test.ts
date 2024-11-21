@@ -131,6 +131,25 @@ describe("IMT", () => {
                         expect(tree.root).toEqual(root)
                     }
                 })
+
+                it(`Should not error when update value is the same`, () => {
+                    for (let i = 0; i < numberOfLeaves; i += 1) {
+                        tree.insert(1)
+                        oldTree.insert(1)
+                    }
+
+                    const previousRoot = tree.root
+
+                    for (let i = 0; i < numberOfLeaves; i += 1) {
+                        tree.update(i, 1)
+                        oldTree.update(i, 1)
+
+                        const { root } = oldTree.genMerklePath(0)
+
+                        expect(tree.root).toEqual(root)
+                        expect(tree.root).toEqual(previousRoot)
+                    }
+                })
             })
 
             describe("# indexOf", () => {

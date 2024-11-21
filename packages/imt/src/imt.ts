@@ -224,6 +224,8 @@ export default class IMT {
             throw new Error("The leaf does not exist in this tree")
         }
 
+        if (newLeaf === this._nodes[0][index]) return
+
         let node = newLeaf
 
         for (let level = 0; level < this.depth; level += 1) {
