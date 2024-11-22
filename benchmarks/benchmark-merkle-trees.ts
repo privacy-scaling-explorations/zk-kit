@@ -67,12 +67,12 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
     let leafSMT = 0
     /*  Number of leafs to take as sample to benchmark.
         It acts as a limit to stop doing the operation (delete) or restart the cycle
-        counter controller (update, proof, verification) in a bechmark since
+        counter controller (update, proof, verification) in a benchmark since
         the benny suite does not have the method to limit the maximum of operations
-        of the bechmark.
+        of the benchmark.
     */
     const samples = numberOfLeaves * 0.5
-    // The set of keys to do bechmarks (update, proof, verification and delete)
+    // The set of keys to do benchmarks (update, proof, verification and delete)
     const sample = getNodesSample(numberOfLeaves, samples)
 
     /* Benchmarking Add Operation:
