@@ -123,7 +123,7 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-cipher">
                     @zk-kit/poseidon-cipher
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_chiper.html">
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_cipher.html">
                     (docs)
                 </a>
             </td>
@@ -346,7 +346,7 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/logical-expressions">
                     @zk-kit/logical-expressions
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_proof.html">
+                 <a href="https://zkkit.pse.dev/modules/_zk_kit_logical_expressions.html">
                     (docs)
                 </a>
             </td>
