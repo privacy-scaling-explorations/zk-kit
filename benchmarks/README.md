@@ -79,8 +79,8 @@ SparseMT - Generated 500 proofs x 2,789 ops/sec ±2.63% (68 runs sampled)
 Fastest is IMT - Generated 500 proofs
 ```
 
-The Benchmarks suggested in the index.ts are for **8, 128 and 1024 leafs** to see how each Merkle tree for different sizes of trees
-perform because their theorical expected behavior described [here](https://github.com/privacy-scaling-explorations/zk-kit?tab=readme-ov-file#i-need-to-use-a-merkle-tree-to-prove-the-inclusion-or-exclusion-of-data-elements-within-a-set-which-type-of-merkle-tree-should-i-use).
+The Benchmarks suggested in the index.ts are for **8, 128 and 1024 leaves** to see how each Merkle tree for different sizes of trees
+perform because their theoretical expected behavior described [here](https://github.com/privacy-scaling-explorations/zk-kit?tab=readme-ov-file#i-need-to-use-a-merkle-tree-to-prove-the-inclusion-or-exclusion-of-data-elements-within-a-set-which-type-of-merkle-tree-should-i-use).
 
 ## Dependencies
 
