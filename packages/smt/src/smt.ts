@@ -294,7 +294,7 @@ export default class SMT {
 
             // If the third position of the array is not empty the child nodes
             // are an entry of the tree.
-            if (childNodes[2]) {
+            if (childNodes[2] !== undefined) {
                 if (childNodes[0] === key) {
                     // An entry with the same key was found and
                     // it returns it with the siblings.
