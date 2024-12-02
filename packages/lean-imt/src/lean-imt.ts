@@ -222,7 +222,7 @@ export default class LeanIMT<N = bigint> {
                 // (like the 'insert' function).
                 const sibling = this._nodes[level][index + 1]
 
-                if (sibling) {
+                if (sibling !== undefined) {
                     node = this._hash(node, sibling)
                 }
             }
