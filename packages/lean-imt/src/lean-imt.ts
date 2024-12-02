@@ -222,6 +222,9 @@ export default class LeanIMT<N = bigint> {
                 // (like the 'insert' function).
                 const sibling = this._nodes[level][index + 1]
 
+                // If the sibling node does not exist, it means that the node at
+                // this level has the same value as its child. Therefore, there
+                // no hash to calculate.
                 if (sibling !== undefined) {
                     node = this._hash(node, sibling)
                 }
