@@ -92,7 +92,7 @@ import { poseidon2, poseidon3 } from "poseidon-lite"
 // Hexadecimal hashes.
 const hash = (childNodes: ChildNodes) => sha256(childNodes.join("")).toString()
 
-// Create the SMT with an Hexadecimal (SHA256) hash.
+// Create the SMT with a Hexadecimal (SHA256) hash.
 const tree = new SMT(hash)
 
 // 0
