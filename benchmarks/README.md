@@ -45,7 +45,7 @@ The benchmark includes the following tests for each Merkle Tree implementation:
 2. Generate Proofs: Measures the performance of generating Merkle proofs.
 3. Verify Proofs: Measures how quickly the generated proofs can be verified.
 4. Update Leaves: Measures how quickly the leaves can be updated.
-5. Delete Leaves: Measures how quickly the leaves can be deleted. The Lean Merkle tree is excluded because it does not have deleted method implemented.
+5. Delete Leaves: Measures how quickly the leaves can be deleted. The Lean Merkle tree is excluded because it does not have delete method implemented.
 
 ## Benchmark Structure.
 
