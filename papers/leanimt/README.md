@@ -20,7 +20,7 @@ This folder contains the LeanIMT Paper ([Download PDF](https://github.com/privac
 
 2. Install [LaTeX Workshop VSCode extension](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop).
 
-3. Add the path by running:
+3. Add the PATH by running:
 
 ```bash
 echo 'export PATH=$HOME/bin:$PATH' >> ~/.zshrc
