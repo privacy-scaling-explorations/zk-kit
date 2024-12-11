@@ -150,7 +150,8 @@ export default class IMT {
     }
 
     /**
-     * It returns the index of a leaf. If the leaf does not exist it returns -1.
+     * It returns the index of the first occurrence of a leaf in the tree.
+     * If the leaf does not exist it returns -1.
      * @param leaf A leaf of the tree.
      * @returns The index of the leaf.
      */
