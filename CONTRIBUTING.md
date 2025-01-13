@@ -33,6 +33,9 @@ Pull requests are great if you want to add a feature or fix a bug. Here's a quic
 > [!NOTE]  
 > When a new package is created or a new feature is added to the repository, the contributor will be added to the `.github/CODEOWNERS` file to review and approve any future changes to their code.
 
+> [!IMPORTANT]
+> We do not accept minor grammatical fixes (e.g. correcting typos, rewording sentences) unless they significantly improve clarity in technical documentation. These contributions, while appreciated, are not a priority for merging. If there is a grammatical mistake, please feel free to message the team.
+
 ## CI (Github Actions) Tests
 
 We use GitHub Actions to test each PR before it is merged.
