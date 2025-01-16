@@ -1,7 +1,7 @@
 /**
- * It represents a node of the tree, which can be any value.
+ * It represents a node of the tree, which can be a number, a string or a bigint.
  */
-export type IMTNode = any
+export type IMTNode = number | string | bigint
 
 /**
  * The hash function is used to compute the nodes of the tree.
