@@ -217,7 +217,7 @@ describe("Logical Expressions", () => {
         it("Should throw an error if the logical expression is invalid and has two binary operators with the same precedence", () => {
             const expression = ["and", "or"]
             const fun = () => evaluate(expression)
-            expect(fun).toThrow("The operator 'and' requires two value")
+            expect(fun).toThrow("The operator 'and' requires two values")
         })
         it("Should throw an error if the logical expression is empty", () => {
             const expression: string[] = []
