@@ -134,7 +134,7 @@ declare module "circomlibjs" {
 
         sha3(...args: any[]): void
 
-        shor(...args: any[]): void
+        shr(...args: any[]): void
 
         signextend(...args: any[]): void
 
