@@ -4,6 +4,7 @@ import {
     isBigInt,
     isBigNumber,
     isBigNumberish,
+    isBoolean,
     isBuffer,
     isFunction,
     isHexadecimal,
@@ -23,6 +24,14 @@ describe("# type-checks", () => {
 
     it("Should return false if the value is not a number", () => {
         expect(isNumber("string")).toBeFalsy()
+    })
+
+    it("Should return true if the value is a boolean", () => {
+        expect(isBoolean(true)).toBeTruthy()
+    })
+
+    it("Should return false if the value is not a boolean", () => {
+        expect(isBoolean("string")).toBeFalsy()
     })
 
     it("Should return true if the value is a string", () => {
@@ -120,6 +129,7 @@ describe("# type-checks", () => {
 
     it("Should return true if the value type is the one expected", () => {
         expect(isType(1, "number")).toBeTruthy()
+        expect(isType(false, "boolean")).toBeTruthy()
         expect(isType("string", "string")).toBeTruthy()
         expect(isType(() => true, "function")).toBeTruthy()
         expect(isType([], "Array")).toBeTruthy()
@@ -137,6 +147,7 @@ describe("# type-checks", () => {
 
     it("Should return false if the value type is not the one expected or is not supported", () => {
         expect(isType("string", "number")).toBeFalsy()
+        expect(isType(1, "boolean")).toBeFalsy()
         expect(isType(1, "string")).toBeFalsy()
         expect(isType(1, "function")).toBeFalsy()
         expect(isType(1, "Array")).toBeFalsy()

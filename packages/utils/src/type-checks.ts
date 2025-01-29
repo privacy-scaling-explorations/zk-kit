@@ -12,6 +12,7 @@ import { Buffer } from "buffer"
 /** @internal */
 export const supportedTypes = [
     "number",
+    "boolean",
     "string",
     "function",
     "Array",
@@ -41,6 +42,14 @@ export function isDefined(value: any): boolean {
  */
 export function isNumber(value: any): boolean {
     return typeof value === "number"
+}
+
+/**
+ * Returns true if the value is a boolean, false otherwise.
+ * @param value The value to be checked.
+ */
+export function isBoolean(value: any): boolean {
+    return typeof value === "boolean"
 }
 
 /**
@@ -179,6 +188,8 @@ export function isType(value: any, type: SupportedType): boolean {
     switch (type) {
         case "number":
             return isNumber(value)
+        case "boolean":
+            return isBoolean(value)
         case "string":
             return isString(value)
         case "function":
