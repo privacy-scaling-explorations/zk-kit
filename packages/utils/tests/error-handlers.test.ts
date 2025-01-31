@@ -3,6 +3,7 @@ import {
     requireBigInt,
     requireBigNumber,
     requireBigNumberish,
+    requireBoolean,
     requireBuffer,
     requireDefined,
     requireFunction,
@@ -36,6 +37,18 @@ describe("# error-handlers", () => {
 
     it("Should not throw an error if the parameter is a number", () => {
         const fun = () => requireNumber(1, "parameter")
+
+        expect(fun).not.toThrow()
+    })
+
+    it("Should throw an error if the parameter is not a boolean", () => {
+        const fun = () => requireBoolean("euo" as any, "parameter")
+
+        expect(fun).toThrow("Parameter 'parameter' is not a boolean")
+    })
+
+    it("Should not throw an error if the parameter is a boolean", () => {
+        const fun = () => requireBoolean(true, "parameter")
 
         expect(fun).not.toThrow()
     })

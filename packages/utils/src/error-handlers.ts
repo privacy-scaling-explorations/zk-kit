@@ -14,6 +14,7 @@ import {
     isBigInt,
     isBigNumber,
     isBigNumberish,
+    isBoolean,
     isBuffer,
     isDefined,
     isFunction,
@@ -46,6 +47,17 @@ export function requireDefined(parameterValue: any, parameterName: string) {
 export function requireNumber(parameterValue: number, parameterName: string) {
     if (!isNumber(parameterValue)) {
         throw new TypeError(`Parameter '${parameterName}' is not a number, received type: ${typeof parameterValue}`)
+    }
+}
+
+/**
+ * @throws Throws a type error if the parameter value is not a boolean.
+ * @param parameterValue The parameter value.
+ * @param parameterName The parameter name.
+ */
+export function requireBoolean(parameterValue: boolean, parameterName: string) {
+    if (!isBoolean(parameterValue)) {
+        throw new TypeError(`Parameter '${parameterName}' is not a boolean, received type: ${typeof parameterValue}`)
     }
 }
 
