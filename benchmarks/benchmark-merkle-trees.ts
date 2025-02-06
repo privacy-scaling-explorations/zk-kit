@@ -75,11 +75,25 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
     // The set of keys to do benchmarks (update, proof, verification and delete)
     const sample = getNodesSample(numberOfLeaves, samples)
 
+    const benchmarkSuite = (name: string, ...addFunctions: b.AddFunction[]) => {
+        b.suite(
+            name,
+            ...addFunctions,
+            b.cycle(),
+            b.complete(),
+            b.save({ folder: "benchmarks/results", file: name, version: "1.0.0", details: true }),
+            b.save({ folder: "benchmarks/results", file: name, format: "chart.html", details: true }),
+            b.save({ folder: "benchmarks/results", file: name, format: "table.html", details: true })
+        ).catch((error) => {
+            logger.error(name)
+            logger.error(error)
+        })
+    }
+
     /* Benchmarking Add Operation:
     The following code benchmarks how efficiently each tree adds leaves. */
-    let name = `add-merkle-trees-${numberOfLeaves}`
-    b.suite(
-        name,
+    benchmarkSuite(
+        `add-merkle-trees-${numberOfLeaves}`,
         b.add(`IMT - Add ${numberOfLeaves} leaves`, () => {
             try {
                 if (leafIMT < numberOfLeaves) {
@@ -87,7 +101,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                     leafIMT += 1
                 }
             } catch (error) {
-                logger.error(name)
+                logger.error(`add-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
         }),
@@ -96,7 +110,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 leanIncrementalMerkleTree2.insert(BigInt(leafLeanIMT))
                 leafLeanIMT += 1
             } catch (error) {
-                logger.error(name)
+                logger.error(`add-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
         }),
@@ -105,28 +119,19 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 sparseMerkleTree2.add(leafSMT.toString(16), Math.floor(Math.random() * 10).toString())
                 leafSMT += 1
             } catch (error) {
-                logger.error(name)
+                logger.error(`add-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
-        }),
-        b.cycle(),
-        b.complete(),
-        b.save({ folder: "benchmarks/results", file: name, version: "1.0.0", details: true }),
-        b.save({ folder: "benchmarks/results", file: name, format: "chart.html", details: true }),
-        b.save({ folder: "benchmarks/results", file: name, format: "table.html", details: true })
-    ).catch((error) => {
-        logger.error(name)
-        logger.error(error)
-    })
+        })
+    )
 
     /*  Benchmarking Proof Generation:
             This section benchmarks proof generation for each tree type. */
     leafIMT = 0
     leafLeanIMT = 0
     leafSMT = 0
-    name = `proof-generation-merkle-trees-${numberOfLeaves}`
-    b.suite(
-        name,
+    benchmarkSuite(
+        `proof-generation-merkle-trees-${numberOfLeaves}`,
         b.add(`IMT - Generated ${samples} proofs`, () => {
             try {
                 if (leafIMT < samples) {
@@ -136,7 +141,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 }
                 leafIMT += 1
             } catch (error) {
-                logger.error(name)
+                logger.error(`proof-generation-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
         }),
@@ -149,7 +154,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 }
                 leafLeanIMT += 1
             } catch (error) {
-                logger.error(name)
+                logger.error(`proof-generation-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
         }),
@@ -162,19 +167,11 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 }
                 leafSMT += 1
             } catch (error) {
-                logger.error(name)
+                logger.error(`proof-generation-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
-        }),
-        b.cycle(),
-        b.complete(),
-        b.save({ folder: "benchmarks/results", file: name, version: "1.0.0", details: true }),
-        b.save({ folder: "benchmarks/results", file: name, format: "chart.html", details: true }),
-        b.save({ folder: "benchmarks/results", file: name, format: "table.html", details: true })
-    ).catch((error) => {
-        logger.error(name)
-        logger.error(error)
-    })
+        })
+    )
 
     /*  Proof sample generation:
             Produces a set of proofs that will be used in the proof verification benchmark */
@@ -197,9 +194,8 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
     leafIMT = 0
     leafLeanIMT = 0
     leafSMT = 0
-    name = `proof-verification-merkle-trees-${numberOfLeaves}`
-    b.suite(
-        name,
+    benchmarkSuite(
+        `proof-verification-merkle-trees-${numberOfLeaves}`,
         b.add(`IMT - Verified ${samples} proofs`, () => {
             try {
                 if (leafIMT < samples) {
@@ -207,7 +203,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 }
                 leafIMT += 1
             } catch (error) {
-                logger.error(name)
+                logger.error(`proof-verification-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
         }),
@@ -218,7 +214,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 }
                 leafLeanIMT += 1
             } catch (error) {
-                logger.error(name)
+                logger.error(`proof-verification-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
         }),
@@ -229,28 +225,19 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 }
                 leafSMT += 1
             } catch (error) {
-                logger.error(name)
+                logger.error(`proof-verification-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
-        }),
-        b.cycle(),
-        b.complete(),
-        b.save({ folder: "benchmarks/results", file: name, version: "1.0.0", details: true }),
-        b.save({ folder: "benchmarks/results", file: name, format: "chart.html", details: true }),
-        b.save({ folder: "benchmarks/results", file: name, format: "table.html", details: true })
-    ).catch((error) => {
-        logger.error(name)
-        logger.error(error)
-    })
+        })
+    )
 
     /*  Benchmarking update operation:
             The following code benchmarks how efficiently each tree updates leaves. */
     leafIMT = 0
     leafLeanIMT = 0
     leafSMT = 0
-    name = `update-merkle-trees-${numberOfLeaves}`
-    b.suite(
-        name,
+    benchmarkSuite(
+        `update-merkle-trees-${numberOfLeaves}`,
         b.add(`IMT - Updated ${samples} leaves`, () => {
             try {
                 if (leafIMT < samples) {
@@ -260,7 +247,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 }
                 leafIMT += 1
             } catch (error) {
-                logger.error(name)
+                logger.error(`update-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
         }),
@@ -271,7 +258,7 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 }
                 leafLeanIMT += 1
             } catch (error) {
-                logger.error(name)
+                logger.error(`update-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
         }),
@@ -284,34 +271,25 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                 }
                 leafSMT += 1
             } catch (error) {
-                logger.error(name)
+                logger.error(`update-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
-        }),
-        b.cycle(),
-        b.complete(),
-        b.save({ folder: "benchmarks/results", file: name, version: "1.0.0", details: true }),
-        b.save({ folder: "benchmarks/results", file: name, format: "chart.html", details: true }),
-        b.save({ folder: "benchmarks/results", file: name, format: "table.html", details: true })
-    ).catch((error) => {
-        logger.error(name)
-        logger.error(error)
-    })
+        })
+    )
 
     /*  Benchmarking delete operation:
             The following code benchmarks how efficiently each tree deletes leaves. */
     leafIMT = 0
     leafSMT = 0
-    name = `delete-merkle-trees-${numberOfLeaves}`
-    b.suite(
-        name,
+    benchmarkSuite(
+        `delete-merkle-trees-${numberOfLeaves}`,
         b.add(`IMT - Deleted ${samples} leaves`, () => {
             try {
                 if (leafIMT < samples) {
                     incrementalMerkleTree.delete(sample[leafIMT])
                 }
             } catch (error) {
-                logger.error(name)
+                logger.error(`delete-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
             leafIMT += 1
@@ -322,19 +300,10 @@ export default function run(treeDepth: number, numberOfLeaves: number) {
                     sparseMerkleTree.delete(sample[leafSMT].toString())
                 }
             } catch (error) {
-                logger.error(name)
+                logger.error(`delete-merkle-trees-${numberOfLeaves}`)
                 logger.error(error)
             }
             leafSMT += 1
-        }),
-        b.cycle(),
-        b.complete(),
-
-        b.save({ folder: "benchmarks/results", file: name, version: "1.0.0", details: true }),
-        b.save({ folder: "benchmarks/results", file: name, format: "chart.html", details: true }),
-        b.save({ folder: "benchmarks/results", file: name, format: "table.html", details: true })
-    ).catch((error) => {
-        logger.error(name)
-        logger.error(error)
-    })
+        })
+    )
 }
