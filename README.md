@@ -513,21 +513,6 @@ const encrypted = encrypt(message, key)
 const decrypted = decrypt(encrypted, key)
 ```
 
-## 📊 Merkle Trees Performance Comparison
-
-| Operation       | Small Trees (8) | Medium Trees (128) | Large Trees (1024) |
-|----------------|:---------------:|:-----------------:|:-----------------:|
-| Insert         | IMT            | IMT               | SparseMT         |
-| Delete         | IMT/SparseMT   | SparseMT         | SparseMT         |
-| Update         | LeanIMT        | LeanIMT          | LeanIMT          |
-| Generate proof | LeanIMT        | LeanIMT          | LeanIMT          |
-| Verify proof   | IMT            | SparseMT         | SparseMT         |
-
-> 💡 **Implementation Guidelines:**
-> - Use **IMT** for small datasets with frequent updates
-> - Use **LeanIMT** for memory optimization and fast proof generation
-> - Use **SparseMT** for large datasets and efficient verification
-
 ## 🚀 Getting Started
 
 1. **Installation**
@@ -553,3 +538,34 @@ const instance = new YourPackage()
 - [API Documentation](https://zkkit.pse.dev/)
 - [Examples Repository](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages)
 - [Community Support](https://appliedzkp.org/discord)
+
+## ❓ FAQ
+
+#### I need to use a Merkle Tree to prove the inclusion or exclusion of data elements within a set. Which type of Merkle Tree should I use?
+
+**Incremental:** Ideal for applications where you frequently add new elements and need to update the tree efficiently.
+
+**Lean Incremental:** A more memory-efficient version of the incremental Merkle tree.
+
+**Sparse:** Particularly useful when you need proof of non-membership.
+
+## 📊 Extended Performance Analysis
+
+| Operation       | Small Trees (8) | Medium Trees (128) | Large Trees (1024) |
+|----------------|:---------------:|:-----------------:|:-----------------:|
+| Insert         | IMT            | IMT               | SparseMT         |
+| Delete         | IMT/SparseMT   | SparseMT         | SparseMT         |
+| Update         | LeanIMT        | LeanIMT          | LeanIMT          |
+| Generate proof | LeanIMT        | LeanIMT          | LeanIMT          |
+| Verify proof   | IMT            | SparseMT         | SparseMT         |
+
+> 💡 **Implementation Guidelines:**
+> - Use **IMT** for small datasets with frequent updates
+> - Use **LeanIMT** for memory optimization and fast proof generation
+> - Use **SparseMT** for large datasets and efficient verification
+
+| Type                 | Library Name                                                                                           | Main Feature                            | Used by                                                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Incremental**      | [@zk-kit/imt](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt)           | Fastest for incremental updates.        | [Semaphore V3](https://github.com/semaphore-protocol/semaphore/tree/v3.15.2), [Worldcoin](https://github.com/worldcoin) |
+| **Lean Incremental** | [@zk-kit/lean-imt](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lean-imt) | Optimized for lightweight environments. | [Semaphore V4](https://github.com/semaphore-protocol/semaphore), [Zupass](https://github.com/proofcarryingdata/zupass)  |
+| **Sparse**           | [@zk-kit/smt](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/smt)           | Handles very large sets efficiently.    | [Iden3](https://github.com/iden3)                                                                                       |
