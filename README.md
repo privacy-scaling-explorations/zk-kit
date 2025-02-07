@@ -482,61 +482,74 @@ git push origin <package-name>-<version>
 
 After pushing the new git tag, a workflow will be triggered and will publish the package on [npm](https://www.npmjs.com/) and release a new version on Github with its changelogs automatically.
 
-## ❓ FAQ
+## 🔧 System Requirements
 
-#### I have a library that could be reused in other projects. How can I integrate it on ZK-kit?
+- Node.js >= 14.0.0
+- Yarn >= 1.22.0
+- Git
 
-ZK-kit provides a set of pre-configured development tools. All you have to deal with is your own code, testing and documentation. To create a package follow these steps:
+## 📚 Usage Examples
 
-1. Fork this repository and clone it (or simply clone it directly if you are a collaborator),
-2. Copy one of our current libraries and update the `README.md` and `package.json` files with your package name:
+Each package contains detailed usage examples in its documentation. Here are some quick examples to get you started:
 
-```bash
-cd zk-kit
-cp -r packages/smt packages/my-package
-cd packages/my-package && rm -fr node_modules dist
-grep -r -l "smt" . | xargs sed -i 's/smt/my-package/'
-# Update the remaining description/usage sections, and write your code in the src & tests folders!
+### Incremental Merkle Tree (IMT)
+
+```typescript
+import { IncrementalMerkleTree } from "@zk-kit/imt"
+
+const tree = new IncrementalMerkleTree(20) // depth = 20
+tree.insert(1)
+const proof = tree.createProof(0) // create proof for leaf at index 0
 ```
 
-3. Create an [issue](https://github.com/privacy-scaling-explorations/zk-kit/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---package.md&title=) for your package and open a PR.
+### Poseidon Cipher
 
-#### How can I create benchmarks for my library?
+```typescript
+import { encrypt, decrypt } from "@zk-kit/poseidon-cipher"
 
-You can see some examples in the `benchmarks` folder. All you have to do is create a file that exports a function to run your benchmark in that folder and add that function to the `index.ts` file. The `yarn benchmarks` command can be run with no parameters (it will run all the benchmarks), or you can specify the name of your benchmark file to run just that. When you run the command it will create a `benchmarks/results` folder with your results.
+const message = [1n, 2n]
+const key = 123n
+const encrypted = encrypt(message, key)
+const decrypted = decrypt(encrypted, key)
+```
 
-#### I need to use a Merkle Tree to prove the inclusion or exclusion of data elements within a set. Which type of Merkle Tree should I use?
+## 📊 Merkle Trees Performance Comparison
 
-**Incremental:** Ideal for applications where you frequently add new elements and need to update the tree efficiently.
+| Operation       | Small Trees (8) | Medium Trees (128) | Large Trees (1024) |
+|----------------|:---------------:|:-----------------:|:-----------------:|
+| Insert         | IMT            | IMT               | SparseMT         |
+| Delete         | IMT/SparseMT   | SparseMT         | SparseMT         |
+| Update         | LeanIMT        | LeanIMT          | LeanIMT          |
+| Generate proof | LeanIMT        | LeanIMT          | LeanIMT          |
+| Verify proof   | IMT            | SparseMT         | SparseMT         |
 
-**Lean Incremental:** A more memory-efficient version of the incremental Merkle tree.
+> 💡 **Implementation Guidelines:**
+> - Use **IMT** for small datasets with frequent updates
+> - Use **LeanIMT** for memory optimization and fast proof generation
+> - Use **SparseMT** for large datasets and efficient verification
 
-**Sparse:** Particularly useful when you need proof of non-membership.
+## 🚀 Getting Started
 
-| Type                 | Library Name                                                                                           | Main Feature                            | Used by                                                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| **Incremental**      | [@zk-kit/imt](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt)           | Fastest for incremental updates.        | [Semaphore V3](https://github.com/semaphore-protocol/semaphore/tree/v3.15.2), [Worldcoin](https://github.com/worldcoin) |
-| **Lean Incremental** | [@zk-kit/lean-imt](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lean-imt) | Optimized for lightweight environments. | [Semaphore V4](https://github.com/semaphore-protocol/semaphore), [Zupass](https://github.com/proofcarryingdata/zupass)  |
-| **Sparse**           | [@zk-kit/smt](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/smt)           | Handles very large sets efficiently.    | [Iden3](https://github.com/iden3)                                                                                       |
+1. **Installation**
+```bash
+npm install @zk-kit/<package-name>
+# or
+yarn add @zk-kit/<package-name>
+```
 
-Following benchmarks data of zk-kit Merkle Trees implementations:
-|8 leafs|insert|delete|update|generate proof|verify proof|
-|--|:--:|:--:|:--:|:--:|:--:|
-|fastest|IMT|IMT ~ SparseMT|LeanIMT|LeanIMT|IMT|
-|slowest|LeanIMT|IMT ~ SparseMT|IMT|SparseMT|SparseMT|
+2. **Basic Setup**
+```typescript
+// Import the package
+import { YourPackage } from "@zk-kit/<package-name>"
 
-| 128 leafs | insert  |  delete  | update  | generate proof | verify proof |
-| --------- | :-----: | :------: | :-----: | :------------: | :----------: |
-| fastest   |   IMT   | SparseMT | LeanIMT |    LeanIMT     |   SparseMT   |
-| slowest   | LeanIMT |   IMT    |   IMT   |      IMT       |     IMT      |
+// Initialize
+const instance = new YourPackage()
 
-| 1024 leafs |  insert  |  delete  | update  | generate proof | verify proof |
-| ---------- | :------: | :------: | :-----: | :------------: | :----------: |
-| fastest    | SparseMT | SparseMT | LeanIMT |    LeanIMT     |   SparseMT   |
-| slowest    | LeanIMT  |   IMT    |   IMT   |      IMT       |     IMT      |
+// Start using the features
+// Check package-specific documentation for detailed usage
+```
 
-From the benchmark data we can take another criteria to evaluate which Merkle tree should be used:
-
--   IMT have the best performance for medium and small size insert related operations.
--   LeanIMT have the best performance for all the merkle tree sizes for update and generate proof related operations.
--   Sparse is good for larger data insert, delete and verify proof.
+3. **Additional Resources**
+- [API Documentation](https://zkkit.pse.dev/)
+- [Examples Repository](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages)
+- [Community Support](https://appliedzkp.org/discord)
