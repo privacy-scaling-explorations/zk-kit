@@ -169,7 +169,7 @@ export default class LeanIMT<N = bigint> {
 
         let startIndex = this.size >> 1
 
-        this._nodes[0].push(...leaves)
+        this._nodes[0] = this._nodes[0].concat(leaves)
 
         // Calculate how many tree levels will need to be added
         // using the number of leaves.
