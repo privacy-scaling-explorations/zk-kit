@@ -20,7 +20,7 @@ export const supportedTypes = [
     "Buffer",
     "object",
     "bigint",
-    "stringified-bigint",
+    "stringifiedBigint",
     "hexadecimal",
     "bignumber",
     "bignumberish"
@@ -204,7 +204,7 @@ export function isType(value: any, type: SupportedType): boolean {
             return isObject(value)
         case "bigint":
             return isBigInt(value)
-        case "stringified-bigint":
+        case "stringifiedBigint":
             return isStringifiedBigInt(value)
         case "hexadecimal":
             return isHexadecimal(value)
