@@ -1,9 +1,9 @@
-<p align="center">
+<div align="center">
     <h1 align="center">
         Logical Expressions
     </h1>
     <p align="center">A library to evaluate logical expressions.</p>
-</p>
+</div>
 
 <p align="center">
     <a href="https://github.com/privacy-scaling-explorations/zk-kit">
