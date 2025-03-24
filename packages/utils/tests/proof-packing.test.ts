@@ -1,5 +1,12 @@
-import { packGroth16Proof, unpackGroth16Proof, packPlonkProof, unpackPlonkProof } from "../src/proof-packing"
-import { PackedGroth16Proof, PackedPlonkProof } from "../src/types"
+import {
+    packGroth16Proof,
+    unpackGroth16Proof,
+    packPlonkProof,
+    unpackPlonkProof,
+    packFflonkProof,
+    unpackFflonkProof
+} from "../src/proof-packing"
+import { PackedGroth16Proof, PackedPlonkProof, PackedFflonkProof } from "../src/types"
 
 describe("Packing", () => {
     describe("# packGroth16Proof/unpackGroth16Proof", () => {
@@ -54,6 +61,41 @@ describe("Packing", () => {
             const proof = packPlonkProof(originalProof)
 
             expect(proof).toStrictEqual(packedPlonkProof)
+        })
+    })
+    describe("# packFflonkProof/unpackFflonkProof", () => {
+        it("Should return a packed proof", async () => {
+            const packedFflonkProof: PackedFflonkProof = [
+                "0x2e2318d0ab9f46de894acdb4f5de70d1c15702ca46651913c13e2546ed9aab50",
+                "0x1583235b3df2bb0bd9f0e46ab66bd8a7d191ffe312789f47d5d98138f2a3cba3",
+                "0x13c52b90631601d1bdc5489edd60351e867966b1c765edeae8694d6aa3c4f623",
+                "0x149177c4f7bd9070b2d2c536c003065e37d3869ea29cc16209f1dbe2e5ef800e",
+                "0x1849db2ca8c5faa918f6df18bd1570b0cf974b53ca6ac089a02e624fc9f2eac2",
+                "0x0c19124c51ba07a93d887e589595546127fa28474a485cd6fc1588a78e966928",
+                "0x2f656ab4f583c4ea53cae88bb97d26b0479ac9e2e4d42813d4a7510ff84b32ec",
+                "0x1838814a8d4a378fcaed479bd24bde5e1168f3fa8fba6164b5e66f448c779822",
+                "0x1c985a2ca2aac35b78e10b4d057556038436ef2d634c9fdeb5041cad39858b26",
+                "0x10fcb28a0b2777150b77bfae15e900d6a788699f4d3e7f0a5b6469bb86c06171",
+                "0x20b5eb79e9198e43a519ef4f84e1aa57750a9ebebde3ef61445c004080e10b5b",
+                "0x0cbd271998a7211a31c2a00e4e7c90efc4a94c2b3acadada0ee72d76329a19a6",
+                "0x12b07c7e5ee91a30dab022332f1191dca665b14605d5e40f05dfd9cc71b962d5",
+                "0x0e27f1401738f430e87b8e6358b16806a747c810fecc78fb4f9d317ef587f6be",
+                "0x105a1f9f40408464775e31936c8eb0737698abdd5667a18126ec760c9ede3963",
+                "0x03558364b9202dbd73f4cb38dd3db248f6aec7e137fb8462a520c4e2005f947c",
+                "0x27ae7adc327488c9b30cd68a71db0ecfca85734474a622e54c91c5c0f0143733",
+                "0x16602166015c1b0e5441b5f512b33145ac8e21be71505178b7110547c315c442",
+                "0x00f8e1033168331a39b15d5f053625860878a5cfc2aaed11ded00496068219a5",
+                "0x1e8dfa39da2728a43854f1831fa06648f2301e1ab84a416c9a7e1eaa8328dc34",
+                "0x16d9112e6813b47c514a78b8071cd19cc5d3b8453930ea13ca8b883e4338bc61",
+                "0x12c3b7a0f28876aa91c90ecf4eac6f6d6d23427d25ec20692d1d4bf574a0591e",
+                "0x0ea9f950d9df7e999d0614c1a367c865a099458a46d4738e951afdef20bec85c",
+                "0x19a2c4e5780986fc2f8c59ef079dbcbc05ae836380946614213a6959c64f7c91"
+            ]
+
+            const originalProof = unpackFflonkProof(packedFflonkProof)
+            const proof = packFflonkProof(originalProof)
+
+            expect(proof).toStrictEqual(packedFflonkProof)
         })
     })
 })

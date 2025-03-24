@@ -6,8 +6,9 @@
  * them externally.
  */
 
-import type { Groth16Proof, PlonkProof } from "snarkjs"
-import { PackedGroth16Proof, PackedPlonkProof } from "./types"
+import type { Groth16Proof, PlonkProof, FflonkProof } from "snarkjs"
+import { zeroPadValue, toBeHex, toBigInt } from "ethers/utils"
+import { PackedGroth16Proof, PackedPlonkProof, PackedFflonkProof } from "./types"
 
 /**
  * Packs a Snarkjs Groth16 proof into a single list usable as calldata in Solidity (public signals are not included).
@@ -102,6 +103,76 @@ export function unpackPlonkProof(proof: PackedPlonkProof): PlonkProof {
         eval_s2: proof[22],
         eval_zw: proof[23],
         protocol: "plonk",
+        curve: "bn128"
+    }
+}
+
+/**
+ * Packs a Snarkjs Fflonk proof into a single list usable as calldata in Solidity (public signals are not included).
+ * @param proof The Fflonk proof generated with SnarkJS.
+ * @returns Solidity calldata.
+ */
+export function packFflonkProof(proof: FflonkProof): PackedFflonkProof {
+    return [
+        zeroPadValue(toBeHex(toBigInt(proof.polynomials.C1[0])), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.polynomials.C1[1])), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.polynomials.C2[0])), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.polynomials.C2[1])), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.polynomials.W1[0])), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.polynomials.W1[1])), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.polynomials.W2[0])), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.polynomials.W2[1])), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.ql)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.qr)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.qm)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.qo)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.qc)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.s1)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.s2)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.s3)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.a)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.b)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.c)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.z)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.zw)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.t1w)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.t2w)), 32),
+        zeroPadValue(toBeHex(toBigInt(proof.evaluations.inv)), 32)
+    ]
+}
+
+/**
+ * Unpacks a PackedFflonkProof Solidity calldata into its original form which is a SnarkJS Fflonk proof.
+ * @param proof Solidity calldata.
+ * @returns The Fflonk proof compatible with SnarkJS.
+ */
+export function unpackFflonkProof(proof: PackedFflonkProof): FflonkProof {
+    return {
+        polynomials: {
+            C1: [toBigInt(proof[0]).toString(), toBigInt(proof[1]).toString()],
+            C2: [toBigInt(proof[2]).toString(), toBigInt(proof[3]).toString()],
+            W1: [toBigInt(proof[4]).toString(), toBigInt(proof[5]).toString()],
+            W2: [toBigInt(proof[6]).toString(), toBigInt(proof[7]).toString()]
+        },
+        evaluations: {
+            ql: toBigInt(proof[8]).toString(),
+            qr: toBigInt(proof[9]).toString(),
+            qm: toBigInt(proof[10]).toString(),
+            qo: toBigInt(proof[11]).toString(),
+            qc: toBigInt(proof[12]).toString(),
+            s1: toBigInt(proof[13]).toString(),
+            s2: toBigInt(proof[14]).toString(),
+            s3: toBigInt(proof[15]).toString(),
+            a: toBigInt(proof[16]).toString(),
+            b: toBigInt(proof[17]).toString(),
+            c: toBigInt(proof[18]).toString(),
+            z: toBigInt(proof[19]).toString(),
+            zw: toBigInt(proof[20]).toString(),
+            t1w: toBigInt(proof[21]).toString(),
+            t2w: toBigInt(proof[22]).toString(),
+            inv: toBigInt(proof[23]).toString()
+        },
+        protocol: "fflonk",
         curve: "bn128"
     }
 }

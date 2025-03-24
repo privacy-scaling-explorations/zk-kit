@@ -42,3 +42,30 @@ export type PackedPlonkProof = [
     NumericString,
     NumericString
 ]
+
+export type PackedFflonkProof = [
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString
+]
