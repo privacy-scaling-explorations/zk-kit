@@ -51,6 +51,6 @@
     },
     "dependencies": {
         "@zk-kit/baby-jubjub": "1.0.3",
-        "@zk-kit/utils": "1.4.0"
+        "@zk-kit/utils": "1.4.1"
     }
 }
