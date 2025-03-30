@@ -15,3 +15,34 @@ export type PackedGroth16Proof = [
     NumericString,
     NumericString
 ]
+
+type PackedProofBase = [
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString,
+    NumericString
+]
+
+export type PackedPlonkProof = PackedProofBase
+
+export type PackedFflonkProof = PackedProofBase

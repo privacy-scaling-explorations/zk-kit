@@ -80,6 +80,7 @@
         "rollup-plugin-polyfill-node": "^0.13.0"
     },
     "dependencies": {
-        "buffer": "^6.0.3"
+        "buffer": "^6.0.3",
+        "ethers": "6.13.5"
     }
 }
