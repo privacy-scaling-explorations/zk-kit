@@ -1,4 +1,4 @@
-// https://github.com/weijiekoh/circomlib/blob/feat/poseidon-encryption/
+// https://github.com/weijiekoh/circomlib/tree/feat/poseidon-encryption/
 // all credits for this implementation go to https://github.com/weijiekoh
 
 // paper: https://drive.google.com/file/d/1EVrP3DzoGbmzkRmYnyEDcIQcXVU7GlOd/view
