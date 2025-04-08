@@ -1,4 +1,4 @@
-// https://github.com/weijiekoh/circomlib/blob/feat/poseidon-encryption/
+// https://github.com/weijiekoh/circomlib/tree/feat/poseidon-encryption/
 // all credits for this implementation go to https://github.com/weijiekoh
 
 import { Fr, r } from "@zk-kit/baby-jubjub"
