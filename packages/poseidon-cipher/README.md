@@ -29,6 +29,8 @@
     </a>
 </p>
 
+> ⚠️ **SECURITY WARNING**: This implementation uses JavaScript's native `BigInt` which is [not constant-time](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#cryptography) and may be vulnerable to timing attacks. If your application requires protection against timing attacks, consider using a constant-time cryptographic library instead. This issue is tracked in [GitHub issue #341](https://github.com/privacy-scaling-explorations/zk-kit/issues/341).
+
 <div align="center">
     <h4>
         <a href="https://appliedzkp.org/discord">
