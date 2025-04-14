@@ -69,7 +69,7 @@ export function addPoint(p1: Point<bigint>, p2: Point<bigint>): Point<bigint> {
  * @param e A secret number representing the private key.
  * @returns The resulting point representing the public key.
  */
-export function mulPointEscalar(base: Point<bigint>, e: bigint): Point<bigint> {
+export function mulPointScalar(base: Point<bigint>, e: bigint): Point<bigint> {
     let res: Point<bigint> = [Fr.e(BigInt(0)), Fr.e(BigInt(1))]
     let rem: bigint = e
     let exp: Point<bigint> = base
