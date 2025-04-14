@@ -10,6 +10,14 @@ import { two128 } from "./constants"
 import { CipherText, EncryptionKey, Nonce, PlainText } from "./types"
 
 /**
+ * SECURITY WARNING: This implementation uses JavaScript's native BigInt which is not constant-time
+ * and may be vulnerable to timing attacks. If your application requires protection against timing attacks,
+ * consider using a constant-time cryptographic library instead.
+ * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#cryptography
+ * This issue is tracked in GitHub issue #341: https://github.com/privacy-scaling-explorations/zk-kit/issues/341
+ */
+
+/**
  * Encrypt some plaintext using poseidon encryption
  * @param msg - the message to encrypt
  * @param key - the key to encrypt with
