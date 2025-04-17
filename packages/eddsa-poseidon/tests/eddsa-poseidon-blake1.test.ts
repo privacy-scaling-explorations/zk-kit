@@ -359,7 +359,7 @@ describe("EdDSAPoseidon", () => {
     it("Should handle a signature with values smaller than 32 bytes", async () => {
         const signature = signMessage(privateKey, message)
 
-        // S is the only value which we can easily make artifically small, since
+        // S is the only value which we can easily make artificially small, since
         // R8 has to be a point on the curve.
         // Note that overly-large values also ruled out by the inCurve check on
         // R8 and the subOrder check on S.
