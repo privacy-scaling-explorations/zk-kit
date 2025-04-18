@@ -37,7 +37,7 @@
             🗣️ Chat &amp; Support
         </a>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon-cipher.html">
+        <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_cipher.html">
             📘 Docs
         </a>
     </h4>
