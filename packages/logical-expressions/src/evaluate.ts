@@ -15,10 +15,10 @@
  * console.log(result) // Output: 1
  */
 export function precedence(operator: string): number {
-    if (operator === "not") return 2 // Highest precedence
-    if (operator === "and") return 1
+    if (operator === "not") return 3 // Highest precedence
+    if (operator === "and") return 2
     if (operator === "xor") return 1
-    if (operator === "or") return 1 // Lowest precedence
+    if (operator === "or") return 0 // Lowest precedence
     return 0
 }
 
@@ -135,7 +135,7 @@ export function evaluate(tokens: string[]): boolean {
             ops.pop() // Remove '(' from stack
         } else if (["and", "or", "not", "xor"].includes(token)) {
             // Handle operators and ensure the correct precedence
-            while (ops.length > 0 && precedence(ops[ops.length - 1]) >= precedence(token)) {
+            while (ops.length > 0 && precedence(ops[ops.length - 1]) > precedence(token)) {
                 const op = ops.pop()!
                 if (op === "not") {
                     const val = values.pop()
