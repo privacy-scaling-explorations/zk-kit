@@ -31,7 +31,7 @@
     <a href="http://commitizen.github.io/cz-cli/">
         <img alt="Commitizen friendly" src="https://img.shields.io/badge/commitizen-friendly-586D76?style=flat-square">
     </a>
-    <a href="https://www.gitpoap.io/gh/privacy-scaling-explorations/zk-kit">
+    <a href="https://www.gitpoap.io/gh/privacy-scaling-explorations/zk-kit" target="_blank" >
         <img alt="GitPOAPs" src="https://public-api.gitpoap.io/v1/repo/privacy-scaling-explorations/zk-kit/badge">
     </a>
 </p>
