@@ -34,10 +34,6 @@
         <a href="https://appliedzkp.org/discord">
             🗣️ Chat &amp; Support
         </a>
-        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://zkkit.pse.dev/modules/_zk_kit_utils.html">
-            📘 Docs
-        </a>
     </h4>
 </div>
 
@@ -84,5 +80,3 @@ import { errorHandlers, typeChecks } from "@zk-kit/utils"
 import { requireNumber } from "@zk-kit/utils/error-handlers"
 import { isNumber } from "@zk-kit/utils/type-checks"
 ```
-
-For more information on the functions provided by `@zk-kit/utils`, please refer to the [documentation](https://zkkit.pse.dev/modules/_zk_kit_utils.html).

@@ -34,17 +34,13 @@
         <a href="https://appliedzkp.org/discord">
             🗣️ Chat &amp; Support
         </a>
-        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://zkkit.pse.dev/modules/_zk_kit_imt.html">
-            📘 Docs
-        </a>
     </h4>
 </div>
 
 > [!WARNING]  
 > If you are looking for the first version of this package, please visit this [link](https://github.com/privacy-scaling-explorations/zk-kit/tree/imt-v1/packages/incremental-merkle-tree).
 
-In this implementation, the tree is built with a predetermined depth, utilizing a list of zeros (one for each level) to hash nodes lacking fully defined children. The tree's branching factor, or the number of children per node, can be customized via the arity parameter. For detailed insights into the implementation specifics, please refer to the [technical documentation](https://zkkit.pse.dev/classes/_zk_kit_imt.IMT.html).
+In this implementation, the tree is built with a predetermined depth, utilizing a list of zeros (one for each level) to hash nodes lacking fully defined children. The tree's branching factor, or the number of children per node, can be customized via the arity parameter.
 
 ---
 

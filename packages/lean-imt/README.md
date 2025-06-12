@@ -34,17 +34,13 @@
         <a href="https://appliedzkp.org/discord">
             🗣️ Chat &amp; Support
         </a>
-        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://zkkit.pse.dev/modules/_zk_kit_lean_imt.html">
-            📘 Docs
-        </a>
     </h4>
 </div>
 
 > [!NOTE]  
 > This library has been audited as part of the Semaphore V4 PSE audit: https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf.
 
-The LeanIMT is an optimized binary version of the [IMT](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt) into binary-focused model, eliminating the need for zero values and allowing dynamic depth adjustment. Unlike the IMT, which uses a zero hash for incomplete nodes, the LeanIMT directly adopts the left child's value when a node lacks a right counterpart. The tree's depth dynamically adjusts to the count of leaves, enhancing efficiency by reducing the number of required hash calculations. To understand more about the LeanIMT, take a look at this [visual explanation](https://hackmd.io/@vplasencia/S1whLBN16). For detailed insights into the implementation specifics, please refer to the [technical documentation](https://zkkit.pse.dev/classes/_zk_kit_lean_imt.LeanIMT.html).
+The LeanIMT is an optimized binary version of the [IMT](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt) into binary-focused model, eliminating the need for zero values and allowing dynamic depth adjustment. Unlike the IMT, which uses a zero hash for incomplete nodes, the LeanIMT directly adopts the left child's value when a node lacks a right counterpart. The tree's depth dynamically adjusts to the count of leaves, enhancing efficiency by reducing the number of required hash calculations. To understand more about the LeanIMT, check out the [paper](https://github.com/privacy-scaling-explorations/zk-kit/tree/main/papers/leanimt).
 
 ---
 

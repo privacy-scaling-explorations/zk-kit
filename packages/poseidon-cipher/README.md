@@ -36,10 +36,6 @@
         <a href="https://appliedzkp.org/discord">
             🗣️ Chat &amp; Support
         </a>
-        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon-cipher.html">
-            📘 Docs
-        </a>
     </h4>
 </div>
 
