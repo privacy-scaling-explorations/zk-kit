@@ -34,10 +34,6 @@
         <a href="https://appliedzkp.org/discord">
             🗣️ Chat &amp; Support
         </a>
-        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://zkkit.pse.dev/modules/_zk_kit_eddsa_poseidon.html">
-            📘 Docs
-        </a>
     </h4>
 </div>
 
@@ -50,7 +46,7 @@
 -   Super lightweight: [**~33kB**](https://bundlephobia.com/package/@zk-kit/eddsa-poseidon) (minified)
 -   Compatible with browsers and NodeJS
 -   TS type support
--   Comprehensive code [documentation](https://zkkit.pse.dev/modules/_zk_kit_eddsa_poseidon.html)
+-   Comprehensive code documentation
 -   Full test coverage
 
 👾 Would you like to try it now? Explore it now on [Ceditor](https://ceditor.cedoor.dev/52787e4ad57d2f2076648d509efc3448)!

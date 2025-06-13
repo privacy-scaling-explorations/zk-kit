@@ -93,9 +93,6 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/eddsa-poseidon">
                     @zk-kit/eddsa-poseidon
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_eddsa_poseidon.html">
-                    (docs)
-                </a>
             </td>
             <td>
                 <!-- NPM version -->
@@ -126,9 +123,6 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-cipher">
                     @zk-kit/poseidon-cipher
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_cipher.html">
-                    (docs)
-                </a>
             </td>
             <td>
                 <!-- NPM version -->
@@ -156,9 +150,6 @@
             <td>
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/baby-jubjub">
                     @zk-kit/baby-jubjub
-                </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_baby_jubjub.html">
-                    (docs)
                 </a>
             </td>
             <td>
@@ -190,9 +181,6 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/utils">
                     @zk-kit/utils
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_utils.html">
-                    (docs)
-                </a>
             </td>
             <td>
                 <!-- NPM version -->
@@ -223,9 +211,6 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt">
                     @zk-kit/imt
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_imt.html">
-                    (docs)
-                </a>
             </td>
             <td>
                 <!-- NPM version -->
@@ -253,9 +238,6 @@
             <td>
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lean-imt">
                     @zk-kit/lean-imt
-                </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_lean_imt.html">
-                    (docs)
                 </a>
             </td>
             <td>
@@ -287,9 +269,6 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/smt">
                     @zk-kit/smt
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_smt.html">
-                    (docs)
-                </a>
             </td>
             <td>
                 <!-- NPM version -->
@@ -318,9 +297,6 @@
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/poseidon-proof">
                     @zk-kit/poseidon-proof
                 </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_poseidon_proof.html">
-                    (docs)
-                </a>
             </td>
             <td>
                 <!-- NPM version -->
@@ -348,9 +324,6 @@
             <td>
                 <a href="https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/logical-expressions">
                     @zk-kit/logical-expressions
-                </a>
-                 <a href="https://zkkit.pse.dev/modules/_zk_kit_logical_expressions.html">
-                    (docs)
                 </a>
             </td>
             <td>
