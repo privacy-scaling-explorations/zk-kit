@@ -1,7 +1,7 @@
 import { poseidon, smt } from "circomlibjs"
 import sha256 from "crypto-js/sha256"
 import { BarretenbergSync, Fr } from "@aztec/bb.js"
-import { ChildNodes, SMT } from "../src"
+import { ChildNodes, InternalChildNodes, LeafChildNodes, SMT } from "../src"
 
 describe("SMT", () => {
     const hashes = {
@@ -294,5 +294,18 @@ describe("SMT", () => {
                 expect(tree.root).toEqual(tree2.root)
             }
         )
+    })
+
+    describe("Types", () => {
+        it("Should correctly type internal child nodes and leaf child nodes", () => {
+            const internalNodes: InternalChildNodes = ["1", "2"]
+            const leafNodes: LeafChildNodes = ["1", "2", "1"]
+
+            const childNodes1: ChildNodes = internalNodes
+            const childNodes2: ChildNodes = leafNodes
+
+            expect(childNodes1).toHaveLength(2)
+            expect(childNodes2).toHaveLength(3)
+        })
     })
 })
