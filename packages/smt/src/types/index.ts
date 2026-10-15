@@ -4,7 +4,9 @@ export type Value = Node
 export type EntryMark = Node
 
 export type Entry = [Key, Value, EntryMark]
-export type ChildNodes = Node[]
+export type InternalChildNodes = [Node, Node]
+export type LeafChildNodes = [Key, Value, EntryMark]
+export type ChildNodes = InternalChildNodes | LeafChildNodes
 export type Siblings = Node[]
 
 export type HashFunction = (childNodes: ChildNodes) => Node
